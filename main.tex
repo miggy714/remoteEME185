@@ -1,0 +1,1289 @@
+% ============================================================================
+% FILE:    Report2_Preliminary_Machine_Architecture.tex
+% PROJECT: Passive Temperature Compensation Device (TCD)
+% TEAM:    Team 16 — Noble Aggie Labs
+% COURSE:  EME-185A/B, UC Davis
+% DUE:     16 March 2026
+%
+% PURPOSE:
+%   This is a SINGLE-FILE LaTeX template/skeleton for Report #2:
+%   "Preliminary Machine Architecture Report." It is structured to match
+%   the grading rubric and template provided by Prof. Jon Schofield.
+%
+%   The file is intentionally HEAVILY COMMENTED so that team members
+%   who are new to LaTeX can learn formatting while filling in content.
+%   Readability is prioritized over brevity.
+%
+% HOW TO USE:
+%   1. Search for "TODO" to find every fillable placeholder.
+%   2. Replace placeholder text between %--- BEGIN CONTENT --- and
+%      %--- END CONTENT --- markers with your actual writing.
+%   3. Compile with:  pdflatex -> bibtex -> pdflatex -> pdflatex
+%      (or use Overleaf, which handles this automatically)
+%
+% GRADING ALIGNMENT (100 pts total):
+%   I.   General Considerations ............ 20 pts  (format, presentation, TOC, readability)
+%   II.  Abstract / Executive Summary ...... 10 pts
+%   III. System Architecture Selected ...... 20 pts  (criteria, drawings, description)
+%   IV.  Discussion ........................ 25 pts  (requirements, subsystems, calculations)
+%   V.   Preliminary Bill of Materials ..... 10 pts
+%   VI.  Project Management Information .... 15 pts  (tasks, Gantt, CPM)
+% ============================================================================
+
+
+% ============================================================================
+% SECTION 0: DOCUMENT CLASS AND PREAMBLE
+% ============================================================================
+% "article" is the simplest document class. 12pt is readable for reports.
+% "letterpaper" matches US standard paper size.
+\documentclass[12pt, letterpaper]{article}
+
+
+% --- PACKAGES: Each one adds a capability to LaTeX ---
+% Think of packages like Python imports or C #includes.
+
+% ---------- Page Layout ----------
+\usepackage[
+    top=1in,
+    bottom=1in,
+    left=1in,
+    right=1in
+]{geometry}
+% geometry lets you set margins. 1-inch all around is standard for reports.
+
+% ---------- Encoding & Fonts ----------
+\usepackage[utf8]{inputenc}
+% Allows you to type special characters (é, ü, °) directly.
+
+\usepackage[T1]{fontenc}
+% Ensures proper font encoding in the output PDF.
+% Without this, copy-pasting from the PDF can produce garbled characters.
+
+% ---------- Graphics & Figures ----------
+\usepackage{graphicx}
+% THE core package for inserting images.
+% Usage: \includegraphics[width=0.8\textwidth]{filename.png}
+
+\usepackage{float}
+% Gives you the [H] placement option for figures/tables.
+% [H] means "put it HERE, not where LaTeX thinks is best."
+% Very useful when you need a figure right after the text that references it.
+
+\usepackage{subcaption}
+% Lets you put multiple images side-by-side in a single figure environment.
+% Example: Figure 3(a) and Figure 3(b) next to each other.
+
+% ---------- Tables ----------
+\usepackage{booktabs}
+% Provides \toprule, \midrule, \bottomrule for professional-looking tables.
+% Rule of thumb: NEVER use vertical lines in tables. Use booktabs rules instead.
+
+\usepackage{tabularx}
+% Adds the tabularx environment, which lets columns auto-expand to fill width.
+% Great for tables that need to span the full page width.
+
+\usepackage{multirow}
+% Allows cells that span multiple rows in tables.
+
+\usepackage{longtable}
+% For tables that are too long to fit on one page (like a Bill of Materials).
+
+% ---------- Math ----------
+\usepackage{amsmath}
+% The standard package for equations. Adds align, equation*, etc.
+
+\usepackage{amssymb}
+% Extra math symbols (e.g., \therefore, \because, \pm).
+
+\usepackage{siunitx}
+% Proper formatting for SI units.
+% Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
+% This ensures consistent unit formatting throughout the document.
+
+% ---------- Cross-Referencing & Links ----------
+\usepackage[
+    colorlinks=true,
+    linkcolor=blue,      % Internal links (sections, figures)
+    citecolor=blue,      % Citation links
+    urlcolor=blue         % URL links
+]{hyperref}
+% Makes all references, citations, and URLs clickable in the PDF.
+% Set colorlinks=false if you want boxes instead of colored text.
+
+% ---------- Bibliography ----------
+\usepackage[numbers, sort&compress]{natbib}
+% IEEE-style numeric citations: [1], [2,3], [4-7]
+% "sort&compress" turns [3,1,2] into [1-3]
+
+% ---------- Captions ----------
+\usepackage[
+    font=small,           % Caption text slightly smaller than body
+    labelfont=bf,         % "Figure 1:" is bold
+    textfont=it            % The caption description is italic
+]{caption}
+% Makes figure/table captions look more professional.
+
+% ---------- Headers & Footers ----------
+\usepackage{fancyhdr}
+% Customizable headers and footers.
+
+\pagestyle{fancy}
+% Activate the fancy header/footer style.
+
+\fancyhf{}
+% Clear all default header/footer content.
+
+\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}
+% Left header: team name.
+
+\fancyhead[R]{\small EME-185A/B}
+% Right header: course number.
+
+\fancyfoot[C]{\thepage}
+% Center footer: page number.
+
+\renewcommand{\headrulewidth}{0.4pt}
+% Thin line under the header. Set to 0pt to remove.
+
+% ---------- Paragraph Formatting ----------
+\usepackage{parskip}
+% Adds space between paragraphs instead of indenting the first line.
+% This is more common in engineering reports than academic papers.
+
+\setlength{\parindent}{0pt}
+% Explicitly remove paragraph indentation (parskip should handle this,
+% but belt-and-suspenders doesn't hurt for readability).
+
+% ---------- Line Spacing ----------
+\usepackage{setspace}
+\onehalfspacing
+% 1.5 line spacing is easier to read and mark up than single spacing.
+% Change to \doublespacing if required.
+
+% ---------- Code / Verbatim (optional) ----------
+% Uncomment if you need to include MATLAB, Python, or pseudocode snippets.
+% \usepackage{listings}
+% \lstset{
+%     language=Matlab,
+%     basicstyle=\ttfamily\small,
+%     breaklines=true,
+%     frame=single
+% }
+
+% ---------- Appendix Support ----------
+\usepackage[toc, page]{appendix}
+% Adds "Appendices" header and includes appendices in the Table of Contents.
+
+% ---------- PDF Metadata ----------
+\hypersetup{
+    pdftitle={Preliminary Machine Architecture Report -- Passive Temperature Compensation Device},
+    pdfauthor={Team 16: Noble Aggie Labs},
+    pdfsubject={EME-185A/B Senior Design, UC Davis},
+}
+
+
+% ============================================================================
+% SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
+% ============================================================================
+% These are reusable shortcuts. Define them once, use them everywhere.
+% If a name or term changes, you only edit it in ONE place.
+
+% --- Project-specific shortcuts ---
+\newcommand{\projecttitle}{Passive Temperature Compensation Device}
+\newcommand{\teamname}{Noble Aggie Labs}
+\newcommand{\teamnumber}{16}
+\newcommand{\sponsor}{Dr.\ Bradley Bon}
+\newcommand{\organization}{Sandia National Laboratories}
+\newcommand{\coursename}{EME-185A/B}
+\newcommand{\instructor}{Professor Jonathan Schofield}
+\newcommand{\ta}{Xiangpu Wang}
+\newcommand{\duedate}{16 March 2026}
+
+% --- Convenience commands for common terms ---
+% Using these ensures consistent terminology throughout the report.
+\newcommand{\tcd}{TCD}              % Temperature Compensation Device
+\newcommand{\degC}{\si{\celsius}}    % Degree Celsius symbol, properly formatted
+\newcommand{\psid}{\text{psid}}      % Pressure differential unit
+
+% --- Figure insertion helper ---
+% This command simplifies inserting a figure with a caption and label.
+% Usage: \insertfigure{width}{filename}{caption text}{fig:label}
+%
+% Parameters:
+%   #1 = width relative to text width (e.g., 0.8 for 80%)
+%   #2 = filename (without path if images are in the same directory)
+%   #3 = caption text
+%   #4 = label for cross-referencing (use fig: prefix by convention)
+\newcommand{\insertfigure}[4]{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1\textwidth]{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+
+% --- TODO marker for draft mode ---
+% Prints a bold red "TODO" so you can easily spot incomplete sections.
+\usepackage{xcolor}
+\newcommand{\todo}[1]{{\bfseries\color{red}[TODO: #1]}}
+
+
+% ============================================================================
+% BEGIN DOCUMENT
+% ============================================================================
+\begin{document}
+
+
+% ============================================================================
+% TITLE PAGE (Cover Page)
+% ============================================================================
+% The title page matches the screenshot format:
+%   - Sandia aerial photo at top
+%   - UC Davis College of Engineering logo
+%   - Project title, sponsor, report type, course info, due date
+%
+% NOTE ON THE COVER IMAGE:
+%   Replace "cover_photo.jpg" with the actual filename of the Sandia
+%   aerial photograph. Place the image file in the same directory as
+%   this .tex file, or specify the path.
+%
+%   Similarly, replace "ucdavis_coe_logo.png" with the UC Davis
+%   College of Engineering logo file.
+% ============================================================================
+
+\begin{titlepage}
+    \thispagestyle{empty}   % No header/footer on the title page
+
+    % --- Cover Photo: Sandia National Laboratories Aerial View ---
+    % The image spans the full width of the text area.
+    % If you want it to bleed to the page edges, you'll need
+    % to use negative margins (more advanced).
+    \begin{center}
+        % TODO: Uncomment the next line and provide the correct filename
+        % \includegraphics[width=\textwidth]{cover_photo.jpg}
+
+        % Placeholder rectangle if image is not yet available:
+        \fbox{\parbox[c][3in]{\textwidth}{%
+            \centering\Large\color{gray}%
+            [Sandia National Laboratories Aerial Photograph]\\[6pt]
+            \normalsize Place \texttt{cover\_photo.jpg} in the same folder\\
+            and uncomment the includegraphics line above.
+        }}
+    \end{center}
+
+    \vspace{0.4in}
+
+    % --- UC Davis College of Engineering Logo ---
+    \begin{center}
+        % TODO: Uncomment and provide the correct filename
+        % \includegraphics[height=1in]{ucdavis_coe_logo.png}
+
+        % Placeholder if logo not yet available:
+        {\Large\bfseries\color{blue!70!black} UC\,DAVIS}\\[2pt]
+        {\normalsize\scshape College of Engineering}
+    \end{center}
+
+    \vspace{0.6in}
+
+    % --- Project Title ---
+    \begin{center}
+        {\LARGE\bfseries\color{blue!70!black} \projecttitle}\\[12pt]
+        {\large\bfseries SPONSORED BY: \MakeUppercase{\sponsor, \organization}}
+    \end{center}
+
+    \vfill  % Push the following content to the vertical center/bottom
+
+    % --- Report Type ---
+    \begin{center}
+        {\large\bfseries PRELIMINARY MACHINE ARCHITECTURE REPORT}
+    \end{center}
+
+    \vspace{0.4in}
+
+    % --- Course Information ---
+    \begin{center}
+        {\large \coursename}\\[4pt]
+        {\large \MakeUppercase{\instructor}}\\[4pt]
+        {\large \MakeUppercase{\ta, Teaching Assistant}}
+    \end{center}
+
+    \vspace{0.4in}
+
+    % --- Submission Deadline ---
+    \begin{center}
+        {\large\bfseries SUBMISSION DEADLINE: \MakeUppercase{\duedate}}
+    \end{center}
+
+    \vspace{0.5in}
+\end{titlepage}
+
+
+% ============================================================================
+% TEAM MEMBER PAGE
+% ============================================================================
+% This page lists all team members, as shown in the Report 2 Template.
+% The grading rubric (Section I) checks that all names are present.
+% ============================================================================
+
+\newpage
+\thispagestyle{empty}  % No header/footer on this page either
+
+\vspace*{1in}
+\begin{center}
+    {\Large\bfseries Team \teamnumber}\\[24pt]
+
+    % --- List all team members ---
+    % TODO: Verify spelling of all names
+    {\large
+        Isaiah Mathew\\[8pt]
+        Jon Pizarro\\[8pt]
+        Nicholas Metta\\[8pt]
+        John Bodine\\[8pt]
+        Miguel Cuaycong\\[8pt]
+        Sam van der Veen\\[8pt]
+    }
+
+    \vspace{0.8in}
+
+    {\Large\itshape \projecttitle}\\[12pt]
+    {\large By the}\\[12pt]
+    {\Large\bfseries \teamname}\\[24pt]
+    {\large Sponsored by \sponsor, \organization}\\[36pt]
+    {\large Preliminary Machine Architecture Report}\\[12pt]
+    {\large \coursename}\\[6pt]
+    {\large \instructor}\\[6pt]
+    {\large TA \ta}\\[12pt]
+    {\large Due \duedate}
+\end{center}
+
+
+% ============================================================================
+% TABLE OF CONTENTS
+% ============================================================================
+% GRADING: Section 1.3 — 5.0 points
+%   "Accurate page numbers, headings and sub-headings used"
+%
+% LaTeX generates this automatically from \section and \subsection commands.
+% You MUST compile TWICE for page numbers to update correctly.
+% In Overleaf this happens automatically.
+% ============================================================================
+
+\newpage
+\tableofcontents
+
+% Optional: List of Figures and Tables
+% These are helpful for longer reports and show professionalism.
+\listoffigures
+\listoftables
+
+\newpage  % Start the body of the report on a fresh page
+
+
+% ============================================================================
+% SECTION 1: ABSTRACT / EXECUTIVE SUMMARY
+% ============================================================================
+% GRADING: Section II — 10 points
+%   "Concise, clear, focused, easy to understand, technically accurate"
+%
+% TEMPLATE GUIDANCE:
+%   - 1-2 paragraphs (300-500 words)
+%   - Summarize: project objective, motivation, brief description of
+%     solution, and progress to date
+%
+% TIPS:
+%   - Write this LAST, after all other sections are complete.
+%   - A non-expert should be able to understand the abstract.
+%   - Define acronyms on first use: Temperature Compensation Device (TCD).
+%   - Avoid jargon. If you must use a technical term, define it.
+% ============================================================================
+
+\section{Abstract / Executive Summary}
+\label{sec:abstract}
+
+%--- BEGIN CONTENT ---
+
+\todo{Write 300--500 word abstract. Cover the following points:}
+
+% PARAGRAPH 1: Problem and motivation
+% - What is the problem? (Sandia needs a passive flow control device)
+% - Why does it matter? (Current solutions require active control/electronics)
+% - What are the operating conditions? (-60°C to +80°C, 100-10000 psid, hydrogen)
+\todo{Paragraph 1: Problem statement and motivation. Mention that \organization{}
+needs a thermomechanical device (the \tcd{}) that adjusts flow path resistance
+based solely on ambient temperature, without electronics or active control.
+Operating range: \SI{-60}{\celsius} to \SI{+80}{\celsius}, pressure differentials
+of \SI{100}{} to \SI{10000}{\psid}, within a \SI{10}{\centi\meter} $\times$
+\SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} envelope.}
+
+% PARAGRAPH 2: Solution and progress
+% - Which concept did we select? (state it clearly)
+% - What have we accomplished this quarter?
+% - What are the next steps?
+\todo{Paragraph 2: Describe the selected system architecture at a high level.
+Summarize key progress: concept generation, screening/scoring matrices,
+selection of final design, preliminary calculations, and engineering drawings.
+Mention what will happen in Spring quarter (fabrication, testing).}
+
+%--- END CONTENT ---
+
+
+% ============================================================================
+% SECTION 2: SYSTEM ARCHITECTURE SELECTED
+% ============================================================================
+% GRADING: Section III — 20 points total
+%   3.1) Statement of selection criteria (5.0 pts)
+%        "Well defined requirements, design and requirements related,
+%         subsystem selection is clear"
+%   3.2) Layout drawings/figures (7.5 pts)
+%        "Works with text to describe function, visual elements to show
+%         function (arrows, exploded views, etc.)"
+%   3.3) Text description of system solution (7.5 pts)
+%        "Clearly describes every aspect of how the design works"
+%
+% TEMPLATE GUIDANCE:
+%   - Clearly state which SINGLE concept is being carried forward.
+%   - Do NOT discuss why other options were weaker — focus on why
+%     the selected design will SUCCEED.
+%   - Include assembly drawings with arrows, labels, exploded views.
+%   - Drawings should be professional but do NOT need dimensions/tolerances
+%     (those go in the Appendix).
+%
+% IMPORTANT: Do NOT copy-paste from Report 1. This must reflect your
+% LATEST thinking about the design.
+% ============================================================================
+
+\section{System Architecture Selected}
+\label{sec:system_architecture}
+
+% --- 2.1: Selection Criteria and Justification ---
+% WHY this design? Focus on positive attributes.
+% Reference your concept screening/scoring matrices (Appendix).
+
+\subsection{Selection Criteria and Design Justification}
+\label{subsec:selection_criteria}
+
+%--- BEGIN CONTENT ---
+
+\todo{Include volume specification and volume of subsystems}
+
+\todo{State the single concept being carried forward. For example:
+``After evaluating five actuator concepts and ten valve concepts through
+systematic screening and weighted scoring matrices (see Appendix~\ref{app:scoring}),
+our team selected the [Actuator Type] coupled with a [Valve Type] as our
+final system architecture.''}
+
+\todo{Discuss the selection criteria used:
+\begin{itemize}
+    \item Temperature range compatibility (\SI{-60}{\celsius} to \SI{+80}{\celsius})
+    \item Mechanical envelope (\SI{10}{\centi\meter} cube)
+    \item Hydrogen compatibility of wetted materials
+    \item Ability to withstand pressure differentials up to \SI{10000}{\psid}
+    \item Linear or controllable relationship between temperature and flow restriction
+    \item Simplicity and reliability (passive operation, no electronics)
+\end{itemize}}
+
+\todo{Explain why each subsystem solution was chosen. Emphasize STRENGTHS,
+not weaknesses of alternatives.}
+
+%--- END CONTENT ---
+
+
+% --- 2.2: System Overview with Figures ---
+% Show the WHOLE system first, then break into subsystems.
+
+\subsection{Complete System Overview}
+\label{subsec:system_overview}
+
+%--- BEGIN CONTENT ---
+
+\todo{Provide a 1--2 paragraph overview of how the entire system works
+at a high level. Walk the reader through the flow of energy/information:
+temperature change $\rightarrow$ actuator displacement $\rightarrow$ valve
+position change $\rightarrow$ flow restriction adjustment.}
+
+% --- Full System Assembly Drawing ---
+% TODO: Replace placeholder with your actual assembly drawing.
+% Use the \insertfigure command defined in the preamble, OR
+% use the manual figure environment below for more control.
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][3in]{0.85\textwidth}{%
+        \centering\Large\color{gray}%
+        [Full System Assembly --- Isometric View]\\[6pt]
+        \normalsize Include arrows pointing to each subsystem.\\
+        Label: Actuator, Valve, Housing, Inlet, Outlet.
+    }}
+
+    \caption{Isometric view of the complete \tcd{} assembly. Arrows indicate
+    the actuator subsystem (left) and valve subsystem (right). Flow enters
+    from the inlet port and exits through the outlet port.}
+    \label{fig:system_assembly}
+\end{figure}
+
+\todo{Reference the figure: ``As shown in Figure~\ref{fig:system_assembly},
+the system consists of\ldots''}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][3in]{0.85\textwidth}{%
+        \centering\Large\color{gray}%
+        [Full System Controls Diagram]\\[6pt]
+    }}
+
+    \caption{Controls diagram of the  \tcd{}. Outlines the overall flow of inputs
+    and outputs}
+    \label{fig:controls_diagram}
+\end{figure}
+
+%--- END CONTENT ---
+
+
+% --- 2.3: Subsystem Overviews ---
+% Show each subsystem with its own figure(s) and description.
+
+\subsection{Subsystem Overviews}
+\label{subsec:subsystem_overviews}
+
+
+% ---- Subsystem A: Thermal Actuator ----
+\subsubsection{Thermal Actuator}
+\label{subsubsec:actuator}
+
+%--- BEGIN CONTENT ---
+
+\todo{Describe the actuator subsystem. Include:
+\begin{itemize}
+    \item Operating principle (how temperature change creates displacement)
+    \item Key components and their functions
+    \item Why this actuator type was selected (reference scoring matrix)
+    \item Expected displacement range over the temperature range
+\end{itemize}}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{actuator_subassembly.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][2.5in]{0.7\textwidth}{%
+        \centering\Large\color{gray}%
+        [Actuator Sub-Assembly Drawing]\\[6pt]
+        \normalsize Exploded view with numbered callouts.\\
+        Show how displacement is generated.
+    }}
+
+    \caption{Actuator sub-assembly. The numbered components are:
+    (1) \todo{component}, (2) \todo{component}, (3) \todo{component}.}
+    \label{fig:actuator_subassembly}
+\end{figure}
+
+%--- END CONTENT ---
+
+
+% ---- Subsystem B: Valve ----
+\subsubsection{Valve}
+\label{subsubsec:valve}
+
+%--- BEGIN CONTENT ---
+
+\todo{Describe the valve subsystem. Include:
+\begin{itemize}
+    \item Valve type and operating principle
+    \item How actuator displacement translates to flow area change
+    \item Key components
+    \item Expected flow coefficient (Cv) range
+\end{itemize}}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{valve_subassembly.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][2.5in]{0.7\textwidth}{%
+        \centering\Large\color{gray}%
+        [Valve Sub-Assembly Drawing]\\[6pt]
+        \normalsize Show open and closed positions.\\
+        Use dashed lines for alternate positions.
+    }}
+
+    \caption{Valve sub-assembly showing the flow restriction mechanism.}
+    \label{fig:valve_subassembly}
+\end{figure}
+
+%--- END CONTENT ---
+
+
+% ---- Subsystem C: Housing / Interface ----
+\subsubsection{Housing and Fluid Interface}
+\label{subsubsec:housing}
+
+%--- BEGIN CONTENT ---
+
+\todo{Describe the housing that contains everything. Include:
+\begin{itemize}
+    \item Material selection (hydrogen compatibility, steel/aluminum)
+    \item Sealing strategy (O-rings, gaskets, welding)
+    \item How the device connects to the existing piping system
+    \item Thermal conduction path from ambient air to the actuator
+\end{itemize}}
+
+%--- END CONTENT ---
+
+
+% ============================================================================
+% SECTION 3: DISCUSSION
+% ============================================================================
+% GRADING: Section IV — 25 points total
+%   4.1) Discussion of requirements and rolldown to subsystems (5.0 pts)
+%        "Half points well described requirement updates,
+%         half points roll down discussion"
+%   4.2) Discussion of subsystem interactions (10.0 pts)
+%        "Half marks accurate technical discussions, describes how
+%         subsystems work together. Half marks for proper engineering
+%         drawing package."
+%   4.3) Proof that design will meet requirements / calculations (10.0 pts)
+%        "Accurate, well motivated / related to requirements,
+%         reasonable assumptions stated"
+%
+% This is the MOST HEAVILY WEIGHTED section (25 pts).
+% ============================================================================
+
+\section{Discussion}
+\label{sec:discussion}
+
+
+% --- 3.1: Requirements Update and Rolldown ---
+\subsection{Design Requirement Updates}
+\label{subsec:req_updates}
+
+%--- BEGIN CONTENT ---
+
+\todo{Discuss how requirements changed since Report 1. For example:
+\begin{itemize}
+    \item Did discussions with \sponsor{} reveal new constraints?
+    \item Did preliminary calculations show any requirements were
+          infeasible or needed adjustment?
+    \item Were any requirements added, removed, or modified?
+\end{itemize}
+Reference the updated requirements table in Appendix~\ref{app:requirements}.}
+
+%--- END CONTENT ---
+
+
+\subsection{Requirements Rolldown to Subsystems}
+\label{subsec:rolldown}
+
+%--- BEGIN CONTENT ---
+
+\todo{Explain how system-level requirements were decomposed into
+subsystem-level specifications. This is critical for the grading rubric.}
+
+% Example of a rolldown table:
+% This shows how a top-level requirement flows down to component specs.
+
+\begin{table}[H]
+    \centering
+    \caption{Example requirements rolldown from system to subsystem level.}
+    \label{tab:rolldown}
+    \begin{tabularx}{\textwidth}{l l X l}
+        \toprule
+        \textbf{System Req.} & \textbf{Spec} & \textbf{Subsystem Rolldown} & \textbf{Sub-Spec} \\
+        \midrule
+        Temperature range &
+        \SI{-60}{\celsius} to \SI{+80}{\celsius} &
+        \todo{Actuator must produce displacement over this full range} &
+        \todo{spec} \\
+        \addlinespace  % Adds a small vertical gap between rows (from booktabs)
+        Mechanical envelope &
+        $\leq$ \SI{10}{\centi\meter}$^3$ &
+        \todo{Actuator $\leq$ X cm, Valve $\leq$ Y cm, Housing $\leq$ Z cm} &
+        \todo{spec} \\
+        \addlinespace
+        Pressure differential &
+        \SI{100}{}--\SI{10000}{\psid} &
+        \todo{Valve must not deform or leak under max pressure} &
+        \todo{spec} \\
+        \addlinespace
+        H\textsubscript{2} compatibility &
+        All wetted parts &
+        \todo{Specify material for each wetted component} &
+        \todo{spec} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+%--- END CONTENT ---
+
+
+% --- 3.2: Subsystem Interactions ---
+\subsection{Subsystem Interactions and Technical Detail}
+\label{subsec:subsystem_interactions}
+
+%--- BEGIN CONTENT ---
+
+\todo{This is where you go DEEP into the technical details.
+Unlike Section 2 which was a high-level overview, this section
+provides engineering proof that the design works.}
+
+\todo{Describe how subsystems interface with each other:
+\begin{itemize}
+    \item How does the actuator physically connect to the valve?
+    \item What is the mechanical coupling (direct contact, linkage, etc.)?
+    \item How does thermal energy flow through the system?
+    \item What are the potential failure modes at interfaces?
+\end{itemize}}
+
+%--- END CONTENT ---
+
+
+% --- 3.3: Calculations (Proof of Concept) ---
+\subsection{Design Verification Calculations}
+\label{subsec:calculations}
+
+% This subsection is worth 10 points on its own.
+% You MUST show calculations with:
+%   - Stated assumptions
+%   - Clear connection to requirements
+%   - Proper units
+%   - Reasonable results
+
+%--- BEGIN CONTENT ---
+
+\todo{Introduce the purpose of these calculations: to demonstrate
+analytically that the design can meet its requirements.}
+
+
+% ---- Calculation Example: Thermal Expansion ----
+\subsubsection{Thermal Expansion and Actuator Displacement}
+\label{subsubsec:calc_thermal}
+
+\todo{Show that the actuator produces sufficient displacement over the
+temperature range to fully open/close the valve.}
+
+% Here's how to format a calculation in LaTeX:
+%
+% Step 1: State your assumptions clearly.
+% Step 2: Present the governing equation.
+% Step 3: Substitute values with units.
+% Step 4: Show the result and compare to the requirement.
+
+% EXAMPLE (replace with your actual calculation):
+\todo{Replace this example with your actual thermal expansion calculation.}
+
+The linear thermal expansion of a rod is given by:
+%
+\begin{equation}
+    \Delta L = \alpha \cdot L_0 \cdot \Delta T
+    \label{eq:thermal_expansion}
+\end{equation}
+%
+where:
+\begin{itemize}
+    \item $\Delta L$ is the change in length [\si{\milli\meter}],
+    \item $\alpha$ is the coefficient of thermal expansion [\si{\per\celsius}],
+    \item $L_0$ is the original length [\si{\milli\meter}],
+    \item $\Delta T$ is the temperature change [\si{\celsius}].
+\end{itemize}
+
+% ASSUMPTIONS BOX
+% A shaded box draws the reader's eye to assumptions, which the rubric
+% specifically calls for ("reasonable assumptions stated").
+\begin{quote}
+    \textbf{Assumptions:}
+    \begin{enumerate}
+        \item \todo{Material properties are constant over the temperature range.}
+        \item \todo{Thermal equilibrium is reached before the test window.}
+        \item \todo{List all assumptions.}
+    \end{enumerate}
+\end{quote}
+
+\todo{Substitute your values into Equation~\ref{eq:thermal_expansion}
+and show the result. Compare the result to the requirement.}
+
+
+% ---- Calculation: Pressure / Force Analysis ----
+\subsubsection{Force Analysis Under Pressure Loading}
+\label{subsubsec:calc_force}
+
+\todo{Show that the actuator can generate enough force to move the valve
+against the pressure differential. Consider worst case: \SI{10000}{\psid}.}
+\\~\\
+Paramter values:
+\begin{itemize}
+    \item $E=$
+    \item $A=$
+    \item $\alpha=$
+    \item $\Delta T = $
+\end{itemize}
+\begin{align}
+    F = EA\alpha \Delta T
+\end{align}
+% Example of a multi-line aligned equation:
+%
+% \begin{align}
+%     F_{\text{pressure}} &= \Delta P \times A_{\text{valve}} \label{eq:force_pressure} \\
+%     &= \SI{10000}{psi} \times \SI{0.5}{in^2} \nonumber \\
+%     &= \SI{5000}{lbf} \nonumber
+% \end{align}
+%
+% The & symbol aligns equations at that character (usually the = sign).
+% \nonumber suppresses equation numbering for intermediate steps.
+
+\todo{Insert your actual force/pressure calculations here.}
+
+
+% ---- Calculation: Flow / Performance Relationship ----
+\subsubsection{Performance Relationship}
+\label{subsubsec:calc_performance}
+
+\todo{Demonstrate that the system achieves the required flow characteristic
+(e.g., the relationship between temperature and effective flow area or
+discharge coefficient). Reference Performance\_Relationship.xlsx if applicable.}
+
+
+% ---- Additional Calculations ----
+\subsubsection{Additional Analyses}
+\label{subsubsec:calc_additional}
+
+\todo{Add any other calculations that prove feasibility:
+\begin{itemize}
+    \item Heat transfer analysis (thermal response time)
+    \item Stress/strain analysis of critical components
+    \item Material compatibility verification
+    \item Tolerance stack-up analysis
+    \item FEA results (if performed)
+\end{itemize}}
+
+%--- END CONTENT ---
+
+
+% ============================================================================
+% SECTION 4: PRELIMINARY BILL OF MATERIALS
+% ============================================================================
+% GRADING: Section V — 10 points
+%   "All parts included, each part belongs to a sub system,
+%    accurate costs, all info included"
+%
+% TEMPLATE GUIDANCE:
+%   - TABLE FORMAT (mandatory)
+%   - Include: part numbers, part names, quantity, material,
+%     purchased vs fabricated, supplier name/part number if purchased
+%   - For fabricated parts: size and cost of raw material
+%   - Include any special tooling that must be purchased
+%   - Must be complete enough to release your budget for Spring quarter
+%
+% ESTIMATED LENGTH: 1-2 pages
+%
+% TIP: The longtable environment is used here because the BOM may
+% span multiple pages. Regular tabular would break across pages poorly.
+% ============================================================================
+
+\section{Preliminary Bill of Materials}
+\label{sec:bom}
+
+%--- BEGIN CONTENT ---
+
+\todo{Write a brief introductory paragraph explaining the BOM structure
+and the total estimated project cost.}
+
+% --- The BOM Table ---
+% Using longtable so it can span multiple pages if needed.
+% Column specification:
+%   c = centered, l = left-aligned, r = right-aligned
+%   p{width} = paragraph column with fixed width (for wrapping long text)
+
+\begin{longtable}{c l p{1.8in} c c c r}
+
+    % --- Table Header (appears on every page) ---
+    \caption{Preliminary Bill of Materials and Cost Estimate}
+    \label{tab:bom} \\
+
+    \toprule
+    \textbf{Item} &
+    \textbf{Part Name} &
+    \textbf{Description / Supplier} &
+    \textbf{Qty} &
+    \textbf{Material} &
+    \textbf{P/F} &
+    \textbf{Cost (\$)} \\
+    \midrule
+    \endfirsthead
+
+    % --- Continuation header (on subsequent pages) ---
+    \multicolumn{7}{c}{\small\itshape (continued from previous page)} \\
+    \toprule
+    \textbf{Item} &
+    \textbf{Part Name} &
+    \textbf{Description / Supplier} &
+    \textbf{Qty} &
+    \textbf{Material} &
+    \textbf{P/F} &
+    \textbf{Cost (\$)} \\
+    \midrule
+    \endhead
+
+    % --- Footer on all pages except last ---
+    \midrule
+    \multicolumn{7}{r}{\small\itshape (continued on next page)} \\
+    \endfoot
+
+    % --- Footer on the last page ---
+    \midrule
+    \multicolumn{6}{r}{\textbf{Estimated Total:}} &
+    \textbf{\todo{XX.XX}} \\
+    \bottomrule
+    \endlastfoot
+
+    % ---- Subsystem: Actuator ----
+    \multicolumn{7}{l}{\textbf{Actuator Subsystem}} \\
+    \midrule
+    1 & \todo{Part name} & \todo{Description / McMaster \#} & \todo{1} & \todo{Steel} & P & \todo{XX.XX} \\
+    2 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{Al 6061} & F & \todo{XX.XX} \\
+    \addlinespace
+
+    % ---- Subsystem: Valve ----
+    \multicolumn{7}{l}{\textbf{Valve Subsystem}} \\
+    \midrule
+    3 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{SS 316} & P & \todo{XX.XX} \\
+    4 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{Brass} & F & \todo{XX.XX} \\
+    \addlinespace
+
+    % ---- Subsystem: Housing ----
+    \multicolumn{7}{l}{\textbf{Housing \& Interface}} \\
+    \midrule
+    5 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{SS 316} & F & \todo{XX.XX} \\
+    6 & \todo{Part name} & \todo{Description} & \todo{2} & \todo{Viton} & P & \todo{XX.XX} \\
+    \addlinespace
+
+    % ---- Subsystem: Fasteners & Misc ----
+    \multicolumn{7}{l}{\textbf{Fasteners \& Miscellaneous}} \\
+    \midrule
+    7 & \todo{Part name} & \todo{Description} & \todo{10} & \todo{Steel} & P & \todo{XX.XX} \\
+    \addlinespace
+
+    % ---- Tooling (if any) ----
+    \multicolumn{7}{l}{\textbf{Special Tooling}} \\
+    \midrule
+    8 & \todo{Tooling item} & \todo{Description} & \todo{1} & --- & P & \todo{XX.XX} \\
+
+\end{longtable}
+
+% P/F Key
+\textbf{Key:} P = Purchased, F = Fabricated
+
+\todo{Add any notes about budget constraints, contingency funds, or
+items awaiting price quotes.}
+
+%--- END CONTENT ---
+
+
+% ============================================================================
+% SECTION 5: PROJECT MANAGEMENT INFORMATION
+% ============================================================================
+% GRADING: Section VI — 15 points total
+%   6.1) Appropriate tasks identified over 2 quarters (5.0 pts)
+%   6.2) Updated Gantt chart for 2 quarters (5.0 pts)
+%   6.3) Critical path method (CPM) analysis (5.0 pts)
+%
+% TEMPLATE GUIDANCE:
+%   - Task list must be specific to YOUR project and design
+%   - Gantt chart must span BOTH quarters (Fall through Spring)
+%   - CPM must be in graphical format with a paragraph description
+%   - If permits or PE sign-offs are needed, note them here
+%
+% ESTIMATED LENGTH: 3-4 pages (could be longer)
+% ============================================================================
+
+\section{Project Management Information}
+\label{sec:project_management}
+
+
+% --- 5.1: Task List ---
+\subsection{Updated Task List}
+\label{subsec:task_list}
+
+%--- BEGIN CONTENT ---
+
+\todo{Provide a detailed task list. Organize by phase or subsystem.
+Must include:
+\begin{itemize}
+    \item Technical tasks (design, fabrication, testing)
+    \item Deliverables for class (reports, presentations)
+    \item Team and stakeholder meetings
+    \item Procurement / ordering deadlines
+\end{itemize}}
+
+% Example task table:
+\begin{table}[H]
+    \centering
+    \caption{Updated task list for Winter and Spring quarters.}
+    \label{tab:task_list}
+    \begin{tabularx}{\textwidth}{c X l l}
+        \toprule
+        \textbf{\#} & \textbf{Task Description} & \textbf{Owner(s)} & \textbf{Deadline} \\
+        \midrule
+        1 & Finalize engineering drawings & \todo{Name(s)} & \todo{Date} \\
+        2 & Order raw materials & \todo{Name(s)} & \todo{Date} \\
+        3 & Machine actuator housing & \todo{Name(s)} & \todo{Date} \\
+        4 & Assemble prototype & \todo{Name(s)} & \todo{Date} \\
+        5 & Conduct thermal testing & \todo{Name(s)} & \todo{Date} \\
+        6 & Conduct pressure testing & \todo{Name(s)} & \todo{Date} \\
+        7 & \todo{Add more tasks} & & \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+%--- END CONTENT ---
+
+
+% --- 5.2: Gantt Chart ---
+\subsection{Gantt Chart}
+\label{subsec:gantt}
+
+%--- BEGIN CONTENT ---
+
+\todo{Insert your Gantt chart. This is typically created in Excel, MS Project,
+or a similar tool and exported as an image.}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=\textwidth]{gantt_chart.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][3in]{\textwidth}{%
+        \centering\Large\color{gray}%
+        [Gantt Chart --- Two Quarters]\\[6pt]
+        \normalsize Export from Excel/MS Project as PNG or PDF.\\
+        Must span Winter 2026 through Spring 2026.\\
+        Show current progress with a vertical ``today'' line.
+    }}
+
+    \caption{Updated Gantt chart spanning Winter and Spring quarters.
+    The vertical dashed line indicates the current date.}
+    \label{fig:gantt}
+\end{figure}
+
+\todo{Write a paragraph interpreting the Gantt chart. Highlight key
+milestones and any tasks that are ahead of or behind schedule.}
+
+%--- END CONTENT ---
+
+
+% --- 5.3: Critical Path Method (CPM) Analysis ---
+\subsection{Critical Path Method (CPM) Analysis}
+\label{subsec:cpm}
+
+%--- BEGIN CONTENT ---
+
+\todo{Insert your CPM network diagram. This must be in GRAPHICAL format.}
+
+\begin{figure}[H]
+    \centering
+    % \includegraphics[width=\textwidth]{cpm_diagram.png}
+
+    % Placeholder:
+    \fbox{\parbox[c][3in]{\textwidth}{%
+        \centering\Large\color{gray}%
+        [CPM Network Diagram]\\[6pt]
+        \normalsize Show tasks as nodes, dependencies as arrows.\\
+        Highlight the critical path in red or bold.\\
+        Include earliest start/finish and latest start/finish times.
+    }}
+
+    \caption{Critical path method (CPM) network diagram. The critical
+    path is highlighted in red.}
+    \label{fig:cpm}
+\end{figure}
+
+\todo{Write a paragraph describing:
+\begin{itemize}
+    \item What the critical path is (list the tasks)
+    \item Total project duration along the critical path
+    \item Which tasks have float (slack time)
+    \item What the analysis tells you about risk and scheduling
+    \item Any mitigation strategies for critical-path delays
+\end{itemize}}
+
+%--- END CONTENT ---
+
+
+% ============================================================================
+% SECTION 6: CITED REFERENCES
+% ============================================================================
+% GRADING: Part of Section I (General Considerations)
+%   "Appropriate technical references" and "professional in appearance"
+%
+% TEMPLATE GUIDANCE:
+%   - Use citations as appropriate for technical writing
+%   - Cite other's work, supporting assumptions, technical data
+%   - Use a consistent format (IEEE, APA, MLA — pick one)
+%
+% HOW THIS WORKS IN LATEX:
+%   Option A (recommended): Use BibTeX with a .bib file.
+%   Option B (simpler): Use thebibliography environment (shown below).
+%
+%   For Option A, create a file called "references.bib" with entries like:
+%     @article{bon2025,
+%       author  = {Bon, Bradley},
+%       title   = {Passive Flow Control for Hydrogen Systems},
+%       journal = {Sandia Technical Report},
+%       year    = {2025}
+%     }
+%   Then cite with: \cite{bon2025}
+%   And compile with: pdflatex -> bibtex -> pdflatex -> pdflatex
+% ============================================================================
+
+\section{Cited References}
+\label{sec:references}
+
+% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
+% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
+%
+% The [99] tells LaTeX the widest label will be two digits.
+% Change to [9] if you have fewer than 10 references.
+
+\begin{thebibliography}{99}
+
+    \bibitem{sandia_prompt}
+    B.\ Bon,
+    ``Passive Temperature Compensation Device --- Project Prompt,''
+    Sandia National Laboratories, SAND2025-15446O, 2025.
+
+    \bibitem{ref_placeholder2}
+    \todo{Add reference: textbook, paper, or technical standard}
+
+    \bibitem{ref_placeholder3}
+    \todo{Add reference: material property data source}
+
+    \bibitem{ref_placeholder4}
+    \todo{Add reference: relevant prior work or patent}
+
+    % Add more \bibitem entries as needed.
+    % In the body text, cite as: \cite{sandia_prompt}
+
+\end{thebibliography}
+
+
+% ============================================================================
+% APPENDICES
+% ============================================================================
+% TEMPLATE GUIDANCE:
+%   - Label and title every appendix
+%   - You MUST refer to each appendix in the body of the report
+%   - Include: working drawings, product sheets, price quotes,
+%     updated requirements table, scoring matrices, etc.
+%
+% IMPORTANT: Appendices don't count toward estimated page lengths
+% of other sections, so put detailed tables and drawings here.
+% ============================================================================
+
+\newpage
+\begin{appendices}
+
+
+% --- Appendix A: Updated Design Requirements ---
+\section{Updated Design Requirements}
+\label{app:requirements}
+
+\todo{Include the final, updated requirements table here. This should
+reflect any changes discussed in Section~\ref{subsec:req_updates}.
+Organize by category (system-level, actuator, valve, housing, etc.).
+Include the subsystem-level rolldown specifications.}
+
+
+% --- Appendix B: Concept Screening and Scoring Matrices ---
+\section{Concept Screening and Scoring Matrices}
+\label{app:scoring}
+
+\todo{Include the screening matrix and weighted scoring matrix from
+your concept selection process. These were referenced in
+Section~\ref{subsec:selection_criteria}.}
+
+% TIP: If your matrices are in Excel (Concept_Screening_Scoring_Matrix.xlsx),
+% export them as images and include them here:
+%
+% \insertfigure{0.9}{screening_matrix.png}{Concept screening matrix
+%   for actuator subsystem.}{fig:screening_matrix}
+%
+% \insertfigure{0.9}{scoring_matrix.png}{Weighted scoring matrix
+%   for actuator subsystem.}{fig:scoring_matrix}
+
+
+% --- Appendix C: Engineering Drawing Package ---
+\section{Engineering Drawing Package}
+\label{app:drawings}
+
+\todo{Include complete assembly, sub-assembly, and part drawings.
+Part drawings must include dimensions and tolerances for all
+parts that will be MANUFACTURED (not purchased).
+Follow proper engineering drawing practices.
+
+Organize as:
+\begin{enumerate}
+    \item Full system assembly drawing
+    \item Actuator sub-assembly drawing
+    \item Valve sub-assembly drawing
+    \item Housing sub-assembly drawing
+    \item Individual part drawings (manufactured parts only)
+\end{enumerate}
+
+Each drawing should be on its own page for clarity.
+Label as Figure A.1, A.2, etc.}
+
+
+% --- Appendix D: Product Data Sheets and Price Quotes ---
+\section{Product Data Sheets and Price Quotes}
+\label{app:datasheets}
+
+\todo{Include manufacturer spec sheets for all purchased components.
+Include price quotes or screenshots of supplier pricing.
+This supports the Bill of Materials in Section~\ref{sec:bom}.}
+
+
+% --- Appendix E: Detailed Calculations ---
+\section{Detailed Calculations}
+\label{app:calculations}
+
+\todo{If your calculations in Section~\ref{subsec:calculations} were
+summarized for brevity, include the full derivations and spreadsheet
+screenshots here. Reference Performance\_Relationship.xlsx and
+Thermal\_Expansion.xlsx data as appropriate.}
+
+
+\end{appendices}
+
+
+% ============================================================================
+% END OF DOCUMENT
+% ============================================================================
+% FINAL CHECKLIST BEFORE SUBMISSION:
+%
+%   [ ] All TODO items have been replaced with actual content
+%   [ ] All figures have real images (no gray placeholders remaining)
+%   [ ] All figures and tables are referenced in the text
+%   [ ] All appendices are referenced in the body of the report
+%   [ ] Table of Contents page numbers are correct (compile twice!)
+%   [ ] Acronyms defined on first use
+%   [ ] Units are consistent (SI preferred, with imperial conversions if needed)
+%   [ ] Spell check completed
+%   [ ] Grammar check completed
+%   [ ] All team members have reviewed the final document
+%   [ ] PDF is under any file size limits
+%
+% GRADING SELF-CHECK:
+%   [ ] I.   General Considerations (20 pts) — Format, presentation, TOC, readability
+%   [ ] II.  Abstract (10 pts) — 300-500 words, clear, technically accurate
+%   [ ] III. System Architecture (20 pts) — Criteria, drawings, description
+%   [ ] IV.  Discussion (25 pts) — Requirements, subsystems, calculations
+%   [ ] V.   Bill of Materials (10 pts) — Complete, accurate, in table format
+%   [ ] VI.  Project Management (15 pts) — Tasks, Gantt (2 quarters), CPM
+% ============================================================================
+
+\end{document}
