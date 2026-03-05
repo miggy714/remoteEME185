@@ -403,27 +403,43 @@
 
 %--- BEGIN CONTENT ---
 
-\todo{Write 300--500 word abstract. Cover the following points:}
+% PARGRAPH 1: Project objective and motivation
+A variety of complex mechanical systems are dependent on electronic components and mechatronic designs requiring sensors,
+microcontrollers, etc. Sandia National Laboratories (SNL) has tasked our senior design team, 
+Noble Aggie Labs with designing a passive temperature compensation device (PTCD) for the purpose of a robust system that will
+function without reliance on electricity or humans. The device must respond to ambient air temperature to precisely control the flow of
+high-pressure gas. The device will adjust the effective orifice diameter according to the 
+Governing linear equation:
 
-% PARAGRAPH 1: Problem and motivation
-% - What is the problem? (Sandia needs a passive flow control device)
-% - Why does it matter? (Current solutions require active control/electronics)
-% - What are the operating conditions? (-60°C to +80°C, 100-10000 psid, hydrogen)
-\todo{Paragraph 1: Problem statement and motivation. Mention that \organization{}
-needs a thermomechanical device (the \tcd{}) that adjusts flow path resistance
-based solely on ambient temperature, without electronics or active control.
-Operating range: \SI{-60}{\celsius} to \SI{+80}{\celsius}, pressure differentials
-of \SI{100}{} to \SI{10000}{\psid}, within a \SI{10}{\centi\meter} $\times$
-\SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} envelope.}
+\begin{equation}
+    d_{\text{eff}} = A_1 (T - T_{\text{ref}}) + A_0
+    \label{eq: required_relationship}
+\end{equation}
 
-% PARAGRAPH 2: Solution and progress
-% - Which concept did we select? (state it clearly)
-% - What have we accomplished this quarter?
-% - What are the next steps?
-\todo{Paragraph 2: Describe the selected system architecture at a high level.
-Summarize key progress: concept generation, screening/scoring matrices,
-selection of final design, preliminary calculations, and engineering drawings.
-Mention what will happen in Spring quarter (fabrication, testing).}
+Be advised, $A_1 = \num{-6.0e-5} \pm 5\%$ in /\degC{}, $A_0 = 0.01 \pm 5\%$ in, and
+$T-{\text{ref}} = \SI{25}{\celsius}$. The device must operate between \SI{-60}{\celsius}
+and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{10000}{psi} during choked flow,
+fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope, and be compatible with hydrogen gas. 
+
+% PARAGRAPH 2: Solution and progress to date
+
+Over the course of this project, our team curated five actuator concepts
+and ten valve concepts. All design concepts were then systematic screened and
+weighted with various scoring matrices (Report~1). We have since converged on a single
+architecture consisting of three primary subsystems:
+(1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
+The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
+
+\begin{equation}
+    \Delta L = L_0\,\Delta T\, \alpha\
+\end{equation}
+
+(2)~A \textbf{compound spur-gear train} comprising of two rack gears and two coaxial pinion gears with a gear ratio of
+4:1. This amplifies and transmits the piston's linear motion to the valve; and 
+(3)~a \textbf{sliding-plate orifice valve} (''pizza cutter'' design), in which two flat plates, one fixed and one translating
+contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
+increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $d_{\text{eff}}$ per 
+the requirements. 
 
 %--- END CONTENT ---
 
@@ -1287,4 +1303,3 @@ Thermal\_Expansion.xlsx data as appropriate.}
 % ============================================================================
 
 \end{document}
-% RAMON MAGSAYSAY ADDITIVE CHANGE
