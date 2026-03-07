@@ -418,13 +418,13 @@ high-pressure gas. The device will adjust the effective orifice diameter accordi
 Governing linear equation:
 
 \begin{equation}
-    d_{\text{eff}} = A_1 (T - T_{\text{ref}}) + A_0
+    D_{\text{eff}} = A_1 (T - T_{\text{ref}}) + A_0
     \label{eq: required_relationship}
 \end{equation}
 
-Be advised, $A_1 = \num{-6.0e-5} \pm 5\%$ in /\degC{}, $A_0 = 0.01 \pm 5\%$ in, and
+Be advised, $A_1 = \num{-1.524e-3} \pm 5\%$ mm /\degC{}, $A_0 = 0.254 \pm 5\%$ mm, and
 $T-{\text{ref}} = \SI{25}{\celsius}$. The device must operate between \SI{-60}{\celsius}
-and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{10000}{psi} during choked flow,
+and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow,
 fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope, and be compatible with hydrogen gas. 
 
 % PARAGRAPH 2: Solution and progress to date
@@ -444,7 +444,7 @@ The aluminum rod will have linear piston displacement as a result of thermal exa
 4:1. This amplifies and transmits the piston's linear motion to the valve; and 
 (3)~a \textbf{sliding-plate orifice valve} (''pizza cutter'' design), in which two flat plates, one fixed and one translating
 contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
-increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $d_{\text{eff}}$ per 
+increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
 the requirements. 
 
 %--- END CONTENT ---
@@ -746,29 +746,34 @@ subsystem-level specifications. This is critical for the grading rubric.}
         \textbf{System Req.} & \textbf{Spec} & \textbf{Subsystem Rolldown} & \textbf{Sub-Spec} \\
         \midrule
         Temperature range &
-        \SI{-60}{\celsius} to \SI{+80}{\celsius} &
-        \todo{The actuator must produce monotonic displacement over this full range} &
-        \todo{spec} \\
-        \addlinespace  % Adds a small vertical gap between rows (from booktabs)
-        Mechanical envelope &
-        $\leq$ \SI{10}{\centi\meter}$^3$ &
-        \todo{Actuator $\leq$ X cm, Valve $\leq$ Y cm, Housing $\leq$ Z cm} &
-        \todo{spec} \\
+        \SI{-60}{\celsius} to \SI{80}{\celsius} &
+        The actuator must produce monotonic displacement over this full range &
+        TODO \\
         \addlinespace
-        Pressure differential &
-        \SI{100}{}--\SI{10000}{\psid} &
-        \todo{Valve must not deform or leak under max pressure} &
-        \todo{spec} \\
+        Mechanical envelope &
+        $\leq \SI{10}{\cubic\centi\meter}$ &
+        TODO: Actuator $\leq$ X cm, Valve $\leq$ Y cm, Housing $\leq$ Z cm &
+        TODO \\
+        \addlinespace
+        Pressure &
+        $\Delta$P $\leq$ 68.94757 MPa &
+        Valve must not deform or leak under max pressure &
+        TODO \\
         \addlinespace
         Effective diameter &
-        \d_{\text{eff}} = 0.17018 {\mili\meter} - 0.38354{\mili\meter}
-        \todo{Valve must not deform or leak under max pressure} &
-        \todo{spec} \\
+        $D_{\text{effective}}$ = 0.17018 mm - 0.38354 mm&
+        TODO: Valve must not deform or leak under max pressure &
+        TODO \\
+        \addlinespace
+        Tolerance &
+        $D_{\text{effective}}$ = $\pm0.0127$ mm&
+        TODO: Valve must not deform or leak under max pressure &
+        TODO \\
         \addlinespace
         H\textsubscript{2} compatibility &
         All wetted parts &
-        \todo{Specify material for each wetted component} &
-        \todo{spec} \\
+        TODO: Specify material for each wetted component &
+        TODO \\
         \bottomrule
     \end{tabularx}
 \end{table}
