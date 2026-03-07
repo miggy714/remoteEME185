@@ -571,12 +571,17 @@ the system consists of\ldots''}
             >=Stealth
         ]
 
-            \node[block] (plant) {Plant};
-            \node[left=2cm of plant] (input) {$r(t)$};
-            \node[right=2cm of plant] (output) {$y(t)$};
+            \node[block] (interface)                        {Interface};
+            \node[block] (actuator) [above = of interface]  {Actuator};
+            \node[block] (valve)    [below = of interface]  {Valve};
 
-            \draw[->] (input) -- (plant);
-            \draw[->] (plant) -- (output);
+            \node(temp_input)   [left = of actuator]   {$\Delta T$};
+            \node(diam_output)  [right = of valve]      {$D_{effective}$};
+
+            \draw[->] (temp_input) -- (actuator);
+            \draw[->] (valve) -- (diam_output);
+            \draw[->] (actuator) -- (interface);
+            \draw[->] (interface) -- (valve);
 
         \end{tikzpicture}
     }   
