@@ -564,7 +564,7 @@ the system consists of\ldots''}
 
     % Placeholder:
     \fbox{\parbox[c][3in]{0.85\textwidth}{%
-        \centering\Large\color{gray}%
+        \centering\Large%
         \begin{tikzpicture}[
             block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
             sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
@@ -576,12 +576,12 @@ the system consists of\ldots''}
             \node[block] (valve)    [below = of interface]  {Valve};
 
             \node(temp_input)   [left = of actuator]   {$\Delta T$};
-            \node(diam_output)  [right = of valve]      {$D_{effective}$};
+            \node(diam_output)  [right = of valve]      {$D_{effective} = k_2 \Delta S$};
 
             \draw[->] (temp_input) -- (actuator);
             \draw[->] (valve) -- (diam_output);
-            \draw[->] (actuator) -- (interface);
-            \draw[->] (interface) -- (valve);
+            \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
+            \draw[->] (interface) to node[right] {$\Delta S = \frac{R}{r} \Delta L$} (valve);
 
         \end{tikzpicture}
     }   
