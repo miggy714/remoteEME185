@@ -160,6 +160,12 @@
 % 1.5 line spacing is easier to read and mark up than single spacing.
 % Change to \doublespacing if required.
 
+%-------- For Box diagrams
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+
+
+
 % ---------- Code / Verbatim (optional) ----------
 % Uncomment if you need to include MATLAB, Python, or pseudocode snippets.
 % \usepackage{listings}
@@ -523,6 +529,14 @@ position change $\rightarrow$ flow restriction adjustment.}
 % Use the \insertfigure command defined in the preamble, OR
 % use the manual figure environment below for more control.
 
+
+
+
+
+
+
+
+
 \begin{figure}[H]
     \centering
     % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
@@ -551,8 +565,22 @@ the system consists of\ldots''}
     % Placeholder:
     \fbox{\parbox[c][3in]{0.85\textwidth}{%
         \centering\Large\color{gray}%
-        [Full System Controls Diagram]\\[6pt]
-    }}
+        \begin{tikzpicture}[
+            block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
+            sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
+            >=Stealth
+        ]
+
+            \node[block] (plant) {Plant};
+            \node[left=2cm of plant] (input) {$r(t)$};
+            \node[right=2cm of plant] (output) {$y(t)$};
+
+            \draw[->] (input) -- (plant);
+            \draw[->] (plant) -- (output);
+
+        \end{tikzpicture}
+    }   
+}
 
     \caption{Controls diagram of the  \tcd{}. Outlines the overall flow of inputs
     and outputs}
