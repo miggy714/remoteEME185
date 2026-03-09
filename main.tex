@@ -43,63 +43,27 @@
 % Think of packages like Python imports or C #includes.
 
 % ---------- Page Layout ----------
-\usepackage[
-    top=1in,
-    bottom=1in,
-    left=1in,
-    right=1in
-]{geometry}
-% geometry lets you set margins. 1-inch all around is standard for reports.
-
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
 % ---------- Encoding & Fonts ----------
-\usepackage[utf8]{inputenc}
-% Allows you to type special characters (é, ü, °) directly.
-
-\usepackage[T1]{fontenc}
-% Ensures proper font encoding in the output PDF.
-% Without this, copy-pasting from the PDF can produce garbled characters.
-
+\usepackage[utf8]{inputenc}% Allows special characters (é, ü, °) to be typed directly.
+\usepackage[T1]{fontenc} % Ensures proper font encoding in the output PDF. Without this, copy-pasting from the PDF can produce garbled characters.
 % ---------- Graphics & Figures ----------
-\usepackage{graphicx}
-% THE core package for inserting images.
+\usepackage{graphicx}% THE core package for inserting images.
 % Usage: \includegraphics[width=0.8\textwidth]{filename.png}
-
-\usepackage{float}
-% Gives you the [H] placement option for figures/tables.
-% [H] means "put it HERE, not where LaTeX thinks is best."
-% Very useful when you need a figure right after the text that references it.
-
-\usepackage{subcaption}
-% Lets you put multiple images side-by-side in a single figure environment.
-% Example: Figure 3(a) and Figure 3(b) next to each other.
-
+\usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
+\usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
 % ---------- Tables ----------
-\usepackage{booktabs}
-% Provides \toprule, \midrule, \bottomrule for professional-looking tables.
+\usepackage{booktabs} % Provides \toprule, \midrule, \bottomrule for professional-looking tables.
 % Rule of thumb: NEVER use vertical lines in tables. Use booktabs rules instead.
-
-\usepackage{tabularx}
-% Adds the tabularx environment, which lets columns auto-expand to fill width.
-% Great for tables that need to span the full page width.
-
-\usepackage{multirow}
-% Allows cells that span multiple rows in tables.
-
-\usepackage{longtable}
-% For tables that are too long to fit on one page (like a Bill of Materials).
-
+\usepackage{tabularx}% Adds the tabularx environment, which lets columns auto-expand to fill width. Great for tables that need to span the full page width.
+\usepackage{multirow}% Allows cells that span multiple rows in tables.
+\usepackage{longtable}% For tables that are too long to fit on one page (like a Bill of Materials).
 % ---------- Math ----------
-\usepackage{amsmath}
-% The standard package for equations. Adds align, equation*, etc.
-
-\usepackage{amssymb}
-% Extra math symbols (e.g., \therefore, \because, \pm).
-
-\usepackage{siunitx}
-% Proper formatting for SI units.
+\usepackage{amsmath}% The standard package for equations. Adds align, equation*, etc.
+\usepackage{amssymb}% Extra math symbols (e.g., \therefore, \because, \pm).
+\usepackage{siunitx}% Proper formatting for SI units.
 % Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
 % This ensures consistent unit formatting throughout the document.
-
 % ---------- Cross-Referencing & Links ----------
 \usepackage[
     colorlinks=true,
@@ -109,85 +73,41 @@
 ]{hyperref}
 % Makes all references, citations, and URLs clickable in the PDF.
 % Set colorlinks=false if you want boxes instead of colored text.
-
 % ---------- Bibliography ----------
 \usepackage[numbers, sort&compress]{natbib}
 % IEEE-style numeric citations: [1], [2,3], [4-7]
 % "sort&compress" turns [3,1,2] into [1-3]
-
 % ---------- Captions ----------
 \usepackage[
     font=small,           % Caption text slightly smaller than body
     labelfont=bf,         % "Figure 1:" is bold
     textfont=it            % The caption description is italic
-]{caption}
-% Makes figure/table captions look more professional.
-
+]{caption}% Makes figure/table captions look more professional.
 % ---------- Headers & Footers ----------
-\usepackage{fancyhdr}
-% Customizable headers and footers.
-
-\pagestyle{fancy}
-% Activate the fancy header/footer style.
-
-\fancyhf{}
-% Clear all default header/footer content.
-
-\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}
-% Left header: team name.
-
-\fancyhead[R]{\small EME-185A/B}
-% Right header: course number.
-
-\fancyfoot[C]{\thepage}
-% Center footer: page number.
-
-\renewcommand{\headrulewidth}{0.4pt}
-% Thin line under the header. Set to 0pt to remove.
-
+\usepackage{fancyhdr}% Customizable headers and footers.
+\pagestyle{fancy}% Activate the fancy header/footer style.
+\fancyhf{}% Clear all default header/footer content.
+\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}% Left header: team name.
+\fancyhead[R]{\small EME-185}% Right header: course number.
+\fancyfoot[C]{\thepage}% Center footer: page number.
+\renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
 % ---------- Paragraph Formatting ----------
-\usepackage{parskip}
-% Adds space between paragraphs instead of indenting the first line.
-% This is more common in engineering reports than academic papers.
-
-\setlength{\parindent}{0pt}
-% Explicitly remove paragraph indentation (parskip should handle this,
-% but belt-and-suspenders doesn't hurt for readability).
-
+\usepackage{parskip}% Adds space between paragraphs instead of indenting the first line. This is more common in engineering reports than academic papers.
+\setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
 % ---------- Line Spacing ----------
 \usepackage{setspace}
-\onehalfspacing
-% 1.5 line spacing is easier to read and mark up than single spacing.
-% Change to \doublespacing if required.
-
+\onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
 %-------- For Box diagrams
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, positioning}
-
-
-
-% ---------- Code / Verbatim (optional) ----------
-% Uncomment if you need to include MATLAB, Python, or pseudocode snippets.
-% \usepackage{listings}
-% \lstset{
-%     language=Matlab,
-%     basicstyle=\ttfamily\small,
-%     breaklines=true,
-%     frame=single
-% }
-
 % ---------- Appendix Support ----------
-\usepackage[toc, page]{appendix}
-% Adds "Appendices" header and includes appendices in the Table of Contents.
-
+\usepackage[toc, page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents.
 % ---------- PDF Metadata ----------
 \hypersetup{
     pdftitle={Preliminary Machine Architecture Report -- Passive Temperature Compensation Device},
     pdfauthor={Team 16: Noble Aggie Labs},
     pdfsubject={EME-185A/B Senior Design, UC Davis},
 }
-
-
 % ============================================================================
 % SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
 % ============================================================================
@@ -204,7 +124,6 @@
 \newcommand{\instructor}{Professor Jonathan Schofield}
 \newcommand{\ta}{Xiangpu Wang}
 \newcommand{\duedate}{16 March 2026}
-
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\tcd}{TCD}              % Temperature Compensation Device
@@ -239,36 +158,13 @@
 % BEGIN DOCUMENT
 % ============================================================================
 \begin{document}
-
-
-% ============================================================================
-% TITLE PAGE (Cover Page)
-% ============================================================================
-% The title page matches the screenshot format:
-%   - Sandia aerial photo at top
-%   - UC Davis College of Engineering logo
-%   - Project title, sponsor, report type, course info, due date
-%
-% NOTE ON THE COVER IMAGE:
-%   Replace "cover_photo.jpg" with the actual filename of the Sandia
-%   aerial photograph. Place the image file in the same directory as
-%   this .tex file, or specify the path.
-%
-%   Similarly, replace "ucdavis_coe_logo.png" with the UC Davis
-%   College of Engineering logo file.
-% ============================================================================
-
 \begin{titlepage}
     \thispagestyle{empty}   % No header/footer on the title page
 
     % --- Cover Photo: Sandia National Laboratories Aerial View ---
-    % The image spans the full width of the text area.
-    % If you want it to bleed to the page edges, you'll need
-    % to use negative margins (more advanced).
     \begin{center}
         % TODO: Uncomment the next line and provide the correct filename
         % \includegraphics[width=\textwidth]{cover_photo.jpg}
-
         % Placeholder rectangle if image is not yet available:
         \fbox{\parbox[c][3in]{\textwidth}{%
             \centering\Large\color{gray}%
@@ -277,9 +173,7 @@
             and uncomment the includegraphics line above.
         }}
     \end{center}
-
     \vspace{0.4in}
-
     % --- UC Davis College of Engineering Logo ---
     \begin{center}
         % TODO: Uncomment and provide the correct filename
@@ -289,15 +183,12 @@
         {\Large\bfseries\color{blue!70!black} UC\,DAVIS}\\[2pt]
         {\normalsize\scshape College of Engineering}
     \end{center}
-
     \vspace{0.6in}
-
     % --- Project Title ---
     \begin{center}
         {\LARGE\bfseries\color{blue!70!black} \projecttitle}\\[12pt]
         {\large\bfseries SPONSORED BY: \MakeUppercase{\sponsor, \organization}}
     \end{center}
-
     \vfill  % Push the following content to the vertical center/bottom
 
     % --- Report Type ---
@@ -422,7 +313,7 @@ Governing linear equation:
     \label{eq: required_relationship}
 \end{equation}
 
-Be advised, $A_1 = \num{-1.524e-3} \pm 5\%$ mm /\degC{}, $A_0 = 0.254 \pm 5\%$ mm, and
+Be advised, $A_1 = \num{-1.524e-3} \pm 5\% \frac{\text{mm}}{\degC}$ , $A_0 = 0.254 \pm 5\%$ mm, and
 $T-{\text{ref}} = \SI{25}{\celsius}$. The device must operate between \SI{-60}{\celsius}
 and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow,
 fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope, and be compatible with hydrogen gas. 
@@ -447,34 +338,7 @@ contain a shaped hole with the overlap between the two holes defining the effect
 increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
 the requirements. 
 
-%--- END CONTENT ---
-
-
-% ============================================================================
-% SECTION 2: SYSTEM ARCHITECTURE SELECTED
-% ============================================================================
-% GRADING: Section III — 20 points total
-%   3.1) Statement of selection criteria (5.0 pts)
-%        "Well defined requirements, design and requirements related,
-%         subsystem selection is clear"
-%   3.2) Layout drawings/figures (7.5 pts)
-%        "Works with text to describe function, visual elements to show
-%         function (arrows, exploded views, etc.)"
-%   3.3) Text description of system solution (7.5 pts)
-%        "Clearly describes every aspect of how the design works"
-%
-% TEMPLATE GUIDANCE:
-%   - Clearly state which SINGLE concept is being carried forward.
-%   - Do NOT discuss why other options were weaker — focus on why
-%     the selected design will SUCCEED.
-%   - Include assembly drawings with arrows, labels, exploded views.
-%   - Drawings should be professional but do NOT need dimensions/tolerances
-%     (those go in the Appendix).
-%
-% IMPORTANT: Do NOT copy-paste from Report 1. This must reflect your
-% LATEST thinking about the design.
-% ============================================================================
-
+\newpage
 \section{System Architecture Selected}
 \label{sec:system_architecture}
 
@@ -737,7 +601,7 @@ subsystem-level specifications. This is critical for the grading rubric.}
 % Example of a rolldown table:
 % This shows how a top-level requirement flows down to component specs.
 
-\begin{table}[H]
+\begin{table}[H]    
     \centering
     \caption{Example requirements rolldown from system to subsystem level.}
     \label{tab:rolldown}
