@@ -121,10 +121,13 @@
 \newcommand{\duedate}{16 March 2026}
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
+\newcommand{\device}{PTCD}
 \newcommand{\tcd}{TCD}              % Temperature Compensation Device
 \newcommand{\degC}{\si{\celsius}}    % Degree Celsius symbol, properly formatted
 \newcommand{\psid}{\text{psid}}      % Pressure differential unit
-
+\newcommand{\sbsInterface}{Interface}
+\newcommand{\sbsValve}{Valve Mechanism}
+\newcommand{\sbsActuator}{Actuator}
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
 % Usage: \insertfigure{width}{filename}{caption text}{fig:label}
@@ -290,18 +293,36 @@
 %   - Avoid jargon. If you must use a technical term, define it.
 % ============================================================================
 
-\section{Abstract / Executive Summary}
+\section{Abstract}
 \label{sec:abstract}
 
 %--- BEGIN CONTENT ---
 
 % PARGRAPH 1: Project objective and motivation
-A variety of complex mechanical systems are dependent on electronic components and mechatronic designs requiring sensors,
-microcontrollers, etc. Sandia National Laboratories (SNL) has tasked our senior design team, 
-Noble Aggie Labs with designing a passive temperature compensation device (PTCD) for the purpose of a robust system that will
-function without reliance on electricity or humans. The device must respond to ambient air temperature to precisely control the flow of
-high-pressure gas. The device will adjust the effective orifice diameter according to the 
-Governing linear equation:
+Sandia National Laboratories (SNL) has tasked our senior design team, 
+Noble Aggie Labs to design a passive temperature compensation device (\device) that regulates flow in a pipe. 
+Flow must be regulated by adjusting an orifice geometry according to a change in ambient air temperature.
+The \device\ must be purely thermo-mechanically driven, functioning without the reliance on embedded systems(electronics) or human input.
+The required mathematical relationship between the ambient temperature and a characteristic orifice geometry is provided by SNL.
+Additionally, materials compatibility with the fluid --primarily noble gases-- must be considered.
+In order to meet these requirements, the \device\ will be divided into three main subsystems: (1) \sbsActuator, (2) \sbsInterface, (3) \sbsValve.
+
+% PARAGRAPH 2: Solution and progress to date
+This Preliminary Machine Architecture Report outlines how well the current iteration of the three main subsystems conform to the specified mathematical relationship.
+Explicitly, the relationship can be summarized as $D_{\text{eff}} = A_1 (T_{\text{ambient}} - T_{\text{ref}}) + A_0$ which will be referred to as the "required relationship" throughout this report.
+The \device\ and its constituent subsystems must facilitate this linear relationship between the characteristic orifice diameter and the ambient temperature. 
+
+
+
+\section{System Architecture Selected}
+\label{sec:system_architecture}
+
+% --- 2.1: Selection Criteria and Justification ---
+% WHY this design? Focus on positive attributes.
+% Reference your concept screening/scoring matrices (Appendix).
+
+
+In order to more easily The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
 \begin{equation}
     D_{\text{eff}} = A_1 (T - T_{\text{ref}}) + A_0
@@ -313,10 +334,7 @@ $T-{\text{ref}} = \SI{25}{\celsius}$. The device must operate between \SI{-60}{\
 and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow,
 fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope, and be compatible with hydrogen gas. 
 
-% PARAGRAPH 2: Solution and progress to date
-
-Over the course of this project, our team curated five actuator concepts
-and ten valve concepts. All design concepts were then systematic screened and
+All design concepts were then systematic screened and
 weighted with various scoring matrices (Report~1). We have since converged on a single
 architecture consisting of three primary subsystems:
 (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
@@ -332,15 +350,6 @@ The aluminum rod will have linear piston displacement as a result of thermal exa
 contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
 increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
 the requirements. 
-
-\newpage
-\section{System Architecture Selected}
-\label{sec:system_architecture}
-
-% --- 2.1: Selection Criteria and Justification ---
-% WHY this design? Focus on positive attributes.
-% Reference your concept screening/scoring matrices (Appendix).
-
 \subsection{Selection Criteria and Design Justification}
 \label{subsec:selection_criteria}
 
