@@ -123,20 +123,25 @@
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
 \newcommand{\tcd}{TCD}              % Temperature Compensation Device
-\newcommand{\degC}{\si{\celsius}}    % Degree Celsius symbol, properly formatted
+\newcommand{\degC}{^{\circ}C}    % Degree Celsius symbol, properly formatted
 \newcommand{\psid}{\text{psid}}      % Pressure differential unit
 \newcommand{\sbsInterface}{Interface}
 \newcommand{\sbsValve}{Valve Mechanism}
 \newcommand{\sbsActuator}{Actuator}
+\newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
-\newcommand{\govValve}{D_{\text{effective}} = }
+\newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
 \newcommand{\specTempHigh}{80} %Celcius
 \newcommand{\specTempLow}{-60} %Celcius
+\newcommand{\specTempRef}{25} %Celcius
 \newcommand{\specVol}{10} % Maximum volume in cm^3
 \newcommand{\specPressure}{68.94757}%MPa
 \newcommand{\specDeffLow}{0.17018} %mm
 \newcommand{\specDeffHigh}{0.38354} %mm
+\newcommand{\specTolerancePercent}{\pm 5\%}
+\newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
+\newcommand{\specDeffConstTwo}{0.254} %mm
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -319,7 +324,7 @@ In order to meet these requirements, the \device\ will be divided into three mai
 
 % PARAGRAPH 2: Solution and progress to date
 This Preliminary Machine Architecture Report outlines how well the current iteration of the three main subsystems conform to the specified mathematical relationship.
-Explicitly, the relationship between the orifice diameter and the ambient temperature can be summarized as $D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0$ which will be referred to as the "required relationship" throughout this report.
+Explicitly, the relationship between the orifice diameter and the ambient temperature can be summarized as $\requiredRelationship$\ which will be referred to as the "required relationship" throughout this report.
 The \device\ and its constituent subsystems must facilitate this linear relationship between the characteristic orifice diameter and the ambient temperature. 
 
 
@@ -369,13 +374,13 @@ The \device\ and its constituent subsystems must facilitate this linear relation
     \centering
     \caption{Requirements and specifications summary}
     \label{tab:requirements and specification}
-    \begin{tabularx}{\textwidth}{l l X}
+    \begin{tabularx}{\textwidth}{l X l}
         \toprule
         \textbf{Requirements} & \textbf{Spec} & \textbf{Subsystem Rolldown} \\
         \midrule
         Temp.\ range &
-        \specTempLow \degC\ to \specTempHigh \degC &
-        Actuator
+        \specTempLow $\degC$\ to \specTempHigh $\degC$ &
+        \sbsActuator
         \\\addlinespace
         Mech.\ envelope &
         $\leq$ \specVol\ cm$^3$ &
@@ -383,19 +388,23 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \\\addlinespace
         Pressure &
         $\Delta P \leq 68.95$~MPa &
-        Valve Mechanism
+        \sbsValve
         \\\addlinespace
         Eff.\ diameter &
         $D_{\text{eff}}$ = 0.170--0.384~mm & 
-        Valve Mechanism
+        \sbsValve
         \\\addlinespace
         Tolerance &
         $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
         Entire device
         \\\addlinespace
         Fluid compatibility &
-        "High" free energy of reaction with noble gas&
-        Valve Mechanism
+        "High" free energy of reaction with noble gas &
+        \sbsValve
+        \\\addlinespace
+        Sealing/Fluid diffusion &
+        TODO: Quantify seal quality somehow &
+        \sbsValve\ and \sbsInterface
         \\\bottomrule
     \end{tabularx}
 \end{table}
@@ -403,18 +412,21 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
 \begin{equation}
-    D_{\text{eff}} = A_1 (T - T_{\text{ref}}) + A_0
+    \requiredRelationship
     \label{eq: required_relationship}
 \end{equation}
 
-Be advised, $A_1 = \num{-1.524e-3} \pm 5\% \frac{\text{mm}}{\degC}$ , $A_0 = 0.254 \pm 5\%$ mm, and
-$T-{\text{ref}} = \SI{25}{\celsius}$. The device must operate between \SI{-60}{\celsius}
-and \SI{+80}{\celsius}, withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow,
-fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope, and be compatible with hydrogen gas. 
-
-All design concepts were then systematic screened and
-weighted with various scoring matrices (Report~1). We have since converged on a single
-architecture consisting of three primary subsystems:
+Where:
+\begin{align*}
+    &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+    \\
+    &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+    \\
+    &T_{\text{ref}} = \specTempRef \degC
+    \\
+    &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
+\end{align*}
+\todo{Include : withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow}
 (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
 The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
 
@@ -625,7 +637,40 @@ the system consists of\ldots''}
 
 %--- BEGIN CONTENT ---
 \subsection{Valve}
-
+\begin{table}[H]
+    \centering
+    \caption{Valve Specifications}
+    \label{tab:valve specification}
+    \begin{tabularx}{\textwidth}{l X l}
+        \toprule
+        \textbf{Requirements} & \textbf{Specification} & \textbf{Subsystem Specification} \\
+        \midrule
+        Mech.\ envelope &
+        $\leq$ \specVol\ cm$^3$ &
+        TODO: Insert volume of mechanism
+        \\\addlinespace
+        Pressure &
+        $\Delta P \leq 68.95$~MPa &
+        TODO: Insert FOS or necessary param.
+        \\\addlinespace
+        Eff.\ diameter &
+        $D_{\text{eff}}$ = 0.170--0.384~mm & 
+        TODO: Insert orifice geometry
+        \\\addlinespace
+        Tolerance &
+        $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+        TODO: Insert orifice geometry
+        \\\addlinespace
+        Fluid compatibility &
+        "High" free energy of reaction with noble gas &
+        TODO: Insert material prop.
+        \\\addlinespace
+        Sealing/Fluid diffusion &
+        TODO: Quantify seal quality somehow &
+        TODO: Insert corresponding spec
+        \\\bottomrule
+    \end{tabularx}
+\end{table}
 \subsubsection{Bellows Description and Calculations}
 The welded metal bellows transmits an axial stroke $\delta$ from an external 
 actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
