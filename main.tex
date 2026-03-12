@@ -1,39 +1,7 @@
 % ============================================================================
-% FILE:    Report2_Preliminary_Machine_Architecture.tex
-% PROJECT: Passive Temperature Compensation Device (TCD)
-% TEAM:    Team 16 — Noble Aggie Labs
-% COURSE:  EME-185A/B, UC Davis
-% DUE:     16 March 2026
-%
-% PURPOSE:
-%   This is a SINGLE-FILE LaTeX template/skeleton for Report #2:
-%   "Preliminary Machine Architecture Report." It is structured to match
-%   the grading rubric and template provided by Prof. Jon Schofield.
-%
-%   The file is intentionally HEAVILY COMMENTED so that team members
-%   who are new to LaTeX can learn formatting while filling in content.
-%   Readability is prioritized over brevity.
-
-%   Search for "TODO" to find every fillable placeholder.
-
-% GRADING ALIGNMENT (100 pts total):
-%   I.   General Considerations ............ 20 pts  (format, presentation, TOC, readability)
-%   II.  Abstract / Executive Summary ...... 10 pts
-%   III. System Architecture Selected ...... 20 pts  (criteria, drawings, description)
-%   IV.  Discussion ........................ 25 pts  (requirements, subsystems, calculations)
-%   V.   Preliminary Bill of Materials ..... 10 pts
-%   VI.  Project Management Information .... 15 pts  (tasks, Gantt, CPM)
-% ============================================================================
-
-
-% ============================================================================
 % SECTION 0: DOCUMENT CLASS AND PREAMBLE
 % ============================================================================
-% "article" is the simplest document class. 12pt is readable for reports.
-% "letterpaper" matches US standard paper size.
-\documentclass[12pt, letterpaper]{report}
-
-% additive change from windows
+\documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
 % --- PACKAGES: Each one adds a capability to LaTeX ---
 % Think of packages like Python imports or C #includes.
 
@@ -337,6 +305,7 @@ In order to meet these requirements, the \device\ will be divided into three mai
 This Preliminary Machine Architecture Report outlines how well the current iteration of the three main subsystems conform to the specified mathematical relationship.
 Explicitly, the relationship between the orifice diameter and the ambient temperature can be summarized as $\requiredRelationship$\ which will be referred to as the "required relationship" throughout this report.
 The \device\ and its constituent subsystems must facilitate this linear relationship between the characteristic orifice diameter and the ambient temperature. 
+\todo{Talk about sealing(bellows)}
 
 
 
@@ -453,7 +422,6 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \\
             &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
         \end{align*}
-        \todo{Include : withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow}
         (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
         The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
 
