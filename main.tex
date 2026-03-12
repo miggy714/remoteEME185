@@ -255,37 +255,14 @@
 %
 % LaTeX generates this automatically from \section and \subsection commands.
 % You MUST compile TWICE for page numbers to update correctly.
-% In Overleaf this happens automatically.
 % ============================================================================
 
 \newpage
 \tableofcontents
-
-% Optional: List of Figures and Tables
-% These are helpful for longer reports and show professionalism.
 \listoffigures
 \listoftables
 
 \newpage  % Start the body of the report on a fresh page
-
-
-% ============================================================================
-% SECTION 1: ABSTRACT / EXECUTIVE SUMMARY
-% ============================================================================
-% GRADING: Section II — 10 points
-%   "Concise, clear, focused, easy to understand, technically accurate"
-%
-% TEMPLATE GUIDANCE:
-%   - 1-2 paragraphs (300-500 words)
-%   - Summarize: project objective, motivation, brief description of
-%     solution, and progress to date
-%
-% TIPS:
-%   - Write this LAST, after all other sections are complete.
-%   - A non-expert should be able to understand the abstract.
-%   - Define acronyms on first use: Temperature Compensation Device (TCD).
-%   - Avoid jargon. If you must use a technical term, define it.
-% ============================================================================
 
 \chapter{Abstract}
 \label{sec:abstract}
@@ -469,7 +446,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \label{tab:valve specification}
             \begin{tabularx}{\textwidth}{l X l}
                 \toprule
-                \textbf{Requirements} & \textbf{Specification} & \textbf{Subsystem Specification} \\
+                \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
                 \midrule
                 Mech.\ envelope &
                 $\leq$ \specVol\ cm$^3$ &
@@ -501,7 +478,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \subsection{Design Requirement Updates(Roll-down)}
         \label{subsec:req_updates}
 
-        \subsection{Proof}
+        \subsection{Proof} 
             \subsubsection{Orifice}
                 \begin{figure}[H]
                     \centering
@@ -756,7 +733,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 
                 \todo{Insert your actual force pressure calculations here.}
 
-\section{Interface}
+    \section{Interface}
         \begin{table}[H]
             \centering
             \caption{PLACEHOLDER Interface Specifications}
