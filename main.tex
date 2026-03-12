@@ -31,7 +31,7 @@
 % ============================================================================
 % "article" is the simplest document class. 12pt is readable for reports.
 % "letterpaper" matches US standard paper size.
-\documentclass[12pt, letterpaper]{article}
+\documentclass[12pt, letterpaper]{report}
 
 % additive change from windows
 % --- PACKAGES: Each one adds a capability to LaTeX ---
@@ -97,12 +97,23 @@
 \usetikzlibrary{arrows.meta, positioning}
 % ---------- Appendix Support ----------
 \usepackage[toc, page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents.
+%----------- Title/Chapter formatting -----------------
+\usepackage{titlesec}
+% Format \chapter to look simple (no giant text, no separate page)
+\titleformat{\chapter}
+  {\LARGE\bfseries}  % format
+  {}                % label
+  {0em}                         % sep between label and title
+  {}                            % before-code
+\titlespacing*{\chapter}{0pt}{20pt}{10pt}  % left, before, after
 % ---------- PDF Metadata ----------
 \hypersetup{
     pdftitle={Preliminary Machine Architecture Report -- Passive Temperature Compensation Device},
     pdfauthor={Team 16: Noble Aggie Labs},
     pdfsubject={EME-185A/B Senior Design, UC Davis},
 }
+
+
 % ============================================================================
 % SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
 % ============================================================================
@@ -308,7 +319,7 @@
 %   - Avoid jargon. If you must use a technical term, define it.
 % ============================================================================
 
-\section{Abstract}
+\chapter{Abstract}
 \label{sec:abstract}
 
 %--- BEGIN CONTENT ---
@@ -329,285 +340,123 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 
 
 
-\section{System Architecture Selected}
+\chapter{System Architecture Selected}
 \label{sec:system_architecture}
 
 % --- 2.1: Selection Criteria and Justification ---
 % WHY this design? Focus on positive attributes.
 % Reference your concept screening/scoring matrices (Appendix).
 
-\begin{figure}[H]
-    \centering
-    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
+    \begin{figure}[H]
+        \centering
+        % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
 
-    % Placeholder:
-    \fbox{\parbox[c][3in]{0.85\textwidth}{%
-        \centering\Large%
-        \begin{tikzpicture}[
-            block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
-            sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
-            >=Stealth
-        ]
+        % Placeholder:
+        \fbox{\parbox[c][3in]{0.85\textwidth}{%
+            \centering\Large%
+            \begin{tikzpicture}[
+                block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
+                sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
+                >=Stealth
+            ]
 
-            \node[block] (interface)                        {\sbsInterface};
-            \node[block] (actuator) [above = of interface]  {\sbsActuator};
-            \node[block] (valve)    [below = of interface]  {\sbsValve};
+                \node[block] (interface)                        {\sbsInterface};
+                \node[block] (actuator) [above = of interface]  {\sbsActuator};
+                \node[block] (valve)    [below = of interface]  {\sbsValve};
 
-            \node(temp_input)   [left = of actuator]   {$\Delta T$};
-            \node(diam_output)  [right = of valve]      {$D_{effective} = k_2 \Delta S$};
+                \node(temp_input)   [left = of actuator]   {$\Delta T$};
+                \node(diam_output)  [right = of valve]      {$D_{effective} = k_2 \Delta S$};
 
-            \draw[->] (temp_input) -- (actuator);
-            \draw[->] (valve) -- (diam_output);
-            \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
-            \draw[->] (interface) to node[right] {$\Delta S = \frac{R}{r} \Delta L$} (valve);
+                \draw[->] (temp_input) -- (actuator);
+                \draw[->] (valve) -- (diam_output);
+                \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
+                \draw[->] (interface) to node[right] {$\Delta S = \frac{R}{r} \Delta L$} (valve);
 
-        \end{tikzpicture}
-    }   
-}
+            \end{tikzpicture}
+        }   
+    }
 
-    \caption{Controls diagram of the  \device. Outlines the overall flow of inputs
-    and outputs across the subsystems.}
-    \label{fig:controls_diagram}
-\end{figure}
+        \caption{Controls diagram of the  \device. Outlines the overall flow of inputs
+        and outputs across the subsystems.}
+        \label{fig:controls_diagram}
+    \end{figure}
 
-\begin{table}[H]
-    \centering
-    \caption{Requirements and specifications summary}
-    \label{tab:requirements and specification}
-    \begin{tabularx}{\textwidth}{l X l}
-        \toprule
-        \textbf{Requirements} & \textbf{Spec} & \textbf{Subsystem Rolldown} \\
-        \midrule
-        Temp.\ range &
-        \specTempLow $\degC$\ to \specTempHigh $\degC$ &
-        \sbsActuator
-        \\\addlinespace
-        Mech.\ envelope &
-        $\leq$ \specVol\ cm$^3$ &
-        Entire device
-        \\\addlinespace
-        Pressure &
-        $\Delta P \leq 68.95$~MPa &
-        \sbsValve
-        \\\addlinespace
-        Eff.\ diameter &
-        $D_{\text{eff}}$ = 0.170--0.384~mm & 
-        \sbsValve
-        \\\addlinespace
-        Tolerance &
-        $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
-        Entire device
-        \\\addlinespace
-        Fluid compatibility &
-        "High" free energy of reaction with noble gas &
-        \sbsValve
-        \\\addlinespace
-        Sealing/Fluid diffusion &
-        TODO: Quantify seal quality somehow &
-        \sbsValve\ and \sbsInterface
-        \\\bottomrule
-    \end{tabularx}
-\end{table}
-\todo{Clean up the following paragraphs or move to discussion}
-The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
+    \begin{table}[H]
+        \centering
+        \caption{Requirements and specifications summary}
+        \label{tab:requirements and specification}
+        \begin{tabularx}{\textwidth}{l X l}
+            \toprule
+            \textbf{Requirements} & \textbf{Spec} & \textbf{Subsystem Rolldown} \\
+            \midrule
+            Temp.\ range &
+            \specTempLow $\degC$\ to \specTempHigh $\degC$ &
+            \sbsActuator
+            \\\addlinespace
+            Mech.\ envelope &
+            $\leq$ \specVol\ cm$^3$ &
+            Entire device
+            \\\addlinespace
+            Pressure &
+            $\Delta P \leq 68.95$~MPa &
+            \sbsValve
+            \\\addlinespace
+            Eff.\ diameter &
+            $D_{\text{eff}}$ = 0.170--0.384~mm & 
+            \sbsValve
+            \\\addlinespace
+            Tolerance &
+            $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+            Entire device
+            \\\addlinespace
+            Fluid compatibility &
+            "High" free energy of reaction with noble gas &
+            \sbsValve
+            \\\addlinespace
+            Sealing/Fluid diffusion &
+            TODO: Quantify seal quality somehow &
+            \sbsValve\ and \sbsInterface
+            \\\bottomrule
+        \end{tabularx}
+    \end{table}
+    \section{Selection criteria}
+        \todo{Clean up the following paragraphs or move to discussion}
+        The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
-\begin{equation}
-    \requiredRelationship
-    \label{eq: required_relationship}
-\end{equation}
+        \begin{equation}
+            \requiredRelationship
+            \label{eq: required_relationship}
+        \end{equation}
 
-Where:
-\begin{align*}
-    &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
-    \\
-    &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
-    \\
-    &T_{\text{ref}} = \specTempRef \degC
-    \\
-    &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
-\end{align*}
-\todo{Include : withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow}
-(1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
-The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
+        Where:
+        \begin{align*}
+            &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+            \\
+            &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+            \\
+            &T_{\text{ref}} = \specTempRef \degC
+            \\
+            &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
+        \end{align*}
+        \todo{Include : withstand pressure differentials up to \SI{68.94757}{MPa} during choked flow}
+        (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
+        The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
 
-\begin{equation}
-    \Delta L = L_0\,\Delta T\, \alpha\
-\end{equation}
+        \begin{equation}
+            \Delta L = L_0\,\Delta T\, \alpha\
+        \end{equation}
 
-(2)~A \textbf{compound spur-gear train} comprising of two rack gears and two coaxial pinion gears with a gear ratio of
-4:1. This amplifies and transmits the piston's linear motion to the valve; and 
-(3)~a \textbf{sliding-plate orifice valve} (''pizza cutter'' design), in which two flat plates, one fixed and one translating
-contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
-increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
-the requirements. 
-\subsection{Selection Criteria and Design Justification}
-\label{subsec:selection_criteria}
-
-%--- BEGIN CONTENT ---
-
-\todo{Include volume specification and volume of subsystems}
-
-\todo{State the single concept being carried forward. Briefly describe the alternative and how
-systematic screening and weighted scoring matrices (see Appendix~\ref{app:scoring}) was used''}
-
-\todo{Discuss the selection criteria used:
-\begin{itemize}
-    \item Temperature range compatibility (\SI{-60}{\celsius} to \SI{+80}{\celsius})
-    \item Mechanical envelope (\SI{10}{\centi\meter} cube)
-    \item Hydrogen compatibility of wetted materials
-    \item Ability to withstand pressure differentials up to \SI{10000}{\psid}
-    \item Linear or controllable relationship between temperature and flow restriction
-    \item Simplicity and reliability (passive operation, no electronics)
-\end{itemize}}
-
-\todo{Explain why each subsystem solution was chosen. Emphasize STRENGTHS,
-not weaknesses of alternatives.}
-
+        (2)~A \textbf{compound spur-gear train} comprising of two rack gears and two coaxial pinion gears with a gear ratio of
+        4:1. This amplifies and transmits the piston's linear motion to the valve; and 
+        (3)~a \textbf{sliding-plate orifice valve} (''pizza cutter'' design), in which two flat plates, one fixed and one translating
+        contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
+        increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
+        the requirements. 
 %--- END CONTENT ---
 
 
 % --- 2.2: System Overview with Figures ---
 % Show the WHOLE system first, then break into subsystems.
-
-\subsection{Complete System Overview}
-\label{subsec:system_overview}
-
-%--- BEGIN CONTENT ---
-
-\todo{Provide a 1--2 paragraph overview of how the entire system works
-at a high level. Walk the reader through the flow of energy/information:
-temperature change $\rightarrow$ actuator displacement $\rightarrow$ valve
-position change $\rightarrow$ flow restriction adjustment.}
-
-% --- Full System Assembly Drawing ---
-% TODO: Replace placeholder with your actual assembly drawing.
-% Use the \insertfigure command defined in the preamble, OR
-% use the manual figure environment below for more control.
-
-
-
-
-
-
-
-
-
-\begin{figure}[H]
-    \centering
-    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
-
-    % Placeholder:
-    \fbox{\parbox[c][3in]{0.85\textwidth}{%
-        \centering\Large\color{gray}%
-        [Full System Assembly --- Isometric View]\\[6pt]
-        \normalsize Include arrows pointing to each subsystem.\\
-        Label: Actuator, Valve, Housing, Inlet, Outlet.
-    }}
-
-    \caption{Isometric view of the complete \tcd{} assembly. Arrows indicate
-    the actuator subsystem (left) and valve subsystem (right). Flow enters
-    from the inlet port and exits through the outlet port.}
-    \label{fig:system_assembly}
-\end{figure}
-
-\todo{Reference the figure: ``As shown in Figure~\ref{fig:system_assembly},
-the system consists of\ldots''}
-
-
-
-%--- END CONTENT ---
-
-
-% --- 2.3: Subsystem Overviews ---
-% Show each subsystem with its own figure(s) and description.
-
-\subsection{Subsystem Overviews}
-\label{subsec:subsystem_overviews}
-
-
-% ---- Subsystem A: Thermal Actuator ----
-\subsubsection{Thermal Actuator}
-\label{subsubsec:actuator}
-
-%--- BEGIN CONTENT ---
-
-\todo{Describe the actuator subsystem. Include:
-\begin{itemize}
-    \item Operating principle (how temperature change creates displacement)
-    \item Key components and their functions
-    \item Why this actuator type was selected (reference scoring matrix)
-    \item Expected displacement range over the temperature range
-\end{itemize}}
-
-\begin{figure}[H]
-    \centering
-    % \includegraphics[width=0.7\textwidth]{actuator_subassembly.png}
-
-    % Placeholder:
-    \fbox{\parbox[c][2.5in]{0.7\textwidth}{%
-        \centering\Large\color{gray}%
-        [Actuator Sub-Assembly Drawing]\\[6pt]
-        \normalsize Exploded view with numbered callouts.\\
-        Show how displacement is generated.
-    }}
-
-    \caption{Actuator sub-assembly. The numbered components are:
-    (1) \todo{component}, (2) \todo{component}, (3) \todo{component}.}
-    \label{fig:actuator_subassembly}
-\end{figure}
-
-%--- END CONTENT ---
-
-
-% ---- Subsystem B: Valve ----
-\subsubsection{Valve}
-\label{subsubsec:valve}
-
-%--- BEGIN CONTENT ---
-
-\todo{Describe the valve subsystem. Include:
-\begin{itemize}
-    \item Valve type and operating principle
-    \item How actuator displacement translates to flow area change
-    \item Key components
-    \item Expected flow coefficient (Cv) range
-\end{itemize}}
-
-\begin{figure}[H]
-    \centering
-    % \includegraphics[width=0.7\textwidth]{valve_subassembly.png}
-
-    % Placeholder:
-    \fbox{\parbox[c][2.5in]{0.7\textwidth}{%
-        \centering\Large\color{gray}%
-        [Valve Sub-Assembly Drawing]\\[6pt]
-        \normalsize Show open and closed positions.\\
-        Use dashed lines for alternate positions.
-    }}
-
-    \caption{Valve sub-assembly showing the flow restriction mechanism.}
-    \label{fig:valve_subassembly}
-\end{figure}
-
-%--- END CONTENT ---
-
-
-% ---- Subsystem C: Housing / Interface ----
-\subsubsection{Housing and Fluid Interface}
-\label{subsubsec:housing}
-
-%--- BEGIN CONTENT ---
-
-\todo{Describe the housing that contains everything. Include:
-\begin{itemize}
-    \item Material selection (hydrogen compatibility, steel/aluminum)
-    \item Sealing strategy (O-rings, gaskets, welding)
-    \item How the device connects to the existing piping system
-    \item Thermal conduction path from ambient air to the actuator
-\end{itemize}}
-
-%--- END CONTENT ---
-
 
 % ============================================================================
 % SECTION 3: DISCUSSION
@@ -627,323 +476,203 @@ the system consists of\ldots''}
 % This is the MOST HEAVILY WEIGHTED section (25 pts).
 % ============================================================================
 
-\section{Discussion}
+\chapter{Discussion}
 \label{sec:discussion}
 
 
-% --- 3.1: Requirements Update and Rolldown ---
-\subsection{Design Requirement Updates}
-\label{subsec:req_updates}
+    % --- 3.1: Requirements Update and Rolldown ---
+    \section{Design Requirement Updates(Roll-down)}
+    \label{subsec:req_updates}
 
-%--- BEGIN CONTENT ---
-\subsection{Valve}
-\begin{table}[H]
-    \centering
-    \caption{Valve Specifications}
-    \label{tab:valve specification}
-    \begin{tabularx}{\textwidth}{l X l}
-        \toprule
-        \textbf{Requirements} & \textbf{Specification} & \textbf{Subsystem Specification} \\
-        \midrule
-        Mech.\ envelope &
-        $\leq$ \specVol\ cm$^3$ &
-        TODO: Insert volume of mechanism
-        \\\addlinespace
-        Pressure &
-        $\Delta P \leq 68.95$~MPa &
-        TODO: Insert FOS or necessary param.
-        \\\addlinespace
-        Eff.\ diameter &
-        $D_{\text{eff}}$ = 0.170--0.384~mm & 
-        TODO: Insert orifice geometry
-        \\\addlinespace
-        Tolerance &
-        $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
-        TODO: Insert orifice geometry
-        \\\addlinespace
-        Fluid compatibility &
-        "High" free energy of reaction with noble gas &
-        TODO: Insert material prop.
-        \\\addlinespace
-        Sealing/Fluid diffusion &
-        TODO: Quantify seal quality somehow &
-        TODO: Insert corresponding spec
-        \\\bottomrule
-    \end{tabularx}
-\end{table}
-\subsubsection{Bellows Description and Calculations}
-The welded metal bellows transmits an axial stroke $\delta$ from an external 
-actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
-The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
-and minimize actuator force demand.
-\\~\\
-Design constraints:
-\begin{itemize}
-    \item Withstand maximum internal pressure
-    \item Operate within allowable compression limits
-    \item Maintain acceptable spring force relative to actuator capability
-    \item Minimize pressure-induced axial force via geometry
-\end{itemize}
-Design parameters:
-\begin{itemize}
-    \item $P = \text{10,000 psi}$ (maximum internal pressure)
-    \item $\delta = \text{0.01053 in}$ (required stroke)
-\end{itemize}
+    %--- BEGIN CONTENT ---
+    \section{Valve}
+        \begin{table}[H]
+            \centering
+            \caption{Valve Specifications}
+            \label{tab:valve specification}
+            \begin{tabularx}{\textwidth}{l X l}
+                \toprule
+                \textbf{Requirements} & \textbf{Specification} & \textbf{Subsystem Specification} \\
+                \midrule
+                Mech.\ envelope &
+                $\leq$ \specVol\ cm$^3$ &
+                TODO: Insert volume of mechanism
+                \\\addlinespace
+                Pressure &
+                $\Delta P \leq 68.95$~MPa &
+                TODO: Insert FOS or necessary par.
+                \\\addlinespace
+                Eff.\ diameter &
+                $D_{\text{eff}}$ = 0.170--0.384~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Tolerance &
+                $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Fluid compatibility &
+                "High" free energy of reaction with noble gas &
+                TODO: Insert material prop.
+                \\\addlinespace
+                Sealing/Fluid diffusion &
+                TODO: Quantify seal quality somehow &
+                TODO: Insert corresponding spec
+                \\\bottomrule
+            \end{tabularx}
+        \end{table}
+        \subsection{Bellows Description and Calculations}
+            The welded metal bellows transmits an axial stroke $\delta$ from an external 
+            actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
+            The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
+            and minimize actuator force demand.
+            \\~\\
+            Design constraints:
+            \begin{itemize}
+                \item Withstand maximum internal pressure
+                \item Operate within allowable compression limits
+                \item Maintain acceptable spring force relative to actuator capability
+                \item Minimize pressure-induced axial force via geometry
+            \end{itemize}
+            Design parameters:
+            \begin{itemize}
+                \item $P = \text{10,000 psi}$ (maximum internal pressure)
+                \item $\delta = \text{0.01053 in}$ (required stroke)
+            \end{itemize}
 
-INSERT BELLOWS IMAGE HERE
-\\~\\
-Figure XXX, above, illustrates the valve assembly with the bellows highlighted. Two bellows are used in the design to negate the pressure-induced force, allowing the actuator to focus solely on overcoming spring force and friction. They are welded to the valve body and the valve stem, ensuring a leak-tight seal while allowing for the necessary axial movement. Both bellows are designed to be identical, so the calculations below apply to each bellows independently. The following equations consider important design parameters and constraints for selecting the appropriate bellows geometry and material.
-\\~\\
-Effective area:
-$$A = \pi \left(\frac{D_o + D_i}{4}\right)^2$$
-Where $D_o$ is the outside convolution diameter and $D_i$ is the inside convolution diameter of the bellows. The effective area determines the axial force generated by internal pressure. Therefore, minimizing $A$ reduces actuator force demand.
-\\~\\
-Pressure-induced force:
-$$F_P = P A$$
-Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$. The spring force is proportional to deflection $\delta$.
-\\~\\
-Spring force:
-$$F_s = K \delta$$
-Total force required for actuation:
-$$F_{total} = P A - P A + 2 K \delta + F_{friction} \pm mg$$
-It should be noted that $\delta$ is very small, so the spring force contribution is minimal compared to the pressure force. The two identical and opposing bellows cancel out the pressure-induced force. $F_{friction}$ accounts for any additional forces due to friction in the system, which should be minimized through design and material selection. The term $mg$ accounts for gravitational forces acting on the valve stem.
-\\~\\
-Let $N$ be the number of convolutions, $D_{max}$ be the maximum axial displacement of the bellows, $L$ be the convolution free length, and $D_c$ be the axial displacement per convolution. The total deflection must be less than the maximum allowed to prevent plastic deformation.
-$$\delta < D_{max}$$
-Displacement per convolution:
-$$D_c = \frac{D_{max}}{N}$$
-Increasing $N$ lowers spring rate and increases stroke capacity. Decreasing $N$ increases stiffness and squirm resistance. In this application, $\delta$ is small, so the spring rate is chosen to be low enough to allow for the required stroke while maintaining structural integrity.
-\\~\\
-When welded metal bellows are subjected to internal pressure, the pressure acts over an effective cross-sectional area and generates a net axial force. This pressure-induced force is independent of stroke and depends solely on system pressure and bellows geometry. In high-pressure hydrogen applications, this force typically dominates the actuator load requirement and therefore becomes a primary design driver.
-\\~\\
-The pressure required to compress the bellows any distance within its elastic range is given by:
-$$P = \frac{K \delta}{A}$$
-The maximum operating pressure of the bellows is considered the proof pressure, which is the pressure at which the bellows can be compressed to the required stroke without yielding. Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences lateral deformation. This occurs when the bellows are unrestrained from sideways movement and the internal pressure exceeds the bellows' ability to maintain its shape.
-\\~\\
-Burst Pressure is the maximum pressure the bellows can withstand while restrained from lateral movement. For this application, the bellows will be restrained from lateral movement by the valve body, so critical squirm pressure is not a primary concern. Therefore, the design is governed by the following relationship:
-$$P_{operating} < P_{burst}$$
-Where $P_{burst}$ is the maximum pressure the bellows can withstand without failure.
-\\~\\
-The equations above govern the selection process for the bellows parameters and define the acceptable diameter, wall thickness, convolution count, and material. The parameters of the selected bellows are as follows:
-\begin{itemize}
-    \item Do: in (outside convolution diameter)
-    \item Di:in (inside convolution diameter)
-    \item t:in (wall thickness)
-    \item L:in (convolution free length)
-    \item Pburst:psi (burst pressure)
-    \item N:(number of convolutions)
-    \item Material:(chosen for its strength and compatibility with hydrogen)
-\end{itemize}
-Justification for the selected parameters is based on the formulas above which yield the required stroke, spring force, and pressure resistance. The selected bellows meet the design constraints while minimizing actuator force demand and ensuring reliable operation under the specified conditions.
-
-
-\todo{Discuss how requirements changed since Report 1. For example:
-\begin{itemize}
-    \item Did discussions with \sponsor{} reveal new constraints?
-    \item Did preliminary calculations show any requirements were
-          infeasible or needed adjustment?
-    \item Were any requirements added, removed, or modified?
-\end{itemize}
-Reference the updated requirements table in Appendix~\ref{app:requirements}.}
-
-%--- END CONTENT ---
+            INSERT BELLOWS IMAGE HERE
+            \\~\\
+            Figure XXX, above, illustrates the valve assembly with the bellows highlighted. Two bellows are used in the design to negate the pressure-induced force, allowing the actuator to focus solely on overcoming spring force and friction. They are welded to the valve body and the valve stem, ensuring a leak-tight seal while allowing for the necessary axial movement. Both bellows are designed to be identical, so the calculations below apply to each bellows independently. The following equations consider important design parameters and constraints for selecting the appropriate bellows geometry and material.
+            \\~\\
+            Effective area:
+            $$A = \pi \left(\frac{D_o + D_i}{4}\right)^2$$
+            Where $D_o$ is the outside convolution diameter and $D_i$ is the inside convolution diameter of the bellows. The effective area determines the axial force generated by internal pressure. Therefore, minimizing $A$ reduces actuator force demand.
+            \\~\\
+            Pressure-induced force:
+            $$F_P = P A$$
+            Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$. The spring force is proportional to deflection $\delta$.
+            \\~\\
+            Spring force:
+            $$F_s = K \delta$$
+            Total force required for actuation:
+            $$F_{total} = P A - P A + 2 K \delta + F_{friction} \pm mg$$
+            It should be noted that $\delta$ is very small, so the spring force contribution is minimal compared to the pressure force. The two identical and opposing bellows cancel out the pressure-induced force. $F_{friction}$ accounts for any additional forces due to friction in the system, which should be minimized through design and material selection. The term $mg$ accounts for gravitational forces acting on the valve stem.
+            \\~\\
+            Let $N$ be the number of convolutions, $D_{max}$ be the maximum axial displacement of the bellows, $L$ be the convolution free length, and $D_c$ be the axial displacement per convolution. The total deflection must be less than the maximum allowed to prevent plastic deformation.
+            $$\delta < D_{max}$$
+            Displacement per convolution:
+            $$D_c = \frac{D_{max}}{N}$$
+            Increasing $N$ lowers spring rate and increases stroke capacity. Decreasing $N$ increases stiffness and squirm resistance. In this application, $\delta$ is small, so the spring rate is chosen to be low enough to allow for the required stroke while maintaining structural integrity.
+            \\~\\
+            When welded metal bellows are subjected to internal pressure, the pressure acts over an effective cross-sectional area and generates a net axial force. This pressure-induced force is independent of stroke and depends solely on system pressure and bellows geometry. In high-pressure hydrogen applications, this force typically dominates the actuator load requirement and therefore becomes a primary design driver.
+            \\~\\
+            The pressure required to compress the bellows any distance within its elastic range is given by:
+            $$P = \frac{K \delta}{A}$$
+            The maximum operating pressure of the bellows is considered the proof pressure, which is the pressure at which the bellows can be compressed to the required stroke without yielding. Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences lateral deformation. This occurs when the bellows are unrestrained from sideways movement and the internal pressure exceeds the bellows' ability to maintain its shape.
+            \\~\\
+            Burst Pressure is the maximum pressure the bellows can withstand while restrained from lateral movement. For this application, the bellows will be restrained from lateral movement by the valve body, so critical squirm pressure is not a primary concern. Therefore, the design is governed by the following relationship:
+            $$P_{operating} < P_{burst}$$
+            Where $P_{burst}$ is the maximum pressure the bellows can withstand without failure.
+            \\~\\
+            The equations above govern the selection process for the bellows parameters and define the acceptable diameter, wall thickness, convolution count, and material. The parameters of the selected bellows are as follows:
+            \begin{itemize}
+                \item Do: in (outside convolution diameter)
+                \item Di:in (inside convolution diameter)
+                \item t:in (wall thickness)
+                \item L:in (convolution free length)
+                \item Pburst:psi (burst pressure)
+                \item N:(number of convolutions)
+                \item Material:(chosen for its strength and compatibility with hydrogen)
+            \end{itemize}
+            Justification for the selected parameters is based on the formulas above which yield the required stroke, spring force, and pressure resistance. The selected bellows meet the design constraints while minimizing actuator force demand and ensuring reliable operation under the specified conditions.
 
 
-\subsection{Requirements Rolldown to Subsystems}
-\label{subsec:rolldown}
+            \todo{Discuss how requirements changed since Report 1. For example:
+            \begin{itemize}
+                \item Did discussions with \sponsor{} reveal new constraints?
+                \item Did preliminary calculations show any requirements were
+                    infeasible or needed adjustment?
+                \item Were any requirements added, removed, or modified?
+            \end{itemize}
+            Reference the updated requirements table in Appendix~\ref{app:requirements}.}
 
-%--- BEGIN CONTENT ---
+    \section{Actuator}
+        % ---- Calculation Example: Thermal Expansion ----
+        \subsection{Thermal Expansion and Actuator Displacement}
+            \label{subsubsec:calc_thermal}
 
-\todo{Explain how system-level requirements were decomposed into
-subsystem-level specifications. This is critical for the grading rubric.}
+            \todo{Show that the actuator produces sufficient displacement over the
+            temperature range to fully open/close the valve.}
 
-% Example of a rolldown table:
-% This shows how a top-level requirement flows down to component specs.
+            % Here's how to format a calculation in LaTeX:
+            %
+            % Step 1: State your assumptions clearly.
+            % Step 2: Present the governing equation.
+            % Step 3: Substitute values with units.
+            % Step 4: Show the result and compare to the requirement.
 
-\begin{table}[H]    
-    \centering
-    \caption{Requirements rolldown from system to subsystem level.}
-    \label{tab:rolldown}
-    \begin{tabularx}{\textwidth}{l l X l}
-        \toprule
-        \textbf{System Req.} & \textbf{Spec} & \textbf{Subsystem Rolldown} & \textbf{Sub-Spec} \\
-        \midrule
-        Temperature range &
-        \SI{-60}{\celsius} to \SI{80}{\celsius} &
-        The actuator must produce monotonic displacement over this full range &
-        TODO \\
-        \addlinespace
-        Mechanical envelope &
-        $\leq \SI{10}{\cubic\centi\meter}$ &
-        TODO: Actuator $\leq$ X cm, Valve $\leq$ Y cm, Housing $\leq$ Z cm &
-        TODO \\
-        \addlinespace
-        Pressure &
-        $\Delta$P $\leq$ 68.94757 MPa &
-        Valve must not deform or leak under max pressure &
-        TODO \\
-        \addlinespace
-        Effective diameter &
-        $D_{\text{effective}}$ = 0.17018 mm - 0.38354 mm&
-        TODO: Valve must not deform or leak under max pressure &
-        TODO \\
-        \addlinespace
-        Tolerance &
-        $D_{\text{effective}}$ = $\pm0.0127$ mm&
-        TODO: Valve must not deform or leak under max pressure &
-        TODO \\
-        \addlinespace
-        H\textsubscript{2} compatibility &
-        All wetted parts &
-        TODO: Specify material for each wetted component &
-        TODO \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
+            % EXAMPLE (replace with your actual calculation):
+            \todo{Replace this example with your actual thermal expansion calculation.}
 
-%--- END CONTENT ---
+            The linear thermal expansion of a rod is given by:
+            %
+            \begin{equation}
+                \Delta L = \alpha \cdot L_0 \cdot \Delta T
+                \label{eq:thermal_expansion}
+            \end{equation}
+            %
+            where:
+            \begin{itemize}
+                \item $\Delta L$ is the change in length [\si{\milli\meter}],
+                \item $\alpha$ is the coefficient of thermal expansion [\si{\per\celsius}],
+                \item $L_0$ is the original length [\si{\milli\meter}],
+                \item $\Delta T$ is the temperature change [\si{\celsius}].
+            \end{itemize}
 
+            % ASSUMPTIONS BOX
+            % A shaded box draws the reader's eye to assumptions, which the rubric
+            % specifically calls for ("reasonable assumptions stated").
+            \begin{quote}
+                \textbf{Assumptions:}
+                \begin{enumerate}
+                    \item \todo{Material properties are constant over the temperature range.}
+                    \item \todo{Thermal equilibrium is reached before the test window.}
+                    \item \todo{List all assumptions.}
+                \end{enumerate}
+            \end{quote}
 
-% --- 3.2: Subsystem Interactions ---
-\subsection{Subsystem Interactions and Technical Detail}
-\label{subsec:subsystem_interactions}
-
-%--- BEGIN CONTENT ---
-
-\todo{This is where you go DEEP into the technical details.
-Unlike Section 2 which was a high-level overview, this section
-provides engineering proof that the design works.}
-
-\todo{Describe how subsystems interface with each other:
-\begin{itemize}
-    \item How does the actuator physically connect to the valve?
-    \item What is the mechanical coupling (direct contact, linkage, etc.)?
-    \item How does thermal energy flow through the system?
-    \item What are the potential failure modes at interfaces?
-\end{itemize}}
-
-%--- END CONTENT ---
+            \todo{Substitute your values into Equation~\ref{eq:thermal_expansion}
+            and show the result. Compare the result to the requirement.}
 
 
-% --- 3.3: Calculations (Proof of Concept) ---
-\subsection{Design Verification Calculations}
-\label{subsec:calculations}
+            % ---- Calculation: Pressure / Force Analysis ----
+            \subsection{Force Analysis Under Pressure Loading}
+            \label{subsubsec:calc_force}
 
-% This subsection is worth 10 points on its own.
-% You MUST show calculations with:
-%   - Stated assumptions
-%   - Clear connection to requirements
-%   - Proper units
-%   - Reasonable results
+            \todo{Show that the actuator can generate enough force to move the valve
+            against the pressure differential. Consider worst case: \SI{10000}{\psid}.}
+            \\~\\
+            Paramter values:
+            \begin{itemize}
+                \item $E=$
+                \item $A=$
+                \item $\alpha=$
+                \item $\Delta T = $
+            \end{itemize}
+            \begin{align}
+                F = EA\alpha \Delta T
+            \end{align}
+            % Example of a multi-line aligned equation:
+            %
+            % \begin{align}
+            %     F_{\text{pressure}} &= \Delta P \times A_{\text{valve}} \label{eq:force_pressure} \\
+            %     &= \SI{10000}{psi} \times \SI{0.5}{in^2} \nonumber \\
+            %     &= \SI{5000}{lbf} \nonumber
+            % \end{align}
+            %
+            % The & symbol aligns equations at that character (usually the = sign).
+            % \nonumber suppresses equation numbering for intermediate steps.
 
-%--- BEGIN CONTENT ---
-
-\todo{Introduce the purpose of these calculations: to demonstrate
-analytically that the design can meet its requirements.}
-
-
-% ---- Calculation Example: Thermal Expansion ----
-\subsubsection{Thermal Expansion and Actuator Displacement}
-\label{subsubsec:calc_thermal}
-
-\todo{Show that the actuator produces sufficient displacement over the
-temperature range to fully open/close the valve.}
-
-% Here's how to format a calculation in LaTeX:
-%
-% Step 1: State your assumptions clearly.
-% Step 2: Present the governing equation.
-% Step 3: Substitute values with units.
-% Step 4: Show the result and compare to the requirement.
-
-% EXAMPLE (replace with your actual calculation):
-\todo{Replace this example with your actual thermal expansion calculation.}
-
-The linear thermal expansion of a rod is given by:
-%
-\begin{equation}
-    \Delta L = \alpha \cdot L_0 \cdot \Delta T
-    \label{eq:thermal_expansion}
-\end{equation}
-%
-where:
-\begin{itemize}
-    \item $\Delta L$ is the change in length [\si{\milli\meter}],
-    \item $\alpha$ is the coefficient of thermal expansion [\si{\per\celsius}],
-    \item $L_0$ is the original length [\si{\milli\meter}],
-    \item $\Delta T$ is the temperature change [\si{\celsius}].
-\end{itemize}
-
-% ASSUMPTIONS BOX
-% A shaded box draws the reader's eye to assumptions, which the rubric
-% specifically calls for ("reasonable assumptions stated").
-\begin{quote}
-    \textbf{Assumptions:}
-    \begin{enumerate}
-        \item \todo{Material properties are constant over the temperature range.}
-        \item \todo{Thermal equilibrium is reached before the test window.}
-        \item \todo{List all assumptions.}
-    \end{enumerate}
-\end{quote}
-
-\todo{Substitute your values into Equation~\ref{eq:thermal_expansion}
-and show the result. Compare the result to the requirement.}
-
-
-% ---- Calculation: Pressure / Force Analysis ----
-\subsubsection{Force Analysis Under Pressure Loading}
-\label{subsubsec:calc_force}
-
-\todo{Show that the actuator can generate enough force to move the valve
-against the pressure differential. Consider worst case: \SI{10000}{\psid}.}
-\\~\\
-Paramter values:
-\begin{itemize}
-    \item $E=$
-    \item $A=$
-    \item $\alpha=$
-    \item $\Delta T = $
-\end{itemize}
-\begin{align}
-    F = EA\alpha \Delta T
-\end{align}
-% Example of a multi-line aligned equation:
-%
-% \begin{align}
-%     F_{\text{pressure}} &= \Delta P \times A_{\text{valve}} \label{eq:force_pressure} \\
-%     &= \SI{10000}{psi} \times \SI{0.5}{in^2} \nonumber \\
-%     &= \SI{5000}{lbf} \nonumber
-% \end{align}
-%
-% The & symbol aligns equations at that character (usually the = sign).
-% \nonumber suppresses equation numbering for intermediate steps.
-
-\todo{Insert your actual force/pressure calculations here.}
-
-
-% ---- Calculation: Flow / Performance Relationship ----
-\subsubsection{Performance Relationship}
-\label{subsubsec:calc_performance}
-
-\todo{Demonstrate that the system achieves the required flow characteristic
-(e.g., the relationship between temperature and effective flow area or
-discharge coefficient). Reference Performance\_Relationship.xlsx if applicable.}
-
-
-% ---- Additional Calculations ----
-\subsubsection{Additional Analyses}
-\label{subsubsec:calc_additional}
-
-\todo{Add any other calculations that prove feasibility:
-\begin{itemize}
-    \item Heat transfer analysis (thermal response time)
-    \item Stress/strain analysis of critical components
-    \item Material compatibility verification
-    \item Tolerance stack-up analysis
-    \item FEA results (if performed)
-\end{itemize}}
-
-%--- END CONTENT ---
+            \todo{Insert your actual force/pressure calculations here.}
 
 
 % ============================================================================
@@ -967,7 +696,7 @@ discharge coefficient). Reference Performance\_Relationship.xlsx if applicable.}
 % span multiple pages. Regular tabular would break across pages poorly.
 % ============================================================================
 
-\section{Preliminary Bill of Materials}
+\chapter{Preliminary Bill of Materials}
 \label{sec:bom}
 
 %--- BEGIN CONTENT ---
@@ -1083,12 +812,12 @@ items awaiting price quotes.}
 % ESTIMATED LENGTH: 3-4 pages (could be longer)
 % ============================================================================
 
-\section{Project Management Information}
+\chapter{Project Management Information}
 \label{sec:project_management}
 
 
 % --- 5.1: Task List ---
-\subsection{Updated Task List}
+\section{Updated Task List}
 \label{subsec:task_list}
 
 %--- BEGIN CONTENT ---
@@ -1126,7 +855,7 @@ Must include:
 
 
 % --- 5.2: Gantt Chart ---
-\subsection{Gantt Chart}
+\section{Gantt Chart}
 \label{subsec:gantt}
 
 %--- BEGIN CONTENT ---
@@ -1159,7 +888,7 @@ milestones and any tasks that are ahead of or behind schedule.}
 
 
 % --- 5.3: Critical Path Method (CPM) Analysis ---
-\subsection{Critical Path Method (CPM) Analysis}
+\section{Critical Path Method (CPM) Analysis}
 \label{subsec:cpm}
 
 %--- BEGIN CONTENT ---
@@ -1222,7 +951,7 @@ milestones and any tasks that are ahead of or behind schedule.}
 %   And compile with: pdflatex -> bibtex -> pdflatex -> pdflatex
 % ============================================================================
 
-\section{Cited References}
+\chapter{Cited References}
 \label{sec:references}
 
 % --- Option B: Manual bibliography (simpler, no .bib file needed) ---
