@@ -365,7 +365,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                 \node[block] (valve)    [below = of interface]  {\sbsValve};
 
                 \node(temp_input)   [left = of actuator]   {$\Delta T$};
-                \node(diam_output)  [right = of valve]      {$D_{effective} = k_2 \Delta S$};
+                \node(diam_output)  [right = of valve]      {$D_{\text{effective}} = k_2 \Delta S$};
 
                 \draw[->] (temp_input) -- (actuator);
                 \draw[->] (valve) -- (diam_output);
@@ -381,9 +381,24 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \label{fig:controls_diagram}
     \end{figure}
 
+    \begin{figure}[H]
+        \centering
+        % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
+
+        % Placeholder:
+        \fbox{
+            \parbox[c][3in]{0.85\textwidth}{%
+            \centering\Large%
+            }   
+        }
+
+        \caption{Exploded View}
+        \label{fig:explodedoverall}
+    \end{figure}
+
     \begin{table}[H]
         \centering
-        \caption{Requirements and specifications summary}
+        \caption{Overall requirements and specifications summary}
         \label{tab:requirements and specification}
         \begin{tabularx}{\textwidth}{l X l}
             \toprule
@@ -519,8 +534,72 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \label{subsec:req_updates}
 
         \subsection{Proof}
+            \subsubsection{Orifice}
+                \begin{figure}[H]
+                    \centering
+                    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
 
-            \subsubsection{Bellows Description and Calculations}
+                    % Placeholder:
+                    \fbox{
+                        \parbox[c][3in]{0.85\textwidth}{%
+                        \centering\Large%
+                        }   
+                    }
+
+                    \caption{CAD model of the orifice}
+                    \label{fig:orifice}
+                \end{figure}
+                \begin{table}[H]
+                    \centering
+                    \caption{Valve Specifications}
+                    \label{tab:valve specification}
+                    \begin{tabularx}{\textwidth}{l X l}
+                        \toprule
+                        \textbf{Requirements} & \textbf{Specification} & \textbf{Subsystem Specification} \\
+                        \midrule
+                        Mech.\ envelope &
+                        $\leq$ \specVol\ cm$^3$ &
+                        TODO: Insert volume of mechanism
+                        \\\addlinespace
+                        Pressure &
+                        $\Delta P \leq 68.95$~MPa &
+                        TODO: Insert FOS or necessary par.
+                        \\\addlinespace
+                        Eff.\ diameter &
+                        $D_{\text{eff}}$ = 0.170--0.384~mm & 
+                        TODO: Insert orifice geometry
+                        \\\addlinespace
+                        Tolerance &
+                        $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+                        TODO: Insert orifice geometry
+                        \\\addlinespace
+                        Fluid compatibility &
+                        "High" free energy of reaction with noble gas &
+                        TODO: Insert material prop.
+                        \\\bottomrule
+                    \end{tabularx}
+                \end{table}
+
+                The orifice is the critical piece of this design. In order to follow the relationship required by Equation 1, 
+                the orifice geometry must drive the rest of the design. Each plate, one fixed and one whose movement is controlled by the actuator, 
+                will contain identical rectangular holes near its center. The plates must maintain surface contact such that the overlap between the two holes creates the desired orifice. 
+                As the ambient temperature rises, the actuator expands, lowering the moving plate. Because its hole is below that of the fixed plate, the resulting orifice shrinks.
+            \subsubsection{Sealing}
+                    \begin{figure}[H]
+                        \centering
+                        % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
+
+                        % Placeholder:
+                        \fbox{
+                            \parbox[c][3in]{0.85\textwidth}{%
+                            \centering\Large%
+                            }   
+                        }
+
+                        \caption{CAD model of the bellow}
+                        \label{fig:bellow}
+                    \end{figure}
+
                 The welded metal bellows transmits an axial stroke $\delta$ from an external 
                 actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
                 The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
@@ -747,6 +826,12 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         % ---- Calculation Example: Thermal Expansion ----
         \subsection{Design Requirement Updates(Roll-down)}
         \subsection{Proof}
+            An interface must be made to transfer motion from the actuator to the valve shaft. 
+            As noted in the actuator section (make sure this is mentioned) actuation distance increases with actuator base length $L_o$ (can reference equation used in prior section or appendix), 
+            but the actuator size is limited by the mechanical envelope as mentioned before and it has been determined that to meet actuation needs without an amplifying interface the actuator would need to be of length $L_o$ = (insert from JBs calcs). 
+            This puts our system outside of the mechanical envelope (or close to it, check with JB) and necessitates an amplifying transmission. We chose rack and pinion compound gear train as this translates linear actuator movement to rotational, amplifies it using a [1:2] compound gear set, then translates back to linear movement with a second rack attached to the valve piston. 
+            Note that any error is also propagated through the train facilitating another reason to maximize actuator length and minimize need for large gear ratios. To decide on train specifications an optimization study was done to find a gear ratio that allowed for maximum precision and delivered necessary movement from the actuator to the valve.
+
 % ============================================================================
 % SECTION 4: PRELIMINARY BILL OF MATERIALS
 % ============================================================================
