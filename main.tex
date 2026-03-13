@@ -384,6 +384,9 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \end{tabularx}
     \end{table}
     \section{Selection criteria}
+        \todo{Well defined requirements, design and requirements related, subsystem selection is clear}
+    \section{Subsystem Overview}
+    \todo{This is where the description of the system architecture goes}
         \todo{Clean up the following paragraphs or move to discussion}
         The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
@@ -415,6 +418,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
         increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
         the requirements. 
+
 %--- END CONTENT ---
 
 
@@ -481,7 +485,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \subsubsection{Design Requirement Updates}
             \label{subsec:req_updates}
 
-            \subsubsection{Implementation} 
+            \subsubsection{Current Implementation} 
             
                 \begin{figure}[H]
                     \centering
@@ -534,7 +538,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                 As the ambient temperature rises, the actuator expands, lowering the moving plate. Because its hole is below that of the fixed plate, the resulting orifice shrinks.
     \subsection{Chassis/Housing}
         \subsubsection{Design Requirement Updates}
-        \subsubsection{Implementation}
+        \subsubsection{Current Implementation}
     \section{Actuator}
         \begin{table}[H]
             \centering
@@ -572,7 +576,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \end{table}
         % ---- Calculation Example: Thermal Expansion ----
         \subsection{Design Requirement Updates}
-        \subsection{Implementation}
+        \subsection{Current Implementation}
 
 
             \begin{table}[H]
@@ -690,7 +694,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                     \end{tabularx}
                 \end{table}
             \subsubsection{Design Requirement Updates}
-            \subsubsection{Implementation}
+            \subsubsection{Current Implementation}
                 The welded metal bellows transmits an axial stroke $\delta$ from an external 
                 actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
                 The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
@@ -768,7 +772,6 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                     \end{tabularx}
                 \end{table}
                 Justification for the selected parameters is based on the formulas above which yield the required stroke, spring force, and pressure resistance. The selected bellows meet the design constraints while minimizing actuator force demand and ensuring reliable operation under the specified conditions.
-
 
 
     
@@ -1059,7 +1062,7 @@ milestones and any tasks that are ahead of or behind schedule.}
 
 \begin{thebibliography}{99}
 
-    \bibitem{sandia_prompt}
+    \bibitem{ref_sandiaprompt}
     B.\ Bon,
     ``Passive Temperature Compensation Device --- Project Prompt,''
     Sandia National Laboratories, SAND2025-15446O, 2025.
@@ -1074,7 +1077,7 @@ milestones and any tasks that are ahead of or behind schedule.}
     \todo{Add reference: relevant prior work or patent}
 
     % Add more \bibitem entries as needed.
-    % In the body text, cite as: \cite{sandia_prompt}
+    % In the body text, cite as: \cite{ref_sandiaprompt}
 
 \end{thebibliography}
 
