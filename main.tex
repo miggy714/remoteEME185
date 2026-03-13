@@ -2,6 +2,7 @@
 % SECTION 0: DOCUMENT CLASS AND PREAMBLE
 % ============================================================================
 \documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
+\setcounter{tocdepth}{3}
 % --- PACKAGES: Each one adds a capability to LaTeX ---
 % Think of packages like Python imports or C #includes.
 
@@ -121,6 +122,8 @@
 \newcommand{\specTolerancePercent}{\pm 5\%}
 \newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
 \newcommand{\specDeffConstTwo}{0.254} %mm
+\newcommand{\specStroke}{0.01053} %inch
+\newcommand{\specPressureForceAxial}{placeholderaxialforce} % N
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -286,7 +289,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 
 
 
-\chapter{System Architecture Selected}
+\chapter{System Architecture}
 \label{sec:system_architecture}
 
 % --- 2.1: Selection Criteria and Justification ---
@@ -500,12 +503,12 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                 \\\bottomrule
             \end{tabularx}
         \end{table}
-        % --- 3.1: Requirements Update and Rolldown ---
-        \subsection{Design Requirement Updates(Roll-down)}
-        \label{subsec:req_updates}
+        \subsection{Orifice}
+            \subsubsection{Design Requirement Updates}
+            \label{subsec:req_updates}
 
-        \subsection{Proof} 
-            \subsubsection{Orifice}
+            \subsubsection{Implementation} 
+            
                 \begin{figure}[H]
                     \centering
                     % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
@@ -555,96 +558,9 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                 the orifice geometry must drive the rest of the design. Each plate, one fixed and one whose movement is controlled by the actuator, 
                 will contain identical rectangular holes near its center. The plates must maintain surface contact such that the overlap between the two holes creates the desired orifice. 
                 As the ambient temperature rises, the actuator expands, lowering the moving plate. Because its hole is below that of the fixed plate, the resulting orifice shrinks.
-            \subsubsection{Sealing}
-                    \begin{figure}[H]
-                        \centering
-                        % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
-
-                        % Placeholder:
-                        \fbox{
-                            \parbox[c][3in]{0.85\textwidth}{%
-                            \centering\Large%
-                            }   
-                        }
-
-                        \caption{CAD model of the bellow}
-                        \label{fig:bellow}
-                    \end{figure}
-
-                The welded metal bellows transmits an axial stroke $\delta$ from an external 
-                actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
-                The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
-                and minimize actuator force demand.
-                \\~\\
-                Design constraints:
-                \begin{itemize}
-                    \item Withstand maximum internal pressure
-                    \item Operate within allowable compression limits
-                    \item Maintain acceptable spring force relative to actuator capability
-                    \item Minimize pressure-induced axial force via geometry
-                \end{itemize}
-                Design parameters:
-                \begin{itemize}
-                    \item $P = \text{10,000 psi}$ (maximum internal pressure)
-                    \item $\delta = \text{0.01053 in}$ (required stroke)
-                \end{itemize}
-
-                INSERT BELLOWS IMAGE HERE
-                \\~\\
-                Figure XXX, above, illustrates the valve assembly with the bellows highlighted. Two bellows are used in the design to negate the pressure-induced force, allowing the actuator to focus solely on overcoming spring force and friction. They are welded to the valve body and the valve stem, ensuring a leak-tight seal while allowing for the necessary axial movement. Both bellows are designed to be identical, so the calculations below apply to each bellows independently. The following equations consider important design parameters and constraints for selecting the appropriate bellows geometry and material.
-                \\~\\
-                Effective area:
-                $$A = \pi \left(\frac{D_o + D_i}{4}\right)^2$$
-                Where $D_o$ is the outside convolution diameter and $D_i$ is the inside convolution diameter of the bellows. The effective area determines the axial force generated by internal pressure. Therefore, minimizing $A$ reduces actuator force demand.
-                \\~\\
-                Pressure-induced force:
-                $$F_P = P A$$
-                Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$. The spring force is proportional to deflection $\delta$.
-                \\~\\
-                Spring force:
-                $$F_s = K \delta$$
-                Total force required for actuation:
-                $$F_{total} = P A - P A + 2 K \delta + F_{friction} \pm mg$$
-                It should be noted that $\delta$ is very small, so the spring force contribution is minimal compared to the pressure force. The two identical and opposing bellows cancel out the pressure-induced force. $F_{friction}$ accounts for any additional forces due to friction in the system, which should be minimized through design and material selection. The term $mg$ accounts for gravitational forces acting on the valve stem.
-                \\~\\
-                Let $N$ be the number of convolutions, $D_{max}$ be the maximum axial displacement of the bellows, $L$ be the convolution free length, and $D_c$ be the axial displacement per convolution. The total deflection must be less than the maximum allowed to prevent plastic deformation.
-                $$\delta < D_{max}$$
-                Displacement per convolution:
-                $$D_c = \frac{D_{max}}{N}$$
-                Increasing $N$ lowers spring rate and increases stroke capacity. Decreasing $N$ increases stiffness and squirm resistance. In this application, $\delta$ is small, so the spring rate is chosen to be low enough to allow for the required stroke while maintaining structural integrity.
-                \\~\\
-                When welded metal bellows are subjected to internal pressure, the pressure acts over an effective cross-sectional area and generates a net axial force. This pressure-induced force is independent of stroke and depends solely on system pressure and bellows geometry. In high-pressure hydrogen applications, this force typically dominates the actuator load requirement and therefore becomes a primary design driver.
-                \\~\\
-                The pressure required to compress the bellows any distance within its elastic range is given by:
-                $$P = \frac{K \delta}{A}$$
-                The maximum operating pressure of the bellows is considered the proof pressure, which is the pressure at which the bellows can be compressed to the required stroke without yielding. Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences lateral deformation. This occurs when the bellows are unrestrained from sideways movement and the internal pressure exceeds the bellows' ability to maintain its shape.
-                \\~\\
-                Burst Pressure is the maximum pressure the bellows can withstand while restrained from lateral movement. For this application, the bellows will be restrained from lateral movement by the valve body, so critical squirm pressure is not a primary concern. Therefore, the design is governed by the following relationship:
-                $$P_{operating} < P_{burst}$$
-                Where $P_{burst}$ is the maximum pressure the bellows can withstand without failure.
-                \\~\\
-                The equations above govern the selection process for the bellows parameters and define the acceptable diameter, wall thickness, convolution count, and material. The parameters of the selected bellows are as follows:
-                \begin{itemize}
-                    \item Do: in (outside convolution diameter)
-                    \item Di:in (inside convolution diameter)
-                    \item t:in (wall thickness)
-                    \item L:in (convolution free length)
-                    \item Pburst:psi (burst pressure)
-                    \item N:(number of convolutions)
-                    \item Material:(chosen for its strength and compatibility with hydrogen)
-                \end{itemize}
-                Justification for the selected parameters is based on the formulas above which yield the required stroke, spring force, and pressure resistance. The selected bellows meet the design constraints while minimizing actuator force demand and ensuring reliable operation under the specified conditions.
-
-
-                \todo{Discuss how requirements changed since Report 1. For example:
-                \begin{itemize}
-                    \item Did discussions with \sponsor{} reveal new constraints?
-                    \item Did preliminary calculations show any requirements were
-                        infeasible or needed adjustment?
-                    \item Were any requirements added, removed, or modified?
-                \end{itemize}
-                Reference the updated requirements table in Appendix~\ref{app:requirements}.}
-
+    \subsection{Chassis/Housing}
+        \subsubsection{Design Requirement Updates}
+        \subsubsection{Implementation}
     \section{Actuator}
         \begin{table}[H]
             \centering
@@ -681,84 +597,44 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \end{tabularx}
         \end{table}
         % ---- Calculation Example: Thermal Expansion ----
-        \subsection{Design Requirement Updates(Roll-down)}
-        \subsection{Proof}
-            \label{subsubsec:calc_thermal}
-
-            \todo{Show that the actuator produces sufficient displacement over the
-            temperature range to fully open/close the valve.}
-
-            % Here's how to format a calculation in LaTeX:
-            %
-            % Step 1: State your assumptions clearly.
-            % Step 2: Present the governing equation.
-            % Step 3: Substitute values with units.
-            % Step 4: Show the result and compare to the requirement.
-
-            % EXAMPLE (replace with your actual calculation):
-            \todo{Replace this example with your actual thermal expansion calculation.}
-
-            The linear thermal expansion of a rod is given by:
-            %
-            \begin{equation}
-                \Delta L = \alpha \cdot L_0 \cdot \Delta T
-                \label{eq:thermal_expansion}
-            \end{equation}
-            %
-            where:
-            \begin{itemize}
-                \item $\Delta L$ is the change in length [\si{\milli\meter}],
-                \item $\alpha$ is the coefficient of thermal expansion [\si{\per\celsius}],
-                \item $L_0$ is the original length [\si{\milli\meter}],
-                \item $\Delta T$ is the temperature change [\si{\celsius}].
-            \end{itemize}
-
-            % ASSUMPTIONS BOX
-            % A shaded box draws the reader's eye to assumptions, which the rubric
-            % specifically calls for ("reasonable assumptions stated").
-            \begin{quote}
-                \textbf{Assumptions:}
-                \begin{enumerate}
-                    \item \todo{Material properties are constant over the temperature range.}
-                    \item \todo{Thermal equilibrium is reached before the test window.}
-                    \item \todo{List all assumptions.}
-                \end{enumerate}
-            \end{quote}
-
-            \todo{Substitute your values into Equation~\ref{eq:thermal_expansion}
-            and show the result. Compare the result to the requirement.}
+        \subsection{Design Requirement Updates}
+        \subsection{Implementation}
 
 
-            % ---- Calculation: Pressure / Force Analysis ----
-            \subsubsection{Force Analysis Under Pressure Loading}
-                \label{subsubsec:calc_force}
-
-                \todo{Show that the actuator can generate enough force to move the valve
-                against the pressure differential. Consider worst case: \SI{10000}{\psid}.}
-                \\~\\
-                Paramter values:
-                \begin{itemize}
-                    \item $E=$
-                    \item $A=$
-                    \item $\alpha=$
-                    \item $\Delta T = $
-                \end{itemize}
-                \begin{align}
-                    F = EA\alpha \Delta T
-                \end{align}
-                % Example of a multi-line aligned equation:
-                %
-                % \begin{align}
-                %     F_{\text{pressure}} &= \Delta P \times A_{\text{valve}} \label{eq:force_pressure} \\
-                %     &= \SI{10000}{psi} \times \SI{0.5}{in^2} \nonumber \\
-                %     &= \SI{5000}{lbf} \nonumber
-                % \end{align}
-                %
-                % The & symbol aligns equations at that character (usually the = sign).
-                % \nonumber suppresses equation numbering for intermediate steps.
-
-                \todo{Insert your actual force pressure calculations here.}
-
+            \begin{table}[H]
+                \centering
+                \caption{Actuator Parameter Values}
+                \label{tab:actuator_parameters}
+                \begin{tabularx}{\textwidth}{l X l}
+                    \toprule
+                    \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+                    \midrule
+                    $E$ &
+                    Young's modulus &
+                    TODO: Insert value (GPa)
+                    \\\addlinespace
+                    $A$ &
+                    Cross-sectional area &
+                    TODO: Insert value (mm\textsuperscript{2})
+                    \\\addlinespace
+                    $\alpha$ &
+                    Coefficient of thermal expansion &
+                    TODO: Insert value (\si{\per\celsius})
+                    \\\addlinespace
+                    $L_0$ &
+                    Original rod length &
+                    TODO: Insert value (mm)
+                    \\\addlinespace
+                    $\Delta T$ &
+                    Temperature change &
+                    TODO: Insert value (\si{\celsius})
+                    \\\addlinespace
+                    $\Delta L$ &
+                    Change in length &
+                    TODO: Insert value (mm)
+                    \\\bottomrule
+                \end{tabularx}
+            \end{table}
     \section{Interface}
         \begin{table}[H]
             \centering
@@ -795,14 +671,133 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \end{tabularx}
         \end{table}
         % ---- Calculation Example: Thermal Expansion ----
-        \subsection{Design Requirement Updates(Roll-down)}
-        \subsection{Proof}
-            An interface must be made to transfer motion from the actuator to the valve shaft. 
-            As noted in the actuator section (make sure this is mentioned) actuation distance increases with actuator base length $L_o$ (can reference equation used in prior section or appendix), 
-            but the actuator size is limited by the mechanical envelope as mentioned before and it has been determined that to meet actuation needs without an amplifying interface the actuator would need to be of length $L_o$ = (insert from JBs calcs). 
-            This puts our system outside of the mechanical envelope (or close to it, check with JB) and necessitates an amplifying transmission. We chose rack and pinion compound gear train as this translates linear actuator movement to rotational, amplifies it using a [1:2] compound gear set, then translates back to linear movement with a second rack attached to the valve piston. 
-            Note that any error is also propagated through the train facilitating another reason to maximize actuator length and minimize need for large gear ratios. To decide on train specifications an optimization study was done to find a gear ratio that allowed for maximum precision and delivered necessary movement from the actuator to the valve.
+        \subsection{Bellows}
+            \begin{figure}[H]
+                    \centering
+                    % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
 
+                    % Placeholder:
+                    \fbox{
+                        \parbox[c][3in]{0.85\textwidth}{%
+                        \centering\Large%
+                        }   
+                    }
+
+                    \caption{CAD model of the bellow}
+                    \label{fig:bellow}
+                \end{figure}
+
+
+
+                \begin{table}[H]
+                    \centering
+                    \caption{Valve Specifications}
+                    \label{tab:valve specification}
+                    \begin{tabularx}{\textwidth}{l X l}
+                        \toprule
+                        \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
+                        \midrule
+                        Stroke &
+                        $\leq$ \specStroke\ mm &
+                        TODO: Insert actual stroke of mechanism
+                        \\\addlinespace
+                        Pressure &
+                        $\Delta P \leq 68.95$~MPa &
+                        TODO: Insert FOS or necessary par.
+                        \\\addlinespace
+                        Axial force &
+                        \specPressureForceAxial N&
+                        TODO: Insert force resisted
+                        \\\addlinespace
+                        Fluid compatibility &
+                        "High" free energy of reaction with noble gas &
+                        TODO: Insert material prop.
+                        \\\bottomrule
+                    \end{tabularx}
+                \end{table}
+            \subsubsection{Design Requirement Updates}
+            \subsubsection{Implementation}
+                The welded metal bellows transmits an axial stroke $\delta$ from an external 
+                actuator into a high-pressure hydrogen valve while maintaining zero leakage. 
+                The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, 
+                and minimize actuator force demand.
+                \\~\\
+                Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows highlighted. Two bellows are used in the design to negate the pressure-induced force, allowing the actuator to focus solely on overcoming spring force and friction. They are welded to the valve body and the valve stem, ensuring a leak-tight seal while allowing for the necessary axial movement. Both bellows are designed to be identical, so the calculations below apply to each bellows independently. The following equations consider important design parameters and constraints for selecting the appropriate bellows geometry and material.
+                \\~\\
+                Effective area:
+                $$A = \pi \left(\frac{D_o + D_i}{4}\right)^2$$
+                Where $D_o$ is the outside convolution diameter and $D_i$ is the inside convolution diameter of the bellows. The effective area determines the axial force generated by internal pressure. Therefore, minimizing $A$ reduces actuator force demand.
+                \\~\\
+                Pressure-induced force:
+                $$F_P = P A$$
+                Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$. The spring force is proportional to deflection $\delta$.
+                \\~\\
+                Spring force:
+                $$F_s = K \delta$$
+                Total force required for actuation:
+                $$F_{total} = P A - P A + 2 K \delta + F_{friction} \pm mg$$
+                It should be noted that $\delta$ is very small, so the spring force contribution is minimal compared to the pressure force. The two identical and opposing bellows cancel out the pressure-induced force. $F_{friction}$ accounts for any additional forces due to friction in the system, which should be minimized through design and material selection. The term $mg$ accounts for gravitational forces acting on the valve stem.
+                \\~\\
+                Let $N$ be the number of convolutions, $D_{max}$ be the maximum axial displacement of the bellows, $L$ be the convolution free length, and $D_c$ be the axial displacement per convolution. The total deflection must be less than the maximum allowed to prevent plastic deformation.
+                $$\delta < D_{max}$$
+                Displacement per convolution:
+                $$D_c = \frac{D_{max}}{N}$$
+                Increasing $N$ lowers spring rate and increases stroke capacity. Decreasing $N$ increases stiffness and squirm resistance. In this application, $\delta$ is small, so the spring rate is chosen to be low enough to allow for the required stroke while maintaining structural integrity.
+                \\~\\
+                When welded metal bellows are subjected to internal pressure, the pressure acts over an effective cross-sectional area and generates a net axial force. This pressure-induced force is independent of stroke and depends solely on system pressure and bellows geometry. In high-pressure hydrogen applications, this force typically dominates the actuator load requirement and therefore becomes a primary design driver.
+                \\~\\
+                The pressure required to compress the bellows any distance within its elastic range is given by:
+                $$P = \frac{K \delta}{A}$$
+                The maximum operating pressure of the bellows is considered the proof pressure, which is the pressure at which the bellows can be compressed to the required stroke without yielding. Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences lateral deformation. This occurs when the bellows are unrestrained from sideways movement and the internal pressure exceeds the bellows' ability to maintain its shape.
+                \\~\\
+                Burst Pressure is the maximum pressure the bellows can withstand while restrained from lateral movement. For this application, the bellows will be restrained from lateral movement by the valve body, so critical squirm pressure is not a primary concern. Therefore, the design is governed by the following relationship:
+                $$P_{operating} < P_{burst}$$
+                Where $P_{burst}$ is the maximum pressure the bellows can withstand without failure.
+                \\~\\
+                The equations above govern the selection process for the bellows parameters and define the acceptable diameter, wall thickness, convolution count, and material. The parameters of the selected bellows are as follows:
+                \begin{table}[H]
+                    \centering
+                    \caption{Bellows Parameters}
+                    \label{tab:bellows_parameters}
+                    \begin{tabularx}{\textwidth}{l X l}
+                        \toprule
+                        \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+                        \midrule
+                        $D_o$ &
+                        Outside convolution diameter &
+                        TODO: Insert value (in)
+                        \\\addlinespace
+                        $D_i$ &
+                        Inside convolution diameter &
+                        TODO: Insert value (in)
+                        \\\addlinespace
+                        $t$ &
+                        Wall thickness &
+                        TODO: Insert value (in)
+                        \\\addlinespace
+                        $L$ &
+                        Convolution free length &
+                        TODO: Insert value (in)
+                        \\\addlinespace
+                        $P_{burst}$ &
+                        Burst pressure &
+                        TODO: Insert value (psi)
+                        \\\addlinespace
+                        $N$ &
+                        Number of convolutions &
+                        TODO: Insert value
+                        \\\addlinespace
+                        Material &
+                        Chosen for strength and compatibility with hydrogen &
+                        TODO: Insert material
+                        \\\bottomrule
+                    \end{tabularx}
+                \end{table}
+                Justification for the selected parameters is based on the formulas above which yield the required stroke, spring force, and pressure resistance. The selected bellows meet the design constraints while minimizing actuator force demand and ensuring reliable operation under the specified conditions.
+
+
+
+    
 % ============================================================================
 % SECTION 4: PRELIMINARY BILL OF MATERIALS
 % ============================================================================
