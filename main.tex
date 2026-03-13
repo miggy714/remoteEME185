@@ -381,6 +381,32 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \end{tabularx}
     \end{table}
     \section{Selection criteria}
+
+    Since the preliminary design report, every subsystem decision has deviated since. After many iterations of designing and consulting with professionals,
+    our team selected the final design for each subsystem based on the following criteria:
+
+    1.  Linearity. The required relationship to hold the orifice geometry must be linear. As such, each susbsystem design preserves
+    this linear relationship by having a governing equation that ensures a linear input-output relationship. Each of our previous designs were at least second order if not higher
+    order. Therefore, choosing a design with this linear relationship became the impetus for our current design decisions.
+    
+    2.  Hydrogen compability. Since hydrogen or potentially other noble gases will be the working fluid, we chose a design that has no polymers,
+    elastomers, or permeable seals present in the flow path. The chosen "pizza cutter valve" meets the material requirements and design requirements
+    to be hydrogen compatible. 
+
+    3. Manufacturability. When thinking of the constraings for the design, we equally thought of the constraints to manufacture. We chose the current designs with this in mind. 
+    For instance, the valve is a single moving plate. The actuator is a single moving rod. While the size of these parts with respect to the mechanical envelope is a challenge in it of itself,
+    they avoid complex moving parts such as gear trains. 
+
+    4. Thermal isolation. The actuator rod is separated by the gas using the housing walls and bellows. The actuation signal responds to ambient temperature instead of the gas temperature.
+    With this design choice we can ensure a lack of heat transfer between the valve and the actuator that could otherwise impact performance. 
+
+    5. Pressure integrity. To meet the strenuous pressure requirement, we chose Inconel 718 bellows, a _____ actutaor, and an all-metal housing that should withstand the 68.95 MPa of pressure.
+
+    As stated in the criteria above, the required relationship, 
+
+
+
+    
         \todo{Clean up the following paragraphs or move to discussion}
         The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
