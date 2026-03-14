@@ -112,6 +112,7 @@
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
+\newcommand{\thermalStress}{\Delta L = L_0 \int \alpha(T)\, dt} %idk
 \newcommand{\specTempHigh}{80} %Celcius
 \newcommand{\specTempLow}{-60} %Celcius
 \newcommand{\specTempRef}{25} %Celcius
@@ -416,7 +417,31 @@ The \device\ and its constituent subsystems must facilitate this linear relation
     expansion as the mechanism is inherently hermetically sealed and has significantly less moving parts than something like a piston cylinder. We've chosen a singular $placeholderactuatormaterial$ thermal expansoin rod as our design choice.
 
     The actuator relies on thermal expansion of a single metallic rod whose change in length is governed by the following equation: $\govActuator$. This relationship can only be maintained as linear provided that the thermal
-    expansion constant $\alpha$ remains approximately constant throughout the operating temperature range. $placeholderactuatormaterial$ alloys exhibit at CTE of 
+    expansion constant $\alpha$ remains approximately constant throughout the operating temperature range. $placeholderactuatormaterial$ alloys exhibit at CTE of $placeholderCTEvalueactuator$, which varies by less than some percentage between
+    -60$\degC$ to -80$\degC$. This is well within the tolerance permitted by the $\pm$5\% uncertainty in $A_1$. 
+
+    % Paragraph 3: Actuator Advantages
+    This section discusses the advantages of the singular rod design.
+    \begin{enumerate}
+        \item The singular thermal expansion rod is mechanically simple. There are no bonded interfaces, no internal fluids, no phase transitions unlike the gas piston cylinder. Moreover, the design has no failure modes with delamination (bimetallic coils), non-linear volumetric expansion (wax piston), or gas leakage (gas piston cylinder).
+        \item The rod is entirely metallic and hydrogen-compatible. It satisfies the material requirment as there are no polymers. Most importantly, however, the rod is thermally isolated from the gas flow. The 20$\degC$ maximum temperature difference between the gas and ambient air does not corrupt the actuation process.
+        \item The rod can generated substantial force under constraint. The thermal stress formula: $\thermalStress$ shows forces on the order of several hundred newtons. This is quite impressive as the diamter of the actuator is quite small. This suggests that the actuator is more than capable of overcoming the spring forces of the bellows. Overall, this reinforces that the the system will actuate relaibly across the entire temperature range without failure. 
+    \end{enumerate}
+
+    % Paragraph 4: Valve Design Choice Explained
+    The chosen design choice for the valve is redfined version of the hexagonal aperature. The new valve design is a mechanism that consists of two flate plates--one fixed and one translating, each containing an identical rectangualr slot in the center. The plates are held in surface contact such that the overlap of the two slots defines the flow orifice.
+    When the actuator extends with increasing temperature, the overlap area is reduced and shrinks $D_eff$ as required. The overlap of these two identical triangles are offset vertically by a distance x. The design choice forms a rhombus. The area of that rhombus is critical as it depends linearly on that plate offset. It is this exact relationship that led us to choosing this as the primary design choice.
+    It is the only valve design that has a neat linear relationship to our knowledge. %insert linear relationship explanation and calculations
+
+    We ultimately selected the valve architecture over the hexagonal diaphragm for three main reasons:
+    \begin{enumerate}
+        \item Manufacturability. The sliding-plate design has only one moving part, which is the translating plate. This is abundantly simpler than the six interlocking trapezoidal blades of the hexagonal diaphragm. This reduces manufacting complexity and the number of interfaces where leakage could occur.
+        \item Linearity. As stated previously, the governing equation of the sliding-plate valve is the only valve design with a linear relationship. Every other valve design has at least a difference of squares if not higher order terms. This is a necessary design constraint that only the sliding-plate meets. 
+        \item Size. The sliding-plate can fit within the 10 $cm^3$ mechanical envelope. The hexagonal aperature was too complex to manufacture given its size. Moreover, after computing the necessary dimensions to determine functionality. The hexagonal aperature would need to be larger than the mechanical envelope to function as intended.
+    \end{enumerate}
+
+
+
 
 
 
