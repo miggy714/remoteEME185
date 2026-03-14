@@ -17,6 +17,7 @@
 % ---------- Graphics & Figures ----------
 \usepackage{graphicx}% THE core package for inserting images.
 % Usage: \includegraphics[width=0.8\textwidth]{filename.png}
+\graphicspath{{figures/}}
 \usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
 \usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
 % ---------- Tables ----------
@@ -165,14 +166,8 @@
     % --- Cover Photo: Sandia National Laboratories Aerial View ---
     \begin{center}
         % TODO: Uncomment the next line and provide the correct filename
-        % \includegraphics[width=\textwidth]{cover_photo.jpg}
+        \includegraphics[width=\textwidth]{SandiaNationalLabCoverPhoto2.jpg}
         % Placeholder rectangle if image is not yet available:
-        \fbox{\parbox[c][3in]{\textwidth}{%
-            \centering\Large\color{gray}%
-            [Sandia National Laboratories Aerial Photograph]\\[6pt]
-            \normalsize Place \texttt{cover\_photo.jpg} in the same folder\\
-            and uncomment the includegraphics line above.
-        }}
     \end{center}
     \vspace{0.4in}
     % --- UC Davis College of Engineering Logo ---
@@ -820,13 +815,8 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         \subsection{Bellows}
             \begin{figure}[H]
                     \centering
-                    % \includegraphics[width=0.85\textwidth]{holdfish.jpg}
-
-                    % Placeholder:
                     \fbox{
-                        \parbox[c][3in]{0.85\textwidth}{%
-                        \centering\Large%
-                        }   
+                        \includegraphics[width=0.85\textwidth]{holdfish.jpg} 
                     }
 
                     \caption{CAD model of the bellow}
