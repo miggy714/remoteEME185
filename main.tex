@@ -126,6 +126,8 @@
 \newcommand{\specDeffConstTwo}{0.254} %mm
 \newcommand{\specStroke}{0.01053} %inch
 \newcommand{\specPressureForceAxial}{placeholderaxialforce} % N
+\newcommand{\specActuatorMateria}{placeholderactuatormaterial} % No units
+\newcommand{\specActuatorCTE}{placeholderCTEvalueactuator} % 10^-6/ºC
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -390,9 +392,10 @@ The \device\ and its constituent subsystems must facilitate this linear relation
     \section{Subsystem Overview}
     \todo{This is where the description of the system architecture goes}
 
-
+    % Paragraph 1: Criteria Choice Established
     Since the preliminary design report, every subsystem decision has deviated since. After many iterations of designing and consulting with professionals,
     our team selected the final design for each subsystem based on the following criteria:
+
     \begin{enumerate}
         \item Linearity. The required relationship to hold the orifice geometry must be linear. As such, each susbsystem design preserves
         this linear relationship by having a governing equation that ensures a linear input-output relationship. Each of our previous designs were at least second order if not higher
@@ -407,7 +410,15 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         With this design choice we can ensure a lack of heat transfer between the valve and the actuator that could otherwise impact performance. 
         \item Pressure integrity. To meet the strenuous pressure requirement, we chose Inconel 718 bellows, a actutaor, and an all-metal housing that should withstand the 68.95 MPa of pressure.
     \end{enumerate}
-    As stated in the criteria above, the required relationship, 
+
+    % Paragraph 2: Actuator Design Choice Explained
+    In the first preliminary design report, the bimetallic thermal expansion rod was chosen as the actuator. However, it was later overruled for one critical reason: it could extend to the required amount needed
+    to actuate the valve without violating the mechanical envelope. After more discussion, we considered pursuing the gas piston cylinder. However, after extensive design two flaws made this design also obsolete. Firstly,
+    the gas piston cylinder was impossible to hermetically seal. Secondly, the overcoming the friction????  As such, we looked towards using thermal expansion to actuate the valve since any device that relies on thermal
+    expansion as the mechanism is inherently hermetically sealed and has significantly less moving parts than something like a piston cylinder. We've chosen a singular $placeholderactuatormaterial$ thermal expansoin rod as our design choice.
+
+    The actuator relies on thermal expansion of a single metallic rod whose change in length is governed by the following equation: $\govActuator$. This relationship can only be maintained as linear provided that the thermal
+    expansion constant $\alpha$ remains approximately constant throughout the operating temperature range. $placeholderactuatormaterial$ alloys exhibit at CTE of 
 
 
 
