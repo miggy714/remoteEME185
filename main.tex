@@ -501,6 +501,66 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 \label{sec:discussion}
     %--- BEGIN CONTENT ---
     \section{Valve}
+
+    \subsection{Design Requirement Updates}
+            \label{subsec:req_updates}
+
+            The core system-level requirements established in the Preliminary Design Report remained 
+            unchanged entering the detailed design phase: the valve must produce a linear change in 
+            effective diameter with respect to ambient temperature, and must withstand an internal 
+            operating pressure of 68.95 MPa. What changed substantially was the team's understanding 
+            of what could be physically realized given the scale of the device, the number of moving 
+            parts, and the tolerancing demands of precision machining at sub-millimeter orifice sizes.
+
+            The Preliminary Design Report selected the hexagonal diaphragm as the valve architecture 
+            on the strength of its theoretical properties. The hexagonal geometry was shown analytically 
+            to produce a linear relationship between actuator displacement and effective orifice diameter, 
+            and it performed well in the screening and scoring matrices on criteria such as force 
+            resistance and flow stability. However, as the team moved from concept into detailed design, 
+            it became clear that the hexagonal diaphragm presented fundamental manufacturability 
+            challenges that could not be resolved within the scope of this project. The design required 
+            six independent trapezoidal sliding plates, each interfacing with adjacent plates along 
+            precision-machined edges, all operating at an orifice scale thinner than the tip of a 
+            ballpoint pen. The tolerance stack-up across six moving parts at this scale introduced 
+            unquantifiable uncertainty in the effective diameter, and no feasible assembly sequence 
+            could be identified that would allow the device to be built, sealed against 68.95 MPa 
+            internal pressure, and calibrated reliably. The design was theoretically sound but 
+            physically unrealizable under the project constraints.
+
+            Following sponsor feedback and internal reassessment, the team reset its design assumptions 
+            and returned to the valve selection problem with manufacturability elevated to a primary 
+            constraint alongside linearity and pressure resistance. This shift in perspective produced 
+            a fundamentally different solution: a two-plate sliding valve consisting of one fixed plate 
+            and one moving plate. The orifice is formed by the overlap between an opening in the fixed 
+            plate and an opening in the moving plate. As the actuator displaces the moving plate, the 
+            overlapping area changes, producing a linear change in effective orifice diameter. The 
+            geometry satisfies the same linearity requirement as the hexagonal design but with a 
+            fraction of the part count and a straightforward machining and assembly path.
+
+            This simplification did not eliminate design complexity; it redirected it. By reducing 
+            the valve to two plates, the team was able to clearly identify and quantify three new 
+            subsystem-level design requirements that the hexagonal design had obscured: managing hoop 
+            stress in the valve housing under internal pressure, sealing the valve stem that drives the 
+            moving plate through the housing wall, and ensuring the structural integrity of all 
+            construction welds. These requirements are tractable and calculable in a way that the 
+            tolerance uncertainties of the hexagonal design were not, and they form the basis of the 
+            detailed analyses presented in the following sections.
+
+            The transition to the two-plate valve architecture allowed system-level specifications to 
+            be rolled down into clearly defined subsystem requirements for the first time. The 
+            operating pressure requirement of 68.95 MPa rolled down into a housing wall thickness 
+            specification governed by thick-wall hoop stress analysis, a weld joint quality requirement 
+            mandating radiographic inspection, and a stem seal 
+            specification requiring a bellows assembly capable of withstanding full internal pressure 
+            without leakage. The linearity requirement rolled down into a geometric constraint on the 
+            orifice plate overlap profile, which must be designed such that lateral displacement of 
+            the moving plate produces a proportional change in effective diameter across the full 
+            temperature operating range. The hydrogen 
+            compatibility requirement rolled down into the material specification of Inconel 718  and 316 stainless steel for 
+            all wetted components, driven by the need for hydrogen embrittlement resistance, 
+            low-temperature toughness, and weld compatibility between the valve stem and bellows 
+            assembly.
+
         \begin{table}[H]
             \centering
             \caption{Valve Specifications}
@@ -590,7 +650,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                 the orifice geometry must drive the rest of the design. Each plate, one fixed and one whose movement is controlled by the actuator, 
                 will contain identical rectangular holes near its center. The plates must maintain surface contact such that the overlap between the two holes creates the desired orifice. 
                 As the ambient temperature rises, the actuator expands, lowering the moving plate. Because its hole is below that of the fixed plate, the resulting orifice shrinks.
-    \subsection{Chassis/Housing}
+    \subsection{Valve Housing}
         \subsubsection{Design Requirement Updates}
         \subsubsection{Current Implementation}
 
@@ -598,8 +658,43 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
         The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
         The following equations are used to verify structural integrity under the specified conditions.
-        The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is analyzed for its ability to withstand the internal pressure.
+        The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 316 stainless steel and analyzed for its ability to withstand the internal pressure.
         Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
+
+        \begin{table}[H]
+                        \centering
+                        \caption{Valve Housing Parameter Values}
+                        \label{tab:housing_parameters}
+                        \begin{tabularx}{\textwidth}{l X l}
+                            \toprule
+                            \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+                            \midrule
+                            Material &
+                             &
+                            316 Stainless Steel
+                            \\\addlinespace
+                            $r_i$ &
+                            Inner radius &
+                            12.7 mm
+                            \\\addlinespace
+                            $t$ &
+                            Wall thickness &
+                            10.14 mm
+                            \\\addlinespace
+                            $r_o$ &
+                            Outer radius &
+                            22.84 mm
+                            \\\addlinespace
+                            $P$ &
+                            Internal pressure &
+                            68.95 MPa
+                            \\\addlinespace
+                            $S_y$ &
+                            Yield strength &
+                            290 MPa
+                            \\\bottomrule
+                        \end{tabularx}
+                    \end{table}
 
         Principal Stresses:
         $$\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{22.84^2 + 12.7^2}{22.84^2 - 12.7^2} \right) = 68.95 \left( \frac{521.67 + 161.29}{521.67 - 161.29} \right) \approx 130.6 \ \text{MPa} \quad (\text{Hoop Stress})$$
@@ -613,39 +708,88 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         $$FS = \frac{S_y}{\sigma_{vm}} = \frac{290}{172.8} \approx 1.68$$
         The wall thickness of $10.14\ \text{mm}$ produces a Von Mises stress of $172.8\ \text{MPa}$, yielding a factor of safety of $FS \approx 1.68$.
 
-        The three sections of the valve housing are joined using welded connections, which must be designed to withstand the internal pressure without failure.
-        Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure full penetration.
-        Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
-        LBW's high power density enables complete fusion across the interface, and the square butt profile is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured.
-        Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 Table 302.3.4.
-        The circumferential welds are certified to be free of defects such as porosity, lack of fusion, and cracking, all of which could significantly reduce joint strength.
-        \\~\\
-        The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code (Equation 3a), which governs the required minimum wall thickness as a function of the weld joint quality factor $E$:
-        $$t_{min} = \frac{P D_o}{2(SEW + PY)}$$
+        The three sections of the valve housing are joined using welded connections, which must be designed 
+to withstand the internal pressure without failure.
+Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
+full penetration \cite{steen2010laser}.
+Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
+LBW's high power density enables complete fusion across the interface, and the square butt profile 
+is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured 
+\cite{aws2020welding}.
+Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
+Table 302.3.4 \cite{asme_b313}.
+The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
+and cracking, all of which could significantly reduce joint strength \cite{aws2020welding}.
+\\~\\
+The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
+(Equation 3a) \cite{asme_b313}, which governs the required minimum wall thickness as a function 
+of the weld joint quality factor $E$:
+$$t_{min} = \frac{P D_o}{2(SEW + PY)}$$
 
-        The ASME allowable stress is derived directly from the housing yield strength using the standard code factor of $S = S_y / 1.5 = 290 / 1.5 = 193.3\ \text{MPa}$.
-        Per ASME B31.3 Table 302.3.4, the weld joint quality factor $E$ depends entirely on the level of examination applied:
+\begin{table}[H]
+    \centering
+    \caption{Weld Analysis Parameter Values}
+    \label{tab:weld_parameters}
+    \begin{tabularx}{\textwidth}{l X l}
+        \toprule
+        \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+        \midrule
+        $P$ &
+        Internal pressure &
+        68.95 MPa
+        \\\addlinespace
+        $D_o$ &
+        Outer diameter &
+        45.68 mm
+        \\\addlinespace
+        $S$ &
+        ASME allowable stress, $S_y$ / 1.5 &
+        193.3 MPa
+        \\\addlinespace
+        $W$ &
+        Weld strength reduction factor &
+        1.0
+        \\\addlinespace
+        $Y$ &
+        Coefficient for austenitic steels &
+        0.4
+        \\\addlinespace
+        $E$ &
+        Weld joint quality factor &
+        1.0
+        \\\bottomrule
+    \end{tabularx}
+\end{table}
 
-        \begin{itemize}
-            \item $E = 0.80$: Single butt weld with visual inspection only.
-            \item $E = 0.85$: Double butt weld or spot radiography.
-            \item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
-        \end{itemize}
+The ASME allowable stress is derived directly from the housing yield strength using the standard 
+code factor of $S = S_y / 1.5 = 290 / 1.5 = 193.3\ \text{MPa}$.
+Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
+on the level of examination applied:
 
-        With full radiography ($E = 1.00$), the minimum required wall thickness is:
-        $$t_{min} = \frac{68.95 \times 45.68}{2\left(193.3 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} = \frac{3149.6}{2\left(193.3 + 27.6\right)} = \frac{3149.6}{441.8} \approx 7.13 \ \text{mm}$$
-        Since $t_{min} = 7.13\ \text{mm} < t_{actual} = 10.14\ \text{mm}$, the design is verified.
-        The thickness safety factor at the weld joint is:
-        $$SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10.14}{7.13} \approx 1.42$$
-        \\~\\
-        As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis ($\sigma_\theta = 130.6\ \text{MPa}$) is compared directly against the weld joint allowable stress:
-        $$\sigma_{allow} = S \cdot E \cdot W = 193.3 \times 1.00 \times 1.0 = 193.3 \ \text{MPa}$$
-        $$\sigma_\theta = 130.6 \ \text{MPa} < \sigma_{allow} = 193.3 \ \text{MPa}$$
-        The weld joint stress safety factor is:
-        $$SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{193.3}{130.6} \approx 1.48$$
-        \\~\\
-        These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$), the weld joint introduces no strength penalty relative to the base material.
-        The joint is viable with a thickness margin of $3.01\ \text{mm}$ and a stress safety factor of $1.48$.
+\begin{itemize}
+    \item $E = 0.80$: Single butt weld with visual inspection only.
+    \item $E = 0.85$: Double butt weld or spot radiography.
+    \item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
+\end{itemize}
+
+With full radiography ($E = 1.00$), the minimum required wall thickness is:
+$$t_{min} = \frac{68.95 \times 45.68}{2\left(193.3 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
+= \frac{3149.6}{2\left(193.3 + 27.6\right)} = \frac{3149.6}{441.8} \approx 7.13 \ \text{mm}$$
+Since $t_{min} = 7.13\ \text{mm} < t_{actual} = 10.14\ \text{mm}$, the design is verified.
+The thickness safety factor at the weld joint is:
+$$SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10.14}{7.13} \approx 1.42$$
+\\~\\
+As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
+($\sigma_\theta = 130.6\ \text{MPa}$) is compared directly against the weld joint allowable stress 
+\cite{asme_b313}:
+$$\sigma_{allow} = S \cdot E \cdot W = 193.3 \times 1.00 \times 1.0 = 193.3 \ \text{MPa}$$
+$$\sigma_\theta = 130.6 \ \text{MPa} < \sigma_{allow} = 193.3 \ \text{MPa}$$
+The weld joint stress safety factor is:
+$$SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{193.3}{130.6} \approx 1.48$$
+\\~\\
+These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
+the weld joint introduces no strength penalty relative to the base material.
+The joint is viable with a thickness margin of $3.01\ \text{mm}$ and a stress safety factor of $1.48$.
 
     \subsection{Valve Stem}
         \subsubsection{Design Requirement Updates}
@@ -654,20 +798,8 @@ The \device\ and its constituent subsystems must facilitate this linear relation
         The valve stem transmits mechanical displacement from outside the valve to the orifice plate itself.
         The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
         The stem must withstand the axial actuation force without yielding or buckling.
+        It's material was selected to be 316 stainless steel for is manufacturability and weldability with the bellows and orfice plate.
 
-        Axial stress:
-        $$\sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}$$
-        The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $290\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 290 / 31.34 \approx 9.25$.
-        The stem therefore operates comfortably within its elastic range under the full actuation load, and the small diameter is justified by the low force demand.
-        \\~\\
-        Critical buckling load (Euler):
-        $$P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4$$
-        $$P_{cr} = \frac{\pi^2 (193{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 39{,}660 \ \text{N}$$
-        \\~\\
-        The stem is laterally guided at the top and bottom, making it a pin-pin column with $K_{column} = 1.0$ and an unsupported length of $L_{seg} = 10.54\ \text{mm}$.
-        The critical buckling load yields a buckling safety factor of $39{,}660 / 168.96 \approx 235$.
-        Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
-        \\~\\
         \begin{table}[H]
                 \centering
                 \caption{Valve Stem Parameter Values}
@@ -676,6 +808,10 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                     \toprule
                     \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
                     \midrule
+                    Material &
+                             &
+                    316 Stainless Steel
+                    \\\addlinespace
                     $d$ &
                     Stem diameter &
                     2.62 mm
@@ -702,6 +838,21 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                     \\\bottomrule
                 \end{tabularx}
             \end{table}
+
+        Axial stress:
+        $$\sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}$$
+        The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $290\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 290 / 31.34 \approx 9.25$.
+        The stem therefore operates comfortably within its elastic range under the full actuation load, and the small diameter is justified by the low force demand.
+        \\~\\
+        Critical buckling load (Euler):
+        $$P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4$$
+        $$P_{cr} = \frac{\pi^2 (193{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 39{,}660 \ \text{N}$$
+        \\~\\
+        The stem is laterally guided at the top and bottom, making it a pin-pin column with $K_{column} = 1.0$ and an unsupported length of $L_{seg} = 10.54\ \text{mm}$.
+        The critical buckling load yields a buckling safety factor of $39{,}660 / 168.96 \approx 235$.
+        Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
+        \\~\\
+
 
     \section{Actuator}
         \begin{table}[H]
@@ -861,29 +1012,8 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$.
 The spring force is proportional to deflection $\delta$.
 \\~\\
-Spring force:
-$$F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}$$
-The resulting spring force confirms that the stroke demand is well within the elastic operating range of the selected bellows.
-The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance under pressure while still producing a manageable spring load given the small stroke $\delta$.
-This balance between stiffness and stroke compliance is central to the optimized selection.
-\\~\\
-Total force required for actuation:
-$$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
-Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant.
-The term $F_{friction}$ accounts for any additional forces due to friction in the system, which is minimized through careful design and material selection.
-The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given the small mass of the stem.
-Together, these contributions result in a low total actuation force demand that is easily achievable with a compact actuator.
-\\~\\
-Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences lateral deformation.
-This occurs when the bellows is unrestrained from sideways movement and the internal pressure exceeds the bellows' ability to maintain its shape.
-Because the valve body provides lateral restraint, the bellows will not experience squirm, and the critical squirm pressure is therefore not a limiting factor in this design.
-\\~\\
-Burst pressure is the maximum pressure the bellows can withstand while laterally restrained.
-The design is governed by the following relationship:
-$$P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}$$
-For this application, the bellows carries a safety factor of 1.26 against burst.
-An optimized design targets a burst safety factor in this range, as too low a factor risks failure under overpressure events, while too high a factor necessitates a larger, stiffer bellows that increases spring load and actuator demand.
-                \begin{table}[H]
+
+\begin{table}[H]
                     \centering
                     \caption{Bellows Parameters}
                     \label{tab:bellows_parameters}
@@ -891,6 +1021,10 @@ An optimized design targets a burst safety factor in this range, as too low a fa
                         \toprule
                         \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
                         \midrule
+                        Material &
+                        Hydrogen Compatible &
+                        Inconel 718
+                         \\\addlinespace
                         $D_o$ &
                         Outside convolution diameter &
                         4.826 mm
@@ -922,13 +1056,49 @@ An optimized design targets a burst safety factor in this range, as too low a fa
                         $k$ &
                         Spring rate &
                         630.46 N/mm
-                        \\\addlinespace
-                        Material &
-                        Hydrogen Compatible &
-                        Inconel 718
                         \\\bottomrule
                     \end{tabularx}
                 \end{table}
+
+Spring force:
+$$F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}$$
+The resulting spring force confirms that the stroke demand is well within the elastic operating 
+range of the selected bellows \cite{miniflex_design}.
+The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance 
+under pressure while still producing a manageable spring load given the small stroke $\delta$.
+This balance between stiffness and stroke compliance is central to the optimized selection.
+\\~\\
+Total force required for actuation:
+$$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
+Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant.
+Per the Mini-Flex design guide, the force required to compress a bellows within its specified 
+range equals the spring rate multiplied by the travel::
+$$F_s = K \cdot \delta$$
+The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
+is minimized through careful design and material selection.
+The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given 
+the small mass of the stem.
+Together, these contributions result in a low total actuation force demand that is easily 
+achievable with a compact actuator.
+\\~\\
+Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences 
+lateral deformation \cite{miniflex_design}.
+This occurs when the bellows is unrestrained from sideways movement and the internal pressure 
+exceeds the bellows' ability to maintain its shape.
+As noted in the Mini-Flex design guide, squirm will not occur if the bellows is guided internally 
+or externally by a rod stem or used in a close-fitting bore \cite{miniflex_design}.
+Because the valve body provides lateral restraint, the bellows will not experience squirm, and 
+the critical squirm pressure is therefore not a limiting factor in this design.
+\\~\\
+Burst pressure is the maximum pressure the bellows can withstand while laterally restrained.
+The Mini-Flex design guide defines burst pressure as the minimum internal pressure that will not 
+result in fracture when the bellows is restrained from squirm or sideways movement \cite{miniflex_design}.
+The design is governed by the following relationship:
+$$P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}$$
+For this application, the bellows carries a safety factor of 1.26 against burst.
+An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
+under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
+increases spring load and actuator demand.
 
     
 % ============================================================================
@@ -1181,9 +1351,6 @@ or a similar tool and exported as an image.}
     \label{fig:gantt}
 \end{figure}
 
-\todo{Write a paragraph interpreting the Gantt chart. Highlight key
-milestones and any tasks that are ahead of or behind schedule.}
-
 %--- END CONTENT ---
 
 
@@ -1202,15 +1369,6 @@ project’s minimum duration. This path began with the fundamental tasks of spon
    directly postpone the prototyping of the conceptual model and the completion of the final report. The project concludes with the Critical
     Design Review, which serves as the final milestone on the critical path, ensuring all technical requirements and documentation converge
      for the successful closeout of the project.
-
-\todo{Write a paragraph describing:
-\begin{itemize}
-    \item What the critical path is (list the tasks)
-    \item Total project duration along the critical path
-    \item Which tasks have float (slack time)
-    \item What the analysis tells you about risk and scheduling
-    \item Any mitigation strategies for critical-path delays
-\end{itemize}}
 
 %--- END CONTENT ---
 
@@ -1256,6 +1414,23 @@ project’s minimum duration. This path began with the fundamental tasks of spon
     B.\ Bon,
     ``Passive Temperature Compensation Device --- Project Prompt,''
     Sandia National Laboratories, SAND2025-15446O, 2025.
+
+    \bibitem{asme_b313}
+    American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+    ASME, New York, NY, 2022.
+
+    \bibitem{steen2010laser}
+    W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+    Springer, London, UK, 2010.
+
+    \bibitem{aws2020welding}
+    American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
+    AWS, Miami, FL, 2020.
+
+    \bibitem{miniflex_design}
+    Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, 
+    Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+    [Accessed: Mar. 2026].
 
     \bibitem{ref_placeholder2}
     \todo{Add reference: textbook, paper, or technical standard}
