@@ -501,6 +501,40 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 \label{sec:discussion}
     %--- BEGIN CONTENT ---
     \section{Valve}
+    \begin{table}[H]
+            \centering
+            \caption{Valve Specifications}
+            \label{tab:valve specification}
+            \begin{tabularx}{\textwidth}{l X l}
+                \toprule
+                \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
+                \midrule
+                Mech.\ envelope &
+                $\leq$ \specVol\ cm$^3$ &
+                TODO: Insert volume of mechanism
+                \\\addlinespace
+                Pressure &
+                $\Delta P \leq 68.95$~MPa &
+                TODO: Insert FOS or necessary par.
+                \\\addlinespace
+                Eff.\ diameter &
+                $D_{\text{eff}}$ = 0.170--0.384~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Tolerance &
+                $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Fluid compatibility &
+                "High" free energy of reaction with noble gas &
+                TODO: Insert material prop.
+                \\\addlinespace
+                Sealing/Fluid diffusion &
+                TODO: Quantify seal quality somehow &
+                TODO: Insert corresponding spec
+                \\\bottomrule
+            \end{tabularx}
+        \end{table}
 
     \subsection{Design Requirement Updates}
             \label{subsec:req_updates}
@@ -561,40 +595,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             low-temperature toughness, and weld compatibility between the valve stem and bellows 
             assembly.
 
-        \begin{table}[H]
-            \centering
-            \caption{Valve Specifications}
-            \label{tab:valve specification}
-            \begin{tabularx}{\textwidth}{l X l}
-                \toprule
-                \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
-                \midrule
-                Mech.\ envelope &
-                $\leq$ \specVol\ cm$^3$ &
-                TODO: Insert volume of mechanism
-                \\\addlinespace
-                Pressure &
-                $\Delta P \leq 68.95$~MPa &
-                TODO: Insert FOS or necessary par.
-                \\\addlinespace
-                Eff.\ diameter &
-                $D_{\text{eff}}$ = 0.170--0.384~mm & 
-                TODO: Insert orifice geometry
-                \\\addlinespace
-                Tolerance &
-                $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
-                TODO: Insert orifice geometry
-                \\\addlinespace
-                Fluid compatibility &
-                "High" free energy of reaction with noble gas &
-                TODO: Insert material prop.
-                \\\addlinespace
-                Sealing/Fluid diffusion &
-                TODO: Quantify seal quality somehow &
-                TODO: Insert corresponding spec
-                \\\bottomrule
-            \end{tabularx}
-        \end{table}
+        
         \subsection{Orifice}
             \subsubsection{Design Requirement Updates}
             \label{subsec:req_updates}
