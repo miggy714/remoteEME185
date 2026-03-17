@@ -74,6 +74,7 @@
 % Format \chapter to look simple (no giant text, no separate page)
 \usepackage{pdfpages}
 % Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
+
 \titleformat{\chapter}
   {\LARGE\bfseries}  % format
   {}                % label
@@ -1230,6 +1231,10 @@ and the total estimated project cost.}
 \todo{Add any notes about budget constraints, contingency funds, or
 items awaiting price quotes.}
 
+\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+\label{fig:bom}
+
+
 %--- END CONTENT ---
 
 
@@ -1343,7 +1348,7 @@ items awaiting price quotes.}
 %--- BEGIN CONTENT ---
     An updated Gantt chart is provided in Figure \ref{fig:gantt}, which spans both the Winter and Spring quarters. 
     The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
-    The vertical dashed line represents the current date.
+    The vertical line represents the current date.
 
 \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
 \label{fig:gantt}
