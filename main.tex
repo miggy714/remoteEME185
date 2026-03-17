@@ -87,6 +87,9 @@
     pdfauthor={Team 16: Noble Aggie Labs},
     pdfsubject={EME-185A/B Senior Design, UC Davis},
 }
+%-----------For landscape pages----------
+\usepackage{pdflscape}
+
 
 
 % ============================================================================
@@ -104,7 +107,7 @@
 \newcommand{\coursename}{EME 185}
 \newcommand{\instructor}{Professor Jonathan Schofield}
 \newcommand{\ta}{Xiangpu Wang}
-\newcommand{\duedate}{16 March 2026}
+\newcommand{\duedate}{20 March 2026}
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
@@ -115,6 +118,8 @@
 \newcommand{\sbsValve}{Valve Mechanism}
 \newcommand{\sbsActuator}{Actuator}
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3 \mu m}
+\newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4 \mu m}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
@@ -134,6 +139,7 @@
 \newcommand{\specActuatorMaterial}{\textbf{placeholderactuatormaterial}} % No units
 \newcommand{\specActuatorCTE}{\textbf{placeholderCTEvalueactuator}} % 10^-6/ºC
 \newcommand{\specFriction}{\textbf{placeholderFrictionForce}} % N
+\newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -240,7 +246,7 @@
         Sam van der Veen\\[8pt]
     }
 
-    \vspace{0.8in}
+    \vspace{0.6in}
 
     {\Large\itshape \projecttitle}\\[12pt]
     {\large By the}\\[12pt]
@@ -278,23 +284,25 @@
 
 % PARGRAPH 1: Project objective and motivation
 Sandia National Laboratories (SNL) has tasked our senior design team, 
-\teamname\ to design a passive temperature compensation device (\device) that regulates flow in a pipe. 
+\teamname\, to design a passive temperature compensation device (\device) that regulates flow in a pipe. 
 Flow must be regulated by adjusting an orifice geometry according to a change in ambient air temperature.
-The \device\ must be purely thermo-mechanically driven, functioning without the reliance on embedded systems(electronics) or human input.
+The \device\ must be purely thermo-mechanically driven, functioning without the reliance on embedded systems (electronics) or human input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry is provided by SNL.
-Additionally, materials compatibility with the fluid --primarily noble gases-- must be considered.
-In order to meet these requirements, the \device\ will be divided into three main subsystems: (1) \sbsActuator, (2) \sbsInterface, (3) \sbsValve.
+Additionally, materials compatibility with the fluid -- which will be Hydrogen or a noble gas -- must be considered.
+In order to meet these requirements, the \device\ will be divided into three main subsystems: (1) \sbsActuator, which will passively expand or contract in response to temperature changes; (2) \sbsInterface, which will connect the actuator to the orifice; and (3) the \sbsValve, which will restrict the gas flow as it is driven by the actuator.
 
 % PARAGRAPH 2: Solution and progress to date
-This Preliminary Machine Architecture Report outlines how well the current iteration of the three main subsystems conform to the specified mathematical relationship.
-Explicitly, the relationship between the orifice diameter and the ambient temperature can be summarized as $\requiredRelationship$\ which will be referred to as the "required relationship" throughout this report.
-The \device\ and its constituent subsystems must facilitate this linear relationship between the characteristic orifice diameter and the ambient temperature. 
+This Preliminary Machine Architecture Report outlines the design requirements, specification rolldown, and how each subsystem meets those requirements.
+Our device will be inserted into the flow of high-pressure gas and must maintain the prescribed linear relationship between the ambient outside air temperature and the effective orifice diameter, with the endpoints $\coldBoundary$ and $\hotBoundary$. 
+Explicitly, this relationship can be summarized as $\requiredRelationship$\ which will be referred to as the "required relationship" throughout this report and is fully detailed in Appendix~\ref{app:requirements}. 
 \todo{Talk about sealing(bellows)}
 
 
 
 \chapter{System Architecture}
 \label{sec:system_architecture}
+
+\todo{Give top-level, qualitative overview of system requirements}
 
 % --- 2.1: Selection Criteria and Justification ---
 % WHY this design? Focus on positive attributes.
@@ -1149,6 +1157,7 @@ and the total estimated project cost.}
 %   c = centered, l = left-aligned, r = right-aligned
 %   p{width} = paragraph column with fixed width (for wrapping long text)
 
+\begin{landscape}
 \begin{longtable}{c l p{1.8in} c c c r}
 
     % --- Table Header (appears on every page) ---
@@ -1194,7 +1203,7 @@ and the total estimated project cost.}
     % ---- Subsystem: Actuator ----
     \multicolumn{7}{l}{\textbf{Actuator Subsystem}} \\
     \midrule
-    1 & \todo{Part name} & \todo{Description / McMaster \#} & \todo{1} & \todo{Steel} & P & \todo{XX.XX} \\
+    1 & Actuator rod & \todo{Description / McMaster \#} & 1 & Pure Aluminum & F & \todo{XX.XX} \\
     2 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{Al 6061} & F & \todo{XX.XX} \\
     \addlinespace
 
@@ -1219,11 +1228,12 @@ and the total estimated project cost.}
     \addlinespace
 
     % ---- Tooling (if any) ----
-    \multicolumn{7}{l}{\textbf{Special Tooling}} \\
-    \midrule
-    8 & \todo{Tooling item} & \todo{Description} & \todo{1} & --- & P & \todo{XX.XX} \\
+    % \multicolumn{7}{l}{\textbf{Special Tooling}} \\
+    % \midrule
+    % 8 & \todo{Tooling item} & \todo{Description} & \todo{1} & --- & P & \todo{XX.XX} \\
 
 \end{longtable}
+\end{landscape}
 
 % P/F Key
 \textbf{Key:} P = Purchased, F = Fabricated
@@ -1464,13 +1474,14 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 
 \newpage
 \begin{appendices}
+% \appendix         % SHOULD CHANGE LABELS TO A, B, etc
 
 
-% --- Appendix A: Updated Design Requirements ---
-\section{Updated Design Requirements}
+% --- Appendix A: Final Design Requirements ---
+\section{Final Design Requirements}
 \label{app:requirements}
 
-\todo{Include the final, updated requirements table here. This should
+\todo{Include the final, updated requirements table here. Begin with overall requirements; include reference to error propagation calculations. This should
 reflect any changes discussed in Section~\ref{subsec:req_updates}.
 Organize by category (system-level, actuator, valve, housing, etc.).
 Include the subsystem-level rolldown specifications.}
