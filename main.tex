@@ -72,6 +72,8 @@
 %----------- Title/Chapter formatting -----------------
 \usepackage{titlesec}
 % Format \chapter to look simple (no giant text, no separate page)
+\usepackage{pdfpages}
+% Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
 \titleformat{\chapter}
   {\LARGE\bfseries}  % format
   {}                % label
@@ -332,6 +334,33 @@ The \device\ and its constituent subsystems must facilitate this linear relation
     \end{figure}
 
 
+
+    % NOTE: THE FOLLOWING ARE NOT RENDERS. THEY WILL ENED TO REPLACED
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=4in]{Main_isometric.png}
+
+        \caption{Complete assembly}
+        \label{fig:mainIsometric}
+        \end{figure}
+
+        \begin{figure}[H]
+        \centering
+        \includegraphics[height=4in]{Main_exploded_partial.png}
+
+        \caption{Complete assembly exploded view with unexploded subassemblies}
+        \label{fig:mainExplodedPartial}
+    \end{figure}
+
+    % \begin{figure}[H]
+    %     \centering
+    %     \includegraphics[height=4in]{Figures/Main_exploded_full.png}
+
+    %     \caption{Complete assembly exploded view with unexploded subassemblies}
+    %     \label{fig:mainExplodedFull}
+    % \end{figure}
+
     \begin{table}[H]
         \centering
         \caption{Overall requirements and specifications summary}
@@ -370,35 +399,6 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             \\\bottomrule
         \end{tabularx}
     \end{table}
-
-
-    % NOTE: THE FOLLOWING ARE NOT RENDERS. THEY WILL ENED TO REPLACED
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=4in]{Main_isometric.png}
-
-        \caption{Complete assembly}
-        \label{fig:mainIsometric}
-        \end{figure}
-
-        \begin{figure}[H]
-        \centering
-        \includegraphics[height=4in]{Main_exploded_partial.png}
-
-        \caption{Complete assembly exploded view with unexploded subassemblies}
-        \label{fig:mainExplodedPartial}
-    \end{figure}
-
-    % \begin{figure}[H]
-    %     \centering
-    %     \includegraphics[height=4in]{Figures/Main_exploded_full.png}
-
-    %     \caption{Complete assembly exploded view with unexploded subassemblies}
-    %     \label{fig:mainExplodedFull}
-    % \end{figure}
-
-
     \section{Selection criteria}
     % Paragraph 1: Criteria Choice Established
     Since the preliminary design report, every subsystem decision has deviated since. After many iterations of designing and consulting with professionals,
@@ -556,7 +556,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             The core system-level requirements established in the Preliminary Design Report remained 
             unchanged entering the detailed design phase: the valve must produce a linear change in 
             effective diameter with respect to ambient temperature, and must withstand an internal 
-            operating pressure of 68.95 MPa. What changed substantially was the team's understanding 
+            operating pressure of \specPressure\ MPa. What changed substantially was the team's understanding 
             of what could be physically realized given the scale of the device, the number of moving 
             parts, and the tolerancing demands of precision machining at sub-millimeter orifice sizes.
 
@@ -571,7 +571,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
             precision-machined edges, all operating at an orifice scale thinner than the tip of a 
             ballpoint pen. The tolerance stack-up across six moving parts at this scale introduced 
             unquantifiable uncertainty in the effective diameter, and no feasible assembly sequence 
-            could be identified that would allow the device to be built, sealed against 68.95 MPa 
+            could be identified that would allow the device to be built, sealed against \specPressure\ MPa 
             internal pressure, and calibrated reliably. The design was theoretically sound but 
             physically unrealizable under the project constraints.
 
@@ -596,7 +596,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
 
             The transition to the two-plate valve architecture allowed system-level specifications to 
             be rolled down into clearly defined subsystem requirements for the first time. The 
-            operating pressure requirement of 68.95 MPa rolled down into a housing wall thickness 
+            operating pressure requirement of \specPressure\ MPa rolled down into a housing wall thickness 
             specification governed by thick-wall hoop stress analysis, a weld joint quality requirement 
             mandating radiographic inspection, and a stem seal 
             specification requiring a bellows assembly capable of withstanding full internal pressure 
@@ -643,7 +643,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                         TODO: Insert volume of mechanism
                         \\\addlinespace
                         Pressure &
-                        $\Delta P \leq 68.95$~MPa &
+                        $\Delta P \leq \specPressure$~MPa &
                         TODO: Insert FOS or necessary par.
                         \\\addlinespace
                         Eff.\ diameter &
@@ -702,7 +702,7 @@ The \device\ and its constituent subsystems must facilitate this linear relation
                             \\\addlinespace
                             $P$ &
                             Internal pressure &
-                            68.95 MPa
+                            \specPressure\ MPa
                             \\\addlinespace
                             $S_y$ &
                             Yield strength &
@@ -751,7 +751,7 @@ $$t_{min} = \frac{P D_o}{2(SEW + PY)}$$
         \midrule
         $P$ &
         Internal pressure &
-        68.95 MPa
+        \specPressure\ MPa
         \\\addlinespace
         $D_o$ &
         Outer diameter &
@@ -1085,10 +1085,7 @@ This balance between stiffness and stroke compliance is central to the optimized
 \\~\\
 Total force required for actuation:
 $$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
-Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant.
-Per the Mini-Flex design guide, the force required to compress a bellows within its specified 
-range equals the spring rate multiplied by the travel::
-$$F_s = K \cdot \delta$$
+Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant. 
 The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
 is minimized through careful design and material selection.
 The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given 
@@ -1344,27 +1341,12 @@ items awaiting price quotes.}
 \label{subsec:gantt}
 
 %--- BEGIN CONTENT ---
+    An updated Gantt chart is provided in Figure \ref{fig:gantt}, which spans both the Winter and Spring quarters. 
+    The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
+    The vertical dashed line represents the current date.
 
-\todo{Insert your Gantt chart. This is typically created in Excel, MS Project,
-or a similar tool and exported as an image.}
-
-\begin{figure}[H]
-    \centering
-    % \includegraphics[width=\textwidth]{gantt_chart.png}
-
-    % Placeholder:
-    \fbox{\parbox[c][3in]{\textwidth}{%
-        \centering\Large\color{gray}%
-        [Gantt Chart --- Two Quarters]\\[6pt]
-        \normalsize Export from Excel/MS Project as PNG or PDF.\\
-        Must span Winter 2026 through Spring 2026.\\
-        Show current progress with a vertical ``today'' line.
-    }}
-
-    \caption{Updated Gantt chart spanning Winter and Spring quarters.
-    The vertical dashed line indicates the current date.}
-    \label{fig:gantt}
-\end{figure}
+\includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
+\label{fig:gantt}
 
 %--- END CONTENT ---
 
@@ -1424,7 +1406,6 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 % Change to [9] if you have fewer than 10 references.
 
 \begin{thebibliography}{99}
-    % Maintain format if possingle \bibitem{ref_nameofreference}
 
     \bibitem{ref_sandiaprompt}
     B.\ Bon,
