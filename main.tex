@@ -436,42 +436,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \begin{figure}[H]
             \centering
-
-            \fbox{\parbox[c][3in]{0.85\textwidth}
-                {
-                \centering\Large%
-                \begin{tikzpicture}[
-                    block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
-                    sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
-                    >=Stealth
-                ]
-
-                    \node[block] (interface)                        {\sbsInterface};
-                    \node[block] (actuator) [above = of interface]  {\sbsActuator};
-                    \node[block] (valve)    [below = of interface]  {\sbsValve};
-
-                    \node(temp_input)   [left = of actuator]   {$\Delta T$};
-                    \node(diam_output)  [right = of valve]      {$\Delta D_{\text{effective}} = k_2 \Delta X$};
-
-                    \draw[->] (temp_input) -- (actuator);
-                    \draw[->] (valve) -- (diam_output);
-                    \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
-                    \draw[->] (interface) to node[right] {$\Delta X =  \Delta L$} (valve);
-
-                \end{tikzpicture}
-                }   
-            }
-
-            \caption{Controls diagram of the  \device. Outlines the overall flow of inputs
-            and outputs across the subsystems.}
-            \label{fig:controls_diagram}
-        \end{figure}
-
-        \todo{Update the above with this}
-
-        \begin{figure}[H]
-            \centering
-            \includegraphics[height=2in]{controls_diagram.png}
+            \includegraphics[height=2in]{holdfish.png}
             \caption{new controls diagram. Program in Latex as above.}
         \end{figure}
 
