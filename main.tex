@@ -1130,7 +1130,61 @@ The joint is viable with a thickness margin of $3.01\ \text{mm}$ and a stress sa
                     \\\bottomrule
                 \end{tabularx}
             \end{table}
-    \section{Interface}
+    \section{Mount}
+    \begin{table}[H]
+            \centering
+            \caption{Mount Specifications}
+            \label{tab:mount specification}
+            \begin{tabularx}{\textwidth}{l X l}
+                \toprule
+                \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
+                \midrule
+                Mech.\ envelope &
+                $\leq$ \specVol\ cm$^3$ &
+                TODO: Insert volume of mechanism
+                \\\addlinespace
+                Structural stiffness &
+                $\Delta P \leq 68.95$~MPa &
+                TODO: Insert FOS or necessary par.
+                \\\addlinespace
+                Thermal stability? &
+                $D_{\text{eff}}$ = 0.170--0.384~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Calibration &
+                $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+                TODO: Insert orifice geometry
+                \\\addlinespace
+                Fastener integrity &
+                "High" free energy of reaction with noble gas &
+                TODO: Insert material prop.
+                \\\bottomrule
+            \end{tabularx}
+        \end{table}
+
+        \subsection{Design Requirement Updates}
+
+        % Paragraph 1
+        In the original Preliminary Design Report, we did not treat the mount as a subsystem requiring independent analysis. It was solely described as rigid structural frame whose function was to hold
+        the actuator above the valve housing. In this detailed design phase, we relaized that we needed to broaden our understanding of this design piece. The moust in not merely a structural bracket, but a dynamic
+        element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
+
+        The crux of the matter is that the actuator rod is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
+        rod expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
+        delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
+        expansion that directly affects the displacement that substracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specificed endpoints.
+
+        
+
+
+
+        only thermal expansion in mount need to worry about is the a frame 
+
+
+
+
+
+
         \begin{table}[H]
             \centering
             \caption{PLACEHOLDER Interface Specifications}
