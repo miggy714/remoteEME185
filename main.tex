@@ -423,7 +423,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         
         A rigid mount suspends the thermal actuator, a block of aluminum, above the assembly. 
         The valve stem is welded to the free base of the actuator such that, as the ambient temperature increases, the actuator base extends downwards, driving the valve stem and central plate downwards with it and closing the valve orifice. 
-        As the temperature decreases, the actuator pulls the central plate back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$ m, driving the valve an equal distance.
+        As the temperature decreases, the actuator pulls the central plate back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
 
         \begin{figure}[H]
             \centering
@@ -433,6 +433,17 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \end{figure}
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram} .
+        According to control systems theory, a passive device is represented by an open-loop control diagram with no sensor feedback.
+        The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation
+
+        \begin{equation}
+            D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dX}{dT}+X\left(T_{ref} \right) \right]
+        \end{equation}
+
+        
+
+        \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
+
 
         \begin{figure}[H]
             \centering
