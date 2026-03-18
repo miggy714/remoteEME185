@@ -524,6 +524,8 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
     \section{Valve Subsystem}
     \label{sec:valve_sub_description}
 
+       \todo{Reference relevant figures}
+
     % Paragraph 1
     The valve subsystem is a two-plate sliding orifice mechanism colloquialy referred to as the "pizza cutter" valve. It is comprised by one fixed plate and one translating plate. Both contain identical square holes cut in the center. The two plates maintain a surface contact.
     The square holes of both the fixed plate and translating plate are rotated 45º relative to each other. The overlap of these two holes forms a diamond shaped orifice through which gas flows. The translating plate is driven vertically by the valve stem leading to the overlap region
@@ -542,14 +544,11 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
     % Paragraph 4
     It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel and Invar 36 are fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
     prevents any gas leakage to the enviornemnt. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirment. See Section 3.1 for more details. 
-
-        \todo{For each subsystem below, list the specifications in detail.
-            Describe the function of the subsystem and its components with as many helpful renders as needed.
-            Use screenshots as placeholders for the renders.}
         
-
     \section{Actuator Subsystem}
     \label{sec:act_sub_description}
+
+    \todo{Reference relevant figures}
 
     % Paragraph 1
     The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
@@ -568,12 +567,34 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
     \section{Mount Subsystem}
     \label{sec:mount_sub_description}
 
-    % Paragraph 1
-    The mount subsystem is a rigid structural frame fabricated from 1018 Cold-rolled steel. The function is to fix the actuator and valve housing such that the thermal expansion of the actuator rod is transmitted entirely into valve stem. Having the rigid fram enables the transmission to be direct eliminating the possibility of relative motion lost
-    between components. 
+    \todo{Reference relevant figures}
 
-    Bottom plate, two symmetrical trapezoidal mounts that serve to weld the top of actuator securing actuator. Both trapezoidal mounts are secured by 8 fasteners. not part of the purview of the mount, but the valve stem and actuator are laser welded and secured.
-    trapezoidal holes in design are what allows the weld to occur.  
+    % Paragraph 1
+    The mount subsystem is a rigid structural frame fabricated from 1018 Cold-rolled steel. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
+
+    % Paragraph 2
+    The two trapezoidal mount plates are fabricated from 1018 cold-rolled steel. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in figure xyz. The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
+    The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
+    reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accomodate the welding toolpath rather than requiring the weld to be made before the assembly.
+
+    % Paragrpah 3
+    The valve housing is the grey body that contains the pipe, orifice platesm and bellows. This housing sits nested on top of the fixture. On top of the housing is the calibration stack of washers and the A-frame mount. While the fixture is a flat plate of 1018 Cold-rolled steel, it is not part of the mechanical envelope. However, the fixture does serve as the base for the entire PTCD
+    assembly and provides the surface for the fastener clamping load. 
+
+    % Pargraph 4
+    The eight socket head cap screws secure the mount plates to the fixture. Each fastener passes through the mount from the top through the housing and threads into the fixture at the base. On top of the mount, each scew is seated against a stainless steel washer to distribute the clamping load. Between the underside of the mount and the top face of the housing, three washers are stacked in the following order (top to bottom):
+    \begin{enumerate}
+        \item One annealed copper crush washer
+        \item One thin steel shim washer
+        \item One thick steel shim washer
+    \end{enumerate}
+    This three washer stacks has two functional purppose. Firstly, the crush washer deforms plastically under clamping load to conform to surface irregularities between the mount and housing--enabling a reliable and level seating surface. Secondly, the thin and thick shim washers provide discrete height adjustment.
+    By selecting or combining the shim thicknesses are we able to set the precise vertical offset between the mount's acutator anchor point and the valve housing. This shimming capabliity is the primary calibration mechanism for the PTCD, as the assemble can be shimmed to the correct actuator-to-valve distance during final assembly and testing rather than machining each component to exact final dimensions.
+
+    % Pargraph 5
+    Since the mount and fixture sit entirely outside the pressure boundary and are never exposed to the working gase, hydrogen compabitility is not a driving material constraint for these components. The selection of 1018 Cold-rolled steel is governed by machinability, cost, and structural stiffness. The mount is important because it must be stiff enough that its deflection under the actuator's thermal forces is negligible compared 
+    to the 267 $\mu$m total actuator stroke. The cross-sectional geometry of the trapezoidal plates coupled with the stiffness of 1018 steel, satisfies this requirement. 
+    
 
 
 
