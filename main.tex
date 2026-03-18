@@ -434,21 +434,45 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram} .
         According to control systems theory, a passive device is represented by an open-loop control diagram with no sensor feedback.
-        The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation
+        The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
+
+        \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
 
         \begin{equation}
             D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dX}{dT}+X\left(T_{ref} \right) \right]
+            \label{eq: transfer_function}
         \end{equation}
 
-        
+        This must equal the Required Relationship in equation \ref{eq: required_relationship}. 
+        Therefore,
 
-        \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
+        \begin{equation}
+            \frac{dD_{eff}}{dX} \cdot \frac{dX}{dT} = A_1
+            \label{eq:actuator_control}
+        \end{equation}
+
+        The control derivative $\frac{dX}{dT}$ will be governed by the actuator subsystem. 
+
+        \begin{equation}
+            \frac{dD_{eff}}{dX} \cdot X(T_{ref}) = A_0
+            \label{eq:mount_control}
+        \end{equation}
+
+        The constant $X(T_{ref})$ is governed by the mount subassembly.
+        Finally,
+
+        \begin{equation}
+            \frac{dD_{eff}}{dX} = \sqrt{\frac{2}{\pi}}
+            \label{eq:valve_control}
+        \end{equation}
+
+         as calculated in Appendix \ref{app:calculations}. The control derivative $\frac{dD_{eff}}{dX}$ is governed by the valve subassembly.
 
 
         \begin{figure}[H]
             \centering
             \includegraphics[height=3in]{controls_diagram.png}
-            \caption{new controls diagram. Program in Latex as above.}
+            \caption{\device open-loop control diagram}
             \label{fig:controls_diagram}
         \end{figure}
 
@@ -456,7 +480,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
     \section{Valve Subsystem}
     \label{sec:valve_sub_description}
-<<<<<<< HEAD
 
     % Paragraph 1
     The valve subsystem is a two-plate sliding orifice mechanism colloquialy referred to as the "pizza cutter" valve. It is comprised by one fixed plate and one translating plate. Both contain identical square holes cut in the center. The two plates maintain a surface contact.
@@ -477,8 +500,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
     It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel and Invar 36 are fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
     prevents any gas leakage to the enviornemnt. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirment. See Section 3.1 for more details. 
 
-=======
->>>>>>> cf03c3d020426de2f8efeb6217f85307bf77611b
         \todo{For each subsystem below, list the specifications in detail.
             Describe the function of the subsystem and its components with as many helpful renders as needed.
             Use screenshots as placeholders for the renders.}
