@@ -1,5 +1,3 @@
-%Sam test
-
 % ============================================================================
 % SECTION 0: DOCUMENT CLASS AND PREAMBLE
 % ============================================================================
@@ -416,6 +414,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \label{fig:mainExploded}
         \end{figure}
 
+        \todo{Add an assembly with all the parts exploded}
     
         The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
         One plate is fixed to the valve housing; the other is free to move vertically as driven by valve stem. 
@@ -477,6 +476,8 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \caption{\device open-loop control diagram}
             \label{fig:controls_diagram}
         \end{figure}
+
+
 
 
 
@@ -1277,6 +1278,11 @@ For this application, the bellows carries a safety factor of 1.26 against burst.
 An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
 under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
 increases spring load and actuator demand.
+
+    \section{System Compliance}
+
+        \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.}
+
 
     
 % ============================================================================
