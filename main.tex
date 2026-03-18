@@ -89,6 +89,9 @@
 }
 %-----------For landscape pages----------
 \usepackage{pdflscape}
+\usepackage{tikz}
+    \usetikzlibrary{patterns}
+    \usetikzlibrary{patterns,intersections}
 
 
 
@@ -305,73 +308,197 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 \chapter{System Architecture}
 \label{sec:system_architecture}
 
-\todo{Give top-level, qualitative overview of system requirements}
+    % \todo{Give top-level, qualitative overview of system requirements}
+
+    \section{System requirements}
+    \label{sec:initial_system_requirements}
+        Sandia National Labs provided us with exactly two system requirements, 
+        defined precisely as follows:
+
+        \begin{enumerate}
+            \item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
+            
+                \begin{equation}
+                    \requiredRelationship
+                    \label{eq: required_relationship}
+                \end{equation}
+
+                Where:
+                \begin{align*}
+                    &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+                    \\
+                    &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+                    \\
+                    &T_{\text{reference}} = \specTempRef \degC
+                    \\
+                    &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
+                \end{align*}
+
+            \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
+        \end{enumerate}
+        
+        These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
+
+        Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
+
+        \begin{equation}
+            \coldBoundary
+            \label{eq: coldBoundary}
+        \end{equation}
+        
+        \begin{equation}
+            \hotBoundary
+            \label{eq: hotBoundary}
+        \end{equation}
+
+        \todo{Insert reference to tolerance calculations. Show graph of tolerance as a function of T;
+            mention that this is a nonuniform tolerance and is smallest at Tref}
+
+        \todo{Include definition of effective diameter}
+        
+        In order to passively drive the valve orifice diameter by ambient temperature change, 
+        our team developed three subarchitectures:
+        a valve, to restrict the flow;
+        an actuator, to drive the valve movement,
+        and a mount, to fix the relative positions of the two.
+
+        In addition to these requirements, our sponsor supplied us with the following design conditions:
+        
+        \begin{enumerate}
+            \item The upstream gas pressure $P$ will lie within the range $100\ \text{psi} \leq P \leq 10{,}000\ \text{psi}$.
+            \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 60 \degC$.
+            \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
+            \item The gas will be a noble gas or Hydrogen.
+            \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
+            \item The ambient temperature will remain fixed during operation.
+            \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
+        \end{enumerate} 
+        
+        The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
+        and isolate the temperature-sensitive device controller
+        from heat transfer from the internal gas for a full minute during operation.
+        Hydrogen is apt to diffuse through flexible surfaces; thus, the device must be compatible with Hydrogen and prevents its diffusion.
+        This leaves little room for additional design criteria. Each subsystem must accomplish its mission to extremely small tolerance
+        despite these conditions and any errors introduced by every other subsystem.
+        
+        Thus, to maximize the \device 's potential for success, we proceeded with one chief criteria beyond the necessary specifications:
+        the selected architecture should be as simple as possible. Through several iterative changes,
+        we developed the following system architecture.
+
+    \section{System Architecture Overview}
+    \label{sec:sys_arch_overview}
+        
+        Figure \ref{fig:mainIsometric} shows the complete virtual model of the \device,
+        developed using computer-aided design (CAD) software.
+        A partial exploded view is shown in figure \ref{fig:mainExploded} .
+        The gray housing holds the valve subassembly. It sits nested in the tan mount subassembly.
+        The gray actuator block is mounted between the top inside face of the mount and the top of the valve stem that protrudes from the housing.
+
+        \todo{Subsystem callouts here?}
+
+        % NOTE: THE FOLLOWING ARE NOT RENDERS. THEY WILL ENED TO REPLACED
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=4in]{Main_isometric.png}
+
+            \caption{Complete assembly}
+            \label{fig:mainIsometric}
+            \end{figure}
+
+            \begin{figure}[H]
+            \centering
+            \includegraphics[height=4in]{Main_exploded.png}
+
+            \caption{Complete assembly exploded view with unexploded subassemblies}
+            \label{fig:mainExploded}
+        \end{figure}
+
+    
+        The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
+        One plate is fixed to the valve housing; the other is free to move vertically as driven by valve stem. 
+        The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
+        If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig: orifice}, the overlap between these squares constitutes the valve orifice. 
+        The lower (blue) square lies on the moving plate, referred to as the “central plate” in this report, such that as the valve stem drives the plate downwards, the valve orifice (represented by the gray square) constricts.
+        
+        A rigid mount suspends the thermal actuator, a block of aluminum, above the assembly. 
+        The valve stem is welded to the free base of the actuator such that, as the ambient temperature increases, the actuator base extends downwards, driving the valve stem and central plate downwards with it and closing the valve orifice. 
+        As the temperature decreases, the actuator pulls the central plate back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$ m, driving the valve an equal distance.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=2in]{orifice.png}
+            \caption{Orifice overlap region defined by two rotated squares with internal flow lines.}
+            \label{fig: orifice}
+        \end{figure}
+
+        Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram} .
+
+        \begin{figure}[H]
+            \centering
+
+            \fbox{\parbox[c][3in]{0.85\textwidth}
+                {
+                \centering\Large%
+                \begin{tikzpicture}[
+                    block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
+                    sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
+                    >=Stealth
+                ]
+
+                    \node[block] (interface)                        {\sbsInterface};
+                    \node[block] (actuator) [above = of interface]  {\sbsActuator};
+                    \node[block] (valve)    [below = of interface]  {\sbsValve};
+
+                    \node(temp_input)   [left = of actuator]   {$\Delta T$};
+                    \node(diam_output)  [right = of valve]      {$\Delta D_{\text{effective}} = k_2 \Delta X$};
+
+                    \draw[->] (temp_input) -- (actuator);
+                    \draw[->] (valve) -- (diam_output);
+                    \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
+                    \draw[->] (interface) to node[right] {$\Delta X =  \Delta L$} (valve);
+
+                \end{tikzpicture}
+                }   
+            }
+
+            \caption{Controls diagram of the  \device. Outlines the overall flow of inputs
+            and outputs across the subsystems.}
+            \label{fig:controls_diagram}
+        \end{figure}
+
+        \todo{Update the above with this}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=2in]{controls_diagram.png}
+            \caption{new controls diagram. Program in Latex as above.}
+        \end{figure}
+
+
+
+    \section{Valve Subsystem}
+    \label{sec:valve_sub_description}
+        \todo{For each subsystem below, list the specifications in detail.
+            Describe the function of the subsystem and its components with as many helpful renders as needed.
+            Use screenshots as placeholders for the renders.}
+        
+
+    \section{Actuator Subsystem}
+    \label{sec:act_sub_description}
+        lorem ipsum
+
+    \section{Mount Subsystem}
+    \label{sec:mount_sub_description}
+        lorem ipsum
+
+
+
+
 
 % --- 2.1: Selection Criteria and Justification ---
 % WHY this design? Focus on positive attributes.
 % Reference your concept screening/scoring matrices (Appendix).
-
-    \begin{figure}[H]
-        \centering
-        % \includegraphics[width=0.85\textwidth]{system_assembly_isometric.png}
-
-        % Placeholder:
-        \fbox{\parbox[c][3in]{0.85\textwidth}{%
-            \centering\Large%
-            \begin{tikzpicture}[
-                block/.style={draw, rectangle, minimum height=2em, minimum width=4em},
-                sum/.style={draw, circle, inner sep=0pt, minimum size=6mm},
-                >=Stealth
-            ]
-
-                \node[block] (interface)                        {\sbsInterface};
-                \node[block] (actuator) [above = of interface]  {\sbsActuator};
-                \node[block] (valve)    [below = of interface]  {\sbsValve};
-
-                \node(temp_input)   [left = of actuator]   {$\Delta T$};
-                \node(diam_output)  [right = of valve]      {$\Delta D_{\text{effective}} = k_2 \Delta X$};
-
-                \draw[->] (temp_input) -- (actuator);
-                \draw[->] (valve) -- (diam_output);
-                \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
-                \draw[->] (interface) to node[right] {$\Delta X =  \Delta L$} (valve);
-
-            \end{tikzpicture}
-        }   
-    }
-
-        \caption{Controls diagram of the  \device. Outlines the overall flow of inputs
-        and outputs across the subsystems.}
-        \label{fig:controls_diagram}
-    \end{figure}
-
-
-
-    % NOTE: THE FOLLOWING ARE NOT RENDERS. THEY WILL ENED TO REPLACED
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=4in]{Main_isometric.png}
-
-        \caption{Complete assembly}
-        \label{fig:mainIsometric}
-        \end{figure}
-
-        \begin{figure}[H]
-        \centering
-        \includegraphics[height=4in]{Main_exploded_partial.png}
-
-        \caption{Complete assembly exploded view with unexploded subassemblies}
-        \label{fig:mainExplodedPartial}
-    \end{figure}
-
-    % \begin{figure}[H]
-    %     \centering
-    %     \includegraphics[height=4in]{Figures/Main_exploded_full.png}
-
-    %     \caption{Complete assembly exploded view with unexploded subassemblies}
-    %     \label{fig:mainExplodedFull}
-    % \end{figure}
 
     \begin{table}[H]
         \centering
@@ -411,7 +538,8 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \\\bottomrule
         \end{tabularx}
     \end{table}
-    \section{Selection criteria}
+
+    \section{Selection Criteria}
     % Paragraph 1: Criteria Choice Established
     Since the preliminary design report, every subsystem decision has deviated since. After many iterations of designing and consulting with professionals,
     our team selected the final design for each subsystem based on the following criteria:
@@ -470,21 +598,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \todo{Clean up the following paragraphs or move to discussion}
         The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
 
-        \begin{equation}
-            \requiredRelationship
-            \label{eq: required_relationship}
-        \end{equation}
-
-        Where:
-        \begin{align*}
-            &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
-            \\
-            &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
-            \\
-            &T_{\text{ref}} = \specTempRef \degC
-            \\
-            &T_{ambient}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
-        \end{align*}
         (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
         The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
 
