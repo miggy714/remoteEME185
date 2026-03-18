@@ -489,12 +489,12 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
     either shrinking or growing, thus changing the effective flow area. 
 
     % Paragraph 2
-    The critical property of this geometry is that the area of the diamond orifice depends linearly on the vertical offset between the two plates. Since the effective diamater is derived from the orifice area, the resulting relationship is linear between the plate displacement and the effective diameter.
-    This linear relationship was the driving force of our desing choices and the most challenging restraint specified by the sponsor. The geometric linearity of the valve is intrinsic to the proper of the diamond overlap. It does not rely on reparameterization or any nonlinear compensation elsewhere in the system/
+    Critically, the area of the diamond orifice depends linearly on the vertical offset between the two plates. Since the effective diamater is derived from the orifice area, the resulting relationship is linear between the plate displacement and the effective diameter.
+    This linear relationship was the driving force of our desing choices and the most challenging restraint specified by the sponsor. The geometric linearity of the valve is intrinsic to the proper of the diamond overlap. It does not rely on reparameterization or any nonlinear compensation elsewhere in the system.
     The valve preserves the linear signal from the actuator without any modification.
 
     % Paragraph 3
-    The valve design has only one moving part: the translating plate. As stated preivously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellow. Since there are no linakges, rotating components, or other types of internal mechanisms,
+    The valve design has only one moving part, the translating plate. As stated preivously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellow. Since there are no linakges, rotating components, or other types of internal mechanisms,
     we reduce the possiblity of error introduced from hysteresis. In addition, this mechanical simplicity supports manufacturability. Since our orifice operates on a sub-milimeter scale with orifice sizes capable of being smaller than the tip of a ballpoint pen, manufacturing additional pieces at this scale introduces 
     manufacturing challenges. Therefore, keeping the valve subsystem with minimal moving parts reduces possible error and eases the manufacturing process.
 
@@ -509,11 +509,27 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
     \section{Actuator Subsystem}
     \label{sec:act_sub_description}
-        lorem ipsum
+
+    % Paragraph 1
+    The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
+    the current ambient temperature and determined reference temperture. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is quasi-linear. This linearity is preserved without any correction factors, feedback mechanism, or nonlinear compensation designs of any kind.
+
+    % Paragraph 2
+    The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downards pushing the vale stem and translating the plate downard to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
+    Furthermore, the full thermal exansion of the rod across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
+    The rod interfacing with the valve stem directly eliminates possible hysteresis and eases the manufacturing process. 
+
+    % Paragraph 3
+    One of the most significant design decisions was positioning the actuator rod outside the pressure boundary of the valve. It is thermally isolated fromm the gas flow by the valve housing walls and the bellows assembly. It responds directly to the ambient air temperature isntead of the gas temperature.
+    This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint the rod is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring foces. 
+    This force margin ensures reliable actuation across the entire temperature range. 
 
     \section{Mount Subsystem}
     \label{sec:mount_sub_description}
-        lorem ipsum
+
+    % Paragraph 1
+    The mount subsystem is a rigid structural frame fabricated from 1018 Cold-rolled steel. The function is to fix the actuator and valve housing such that the thermal expansion of the actuator rod is transmitted entirely into valve stem. Having the rigid fram enables the transmission to be direct eliminating the possibility of relative motion lost
+    between components. 
 
 
 
@@ -561,27 +577,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \\\bottomrule
         \end{tabularx}
     \end{table}
-
-    
-    
-
-
-        \todo{Clean up the following paragraphs or move to discussion}
-        The relationship between the ambient temperature and its corresponding orifice geometry is governed by the following equation:
-
-        (1)~a \textbf{aluminum thermal expansion rod} a singular metallic rod that responds to ambient temperature changes. 
-        The aluminum rod will have linear piston displacement as a result of thermal exapnsion via the following equation:
-
-        \begin{equation}
-            \Delta L = L_0\,\Delta T\, \alpha\
-        \end{equation}
-
-        (2)~A \textbf{compound spur-gear train} comprising of two rack gears and two coaxial pinion gears with a gear ratio of
-        4:1. This amplifies and transmits the piston's linear motion to the valve; and 
-        (3)~a \textbf{sliding-plate orifice valve} (''pizza cutter'' design), in which two flat plates, one fixed and one translating
-        contain a shaped hole with the overlap between the two holes defining the effective flow orifice. As the actuator extends with 
-        increasing temperature, the moving plate translates downwards. This reduces the overlap area and shriking $D_{\text{eff}}$ per 
-        the requirements. 
 
 %--- END CONTENT ---
 
