@@ -329,12 +329,12 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
                 \node[block] (valve)    [below = of interface]  {\sbsValve};
 
                 \node(temp_input)   [left = of actuator]   {$\Delta T$};
-                \node(diam_output)  [right = of valve]      {$D_{\text{effective}} = k_2 \Delta S$};
+                \node(diam_output)  [right = of valve]      {$\Delta D_{\text{effective}} = k_2 \Delta X$};
 
                 \draw[->] (temp_input) -- (actuator);
                 \draw[->] (valve) -- (diam_output);
                 \draw[->] (actuator) to node[right] {$\Delta L = k_1 \Delta T$} (interface) ;
-                \draw[->] (interface) to node[right] {$\Delta S = \frac{R}{r} \Delta L$} (valve);
+                \draw[->] (interface) to node[right] {$\Delta X =  \Delta L$} (valve);
 
             \end{tikzpicture}
         }   
