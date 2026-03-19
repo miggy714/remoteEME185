@@ -92,6 +92,9 @@
 \usepackage{tikz}
     \usetikzlibrary{patterns}
     \usetikzlibrary{patterns,intersections}
+\usepackage{multirow}
+\usepackage{array}      % for >{\raggedright\arraybackslash}
+\usepackage{makecell}   % for \makecell
 
 
 
@@ -145,18 +148,18 @@
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 % --- Tolerance values for specifications. --- 
 % Fill in with real numbers as we find the relevant values 
-\newcommand{\dDdXTol}{\textbf{dDdXTol_placeholder}}
-\newcommand{\pressureSF}{\textbf{pressureSF_placeholder}}
-\newcommand{\dXdTTol}{\textbf{dXdTTol_placeholder}}
-\newcommand{\dTTol}{\textbf{dTTol_placeholder}}
-\newcommand{\FTolValve}{\textbf{FTolValve_placeholder}}
-\newcommand{\valveMEX}{\textbf{valveMEX_placeholder}}
-\newcommand{\valveMEY}{\textbf{valveMEY_placeholder}}
-\newcommand{\valveMEZ}{\textbf{valveMEZ_placeholder}}
-\newcommand{\dLdTTol}{\textbf{dLdTTol_placeholder}}
-\newcommand{\FTolAct}{\textbf{FTolAct_placeholder}}
-\newcommand{\calRange}{\textbf{calRange_placeholder}}
-\newcommand{\calTol}{\textbf{calTol_placeholder}}
+\newcommand{\dDdXTol}{\textbf{dDdXTolPlaceholder}}
+\newcommand{\pressureSF}{\textbf{pressureSFPlaceholder}}
+\newcommand{\dXdTTol}{\textbf{dXdTTolPlaceholder}}
+\newcommand{\dTTol}{\textbf{dTTolPlaceholder}}
+\newcommand{\FTolValve}{\textbf{FTolValvePlaceholder}}
+\newcommand{\valveMEX}{\textbf{valveMEXPlaceholder}}
+\newcommand{\valveMEY}{\textbf{valveMEYPlaceholder}}
+\newcommand{\valveMEZ}{\textbf{valveMEZPlaceholder}}
+\newcommand{\dLdTTol}{\textbf{dLdTTolPlaceholder}}
+\newcommand{\FTolAct}{\textbf{FTolActPlaceholder}}
+\newcommand{\calRange}{\textbf{calRangePlaceholder}}
+\newcommand{\calTol}{\textbf{calTolPlaceholder}}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -477,6 +480,11 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         Finally,
 
         \begin{equation}
+            D_{effective} = \sqrt{\frac{2}{\pi}} \cdot X
+            \label{eq:D_X}
+        \end{equation}
+
+        \begin{equation}
             \frac{dD_{eff}}{dX} = \sqrt{\frac{2}{\pi}}
             \label{eq:valve_control}
         \end{equation}
@@ -583,8 +591,85 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \subsection{Valve Selection Criteria}
 
+            \begin{table}[H]
+                \centering
+                \caption{Overall requirements and specifications summary}
+                \label{tab:requirements and specification}
+                \begin{tabularx}{\textwidth}{l X l}
+                    \toprule
+                    \textbf{Requirements} & \textbf{Spec} & \textbf{Subsystem Rolldown} \\
+                    \midrule
+                    Temp.\ range &
+                    \specTempLow $\degC$\ to \specTempHigh $\degC$ &
+                    \sbsActuator
+                    \\\addlinespace
+                    Mech.\ envelope &
+                    $\leq$ \specVol\ cm$^3$ &
+                    Entire device
+                    \\\addlinespace
+                    Pressure &
+                    $\Delta P \leq 68.95$~MPa &
+                    \sbsValve
+                    \\\addlinespace
+                    Eff.\ diameter &
+                    $D_{\text{eff}}$ = 0.170--0.384~mm & 
+                    \sbsValve
+                    \\\addlinespace
+                    Tolerance &
+                    $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
+                    Entire device
+                    \\\addlinespace
+                    Fluid compatibility &
+                    "High" free energy of reaction with noble gas &
+                    \sbsValve
+                    \\\addlinespace
+                    Sealing/Fluid diffusion &
+                    TODO: Quantify seal quality somehow &
+                    \sbsValve\ and \sbsInterface
+                    \\\bottomrule
+                \end{tabularx}
+            \end{table}
 
 
+            \begin{table}[H]
+            \centering
+            \caption{Valve Selection Criteria}
+            \label{tab:valve_specs}
+            \begin{tabular}{|p{0.45\textwidth}|p{0.5\textwidth}|}
+            \hline
+            \textbf{Core responsibility} & \textbf{Specification} \\ \hline
+
+            Must govern\\
+            $D_{\text{effective}} = \sqrt{\frac{2}{\pi}} \cdot X$\\
+            to within \dDdXTol
+            &
+            \todo{Add reference to a dimension tolerance table. Probably in Appendix.}
+            \\ \hline
+
+            Must not rupture
+            &
+            Withstand a minimum of 10,000 psi internal pressure
+            \\ \hline
+
+            \multirow{2}{0.45\textwidth}{
+            \makecell[l]{
+            Must not change the control derivative\\
+            of the actuator $\frac{dX}{dT}$\\
+            by more than \dXdTTol
+            }}
+            &
+            Limit $dt$
+            \\ \cline{2-2}
+
+            &
+            Limit $F$
+            \\ \hline
+
+            \end{tabular}
+            \end{table}
+
+
+            \todo{Fix this table}
         \subsection{Valve Architecture}
 
             \todo{Reference relevant figures}
@@ -666,59 +751,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             Since the mount and fixture sit entirely outside the pressure boundary and are never exposed to the working gase, hydrogen compabitility is not a driving material constraint for these components. The selection of 1018 Cold-rolled steel is governed by machinability, cost, and structural stiffness. The mount is important because it must be stiff enough that its deflection under the actuator's thermal forces is negligible compared 
             to the 267 $\mu$m total actuator stroke. The cross-sectional geometry of the trapezoidal plates coupled with the stiffness of 1018 steel, satisfies this requirement. 
         
-
-
-
-
-
-% --- 2.1: Selection Criteria and Justification ---
-% WHY this design? Focus on positive attributes.
-% Reference your concept screening/scoring matrices (Appendix).
-
-    \begin{table}[H]
-        \centering
-        \caption{Overall requirements and specifications summary}
-        \label{tab:requirements and specification}
-        \begin{tabularx}{\textwidth}{l X l}
-            \toprule
-            \textbf{Requirements} & \textbf{Spec} & \textbf{Subsystem Rolldown} \\
-            \midrule
-            Temp.\ range &
-            \specTempLow $\degC$\ to \specTempHigh $\degC$ &
-            \sbsActuator
-            \\\addlinespace
-            Mech.\ envelope &
-            $\leq$ \specVol\ cm$^3$ &
-            Entire device
-            \\\addlinespace
-            Pressure &
-            $\Delta P \leq 68.95$~MPa &
-            \sbsValve
-            \\\addlinespace
-            Eff.\ diameter &
-            $D_{\text{eff}}$ = 0.170--0.384~mm & 
-            \sbsValve
-            \\\addlinespace
-            Tolerance &
-            $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
-            Entire device
-            \\\addlinespace
-            Fluid compatibility &
-            "High" free energy of reaction with noble gas &
-            \sbsValve
-            \\\addlinespace
-            Sealing/Fluid diffusion &
-            TODO: Quantify seal quality somehow &
-            \sbsValve\ and \sbsInterface
-            \\\bottomrule
-        \end{tabularx}
-    \end{table}
-
-%--- END CONTENT ---
-
-
-% --- 2.2: System Overview with Figures ---
-% Show the WHOLE system first, then break into subsystems.
 
 % ============================================================================
 % SECTION 3: DISCUSSION
