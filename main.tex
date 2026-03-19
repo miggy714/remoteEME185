@@ -257,7 +257,7 @@
 
             Must not exceed its portion of the Mechanical Envelope
                 &
-            Must not exceed a \valveMEX lateral, \valveMEY vertical, or \valveMEZ longitudinal mechanical envelope \\
+            Must not exceed a \valveMEX\ lateral, \valveMEY\ vertical, or \valveMEZ\ longitudinal mechanical envelope \\
 
         \hline
 
@@ -931,6 +931,16 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
             \todo{Insert a simple heat transfer calculation at steady-state given a 20 $\degC$ temperature difference. Find the temperature at the valve stem / actuator interface; it will be hotter than $T_{ambient}$}
 
+        \subsection{Specification 5: Reaction force}
+        \label{subsec:valve_spec_5}
+
+            \todo{Insert calculation for bellows force below}
+
+        \subsection{Specification 6: Mechanical envelope}
+        \label{subsec:valve_spec_6}
+
+            \todo{Briefly show that dimensions along principle axes lie within \valveMEX\ lateral, \valveMEY\ vertical, or \valveMEZ\ longitudinal dimensions}
+        
         \subsection{Design Requirement Updates}
         \label{subsec:valve_req_updates}
 
@@ -1213,6 +1223,143 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
                 Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
                 \\~\\
 
+        \subsection{Bellows}
+            \begin{figure}[H]
+                    \centering
+                    \fbox{
+                        \includegraphics[width=0.85\textwidth]{holdfish.jpg} 
+                    }
+
+                    \caption{CAD model of the bellow}
+                    \label{fig:bellow}
+                \end{figure}
+
+
+
+                \begin{table}[H]
+                    \centering
+                    \caption{Valve Specifications}
+                    \label{tab:valve specification}
+                    \begin{tabularx}{\textwidth}{l X l}
+                        \toprule
+                        \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
+                        \midrule
+                        Stroke &
+                        $\leq$ \specStroke\ mm &
+                        TODO: Insert actual stroke of mechanism
+                        \\\addlinespace
+                        Pressure &
+                        $\Delta P \leq 68.95$~MPa &
+                        TODO: Insert FOS or necessary par.
+                        \\\addlinespace
+                        Axial force &
+                        \specPressureForceAxial N&
+                        TODO: Insert force resisted
+                        \\\addlinespace
+                        Fluid compatibility &
+                        "High" free energy of reaction with noble gas &
+                        TODO: Insert material prop.
+                        \\\bottomrule
+                    \end{tabularx}
+                \end{table}
+
+            \subsubsection{Design Requirement Updates}
+            \subsubsection{Subsystem Interactions}
+            \subsubsection{Current Implementation}
+                The welded metal bellows transmits an axial stroke $\delta$ from an external actuator into a high-pressure hydrogen valve while maintaining zero leakage. The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, and minimize actuator force demand.
+                \\~\\
+                Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows highlighted. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
+                Accounting for the spring force of the bellows is important for actuator sizing.
+                
+                Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$.
+                The spring force is proportional to deflection $\delta$.
+                \\~\\
+
+                \begin{table}[H]
+                    \centering
+                    \caption{Bellows Parameters}
+                    \label{tab:bellows_parameters}
+                    \begin{tabularx}{\textwidth}{l X l}
+                        \toprule
+                        \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+                        \midrule
+                        Material &
+                        Hydrogen Compatible &
+                        Inconel 718
+                         \\\addlinespace
+                        $D_o$ &
+                        Outside convolution diameter &
+                        4.826 mm
+                        \\\addlinespace
+                        $D_i$ &
+                        Inside convolution diameter &
+                        2.616 mm
+                        \\\addlinespace
+                        $t$ &
+                        Wall thickness &
+                        0.183 mm
+                        \\\addlinespace
+                        $L$ &
+                        Convolution free length &
+                        4.191 mm
+                        \\\addlinespace
+                        $A$ &
+                        Effective area &
+                        $10.84 \ \text{mm}^2$
+                         \\\addlinespace
+                        $N$ &
+                        Number of convolutions &
+                        7
+                        \\\addlinespace
+                        $P_{burst}$ &
+                        Burst pressure &
+                        86.87 MPa
+                        \\\addlinespace
+                        $k$ &
+                        Spring rate &
+                        630.46 N/mm
+                        \\\bottomrule
+                    \end{tabularx}
+                \end{table}
+
+                Spring force:
+                $$F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}$$
+                The resulting spring force confirms that the stroke demand is well within the elastic operating 
+                range of the selected bellows \cite{miniflex_design}.
+                The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance 
+                under pressure while still producing a manageable spring load given the small stroke $\delta$.
+                This balance between stiffness and stroke compliance is central to the optimized selection.
+                \\~\\
+                Total force required for actuation:
+                $$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
+                Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant. 
+                The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
+                is minimized through careful design and material selection.
+                The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given 
+                the small mass of the stem.
+                Together, these contributions result in a low total actuation force demand that is easily 
+                achievable with a compact actuator.
+                \\~\\
+                Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences 
+                lateral deformation \cite{miniflex_design}.
+                This occurs when the bellows is unrestrained from sideways movement and the internal pressure 
+                exceeds the bellows' ability to maintain its shape.
+                As noted in the Mini-Flex design guide, squirm will not occur if the bellows is guided internally 
+                or externally by a rod stem or used in a close-fitting bore \cite{miniflex_design}.
+                Because the valve body provides lateral restraint, the bellows will not experience squirm, and 
+                the critical squirm pressure is therefore not a limiting factor in this design.
+                \\~\\
+                Burst pressure is the maximum pressure the bellows can withstand while laterally restrained.
+                The Mini-Flex design guide defines burst pressure as the minimum internal pressure that will not 
+                result in fracture when the bellows is restrained from squirm or sideways movement \cite{miniflex_design}.
+                The design is governed by the following relationship:
+                $$P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}$$
+                For this application, the bellows carries a safety factor of 1.26 against burst.
+                An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
+                under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
+                increases spring load and actuator demand.
+
+
 
     \section{Actuator}
         The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:act_sel_crit}, listed again in Table \ref{tab:mount_specs_disc}:
@@ -1296,21 +1443,40 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \todo{NOTE - Discussion should prove that the column on the right is met rather than focussing on the left column.}
 
+        \subsection{Specification 1: Dimensional tolerances}
+        \label{subsec:mount_spec_1}
+
+            \todo{Add references to dimension tolerances listed in Appendix}
+
+        \subsection{Specification 2: Critical dimension adjustment}
+        \label{subsec:mount_spec_2}
+
+            \todo{Insert details about the mount's critical dimension adjustment range. Show that it can be adjusted from within \calRange\ above the target value to within \calTol\ above or below said target}
+
+        \subsection{Specification 3: Thermal expansion}
+        \label{subsec:mount_spec_3}
+
+            \todo{Insert details about thermal expansion of the mount. Show that thermal expansion is limited to \mountdLTol}
+
+        \subsection{Specification 4: Mechanical envelope}
+        \label{subsec:mount_spec_4}
+
+            \todo{Briefly show that dimensions along principle axes lie within the mount's mechanical envelope. TODO: specify three-axis spatial limits for mount}        
         \subsection{Design Requirement Updates}
 
-        % Paragraph 1
-        In the original Preliminary Design Report, we did not treat the mount as a subsystem requiring independent analysis. It was solely described as rigid structural frame whose function was to hold
-        the actuator above the valve housing. In this detailed design phase, we relaized that we needed to broaden our understanding of this design piece. The moust in not merely a structural bracket, but a dynamic
-        element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
+            % Paragraph 1
+            In the original Preliminary Design Report, we did not treat the mount as a subsystem requiring independent analysis. It was solely described as rigid structural frame whose function was to hold
+            the actuator above the valve housing. In this detailed design phase, we relaized that we needed to broaden our understanding of this design piece. The moust in not merely a structural bracket, but a dynamic
+            element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
 
-        % Paragraph 2
-        The crux of the matter is that the actuator rod is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
-        rod expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
-        delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
-        expansion that directly affects the displacement that substracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specificed endpoints.
+            % Paragraph 2
+            The crux of the matter is that the actuator rod is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
+            rod expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
+            delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
+            expansion that directly affects the displacement that substracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specificed endpoints.
 
-        % Paragraph 3
-        After realizing how error can cascade from the thermal expansion of the mount, it 
+            % Paragraph 3
+            After realizing how error can cascade from the thermal expansion of the mount, it 
 
 
 
@@ -1319,180 +1485,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
 
         only thermal expansion in mount need to worry about is the a frame 
-
-
-
-
-
-
-        \begin{table}[H]
-            \centering
-            \caption{PLACEHOLDER Interface Specifications}
-            \label{tab:interface specification}
-            \begin{tabularx}{\textwidth}{l X l}
-                \toprule
-                \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
-                \midrule
-                Mech.\ envelope &
-                $\leq$ \specVol\ cm$^3$ &
-                TODO: Insert volume of mechanism
-                \\\addlinespace
-                Pressure &
-                $\Delta P \leq 68.95$~MPa &
-                TODO: Insert FOS or necessary par.
-                \\\addlinespace
-                Eff.\ diameter &
-                $D_{\text{eff}}$ = 0.170--0.384~mm & 
-                TODO: Insert orifice geometry
-                \\\addlinespace
-                Tolerance &
-                $D_{\text{eff}}$ = $\pm 0.0127$~mm & 
-                TODO: Insert orifice geometry
-                \\\addlinespace
-                Fluid compatibility &
-                "High" free energy of reaction with noble gas &
-                TODO: Insert material prop.
-                \\\addlinespace
-                Sealing/Fluid diffusion &
-                TODO: Quantify seal quality somehow &
-                TODO: Insert corresponding spec
-                \\\bottomrule
-            \end{tabularx}
-        \end{table}
-        % ---- Calculation Example: Thermal Expansion ----
-        \subsection{Bellows}
-            \begin{figure}[H]
-                    \centering
-                    \fbox{
-                        \includegraphics[width=0.85\textwidth]{holdfish.jpg} 
-                    }
-
-                    \caption{CAD model of the bellow}
-                    \label{fig:bellow}
-                \end{figure}
-
-
-
-                \begin{table}[H]
-                    \centering
-                    \caption{Valve Specifications}
-                    \label{tab:valve specification}
-                    \begin{tabularx}{\textwidth}{l X l}
-                        \toprule
-                        \textbf{Requirements} & \textbf{Design Specification} & \textbf{Implemented Specification} \\
-                        \midrule
-                        Stroke &
-                        $\leq$ \specStroke\ mm &
-                        TODO: Insert actual stroke of mechanism
-                        \\\addlinespace
-                        Pressure &
-                        $\Delta P \leq 68.95$~MPa &
-                        TODO: Insert FOS or necessary par.
-                        \\\addlinespace
-                        Axial force &
-                        \specPressureForceAxial N&
-                        TODO: Insert force resisted
-                        \\\addlinespace
-                        Fluid compatibility &
-                        "High" free energy of reaction with noble gas &
-                        TODO: Insert material prop.
-                        \\\bottomrule
-                    \end{tabularx}
-                \end{table}
-            \subsubsection{Design Requirement Updates}
-            \subsubsection{Subsystem Interactions}
-            \subsubsection{Current Implementation}
-                The welded metal bellows transmits an axial stroke $\delta$ from an external actuator into a high-pressure hydrogen valve while maintaining zero leakage. The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, and minimize actuator force demand.
-                \\~\\
-                Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows highlighted. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
-                Accounting for the spring force of the bellows is important for actuator sizing.
-Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$.
-The spring force is proportional to deflection $\delta$.
-\\~\\
-
-\begin{table}[H]
-                    \centering
-                    \caption{Bellows Parameters}
-                    \label{tab:bellows_parameters}
-                    \begin{tabularx}{\textwidth}{l X l}
-                        \toprule
-                        \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-                        \midrule
-                        Material &
-                        Hydrogen Compatible &
-                        Inconel 718
-                         \\\addlinespace
-                        $D_o$ &
-                        Outside convolution diameter &
-                        4.826 mm
-                        \\\addlinespace
-                        $D_i$ &
-                        Inside convolution diameter &
-                        2.616 mm
-                        \\\addlinespace
-                        $t$ &
-                        Wall thickness &
-                        0.183 mm
-                        \\\addlinespace
-                        $L$ &
-                        Convolution free length &
-                        4.191 mm
-                        \\\addlinespace
-                        $A$ &
-                        Effective area &
-                        $10.84 \ \text{mm}^2$
-                         \\\addlinespace
-                        $N$ &
-                        Number of convolutions &
-                        7
-                        \\\addlinespace
-                        $P_{burst}$ &
-                        Burst pressure &
-                        86.87 MPa
-                        \\\addlinespace
-                        $k$ &
-                        Spring rate &
-                        630.46 N/mm
-                        \\\bottomrule
-                    \end{tabularx}
-                \end{table}
-
-Spring force:
-$$F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}$$
-The resulting spring force confirms that the stroke demand is well within the elastic operating 
-range of the selected bellows \cite{miniflex_design}.
-The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance 
-under pressure while still producing a manageable spring load given the small stroke $\delta$.
-This balance between stiffness and stroke compliance is central to the optimized selection.
-\\~\\
-Total force required for actuation:
-$$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
-Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant. 
-The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
-is minimized through careful design and material selection.
-The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given 
-the small mass of the stem.
-Together, these contributions result in a low total actuation force demand that is easily 
-achievable with a compact actuator.
-\\~\\
-Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences 
-lateral deformation \cite{miniflex_design}.
-This occurs when the bellows is unrestrained from sideways movement and the internal pressure 
-exceeds the bellows' ability to maintain its shape.
-As noted in the Mini-Flex design guide, squirm will not occur if the bellows is guided internally 
-or externally by a rod stem or used in a close-fitting bore \cite{miniflex_design}.
-Because the valve body provides lateral restraint, the bellows will not experience squirm, and 
-the critical squirm pressure is therefore not a limiting factor in this design.
-\\~\\
-Burst pressure is the maximum pressure the bellows can withstand while laterally restrained.
-The Mini-Flex design guide defines burst pressure as the minimum internal pressure that will not 
-result in fracture when the bellows is restrained from squirm or sideways movement \cite{miniflex_design}.
-The design is governed by the following relationship:
-$$P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}$$
-For this application, the bellows carries a safety factor of 1.26 against burst.
-An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
-under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
-increases spring load and actuator demand.
 
     \section{System Compliance}
 
