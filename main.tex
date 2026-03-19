@@ -1231,20 +1231,27 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         % ---- Calculation Example: Thermal Expansion ----
         \subsection{Design Requirement Updates}
         
-        The requirements for actuator operation have remained the same, though in the current implementation more 
-        attention has been paid to those that are the most critical. The governing equation for the actuator expansion
-        $Delta L = L_o\Delta T\alpha $ relates expansion magnitude to undeformed length $L_o$ and the linear coefficient
-        of expansion $\alpha$. In preliminary designs actuator length was maximized to be within the mechanical envelope.
-        An amplifying interface between the valve stem and actuator was designed to increase expansion to the necessary stroke length
-        via a gear train. This allowed the system to meet actuation distance needs of the valve while keeping within the mechanical 
-        envelope. Discussion with subject matter experts and further uncertainty calculations showed that backlash and machining 
-        inaccuracies would be compounded by the gear
-        train comprimising the precision of the system as a whole. Eliminating the amplifying interface in favor of
-        increasing actuator length $L_o$ is a favorable solution and it has been established that the mechanical envelope
-        can be treated as a soft constraint. Though deviation from the envelope is allowed, further research was done into
-        exotic materials with higher linear coefficients of expansion to minimize foray. Research on actuator materials has solidified
-        the importance of stable coefficients of expansion, material stiffness to avoid deformation during use, and repeatable 
-        performance during cyclic thermal loading. 
+
+         Requirements for actuator operation have developed with further sub-requirements being 
+        defined, and individual weight being reevaluated by order of importance. Preliminary 
+        conditions were defined by the need to delivery necessary stroke length for valve operation, 
+        that thermal expansion
+        should be precise and predictable, and that actuator length combined with other sub-system
+        components should be contained within the mechanical envelope. The governing equation for
+        the actuator expansion $\Delta L = L_o\Delta T\alpha $ relates expansion magnitude to 
+        undeformed length $L_o$ and the linear coefficient of expansion $\alpha$. In preliminary 
+        designs actuator length was maximized within the bounds of the mechanical envelope. 
+        An amplifying interface between the valve stem and actuator was designed to increase 
+        linear movement to the necessary stroke length via compound gear train. This allowed the
+        system to meet actuation distance needs of the valve while keeping within the mechanical 
+        envelope. Discussion with subject matter experts and further uncertainty calculations 
+        showed that backlash and expected tolerance deviations from machining and assembly would
+        be compounded by the gear train. This would push the entire system out of error tolerance. 
+        This influenced an increase in the weighted importance of tolerance and sparked discussion with
+        our sponder about flexability of the mechanical envelope as eliminating the gear train and
+        extending actuator length would significantly reduce error. 
+
+
         \subsubsection{Subsystem Interactions}
         \subsection{Current Implementation}
 
