@@ -578,16 +578,33 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Complete_Assembly_Render.png}
-
+            \begin{tikzpicture}
+                \node[anchor=south west, inner sep=0] (image) {
+                    \includegraphics[height=4in, width=6in, keepaspectratio]{Complete_Assembly_Render.png}
+                };
+                % 3D axes overlay — adjust (0.8, 0.8) to reposition
+                \begin{scope}[shift={(1,8)}, thick, >=Stealth]
+                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
+                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
+                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                \end{scope}
+            \end{tikzpicture}
             \caption{Complete assembly}
             \label{fig:mainIsometric}
-            \end{figure}
+        \end{figure}
 
-            \begin{figure}[H]
+        \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
-
+            \begin{tikzpicture}
+                \node[anchor=south west, inner sep=0] (image) {
+                    \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
+                };
+                \begin{scope}[shift={(1,8)}, thick, >=Stealth]
+                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
+                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
+                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                \end{scope}
+            \end{tikzpicture}
             \caption{Complete assembly exploded view}
             \label{fig:mainExploded}
         \end{figure}
