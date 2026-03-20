@@ -818,6 +818,21 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             
             Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
             
+            Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
+            
+            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+            
+            The actual change in length based of a constant change in $\alpha$, we use the formula
+            
+   \begin{align*}
+\Delta L &= L_0 \int_{10}^{80} \alpha(T) \, dT \\
+&= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+&= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+&= 0.1363 \text{ mm}
+\end{align*}
+
+
+
             % Paragraph 2
             The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
             Furthermore, the full thermal expansion of the rod across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
