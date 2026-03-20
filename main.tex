@@ -147,7 +147,7 @@
 \newcommand{\specTempLow}{-60} %Celcius
 \newcommand{\specTempRef}{25} %Celcius
 \newcommand{\specVol}{10} % Maximum volume in cm^3
-\newcommand{\specPressure}{68.94757}%MPa
+\newcommand{\specPressure}{68.95}%  68.94757 MPa
 \newcommand{\specDeffLow}{0.17018} %mm
 \newcommand{\specDeffHigh}{0.38354} %mm
 \newcommand{\specTolerancePercent}{\pm 5\%}
@@ -245,7 +245,7 @@
 
             Must not rupture
                 &
-            Withstand a minimum of 10,000 psi internal pressure \\
+            Withstand a minimum of \specPressure\ internal pressure \\
             
         \hline
 
@@ -440,17 +440,25 @@
 
 %--- BEGIN CONTENT ---
 
-% PARGRAPH 1: Project objective and motivation
-Sandia National Laboratories (SNL) has tasked our senior design team, 
-\teamname\, to design a passive temperature compensation device (\device) that regulates flow in a pipe. 
-Flow must be regulated by adjusting an orifice geometry according to a change in ambient air temperature.
-The \device\ must be purely thermo-mechanically driven, functioning without the reliance on embedded systems (electronics) or human input.
-The required mathematical relationship between the ambient temperature and a characteristic orifice geometry is provided by SNL.
-Additionally, materials compatibility with the fluid -- which will be Hydrogen or a noble gas -- must be considered.
-In order to meet these requirements, the \device\ will be divided into three main subsystems: (1) \sbsActuator, which will passively expand or contract in response to temperature changes; (2) \sbsInterface, which will connect the actuator to the orifice; and (3) the \sbsValve, which will restrict the gas flow as it is driven by the actuator.
+Sandia National Laboratories has tasked our senior design team, 
+the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
+The device must restrict its orifice as the ambient temperature of the surrounding air increases.
+The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controlls) or user input.
+The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, a.k.a. the "sponsor"),
+stipulates that the orifice maintain an effective diameter that varies with temperature between 200 and 500 $\mu$m, or half the width of the ballpoint on a pen,
+with an average tolerance of $\pm\ 13 \mu\ m$, about a fifth the thickness of a human hair.
+Our team designed three interconnected subsystems to accomplish this objective:
 
-% PARAGRAPH 2: Solution and progress to date
-This Preliminary Machine Architecture Report outlines the design requirements, specification rolldown, and how each subsystem meets those requirements.
+\begin{itemize}
+    \item A square valve orifice, comprised of two overlapping square holes
+    \item A passive thermal actuator, which expands with rising temperature and drives the valve
+    \item A mount, which fixes the relative positions of the other subsystems
+\end{itemize}
+
+After presentation of our initial design concepts, SNL awarded our team \$2,000 to purchase, manufacture, assemble, and test the \device.
+This Preliminary Machine Architecture Report outlines our design criteria, demonstrates requirement satisfaction, and outlines details for 
+
+outlines the design requirements, specification rolldown, and how each subsystem meets those requirements.
 Our device will be inserted into the flow of a high-pressure gas and must maintain prescribed linear relationship between the ambient outside air temperature and the effective orifice diameter, with the endpoints $\coldBoundary$ and $\hotBoundary$. 
 Explicitly, this relationship can be summarized as $\requiredRelationship$\ which will be referred to as the "required relationship" throughout this report and is fully detailed in Appendix~\ref{app:requirements}. 
 \todo{Make the requirement description less quantitative here; this paragraph simply needs to
@@ -950,7 +958,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \subsection{Specification 2: Valve Stem displacement}
         \label{subsec:valve_spec_2}
 
-                \todo{The demonstrates that the valve stem won't break given the maximum specifiec load.
+                \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
                     Add proof that it will not deflect or expand by more than \dXdLTol\ due to thermal expansion or force compression.}
 
                 The valve stem transmits mechanical displacement from outside the valve to the orifice plate itself.
@@ -1013,99 +1021,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \subsection{Specification 3: Pressure rating}
         \label{subsec:valve_spec_3}
-            \todo{Insert details about the valve stem here from below. Include proof that because it is made of invar 36, it will not thermally expand or be compressed more than \dXdLTol}
-
-        \subsection{Specification 3: Pressure rating}
-        \label{subsec:valve_spec_3}
-
-            \todo{Insert housing pressure calculations from below}
-            
-
-        \subsection{Specification 4: Temperature gradient}
-        \label{subsec:valve_spec_4}
-
-            The thermal actuator is located completely outside the pipe and is fully exposed to the ambient, steady-state air. Because of this the temperature 
-            gradient only goes from the inside surface of the pipe to the outside surface of the pipe, so the temperature of the actuator will not be affected by the temperature of the internal gas. The actuator is thermally isolated and only depends on the outside air temperature.
-
-
-        \subsection{Design Requirement Updates}
-        \label{subsec:valve_req_updates}
-
-                \todo{Break this section up; we're covering spec changes one part at a time.}
-
-                The core system-level requirements established in the Preliminary Design Report remained 
-                unchanged entering the detailed design phase: the valve must produce a linear change in 
-                effective diameter with respect to ambient temperature, and must withstand an internal 
-                operating pressure of \specPressure\ MPa. What changed substantially was the team's understanding 
-                of what could be physically realized given the scale of the device, the number of moving 
-                parts, and the tolerancing demands of precision machining at sub-millimeter orifice sizes.
-
-                The Preliminary Design Report selected the hexagonal diaphragm as the valve architecture 
-                on the strength of its theoretical properties. The hexagonal geometry was shown analytically 
-                to produce a linear relationship between actuator displacement and effective orifice diameter, 
-                and it performed well in the screening and scoring matrices on criteria such as force 
-                resistance and flow stability. However, as the team moved from concept into detailed design, 
-                it became clear that the hexagonal diaphragm presented fundamental manufacturability 
-                challenges that could not be resolved within the scope of this project. The design required 
-                six independent trapezoidal sliding plates, each interfacing with adjacent plates along 
-                precision-machined edges, all operating at an orifice scale thinner than the tip of a 
-                ballpoint pen. The tolerance stack-up across six moving parts at this scale introduced 
-                unquantifiable uncertainty in the effective diameter, and no feasible assembly sequence 
-                could be identified that would allow the device to be built, sealed against \specPressure\ MPa 
-                internal pressure, and calibrated reliably. The design was theoretically sound but 
-                physically unrealizable under the project constraints.
-
-                Following sponsor feedback and internal reassessment, the team reset its design assumptions 
-                and returned to the valve selection problem with manufacturability elevated to a primary 
-                constraint alongside linearity and pressure resistance. This shift in perspective produced 
-                a fundamentally different solution: a two-plate sliding valve consisting of one fixed plate 
-                and one moving plate. The orifice is formed by the overlap between an opening in the fixed 
-                plate and an opening in the moving plate. As the actuator displaces the moving plate, the 
-                overlapping area changes, producing a linear change in effective orifice diameter. The 
-                geometry satisfies the same linearity requirement as the hexagonal design but with a 
-                fraction of the part count and a straightforward machining and assembly path.
-
-                This simplification did not eliminate design complexity; it redirected it. By reducing 
-                the valve to two plates, the team was able to clearly identify and quantify three new 
-                subsystem-level design requirements that the hexagonal design had obscured: managing hoop 
-                stress in the valve housing under internal pressure, sealing the valve stem that drives the 
-                moving plate through the housing wall, and ensuring the structural integrity of all 
-                construction welds. These requirements are tractable and calculable in a way that the 
-                tolerance uncertainties of the hexagonal design were not, and they form the basis of the 
-                detailed analyses presented in the following sections.
-
-                The transition to the two-plate valve architecture allowed system-level specifications to 
-                be rolled down into clearly defined subsystem requirements for the first time. The 
-                operating pressure requirement of \specPressure\ MPa rolled down into a housing wall thickness 
-                specification governed by thick-wall hoop stress analysis, a weld joint quality requirement 
-                mandating radiographic inspection, and a stem seal 
-                specification requiring a bellows assembly capable of withstanding full internal pressure 
-                without leakage. The linearity requirement rolled down into a geometric constraint on the 
-                orifice plate overlap profile, which must be designed such that lateral displacement of 
-                the moving plate produces a proportional change in effective diameter across the full 
-                temperature operating range. The hydrogen 
-                compatibility requirement rolled down into the material specification of Inconel 718  and 316 stainless steel for 
-                all wetted components, driven by the need for hydrogen embrittlement resistance, 
-                low-temperature toughness, and weld compatibility between the valve stem and bellows 
-                assembly.
-        
-        
-        \subsection{Orifice}
-            \subsubsection{Design Requirement Updates}
-            \label{subsec:req_updates}
-            \subsubsection{Subsystem Interactions}
-            \subsubsection{Current Implementation} 
-
-                \todo{This is redundant; it is covered in Section \ref{subsec:valve_architecture}}
-            
-                The orifice is the critical piece of this design. In order to follow the relationship required by Equation 1, 
-                the orifice geometry must drive the rest of the design. Each plate, one fixed and one whose movement is controlled by the actuator, 
-                will contain identical rectangular holes near its center. The plates must maintain surface contact such that the overlap between the two holes creates the desired orifice. 
-                As the ambient temperature rises, the actuator expands, lowering the moving plate. Because its hole is below that of the fixed plate, the resulting orifice shrinks.
-    \subsection{Valve Housing}
-        \subsubsection{Design Requirement Updates}
-        \subsubsection{Subsystem Interactions}
-        \subsubsection{Current Implementation}
 
             The valve housing must withstand internal pressure without failing.
             The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
@@ -1242,93 +1157,18 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \\~\\
             These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
             the weld joint introduces no strength penalty relative to the base material.
-            The joint is viable with a thickness margin of $5.423\ \text{mm}$ and a stress safety factor of $2.38$.
-
+            The joint is viable with a thickness margin of $5.423\ \text{mm}$ and a stress safety factor of $2.38$.            
+        
         \subsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
 
-        The thermal actuator is located completely outside the pipe and is fully exposed to the ambient air.    
-      Because the Invar valve system is completely encased within the pipe, wall the temperature gradient exists only across the 10mm wall thickness.
-      No thermal energy from the internal gas propagates beyond the pipe wall, so the actuator temperature is determined solely by the ambient air temperature.
-      This confirms that the actuator is thermally isolated from the temperature of the internal flow and responds only to external conditions, as required.
+            The thermal actuator is located completely outside the pipe and is fully exposed to the ambient air.    
+            Because the Invar valve system is completely encased within the pipe, wall the temperature gradient exists only across the 10mm wall thickness.
+            No thermal energy from the internal gas propagates beyond the pipe wall, so the actuator temperature is determined solely by the ambient air temperature.
+            This confirms that the actuator is thermally isolated from the temperature of the internal flow and responds only to external conditions, as required.
 
         \subsection{Specification 5: Reaction force}
         \label{subsec:valve_spec_5}
-
-            \todo{Insert calculation for bellows force below}
-
-        \subsection{Specification 6: Mechanical envelope}
-        \label{subsec:valve_spec_6}
-
-            As shown in Appendix \ref{app:eng_drawings}, the valve subsystem's maximum mechanical envelope is 
-            \begin{itemize}
-                \item Longitudinal: 100 mm. This is the sum of the length of the housing inlet and outlet (47.6 mm each) and the housing center (4.8 mm).
-                \item Lateral: 80 mm, the width of the housing flanges.
-                \item Vertical: 5 mm. Only the thickness of the housing flanges affects the mechanical envelope.
-            \end{itemize}
-        
-        \subsection{Design Requirement Updates}
-        \label{subsec:valve_req_updates}
-
-                \todo{Break this section up; we're covering spec changes one part at a time.}
-
-                The core system-level requirements established in the Preliminary Design Report remained 
-                unchanged entering the detailed design phase: the valve must produce a linear change in 
-                effective diameter with respect to ambient temperature, and must withstand an internal 
-                operating pressure of \specPressure\ MPa. What changed substantially was the team's understanding 
-                of what could be physically realized given the scale of the device, the number of moving 
-                parts, and the tolerancing demands of precision machining at sub-millimeter orifice sizes.
-
-                The Preliminary Design Report selected the hexagonal diaphragm as the valve architecture 
-                on the strength of its theoretical properties. The hexagonal geometry was shown analytically 
-                to produce a linear relationship between actuator displacement and effective orifice diameter, 
-                and it performed well in the screening and scoring matrices on criteria such as force 
-                resistance and flow stability. However, as the team moved from concept into detailed design, 
-                it became clear that the hexagonal diaphragm presented fundamental manufacturability 
-                challenges that could not be resolved within the scope of this project. The design required 
-                six independent trapezoidal sliding plates, each interfacing with adjacent plates along 
-                precision-machined edges, all operating at an orifice scale thinner than the tip of a 
-                ballpoint pen. The tolerance stack-up across six moving parts at this scale introduced 
-                unquantifiable uncertainty in the effective diameter, and no feasible assembly sequence 
-                could be identified that would allow the device to be built, sealed against \specPressure\ MPa 
-                internal pressure, and calibrated reliably. The design was theoretically sound but 
-                physically unrealizable under the project constraints.
-
-                Following sponsor feedback and internal reassessment, the team reset its design assumptions 
-                and returned to the valve selection problem with manufacturability elevated to a primary 
-                constraint alongside linearity and pressure resistance. This shift in perspective produced 
-                a fundamentally different solution: a two-plate sliding valve consisting of one fixed plate 
-                and one moving plate. The orifice is formed by the overlap between an opening in the fixed 
-                plate and an opening in the moving plate. As the actuator displaces the moving plate, the 
-                overlapping area changes, producing a linear change in effective orifice diameter. The 
-                geometry satisfies the same linearity requirement as the hexagonal design but with a 
-                fraction of the part count and a straightforward machining and assembly path.
-
-                This simplification did not eliminate design complexity; it redirected it. By reducing 
-                the valve to two plates, the team was able to clearly identify and quantify three new 
-                subsystem-level design requirements that the hexagonal design had obscured: managing hoop 
-                stress in the valve housing under internal pressure, sealing the valve stem that drives the 
-                moving plate through the housing wall, and ensuring the structural integrity of all 
-                construction welds. These requirements are tractable and calculable in a way that the 
-                tolerance uncertainties of the hexagonal design were not, and they form the basis of the 
-                detailed analyses presented in the following sections.
-
-                The transition to the two-plate valve architecture allowed system-level specifications to 
-                be rolled down into clearly defined subsystem requirements for the first time. The 
-                operating pressure requirement of \specPressure\ MPa rolled down into a housing wall thickness 
-                specification governed by thick-wall hoop stress analysis, a weld joint quality requirement 
-                mandating radiographic inspection, and a stem seal 
-                specification requiring a bellows assembly capable of withstanding full internal pressure 
-                without leakage. The linearity requirement rolled down into a geometric constraint on the 
-                orifice plate overlap profile, which must be designed such that lateral displacement of 
-                the moving plate produces a proportional change in effective diameter across the full 
-                temperature operating range. The hydrogen 
-                compatibility requirement rolled down into the material specification of Inconel 718  and 1018 steel for 
-                all wetted components, driven by the need for hydrogen embrittlement resistance, 
-                low-temperature toughness, and weld compatibility between the valve stem and bellows 
-                assembly.
-
-        \subsection{Bellows}
 
             \begin{figure}[H]
                         \centering
@@ -1498,7 +1338,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
                 all wetted components, driven by the need for hydrogen embrittlement resistance, 
                 low-temperature toughness, and weld compatibility between the valve stem and bellows 
                 assembly.
-
+        
     \section{Actuator Subsystem}
         The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:act_sel_crit}, listed again in Table \ref{tab:mount_specs_disc}:
 
@@ -1614,51 +1454,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
     \section{Mount Subsystem}
 
-        \subsubsection{Subsystem Interactions}
-        
-
-        \subsection{Current Implementation}        
-        The actuator in its current state is a solid aluminum rod of dimensions $L=84.3348 mm, w=30 mm, t=30 mm$
-        and coefficient of expansion and elastic modulus $\alpha= 0.274 \mu m/m$ and $E = 69 GPa$.
-        Its qualities allow for sufficient expansion without use of an amplifying interface, it displays
-        precision actuation across the temperature range, resistance to deformation under external reaction 
-        forces, and lies within tolerance of the mechanical envelope.
-            \begin{table}[H]
-                \centering
-                \caption{Actuator Parameter Values}
-                \label{tab:actuator_parameters}
-                \begin{tabularx}{\textwidth}{l X l}
-                    \toprule
-                    \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-                    \midrule
-                    $E$ &
-                    Young's modulus &
-                    TODO: Insert value (GPa)
-                    \\\addlinespace
-                    $A$ &
-                    Cross-sectional area &
-                    TODO: Insert value (mm\textsuperscript{2})
-                    \\\addlinespace
-                    $\alpha$ &
-                    Coefficient of thermal expansion &
-                    TODO: Insert value (\si{\per\celsius})
-                    \\\addlinespace
-                    $L_0$ &
-                    Original rod length &
-                    TODO: Insert value (mm)
-                    \\\addlinespace
-                    $\Delta T$ &
-                    Temperature change &
-                    TODO: Insert value (\si{\celsius})
-                    \\\addlinespace
-                    $\Delta L$ &
-                    Change in length &
-                    TODO: Insert value (mm)
-                    \\\bottomrule
-                \end{tabularx}
-            \end{table}
-    \section{Mount}
-
         Table \ref{tab:mount_specs_disc} lists again the specifications from Section \ref{subsec:mount_sel_crit}:
 
         \begin{table}[H]
@@ -1712,7 +1507,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             After realizing how error can cascade from the thermal expansion of the mount, it became crucial to identify subsystem-level design requirements. Within the mount, there are three careful considerations. First, the mount needs to be stiff enough such that its mechanical
             deflection under the actuator's reaction force is negligible compared to the total actuator stroke. Crucially, to resolve this issue our mount needs enough thickness. Second, the thermal expansion of the mount must be quantified and incorporated into the actuator length calculation.
             The required actuator length can have overshoot or undershoot negating the entire effects of the valve if the mount thermal expansion is not properly accounted for. Third, the mount must provide a calibration mechanism capable of setting the orifice to the correct effective diameter
-            at the reference temperature of 25 $\degC$ with a resolution at least as fine as the $\pm$0.0127 mm tolerance on $D_eff$. This calibration must also withstand the clamping, thermal cycling, and full operating pressure without shifting. 
+            at the reference temperature of 25 $\degC$ with a resolution at least as fine as the $\pm$0.0127 mm tolerance on $D_{eff}$. This calibration must also withstand the clamping, thermal cycling, and full operating pressure without shifting. 
 
             These three requirements are the basis of the analysis presented in the following sections.
 
@@ -2222,7 +2017,7 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
 To manufacture the \device , refer to the following part and assembly drawings.
 Pay special heed to the specified tolerances; as elaborated in this report, these must be satisfied to maintain the Required Relationship to its specified tolerance.
 
-\includepdf[pages=1-11, fitpaper=true, landscape=true]{MachArchDrawingPackage.pdf}
+\includepdf[pages=1-14, fitpaper=true, landscape=true]{MachineArchDrawingPackage.pdf}
 
 % --- Appendix D: Product Data Sheets and Price Quotes ---
 \chapter{Product Data Sheets and Price Quotes}
@@ -2238,7 +2033,7 @@ The following data sheets are included below:
 Include price quotes or screenshots of supplier pricing.
 This supports the Bill of Materials in Section~\ref{sec:bom}.}
 
-%\includepdf[pages=1-2, fitpaper=true, landscape=true]{Bellows_catalog.pdf}
+\includepdf[pages=1-2, fitpaper=true, landscape=true]{Bellows_catalog.pdf}
 
 
 % --- Appendix E: Detailed Calculations ---
