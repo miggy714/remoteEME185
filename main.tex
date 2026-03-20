@@ -1408,13 +1408,24 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         system to meet actuation distance needs of the valve while keeping within the mechanical 
         envelope. Discussion with subject matter experts and further uncertainty calculations 
         showed that backlash and expected tolerance deviations from machining and assembly would
-        be compounded by the gear train. This would push the entire system out of error tolerance. 
-        This influenced an increase in the weighted importance of tolerance and sparked discussion with
-        our sponder about flexability of the mechanical envelope as eliminating the gear train and
-        extending actuator length would significantly reduce error. 
+        be compounded by the gear train. This would push the entire system out of error tolerance and 
+        sparked consideration of eliminating the interface in favor of increasing undeformed actuator
+         length $L_o$. The increase in the weighted importance of precision led to discussion with
+        our sponsor solidifying the mechanical envelope as a soft requirement. This allowed the actuator
+        length to exceed the bounds of the mechanical envelope in interest of preserving movement precission.
+
+        Though considered a "soft requirement", foray outside of the mechanical envelope should still 
+        be minimized. Further research was done into materials with higher coefficients of thermal 
+        expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys, as well as specialized polymers can
+        exceed the expansion of aluminum. Issues with these materials brought material property requirements
+        to the forefront regarding stability of mechanical properties across the operating temperature
+        range. 
+
 
 
         \subsubsection{Subsystem Interactions}
+        
+
         \subsection{Current Implementation}
 
 
@@ -1499,15 +1510,23 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             expansion that directly affects the displacement that substracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specificed endpoints.
 
             % Paragraph 3
-            After realizing how error can cascade from the thermal expansion of the mount, it 
+            After realizing how error can cascade from the thermal expansion of the mount, it became crucial to identify subsystem-level design requirements. Within the mount, there are three careful cosniderations. First, the mount needs to be stiff enough such that its mechanical
+            deflection under the actuator's reaction force is negligible compared to the total actuator stroke. Crucially, to resolve this issue our mount needs enough thickness. Second, the thermal expansion of the mount must be quantified and incorporated into the actuator length calculation.
+            The required actuator length can have overshoot or undershoot negating the entire effects of the valve if the mount thermal expansion is not properly accounted for. Third, the mount must provide a calibration mechanism capable of setting the orrifice to the correct effective diamater
+            at the reference temperature of 25 $\degC$ with a resolution at least as fine as the $\pm$0.0127 mm tolerance on $D_eff$. This calibration must also withstand the clamping, thermal cycling, and full operating pressure without shifting. 
 
+            These three requirements are the basis of the analysis presented in the following sections.
 
-
+        \subsection{Trapezoidal Mount Plates}
+        \subsection{Calibration Stack}
+        \subsection{Fasterners}
         
 
 
 
-        only thermal expansion in mount need to worry about is the a frame 
+
+
+    
 
     \section{System Compliance}
 
