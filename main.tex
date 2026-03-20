@@ -756,7 +756,10 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         as defined in Figure \ref{fig:controls_diagram}, and equations \ref{eq: transfer_function} and \ref{eq:actuator_control}.
         Thus, assuming $\frac{dD}{dX} = \sqrt{2}{\pi}$ and $\frac{dX}{dX} = 1$ within the valve subsystem
         (which is correct practice when calculating error propagation),
-        $\frac{dL}{dT}$ must equal $\sqrt{\frac{2}{\pi}} A_1$. Two sources drive its error:
+        $\frac{dL}{dT}$ must equal $\sqrt{\frac{2}{\pi}} A_1$.
+        Because
+        $\frac{dL}{dT} = \alpha L_0$,
+        two sources drive its error:
 
         \begin{enumerate}
             \item Changes in the coefficient of thermal expansion $\alpha$ across the temperature range
@@ -1398,7 +1401,16 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \todo{NOTE - Discussion should prove that the column on the right is met rather than focussing on the left column.}
 
-        % ---- Calculation Example: Thermal Expansion ----
+        \subsection{Specification 1: Thermal expansion tolerance}
+        \label{subsec:act_spec_1}
+
+            \todo{Insert propagated error proof as specified}
+
+        \subsection{Specification 2: Reaction force deflection}
+        \label{subsec:act_spec_2}
+
+            \todo{Calculate deflection due to a reaction force of \FTolValve from valve}       
+        
         \subsection{Design Requirement Updates}
         
 
@@ -1416,13 +1428,24 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         system to meet actuation distance needs of the valve while keeping within the mechanical 
         envelope. Discussion with subject matter experts and further uncertainty calculations 
         showed that backlash and expected tolerance deviations from machining and assembly would
-        be compounded by the gear train. This would push the entire system out of error tolerance. 
-        This influenced an increase in the weighted importance of tolerance and sparked discussion with
-        our sponder about flexability of the mechanical envelope as eliminating the gear train and
-        extending actuator length would significantly reduce error. 
+        be compounded by the gear train. This would push the entire system out of error tolerance and 
+        sparked consideration of eliminating the interface in favor of increasing undeformed actuator
+         length $L_o$. The increase in the weighted importance of precision led to discussion with
+        our sponsor solidifying the mechanical envelope as a soft requirement. This allowed the actuator
+        length to exceed the bounds of the mechanical envelope in interest of preserving movement precission.
+
+        Though considered a "soft requirement", foray outside of the mechanical envelope should still 
+        be minimized. Further research was done into materials with higher coefficients of thermal 
+        expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys, as well as specialized polymers can
+        exceed the expansion of aluminum. Issues with these materials brought material property requirements
+        to the forefront regarding stability of mechanical properties across the operating temperature
+        range. 
+
 
 
         \subsubsection{Subsystem Interactions}
+        
+
         \subsection{Current Implementation}
 
 
@@ -1479,20 +1502,20 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
             \todo{Add references to dimension tolerances listed in Appendix}
 
-        \subsection{Specification 2: Critical dimension adjustment}
+        \subsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
 
-            \todo{Insert details about the mount's critical dimension adjustment range. Show that it can be adjusted from within \calRange\ above the target value to within \calTol\ above or below said target}
+            \todo{Shim washer analysis (Sam)}
 
         \subsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
 
-            \todo{Insert details about thermal expansion of the mount. Show that thermal expansion is limited to \mountdLTol}
+            \todo{Calculate thermal expansion of mount}
 
         \subsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
 
-            \todo{Briefly show that dimensions along principle axes lie within the mount's mechanical envelope. TODO: specify three-axis spatial limits for mount}        
+            \todo{Brief mechanical envelope analysis}        
         \subsection{Design Requirement Updates}
 
             % Paragraph 1
