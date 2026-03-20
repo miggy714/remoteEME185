@@ -810,7 +810,16 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             % Paragraph 1
             The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
             the current ambient temperature and determined reference temperature. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is quasi-linear. This linearity is preserved without any correction factors, feedback mechanism, or nonlinear compensation designs of any kind.
-
+        
+            \begin{figure}[H]
+                 \centering
+                \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+                \caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+                \label{fig:al_alpha}
+            \end{figure}            
+            
+            Here is a table showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            
             % Paragraph 2
             The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
             Furthermore, the full thermal expansion of the rod across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
@@ -1225,7 +1234,10 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \subsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
 
-            \todo{Prove thermal isolation (John B)}
+        The thermal actuator is located completely outside the pipe and is fully exposed to the ambient air.    
+      Because the Invar valve system is completely encased within the pipe, wall the temperature gradient exists only across the 10mm wall thickness.
+      No thermal energy from the internal gas propagates beyond the pipe wall, so the actuator temperature is determined solely by the ambient air temperature.
+      This confirms that the actuator is thermally isolated from the temperature of the internal flow and responds only to external conditions, as required.
 
         \subsection{Specification 5: Reaction force}
         \label{subsec:valve_spec_5}
