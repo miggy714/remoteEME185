@@ -569,17 +569,17 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Main_isometric.png}
+            \includegraphics[height=4in, width=6in, keepaspectratio]{Complete_Assembly_Render.png}
 
             \caption{Complete assembly}
-            \label{fig:mainIsometric}
+            \label{fig:}
             \end{figure}
 
             \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Main_exploded.png}
+            \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
 
-            \caption{Complete assembly exploded view with unexploded subassemblies}
+            \caption{Complete assembly exploded view}
             \label{fig:mainExploded}
         \end{figure}
 
@@ -689,14 +689,14 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_isometric.png}
+            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_Subsystem_Render.png}
             \caption{Valve subsystem isometric view}
             \label{fig:valve_isometric}
         \end{figure}
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_exploded.png}
+            \includegraphics[height=4in, width=6in, keepaspectratio]{ValveSubsystemExploded.png}
             \caption{Valve subsystem exploded view}
             \label{fig:valve_exploded}
         \end{figure}
@@ -819,8 +819,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
             \todo{Add brief description as in Sec. \ref{subsec:act_sel_crit}}
 
-%test John
-
             \begin{table}[H]
                 \centering
                 \caption{Mount Selection Criteria}
@@ -852,6 +850,20 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
                 \label{fig:mount_cutaway_oblique}
             \end{figure}
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=4in, width=6in, keepaspectratio]{Mount_Subsystem_Render.png}
+            \caption{Mount subsystem render}
+            \label{fig:mount_isometric}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=4in, width=6in, keepaspectratio]{MountSubsystemExploded.png}
+            \caption{Valve subsystem internal mechanism}
+            \label{fig:mount_exploded}
+        \end{figure}
+        
             % Paragraph 1
             The mount subsystem is a rigid structural frame fabricated from 1018 Cold-rolled steel. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
 
@@ -861,7 +873,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accomodate the welding toolpath rather than requiring the weld to be made before the assembly.
 
             % Paragrpah 3
-            The valve housing is the grey body that contains the pipe, orifice platesm and bellows. This housing sits nested on top of the fixture. On top of the housing is the calibration stack of washers and the A-frame mount. While the fixture is a flat plate of 1018 Cold-rolled steel, it is not part of the mechanical envelope. However, the fixture does serve as the base for the entire PTCD
+            The valve housing is the grey body that contains the pipe, orifice plates, and bellows. This housing sits nested on top of the fixture. On top of the housing is the calibration stack of washers and the A-frame mount. While the fixture is a flat plate of 1018 Cold-rolled steel, it is not part of the mechanical envelope. However, the fixture does serve as the base for the entire PTCD
             assembly and provides the surface for the fastener clamping load. 
 
             % Pargraph 4
@@ -1353,22 +1365,44 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \end{table}
 
 
-        \subsection{Specification 1: Thermal expansion tolerance}
+    \subsection{Specification 1: Delivers necessary stroke length}
         \label{subsec:act_spec_1}
 
-            \todo{Insert propagated error proof as specified}
+            \todo{Insert calcs}
+            The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
+            to its minimum and maximum aperture diameter, $\coldBoundary$ and $\hotBoundary$. To move the plates
+            to these extrema a total stroke length of \specStroke\ mm is required. The governing equation
+            for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
+            dimensions that facilitate this movement. 
 
-        \subsection{Specification 2: Reaction force deflection}
+        \subsection{Specification 2: Thermal expansion tolerance}
         \label{subsec:act_spec_2}
 
-            \todo{Calculate deflection due to a reaction force of \FTolValve from valve}       
-        
+            \todo{Insert propagated error proof as specified (Sam?)}
+
+        \subsection{Specification 3: Reaction force deflection}
+        \label{subsec:act_spec_3}
+
+            \todo{Calculate deflection due to a reaction force of \FTolValve from valve. Check calcs
+            Isaiah did and fill in here}   
+
+        The actuator must overcome resisting forces without deformation before expansion can be 
+        translated into movement. The forces resisting actuator expansion are include friction
+        and other unmodeled losses in the actuator-valve system, as well as the spring constant of
+        the bellows.
+
+        \subsection{Specification 4: Acceptable footprint referencing mechanical envelope}
+        \label{subsec:act_spec_4}
+
+            \todo{Insert discussion of mechanical envelope and reasonable foray outside of it}   
+
+
         \subsection{Design Requirement Updates}
-        
+        \label{subsec:act_spec_3}
 
          Requirements for actuator operation have developed with further sub-requirements being 
-        defined, and individual weight being reevaluated by order of importance. Preliminary 
-        conditions were defined by the need to delivery necessary stroke length for valve operation, 
+        defined and individual weight being reevaluated by importance. Preliminary 
+        conditions were defined by the need to deliver necessary stroke length for valve operation, 
         that thermal expansion
         should be precise and predictable, and that actuator length combined with other sub-system
         components should be contained within the mechanical envelope. The governing equation for
@@ -1378,23 +1412,70 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         An amplifying interface between the valve stem and actuator was designed to increase 
         linear movement to the necessary stroke length via compound gear train. This allowed the
         system to meet actuation distance needs of the valve while keeping within the mechanical 
-        envelope. Discussion with subject matter experts and further uncertainty calculations 
+        envelope. Discussion with subject matter experts and further calculations 
         showed that backlash and expected tolerance deviations from machining and assembly would
-        be compounded by the gear train. This would push the entire system out of error tolerance and 
+        be compounded by the gear train (should I reference equations for this in Appendix?). 
+        This would push the entire system out of error tolerance and 
         sparked consideration of eliminating the interface in favor of increasing undeformed actuator
-         length $L_o$. The increase in the weighted importance of precision led to discussion with
+        length $L_o$. The increase in the weighted importance of precision led to discussion with
         our sponsor solidifying the mechanical envelope as a soft requirement. This allowed the actuator
         length to exceed the bounds of the mechanical envelope in interest of preserving movement precission.
 
         Though considered a "soft requirement", foray outside of the mechanical envelope should still 
         be minimized. Further research was done into materials with higher coefficients of thermal 
-        expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys, as well as specialized polymers can
-        exceed the expansion of aluminum. Issues with these materials brought material property requirements
-        to the forefront regarding stability of mechanical properties across the operating temperature
+        expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys,
+        as well as specialized polymers can exceed the expansion of aluminum. 
+        Issues with these materials brought material property requirements
+        to the forefront of our consideration regarding stability of mechanical properties across the operating temperature
         range. 
 
 
     \section{Mount Subsystem}
+
+        \subsubsection{Subsystem Interactions}
+        
+
+        \subsection{Current Implementation}        
+        The actuator in its current state is a solid aluminum rod of dimensions $L=84.3348 mm, w=30 mm, t=30 mm$
+        and coefficient of expansion and elastic modulus $\alpha= 0.274 \mu m/m$ and $E = 69 GPa$.
+        Its qualities allow for sufficient expansion without use of an amplifying interface, it displays
+        precision actuation across the temperature range, resistance to deformation under external reaction 
+        forces, and lies within tolerance of the mechanical envelope.
+            \begin{table}[H]
+                \centering
+                \caption{Actuator Parameter Values}
+                \label{tab:actuator_parameters}
+                \begin{tabularx}{\textwidth}{l X l}
+                    \toprule
+                    \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+                    \midrule
+                    $E$ &
+                    Young's modulus &
+                    TODO: Insert value (GPa)
+                    \\\addlinespace
+                    $A$ &
+                    Cross-sectional area &
+                    TODO: Insert value (mm\textsuperscript{2})
+                    \\\addlinespace
+                    $\alpha$ &
+                    Coefficient of thermal expansion &
+                    TODO: Insert value (\si{\per\celsius})
+                    \\\addlinespace
+                    $L_0$ &
+                    Original rod length &
+                    TODO: Insert value (mm)
+                    \\\addlinespace
+                    $\Delta T$ &
+                    Temperature change &
+                    TODO: Insert value (\si{\celsius})
+                    \\\addlinespace
+                    $\Delta L$ &
+                    Change in length &
+                    TODO: Insert value (mm)
+                    \\\bottomrule
+                \end{tabularx}
+            \end{table}
+    \section{Mount}
 
         Table \ref{tab:mount_specs_disc} lists again the specifications from Section \ref{subsec:mount_sel_crit}:
 
