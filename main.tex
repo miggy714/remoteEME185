@@ -1507,15 +1507,23 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             expansion that directly affects the displacement that substracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specificed endpoints.
 
             % Paragraph 3
-            After realizing how error can cascade from the thermal expansion of the mount, it 
+            After realizing how error can cascade from the thermal expansion of the mount, it became crucial to identify subsystem-level design requirements. Within the mount, there are three careful cosniderations. First, the mount needs to be stiff enough such that its mechanical
+            deflection under the actuator's reaction force is negligible compared to the total actuator stroke. Crucially, to resolve this issue our mount needs enough thickness. Second, the thermal expansion of the mount must be quantified and incorporated into the actuator length calculation.
+            The required actuator length can have overshoot or undershoot negating the entire effects of the valve if the mount thermal expansion is not properly accounted for. Third, the mount must provide a calibration mechanism capable of setting the orrifice to the correct effective diamater
+            at the reference temperature of 25 $\degC$ with a resolution at least as fine as the $\pm$0.0127 mm tolerance on $D_eff$. This calibration must also withstand the clamping, thermal cycling, and full operating pressure without shifting. 
 
+            These three requirements are the basis of the analysis presented in the following sections.
 
-
+        \subsection{Trapezoidal Mount Plates}
+        \subsection{Calibration Stack}
+        \subsection{Fasterners}
         
 
 
 
-        only thermal expansion in mount need to worry about is the a frame 
+
+
+    
 
     \section{System Compliance}
 
