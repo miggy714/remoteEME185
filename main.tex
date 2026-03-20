@@ -748,7 +748,7 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
             % Paragraph 4
             It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel and Invar 36 are fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
-            prevents any gas leakage to the environment. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirment. See Section 3.1 for more details. 
+            prevents any gas leakage to the environment. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirement. See Section 3.1 for more details. 
             
     \section{Actuator Subsystem}
     \label{sec:act_sub_description}
@@ -1092,11 +1092,11 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \subsubsection{Subsystem Interactions}
         \subsubsection{Current Implementation}
 
-            The valve housing must withstand internal pressure without failing.
+            The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
+            The housing sections are integrated between the fixture and the mount, and they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
             The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
             The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
             The following equations are used to verify structural integrity under the specified conditions.
-            The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure.
             Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
 
             \begin{table}[H]
@@ -1145,9 +1145,9 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
             $$FS = \frac{S_y}{\sigma_{vm}} = \frac{400}{156.75} \approx 2.55$$
             The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.55$.
-
-            The three sections of the valve housing are joined using welded connections which are designed 
-            to withstand the internal pressure without failure.
+            The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
+            
+            The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
             Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
             full penetration \cite{steen2010laser}.
             Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
@@ -1324,7 +1324,9 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
 
             The welded metal bellows transmits an axial stroke $\delta$ from an external actuator into a high-pressure hydrogen valve while maintaining zero leakage. The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, and minimize actuator force demand.
             \\~\\
-            Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
+            Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows. It is laser beam welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. 
+            This weld joint is one of the first steps
+            The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
             Accounting for the spring force of the bellows is important for actuator sizing.
             
             Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$.
