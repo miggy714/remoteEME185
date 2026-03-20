@@ -830,16 +830,19 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             
             $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
             
-            The actual change in length based of a constant change in $\alpha$, we use the formula
-            
-   \begin{align*}
-\Delta L &= L_0 \int_{10}^{80} \alpha(T) \, dT \\
-&= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-&= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
-&= 0.1363 \text{ mm}
-\end{align*}
+            The actual change in length based of a constant change in $\alpha$, we use the formula 
+            \begin{align*}
+            \Delta L &= L_0 \int_{10}^{80} \alpha(T) \, dT \\
+            &= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+            &= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+            &= 0.1363 \text{ mm}
+            \end{align*}
 
+            The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
 
+            $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
+
+            The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 
             % Paragraph 2
             The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
