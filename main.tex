@@ -511,8 +511,13 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \todo{Insert reference to tolerance calculations. Show graph of tolerance as a function of T;
             mention that this is a nonuniform tolerance and is smallest at Tref}
 
-        \todo{Include definition of effective diameter}
-        
+        Effective diameter is the main way that fluid flow is measured through a pipe. The most 
+        common way to find effective diameter is on cylindrical pipes where the effective diameter is just the inner 
+        diameter of the pipe. In our case, because we have a square hole, we have to calculate the effective diameter based 
+        off of the area of the opening. We find the area of the opening and then use the formula $D_{effective}=\sqrt{\frac{4A}{\pi}}$ 
+        to find the effective diameter. This is what Sandia Labs is looking for in the design requirements so we have to make
+        sure that we are finding the effective diameter based off the area that we can calculate.
+
         In order to passively drive the valve orifice diameter by ambient temperature change, 
         our team developed three subarchitectures:
         a valve, to restrict the flow;
@@ -654,22 +659,6 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
             \item To prevent critical failure (e.g. by pressure-driven rupture)
         \end{enumerate}
  
-
-
-
-    \section{Valve images}
-        
-
-
-
-
-
-    \section{Actuator images}
-
-
-
-    \section{Mount images}
-
 
 
     \section{Valve Subsystem}
@@ -949,11 +938,14 @@ Explicitly, this relationship can be summarized as $\requiredRelationship$\ whic
         \label{subsec:valve_spec_3}
 
             \todo{Insert housing pressure calculations from below}
+            
 
         \subsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
 
-            \todo{Insert a simple heat transfer calculation at steady-state given a 20 $\degC$ temperature difference. Find the temperature at the valve stem / actuator interface; it will be hotter than $T_{ambient}$}
+            The thermal actuator is located completely outside the pipe and is fully exposed to the ambient, steady-state air. Because of this the temperature 
+            gradient only goes from the inside surface of the pipe to the outside surface of the pipe, so the temperature of the actuator will not be affected by the temperature of the internal gas. The actuator is thermally isolated and only depends on the outside air temperature.
+
 
         \subsection{Design Requirement Updates}
         \label{subsec:valve_req_updates}
