@@ -109,6 +109,7 @@
 \usepackage{array}      % for >{\raggedright\arraybackslash}
 \usepackage{makecell}   % for \makecell
 \usepackage{calc}
+\usepackage{amsmath}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -175,7 +176,7 @@
 
 %Valve tolerances
 \newcommand{\dDdXTol}{$0.1 \mu m$}
-\newcommand{\dXdLTol}{$0.1 \mu m$}
+\newcommand{\dXdLTol}{$0.1 \mu m$ \todo{Fix dXdLTol def to exceed thermal expansion (2.4 $\mu m$) and compression (??) of valve stem}}
 \newcommand{\pressureSF}{1.4}
 \newcommand{\dXdTTol}{$0.01 \mu m$}
 \newcommand{\dLdTTolValve}{$0.1 \mu m$}
@@ -1967,8 +1968,6 @@ expansion and the resisting forces have negligible effect on rod length.
     \section{System Compliance}
     \label{subsec:sys_comp}
 
-        \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.(Sam and Isaiah)}
-
         Recall that the system transfer function is 
         
         $\transferFunction$ \quad (eq. \ref{eq: transfer_function})
@@ -1978,9 +1977,36 @@ expansion and the resisting forces have negligible effect on rod length.
         $\requiredRelationship$ \quad (eq. \ref{eq: required_relationship})
 
         to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
+        The error in height of the orifice, X(T), is the sum of the greatest errors in the system. We have calculated the following dimensional or operational deviations throughout the Discussion:
+        
+        \begin{itemize}
+            \item The height of the mount from drawing M2: $122.476\,{}^{+0}_{-0.01} mm$
+            \item The length of the actuator from drawing A1: $84.335 \pm 0.005mm$
+            \item The thermal expansion error of the actuator: $162.35\,{}^{+2.4}_{0} \mu m$
+            \item Actuator compression due to bellows force (this will be in the opposite direction of the other deviations, cancelling them partially): $0.3 \mu m$
+            \item Valve stem compression due to bellows force (this will also negate the other error values): $5 \mu m$
+            \item The dimensional length of the valve stem (because the tolerance only allows the length to err too short, this will also detract from the total error): $24.041\,{}^{+0}_{-0.01} mm$
+            \item Most significantly, the thermal expansion of the mount will decrease the orifice height by: $12.5 \mu m$
+        \end{itemize}
 
-        The specified tolerances for each control derivative in the transfer function is in Table \ref{tab:tol_final}.
+        These sum up to 
+        $(10 + 5 + 2.4 - 0.3 - 5 - 10 - 12.5) = -10.4 \mu m$
 
+        Because $D_{effective} = \sqrt{\frac{2}{\pi}}*X(T)$, the maximum error in the Required Relationship according to these specification is
+        $\sqrt{\frac{2}{\pi}}*(10.4 \mu m) = 8.3 \mu m$. This is within the tolerance specification for all temperatures.
+        As stated in Section \ref{subsec:initial_system_requirements} and Appendix \ref{app:errorProp}, the minimum tolerance is 12.7 $\mu$m.
+        This leaves enough room for unseen errors.
+
+        Note that this calculations makes a number of first-order assumptions, which will be refined early next quarter as the computational model is optimized.
+        These assumptions included the following:
+
+        \begin{itemize}
+            \item The square orifice will have a negligible fillet radius via high-precision manufacturing techniques. These methods will be researched early next quarter.
+            \item The thermal expansion of the valve housing will be negligible.
+            \item Several dimensional tolerances were ignored.
+        \end{itemize}
+
+        However, this provides a first-order approximation that if this iteration is not within tolerance, it will at least be close.
         
         % \begin{table}[H]
         %     \centering
