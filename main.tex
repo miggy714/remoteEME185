@@ -1428,22 +1428,24 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
         The actuator must overcome resisting forces without deformation before expansion can be 
         translated into movement. The forces resisting actuator expansion are include friction
-        and other un-modeled losses in the actuator-valve system, as well as the spring constant of
-        the bellows.
+        and other un-modeled losses in the actuator-valve system, as well as the spring force of
+        the bellows. The below calculations show that any error caused by deflection are minimal
+        and will not cause the system to fall outside of the design requirements.
+
 
   
 \title{Thermal Actuator Resistance Calculation}
 
-
+\newpage
 %------------------------------------------------------------
-\section*{Known Variables}
+\noindent\textbf{Known Variables}
 %------------------------------------------------------------
 
 \begin{tabular}{lll}
 \toprule
 \textbf{Symbol} & \textbf{Description} & \textbf{Value} \\
 \midrule
-$L_0$           & Original rod length                        & \SI{0.0841432}{m} \\
+$L_0$           & Original rod length                        & \SI{84.1432}{mm} \\
 $\alpha$        & Thermal expansion coefficient (aluminum)   & \SI{23.1e-6}{\per\celsius} \\
 $\Delta T_{lower}$ & Temperature change (lower bound)        & \SI{-80}{\celsius} \\
 $\Delta T_{upper}$ & Temperature change (upper bound)        & \SI{+60}{\celsius} \\
@@ -1455,8 +1457,10 @@ $E_{Al}$        & Young's modulus of aluminum                & \SI{69}{GPa} \\
 \bottomrule
 \end{tabular}
 
+\noindent\textbf{Deflection Calculations}
+
 \vspace{1em}
-\noindent\textbf{Unit conversion for spring constant:}
+Unit conversion for spring constant:
 \begin{equation}
     k = 3600\;\frac{\text{lbf}}{\text{in}}
       \times \frac{4.448\;\text{N}}{\text{lbf}}
@@ -1465,59 +1469,56 @@ $E_{Al}$        & Young's modulus of aluminum                & \SI{69}{GPa} \\
 \end{equation}
 
 %------------------------------------------------------------
-\section*{Equations}
+
 %------------------------------------------------------------
 
-\subsection*{1. Thermal Expansion / Contraction}
-The displacement of the rod due to a temperature change $\Delta T$ is:
+Displacement of the rod due to a temperature change $\Delta T$:
 \begin{equation}
     \delta x = L_0 \cdot \alpha \cdot \Delta T
 \end{equation}
 
-\subsection*{2. Bellows Resisting Force}
-The force exerted by the bellows spring opposing the displacement:
+Force exerted by the bellows spring opposing the displacement:
 \begin{equation}
     F_{bellows} = k \cdot \delta x
 \end{equation}
 
-\subsection*{3. Total Resisting Force}
-The total resistance the actuator must overcome:
+The total resistance the actuator must overcome is the sum of friction and bellows spring force.
+Note that the largest contributor to friction force will be the sliding of the valve plates. As
+the system is only required to adjust prior to testing, there will be no hydrogen flow and thus minimal
+normal force pressing the plates together. Citing $F_{friction} = \mu*N $, we can assume friction force
+will be minimal but include a worst-case value of 3N in calculations. This results in:
 \begin{equation}
     F_{resistance} = F_{bellows} + F_{friction}
 \end{equation}
 
-\subsection*{4. Contact Area}
-The face area of the actuator over which the force is applied:
+This force is applied to the face of the actuator of area calculated:
 \begin{equation}
     A_{contact} = w \cdot t
 \end{equation}
 
-\subsection*{5. Stress}
 The compressive or tensile stress on the actuator face:
 \begin{equation}
     \sigma = \frac{F_{resistance}}{A_{contact}}
 \end{equation}
 
-\subsection*{6. Strain}
-Using Young's modulus (valid for both tension and compression in aluminum):
+Using Young's modulus (valid for both tension and compression in aluminum) to obtain strain:
 \begin{equation}
     \varepsilon = \frac{\sigma}{E_{Al}}
 \end{equation}
 
-\subsection*{7. Mechanical Deflection Due to Resisting Force}
 The elastic deformation of the rod caused by the resisting force:
 \begin{equation}
     \delta_{mech} = \varepsilon \cdot L_0
 \end{equation}
 
-\subsection*{8. Percent Error of Thermal Expansion}
-The mechanical deflection as a percentage of the thermal displacement:
+The mechanical deflection as a percentage of the thermal displacement to 
+quantify actuation error at temperature extrema:
 \begin{equation}
     \%\,\text{error} = \frac{\delta_{mech}}{\delta x} \times 100\%
 \end{equation}
 
 %------------------------------------------------------------
-\section*{Results}
+\noindent\textbf{Results}
 %------------------------------------------------------------
 
 \begin{table}[h!]
@@ -1781,9 +1782,9 @@ expansion and the resisting forces have negligible effect on rod length.
     Sandia National Labs awarded our team \$2,000 to manufacture and test a prototype of the \device.
     Due to the extreme precision and conditions required for our design, the prototype will serve as a first-order approximation to the real device.
     SNL explicitly gave us no budget cap for the final design package, giving us liberty to recommend more expensive and exotic materials, manufacturing methods, and testing procedures after we test this cheaper prototype next quarter.
-    Note that this bill of materials (BOM) is incomplete and covers only material costs. Funds for this prototype were awarded nine days before this report's due date, requiring that we update the BOM early next quarter with quotes for the advanced manufacturing required to machine some of these parts.
-    Testing apparatuses will also need to be purchased. Thus, the listed final cost is significantly lower than the actual projected cost of this project.
-    \todo{The above seems rather self-defensive; is there a better way to say that the total cost is not a final value?}
+    Note that this bill of materials (BOM) covers material costs only and remains subject to revision. Funds for the project were awarded in close proximity to the report's due date allowing for manufacturer selection to be completed early next quarter. The team is actively engaged with manufacturers to obtain quotes for the precision machining required for several components. 
+    These manufacturing costs, along with testing apparatus procurement, will constitute the remainder of the projected budget. The total cost presented here should therefore be considered a preliminary estimate, with the final project 
+    cost to be updated upon receipt of manufacturing quotes early next quarter.
 
     \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
     \label{fig:bom}
