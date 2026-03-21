@@ -140,6 +140,7 @@
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3 \mu m}
 \newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4 \mu m}
+\newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
@@ -516,9 +517,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \hotBoundary
             \label{eq: hotBoundary}
         \end{equation}
+        The tolerance is not linear throughout the operating temperature range with a minima at the reference temperature \ref{fig:errorpropvariation}.
+        The full calculation can be found in \ref{app:errorProp} with the following governing equation:
+        \begin{equation}
+            \govErrorProp
+            \label{eq:ErrorPropagation}
+        \end{equation}
 
-        \todo{Insert reference to tolerance calculations. Show graph of tolerance as a function of T;
-            mention that this is a nonuniform tolerance and is smallest at Tref}
 
         Effective diameter is the main way that fluid flow is measured through a pipe. The most 
         common way to find effective diameter is on cylindrical pipes where the effective diameter is just the inner 
@@ -2253,7 +2258,47 @@ This supports the Bill of Materials in Section~\ref{sec:bom}.}
 summarized for brevity, include the full derivations and spreadsheet
 screenshots here. Reference Performance\_Relationship.xlsx and
 Thermal\_Expansion.xlsx data as appropriate.}
+\section{Error Propagation Calculation}
+\label{app:errorProp}
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
+        \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
+        \label{fig:errorpropboundary}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
+        \caption{This shows the Tolerance variations calculated by the error propagation equation}
+        \label{fig:errorpropvariation}
+    \end{figure}
+The base function in this calculation is:
+\begin{equation}
+    x(T) = D_{eff}(T) = \sqrt{\frac{\pi}{2}} \cdot \Big( A_1 (T - T_{ref}) + A_0 \Big)
+\end{equation}
+Propagating the error through variables $A_1$ and $A_0$:
+\begin{align}
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+    \\
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+\end{align}
+Base displacement uncertainty (RSS):
+\begin{align}
+    &u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+    \\
+    &u_D(T) = \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{align}
+Total radial error:
+\begin{equation}
+    u_x(T) = \sqrt{\frac{\pi}{2}} \cdot \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{equation}
+The following equations calculate the bounds:
+\begin{align}
+    &x_{upper}(T) = x(T) + u_x(T)
+    \\
+    &x_{lower}(T) = x(T) - u_x(T)
+\end{align}
 \end{appendices}
 
 
