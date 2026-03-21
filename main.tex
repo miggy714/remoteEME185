@@ -138,6 +138,7 @@
 \newcommand{\sbsValve}{Valve Mechanism}
 \newcommand{\sbsActuator}{Actuator}
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\transferFunction}{D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]}
 \newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3 \mu m}
 \newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4 \mu m}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
@@ -637,7 +638,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
         \begin{equation}
-            D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]
+            \transferFunction
             \label{eq: transfer_function}
         \end{equation}
 
@@ -1750,6 +1751,20 @@ expansion and the resisting forces have negligible effect on rod length.
     \label{subsec:sys_comp}
 
         \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.}
+
+        Recal that the system transfer function is 
+        
+        $\transferFunction$ \quad (eq. \ref{eq: transfer_function})
+        
+        which must equal the required relationship
+
+        $\requiredRelationship$ \quad (eq. \ref{eq: required_relationship})
+
+        to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
+
+        The specified tolerances for each control derivative in the transfer function is in 
+
+            
 
 
     
