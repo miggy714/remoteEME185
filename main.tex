@@ -176,7 +176,7 @@
 
 %Valve tolerances
 \newcommand{\dDdXTol}{$0.1 \mu m$}
-\newcommand{\dXdLTol}{$0.1 \mu m$ \todo{Fix dXdLTol def to exceed thermal expansion (2.4 $\mu m$) and compression (??) of valve stem}}
+\newcommand{\dXdLTol}{$2.75 \mu m$}
 \newcommand{\pressureSF}{1.4}
 \newcommand{\dXdTTol}{$0.01 \mu m$}
 \newcommand{\dLdTTolValve}{$0.1 \mu m$}
@@ -1542,7 +1542,6 @@ the valve.
             The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
             Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
-        \subsubsection{Specification 2: Reaction force deflection}
             $$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
 
 
