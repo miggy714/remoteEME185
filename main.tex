@@ -464,8 +464,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 \chapter{System Architecture}
 \label{sec:system_architecture}
 
-    % \todo{Give top-level, qualitative overview of system requirements}
-
     \section{System requirements}
     \label{sec:initial_system_requirements}
         Sandia National Labs provided us with exactly two system requirements, 
@@ -637,9 +635,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
-        According to control systems theory
-        \todo{Insert referense to Nise Control Systems from Bibliography (Miguel)}
-        , a passive device is represented by an open-loop control diagram with no sensor feedback.
+        According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
         \begin{equation}
@@ -813,7 +809,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \label{eq:udLdX}
         \end{equation}
 
-        where $u_x$ is the error of variable x, and the partial derivatives are evaluated at their variable's respective averages. \todo{Add reference to Figliola textbook}
+        where $u_x$ is the error of variable x, and the partial derivatives are evaluated at their variable's respective averages. \cite{ref_Figliola}
 
         The valve subsystem may also resist the movement of the actuator by providing a reaction force.
         The actuator subsystem must account for any forces it provides within its respective specified limit.
@@ -1614,6 +1610,7 @@ expansion and the resisting forces have negligible effect on rod length.
         \label{subsec:mount_spec_1}
 
             \todo{Add references to dimension tolerances listed in Appendix}
+            Error prop reference here: \ref{app:errorProp}
 
         \subsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
@@ -1814,91 +1811,6 @@ expansion and the resisting forces have negligible effect on rod length.
 
     \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
     \label{fig:bom}
-
-
-% % --- The BOM Table ---
-% % Using longtable so it can span multiple pages if needed.
-% % Column specification:
-% %   c = centered, l = left-aligned, r = right-aligned
-% %   p{width} = paragraph column with fixed width (for wrapping long text)
-
-% \begin{landscape}
-% \begin{longtable}{c l p{1.8in} c c c r}
-
-%     % --- Table Header (appears on every page) ---
-%     \caption{Preliminary Bill of Materials and Cost Estimate}
-%     \label{tab:bom} \\
-
-%     \toprule
-%     \textbf{Item} &
-%     \textbf{Part Name} &
-%     \textbf{Description / Supplier} &
-%     \textbf{Qty} &
-%     \textbf{Material} &
-%     \textbf{P/F} &
-%     \textbf{Cost (\$)} \\
-%     \midrule
-%     \endfirsthead
-
-%     % --- Continuation header (on subsequent pages) ---
-%     \multicolumn{7}{c}{\small\itshape (continued from previous page)} \\
-%     \toprule
-%     \textbf{Item} &
-%     \textbf{Part Name} &
-%     \textbf{Description / Supplier} &
-%     \textbf{Qty} &
-%     \textbf{Material} &
-%     \textbf{P/F} &
-%     \textbf{Cost (\$)} \\
-%     \midrule
-%     \endhead
-
-%     % --- Footer on all pages except last ---
-%     \midrule
-%     \multicolumn{7}{r}{\small\itshape (continued on next page)} \\
-%     \endfoot
-
-%     % --- Footer on the last page ---
-%     \midrule
-%     \multicolumn{6}{r}{\textbf{Estimated Total:}} &
-%     \textbf{\todo{XX.XX}} \\
-%     \bottomrule
-%     \endlastfoot
-
-%     % ---- Subsystem: Actuator ----
-%     \multicolumn{7}{l}{\textbf{Actuator Subsystem}} \\
-%     \midrule
-%     1 & Actuator rod & \todo{Description / McMaster \#} & 1 & Pure Aluminum & F & \todo{XX.XX} \\
-%     2 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{Al 6061} & F & \todo{XX.XX} \\
-%     \addlinespace
-
-%     % ---- Subsystem: Valve ----
-%     \multicolumn{7}{l}{\textbf{Valve Subsystem}} \\
-%     \midrule
-%     3 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{SS 316} & P & \todo{XX.XX} \\
-%     4 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{Brass} & F & \todo{XX.XX} \\
-%     \addlinespace
-
-%     % ---- Subsystem: Housing ----
-%     \multicolumn{7}{l}{\textbf{Housing \& Interface}} \\
-%     \midrule
-%     5 & \todo{Part name} & \todo{Description} & \todo{1} & \todo{SS 316} & F & \todo{XX.XX} \\
-%     6 & \todo{Part name} & \todo{Description} & \todo{2} & \todo{Viton} & P & \todo{XX.XX} \\
-%     \addlinespace
-
-%     % ---- Subsystem: Fasteners & Misc ----
-%     \multicolumn{7}{l}{\textbf{Fasteners \& Miscellaneous}} \\
-%     \midrule
-%     7 & \todo{Part name} & \todo{Description} & \todo{10} & \todo{Steel} & P & \todo{XX.XX} \\
-%     \addlinespace
-
-%     % ---- Tooling (if any) ----
-%     % \multicolumn{7}{l}{\textbf{Special Tooling}} \\
-%     % \midrule
-%     % 8 & \todo{Tooling item} & \todo{Description} & \todo{1} & --- & P & \todo{XX.XX} \\
-
-% \end{longtable}
-% \end{landscape}
 
 
 %--- END CONTENT ---
@@ -2113,11 +2025,11 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
     [Online]. Available: \url{https://www.matweb.com}, 
     Accessed: March 20, 2025.
 
-    \bibitem{ref_placeholder5}
-    \todo{N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019. Referenced near Figure \ref{fig:orifice}}
+    \bibitem{ref_Nise}
+    N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
 
-    \bibitem{ref_placeholder6}
-    \todo{R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.}
+    \bibitem{ref_Figliola}
+    R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
 
     % Add more \bibitem entries as needed.
     % In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2339,7 +2251,7 @@ The following equations calculate the bounds:
     &x_{lower}(T) = x(T) - u_x(T)
 \end{align}
 
-This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation \todo{Add Figliola reference; it's in bibliography}
+This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation \cite{ref_Figliola}
 
 
 \end{appendices}
