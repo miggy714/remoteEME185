@@ -110,13 +110,15 @@
 \usepackage{makecell}   % for \makecell
 \usepackage{calc}
 
-
-
+% In your preamble
+\newcounter{mycounter}           % creates a counter, initialized to 0
+\newcounter{sub}[mycounter]      % resets 'sub' when 'mycounter' increments
 % ============================================================================
 % SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
 % ============================================================================
 % These are reusable shortcuts. Define them once, use them everywhere.
 % If a name or term changes, you only edit it in ONE place.
+
 
 % --- Project-specific shortcuts ---
 \newcommand{\projecttitle}{Passive Temperature Compensation Device}
@@ -974,13 +976,13 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \label{tab:valve_specs_disc}
             \renewcommand{\arraystretch}{1.4}
         \end{table}
-        
-        \subsection{Specification 1: Dimensional tolerances}
+        \subsection{Specification Compliance}
+        \subsubsection{Specification 1: Dimensional tolerances}
         \label{subsec:valve_spec_1}
 
             \todo{Add reference to eng. drawing package, state that these tolerances do indeed comply with the dimension specification}
 
-        \subsection{Specification 2: Valve Stem displacement}
+        \subsubsection{Specification 2: Valve Stem displacement}
         \label{subsec:valve_spec_2}
 
                 \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
@@ -1072,7 +1074,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                 Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
                 \\~\\
 
-        \subsection{Specification 3: Pressure rating}
+        \subsubsection{Specification 3: Pressure rating}
         \label{subsec:valve_spec_3}
 
             The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
@@ -1262,7 +1264,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             the weld joint introduces no strength penalty relative to the base material.
             The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
         
-        \subsection{Specification 4: Temperature gradient}
+        \subsubsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
 
             The thermal actuator is located completely outside the pipe and is fully exposed to the ambient air.    
@@ -1270,7 +1272,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             No thermal energy from the internal gas propagates beyond the pipe wall, so the actuator temperature is determined solely by the ambient air temperature.
             This confirms that the actuator is thermally isolated from the temperature of the internal flow and responds only to external conditions, as required.
 
-        \subsection{Specification 5: Reaction force}
+        \subsubsection{Specification 5: Reaction force}
         \label{subsec:valve_spec_5}
 
             \begin{figure}[H]
@@ -1388,7 +1390,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
             increases spring load and actuator demand.
 
-        \subsection{Specification 6: Mechanical envelope}
+        \subsubsection{Specification 6: Mechanical envelope}
         \label{subsec:valve_spec_6}
 
             As shown in Appendix \ref{app:drawings}, the valve subsystem's maximum mechanical envelope is 
@@ -1504,8 +1506,8 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \end{tabularx}
         \end{table}
 
-
-    \subsection{Specification 1: Thermal Expansion Tolerance}
+        \subsection{Specification Compliance}
+    \subsubsection{Specification 1: Thermal Expansion Tolerance}
         \label{subsec:act_spec_1}
 
             The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
@@ -1543,6 +1545,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
             Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
+        \subsubsection{Specification 2: Reaction force deflection}
             $$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
 
 
@@ -1679,7 +1682,7 @@ expansion and the resisting forces have negligible effect on rod length.
             \todo{Insert discussion of mechanical envelope and reasonable foray outside of it(Ask Isaiah)}   
 
 
-        \subsection{Design Requirement Updates}
+        \subsubsection{Design Requirement Updates}
         \label{subsec:act_spec_3}
 
          Requirements for actuator operation have developed with further sub-requirements being 
@@ -1723,13 +1726,13 @@ expansion and the resisting forces have negligible effect on rod length.
             \label{tab:mount_specs_disc}
             \renewcommand{\arraystretch}{1.4}
         \end{table}
-
-        \subsection{Specification 1: Dimensional tolerances}
+        \subsection{Specification Compliance}
+        \subsubsection{Specification 1: Dimensional tolerances}
         \label{subsec:mount_spec_1}
 
             The dimensions between the base of the mount and the upper interior, where the actuator will be mounted, is specified as 0.005 $\mu$m in the engineering drawings.
 
-        \subsection{Specification 2: User calibration}
+        \subsubsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
 
             Shim washers are commonly used for micrometer-level height adjustments. After manufacturing, our team will be able to measure the exact dimensions of our parts tools available in the machine shop on campus.
@@ -1746,8 +1749,30 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
-        
-        See Section 3.3.8
+
+            \todo{(JBandJP)Update the numbers in this section to reflect:
+                \begin{itemize}
+                    \item We're using Invar 36 now
+                    \item $\Delta T$ is only 85 $degC$, not 140, because error will be zero at $T_{ref}$
+                \end{itemize}
+            }
+
+            The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. If $L_act$ is the actuator rod length and H is the mount height from the actuator
+            anchor point, the net stroke is: \[ \delta_{net} = L_{act} \cdot \alpha_{Aluminum} \cdot \Delta T - H \cdot \alpha_{steel} \cdot \Delta T \]
+            If the actuator rod approximately fits in the mount cavity such that $L_{act} \approx {H}$, this simplifies to: \[ \delta_{net} \approx L \cdot (\alpha_{Al} - \alpha_{steel}) \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \] 
+            Where, \[ \Delta \alpha = 23.6 \times 10^-6 - 11.7 \times 10^-6 = 11.9 \times 10^{-6} \, \degC \]
+
+            The difference in the coefficient of thermal expansion is the effective CTE driving the valve. To deliver a net stroke of 267 $\mu$m across the 140 $\degC$ operating range, the required actuator length is:
+            \[ L = \frac{\delta_{net}}{\Delta\alpha \cdot \Delta T}  = \frac{0.267}{11.9 \times 10^{-6} \times 140} \approx 160.3 \text{ mm} \]
+
+            If the thermal expansion of the mount is not accounted for and the calculation of stroke length is calculated with only the aluminum from the actuator, the required length would appear to be:
+            \[ L_{\text{gross}} = \frac{0.267}{\alpha_{\text{Aluminum}} \cdot \Delta T} = \frac{0.267}{23.6 \times 10^{-6} \times 140} \approx 80.8 \text{ mm} \]
+
+            Therefore, the actuator mounted in the steel frame would deliver the following net stroke as a result: 
+            \[ \delta_{\text{actual}} = 80.8 \times (23.6 - 11.7) \times 10^{-6} \times 140 \approx 134.6 \, \mu\text{m} \]
+
+            
+            This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in correspondence with the actuator. 
 
         \subsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
@@ -1786,7 +1811,7 @@ expansion and the resisting forces have negligible effect on rod length.
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
         \subsection{Trapezoidal Mount Plate Current Implementation}
-            The two trapezoidal mount plates are machined from Invar 36 nickel-iron alloy. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
+            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
             top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
             
 
@@ -1823,8 +1848,8 @@ expansion and the resisting forces have negligible effect on rod length.
                     $22.7 \times 10^{-6} \, \degC$
                         \\\addlinespace
                     $\Delta{T}$ &
-                    Max displacement from reference &
-                    85 $\degC$
+                    Total temperature range &
+                    140 $\degC$
                     \\\addlinespace
                     F &
                     Axial actuation force &
@@ -1850,11 +1875,9 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsection{Trapezoidal Mount Structural Stiffness}
             In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
-            of F = 168.96 N, which is the bellow spring force at full stroke, per Section 3.3. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
-            Given that Invar 36 has a modulus of 141 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke, but this will be quantitatively confirmed before fabrication.
-        
-        \subsection{Fasteners Design Requirement Updates}
-            The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepancy between the fasteners and the fixture corrupts the calibration of the entire device. 
+            of F = 168.96 N, which is the bellow spring force at full stroke. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. Conservatively modeling each plate as a cantilever of heigh H = 88.9 mm carrying half the load
+            (F/2 = 84.48 N), and approximating the minimum cross sectional moment of inertaion from the plate geometry:
+            \[ \delta_{\text{deflection}} = \frac{F \cdot H^3}{2 \cdot 3EI} \]
 
         \subsection{Fasteners Current Implementation}
             Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
