@@ -558,11 +558,18 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
     \section{System Architecture Overview}
     \label{sec:sys_arch_overview}
         
-        Figure \ref{fig:mainIsometric} shows the complete virtual model of the \device,
-        developed using computer-aided design (CAD) software.
-        A partial exploded view is shown in Figure \ref{fig:mainExploded} .
-        The gray housing holds the valve subassembly. It sits nested in the tan mount subassembly.
-        The gray actuator block is mounted between the top inside face of the mount and the top of the valve stem that protrudes from the housing.
+        The \device\ (Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID})
+        comprises the following subassemblies:
+
+        \begin{itemize}
+            \item Valve: the central orifice, its valve stem, and a hermitically sealed bellows sit in the central housing component.
+                    These are welded to the housing inlet and outlet, which will connect to the provided gas flow pipes, to make the complete housing structure.
+            \item Actuator: the thermal expansion block sits nested inside the mount superstructure. 
+                    It is welded between the upper interior of the mount and the tip of the valve stem.
+            \item Mount: the device superstructure is welded and bolted together to hold the actuator from its top at a fixed distance from the valve orifice.
+        \end{itemize}
+       
+       
 
         \todo{Add axes to one assembly image}
 
@@ -608,7 +615,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
-        According to control systems theory, a passive device is represented by an open-loop control diagram with no sensor feedback.
+        According to control systems theory
+        \todo{Insert referense to Nise Control Systems from Bibliography (Miguel)}
+        , a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
         \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
@@ -680,7 +689,10 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \subsection{Valve Selection Criteria}
         \label{subsec:valve_sel_crit}
 
-            \todo{Add brief description as preamble to this table. See Sec. \ref{subsec:act_sel_crit} for reference}
+            As detailed in the above section, each subsection must maintain its portion of the transfer function within enough tolerance such that the whole system satisfies the Required Relationship.
+            Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs} itemize the selection criteria required to keep this relationship for the valve, actuator, and mount subsystems respectively.
+            Each table lists the subsystem's core responsibilities on the left, which dictate the behavior of the transfer function or the total mechanical envelope,
+            and the individual subsystem specifications necessary to fulfill these responsibilities. The subsequent discussion proves that each subsystem meets the specifications on the right of the table.
 
             \begin{table}[H]
                 \centering
@@ -1885,6 +1897,9 @@ Western Applied Research \& Development, Inc.,
 NASA CR-123772, May 1972.
 Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
 [Accessed: Mar. 2026].
+
+    \bibitem{ref_placeholder5}
+    \todo{N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019. Referenced near Figure \ref{fig:orifice}}
 
     \bibitem{ref_placeholder3}
     \todo{Add reference: material property data source}
