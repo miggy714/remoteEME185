@@ -971,8 +971,6 @@ the valve.
         \subsubsection{Specification 2: Valve Stem displacement}
         \label{subsec:valve_spec_2}
 
-                \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
-                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.}
 
                     The valve will undergo both mechanical compression and thermal expansion due to exposure to temperature change and system forces.
                     Mechanical deformation will occur due to actuation force and is characterized in the following calculation:
@@ -989,8 +987,8 @@ the valve.
                 \end{equation}
                 See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
 
-                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}) and the mount is much larger than the 
-                valve stem. Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$
+                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the compression error caused by the force on the valve stem and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}). 
+                Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This is jut lower than the specificaton of 2.75 $\mu$m.
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
