@@ -1786,7 +1786,7 @@ expansion and the resisting forces have negligible effect on rod length.
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
         \subsection{Trapezoidal Mount Plate Current Implementation}
-            The two trapezoidal mount plates are machined from Invar 36 nickel-iron alloy. The plates rise vertically from the ficture and taper inward toward the top, forming the A-fram geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
+            The two trapezoidal mount plates are machined from Invar 36 nickel-iron alloy. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
             top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
             
 
@@ -1833,7 +1833,7 @@ expansion and the resisting forces have negligible effect on rod length.
                 \end{tabularx}
             \end{table}
 
-        \subsection{Trapezoidal Mount Thermal Exapnsion}
+        \subsection{Trapezoidal Mount Thermal Expansion}
             The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
             The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
             \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
@@ -1854,11 +1854,11 @@ expansion and the resisting forces have negligible effect on rod length.
             Given that Invar 36 has a modulus of 141 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke, but this will be quantitatively confirmed before fabrication.
         
         \subsection{Fasteners Design Requirement Updates}
-            The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepency between the fasteners and the fixture corrupts the calibration of the entire device. 
+            The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepancy between the fasteners and the fixture corrupts the calibration of the entire device. 
 
         \subsection{Fasteners Current Implementation}
-            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stoack, over the housing, and threads into the fixture at the base.
-            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to dsitribute the clamping load across the mount plate surface. 
+            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
+            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to distribute the clamping load across the mount plate surface. 
         
         \begin{table}[H]
                 \centering
@@ -1913,7 +1913,7 @@ expansion and the resisting forces have negligible effect on rod length.
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
         \[ FOS_{bolt} = F_{total} / F = 6.52 \times 10^8 \]
         
-        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compabitibility with the shim washer stack geometry.
+        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
 
         \subsection{Fasteners Preload Stability}
         The fasteners (alloy steel, \( \alpha \approx 11.5 \times 10^{-6} /^\circ\text{C} \)) pass through the Invar 36 mount plates (\( \alpha = 1.30 \times 10^{-6} /^\circ\text{C} \)), 
