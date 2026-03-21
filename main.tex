@@ -162,7 +162,7 @@
 \newcommand{\specActuatorCTE}{\textbf{placeholderCTEvalueactuator}} % 10^-6/ºC
 \newcommand{\specFriction}{\textbf{placeholderFrictionForce}} % N
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
-
+\newcommand{\specYoungMActuator}{PlaceholderE}
 
 % --- Tolerance values for specifications. --- 
 % Fill in with real numbers as we find the relevant values 
@@ -335,14 +335,12 @@
 
     % --- Cover Photo: Sandia National Laboratories Aerial View ---
     \begin{center}
-        % TODO: Uncomment the next line and provide the correct filename
         \includegraphics[width=\textwidth]{SandiaNationalLabCoverPhoto2.jpg}
         % Placeholder rectangle if image is not yet available:
     \end{center}
     \vspace{0.4in}
     % --- UC Davis College of Engineering Logo ---
     \begin{center}
-        % TODO: Uncomment and provide the correct filename
         \includegraphics[width=3in]{COE.png}
 
         % Placeholder if logo not yet available:
@@ -1401,7 +1399,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                 \midrule
                 $E$ &
                 Young's modulus &
-                TODO: Insert value (GPa)
+                \specYoungMActuator
                 \\\addlinespace
                 $A$ &
                 Cross-sectional area &
@@ -2022,7 +2020,6 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 % Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
 %
 % The [99] tells LaTeX the widest label will be two digits.
-% TODO: Change to [9] if you have fewer than 10 references.
 
 \begin{thebibliography}{99}
 
