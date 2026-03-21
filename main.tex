@@ -1825,12 +1825,8 @@ expansion and the resisting forces have negligible effect on rod length.
                 \end{tabularx}
             \end{table}
 
-<<<<<<< HEAD
         \subsection{Trapezoidal Mount Thermal Exapnsion}
         \label{tab:trapmountthermalexpansion}
-=======
-        \subsection{Trapezoidal Mount Thermal Expansion}
->>>>>>> 810c844d5bb614d611f7b16bd4eb510bb0b08fcb
             The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
             The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
             \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
@@ -1854,13 +1850,8 @@ expansion and the resisting forces have negligible effect on rod length.
         The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepency between the fasteners and the fixture corrupts the calibration of the entire device.
 
         \subsection{Fasteners Current Implementation}
-<<<<<<< HEAD
         Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stoack, over the housing, and threads into the fixture at the base.
         A standard 18-8 M4 stainless steel oversized washer sits under each screw head to dsitribute the clamping load across the mount plate surface. 
-=======
-            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
-            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to distribute the clamping load across the mount plate surface. 
->>>>>>> 810c844d5bb614d611f7b16bd4eb510bb0b08fcb
         
         \begin{table}[H]
                 \centering
@@ -1940,6 +1931,41 @@ expansion and the resisting forces have negligible effect on rod length.
     
 
     \section{Subsystem Interaction}
+    
+   
+    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure 2.5. Each subsystem has inputs within the system transfer function (eq. 2.5), and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
+    
+    \subsection{Mount–Actuator Interface}
+    The actuator rod is welded to the interior top face of the mount. This weld joint defines the fixed boundary condition from which the actuator expands downward. Because both the mount and actuator are exposed to the same ambient temperature, both undergo thermal expansion simultaneously. The mount expands downward from its anchor at the fixture toward the valve, while the actuator expands downward from its anchor at the top of the mount toward the valve stem. 
+    These two expansions oppose one another: the mount's growth effectively raises the actuator's anchor point relative to the valve housing, reducing the net stroke delivered to the valve. The net displacement is therefore
+    $$ \delta_{\text{net}} = L_{\text{act}} \cdot \alpha_{\text{Al}} \cdot \Delta T - H_{\text{mount}} \cdot \alpha_{\text{Invar}} \cdot \Delta T $$ as derived in Section 3.3.8. The selection of Invar 36 for the mount minimizes this competing expansion. At the cold extreme of $-60\,^\circ\text{C}$, the mount contributes only $\alpha_{\text{Invar}} \cdot H \cdot \Delta T = (1.2 \times 10^{-6})(88.9)(85) \approx 9.1\,\mu\text{m}$ of opposing displacement, 
+    compared to the actuator's gross expansion of approximately $162\,\mu\text{m}$ over the same interval. The actuator length $L_0 = 84.335\,\text{mm}$ was sized to deliver the required net stroke after subtracting this mount expansion.
+
+    \subsection{Actuator–Valve Interface}
+    The lower end of the actuator rod is welded directly to the valve stem. This rigid connection transmits the actuator's thermal displacement to the translating orifice plate with a unity gain of $dX/dL = 1$. There is no linkage, gear train, 
+    or motion amplification between the actuator and valve — the displacement delivered by the actuator is identically the displacement received by the valve plate. This direct coupling eliminates backlash and hysteresis that would arise from 
+    intermediate mechanical interfaces. However, it also means that the valve's reaction force is transmitted directly back into the actuator. The bellows spring force of $F_s = 168.96\,\text{N}$ at full stroke (Section 3.1.5) compresses the 
+    actuator rod axially, producing a mechanical deflection of $\delta_{\text{mech}} \approx 0.23\,\mu\text{m}$ (Section 3.2.2). This deflection is less than $0.1\%$ of the thermal stroke and is therefore negligible, but it is carried upward 
+    through the actuator into the mount, which must be stiff enough to absorb it without measurable deflection of its own.
+
+    \subsection{Mount–Valve Interface} 
+    The mount sits on top of the valve housing, separated by the calibration shim stack. The vertical distance from the interior top face of the mount (where the actuator is anchored) to the orifice plate (where the translating plate contacts 
+    the fixed plate) defines the reference offset $X(T_{\text{ref}})$. This distance governs the constant $A_0$ in the Required Relationship through eq. 2.7. The shim washers between the mount and housing allow this critical dimension to be 
+    adjusted during final assembly to bring $X(T_{\text{ref}})$ within the specified $\pm 5\,\mu\text{m}$ of its target value (Section 3.3.2). The eight M3 fasteners clamp the mount, shim stack, and housing together as a rigid unit, ensuring 
+    that the calibrated offset does not shift under thermal cycling or the actuator's reaction load.
+
+    \subsection{Thermal Coupling}
+    All three subsystems are exposed to the ambient air temperature, which is the sole input to the control system. The valve housing thermally isolates the actuator from the internal gas flow: the $10\,\text{mm}$ steel 
+    wall thickness ensures that the up-to-$20\,^\circ\text{C}$ temperature difference between the gas and the ambient air does not propagate to the actuator (Section 3.1.4). The valve stem, fabricated from Invar 36, provides 
+    additional thermal resistance between the pressurized interior and the actuator. Its own thermal expansion of $2.45\,\mu\text{m}$ over the full temperature range (Section 3.1.2) acts in the same direction as the mount's
+    expansion — opposing the actuator — but is small relative to the mount's contribution and partially offset by it.
+
+    \subsection{Error Propagation Across Subsystems} 
+    The tolerances specified for each subsystem were allocated such that the root-sum-square of all subsystem errors remains within the tolerance band of the Required Relationship. The actuator's thermal expansion error 
+    of $0.2\,\mu\text{m}$ (Section 3.2.1), the mount's thermal expansion of approximately $9.1\,\mu\text{m}$ (accounted for in the actuator length calculation), the valve stem's thermal expansion of $2.45\,\mu\text{m}$, and 
+    the mechanical deflection of $0.23\,\mu\text{m}$
+
+
     \label{subsec:sub_int}
 
     \section{System Compliance}
