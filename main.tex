@@ -971,17 +971,25 @@ the valve.
         \label{subsec:valve_spec_2}
 
                 \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
-                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.
-                    (Isaiah has progress here)}
+                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.}
+
+                    The valve will undergo both mechanical compression and thermal expansion due to exposure to temperature change and system forces.
+                    Mechanical deformation will occur due to actuation force and is characterized in the following calculation:
+                \begin{equation}
+                    \delta_{compression} = \frac{F *L_{stem}}{\pi d_{stem}^2/4 E} = 5.09075 \text{ microns}
+                    \label{eq:stem_compression}
+                \end{equation}
+
 
                 There will also be minimal thermal expansion from the valve stem itself. The total error from the linear expansion follows the formula:
                 \begin{equation}
                     \delta_{thermal} = \alpha_{\text{Invar}} L_{\text{stem}} \Delta T = (1.2 \times 10^{-6})(24.041)(85) = 2.45 \text{ microns}
                     \label{eq:stem_thermal_expansion}
                 \end{equation}
+                See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
 
-                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and the mount is much larger than the 
-                valve stem, so then in all practicality the error from the valve stem will completely erased by the error caused by the mount.
+                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}) and the mount is much larger than the 
+                valve stem. Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
@@ -1030,6 +1038,10 @@ the valve.
                             $L_{seg}$ &
                             Unsupported length &
                             10.54 mm
+                            \\\addlinespace
+                            $L_{stem}$ &
+                            Total stem length &
+                            24.041 mm \cite{matweb}
                             \\\bottomrule
                         \end{tabularx}
                     \end{table}
