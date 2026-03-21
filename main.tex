@@ -159,7 +159,7 @@
 \newcommand{\specStroke}{0.01053} %inch
 \newcommand{\specPressureForceAxial}{\textbf{placeholderaxialforce}} % N
 \newcommand{\specActuatorMaterial}{\textbf{placeholderactuatormaterial}} % No units
-\newcommand{\specActuatorCTE}{$22.9 \times 10^{-6}$ \si{\per\celsius}} % 10^-6/ºC
+\newcommand{\specActuatorCTE}{22.9 \times 10^{-6} \si{\per\celsius}} % 10^-6/ºC
 \newcommand{\specFriction}{\textbf{placeholderFrictionForce}} % N
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specYoungMActuator}{69 GPa}
@@ -984,8 +984,17 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
         \label{subsec:valve_spec_2}
 
                 \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
-                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to thermal expansion or force compression.
+                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.
                     (Isaiah has progress here)}
+
+                There will also be minimal thermal expansion from the valve stem itself. The total error from the linear expansion follows the formula:
+                \begin{equation}
+                    \delta_{thermal} = \alpha_{\text{Invar}} L_{\text{stem}} \Delta T = (1.2 \times 10^{-6})(24.041)(85) = 2.45 \text{ microns}
+                    \label{eq:stem_thermal_expansion}
+                \end{equation}
+
+                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and the mount is much larger than the 
+                valve stem, so then in all practicality the error from the valve stem will completely erased by the error caused by the mount.
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
@@ -1470,19 +1479,19 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                 \midrule
                 $E$ &
                 Young's modulus &
-                \specYoungMActuator
+                $\specYoungMActuator$
                 \\\addlinespace
                 $A$ &
                 Cross-sectional area &
-                \specCrossSectArea
+                $\specCrossSectArea$
                 \\\addlinespace
                 $\alpha$ &
                 Coefficient of thermal expansion &
-                \specActuatorCTE
+               $ \specActuatorCTE$
                 \\\addlinespace
                 $L_0$ &
                 Original rod length &
-                \specOrigActuatorLength
+                $\specOrigActuatorLength$
                 \\\addlinespace
                 $\Delta T$ &
                 Temperature change &
@@ -1490,7 +1499,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                 \\\addlinespace
                 $\Delta L$ &
                 Change in length &
-                \specLengthChange
+                $\specLengthChange$
                 \\\bottomrule
             \end{tabularx}
         \end{table}
