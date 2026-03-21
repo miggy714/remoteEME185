@@ -138,8 +138,10 @@
 \newcommand{\sbsValve}{Valve Mechanism}
 \newcommand{\sbsActuator}{Actuator}
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\transferFunction}{D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]}
 \newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3 \mu m}
 \newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4 \mu m}
+\newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
@@ -516,9 +518,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \hotBoundary
             \label{eq: hotBoundary}
         \end{equation}
+        The tolerance is not linear throughout the operating temperature range with a minima at the reference temperature \ref{fig:errorpropvariation}.
+        The full calculation can be found in \ref{app:errorProp} with the following governing equation:
+        \begin{equation}
+            \govErrorProp
+            \label{eq:ErrorPropagation}
+        \end{equation}
 
-        \todo{Insert reference to tolerance calculations. Show graph of tolerance as a function of T;
-            mention that this is a nonuniform tolerance and is smallest at Tref}
 
         Effective diameter is the main way that fluid flow is measured through a pipe. The most 
         common way to find effective diameter is on cylindrical pipes where the effective diameter is just the inner 
@@ -637,7 +643,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
         \begin{equation}
-            D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]
+            \transferFunction
             \label{eq: transfer_function}
         \end{equation}
 
@@ -807,12 +813,10 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \label{eq:udLdX}
         \end{equation}
 
-        where $u_x$ is the error of variable x, and the partial derivatives are evaluated at their variable's respective averages.
+        where $u_x$ is the error of variable x, and the partial derivatives are evaluated at their variable's respective averages. \todo{Add reference to Figliola textbook}
 
         The valve subsystem may also resist the movement of the actuator by providing a reaction force.
         The actuator subsystem must account for any forces it provides within its respective specified limit.
-
-        \todo{Add ref to an EME 109 textbook, chapter on Kline-McClintock error propagation}
 
             \begin{table}[H]
                 \centering
@@ -907,31 +911,32 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \label{fig:mount_isometric}
         \end{figure}
 
-        \begin{figure}[H]
-            \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{MountSubsystemExploded.png}
-            \caption{Mount subsystem exploded view}
-            \label{fig:mount_exploded}
-        \end{figure}
 
             % Paragraph 1
             The mount subsystem is a rigid structural frame fabricated from Invar 36. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[height=4in, width=6in, keepaspectratio]{Mount_cutaway_oblique.png}
+                \includegraphics[height=3in, width=5in, keepaspectratio]{Mount_cutaway_oblique.png}
                 \caption{Mount subsystem cutaway oblique view}
                 \label{fig:mount_cutaway_oblique}
             \end{figure}
 
             % Paragraph 2
-            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique} . The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
+            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique}. The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
             The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
             reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accommodate the welding tool path rather than requiring the weld to be made before the assembly.
 
             % Paragraph 3
             The valve housing is the grey body that contains the pipe, orifice plates, and bellows. This housing sits nested on top of the fixture. On top of the housing is the calibration stack of washers and the A-frame mount. While the fixture is a flat plate of 1018 Cold-rolled steel, it is not part of the mechanical envelope. However, the fixture does serve as the base for the entire PTCD
             assembly and provides the surface for the fastener clamping load. 
+            
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=3in, width=5in, keepaspectratio]{MountSubsystemExploded.png}
+            \caption{Mount subsystem exploded view}
+            \label{fig:mount_exploded}
+        \end{figure}
 
             % Paragraph 4
             The eight socket head cap screws secure the mount plates to the fixture. Each fastener passes through the mount from the top through the housing and threads into the fixture at the base. On top of the mount, each scew is seated against a stainless steel washer to distribute the clamping load. Between the underside of the mount and the top face of the housing, three washers are stacked in the following order (top to bottom):
@@ -1654,7 +1659,29 @@ expansion and the resisting forces have negligible effect on rod length.
         \subsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
 
-            \todo{Calculate thermal expansion of mount}
+            \todo{Update the numbers in this section to reflect:
+                \begin{itemize}
+                    \item We're using Invar 36 now
+                    \item $\Delta T$ is only 85 $degC$, not 140, because error will be zero at $T_{ref}$
+                \end{itemize}
+            }
+
+            The net displacement delievered to the valve is the difference between the actuator's thermal exapansion and the mount's thermal exapnsion over the same vertical span. If $L_act$ is the actuator rod length and H is the mount height from the actuator
+            anchor point, the net stroke is: \[ \delta_{net} = L_{act} \cdot \alpha_{Aluminum} \cdot \Delta T - H \cdot \alpha_{steel} \cdot \Delta T \]
+            If the actuator rod approximately fits in the mount cavity such that $L_{act} \approx {H}$, this simplifies to: \[ \delta_{net} \approx L \cdot (\alpha_{Al} - \alpha_{steel}) \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \] 
+            Where, \[ \Delta \alpha = 23.6 \times 10^-6 - 11.7 \times 10^-6 = 11.9 \times 10^{-6} \, \degC \]
+
+            The difference in the coeffecient of thermal exapnsion is the effective CTE driving the alve. To deliver a net stroke of 267 $\mu$m across the 140 $\degC$ operating range, the required actuator length is:
+            \[ L = \frac{\delta_{net}}{\Delta\alpha \cdot \Delta T}  = \frac{0.267}{11.9 \times 10^{-6} \times 140} \approx 160.3 \text{ mm} \]
+
+            If the thermal expansion of the mount is not accounted for and the calculation of stroke length is calculated with only the aluminum from the actuator, the required length would appear to be:
+            \[ L_{\text{gross}} = \frac{0.267}{\alpha_{\text{Aluminum}} \cdot \Delta T} = \frac{0.267}{23.6 \times 10^{-6} \times 140} \approx 80.8 \text{ mm} \]
+
+            Therefore, the actuator mounted in the steel frame would deliver the following net stroke as a result: 
+            \[ \delta_{\text{actual}} = 80.8 \times (23.6 - 11.7) \times 10^{-6} \times 140 \approx 134.6 \, \mu\text{m} \]
+
+            
+            This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in corrrespondance with the actuator. 
 
         \subsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
@@ -1696,6 +1723,8 @@ expansion and the resisting forces have negligible effect on rod length.
             The two trapezoidal mount plates are machined from 1018 cold-rolled steel stock. The plates rise vertically from the ficture and taper inward toward the top, forming the A-fram geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
             top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
             
+            \todo{Replace with Invar specs}
+
              \begin{table}[H]
                 \centering
                 \caption{Mount Parrameters}
@@ -1739,24 +1768,6 @@ expansion and the resisting forces have negligible effect on rod length.
                 \end{tabularx}
             \end{table}
 
-        \subsection{Trapezoidal Mount Thermal Exapnsion}
-            The net displacement delievered to the valve is the difference between the actuator's thermal exapansion and the mount's thermal exapnsion over the same vertical span. If $L_act$ is the actuator rod length and H is the mount height from the actuator
-            anchor point, the net stroke is: \[ \delta_{net} = L_{act} \cdot \alpha_{Aluminum} \cdot \Delta T - H \cdot \alpha_{steel} \cdot \Delta T \]
-            If the actuator rod approximately fits in the mount cavity such that $L_{act} \approx {H}$, this simplifies to: \[ \delta_{net} \approx L \cdot (\alpha_{Al} - \alpha_{steel}) \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \] 
-            Where, \[ \Delta \alpha = 23.6 \times 10^-6 - 11.7 \times 10^-6 = 11.9 \times 10^{-6} \, \degC \]
-
-            The difference in the coeffecient of thermal exapnsion is the effective CTE driving the alve. To deliver a net stroke of 267 $\mu$m across the 140 $\degC$ operating range, the required actuator length is:
-            \[ L = \frac{\delta_{net}}{\Delta\alpha \cdot \Delta T}  = \frac{0.267}{11.9 \times 10^{-6} \times 140} \approx 160.3 \text{ mm} \]
-
-            If the thermal expansion of the mount is not accounted for and the calculation of stroke length is calculated with only the aluminum from the actuator, the required length would appear to be:
-            \[ L_{\text{gross}} = \frac{0.267}{\alpha_{\text{Aluminum}} \cdot \Delta T} = \frac{0.267}{23.6 \times 10^{-6} \times 140} \approx 80.8 \text{ mm} \]
-
-            Therefore, the actuator mounted in the steel frame would deliver the following net stroke as a result: 
-            \[ \delta_{\text{actual}} = 80.8 \times (23.6 - 11.7) \times 10^{-6} \times 140 \approx 134.6 \, \mu\text{m} \]
-
-            
-            This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in corrrespondance with the actuator. 
-
         \subsection{Structural Stiffness}
             In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
             of F = 168.96 N, which is the bellow spring force at full stroke. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. Conservatively modeling each plate as a cantilever of heigh H = 88.9 mm carrying half the load
@@ -1765,7 +1776,7 @@ expansion and the resisting forces have negligible effect on rod length.
 
             Where, I$\approx 4880617.01319$ $mm^4$ for each trapezoidal plate. The resulting deflection is 
 
-
+            \todo{Not finished}
 
 
 
@@ -1787,6 +1798,20 @@ expansion and the resisting forces have negligible effect on rod length.
     \label{subsec:sys_comp}
 
         \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.}
+
+        Recal that the system transfer function is 
+        
+        $\transferFunction$ \quad (eq. \ref{eq: transfer_function})
+        
+        which must equal the required relationship
+
+        $\requiredRelationship$ \quad (eq. \ref{eq: required_relationship})
+
+        to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
+
+        The specified tolerances for each control derivative in the transfer function is in 
+
+            
 
 
     
@@ -2127,11 +2152,8 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
     \bibitem{ref_placeholder5}
     \todo{N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019. Referenced near Figure \ref{fig:orifice}}
 
-    \bibitem{ref_placeholder3}
-    \todo{Add reference: material property data source}
-
-    \bibitem{ref_placeholder4}
-    \todo{Add reference: relevant prior work or patent}
+    \bibitem{ref_placeholder6}
+    \todo{R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.}
 
     % Add more \bibitem entries as needed.
     % In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2309,6 +2331,52 @@ This supports the Bill of Materials in Section~\ref{sec:bom}.}
 summarized for brevity, include the full derivations and spreadsheet
 screenshots here. Reference Performance\_Relationship.xlsx and
 Thermal\_Expansion.xlsx data as appropriate.}
+
+
+\section{Error Propagation Calculation}
+\label{app:errorProp}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
+        \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
+        \label{fig:errorpropboundary}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
+        \caption{This shows the Tolerance variations calculated by the error propagation equation}
+        \label{fig:errorpropvariation}
+    \end{figure}
+The base function in this calculation is:
+\begin{equation}
+    x(T) = D_{eff}(T) = \sqrt{\frac{\pi}{2}} \cdot \Big( A_1 (T - T_{ref}) + A_0 \Big)
+\end{equation}
+Propagating the error through variables $A_1$ and $A_0$:
+\begin{align}
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+    \\
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+\end{align}
+Base displacement uncertainty (RSS):
+\begin{align}
+    &u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+    \\
+    &u_D(T) = \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{align}
+Total radial error:
+\begin{equation}
+    u_x(T) = \sqrt{\frac{\pi}{2}} \cdot \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{equation}
+The following equations calculate the bounds:
+\begin{align}
+    &x_{upper}(T) = x(T) + u_x(T)
+    \\
+    &x_{lower}(T) = x(T) - u_x(T)
+\end{align}
+
+This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation \todo{Add Figliola reference; it's in bibliography}
+
 
 \end{appendices}
 
