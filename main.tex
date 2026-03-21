@@ -141,6 +141,7 @@
 \newcommand{\transferFunction}{D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]}
 \newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3 \mu m}
 \newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4 \mu m}
+\newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
@@ -517,9 +518,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \hotBoundary
             \label{eq: hotBoundary}
         \end{equation}
+        The tolerance is not linear throughout the operating temperature range with a minima at the reference temperature \ref{fig:errorpropvariation}.
+        The full calculation can be found in \ref{app:errorProp} with the following governing equation:
+        \begin{equation}
+            \govErrorProp
+            \label{eq:ErrorPropagation}
+        \end{equation}
 
-        \todo{Insert reference to tolerance calculations. Show graph of tolerance as a function of T;
-            mention that this is a nonuniform tolerance and is smallest at Tref}
 
         Effective diameter is the main way that fluid flow is measured through a pipe. The most 
         common way to find effective diameter is on cylindrical pipes where the effective diameter is just the inner 
@@ -722,62 +727,63 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \subsection{Valve Architecture}
         \label{subsec:valve_architecture}
 
-        \begin{figure}[H]
+            
+         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_Subsystem_Render.png}
+            \includegraphics[height=3.5in, width=5.5in, keepaspectratio]{Valve_Subsystem_Render.png}
             \caption{Valve subsystem isometric view}
             \label{fig:valve_isometric}
         \end{figure}
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{ValveSubsystemExploded.png}
+            \includegraphics[height=3.5in, width=5.5in, keepaspectratio]{ValveSubsystemExploded.png}
             \caption{Valve subsystem exploded view}
             \label{fig:valve_exploded}
         \end{figure}
 
-
-                \begin{figure}[H]
-            \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_cutaway_isometric.png}
-            \caption{Valve subsystem cutaway view}
-            \label{fig:valve_cutaway_isometric}
-        \end{figure}
+            % Paragraph 1
+            The valve subsystem is a two-plate sliding orifice mechanism colloquially referred to as the "pizza cutter" valve. It is comprised by one fixed plate and one translating plate. See Fig. \ref{fig:valve_cutaway_normal} for a visual representation. Both contain identical square holes cut in the center. The two plates maintain a surface contact.
+            The square holes of both the fixed plate and translating plate are rotated 45º relative to each other. The overlap of these two holes forms a diamond shaped orifice (see Fig. \ref{fig:valve_interior}) through which gas flows. The translating plate is driven vertically by the valve stem leading to the overlap region
+            either shrinking or growing, thus changing the effective flow area.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_cutaway_normal.png}
+            \includegraphics[height=3in, width=5in, keepaspectratio]{Valve_cutaway_normal.png}
             \caption{Valve subsystem internal mechanism}
             \label{fig:valve_cutaway_normal}
         \end{figure}
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{Valve_interior.png}
+            \includegraphics[height=3in, width=5in, keepaspectratio]{Valve_interior.png}
             \caption{Valve orifice front view}
             \label{fig:valve_interior}
         \end{figure}
-
-            % Paragraph 1
-            The valve subsystem is a two-plate sliding orifice mechanism colloquially referred to as the "pizza cutter" valve. It is comprised by one fixed plate and one translating plate. Both contain identical square holes cut in the center. The two plates maintain a surface contact.
-            The square holes of both the fixed plate and translating plate are rotated 45º relative to each other. The overlap of these two holes forms a diamond shaped orifice through which gas flows. The translating plate is driven vertically by the valve stem leading to the overlap region
-            either shrinking or growing, thus changing the effective flow area. 
 
             % Paragraph 2
             Critically, the area of the diamond orifice depends linearly on the vertical offset between the two plates. Since the effective diameter is derived from the orifice area, the resulting relationship is linear between the plate displacement and the effective diameter.
             This linear relationship was the driving force of our design choices and the most challenging restraint specified by the sponsor. The geometric linearity of the valve is intrinsic to the proper of the diamond overlap. It does not rely on reparameterization or any nonlinear compensation elsewhere in the system.
             The valve preserves the linear signal from the actuator without any modification.
+      
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=3in, width=5in, keepaspectratio]{Valve_cutaway_isometric.png}
+            \caption{Valve subsystem cutaway view}
+            \label{fig:valve_cutaway_isometric}
+        \end{figure}
 
             % Paragraph 3
-            The valve design has only one moving part, the translating plate. As stated previously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellow. Since there are no linakges, rotating components, or other types of internal mechanisms,
+            The valve design has only one moving part, the translating plate. The light blue rod in Fig \ref{fig:valve_cutaway_isometric} is the actuator that moves the translating plate. As stated previously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellow. Since there are no linakges, rotating components, or other types of internal mechanisms,
             we reduce the possibility of error introduced from hysteresis. In addition, this mechanical simplicity supports manufacturability. Since our orifice operates on a sub-milimeter scale with orifice sizes capable of being smaller than the tip of a ballpoint pen, manufacturing additional pieces at this scale introduces 
             manufacturing challenges. Therefore, keeping the valve subsystem with minimal moving parts reduces possible error and eases the manufacturing process.
 
             % Paragraph 4
             It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel and Invar 36 are fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
             prevents any gas leakage to the environment. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirement. See Section 3.1 for more details. 
-            
-    \section{Actuator Subsystem}
+
+
+            \section{Actuator Subsystem}
     \label{sec:act_sub_description}
 
         \subsection{Actuator Selection Criteria}
@@ -878,10 +884,17 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
 
             % Paragraph 1
-            The mount subsystem is a rigid structural frame fabricated from 1018 Cold-rolled steel. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
+            The mount subsystem is a rigid structural frame fabricated from Invar 36. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
+            
+            \begin{figure}[H]
+                \centering
+                \includegraphics[height=4in, width=6in, keepaspectratio]{Mount_cutaway_oblique.png}
+                \caption{Mount subsystem cutaway oblique view}
+                \label{fig:mount_cutaway_oblique}
+            \end{figure}
 
             % Paragraph 2
-            The two trapezoidal mount plates are fabricated from 1018 cold-rolled steel. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in figure xyz. The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
+            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique} . The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
             The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
             reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accommodate the welding tool path rather than requiring the weld to be made before the assembly.
 
@@ -2287,7 +2300,47 @@ This supports the Bill of Materials in Section~\ref{sec:bom}.}
 summarized for brevity, include the full derivations and spreadsheet
 screenshots here. Reference Performance\_Relationship.xlsx and
 Thermal\_Expansion.xlsx data as appropriate.}
+\section{Error Propagation Calculation}
+\label{app:errorProp}
 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
+        \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
+        \label{fig:errorpropboundary}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
+        \caption{This shows the Tolerance variations calculated by the error propagation equation}
+        \label{fig:errorpropvariation}
+    \end{figure}
+The base function in this calculation is:
+\begin{equation}
+    x(T) = D_{eff}(T) = \sqrt{\frac{\pi}{2}} \cdot \Big( A_1 (T - T_{ref}) + A_0 \Big)
+\end{equation}
+Propagating the error through variables $A_1$ and $A_0$:
+\begin{align}
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+    \\
+    &\theta_{A1}(T) = \frac{\partial D_{eff}}{\partial A_1} = T - T_{ref}
+\end{align}
+Base displacement uncertainty (RSS):
+\begin{align}
+    &u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+    \\
+    &u_D(T) = \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{align}
+Total radial error:
+\begin{equation}
+    u_x(T) = \sqrt{\frac{\pi}{2}} \cdot \sqrt{\Big( (T - T_{ref}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
+\end{equation}
+The following equations calculate the bounds:
+\begin{align}
+    &x_{upper}(T) = x(T) + u_x(T)
+    \\
+    &x_{lower}(T) = x(T) - u_x(T)
+\end{align}
 \end{appendices}
 
 
