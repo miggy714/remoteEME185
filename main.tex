@@ -564,8 +564,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         The gray housing holds the valve subassembly. It sits nested in the tan mount subassembly.
         The gray actuator block is mounted between the top inside face of the mount and the top of the valve stem that protrudes from the housing.
 
-        \todo{Add axes to one assembly image}
-
         \begin{figure}[H]
             \centering
             \begin{tikzpicture}
@@ -574,9 +572,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 };
                 % 3D axes overlay — adjust (0.8, 0.8) to reposition
                 \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
-                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
-                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                    \draw[->] (0,0) -- ({cos(20)},{-sin(20)}) node[right] {$X$};
+                    \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
+                    \draw[->] (0,0) -- ({-cos(20)},{-sin(20)}) node[below left] {$Z$};
                 \end{scope}
             \end{tikzpicture}
             \caption{Complete assembly}
@@ -590,9 +588,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                     \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
                 };
                 \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
-                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
-                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                    \draw[->] (0,0) -- ({cos(20)},{-sin(20)}) node[right] {$X$};
+                    \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
+                    \draw[->] (0,0) -- ({-cos(20)},{-sin(20)}) node[below left] {$Z$};
                 \end{scope}
             \end{tikzpicture}
             \caption{Complete assembly exploded view}
