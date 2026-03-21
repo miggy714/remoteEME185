@@ -533,7 +533,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         In addition to these requirements, our sponsor supplied us with the following design conditions:
         
         \begin{enumerate}
-            \item The upstream gas pressure $P$ will lie within the range $100\ \text{psi} \leq P \leq 10{,}000\ \text{psi}$.
+            \item The upstream gas pressure $P$ will lie within the range $0.6895\ \text{MPa} \leq P \leq \specPressure\ \text{MPa}$.
             \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 60 \degC$.
             \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
             \item The gas will be a noble gas or Hydrogen.
@@ -983,7 +983,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                     Add proof that it will not deflect or expand by more than \dXdLTol\ due to thermal expansion or force compression.
                     (Isaiah has progress here)}
 
-                The valve stem transmits mechanical displacement from outside the valve to the orifice plate itself.
+                The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
                 The stem must withstand the axial actuation force without yielding or buckling.
                 It's material was selected to be Invar 36 for it's relatively low coefficient of thermal expansion which thermally insulates the valve from the actuator and prevents thermal expansion of the stem from affecting the valve orifice size.
@@ -1035,14 +1035,25 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                     \end{table}
 
                 Axial stress:
-                $$\sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}$$
+                \begin{equation}
+                \sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}
+                \label{axial_stress}
+                \end{equation}
+
                 The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $483\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 483 / 31.34 \approx 15.41$.
                 The stem therefore operates comfortably within its elastic range under the full actuation load, and the small diameter is justified by the low force demand.
                 \\~\\
                 Critical buckling load (Euler):
-                $$P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4$$
-                $$P_{cr} = \frac{\pi^2 (148{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 30{,}413 \ \text{N}$$
-                \\~\\
+                \begin{equation}
+                P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4
+                \label{crit_buck}
+                \end{equation}
+
+                \begin{equation}
+                P_{cr} = \frac{\pi^2 (148{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 30{,}413 \ \text{N}
+                \label{crit_buck2}    
+                \end{equation}
+
                 The stem is laterally guided at the top and bottom, making it a pin-pin column with $K_{column} = 1.0$ and an unsupported length of $L_{seg} = 10.54\ \text{mm}$.
                 The critical buckling load yields a buckling safety factor of $30{,}413 / 168.96 \approx 180$.
                 Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
@@ -1094,15 +1105,40 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                         \end{table}
 
             Principal Stresses:
-            $$\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx 112.05 \ \text{MPa} \quad (\text{Hoop Stress})$$
-            $$\sigma_{r} = -P \approx -68.95 \ \text{MPa} \quad (\text{Radial Stress})$$
-            $$\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx 21.55 \ \text{MPa} \quad (\text{Longitudinal Stress})$$
+            \begin{equation}
+            \sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx 112.05 \ \text{MPa} \quad (\text{Hoop Stress})
+            \label{hoop}    
+            \end{equation}
+
+            \begin{equation}
+            \sigma_{r} = -P \approx -68.95 \ \text{MPa} \quad (\text{Radial Stress})
+            \label{radial}  
+           \end{equation}
+
+            \begin{equation}
+            \sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx 21.55 \ \text{MPa} \quad (\text{Longitudinal Stress})
+            \label{longitudinal}
+            \end{equation}
             \\~\\
             Von Mises Equivalent Stress:
-            $$\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}$$
-            $$\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} \approx 156.75 \ \text{MPa}$$
+            
+            \begin{equation}
+            \sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}
+            \label{vonmises}  
+            \end{equation}
+
+            \begin{equation}
+            \sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} \approx 156.75 \ \text{MPa}
+            \label{vonmises2}     
+            \end{equation}
+
             The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
-            $$FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36$$
+            
+            \begin{equation}
+            FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36
+            \label{fs}
+            \end{equation}
+
             The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.36$.
             The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
             
@@ -1119,9 +1155,13 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             and cracking, all of which could significantly reduce joint strength \cite{aws2020welding}.
             \\~\\
             The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
-            (Equation 3a) \cite{asme_b313}, which governs the required minimum wall thickness as a function 
+            (Equation 3a or Equation \eqref{tmin_weld}, below) \cite{asme_b313}, which governs the required minimum wall thickness as a function 
             of the weld joint quality factor $E$:
-            $$t_{min} = \frac{P D_o}{2(SEW + PY)}$$
+            
+            \begin{equation}
+            t_{min} = \frac{P D_o}{2(SEW + PY)}
+            \label{tmin_weld}
+            \end{equation}
 
             \begin{table}[H]
                 \centering
@@ -1170,20 +1210,41 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \end{itemize}
 
             With full radiography ($E = 1.00$), the minimum required wall thickness is:
-            $$t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
-             \approx 5.17 \ \text{mm}$$
+            
+            \begin{equation}
+            t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
+             \approx 5.17 \ \text{mm}
+            \label{t_num}
+            \end{equation}
+
             Since $t_{min} = 5.17\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
             The thickness safety factor at the weld joint is:
-            $$SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93$$
+            
+            \begin{equation}
+            SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93
+            \label{sf_weld}    
+            \end{equation}
             \\~\\
             As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
             ($\sigma_\theta = 112.05\ \text{MPa}$) is compared directly against the weld joint allowable stress 
             \cite{asme_b313}:
-            $$\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}$$
-            $$\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}$$
+            
+            \begin{equation}
+            \sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}
+            \label{stress_allow}
+            \end{equation}
+
+            \begin{equation}
+            \sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}
+            \label{ineq_hoop}
+            \end{equation}
+
             The weld joint stress safety factor is:
-            $$SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20$$
-            \\~\\
+            \begin{equation}
+            SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20
+            \label{sf_stress}    
+            \end{equation}
+            
             These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
             the weld joint introduces no strength penalty relative to the base material.
             The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
@@ -1265,7 +1326,11 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \end{table}
 
             Spring force:
-            $$F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}$$
+            \begin{equation}
+            F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}
+            \label{force_spring}    
+            \end{equation}
+
             The resulting spring force confirms that the stroke demand is well within the elastic operating 
             range of the selected bellows \cite{miniflex_design}.
             The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance 
@@ -1273,7 +1338,11 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             This balance between stiffness and stroke compliance is central to the optimized selection.
             \\~\\
             Total force required for actuation:
-            $$F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}$$
+            \begin{equation}
+            F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}
+            \label{force_total}
+            \end{equation}
+
             Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant. 
             The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
             is minimized through careful design and material selection.
@@ -1295,7 +1364,12 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             The Mini-Flex design guide defines burst pressure as the minimum internal pressure that will not 
             result in fracture when the bellows is restrained from squirm or sideways movement \cite{miniflex_design}.
             The design is governed by the following relationship:
-            $$P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}$$
+
+            \begin{equation}
+            P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}
+            \label{ineq_burst}
+            \end{equation}
+
             For this application, the bellows carries a safety factor of 1.26 against burst.
             An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
             under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
