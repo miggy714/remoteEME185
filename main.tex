@@ -854,6 +854,43 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
             \todo{Add brief description as in Sec. \ref{subsec:act_sel_crit}}
 
+            The mount subsystem serves as the primary structural interface of the assembly, 
+axially restraining the actuator at one end while transferring reaction forces 
+from the valve subsystem below. 
+
+The mount must satisfy three primary selection criteria:
+
+\begin{enumerate}
+    \item Sufficient structural rigidity to axially restrain the actuator at its 
+    upper boundary condition and withstand the reaction force transmitted upward 
+    from the valve subsystem
+
+    \item A low coefficient of thermal expansion $\alpha$ to minimize thermal 
+    growth of the mount in the axial direction, ensuring that expansion of the 
+    mount does not oppose the intended downward thermal expansion of the actuator
+
+    \item Geometric compatibility with the housing such that the mount 
+    structurally integrates all components of the assembly within the required mechanical envelope
+
+\end{enumerate}
+
+The second criterion is of particular importance to the function of the device. 
+Because the actuator is designed to expand axially downward into the valve 
+subsystem with increasing temperature, any upward thermal growth of the mount 
+introduces a competing displacement that reduces the net stroke delivered to 
+the valve. The net axial displacement delivered to the valve can be expressed as
+
+\begin{equation}
+    \delta_{net} = \delta_{actuator} - \delta_{mount} = \alpha_{act} L_{act} \Delta T - \alpha_{mount} L_{mount} \Delta T
+    \label{eq:net_displacement}
+\end{equation}
+
+where $\alpha_{act}$ and $\alpha_{mount}$ are the coefficients of thermal 
+expansion of the actuator and mount materials respectively, $L_{act}$ and 
+$L_{mount}$ are their respective reference lengths, and $\Delta T$ is the 
+temperature change from the reference state. To maximize $\delta_{net}$, 
+the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
+
             \begin{table}[H]
                 \centering
                 \caption{Mount Selection Criteria}
@@ -870,31 +907,32 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \label{fig:mount_isometric}
         \end{figure}
 
-        \begin{figure}[H]
-            \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{MountSubsystemExploded.png}
-            \caption{Mount subsystem exploded view}
-            \label{fig:mount_exploded}
-        \end{figure}
 
             % Paragraph 1
             The mount subsystem is a rigid structural frame fabricated from Invar 36. It consists of three primary structural components: two trapezoidal mount plates, a flat fixture plate, and a calibration stack. In addition to these three structural components are eight fasteners that secure the entire assembly.
             
             \begin{figure}[H]
                 \centering
-                \includegraphics[height=4in, width=6in, keepaspectratio]{Mount_cutaway_oblique.png}
+                \includegraphics[height=3in, width=5in, keepaspectratio]{Mount_cutaway_oblique.png}
                 \caption{Mount subsystem cutaway oblique view}
                 \label{fig:mount_cutaway_oblique}
             \end{figure}
 
             % Paragraph 2
-            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique} . The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
+            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique}. The actuator rod is housed inside the cavity between the A-frame structure. The upper end is achored onto the interior top face of the mount.
             The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
             reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accommodate the welding tool path rather than requiring the weld to be made before the assembly.
 
             % Paragraph 3
             The valve housing is the grey body that contains the pipe, orifice plates, and bellows. This housing sits nested on top of the fixture. On top of the housing is the calibration stack of washers and the A-frame mount. While the fixture is a flat plate of 1018 Cold-rolled steel, it is not part of the mechanical envelope. However, the fixture does serve as the base for the entire PTCD
             assembly and provides the surface for the fastener clamping load. 
+            
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=3in, width=5in, keepaspectratio]{MountSubsystemExploded.png}
+            \caption{Mount subsystem exploded view}
+            \label{fig:mount_exploded}
+        \end{figure}
 
             % Paragraph 4
             The eight socket head cap screws secure the mount plates to the fixture. Each fastener passes through the mount from the top through the housing and threads into the fixture at the base. On top of the mount, each scew is seated against a stainless steel washer to distribute the clamping load. Between the underside of the mount and the top face of the housing, three washers are stacked in the following order (top to bottom):
@@ -943,15 +981,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \renewcommand{\arraystretch}{1.4}
         \end{table}
         
-
-        \begin{figure}[H]
-            \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{StemBellowsOrifice_Render.png}
-            \caption{Valve stem, bellows, and orifice plates view}
-            \label{fig:stem_bellows_orifice}
-        \end{figure}
-
-
         \subsection{Specification 1: Dimensional tolerances}
         \label{subsec:valve_spec_1}
 
@@ -967,6 +996,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
                 The stem must withstand the axial actuation force without yielding or buckling.
                 It's material was selected to be Invar 36 for it's relatively low coefficient of thermal expansion which thermally insulates the valve from the actuator and prevents thermal expansion of the stem from affecting the valve orifice size.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=4in, width=6in, keepaspectratio]{StemBellowsOrifice_Render.png}
+            \caption{Valve stem, bellows, and orifice plates view}
+            \label{fig:stem_bellows_orifice}
+        \end{figure}
 
                 \begin{table}[H]
                         \centering
