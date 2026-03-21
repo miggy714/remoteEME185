@@ -74,7 +74,8 @@
 % Format \chapter to look simple (no giant text, no separate page)
 \usepackage{pdfpages}
 % Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
-
+\usepackage{geometry}
+%allows you to set margins and page size. 
 \titleformat{\chapter}
   {\LARGE\bfseries}  % format
   {}                % label
@@ -1404,6 +1405,122 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         translated into movement. The forces resisting actuator expansion are include friction
         and other un-modeled losses in the actuator-valve system, as well as the spring constant of
         the bellows.
+
+  
+\title{Thermal Actuator Resistance Calculation}
+
+
+%------------------------------------------------------------
+\section*{Known Variables}
+%------------------------------------------------------------
+
+\begin{tabular}{lll}
+\toprule
+\textbf{Symbol} & \textbf{Description} & \textbf{Value} \\
+\midrule
+$L_0$           & Original rod length                        & \SI{0.0841432}{m} \\
+$\alpha$        & Thermal expansion coefficient (aluminum)   & \SI{23.1e-6}{\per\celsius} \\
+$\Delta T_{lower}$ & Temperature change (lower bound)        & \SI{-80}{\celsius} \\
+$\Delta T_{upper}$ & Temperature change (upper bound)        & \SI{+60}{\celsius} \\
+$k$             & Bellows spring constant                    & \SI{3600}{lbf/in} $=$ \SI{630236}{N/m} \\
+$F_{friction}$  & Friction force (estimated)                 & \SI{3}{N} \\
+$w$             & Actuator face width                        & \SI{0.03}{m} \\
+$t$             & Actuator face thickness                    & \SI{0.03}{m} \\
+$E_{Al}$        & Young's modulus of aluminum                & \SI{69}{GPa} \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\noindent\textbf{Unit conversion for spring constant:}
+\begin{equation}
+    k = 3600\;\frac{\text{lbf}}{\text{in}}
+      \times \frac{4.448\;\text{N}}{\text{lbf}}
+      \times \frac{1\;\text{in}}{0.0254\;\text{m}}
+      = 630{,}236\;\frac{\text{N}}{\text{m}}
+\end{equation}
+
+%------------------------------------------------------------
+\section*{Equations}
+%------------------------------------------------------------
+
+\subsection*{1. Thermal Expansion / Contraction}
+The displacement of the rod due to a temperature change $\Delta T$ is:
+\begin{equation}
+    \delta x = L_0 \cdot \alpha \cdot \Delta T
+\end{equation}
+
+\subsection*{2. Bellows Resisting Force}
+The force exerted by the bellows spring opposing the displacement:
+\begin{equation}
+    F_{bellows} = k \cdot \delta x
+\end{equation}
+
+\subsection*{3. Total Resisting Force}
+The total resistance the actuator must overcome:
+\begin{equation}
+    F_{resistance} = F_{bellows} + F_{friction}
+\end{equation}
+
+\subsection*{4. Contact Area}
+The face area of the actuator over which the force is applied:
+\begin{equation}
+    A_{contact} = w \cdot t
+\end{equation}
+
+\subsection*{5. Stress}
+The compressive or tensile stress on the actuator face:
+\begin{equation}
+    \sigma = \frac{F_{resistance}}{A_{contact}}
+\end{equation}
+
+\subsection*{6. Strain}
+Using Young's modulus (valid for both tension and compression in aluminum):
+\begin{equation}
+    \varepsilon = \frac{\sigma}{E_{Al}}
+\end{equation}
+
+\subsection*{7. Mechanical Deflection Due to Resisting Force}
+The elastic deformation of the rod caused by the resisting force:
+\begin{equation}
+    \delta_{mech} = \varepsilon \cdot L_0
+\end{equation}
+
+\subsection*{8. Percent Error of Thermal Expansion}
+The mechanical deflection as a percentage of the thermal displacement:
+\begin{equation}
+    \%\,\text{error} = \frac{\delta_{mech}}{\delta x} \times 100\%
+\end{equation}
+
+%------------------------------------------------------------
+\section*{Results}
+%------------------------------------------------------------
+
+\begin{table}[h!]
+\centering
+\caption{Summary of results for upper and lower temperature bounds}
+\vspace{0.5em}
+\begin{tabular}{lSS}
+\toprule
+\textbf{Parameter} & \textbf{Lower Bound} & \textbf{Upper Bound} \\
+                   & {($\Delta T = -80$\,\textdegree C)} & {($\Delta T = +60$\,\textdegree C)} \\
+\midrule
+$\delta x$ \textnormal{(m)}              & 2.6741e-4   & 1.0505e-4  \\
+$F_{bellows}$ \textnormal{(N)}           & 168.6       & 66.2       \\
+$F_{friction}$ \textnormal{(N)}          & 3.0         & 3.0        \\
+$F_{resistance}$ \textnormal{(N)}        & 171.6       & 69.2       \\
+$\sigma$ \textnormal{(MPa)}              & 0.191       & 0.077      \\
+$\varepsilon$ \textnormal{(\textmu strain)} & 2.77     & 1.12       \\
+$\delta_{mech}$ \textnormal{(m)}         & 2.33e-7     & 9.42e-8    \\
+\%\,\textnormal{error}                   & 0.087       & 0.090      \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The mechanical deflection due to the resisting force is less than $0.1\%$ of the thermal
+displacement in both cases, confirming that the net displacement is dominated by thermal
+expansion and the resisting forces have negligible effect on rod length.
+
+\end{document}
 
         \subsection{Specification 4: Acceptable footprint referencing mechanical envelope}
         \label{subsec:act_spec_4}
