@@ -110,13 +110,15 @@
 \usepackage{makecell}   % for \makecell
 \usepackage{calc}
 
-
-
+% In your preamble
+\newcounter{mycounter}           % creates a counter, initialized to 0
+\newcounter{sub}[mycounter]      % resets 'sub' when 'mycounter' increments
 % ============================================================================
 % SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
 % ============================================================================
 % These are reusable shortcuts. Define them once, use them everywhere.
 % If a name or term changes, you only edit it in ONE place.
+
 
 % --- Project-specific shortcuts ---
 \newcommand{\projecttitle}{Passive Temperature Compensation Device}
@@ -970,13 +972,13 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \label{tab:valve_specs_disc}
             \renewcommand{\arraystretch}{1.4}
         \end{table}
-        
-        \subsection{Specification 1: Dimensional tolerances}
+        \subsection{Specification Compliance}
+        \subsubsection{Specification 1: Dimensional tolerances}
         \label{subsec:valve_spec_1}
 
             \todo{Add reference to eng. drawing package, state that these tolerances do indeed comply with the dimension specification}
 
-        \subsection{Specification 2: Valve Stem displacement}
+        \subsubsection{Specification 2: Valve Stem displacement}
         \label{subsec:valve_spec_2}
 
                 \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
@@ -1059,7 +1061,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
                 Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
                 \\~\\
 
-        \subsection{Specification 3: Pressure rating}
+        \subsubsection{Specification 3: Pressure rating}
         \label{subsec:valve_spec_3}
 
             The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
@@ -1249,7 +1251,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             the weld joint introduces no strength penalty relative to the base material.
             The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
         
-        \subsection{Specification 4: Temperature gradient}
+        \subsubsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
 
             The thermal actuator is located completely outside the pipe and is fully exposed to the ambient air.    
@@ -1257,7 +1259,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             No thermal energy from the internal gas propagates beyond the pipe wall, so the actuator temperature is determined solely by the ambient air temperature.
             This confirms that the actuator is thermally isolated from the temperature of the internal flow and responds only to external conditions, as required.
 
-        \subsection{Specification 5: Reaction force}
+        \subsubsection{Specification 5: Reaction force}
         \label{subsec:valve_spec_5}
 
             \begin{figure}[H]
@@ -1375,7 +1377,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
             increases spring load and actuator demand.
 
-        \subsection{Specification 6: Mechanical envelope}
+        \subsubsection{Specification 6: Mechanical envelope}
         \label{subsec:valve_spec_6}
 
             As shown in Appendix \ref{app:drawings}, the valve subsystem's maximum mechanical envelope is 
@@ -1491,8 +1493,8 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
             \end{tabularx}
         \end{table}
 
-
-    \subsection{Specification 1: Thermal Expansion Tolerance}
+        \subsection{Specification Compliance}
+    \subsubsection{Specification 1: Thermal Expansion Tolerance}
         \label{subsec:act_spec_1}
 
             The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
@@ -1529,7 +1531,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
 
             The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 
-        \subsection{Specification 3: Reaction force deflection}
+        \subsubsection{Specification 2: Reaction force deflection}
         \label{subsec:act_spec_3}
 
             \todo{Calculate deflection due to a reaction force of \FTolValve from valve. Check calcs
@@ -1656,13 +1658,13 @@ displacement in both cases, confirming that the net displacement is dominated by
 expansion and the resisting forces have negligible effect on rod length.
 
 
-        \subsection{Specification 4: Acceptable footprint referencing mechanical envelope}
+        \subsubsection{Specification 4: Acceptable footprint referencing mechanical envelope}
         \label{subsec:act_spec_4}
 
             \todo{Insert discussion of mechanical envelope and reasonable foray outside of it(Ask Isaiah)}   
 
 
-        \subsection{Design Requirement Updates}
+        \subsubsection{Design Requirement Updates}
         \label{subsec:act_spec_3}
 
          Requirements for actuator operation have developed with further sub-requirements being 
@@ -1706,19 +1708,19 @@ expansion and the resisting forces have negligible effect on rod length.
             \label{tab:mount_specs_disc}
             \renewcommand{\arraystretch}{1.4}
         \end{table}
-
-        \subsection{Specification 1: Dimensional tolerances}
+        \subsection{Specification Compliance}
+        \subsubsection{Specification 1: Dimensional tolerances}
         \label{subsec:mount_spec_1}
 
             \todo{Add references to dimension tolerances listed in Appendix()}
             Error prop reference here: \ref{app:errorProp}
 
-        \subsection{Specification 2: User calibration}
+        \subsubsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
 
             \todo{Shim washer analysis (Sam)}
 
-        \subsection{Specification 3: Thermal expansion}
+        \subsubsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
 
             \todo{(JBandJP)Update the numbers in this section to reflect:
@@ -1745,7 +1747,7 @@ expansion and the resisting forces have negligible effect on rod length.
             
             This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in corrrespondance with the actuator. 
 
-        \subsection{Specification 4: Mechanical envelope}
+        \subsubsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
 
             As shown in Appendix \ref{app:drawings}, the mount subsystem's maximum mechanical envelope is
