@@ -1844,7 +1844,7 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsection{Trapezoidal Mount Structural Stiffness}
         In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
-         of F = 168.96 N, which is the bellow spring force at full stroke, per Section 3.3. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
+         of F = 168.96 N, which is the bellow spring force at full stroke, per Section \ref{subsec:valve_spec_1}. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
          Given that Invar 36 has a modulus of 141 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke, but this will be quantitatively confirmed before fabrication.
         
         \subsection{Fasteners Design Requirement Updates}
@@ -1934,7 +1934,7 @@ expansion and the resisting forces have negligible effect on rod length.
     \section{Subsystem Interaction}
     
    
-    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure 2.5. Each subsystem has inputs within the system transfer function (eq. 2.5), and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
+    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure 2.5. Each subsystem has inputs within the system transfer function, and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
     
     \subsection{Mount–Actuator Interface}
     The actuator rod is welded to the interior top face of the mount. This weld joint defines the fixed boundary condition from which the actuator expands downward. Because both the mount and actuator are exposed to the same ambient temperature, both undergo thermal expansion simultaneously. The mount expands downward from its anchor at the fixture toward the valve, while the actuator expands downward from its anchor at the top of the mount toward the valve stem. 
@@ -1944,17 +1944,17 @@ expansion and the resisting forces have negligible effect on rod length.
 
     \subsection{Actuator–Valve Interface}
     The lower end of the actuator rod is laser welded directly to the valve stem. This rigid connection transmits the actuator's thermal displacement to the translating orifice plate with a unity gain of $dX/dL = 1$. The displacement delivered by the actuator is identically the displacement received by the valve plate. This direct coupling eliminates backlash and hysteresis that would arise from 
-    intermediate mechanical interfaces. However, it also means that the valve's reaction force is transmitted directly back into the actuator. The bellows spring force of $F_s = 168.96\,\text{N}$ at full stroke (Section 3.1.5) compresses the 
+    intermediate mechanical interfaces. However, it also means that the valve's reaction force is transmitted directly back into the actuator. The bellows spring force of $F_s = 168.96\,\text{N}$ at full stroke compresses the 
     actuator rod axially. This deflection is negligible, but is carried upward through the actuator into the mount. This must be stiff enough to absorb it without measurable deflection of its own.
 
     \subsection{Mount–Valve Interface} 
-    The mount sits on top of the valve housing, separated by the calibration shim stack. The vertical distance from the interior top face of the mount to the orifice plate defines the reference offset $X(T_{\text{ref}})$. This distance governs the constant $A_0$ in the Required Relationship through eq. 2.7. The shim washers between the mount and housing enable 
+    The mount sits on top of the valve housing, separated by the calibration shim stack. The vertical distance from the interior top face of the mount to the orifice plate defines the reference offset $X(T_{\text{ref}})$. This distance governs the constant $A_0$ in: $$\requiredRelationship$$ The shim washers between the mount and housing enable 
     adjustment during final assembly to bring $X(T_{\text{ref}})$ within the specified $\pm 5\,\mu\text{m}$ of its target value. The eight M3 fasteners clamp the mount, shim stack, and housing together as a rigid unit, ensuring 
     that the calibrated offset does not shift under thermal cycling or the actuator's reaction load.
 
     \subsection{Thermal Coupling}
     All three subsystems are exposed to the ambient air temperature, which is the sole input to the control system. The valve housing thermally isolates the actuator from the internal gas flow.The $10\,\text{mm}$ steel 
-    wall thickness ensures that the potential temperature difference between the gas and the ambient air does not propagate to the actuator (Section 3.1.4). The valve stem, fabricated from Invar 36, provides 
+    wall thickness ensures that the potential temperature difference between the gas and the ambient air does not propagate to the actuator. The valve stem, fabricated from Invar 36, provides 
     additional thermal resistance between the pressurized interior and the actuator. 
 
 
