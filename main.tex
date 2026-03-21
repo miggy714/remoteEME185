@@ -239,7 +239,7 @@
             $D_{\text{effective}} = -\sqrt{\frac{2}{\pi}} \cdot X$
             to within \dDdXTol
                 &
-            \todo{Add reference to a dimension tolerance table. Probably in Appendix.(Sam progress)} \\
+            Maintain all dimensional tolerances to $1\ \mu m$ where specified in drawings V4 and V5 \\
             
         \hline
 
@@ -980,7 +980,7 @@ the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
         \subsubsection{Specification 1: Dimensional tolerances}
         \label{subsec:valve_spec_1}
 
-            \todo{Add reference to eng. drawing package, state that these tolerances do indeed comply with the dimension specification}
+            As specified, drawings V4 and V5 mandate a tolerance of 1 $\mu m$ on all critical dimensions.
 
         \subsubsection{Specification 2: Valve Stem displacement}
         \label{subsec:valve_spec_2}
@@ -1858,7 +1858,7 @@ expansion and the resisting forces have negligible effect on rod length.
                 \end{tabularx}
             \end{table}
 
-        \subsection{Trapezoidal Mount Thermal Exapnsion}
+        \subsection{Trapezoidal Mount Thermal Expansion}
             The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
             The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
             \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
@@ -1880,8 +1880,8 @@ expansion and the resisting forces have negligible effect on rod length.
             \[ \delta_{\text{deflection}} = \frac{F \cdot H^3}{2 \cdot 3EI} \]
 
         \subsection{Fasteners Current Implementation}
-            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stoack, over the housing, and threads into the fixture at the base.
-            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to dsitribute the clamping load across the mount plate surface. 
+            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
+            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to distribute the clamping load across the mount plate surface. 
         
         \begin{table}[H]
                 \centering
@@ -1936,7 +1936,7 @@ expansion and the resisting forces have negligible effect on rod length.
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
         \[ FOS_{bolt} = F_{total} / F = 6.52 \times 10^8 \]
         
-        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compabitibility with the shim washer stack geometry.
+        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
 
         \subsection{Fasteners Preload Stability}
         The fasteners (alloy steel, \( \alpha \approx 11.5 \times 10^{-6} /^\circ\text{C} \)) pass through the Invar 36 mount plates (\( \alpha = 1.30 \times 10^{-6} /^\circ\text{C} \)), 
