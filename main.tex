@@ -159,7 +159,7 @@
 \newcommand{\specTolerancePercent}{\pm 5\%}
 \newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
 \newcommand{\specDeffConstTwo}{0.254} %mm
-\newcommand{\specStroke}{0.01053} %inch
+\newcommand{\specStroke}{0.267} %mm
 \newcommand{\specPressureForceAxial}{\textbf{placeholderaxialforce}} % N
 \newcommand{\specActuatorMaterial}{\textbf{placeholderactuatormaterial}} % No units
 \newcommand{\specActuatorCTE}{22.9 \times 10^{-6} \si{\per\celsius}} % 10^-6/ºC
@@ -972,17 +972,25 @@ the valve.
         \label{subsec:valve_spec_2}
 
                 \todo{This demonstrates that the valve stem won't break given the maximum specifiec load.
-                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.
-                    (Isaiah has progress here)}
+                    Add proof that it will not deflect or expand by more than \dXdLTol\ due to force compression.}
+
+                    The valve will undergo both mechanical compression and thermal expansion due to exposure to temperature change and system forces.
+                    Mechanical deformation will occur due to actuation force and is characterized in the following calculation:
+                \begin{equation}
+                    \delta_{compression} = \frac{F *L_{stem}}{\pi d_{stem}^2/4 E} = 5.09075 \text{ microns}
+                    \label{eq:stem_compression}
+                \end{equation}
+
 
                 There will also be minimal thermal expansion from the valve stem itself. The total error from the linear expansion follows the formula:
                 \begin{equation}
                     \delta_{thermal} = \alpha_{\text{Invar}} L_{\text{stem}} \Delta T = (1.2 \times 10^{-6})(24.041)(85) = 2.45 \text{ microns}
                     \label{eq:stem_thermal_expansion}
                 \end{equation}
+                See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
 
-                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and the mount is much larger than the 
-                valve stem, so then in all practicality the error from the valve stem will completely erased by the error caused by the mount.
+                This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the thermal expansion error caused by the mount and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}) and the mount is much larger than the 
+                valve stem. Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
@@ -1031,6 +1039,10 @@ the valve.
                             $L_{seg}$ &
                             Unsupported length &
                             10.54 mm
+                            \\\addlinespace
+                            $L_{stem}$ &
+                            Total stem length &
+                            24.041 mm \cite{matweb}
                             \\\bottomrule
                         \end{tabularx}
                     \end{table}
@@ -1770,8 +1782,8 @@ expansion and the resisting forces have negligible effect on rod length.
             The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator rod in the cavity between them, wide enough such that base can cradle the valve house housing,
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
-        \subsubsection{Trapezoidal Mount Plate Current Implementation}
-            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
+        \subsection{Trapezoidal Mount Plate Current Implementation}
+            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in Figure \ref{fig:mount_cutaway_oblique}. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
             top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
             
 
@@ -1801,12 +1813,8 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $H$ &
                     Mount height &
-                    88.9 mm
+                    122.48 mm
                     \\\addlinespace
-                    $\alpha_{Aluminum}$ &
-                    CTE of aluminum actuator &
-                    $22.7 \times 10^{-6} \, \degC$
-                        \\\addlinespace
                     $\Delta{T}$ &
                     Operating temperature range &
                     85 $\degC$
@@ -1820,19 +1828,11 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsubsection{Trapezoidal Mount Thermal Expansion}
         \label{tab:trapmountthermalexpansion}
-            The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
-            The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
-            \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
+            The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Accounting for the operating temperature range and using the coefficient of thermal exapnsion for Invar 36,
+            let $\Delta L$ be the amount the mount expands:
             
-            Where,
-            \[ \Delta\alpha = \alpha_{\text{Al}} - \alpha_{\text{Invar}} = 23.6 \times 10^{-6} - 1.30 \times 10^{-6} = 22.3 \times 10^{-6} /^\circ\text{C} \] The required stroke from \( T_{\text{ref}} \) to the cold extreme is $162 \, \mu\text{m}$ (corresponding to the change in \( D_{\text{eff}} \) from \( A_0 = 0.254 \, \text{mm} \) at $25^\circ\text{C}$ to $0.384 \, \text{mm}$ at $-60^\circ\text{C}$). 
-            
-            To deliver this net stroke, the actuator length must be:
-            \[ L = \frac{\delta_{\text{net}}}{\Delta\alpha \cdot \Delta T} = \frac{0.162}{(22.3 \times 10^{-6} \times 85)} = \frac{0.162}{1.896 \times 10^{-3}} \approx 85.5 \, \text{mm} \]
-
-            Invar 36 was chosen for its low CTE. If the mount were fabricated from 1018 cold-rolled steel ($\alpha = 12.0 \times 10^{-6} /^\circ\text{C}$), the differential CTE would be only $\Delta\alpha = 23.6 - 12.0 = 11.6 \times 10^{-6} /^\circ\text{C}$, 
-            and the required actuator length would be: $L_{\text{steel}} = \frac{0.162}{(11.6 \times 10^{-6} \times 85)} \approx 164.4 \, \text{mm}$
-            An actuator of this length would exceed the $100 \, \text{mm}$ mechanical envelope guideline even before accounting for end caps, fittings, and the valve housing beneath it. By contrast, the $85.5 \, \text{mm}$ actuator length enabled by the Invar mount fits well within the envelope.
+            $$\Delta L = H \Delta T \alpha = (122.48)(85)(1.20\times10^\text{-6}) = 12.5 \mu\text{m}$$
+           
 
         \subsubsection{Trapezoidal Mount Structural Stiffness}
         In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
