@@ -144,7 +144,7 @@
 \newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
-\newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{pi}}}
+\newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
 \newcommand{\govthermalStress}{\Delta L = L_0 \int \alpha(T)\, dt} %idk
 \newcommand{\specTempHigh}{80} %Celcius
 \newcommand{\specTempLow}{-60} %Celcius
@@ -168,25 +168,25 @@
 % Fill in with real numbers as we find the relevant values 
 
 %Valve tolerances
-\newcommand{\dDdXTol}{\textbf{dDdXTolPlaceholder}}
-\newcommand{\dXdLTol}{\textbf{dXdLTolPlaceholder}}
+\newcommand{\dDdXTol}{$0.1 \mu m$}
+\newcommand{\dXdLTol}{$0.1 \mu m$}
 \newcommand{\pressureSF}{1.4}
-\newcommand{\dXdTTol}{\textbf{dXdTTolPlaceholder}}
-\newcommand{\dLdTTolValve}{\textbf{dLdTTolValvePlaceholder}}
-\newcommand{\dTTol}{\textbf{dTTolPlaceholder}}
-\newcommand{\FTolValve}{\textbf{FTolValvePlaceholder}}
+\newcommand{\dXdTTol}{$0.01 \mu m$}
+\newcommand{\dLdTTolValve}{$0.1 \mu m$}
+\newcommand{\dTTol}{$1 \degC$}
+\newcommand{\FTolValve}{170 N}
 \newcommand{\valveMEX}{100 mm}
 \newcommand{\valveMEY}{5 mm}
 \newcommand{\valveMEZ}{100 mm}
 
 %Actuator tolerances
-\newcommand{\dLdTTolAct}{\textbf{dLdTTolActPlaceholder}}
-\newcommand{\FTolAct}{\textbf{FTolActPlaceholder}}
+\newcommand{\dLdTTolAct}{$0.3 \mu m$}
+\newcommand{\FTolAct}{\FTolValve}
 
 %Mount tolerances
-\newcommand{\mountdLTol}{\textbf{mountdLTolPlaceholder}}
-\newcommand{\calRange}{\textbf{calRangePlaceholder}}
-\newcommand{\calTol}{\textbf{calTolPlaceholder}}
+\newcommand{\mountdLTol}{$0.01 \mu m$}
+\newcommand{\calRange}{$15 \mu m$}
+\newcommand{\calTol}{$5 \mu m$}
 \newcommand{\mountMEX}{100 mm}
 \newcommand{\mountMEY}{130 mm}
 \newcommand{\mountMEZ}{100 mm}
@@ -230,7 +230,7 @@
 
         \vspace{0pt}
             Must govern
-            $D_{\text{effective}} = \sqrt{\frac{2}{\pi}} \cdot X$
+            $D_{\text{effective}} = -\sqrt{\frac{2}{\pi}} \cdot X$
             to within \dDdXTol
                 &
             \todo{Add reference to a dimension tolerance table. Probably in Appendix.} \\
@@ -248,7 +248,7 @@
 
             Must not rupture
                 &
-            Withstand a minimum of \specPressure\ internal pressure \\
+            Withstand a minimum of \specPressure MPa internal pressure \\
             
         \hline
 
@@ -287,14 +287,14 @@
     \textbf{Core responsibility} & \textbf{Specification} \\ \hline
 
     \multirow[c]{2}{0.45\textwidth}{%
-        Must govern $\frac{dL}{dT} = \sqrt{\frac{2}{\pi}} A_1$ to within \dLdTTolAct%
+        Must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct%
     }
     &
     Limit the error of $\alpha$ and $L_0$ such that 
-        $\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} \leq \dLdTTolAct$
+        $\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} \leq$ \dLdTTolAct
     \\ \cline{2-2}
     &
-    Deflect less than \FTolAct to any specified reaction force provided by the valve subsystem
+    Deflect less than \FTolAct\ to any specified reaction force provided by the valve subsystem
     \\ \hline
 
     \end{tabular}
@@ -310,10 +310,10 @@
 
         \multirow[c]{3}{0.45\textwidth}{Must fix the relation between the actuator and valve subsystems such that $X(T_{ref}) = \sqrt{\frac{2}{\pi}} A_0$}
         &
-        \todo{Add references to dimension tolerances listed somewhere in Appendix}
+        Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
         \\ \cline{2-2}
         &
-        Allow adjustment of the mount's critical dimension from withing \calRange above the target value to within \calTol above or below said target
+        Allow adjustment of the mount's critical dimension from within \calRange\ above the target value to within \calTol\ above or below said target
         \\ \cline{2-2}
         &
         Limit thermal expansion to \mountdLTol \\ \hline
@@ -791,9 +791,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
         The actuator subsystem governs the open-loop control derivative $\frac{dL}{dT}$
         as defined in Figure \ref{fig:controls_diagram}, and equations \ref{eq: transfer_function} and \ref{eq:actuator_control}.
-        Thus, assuming $\frac{dD}{dX} = \sqrt{2}{\pi}$ and $\frac{dX}{dX} = 1$ within the valve subsystem
+        Thus, assuming $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}}$ and $\frac{dX}{dX} = 1$ within the valve subsystem
         (which is correct practice when calculating error propagation),
-        $\frac{dL}{dT}$ must equal $\sqrt{\frac{2}{\pi}} A_1$.
+        $\frac{dL}{dT}$ must equal $\sqrt{\frac{\pi}{2}} A_1$.
         Because
         $\frac{dL}{dT} = \alpha L_0$,
         two sources drive its error:
@@ -1431,8 +1431,12 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
 
             The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
+            Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
-        \subsection{Specification 3: Reaction force deflection}
+            $$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
+
+
+        \subsection{Specification 2: Reaction force deflection}
         \label{subsec:act_spec_3}
 
             \todo{Calculate deflection due to a reaction force of \FTolValve from valve. Check calcs
@@ -1613,12 +1617,22 @@ expansion and the resisting forces have negligible effect on rod length.
         \subsection{Specification 1: Dimensional tolerances}
         \label{subsec:mount_spec_1}
 
-            \todo{Add references to dimension tolerances listed in Appendix}
+            The dimensions between the base of the mount and the upper interior, where the actuator will be mounted, is specified as 0.005 $\mu$m in the engineering drawings.
 
         \subsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
 
-            \todo{Shim washer analysis (Sam)}
+            Shim washers are commonly used for micrometer-level height adjustments. After manufacturing, our team will be able to measure the exact dimensions of our parts tools available in the machine shop on campus.
+            After calculation of the expected post-assembly value of $X(T_{ref})$, the we can increase the height of the mount by one of three values:
+
+            \begin{itemize}
+                \item 100 $\mu m$ with the thick washer
+                \item 10 $\mu m$ with the thin washer
+                \item 110 $\mu m$ with both washers
+            \end{itemize}
+
+            depending on the measured tolerance values. Finally, we will add the crush washers, which provide reliable plastic compression to a tolerance of $5 \mu m$ over a range of $15 \mu m$.
+            We will be able to tighten the screws with a torque wrench, compressing and plastically deforming the crush washers, to precisely bring the mount height down from a height of $15 \mu m$ above to within $5 \mu m$ above or below the target height. This complies with the specified range. 
 
         \subsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
@@ -1773,7 +1787,22 @@ expansion and the resisting forces have negligible effect on rod length.
 
         to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
 
-        The specified tolerances for each control derivative in the transfer function is in 
+        The specified tolerances for each control derivative in the transfer function is in Table \ref{tab:tol_final}.
+
+        
+        % \begin{table}[H]
+        %     \centering
+        %     \caption{Control derivative tolerances}
+        %     \label{tab:tol_final}
+        %     \begin{tabular}{cc}
+        %         \toprule
+        %         $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}} \pm \dDdXTol$ \\
+        %         $\frac{dX}{dL} = 1 \pm \dXdLTol$ \\
+        %         $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ \\
+        %         $ dud $ \\
+        %         \bottomrule
+        %     \end{tabular}
+        % \end{table}
 
             
 
@@ -2184,7 +2213,7 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
             $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
         }
             &
-        Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
+        Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = -\sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
             &
         \todo{Add reference to dimension tolerance table in Appendix}
         \\ \cline{2-3}
@@ -2208,17 +2237,17 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
         Prevent a reaction force of more than \FTolValve
         \\ \cline{2-3}
 
-            &
+        &
         Valve housing must prevent critical failure by rupture
-            &
+        &
         Withstand a minimum of 10{,}000 psi internal pressure
         \\ \cline{2-3}
 
             &
-        Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{2}{\pi}} A_1$ to within \dLdTTolAct\
+        Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
             &
         Limit the error of $\alpha$ and $L_0$ such that
-        $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq \dLdTTolAct$
+        $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
         \\ \cline{2-3}
 
             &
