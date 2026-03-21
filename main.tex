@@ -1637,7 +1637,7 @@ expansion and the resisting forces have negligible effect on rod length.
                     \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
                     \midrule
                     Material &
-                    Hydrogen Compatible &
+                    &
                     1018 Cold-Rolled Steel
                         \\\addlinespace
                     $E$ &
@@ -1650,7 +1650,7 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $\alpha_{Steel}$ &
                     Coefficient of thermal expansion &
-                    $11.7 x 10^-6 /degC$
+                    $11.7 \times 10^{-6} \, \degC$
                     \\\addlinespace
                     $H$ &
                     Mount height &
@@ -1658,22 +1658,49 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $\alpha_{Aluminum}$ &
                     CTE of aluminum actuator &
-                    $23.6 x 10^-6$
+                    $23.6 \times 10^{-6} \, \degC$
                         \\\addlinespace
-                    $N$ &
-                    Number of convolutions &
-                    7
+                    $\Delta{T}$ &
+                    Total temperatuer range &
+                    140 $\degC$
                     \\\addlinespace
-                    $P_{burst}$ &
-                    Burst pressure &
-                    86.87 MPa
-                    \\\addlinespace
-                    $k$ &
-                    Spring rate &
-                    630.46 N/mm
+                    F &
+                    Axial actuation force &
+                    168.96 N
                     \\\bottomrule
                 \end{tabularx}
             \end{table}
+
+        \subsection{Trapezoidal Mount Thermal Exapnsion}
+            The net displacement delievered to the valve is the difference between the actuator's thermal exapansion and the mount's thermal exapnsion over the same vertical span. If $L_act$ is the actuator rod length and H is the mount height from the actuator
+            anchor point, the net stroke is: \[ \delta_{net} = L_{act} \cdot \alpha_{Aluminum} \cdot \Delta T - H \cdot \alpha_{steel} \cdot \Delta T \]
+            If the actuator rod approximately fits in the mount cavity such that $L_{act} \approx {H}$, this simplifies to: \[ \delta_{net} \approx L \cdot (\alpha_{Al} - \alpha_{steel}) \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \] 
+            Where, \[ \Delta \alpha = 23.6 \times 10^-6 - 11.7 \times 10^-6 = 11.9 \times 10^{-6} \, \degC \]
+
+            The difference in the coeffecient of thermal exapnsion is the effective CTE driving the alve. To deliver a net stroke of 267 $\mu$m across the 140 $\degC$ operating range, the required actuator length is:
+            \[ L = \frac{\delta_{net}}{\Delta\alpha \cdot \Delta T}  = \frac{0.267}{11.9 \times 10^{-6} \times 140} \approx 160.3 \text{ mm} \]
+
+            If the thermal expansion of the mount is not accounted for and the calculation of stroke length is calculated with only the aluminum from the actuator, the required length would appear to be:
+            \[ L_{\text{gross}} = \frac{0.267}{\alpha_{\text{Aluminum}} \cdot \Delta T} = \frac{0.267}{23.6 \times 10^{-6} \times 140} \approx 80.8 \text{ mm} \]
+
+            Therefore, the actuator mounted in the steel frame would deliver the following net stroke as a result: 
+            \[ \delta_{\text{actual}} = 80.8 \times (23.6 - 11.7) \times 10^{-6} \times 140 \approx 134.6 \, \mu\text{m} \]
+
+            
+            This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in corrrespondance with the actuator. 
+
+        \subsection{Structural Stiffness}
+            In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
+            of F = 168.96 N, which is the bellow spring force at full stroke. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. Conservatively modeling each plate as a cantilever of heigh H = 88.9 mm carrying half the load
+            (F/2 = 84.48 N), and approximating the mininum cross sectional moment of inertaion from the plate geometry:
+            \[ \delta_{\text{deflection}} = \frac{F \cdot H^3}{2 \cdot 3EI} \]
+
+            Where, I$\approx 4880617.01319$ $mm^4$ for each trapezoidal plate. The resulting deflection is 
+
+
+
+
+
 
         % \subsection{Calibration Stack}
         % \subsection{Fasteners}
