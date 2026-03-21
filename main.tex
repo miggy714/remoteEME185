@@ -1809,12 +1809,8 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $H$ &
                     Mount height &
-                    88.9 mm
+                    122.48 mm
                     \\\addlinespace
-                    $\alpha_{Aluminum}$ &
-                    CTE of aluminum actuator &
-                    $22.7 \times 10^{-6} \, \degC$
-                        \\\addlinespace
                     $\Delta{T}$ &
                     Operating temperature range &
                     85 $\degC$
@@ -1822,25 +1818,18 @@ expansion and the resisting forces have negligible effect on rod length.
                     F &
                     Axial actuation force &
                     168.96 N
+                    \\\addlinespace
                     \\\bottomrule
                 \end{tabularx}
             \end{table}
 
         \subsection{Trapezoidal Mount Thermal Expansion}
         \label{tab:trapmountthermalexpansion}
-            The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
-            The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
-            \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
+            The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Accounting for the operating temperature range and using the coefficient of thermal exapnsion for Invar 36,
+            let $\Delta L$ be the amount the mount expands:
             
-            Where,
-            \[ \Delta\alpha = \alpha_{\text{Al}} - \alpha_{\text{Invar}} = 23.6 \times 10^{-6} - 1.30 \times 10^{-6} = 22.3 \times 10^{-6} /^\circ\text{C} \] The required stroke from \( T_{\text{ref}} \) to the cold extreme is $162 \, \mu\text{m}$ (corresponding to the change in \( D_{\text{eff}} \) from \( A_0 = 0.254 \, \text{mm} \) at $25^\circ\text{C}$ to $0.384 \, \text{mm}$ at $-60^\circ\text{C}$). 
-            
-            To deliver this net stroke, the actuator length must be:
-            \[ L = \frac{\delta_{\text{net}}}{\Delta\alpha \cdot \Delta T} = \frac{0.162}{(22.3 \times 10^{-6} \times 85)} = \frac{0.162}{1.896 \times 10^{-3}} \approx 85.5 \, \text{mm} \]
-
-            Invar 36 was chosen for its low CTE. If the mount were fabricated from 1018 cold-rolled steel ($\alpha = 12.0 \times 10^{-6} /^\circ\text{C}$), the differential CTE would be only $\Delta\alpha = 23.6 - 12.0 = 11.6 \times 10^{-6} /^\circ\text{C}$, 
-            and the required actuator length would be: $L_{\text{steel}} = \frac{0.162}{(11.6 \times 10^{-6} \times 85)} \approx 164.4 \, \text{mm}$
-            An actuator of this length would exceed the $100 \, \text{mm}$ mechanical envelope guideline even before accounting for end caps, fittings, and the valve housing beneath it. By contrast, the $85.5 \, \text{mm}$ actuator length enabled by the Invar mount fits well within the envelope.
+            $$\Delta L = H \Delta T \alpha = (122.48)(85)(1.20\times10^\text{-6}) = 12.5 \mu\text{m}$$
+           
 
         \subsection{Trapezoidal Mount Structural Stiffness}
         In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
