@@ -636,8 +636,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         , a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
-        \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
-
         \begin{equation}
             D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]
             \label{eq: transfer_function}
@@ -709,6 +707,8 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs} itemize the selection criteria required to keep this relationship for the valve, actuator, and mount subsystems respectively.
             Each table lists the subsystem's core responsibilities on the left, which dictate the behavior of the transfer function or the total mechanical envelope,
             and the individual subsystem specifications necessary to fulfill these responsibilities. The subsequent discussion proves that each subsystem meets the specifications on the right of the table.
+
+            Appendix \ref{app:requirements} lists the full rolldown of requirements to core responsibilities to design specifications.
 
             \begin{table}[H]
                 \centering
@@ -982,11 +982,11 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                             \\\addlinespace
                             $E$ &
                             Young's modulus &
-                            145,000 MPa
+                            148 GPa \cite{matweb}
                             \\\addlinespace
                             $S_y$ &
                             Yield strength &
-                            260 MPa
+                            483 MPa \cite{matweb}
                             \\\addlinespace
                             $F$ &
                             Axial actuation force &
@@ -1001,15 +1001,15 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
                 Axial stress:
                 $$\sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}$$
-                The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $260\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 260 / 31.34 \approx 8.30$.
+                The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $483\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 483 / 31.34 \approx 15.41$.
                 The stem therefore operates comfortably within its elastic range under the full actuation load, and the small diameter is justified by the low force demand.
                 \\~\\
                 Critical buckling load (Euler):
                 $$P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4$$
-                $$P_{cr} = \frac{\pi^2 (145{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 29{,}796 \ \text{N}$$
+                $$P_{cr} = \frac{\pi^2 (148{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 30{,}413 \ \text{N}$$
                 \\~\\
                 The stem is laterally guided at the top and bottom, making it a pin-pin column with $K_{column} = 1.0$ and an unsupported length of $L_{seg} = 10.54\ \text{mm}$.
-                The critical buckling load yields a buckling safety factor of $29{,}796 / 168.96 \approx 176$.
+                The critical buckling load yields a buckling safety factor of $30{,}413 / 168.96 \approx 180$.
                 Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
                 \\~\\
 
@@ -1033,7 +1033,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                                 \midrule
                                 Material &
                                 &
-                                1018 Steel
+                                1018 Cold-Rolled Steel
                                 \\\addlinespace
                                 $r_i$ &
                                 Inner radius &
@@ -1053,7 +1053,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                                 \\\addlinespace
                                 $S_y$ &
                                 Yield strength &
-                                400 MPa
+                                370 MPa \cite{matweb}
                                 \\\bottomrule
                             \end{tabularx}
                         \end{table}
@@ -1067,8 +1067,8 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             $$\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}$$
             $$\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} \approx 156.75 \ \text{MPa}$$
             The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
-            $$FS = \frac{S_y}{\sigma_{vm}} = \frac{400}{156.75} \approx 2.55$$
-            The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.55$.
+            $$FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36$$
+            The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.36$.
             The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
             
             The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
@@ -1106,7 +1106,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                     \\\addlinespace
                     $S$ &
                     ASME allowable stress, $S_y$ / 1.5 &
-                    266.6 MPa
+                    246.7 MPa
                     \\\addlinespace
                     $W$ &
                     Weld strength reduction factor &
@@ -1124,7 +1124,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \end{table}
 
             The ASME allowable stress is derived directly from the housing yield strength using the standard 
-            code factor of $S = S_y / 1.5 = 400 / 1.5 = 266.6\ \text{MPa}$.
+            code factor of $S = S_y / 1.5 = 370 / 1.5 = 246.7\ \text{MPa}$.
             Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
             on the level of examination applied:
 
@@ -1135,23 +1135,23 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \end{itemize}
 
             With full radiography ($E = 1.00$), the minimum required wall thickness is:
-            $$t_{min} = \frac{68.95 \times 39.06}{2\left(266.6 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
-             \approx 4.577 \ \text{mm}$$
-            Since $t_{min} = 4.577\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
+            $$t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
+             \approx 5.17 \ \text{mm}$$
+            Since $t_{min} = 5.17\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
             The thickness safety factor at the weld joint is:
-            $$SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{4.577} \approx 2.18$$
+            $$SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93$$
             \\~\\
             As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
             ($\sigma_\theta = 112.05\ \text{MPa}$) is compared directly against the weld joint allowable stress 
             \cite{asme_b313}:
-            $$\sigma_{allow} = S \cdot E \cdot W = 266.6 \times 1.00 \times 1.0 = 266.6 \ \text{MPa}$$
-            $$\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 266.6 \ \text{MPa}$$
+            $$\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}$$
+            $$\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}$$
             The weld joint stress safety factor is:
-            $$SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{266.6}{112.05} \approx 2.38$$
+            $$SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20$$
             \\~\\
             These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
             the weld joint introduces no strength penalty relative to the base material.
-            The joint is viable with a thickness margin of $5.423\ \text{mm}$ and a stress safety factor of $2.38$.            
+            The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
         
         \subsection{Specification 4: Temperature gradient}
         \label{subsec:valve_spec_4}
@@ -1737,7 +1737,11 @@ expansion and the resisting forces have negligible effect on rod length.
 
     
 
+    \section{Subsystem Interaction}
+    \label{subsec:sub_int}
+
     \section{System Compliance}
+    \label{subsec:sys_comp}
 
         \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.}
 
@@ -2072,6 +2076,11 @@ NASA CR-123772, May 1972.
 Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
 [Accessed: Mar. 2026].
 
+\bibitem{matweb}
+    MatWeb, LLC, \textit{MatWeb Material Property Data}, 
+    [Online]. Available: \url{https://www.matweb.com}, 
+    Accessed: March 20, 2025.
+
     \bibitem{ref_placeholder5}
     \todo{N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019. Referenced near Figure \ref{fig:orifice}}
 
@@ -2119,6 +2128,7 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
 
         $$D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]$$
 
+    while the secondary, soft requirement is to remain within the 10 cm x 10 cm x 10 cm Mechanical Envelope.
 
 
 \newpage
@@ -2219,6 +2229,8 @@ Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/197200
 
     \end{tabular}
 \end{table}
+
+$\left( \text{Equation\ \ref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
 
 % --- Appendix B: Engineering Drawing Package ---
 \chapter{Engineering Drawing Package}
