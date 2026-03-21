@@ -806,33 +806,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             % Paragraph 1
             The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
             the current ambient temperature and determined reference temperature. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is quasi-linear. This linearity is preserved without any correction factors, feedback mechanism, or nonlinear compensation designs of any kind.
-        
-            \begin{figure}[H]
-                 \centering
-                \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-                \caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-                \label{fig:al_alpha}
-            \end{figure}            
-            
-            Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
-            
-            Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
-            
-            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
-            
-            The actual change in length based of a constant change in $\alpha$, we use the formula 
-            \begin{align*}
-            \Delta L &= L_0 \int_{10}^{80} \alpha(T) \, dT \\
-            &= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-            &= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
-            &= 0.1363 \text{ mm}
-            \end{align*}
-
-            The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
-
-            $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
-
-            The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 
             % Paragraph 2
             The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
@@ -1380,20 +1353,42 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{table}
 
 
-    \subsection{Specification 1: Delivers necessary stroke length}
+    \subsection{Specification 1: Thermal Expansion Tolerance}
         \label{subsec:act_spec_1}
 
-            \todo{Insert calcs}
             The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
             to its minimum and maximum aperture diameter, $\coldBoundary$ and $\hotBoundary$. To move the plates
             to these extrema a total stroke length of \specStroke\ mm is required. The governing equation
             for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
             dimensions that facilitate this movement. 
 
-        \subsection{Specification 2: Thermal expansion tolerance}
         \label{subsec:act_spec_2}
+            \begin{figure}[H]
+                 \centering
+                \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+                \caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+                \label{fig:al_alpha}
+            \end{figure}            
+            
+            Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            
+            Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
+            
+            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+            
+            The actual change in length based of a constant change in $\alpha$, we use the formula 
+            \begin{align*}
+            \Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
+            &= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+            &= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+            &= 0.1363 \text{ mm}
+            \end{align*}
 
-            \todo{Insert propagated error proof as specified (Sam?)}
+            The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
+
+            $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
+
+            The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 
         \subsection{Specification 3: Reaction force deflection}
         \label{subsec:act_spec_3}
