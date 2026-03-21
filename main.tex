@@ -869,18 +869,8 @@ The second criterion is of particular importance to the function of the device.
 Because the actuator is designed to expand axially downward into the valve 
 subsystem with increasing temperature, any upward thermal growth of the mount 
 introduces a competing displacement that reduces the net stroke delivered to 
-the valve. The net axial displacement delivered to the valve can be expressed as
+the valve.
 
-\begin{equation}
-    \delta_{net} = \delta_{actuator} - \delta_{mount} = \alpha_{act} L_{act} \Delta T - \alpha_{mount} L_{mount} \Delta T
-    \label{eq:net_displacement}
-\end{equation}
-
-where $\alpha_{act}$ and $\alpha_{mount}$ are the coefficients of thermal 
-expansion of the actuator and mount materials respectively, $L_{act}$ and 
-$L_{mount}$ are their respective reference lengths, and $\Delta T$ is the 
-temperature change from the reference state. To maximize $\delta_{net}$, 
-the mount material should minimize $\alpha_{mount}$ relative to $\alpha_{act}$.
 
             \begin{table}[H]
                 \centering
@@ -1835,8 +1825,12 @@ expansion and the resisting forces have negligible effect on rod length.
                 \end{tabularx}
             \end{table}
 
+<<<<<<< HEAD
         \subsection{Trapezoidal Mount Thermal Exapnsion}
         \label{tab:trapmountthermalexpansion}
+=======
+        \subsection{Trapezoidal Mount Thermal Expansion}
+>>>>>>> 810c844d5bb614d611f7b16bd4eb510bb0b08fcb
             The net displacement delivered to the valve is the difference between the actuator's thermal expansion and the mount's thermal expansion over the same vertical span. Let $L$ be the actuator rod length, which approximately equals the mount height from the actuator anchor point to the housing seat. 
             The device is calibrated at the reference temperature $T_{\text{ref}} = 25^\circ\text{C}$. The maximum one-sided displacement occurs at the cold extreme of $-60^\circ\text{C}$, giving $\Delta T = 85^\circ\text{C}$. The net stroke from the calibration point to the cold extreme is:
             \[ \delta_{\text{net}} = L \cdot \alpha_{\text{Al}} \cdot \Delta T - L \cdot \alpha_{\text{Invar}} \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \]
@@ -1860,8 +1854,13 @@ expansion and the resisting forces have negligible effect on rod length.
         The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepency between the fasteners and the fixture corrupts the calibration of the entire device.
 
         \subsection{Fasteners Current Implementation}
+<<<<<<< HEAD
         Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stoack, over the housing, and threads into the fixture at the base.
         A standard 18-8 M4 stainless steel oversized washer sits under each screw head to dsitribute the clamping load across the mount plate surface. 
+=======
+            Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
+            A standard 18-8 M4 stainless steel oversized washer sits under each screw head to distribute the clamping load across the mount plate surface. 
+>>>>>>> 810c844d5bb614d611f7b16bd4eb510bb0b08fcb
         
         \begin{table}[H]
                 \centering
@@ -1916,7 +1915,7 @@ expansion and the resisting forces have negligible effect on rod length.
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
         \[ FOS_{bolt} = F_{total} / F = 6.52 \times 10^8 \]
         
-        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compabitibility with the shim washer stack geometry.
+        The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
 
         \subsection{Fasteners Preload Stability}
         The fasteners (alloy steel, \( \alpha \approx 11.5 \times 10^{-6} /^\circ\text{C} \)) pass through the Invar 36 mount plates (\( \alpha = 1.30 \times 10^{-6} /^\circ\text{C} \)), 
@@ -1946,7 +1945,7 @@ expansion and the resisting forces have negligible effect on rod length.
     \section{System Compliance}
     \label{subsec:sys_comp}
 
-        \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.(Unassigned)}
+        \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.(Sam and Isaiah)}
 
         Recall that the system transfer function is 
         
@@ -2324,7 +2323,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
             &
         Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = -\sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
             &
-        \todo{Add reference to dimension tolerance table in Appendix(Unassigned)}
+        \todo{Add reference to dimension tolerance table in Appendix(Sam)}
         \\ \cline{2-3}
 
             &
@@ -2364,7 +2363,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
             Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
         }
             &
-        \todo{Add reference to dimension tolerances in Appendix(Unassigned)}
+        \todo{Add reference to dimension tolerances in Appendix(Sam)}
         \\ \cline{3-3}
 
             &
