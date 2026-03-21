@@ -636,8 +636,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         , a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
-        \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
-
         \begin{equation}
             D_{eff}=\frac{dD_{eff}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{ref})+X\left(T_{ref} \right) \right]
             \label{eq: transfer_function}
@@ -1736,7 +1734,11 @@ expansion and the resisting forces have negligible effect on rod length.
 
     
 
+    \section{Subsystem Interaction}
+    \label{subsec:sub_int}
+
     \section{System Compliance}
+    \label{subsec:sys_comp}
 
         \todo{Prove that, given worst-case deviation within specs, the whole system requirement is still met.}
 
