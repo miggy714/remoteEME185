@@ -1808,11 +1808,7 @@ expansion and the resisting forces have negligible effect on rod length.
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
         \subsection{Trapezoidal Mount Plate Current Implementation}
-<<<<<<< HEAD
-            The two trapezoidal mount plates are machined from Invar 36 nickel-iron alloy. The plates rise vertically from the ficture and taper inward toward the top, forming the A-fram geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
-=======
             The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in figure xyz. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
->>>>>>> 1ae5b75d97ed0a5460c27f8b845885e9e9434c57
             top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
             
 
@@ -1849,13 +1845,8 @@ expansion and the resisting forces have negligible effect on rod length.
                     $22.7 \times 10^{-6} \, \degC$
                         \\\addlinespace
                     $\Delta{T}$ &
-<<<<<<< HEAD
                     Max displacement from reference &
                     85 $\degC$
-=======
-                    Total temperature range &
-                    140 $\degC$
->>>>>>> 1ae5b75d97ed0a5460c27f8b845885e9e9434c57
                     \\\addlinespace
                     F &
                     Axial actuation force &
@@ -1881,17 +1872,11 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsection{Trapezoidal Mount Structural Stiffness}
             In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
-<<<<<<< HEAD
             of F = 168.96 N, which is the bellow spring force at full stroke, per Section 3.3. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
             Given that Invar 36 has a modulus of 141 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke, but this will be quantitatively confirmed before fabrication.
         
         \subsection{Fasteners Design Requirement Updates}
             The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepency between the fasteners and the fixture corrupts the calibration of the entire device. 
-=======
-            of F = 168.96 N, which is the bellow spring force at full stroke. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. Conservatively modeling each plate as a cantilever of heigh H = 88.9 mm carrying half the load
-            (F/2 = 84.48 N), and approximating the minimum cross sectional moment of inertaion from the plate geometry:
-            \[ \delta_{\text{deflection}} = \frac{F \cdot H^3}{2 \cdot 3EI} \]
->>>>>>> 1ae5b75d97ed0a5460c27f8b845885e9e9434c57
 
         \subsection{Fasteners Current Implementation}
             Eight M3 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stoack, over the housing, and threads into the fixture at the base.
