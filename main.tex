@@ -559,13 +559,18 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
     \section{System Architecture Overview}
     \label{sec:sys_arch_overview}
         
-        Figure \ref{fig:mainIsometric} shows the complete virtual model of the \device,
-        developed using computer-aided design (CAD) software.
-        A partial exploded view is shown in Figure \ref{fig:mainExploded} .
-        The gray housing holds the valve subassembly. It sits nested in the tan mount subassembly.
-        The gray actuator block is mounted between the top inside face of the mount and the top of the valve stem that protrudes from the housing.
+        The \device\ (Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID})
+        comprises the following subassemblies:
 
-        \todo{Add axes to one assembly image}
+        \begin{itemize}
+            \item Valve: the central orifice, its valve stem, and a hermitically sealed bellows sit in the central housing component.
+                    These are welded to the housing inlet and outlet, which will connect to the provided gas flow pipes, to make the complete housing structure.
+            \item Actuator: the thermal expansion block sits nested inside the mount superstructure. 
+                    It is welded between the upper interior of the mount and the tip of the valve stem.
+            \item Mount: the device superstructure is welded and bolted together to hold the actuator from its top at a fixed distance from the valve orifice.
+        \end{itemize}
+       
+       
 
         \begin{figure}[H]
             \centering
@@ -575,9 +580,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 };
                 % 3D axes overlay — adjust (0.8, 0.8) to reposition
                 \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
-                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
-                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                    \draw[->] (0,0) -- ({cos(20)},{-sin(20)}) node[right] {$X$};
+                    \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
+                    \draw[->] (0,0) -- ({-cos(20)},{-sin(20)}) node[below left] {$Z$};
                 \end{scope}
             \end{tikzpicture}
             \caption{Complete assembly}
@@ -591,9 +596,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                     \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
                 };
                 \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0,0) -- (1,0,0) node[right] {$X$};
-                    \draw[->] (0,0,0) -- (0,1,0) node[above] {$Y$};
-                    \draw[->] (0,0,0) -- (0,0,1) node[below left] {$Z$};
+                    \draw[->] (0,0) -- ({cos(20)},{-sin(20)}) node[right] {$X$};
+                    \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
+                    \draw[->] (0,0) -- ({-cos(20)},{-sin(20)}) node[below left] {$Z$};
                 \end{scope}
             \end{tikzpicture}
             \caption{Complete assembly exploded view}
@@ -626,7 +631,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
-        According to control systems theory, a passive device is represented by an open-loop control diagram with no sensor feedback.
+        According to control systems theory
+        \todo{Insert referense to Nise Control Systems from Bibliography (Miguel)}
+        , a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{ambient}$, outputs $D_{effective}$, and can be represented by the general equation \ref{eq: transfer_function}:
 
         \todo{Add reference at "Control systems theory" to 172 textbook. No page number in particular; I'm just referencing the general concepts}
@@ -698,7 +705,10 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \subsection{Valve Selection Criteria}
         \label{subsec:valve_sel_crit}
 
-            \todo{Add brief description as preamble to this table. See Sec. \ref{subsec:act_sel_crit} for reference}
+            As detailed in the above section, each subsection must maintain its portion of the transfer function within enough tolerance such that the whole system satisfies the Required Relationship.
+            Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs} itemize the selection criteria required to keep this relationship for the valve, actuator, and mount subsystems respectively.
+            Each table lists the subsystem's core responsibilities on the left, which dictate the behavior of the transfer function or the total mechanical envelope,
+            and the individual subsystem specifications necessary to fulfill these responsibilities. The subsequent discussion proves that each subsystem meets the specifications on the right of the table.
 
             \begin{table}[H]
                 \centering
@@ -824,16 +834,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             % Paragraph 1
             The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
             the current ambient temperature and determined reference temperature. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is quasi-linear. This linearity is preserved without any correction factors, feedback mechanism, or nonlinear compensation designs of any kind.
-        
-            \begin{figure}[H]
-                 \centering
-                \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-                \caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-                \label{fig:al_alpha}
-            \end{figure}            
-            
-            Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
-            
+
             % Paragraph 2
             The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate tobe pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
             Furthermore, the full thermal expansion of the rod across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
@@ -1382,20 +1383,42 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{table}
 
 
-    \subsection{Specification 1: Delivers necessary stroke length}
+    \subsection{Specification 1: Thermal Expansion Tolerance}
         \label{subsec:act_spec_1}
 
-            \todo{Insert calcs}
             The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
             to its minimum and maximum aperture diameter, $\coldBoundary$ and $\hotBoundary$. To move the plates
             to these extrema a total stroke length of \specStroke\ mm is required. The governing equation
             for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
             dimensions that facilitate this movement. 
 
-        \subsection{Specification 2: Thermal expansion tolerance}
         \label{subsec:act_spec_2}
+            \begin{figure}[H]
+                 \centering
+                \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+                \caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+                \label{fig:al_alpha}
+            \end{figure}            
+            
+            Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{ref}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            
+            Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
+            
+            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+            
+            The actual change in length based of a constant change in $\alpha$, we use the formula 
+            \begin{align*}
+            \Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
+            &= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+            &= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+            &= 0.1363 \text{ mm}
+            \end{align*}
 
-            \todo{Insert propagated error proof as specified (Sam?)}
+            The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
+
+            $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
+
+            The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 
         \subsection{Specification 3: Reaction force deflection}
         \label{subsec:act_spec_3}
@@ -1638,7 +1661,7 @@ expansion and the resisting forces have negligible effect on rod length.
                     \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
                     \midrule
                     Material &
-                    Hydrogen Compatible &
+                    &
                     1018 Cold-Rolled Steel
                         \\\addlinespace
                     $E$ &
@@ -1651,7 +1674,7 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $\alpha_{Steel}$ &
                     Coefficient of thermal expansion &
-                    $11.7 x 10^-6 /degC$
+                    $11.7 \times 10^{-6} \, \degC$
                     \\\addlinespace
                     $H$ &
                     Mount height &
@@ -1659,22 +1682,49 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $\alpha_{Aluminum}$ &
                     CTE of aluminum actuator &
-                    $23.6 x 10^-6$
+                    $23.6 \times 10^{-6} \, \degC$
                         \\\addlinespace
-                    $N$ &
-                    Number of convolutions &
-                    7
+                    $\Delta{T}$ &
+                    Total temperatuer range &
+                    140 $\degC$
                     \\\addlinespace
-                    $P_{burst}$ &
-                    Burst pressure &
-                    86.87 MPa
-                    \\\addlinespace
-                    $k$ &
-                    Spring rate &
-                    630.46 N/mm
+                    F &
+                    Axial actuation force &
+                    168.96 N
                     \\\bottomrule
                 \end{tabularx}
             \end{table}
+
+        \subsection{Trapezoidal Mount Thermal Exapnsion}
+            The net displacement delievered to the valve is the difference between the actuator's thermal exapansion and the mount's thermal exapnsion over the same vertical span. If $L_act$ is the actuator rod length and H is the mount height from the actuator
+            anchor point, the net stroke is: \[ \delta_{net} = L_{act} \cdot \alpha_{Aluminum} \cdot \Delta T - H \cdot \alpha_{steel} \cdot \Delta T \]
+            If the actuator rod approximately fits in the mount cavity such that $L_{act} \approx {H}$, this simplifies to: \[ \delta_{net} \approx L \cdot (\alpha_{Al} - \alpha_{steel}) \cdot \Delta T = L \cdot \Delta\alpha \cdot \Delta T \] 
+            Where, \[ \Delta \alpha = 23.6 \times 10^-6 - 11.7 \times 10^-6 = 11.9 \times 10^{-6} \, \degC \]
+
+            The difference in the coeffecient of thermal exapnsion is the effective CTE driving the alve. To deliver a net stroke of 267 $\mu$m across the 140 $\degC$ operating range, the required actuator length is:
+            \[ L = \frac{\delta_{net}}{\Delta\alpha \cdot \Delta T}  = \frac{0.267}{11.9 \times 10^{-6} \times 140} \approx 160.3 \text{ mm} \]
+
+            If the thermal expansion of the mount is not accounted for and the calculation of stroke length is calculated with only the aluminum from the actuator, the required length would appear to be:
+            \[ L_{\text{gross}} = \frac{0.267}{\alpha_{\text{Aluminum}} \cdot \Delta T} = \frac{0.267}{23.6 \times 10^{-6} \times 140} \approx 80.8 \text{ mm} \]
+
+            Therefore, the actuator mounted in the steel frame would deliver the following net stroke as a result: 
+            \[ \delta_{\text{actual}} = 80.8 \times (23.6 - 11.7) \times 10^{-6} \times 140 \approx 134.6 \, \mu\text{m} \]
+
+            
+            This is only half the required value. Therefore, it is necessary to implement and consider the thermal expansion of the mount in corrrespondance with the actuator. 
+
+        \subsection{Structural Stiffness}
+            In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
+            of F = 168.96 N, which is the bellow spring force at full stroke. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. Conservatively modeling each plate as a cantilever of heigh H = 88.9 mm carrying half the load
+            (F/2 = 84.48 N), and approximating the mininum cross sectional moment of inertaion from the plate geometry:
+            \[ \delta_{\text{deflection}} = \frac{F \cdot H^3}{2 \cdot 3EI} \]
+
+            Where, I$\approx 4880617.01319$ $mm^4$ for each trapezoidal plate. The resulting deflection is 
+
+
+
+
+
 
         % \subsection{Calibration Stack}
         % \subsection{Fasteners}
@@ -2020,6 +2070,9 @@ Western Applied Research \& Development, Inc.,
 NASA CR-123772, May 1972.
 Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
 [Accessed: Mar. 2026].
+
+    \bibitem{ref_placeholder5}
+    \todo{N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019. Referenced near Figure \ref{fig:orifice}}
 
     \bibitem{ref_placeholder3}
     \todo{Add reference: material property data source}
