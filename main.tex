@@ -1,4 +1,4 @@
-% Gentlemen, congradulations on finishing this report!
+% Gentlemen, congratulations on finishing this report!
 % Several portions of this will likely be copy-pasted into the Final Design Report,
 % and given that we had to rush certain components,
 % it would be prudent to implement post-hoc edits to this version of the report for our reference.
@@ -8,7 +8,11 @@
 % Sam vdV
 % 3-21-26
 
+% P.S. Focus especially on making the architecture description clear in section 2
+% and verifying our calculations in Section 3.
 
+% Sam vdV
+% 3-24-26
 
 
 
@@ -184,7 +188,7 @@
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specYoungMActuator}{69 GPa}
 \newcommand{\specCrossSectArea}{0.00090 m^2}
-\newcommand{\specOrigActuatorLength}{84.132 mm}
+\newcommand{\specOrigActuatorLength}{84.335 mm}
 \newcommand{\specTempChange}{140 \si{\celsius}}
 \newcommand{\specLengthChange}{0.2674 mm}
 
@@ -470,7 +474,7 @@ with an average tolerance of $\pm\ 13 \mu\ m$, about a fifth the thickness of a 
 Our team designed three interconnected subsystems to accomplish this objective:
 
 \begin{itemize}
-    \item A square valve orifice, comprised of two overlapping square holes
+    \item A square valve orifice, comprising two overlapping square holes
     \item A passive thermal actuator, which expands with rising temperature and drives the valve
     \item A mount, which fixes the relative positions of the other subsystems
 \end{itemize}
@@ -510,7 +514,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         
         These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
         A mechanical envelope is the total volume that the device is allowed to occupy at all times.
-        When defining specifications that comply with this requirement, the required dimensions will vary for each principle axis.
+        When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
         Thus, for clarity, the system axes will be defined as follows:
 
         % NOTE - These are consistent with the main CAD assembly axes
@@ -540,14 +544,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \label{eq:ErrorPropagation}
         \end{equation}
 
-
-        Effective diameter is the main way that fluid flow is measured through a pipe. The most 
-        common way to find effective diameter is on cylindrical pipes where the effective diameter is just the inner 
-        diameter of the pipe. In our case, because we have a square hole, we have to calculate the effective diameter based 
-        off of the area of the opening. We find the area of the opening and then use the formula $D_{\text{effective}}=\sqrt{\frac{4A}{\pi}}$ 
-        to find the effective diameter. This is what Sandia Labs is looking for in the design requirements so we have to make
-        sure that we are finding the effective diameter based off the area that we can calculate.
-
+        The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
+        
+        \begin{equation}
+            D_{\text{effective}}=\sqrt{\frac{4A}{\pi}}
+            \label{eq:d_eff}
+        \end{equation} 
+        
         In order to passively drive the valve orifice diameter by ambient temperature change, 
         our team developed three sub-architectures:
         a valve, to restrict the flow;
@@ -630,7 +633,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
     
         The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
-        One plate is fixed to the valve housing; the other is free to move vertically as driven by valve stem. 
+        One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem. 
         The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
         If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig: orifice}, the overlap between these squares constitutes the valve orifice. 
         The lower (blue) square lies on the moving plate, referred to as the “central plate” in this report, such that as the valve stem drives the plate downwards, the valve orifice (represented by the gray square) constricts.
@@ -642,7 +645,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \begin{figure}[H]
             \centering
             \includegraphics[height=2in]{orifice.png}
-            \caption{Orifice overlap region defined by two rotated squares with internal flow lines.}
+            \caption{Orifice geometry}
             \label{fig: orifice}
         \end{figure}
 
@@ -684,7 +687,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \label{eq:valve_control}
         \end{equation}
 
-         as calculated in Appendix \ref{app:calculations}. The control derivative $\frac{dD_{eff}}{dX}$ is governed by the valve subassembly.
+         as calculated in Appendix \ref{app:orifice_geometry}. The control derivative $\frac{dD_{eff}}{dX}$ is governed by the valve subassembly.
 
 
         \begin{figure}[H]
@@ -717,7 +720,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \subsection{Valve Selection Criteria}
         \label{subsec:valve_sel_crit}
 
-            As detailed in the above section, each subsection must maintain its portion of the transfer function within enough tolerance such that the whole system satisfies the Required Relationship.
+            As detailed in the above section, each subsystem must maintain its portion of the transfer function within enough tolerance such that the whole system satisfies the Required Relationship.
             Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs} itemize the selection criteria required to keep this relationship for the valve, actuator, and mount subsystems respectively.
             Each table lists the subsystem's core responsibilities on the left, which dictate the behavior of the transfer function or the total mechanical envelope,
             and the individual subsystem specifications necessary to fulfill these responsibilities. The subsequent discussion proves that each subsystem meets the specifications on the right of the table.
@@ -771,7 +774,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
             % Paragraph 2
             Critically, the area of the diamond orifice depends linearly on the vertical offset between the two plates. Since the effective diameter is derived from the orifice area, the resulting relationship is linear between the plate displacement and the effective diameter.
-            This linear relationship was the driving force of our design choices and the most challenging restraint specified by the sponsor. The geometric linearity of the valve is intrinsic to the proper of the diamond overlap. It does not rely on reparameterization or any nonlinear compensation elsewhere in the system.
+            This linear relationship was the driving force of our design choices and the most challenging restraint specified by the sponsor. The geometric linearity of the valve is intrinsic to the property of the diamond overlap. It does not rely on reparameterization or any nonlinear compensation elsewhere in the system.
             The valve preserves the linear signal from the actuator without any modification.
       
         \begin{figure}[H]
@@ -782,7 +785,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \end{figure}
 
             % Paragraph 3
-            The valve design has only one moving part, the translating plate. The light blue rod in Fig \ref{fig:valve_cutaway_isometric} is the actuator that moves the translating plate. As stated previously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellow. Since there are no linkages, rotating components, or other types of internal mechanisms,
+            The valve design has only one moving part, the translating plate. The light blue rod in Fig \ref{fig:valve_cutaway_isometric} is the actuator that moves the translating plate. As stated previously, movement is driven axially by the valve stem. The valve stem passes through the top wall of the valve housing and is sealed by a welded metal bellows. Since there are no linkages, rotating components, or other types of internal mechanisms,
             we reduce the possibility of error introduced from hysteresis. In addition, this mechanical simplicity supports manufacturability. Since our orifice operates on a sub-millimeter scale with orifice sizes capable of being smaller than the tip of a ballpoint pen, manufacturing additional pieces at this scale introduces 
             manufacturing challenges. Therefore, keeping the valve subsystem with minimal moving parts reduces possible error and eases the manufacturing process.
 
@@ -807,7 +810,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         two sources drive its error:
 
         \begin{enumerate}
-            \item Changes in the coefficient of thermal expansion $\alpha$ across the temperature range
+            \item Changes in the coefficient of thermal expansion (CTE) $\alpha$ across the temperature range
             \item Machining errors in the length of the actuator at $T_{ref}$, $L_0$
         \end{enumerate}
 
@@ -840,22 +843,22 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \begin{figure}[H]
             \centering
             \includegraphics[height=4in, width=6in, keepaspectratio]{Actuator_isometric.png}
-            \caption{Valve orifice front view}
+            \caption{Actuator block}
             \label{fig:actuator_isometric}
         \end{figure}
 
             % Paragraph 1
-            The actuator subsystem is a single aluminum rod that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the rod's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
+            The actuator subsystem is a single aluminum block that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the actuator's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
             the current ambient temperature and determined reference temperature. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is quasi-linear. This linearity is preserved without any correction factors, feedback mechanism, or nonlinear compensation designs of any kind.
 
             % Paragraph 2
-            The rod is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the rod expands downwards pushing the vale stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the rod contracts causing the plate to be pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
-            Furthermore, the full thermal expansion of the rod across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
-            The rod interfacing with the valve stem directly eliminates possible hysteresis and eases the manufacturing process. 
+            The actuator block is mounted between the top inside face of the mount and valve stem. As the ambient temperature rises, the actuator expands downwards pushing the valve stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the actuator contracts causing the plate to be pulled up, therefore reopening the orifice. The actuator is directly coupled onto the valve stem.
+            Furthermore, the full thermal expansion of the block across the 140 $\degC$ operating range produces 267 $\mu$m of stroke. This motion is done purely by the actuator interfaced with the valve stem. There is no other linkage, gear train, or motion amplification that occurs.
+            The block interfacing with the valve stem directly eliminates possible hysteresis and eases the manufacturing process. 
 
             % Paragraph 3
-            One of the most significant design decisions was positioning the actuator rod outside the pressure boundary of the valve. It is thermally isolated from the gas flow by the valve housing walls and the bellows assembly. It responds directly to the ambient air temperature instead of the gas temperature.
-            This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint the rod is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring forces. 
+            One of the most significant design decisions was positioning the actuator block outside the pressure boundary of the valve. It is thermally isolated from the gas flow by the valve housing walls and the bellows assembly. It responds directly to the ambient air temperature instead of the gas temperature.
+            This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint the actuator is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring forces. 
             This force margin ensures reliable actuation across the entire temperature range. 
 
     \section{Mount Subsystem}
@@ -918,7 +921,7 @@ the valve.
             \end{figure}
 
             % Paragraph 2
-            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique}. The actuator rod is housed inside the cavity between the A-frame structure. The upper end is anchored onto the interior top face of the mount.
+            The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique}. The actuator block is housed inside the cavity between the A-frame structure. The upper end is anchored onto the interior top face of the mount.
             The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
             reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accommodate the welding tool path rather than requiring the weld to be made before the assembly.
 
@@ -1005,7 +1008,7 @@ the valve.
                 See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
 
                 This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the compression error caused by the force on the valve stem and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}). 
-                Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This is jut lower than the specificaton of 2.75 $\mu$m.
+                Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This is just lower than the specificaton of 2.75 $\mu$m.
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
@@ -1014,7 +1017,7 @@ the valve.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{StemBellowsOrifice_Render.png}
+            \includegraphics[height=4in, width=6in, keepaspectratio]{StembellowsOrifice_Render.png}
             \caption{Valve stem, bellows, and orifice plates view}
             \label{fig:stem_bellows_orifice}
         \end{figure}
@@ -1293,12 +1296,12 @@ the valve.
                         \centering
                         \includegraphics[height=4in, width=6in, keepaspectratio]{bellows.png}
                         \caption{CAD model of the bellows}
-                        \label{fig:bellow}
+                        \label{fig:bellows}
                     \end{figure}
 
             The welded metal bellows transmits an axial stroke $\delta$ from an external actuator into a high-pressure hydrogen valve while maintaining zero leakage. The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, and minimize actuator force demand.
             \\~\\
-            Figure \ref{fig:bellow}, illustrates the valve assembly with the bellows. It is laser beam welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. 
+            Figure \ref{fig:bellows}, illustrates the valve assembly with the bellows. It is laser beam welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. 
             This weld joint is one of the first steps
             The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
             Accounting for the spring force of the bellows is important for actuator sizing.
@@ -1309,7 +1312,7 @@ the valve.
 
             \begin{table}[H]
                 \centering
-                \caption{Bellows Parameters}
+                \caption{bellows Parameters}
                 \label{tab:bellows_parameters}
                 \begin{tabularx}{\textwidth}{l X l}
                     \toprule
@@ -1356,7 +1359,7 @@ the valve.
 
             Spring force:
             \begin{equation}
-            F_s = K \delta = (630.46 \ \text{N/mm})(0.268 \ \text{mm}) \approx 168.96 \ \text{N}
+            F_s = K \delta = (630.46 \ \text{N/mm})(0.267 \ \text{mm}) \approx 168.96 \ \text{N}
             \label{force_spring}    
             \end{equation}
 
@@ -1385,7 +1388,7 @@ the valve.
             This occurs when the bellows is unrestrained from sideways movement and the internal pressure 
             exceeds the bellows' ability to maintain its shape.
             As noted in the Mini-Flex design guide, squirm will not occur if the bellows is guided internally 
-            or externally by a rod stem or used in a close-fitting bore \cite{miniflex_design}.
+            or externally by a dowel pin, that being the valve stem, or used in a close-fitting bore \cite{miniflex_design}.
             Because the valve body provides lateral restraint, the bellows will not experience squirm, and 
             the critical squirm pressure is therefore not a limiting factor in this design.
             \\~\\
@@ -1506,7 +1509,7 @@ the valve.
                $ \specActuatorCTE$
                 \\\addlinespace
                 $L_0$ &
-                Original rod length &
+                Original actuator length &
                 $\specOrigActuatorLength$
                 \\\addlinespace
                 $\Delta T$ &
@@ -1530,7 +1533,6 @@ the valve.
             for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
             dimensions that facilitate this movement. 
 
-        \label{subsec:act_spec_2}
             \begin{figure}[H]
                  \centering
                 \fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
@@ -1542,13 +1544,13 @@ the valve.
             
             Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
             
-            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.2657 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+            $\delta L {(T_{ref} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
             
             The actual change in length based of a constant change in $\alpha$, we use the formula 
             \begin{align*}
             \Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
-            &= 84.2657 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-            &= (84.2657)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+            &= 84.335 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+            &= (84.335)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
             &= 0.1363 \text{ mm}
             \end{align*}
 
@@ -1556,14 +1558,14 @@ the valve.
 
             $Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
 
-            The 2.4 microns fall much bellow the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
+            The 2.4 microns fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
             Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
             $$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
 
 
         \subsubsection{Specification 2: Reaction force deflection}
-        \label{subsec:act_spec_3}
+        \label{subsec:act_spec_2}
 
         The actuator must overcome resisting forces without deformation before expansion can be 
         translated into movement. The forces resisting actuator expansion are include friction
@@ -1573,28 +1575,53 @@ the valve.
 
 
   
-\title{Thermal Actuator Resistance Calculation}
-
-\newpage
-%------------------------------------------------------------
-\noindent\textbf{Known Variables}
-%------------------------------------------------------------
-
-\begin{tabular}{lll}
-\toprule
-\textbf{Symbol} & \textbf{Description} & \textbf{Value} \\
-\midrule
-$L_0$           & Original rod length                        & \SI{84.1432}{mm} \\
-$\alpha$        & Thermal expansion coefficient (aluminum)   & \SI{23.1e-6}{\per\celsius} \\
-$\Delta T_{lower}$ & Temperature change (lower bound)        & \SI{-80}{\celsius} \\
-$\Delta T_{upper}$ & Temperature change (upper bound)        & \SI{+60}{\celsius} \\
-$k$             & Bellows spring constant                    & \SI{3600}{lbf/in} $=$ \SI{630236}{N/m} \\
-$F_{friction}$  & Friction force (estimated)                 & \SI{3}{N} \\
-$w$             & Actuator face width                        & \SI{0.03}{m} \\
-$t$             & Actuator face thickness                    & \SI{0.03}{m} \\
-$E_{Al}$        & Young's modulus of aluminum                & \SI{69}{GPa} \\
-\bottomrule
-\end{tabular}
+\begin{table}[H]
+    \centering
+    \caption{Actuator variables}
+    \label{tab:act_known_var}
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{l X l}
+        \toprule
+        \textbf{Symbol} & \textbf{Description} & \textbf{Value} \\
+        \midrule
+        $L_0$ &
+        Original actuator length &
+        \SI{84.335}{mm}
+        \\\addlinespace
+        $\alpha$ &
+        Thermal expansion coefficient (aluminum) &
+        \SI{23.1e-6}{\per\celsius}
+        \\\addlinespace
+        $\Delta T_{\text{lower}}$ &
+        Temperature change (lower bound) &
+        \SI{-80}{\celsius}
+        \\\addlinespace
+        $\Delta T_{\text{upper}}$ &
+        Temperature change (upper bound) &
+        \SI{+60}{\celsius}
+        \\\addlinespace
+        $k$ &
+        Bellows spring constant &
+        \SI{630236}{N/m}
+        \\\addlinespace
+        $F_{\text{friction}}$ &
+        Friction force (estimated) &
+        \SI{3}{N}
+        \\\addlinespace
+        $w$ &
+        Actuator face width &
+        \SI{0.03}{m}
+        \\\addlinespace
+        $t$ &
+        Actuator face thickness &
+        \SI{0.03}{m}
+        \\\addlinespace
+        $E_{\text{Al}}$ &
+        Young's modulus of aluminum &
+        \SI{69}{GPa}
+        \\\bottomrule
+    \end{tabularx}
+\end{table}
 
 \noindent\textbf{Deflection Calculations}
 
@@ -1611,7 +1638,7 @@ Unit conversion for spring constant:
 
 %------------------------------------------------------------
 
-Displacement of the rod due to a temperature change $\Delta T$:
+Displacement of the valve stem due to a temperature change $\Delta T$:
 \begin{equation}
     \delta x = L_0 \cdot \alpha \cdot \Delta T
 \end{equation}
@@ -1645,7 +1672,7 @@ Using Young's modulus (valid for both tension and compression in aluminum) to ob
     \varepsilon = \frac{\sigma}{E_{Al}}
 \end{equation}
 
-The elastic deformation of the rod caused by the resisting force:
+The elastic deformation of the actuator caused by the resisting force:
 \begin{equation}
     \delta_{mech} = \varepsilon \cdot L_0
 \end{equation}
@@ -1683,11 +1710,11 @@ $\delta_{mech}$ \textnormal{(m)}         & 2.33e-7     & 9.42e-8    \\
 
 \noindent The mechanical deflection due to the resisting force is less than $0.1\%$ of the thermal
 displacement in both cases, confirming that the net displacement is dominated by thermal
-expansion and the resisting forces have negligible effect on rod length.
+expansion and the resisting forces have negligible effect on actuator length.
 
 
         \subsection{Design Requirement Updates}
-        \label{subsec:act_spec_3}
+        \label{subsec:act_req_updates}
 
          Requirements for actuator operation have developed with further sub-requirements being 
         defined and individual weight being reevaluated by importance. Preliminary 
@@ -1703,14 +1730,14 @@ expansion and the resisting forces have negligible effect on rod length.
         system to meet actuation distance needs of the valve while keeping within the mechanical 
         envelope. Discussion with subject matter experts and further calculations 
         showed that backlash and expected tolerance deviations from machining and assembly would
-        be compounded by the gear train (should I reference equations for this in Appendix?). 
+        be compounded by the gear train. 
         This would push the entire system out of error tolerance and 
         sparked consideration of eliminating the interface in favor of increasing un-deformed actuator
         length $L_o$. The increase in the weighted importance of precision led to discussion with
         our sponsor solidifying the mechanical envelope as a soft requirement. This allowed the actuator
         length to exceed the bounds of the mechanical envelope in interest of preserving movement precision.
 
-        Though considered a "soft requirement", foray outside of the mechanical envelope should still 
+        Though considered a "soft requirement", deviation outside of the mechanical envelope should still 
         be minimized. Further research was done into materials with higher coefficients of thermal 
         expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys,
         as well as specialized polymers can exceed the expansion of aluminum. 
@@ -1726,14 +1753,14 @@ expansion and the resisting forces have negligible effect on rod length.
 
             % Paragraph 1
             In the original Preliminary Design Report, we did not treat the mount as a subsystem requiring independent analysis. It was solely described as rigid structural frame whose function was to hold
-            the actuator above the valve housing. In this detailed design phase, we realized that we needed to broaden our understanding of this design piece. The mount in not merely a structural bracket, but a dynamic
+            the actuator above the valve housing. In this detailed design phase, we realized that we needed to broaden our understanding of this design piece. The mount is not merely a structural bracket, but a dynamic
             element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
 
             % Paragraph 2
-            The crux of the matter is that the actuator rod is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
-            rod expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
+            The crux of the matter is that the actuator block is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
+            actuator expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
             delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
-            expansion that directly affects the displacement that subtracts from the actuator's stroke. If this effect is not properly account for in, the device can possible under-stroke and the effective orifice diameter will fail to reach its specified endpoints.
+            expansion that directly affects the displacement that subtracts from the actuator's stroke. If this effect is not properly account for, the device can possibly under-stroke and the effective orifice diameter will fail to reach its specified endpoints.
 
             % Paragraph 3
             After realizing how error can cascade from the thermal expansion of the mount, it became crucial to identify subsystem-level design requirements. Within the mount, there are three careful considerations. First, the mount needs to be stiff enough such that its mechanical
@@ -1764,7 +1791,7 @@ expansion and the resisting forces have negligible effect on rod length.
         \label{subsec:mount_spec_2}
 
             Shim washers are commonly used for micrometer-level height adjustments. After manufacturing, our team will be able to measure the exact dimensions of our parts tools available in the machine shop on campus.
-            After calculation of the expected post-assembly value of $X(T_{ref})$, the we can increase the height of the mount by one of three values:
+            After calculation of the expected post-assembly value of $X(T_{ref})$, we can increase the height of the mount by one of three values:
 
             \begin{itemize}
                 \item 100 $\mu m$ with the thick washer
@@ -1778,7 +1805,7 @@ expansion and the resisting forces have negligible effect on rod length.
         \subsubsection{Specification 3: Thermal expansion}
         \label{subsec:mount_spec_3}
 
-        See Section \ref{tab:trapmountthermalexpansion}.
+        \todo{Fill in something small here.}
 
         \subsubsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
@@ -1794,12 +1821,12 @@ expansion and the resisting forces have negligible effect on rod length.
        
         \subsection{Design Requirement Updates}
         \subsubsection{Trapezoidal Mount Plate Requirement Updates}
-            The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator rod in the cavity between them, wide enough such that base can cradle the valve house housing,
+            The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator block in the cavity between them, wide enough such that base can cradle the valve house housing,
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
         \subsection{Trapezoidal Mount Plate Current Implementation}
-            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in Figure \ref{fig:mount_cutaway_oblique}. The actuator rod fits in the cavity between the two plates with the upper end welded to the interior
-            top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufactuiring in mind.
+            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in Figure \ref{fig:mount_cutaway_oblique}. The actuator fits in the cavity between the two plates with the upper end welded to the interior
+            top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufacturing in mind.
             
 
              \begin{table}[H]
@@ -1816,7 +1843,7 @@ expansion and the resisting forces have negligible effect on rod length.
                         \\\addlinespace
                     $E$ &
                     Young's Modulus &
-                    141 GPa
+                    140 GPa
                     \\\addlinespace
                     $S_y$ &
                     Yield Strength &
@@ -1824,7 +1851,7 @@ expansion and the resisting forces have negligible effect on rod length.
                     \\\addlinespace
                     $\alpha_{Invar}$ &
                     CTE of Invar &
-                    $1.20 \times 10^{-6} \, \degC$
+                    $1.20 \times 10^{-6} \, \degC ^{-1}$
                     \\\addlinespace
                     $H$ &
                     Mount height &
@@ -1851,8 +1878,8 @@ expansion and the resisting forces have negligible effect on rod length.
 
         \subsubsection{Trapezoidal Mount Structural Stiffness}
         In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
-         of F = 168.96 N, which is the bellow spring force at full stroke, per Section \ref{subsec:valve_spec_1}. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
-         Given that Invar 36 has a modulus of 141 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke, but this will be quantitatively confirmed before fabrication.
+         of F = 168.96 N, which is the bellows spring force at full stroke, per Section \ref{subsec:valve_spec_1}. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
+         Given that Invar 36 has a modulus of 140 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke from $T_{ref}$, but this will be quantitatively confirmed before fabrication.
         
         \subsubsection{Fasteners Design Requirement Updates}
         The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepancy between the fasteners and the fixture corrupts the calibration of the entire device.
@@ -1906,10 +1933,10 @@ expansion and the resisting forces have negligible effect on rod length.
 
         Using the proof load equation, we can calculate the total capacity of force for the joint:
         \[ F_{bolt} = A_t \times S_p \]. Plugging in the values from the table:
-        \[ F_{bolt} = 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 13.774 \ \text{Giganewtowns} \]
+        \[ F_{bolt} = 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 13.774 \ \text{Giganewtons} \]
 
         For a total of eight screws:
-         \[ F_{total} = 8 \times 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 110.192 \ \text{Giganewtowns} \]
+         \[ F_{total} = 8 \times 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 110.192 \ \text{Giganewtons} \]
 
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
         \[ FOS_{bolt} = F_{total} / F = 6.52 \times 10^8 \]
@@ -1941,18 +1968,19 @@ expansion and the resisting forces have negligible effect on rod length.
     \section{Subsystem Interaction}
     
    
-    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure 2.5. Each subsystem has inputs within the system transfer function, and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
+    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure \ref{fig:controls_diagram}. Each subsystem has inputs within the system transfer function, and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
     
     \subsection{Mount–Actuator Interface}
-    The actuator rod is welded to the interior top face of the mount. This weld joint defines the fixed boundary condition from which the actuator expands downward. Because both the mount and actuator are exposed to the same ambient temperature, both undergo thermal expansion simultaneously. The mount expands downward from its anchor at the fixture toward the valve, while the actuator expands downward from its anchor at the top of the mount toward the valve stem. 
+    The actuator block is welded to the interior top face of the mount. This weld joint defines the fixed boundary condition from which the actuator expands downward. Because both the mount and actuator are exposed to the same ambient temperature, both undergo thermal expansion simultaneously. The mount expands downward from its anchor at the fixture toward the valve, while the actuator expands downward from its anchor at the top of the mount toward the valve stem. 
     These two expansions oppose one another: the mount's growth effectively raises the actuator's anchor point relative to the valve housing, reducing the net stroke delivered to the valve. The net displacement is therefore:
-    $$ \delta_{\text{net}} = L_{\text{act}} \cdot \alpha_{\text{Al}} \cdot \Delta T - H_{\text{mount}} \cdot \alpha_{\text{Invar}} \cdot \Delta T $$ as derived in Section 3.3.8. The selection of Invar 36 for the mount minimizes the opposing direction of expansion. At $-60\,^\circ\text{C}$, the mount contributes only $\alpha_{\text{Invar}} \cdot H \cdot \Delta T = (1.2 \times 10^{-6})(88.9)(85) \approx 9.1\,\mu\text{m}$ of opposing displacement, 
+    $$ \delta_{\text{net}} = L_{\text{act}} \cdot \alpha_{\text{Al}} \cdot \Delta T - H_{\text{mount}} \cdot \alpha_{\text{Invar}} \cdot \Delta T $$
+    The selection of Invar 36 for the mount minimizes the opposing direction of expansion. At $-60\,^\circ\text{C}$, the mount contributes only $\alpha_{\text{Invar}} \cdot H \cdot \Delta T = (1.2 \times 10^{-6})(88.9)(85) \approx 9.1\,\mu\text{m}$ of opposing displacement, 
     compared to the actuator's expansion of approximately $162\,\mu\text{m}$ over the same interval. The actuator length $L_0 = 84.335\,\text{mm}$ was sized to deliver the required net stroke after subtracting this mount expansion.
 
     \subsection{Actuator–Valve Interface}
-    The lower end of the actuator rod is laser welded directly to the valve stem. This rigid connection transmits the actuator's thermal displacement to the translating orifice plate with a unity gain of $dX/dL = 1$. The displacement delivered by the actuator is identically the displacement received by the valve plate. This direct coupling eliminates backlash and hysteresis that would arise from 
+    The lower end of the actuator is laser welded directly to the valve stem. This rigid connection transmits the actuator's thermal displacement to the translating orifice plate with a unity gain of $dX/dL = 1$. The displacement delivered by the actuator is identically the displacement received by the valve plate. This direct coupling eliminates backlash and hysteresis that would arise from 
     intermediate mechanical interfaces. However, it also means that the valve's reaction force is transmitted directly back into the actuator. The bellows spring force of $F_s = 168.96\,\text{N}$ at full stroke compresses the 
-    actuator rod axially. This deflection is negligible, but is carried upward through the actuator into the mount. This must be stiff enough to absorb it without measurable deflection of its own.
+    actuator axially. This deflection is negligible, but is carried upward through the actuator into the mount. This must be stiff enough to absorb it without measurable deflection of its own.
 
     \subsection{Mount–Valve Interface} 
     The mount sits on top of the valve housing, separated by the calibration shim stack. The vertical distance from the interior top face of the mount to the orifice plate defines the reference offset $X(T_{\text{ref}})$. This distance governs the constant $A_0$ in: $$\requiredRelationship$$ The shim washers between the mount and housing enable 
@@ -2062,7 +2090,6 @@ expansion and the resisting forces have negligible effect on rod length.
     cost to be updated upon receipt of manufacturing quotes early next quarter.
 
     \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
-    \label{fig:bom}
 
 
 %--- END CONTENT ---
@@ -2176,12 +2203,11 @@ expansion and the resisting forces have negligible effect on rod length.
 \label{subsec:gantt}
 
 %--- BEGIN CONTENT ---
-    An updated Gantt chart is provided in Figure \ref{fig:gantt}, which spans both the Winter and Spring quarters. 
+    An updated Gantt chart is provided below, spanning both the Winter and Spring quarters. 
     The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
     The vertical line represents the current date.
 
 \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
-\label{fig:gantt}
 
 %--- END CONTENT ---
 
@@ -2259,7 +2285,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
     AWS, Miami, FL, 2020.
 
     \bibitem{miniflex_design}
-    Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, 
+    Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
     Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
     [Accessed: Mar. 2026].
 
@@ -2384,7 +2410,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 
             &
         \multirow[c]{2}{0.3\textwidth}{%
-            Bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
+            bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
         }
             &
         Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
@@ -2457,21 +2483,21 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 
 \includepdf[pages=1-14, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
 
-% --- Appendix D: Product Data Sheets and Price Quotes ---
+% --- Appendix C: Product Data Sheets and Price Quotes ---
 \chapter{Product Data Sheets and Price Quotes}
 \label{app:datasheets}
 
 The following data sheets are included below:
 
 \begin{enumerate}
-    \item Mini-Flex Bellows (excerpts from their 2026 catalog)
+    \item Mini-Flex bellows (excerpts from their 2026 catalog)
 \end{enumerate}
 
 
-\includepdf[pages=1-2, fitpaper=true, landscape=true]{Bellows_catalog.pdf}
+\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
 
 
-% --- Appendix E: Detailed Calculations ---
+% --- Appendix D: Detailed Calculations ---
 \chapter{Detailed Calculations}
 \label{app:calculations}
 
@@ -2520,33 +2546,39 @@ The following equations calculate the bounds:
 This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation \cite{ref_Figliola}
 
 
+
+\section{Orifice Geometry}
+\label{app:orifice_geometry}
+
+The orifice, as defined in Section \ref{sec:sys_arch_overview} and depicted in Figure \ref{fig: orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=2in]{orifice.png}
+    \caption{Orifice geometry, repeated}
+    \label{fig:orifice_rep}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=2in]{orifice_detailed.png}
+    \caption{Orifice geometry, detailed}
+    \label{fig:orifice_detailed}
+\end{figure}
+
+The effective diameter, as defined in equation \ref{eq:d_eff}, equals the diameter of a circle with equivalent area.
+Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
+is can be related to the effective diameter as follows:
+
+    $$ A = \frac{\pi}{4}D_{eff}^2 = s^2 $$
+    $$ s = \sqrt{\frac{\pi}{4}}D_{eff} $$
+    $$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
+
+Therefore,
+
+    $$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{eff} = \sqrt{\frac{\pi}{2}}D_{eff} $$
+
+
 \end{appendices}
-
-
-% ============================================================================
-% END OF DOCUMENT
-% ============================================================================
-% FINAL CHECKLIST BEFORE SUBMISSION:
-%
-%   [ ] All TODO items have been replaced with actual content
-%   [ ] All figures have real images (no gray placeholders remaining)
-%   [ ] All figures and tables are referenced in the text
-%   [ ] All appendices are referenced in the body of the report
-%   [ ] Table of Contents page numbers are correct (compile twice!)
-%   [ ] Acronyms defined on first use
-%   [ ] Units are consistent (SI preferred, with imperial conversions if needed)
-%   [ ] Spell check completed
-%   [ ] Grammar check completed
-%   [ ] All team members have reviewed the final document
-%   [ ] PDF is under any file size limits
-%
-% GRADING SELF-CHECK:
-%   [ ] I.   General Considerations (20 pts) — Format, presentation, TOC, readability
-%   [ ] II.  Abstract (10 pts) — 300-500 words, clear, technically accurate
-%   [ ] III. System Architecture (20 pts) — Criteria, drawings, description
-%   [ ] IV.  Discussion (25 pts) — Requirements, subsystems, calculations
-%   [ ] V.   Bill of Materials (10 pts) — Complete, accurate, in table format
-%   [ ] VI.  Project Management (15 pts) — Tasks, Gantt (2 quarters), CPM
-% ============================================================================
 
 \end{document}
