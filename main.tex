@@ -246,6 +246,7 @@
 
 \newcommand{\valveSpecs}
 {%
+    \renewcommand{\arraystretch}{1.4}
     \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
 
         \hline
@@ -310,6 +311,7 @@
 
 \newcommand{\actSpecs}
 {%
+    \renewcommand{\arraystretch}{1.4}
     \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
     \hline
     \textbf{Core responsibility} & \textbf{Specification} \\ \hline
@@ -331,6 +333,7 @@
 
 \newcommand{\mountSpecs}
 {%
+    \renewcommand{\arraystretch}{1.4}
     \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
     
         \hline
@@ -346,7 +349,7 @@
         &
         Limit thermal expansion to \mountdLTol \\ \hline
 
-        Must fit withing its portion of the Mechanical Envelope
+        Must fit within its portion of the Mechanical Envelope
         &
         Must not exceed a \mountMEX\ lateral, \mountMEY\ vertical, or \mountMEZ\ longitudinal mechanical envelope \\
         \hline
@@ -561,7 +564,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         
         \begin{enumerate}
             \item The upstream gas pressure $P$ will lie within the range $0.6895\ \text{MPa} \leq P \leq \specPressure\ \text{MPa}$.
-            \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 60 \degC$.
+            \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 80 \degC$.
             \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
             \item The gas will be a noble gas or Hydrogen.
             \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
@@ -732,7 +735,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 \caption{Valve Selection Criteria}
                 \valveSpecs
                 \label{tab:valve_specs}
-                \renewcommand{\arraystretch}{1.4}
             \end{table}
 
         \subsection{Valve Architecture}
@@ -790,7 +792,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             manufacturing challenges. Therefore, keeping the valve subsystem with minimal moving parts reduces possible error and eases the manufacturing process.
 
             % Paragraph 4
-            It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel and Invar 36 are fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
+            It's important to note that the wetted valve components are entirely metallic. The 1018 Cold-rolled steel is fully compatible with hydrogen and noble gases. The valve housing itself is a thick-walled cylinder designed to contain the full 68.95 MPa of operating pressure. The bellows provide a hermetic seal that
             prevents any gas leakage to the environment. It is welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. Thus, the housing wall thickness, weld joint quality, and bellows all together provide a robust margin of safety against the pressure requirement. See Section 3.1 for more details. 
 
 
@@ -834,7 +836,6 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 \caption{Actuator Selection Criteria}
                 \actSpecs
                 \label{tab:act_specs}
-                \renewcommand{\arraystretch}{1.4}
             \end{table}
 
         \subsection{Actuator Architecture}
@@ -898,7 +899,6 @@ the valve.
                 \caption{Mount Selection Criteria}
                 \mountSpecs
                 \label{tab:mount_specs}
-                \renewcommand{\arraystretch}{1.4}
             \end{table}
 
         \subsection{Mount Architecture}
@@ -980,7 +980,6 @@ the valve.
             \caption{Valve Specifications (repeated)}
             \valveSpecs
             \label{tab:valve_specs_disc}
-            \renewcommand{\arraystretch}{1.4}
         \end{table}
         \subsection{Specification Compliance}
         \subsubsection{Specification 1: Dimensional tolerances}
@@ -1008,12 +1007,12 @@ the valve.
                 See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
 
                 This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the compression error caused by the force on the valve stem and by actuator over-expansion (discussed in chapter \ref{sec:act_sub_description}). 
-                Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This is just lower than the specificaton of 2.75 $\mu$m.
+                Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This magnitude is just lower than the specificaton of 2.75 $\mu$m.
 
                 The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
                 The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
                 The stem must withstand the axial actuation force without yielding or buckling.
-                It's material was selected to be Invar 36 for it's relatively low coefficient of thermal expansion which thermally insulates the valve from the actuator and prevents thermal expansion of the stem from affecting the valve orifice size.
+                Its material was selected to be Invar 36 for its relatively low coefficient of thermal expansion which thermally insulates the valve from the actuator and prevents thermal expansion of the stem from affecting the valve orifice size.
 
         \begin{figure}[H]
             \centering
@@ -1471,7 +1470,7 @@ the valve.
                 orifice plate overlap profile, which must be designed such that lateral displacement of 
                 the moving plate produces a proportional change in effective diameter across the full 
                 temperature operating range. The hydrogen 
-                compatibility requirement rolled down into the material specification of Inconel 718  and 1018 steel for 
+                compatibility requirement rolled down into the material specification of Inconel 718 (bellows material) and 1018 steel (housing material) for 
                 all wetted components, driven by the need for hydrogen embrittlement resistance, 
                 low-temperature toughness, and weld compatibility between the valve stem and bellows 
                 assembly.
@@ -1484,7 +1483,6 @@ the valve.
             \caption{Actuator Specifications (repeated)}
             \actSpecs
             \label{tab:act_specs_disc}
-            \renewcommand{\arraystretch}{1.4}
         \end{table}
 
 
@@ -1777,7 +1775,6 @@ expansion and the resisting forces have negligible effect on actuator length.
             \caption{Mount Specifications (repeated)}
             \mountSpecs
             \label{tab:mount_specs_disc}
-            \renewcommand{\arraystretch}{1.4}
         \end{table}
         \subsection{Specification Compliance}
         \subsubsection{Specification 1: Dimensional tolerances}
@@ -1897,7 +1894,7 @@ expansion and the resisting forces have negligible effect on actuator length.
                     \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
                     \midrule
                     Fastener &
-                    M3 Black-oxide alloy steel socket head screw &
+                    M5 Black-oxide alloy steel socket head screw &
                     McMaster 91290A254
                         \\\addlinespace
                     $A_t$ &
@@ -1932,14 +1929,15 @@ expansion and the resisting forces have negligible effect on actuator length.
             \end{table}
 
         Using the proof load equation, we can calculate the total capacity of force for the joint:
-        \[ F_{bolt} = A_t \times S_p \]. Plugging in the values from the table:
-        \[ F_{bolt} = 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 13.774 \ \text{Giganewtons} \]
+        \[ F_{bolt} = A_t \times S_p \]
+        Plugging in the values from the table:
+        \[ F_{bolt} = \SI{14.2e-6}{\metre\squared} \times 970 \times {MN/m^2} = 13.774 \ \text{kN} \]
 
         For a total of eight screws:
-         \[ F_{total} = 8 \times 14.2 mm^2 \times 9.7 \times 10^8 {N/mm^2} = 110.192 \ \text{Giganewtons} \]
+         \[ F_{total} = 8 \times \SI{14.2e-6}{\metre\squared} \times 970 \times {MN/m^2} = 110.192 \ \text{kN} \]
 
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
-        \[ FOS_{bolt} = F_{total} / F = 6.52 \times 10^8 \]
+        \[ FOS_{bolt} = F_{total} / F = 81.5 \]
         
         The bolted joint is is more than capable of receiving the actuator load. The M3 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
 
@@ -2543,7 +2541,10 @@ The following equations calculate the bounds:
     &x_{lower}(T) = x(T) - u_x(T)
 \end{align}
 
-This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation \cite{ref_Figliola}
+This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
+such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
+$$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
+where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \bar{x}_i}$ \cite{ref_Figliola}.
 
 
 
