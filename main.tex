@@ -1,24 +1,3 @@
-% Gentlemen, congratulations on finishing this report!
-% Several portions of this will likely be copy-pasted into the Final Design Report,
-% and given that we had to rush certain components,
-% it would be prudent to implement post-hoc edits to this version of the report for our reference.
-% I pushed our final submission today and tagged it as such,
-% so we can safely make revisions and push them.
-
-% Sam vdV
-% 3-21-26
-
-% P.S. Focus especially on making the architecture description clear in section 2
-% and verifying our calculations in Section 3.
-
-% Sam vdV
-% 3-24-26
-
-
-
-
-
-
 % ============================================================================
 % SECTION 0: DOCUMENT CLASS AND PREAMBLE
 % ============================================================================
@@ -126,6 +105,8 @@
 \usepackage{tikz}
     \usetikzlibrary{patterns}
     \usetikzlibrary{patterns,intersections}
+\usepackage{pgfplots}
+    \pgfplotsset{compat=1.18}
 \usepackage{multirow}
 \usepackage{array}      % for >{\raggedright\arraybackslash}
 \usepackage{makecell}   % for \makecell
@@ -474,7 +455,7 @@ The device must restrict its orifice as the ambient temperature of the surroundi
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, a.k.a. the "sponsor"),
 stipulates that the orifice maintain an effective diameter that varies with temperature between 200 and 500 $\mu$m, or half the width of the ballpoint on a pen,
-with an average tolerance of $\pm 13\ \mu$m, about a fifth the thickness of a human hair.
+with an average tolerance of $\pm 13\ \mu$m, about one fifth the thickness of a human hair.
 Our team designed three interconnected subsystems to accomplish this objective:
 
 \begin{itemize}
@@ -510,7 +491,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                     \\
                     &T_{\text{reference}} = \specTempRef \degC
                     \\
-                    &T_{\text{ambient}}\ \epsilon\ [\specTempLow, \specTempHigh] \degC 
+                    &T_{\text{ambient}}\ \in\ [\specTempLow, \specTempHigh] \degC 
                 \end{align*}
 
             \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
@@ -582,7 +563,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         This leaves little room for additional design criteria. Each subsystem must accomplish its mission to extremely small tolerance
         despite these conditions and any errors introduced by every other subsystem.
         
-        Thus, to maximize the \device 's potential for success, we proceeded with one chief criteria beyond the necessary specifications:
+        Thus, to maximize the \device 's potential for success, we proceeded with one chief criterion beyond the necessary specifications:
         the selected architecture should be as simple as possible. Through several iterative changes,
         we developed the following system architecture.
 
@@ -757,7 +738,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                          The thread size can be adjusted according to the size of pipe used.
                          These are laser-welded to the housing center (V1), which holds the central valve assembly.
                          Flanges extend from either side of the housing to connect to the mount subassembly via its fasteners.
-                \item Central valve assembly. Pictured in more detail in Figure \ref{fig:valve_wireframe}, the valve stem (V6) is welded to the top of the valve orifice (V5). It protrudes through a hole bored in the top of the housing center to connect to the actuator. A bellows (V6) is used to hermetically seal this hole.
+                \item Central valve assembly. Pictured in more detail in Figure \ref{fig:valve_wireframe}, the valve stem (V4) is welded to the top of the valve orifice (V5). It protrudes through a hole bored in the top of the housing center to connect to the actuator. A bellows (V6) is used to hermetically seal this hole.
             \end{itemize}
             
             \begin{figure}[H]
@@ -800,7 +781,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \end{figure}
 
             Figures \ref{fig:valve_cutaway_isometric}, \ref{fig:valve_cutaway_normal}, and \ref{fig:valve_cutaway_close} show the internal mechanism once assembled. The central plate sits flush against the housing outlet, held in place by the pressure of the gas flow.
-            The resulting orifice, as shown in Figure \ref{valve_interior}, is very small compared to the entire assembly.
+            The resulting orifice, as shown in Figure \ref{fig:valve_interior}, is very small compared to the entire assembly.
             Across the entire temperature range, the maximum orifice size (at the coldest temperature) is about twice the minimum orifice size (at the hottest temperature).
 
             \begin{figure}[H]
@@ -829,13 +810,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
             \begin{enumerate}
                 \item The required relationship between $T_{\text{amb}}$ and $D_{\text{eff}}$ is linear.
                         If any component delivers a nonlinear output for its input, this will require a complex reparameterization in the other subsystems.
-                        Thus, our team selected a system that will keep maintain a constant value for $\frac{dD}{dX}$.
+                        Thus, our team selected a system that will maintain a constant value for $\frac{dD}{dX}$.
                         This requires that the orifice overlap maintain a regular polygon shape at all times.
                         Because the square holes are tilted at a $45$ angle, the overlapping hole will also be a tilted square.
                         Its sides will shrink at equal rates, maintaining the square geometry and the desired linear output.
                 \item This architecture is simpler than its alternatives. As discussed in Section \ref{subsec:valve_req_updates},
                         other solutions that also promoted the aforementioned linear relationship were deemed too complex, with too many moving components to introduce intolerable error.
-                        The "pizza cutter" maintains the desired output while using minimal parts As shown in the Discussion, this dramatically aids compliance with the subsystem specifications.
+                        The "pizza cutter" maintains the desired output while using minimal parts. As shown in the Discussion, this dramatically aids compliance with the subsystem specifications.
             \end{enumerate}
 
 
@@ -901,7 +882,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
             % Paragraph 3
             One of the most significant design decisions was positioning the actuator block outside the pressure boundary of the valve. It is thermally isolated from the gas flow by the valve housing walls and the bellows assembly. It responds directly to the ambient air temperature instead of the gas temperature.
-            This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint the actuator is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring forces. 
+            This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint, the actuator is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring forces. 
             This force margin ensures reliable actuation across the entire temperature range. 
 
     \section{Mount Subsystem}
@@ -1000,7 +981,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 \item One thick steel shim washer
             \end{enumerate}
             The crush washer deforms plastically under clamping load to allow for precise positioning during the calibration phase. The thin and thick shim washers provide discrete height adjustment as needed.
-            By selecting or combining the shim thicknesses, are can set the precise vertical offset between the mount's actuator anchor point and the valve housing. This shimming capability is the primary calibration mechanism for the PTCD, as the assemble can be shimmed to the correct actuator-to-valve distance during final assembly and testing if any machined dimensions fall outside the desired tolerance.
+            By selecting or combining the shim thicknesses, we can set the precise vertical offset between the mount's actuator anchor point and the valve housing. This shimming capability is the primary calibration mechanism for the PTCD, as the assemble can be shimmed to the correct actuator-to-valve distance during final assembly and testing if any machined dimensions fall outside the desired tolerance.
 
             % Paragraph 5
             The mount is made of Invar 36, selected for its low coefficient of thermal expansion, machinability, and rigidity.
@@ -1048,7 +1029,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                     The valve will undergo both mechanical compression and thermal expansion due to exposure to temperature change and system forces.
                     Mechanical deformation will occur due to actuation force and is characterized in the following calculation:
                 \begin{equation}
-                    \delta_{compression} = \frac{F *L_{stem}}{\pi d_{stem}^2/4 E} = 5.09075 \text{ microns}
+                    \delta_{compression} = \frac{F *L_{stem}}{\pi d_{stem}^2/4 E} = 5.0975 \text{ microns}
                     \label{eq:stem_compression}
                 \end{equation}
 
@@ -1147,7 +1128,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \label{subsec:valve_spec_3}
 
             The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
-            The housing sections are integrated between the fixture and the mount, and they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
+            The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
             The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
             The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
             The following equations are used to verify structural integrity under the specified conditions.
@@ -1368,7 +1349,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
 
             \begin{table}[H]
                 \centering
-                \caption{bellows Parameters}
+                \caption{Bellows Parameters}
                 \label{tab:bellows_parameters}
                 \begin{tabularx}{\textwidth}{l X l}
                     \toprule
@@ -1595,13 +1576,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 \label{fig:al_alpha}
             \end{figure}            
             
-            Here is a table \cite{muraca1972aluminum} showing the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            Table \label{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
             
             Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
             
             $\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
             
-            The actual change in length based of a constant change in $\alpha$, we use the formula 
+            To find the actual change in length based on a constant change in $\alpha$, we use the formula 
             \begin{align*}
             \Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
             &= 84.335 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
@@ -1623,9 +1604,9 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \label{subsec:act_spec_2}
 
         The actuator must overcome resisting forces without deformation before expansion can be 
-        translated into movement. The forces resisting actuator expansion are include friction
+        translated into movement. The forces resisting actuator expansion include friction
         and other un-modeled losses in the actuator-valve system, as well as the spring force of
-        the bellows. The below calculations show that any error caused by deflection are minimal
+        the bellows. The below calculations show that any error caused by deflection is minimal
         and will not cause the system to fall outside of the design requirements.
 
 
@@ -1778,10 +1759,10 @@ expansion and the resisting forces have negligible effect on actuator length.
         should be precise and predictable, and that actuator length combined with other sub-system
         components should be contained within the mechanical envelope. The governing equation for
         the actuator expansion $\Delta L = L_o\Delta T\alpha $ relates expansion magnitude to 
-        un-deformed length $L_o$ and the linear coefficient of expansion $\alpha$. In preliminary 
+        undeformed length $L_o$ and the linear coefficient of expansion $\alpha$. In preliminary 
         designs actuator length was maximized within the bounds of the mechanical envelope. 
         An amplifying interface between the valve stem and actuator was designed to increase 
-        linear movement to the necessary stroke length via compound gear train. This allowed the
+        linear movement to the necessary stroke length via a compound gear train. This allowed the
         system to meet actuation distance needs of the valve while keeping within the mechanical 
         envelope. Discussion with subject matter experts and further calculations 
         showed that backlash and expected tolerance deviations from machining and assembly would
@@ -1794,7 +1775,7 @@ expansion and the resisting forces have negligible effect on actuator length.
 
         Though considered a "soft requirement", deviation outside of the mechanical envelope should still 
         be minimized. Further research was done into materials with higher coefficients of thermal 
-        expansion to decrease necessary actuator length and it was found that zinc, and magnesium alloys,
+        expansion to decrease necessary actuator length and it was found that zinc and magnesium alloys,
         as well as specialized polymers can exceed the expansion of aluminum. 
         Issues with these materials brought material property requirements
         to the forefront of our consideration regarding stability of mechanical properties across the operating temperature
@@ -1812,7 +1793,7 @@ expansion and the resisting forces have negligible effect on actuator length.
             element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
 
             % Paragraph 2
-            The crux of the matter is that the actuator block is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum actuator
+            The crux of the matter is that the actuator block is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum
             actuator expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
             delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
             expansion that directly affects the displacement that subtracts from the actuator's stroke. If this effect is not properly account for, the device can possibly under-stroke and the effective orifice diameter will fail to reach its specified endpoints.
@@ -1839,7 +1820,7 @@ expansion and the resisting forces have negligible effect on actuator length.
 
         Table \ref{tab:mount_specs_disc} lists again the specifications from Section \ref{subsec:mount_sel_crit}
 
-            The dimensions between the base of the mount and the upper interior, where the actuator will be mounted, is specified as 0.005 $\mu$m in the engineering drawings.
+            The dimensions between the base of the mount and the upper interior, where the actuator will be mounted, are specified as 0.005 $\mu$m in the engineering drawings.
 
         \subsubsection{Specification 2: User calibration}
         \label{subsec:mount_spec_2}
@@ -1865,7 +1846,7 @@ expansion and the resisting forces have negligible effect on actuator length.
 
                 $$\Delta L = L_0 \alpha \Delta T = \left( 122.476\ mm \right) \left( \SI{1.2e-6}{\per\celsius} \right) \left( -85 \degC \right) = -12.5\ \mu m$$
 
-            This meets the specified deviation. Its implications are dealt with in Section \ref{sec:sys_comp}.
+            This meets the specified deviation. Its implications are dealt with in Section \ref{subsec:sys_comp}.
 
         \subsubsection{Specification 4: Mechanical envelope}
         \label{subsec:mount_spec_4}
@@ -1881,7 +1862,7 @@ expansion and the resisting forces have negligible effect on actuator length.
        
         \subsection{Design Requirement Updates}
         \subsubsection{Trapezoidal Mount Plate Requirement Updates}
-            The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator block in the cavity between them, wide enough such that base can cradle the valve house housing,
+            The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator block in the cavity between them, wide enough such that the base can cradle the valve housing,
             and stiff enough such that deflection from the actuator's reaction force is negligible. 
 
         \subsection{Trapezoidal Mount Plate Current Implementation}
@@ -1994,7 +1975,7 @@ expansion and the resisting forces have negligible effect on actuator length.
         The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
         \[ FOS_{bolt} = F_{total} / F = 81.5 \]
         
-        The bolted joint is is more than capable of receiving the actuator load. The M5 fastener size was selected not for the structural necessity but the for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
+        The bolted joint is more than capable of receiving the actuator load. The M5 fastener size was selected not for the structural necessity but for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
 
         \subsubsection{Fasteners Preload Stability}
         The fasteners (alloy steel, \( \alpha \approx 11.5 \times 10^{-6} /^\circ\text{C} \)) pass through the Invar 36 mount plates (\( \alpha = 1.30 \times 10^{-6} /^\circ\text{C} \)), 
@@ -2003,7 +1984,7 @@ expansion and the resisting forces have negligible effect on actuator length.
         \(\Delta\delta = L_{\text{grip}} \cdot (\alpha_{\text{bolt}} - \alpha_{\text{Invar}}) \cdot \Delta T = 25 \times (11.5 - 1.30) \times 10^{-6} \times 85 \approx 0.022 \text{ mm} = 22 \text{ µm}\)
 
         This $22 \, \mu\text{m}$ of differential expansion will slightly increase bolt preload at low temperatures and slightly decrease it at elevated temperatures. 
-        Given that the proof load per bolt ($13.774 \ \text{Giganewtons}$) exceeds the per-bolt share of the actuator load ($168.96 / 8 \approx 21.1 \, \text{N}$) by a factor of $6.52 \times 10^8$, this preload variation does not threaten joint integrity. 
+        Given that the proof load per bolt ($13.774 \ \text{kN}$) exceeds the per-bolt share of the actuator load ($168.96 / 8 \approx 21.1 \, \text{N}$) by a factor of $6.52 \times 10^8$, this preload variation does not threaten joint integrity. 
 
 
 
@@ -2041,12 +2022,13 @@ expansion and the resisting forces have negligible effect on actuator length.
     that the calibrated offset does not shift under thermal cycling or the actuator's reaction load.
 
     \subsection{Thermal Coupling}
-    All three subsystems are exposed to the ambient air temperature, which is the sole input to the control system. The valve housing thermally isolates the actuator from the internal gas flow.The $10\,\text{mm}$ steel 
+    \label{subsec:sub_int}
+
+    All three subsystems are exposed to the ambient air temperature, which is the sole input to the control system. The valve housing thermally isolates the actuator from the internal gas flow. The $10\,\text{mm}$ steel 
     wall thickness ensures that the potential temperature difference between the gas and the ambient air does not propagate to the actuator. The valve stem, fabricated from Invar 36, provides 
     additional thermal resistance between the pressurized interior and the actuator. 
 
 
-    \label{subsec:sub_int}
 
     \section{System Compliance}
     \label{subsec:sys_comp}
@@ -2065,7 +2047,7 @@ expansion and the resisting forces have negligible effect on actuator length.
         \begin{itemize}
             \item The height of the mount from drawing M2: $122.476\,{}^{+0}_{-0.01} mm$
             \item The length of the actuator from drawing A1: $84.335 \pm 0.005mm$
-            \item The thermal expansion error of the actuator: $162.35\,{}^{+2.4}_{0} \mu m$
+            \item The thermal expansion error of the actuator: $162.35\,{}^{+2.4}_{-0} \mu m$
             \item Actuator compression due to bellows force (this will be in the opposite direction of the other deviations, cancelling them partially): $0.3 \mu m$
             \item Valve stem compression due to bellows force (this will also negate the other error values): $5 \mu m$
             \item The dimensional length of the valve stem (because the tolerance only allows the length to err too short, this will also detract from the total error): $24.041\,{}^{+0}_{-0.01} mm$
@@ -2075,16 +2057,16 @@ expansion and the resisting forces have negligible effect on actuator length.
         These sum up to 
         $(10 + 5 + 2.4 - 0.3 - 5 - 10 - 12.5) = -10.4 \mu m$
 
-        Because $D_{\text{effective}} = \sqrt{\frac{2}{\pi}}*X(T)$, the maximum error in the Required Relationship according to these specification is
+        Because $D_{\text{effective}} = \sqrt{\frac{2}{\pi}}*X(T)$, the maximum error in the Required Relationship, according to these specifications, is
         $\sqrt{\frac{2}{\pi}}*(10.4 \mu m) = 8.3 \mu m$. This is within the tolerance specification for all temperatures.
-        As stated in Section \ref{subsec:initial_system_requirements} and Appendix \ref{app:errorProp}, the minimum tolerance is 12.7 $\mu$m.
+        As stated in Section \ref{sec:initial_system_requirements} and Appendix \ref{app:errorProp}, the minimum tolerance is 12.7 $\mu$m.
         This leaves enough room for unseen errors.
 
-        Note that this calculations makes a number of first-order assumptions, which will be refined early next quarter as the computational model is optimized.
+        Note that this calculation makes a number of first-order assumptions, which will be refined early next quarter as the computational model is optimized.
         These assumptions included the following:
 
         \begin{itemize}
-            \item The square orifice will have a negligible fillet radius via high-precision manufacturing techniques. These methods will be researched early next quarter.
+            \item The square orifice will have a negligible fillet radius via high-precision manufacturing techniques. These methods will be researched in the coming weeks.
             \item The thermal expansion of the valve housing will be negligible.
             \item Several dimensional tolerances were ignored.
         \end{itemize}
@@ -2353,7 +2335,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
     \bibitem{matweb}
     MatWeb, LLC, \textit{MatWeb Material Property Data}, 
     [Online]. Available: \url{https://www.matweb.com}, 
-    Accessed: March 20, 2025.
+    Accessed: March 20, 2026.
 
     \bibitem{ref_Nise}
     N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
@@ -2362,7 +2344,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
     R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
 
     \bibitem{ref_carpentertechnology}
-    Carpenter Technology Corporation, "Invar 36," material safety datasheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf.}
+    Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf.}
     [Accessed: Mar. 20, 2026].
    
     \bibitem{ref_AZoM}
@@ -2512,13 +2494,13 @@ project’s minimum duration. This path began with the fundamental tasks of spon
             &
         Valve must not exceed its portion of the ME
             &
-        Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope envelope
+        Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
         \\ \cline{2-3}
 
             &
         Mount must not exceed its portion of the ME
             &
-        Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope envelope
+        Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
         
         \\ \hline
 
@@ -2557,7 +2539,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 \section{Error Propagation Calculation}
 \label{app:errorProp}
 
-    As detailed in Section \ref{sec:initial_system_requirements}, the Required Relationhsip
+    As detailed in Section \ref{sec:initial_system_requirements}, the Required Relationship
 
         $$ \requiredRelationship $$
 
@@ -2610,13 +2592,28 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                 &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
         \end{align}
 
-    Equation \ref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}
+    Equation \ref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
     As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
-            \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
+            \begin{tikzpicture}
+                \begin{axis}[
+                    legend pos=north east,
+                    xlabel={$T$},
+                    ylabel={$D_{\text{eff}}$},
+                ]
+                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures/D.csv};
+                    \addlegendentry{$\overline{D}(T)$}
+
+                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures/D.csv};
+                    \addlegendentry{Upper limit}
+
+                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures/D.csv};
+                    \addlegendentry{Lower limit}
+                \end{axis}
+            \end{tikzpicture}
+            \caption{$D_{\text{eff}}$ with tolerable deviation}
             \label{fig:errorpropboundary}
         \end{figure}
 
@@ -2625,8 +2622,16 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
-            \caption{This shows the Tolerance variations calculated by the error propagation equation}
+            \begin{tikzpicture}
+                \begin{axis}[
+                    xlabel={$T$},
+                    ylabel={$u_{D_{\text{eff}}}$},
+                ]
+                    \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures/u_D.csv};
+
+                \end{axis}
+            \end{tikzpicture}
+            \caption{$u_{D_{\text{eff}}}$ variation with T}
             \label{fig:errorpropvariation}
         \end{figure}
 
@@ -2635,11 +2640,51 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 
         \begin{align}
             X &= \sqrt{\frac{\pi}{2}} \left( A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \right) \notag \\
-                &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
+                &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb_X}
             \\[6pt]
             X &= \SI{-1.91e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{3.18e-4}{\meter} \notag \\
-                &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
+                &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full_X}
         \end{align}
+
+    As in Figures \ref{fig:errorpropboundary} and \ref{fig:errorpropvariation}, the same can be shown for $X(T)$ in Figures \ref{fig:errorpropboundary_X} and \ref{fig:errorpropvariation_X}.
+
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    legend pos=north east,
+                    xlabel={$T$},
+                    ylabel={$X(T)$},
+                ]
+                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures/X.csv};
+                    \addlegendentry{$\overline{X}(T)$}
+
+                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures/X.csv};
+                    \addlegendentry{Upper limit}
+
+                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures/X.csv};
+                    \addlegendentry{Lower limit}
+                \end{axis}
+            \end{tikzpicture}
+            \caption{$X(T)$ with tolerable deviation}
+            \label{fig:errorpropboundary_X}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}
+                \begin{axis}[
+                    xlabel={$T$},
+                    ylabel={$u_X$},
+                ]
+                    \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures/u_X.csv};
+
+                \end{axis}
+            \end{tikzpicture}
+            \caption{$u_X$ variation with T}
+            \label{fig:errorpropvariation_X}
+        \end{figure}
+
 
     This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
     such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
@@ -2669,7 +2714,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 
     The effective diameter, as defined in equation \ref{eq:d_eff}, equals the diameter of a circle with equivalent area.
     Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
-    is can be related to the effective diameter as follows:
+    can be related to the effective diameter as follows:
 
         $$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
         $$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
