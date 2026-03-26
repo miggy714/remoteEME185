@@ -260,7 +260,7 @@
 
         \vspace{0pt}
             Must govern
-            $D_{\text{effective}} = -\sqrt{\frac{2}{\pi}} \cdot X$
+            $D_{\text{effective}} = \sqrt{\frac{2}{\pi}} \cdot X$
             to within \dDdXTol
                 &
             Maintain all dimensional tolerances to $1\ \mu m$ where specified in drawings V4 and V5 \\
@@ -658,7 +658,13 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
         According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
         The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \ref{eq: transfer_function}:
+        
+        \begin{equation}
+            D = \frac{dD}{dT} \Delta T + D_0
+        \end{equation}
 
+        which can be expanded,
+        
         \begin{equation}
             \transferFunction
             \label{eq: transfer_function}
@@ -684,12 +690,12 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         Finally,
 
         \begin{equation}
-            D_{\text{effective}} = \sqrt{\frac{2}{\pi}} \cdot X
+            D_{\text{effective}} = - \sqrt{\frac{2}{\pi}} \cdot X
             \label{eq:D_X}
         \end{equation}
 
         \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}
+            \frac{dD_{\text{eff}}}{dX} = - \sqrt{\frac{2}{\pi}}
             \label{eq:valve_control}
         \end{equation}
 
@@ -699,7 +705,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
         \begin{figure}[H]
             \centering
             \includegraphics[height=3in]{controls_diagram.png}
-            \caption{\device open-loop control diagram}
+            \caption{\device\ open-loop control diagram}
             \label{fig:controls_diagram}
         \end{figure}
 
@@ -2444,9 +2450,9 @@ project’s minimum duration. This path began with the fundamental tasks of spon
             $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
         }
             &
-        Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = -\sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
+        Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
             &
-        Maintain all dimensional tolerances to $1\ \mu m$ where specified in drawings V4 and V5
+        Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
         \\ \cline{2-3}
 
             &
@@ -2531,14 +2537,14 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
 \includepdf[pages=1-14, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
 
 % --- Appendix C: Product Data Sheets and Price Quotes ---
-\chapter{Product Data Sheets and Price Quotes}
+\chapter{Bellows Catalog Data Sheet}
 \label{app:datasheets}
 
-The following data sheets are included below:
+% The following data sheets are included below:
 
-\begin{enumerate}
-    \item Mini-Flex bellows (excerpts from their 2026 catalog)
-\end{enumerate}
+% \begin{enumerate}
+%     \item Mini-Flex bellows (excerpts from their 2026 catalog)
+% \end{enumerate}
 
 
 \includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
@@ -2551,82 +2557,127 @@ The following data sheets are included below:
 \section{Error Propagation Calculation}
 \label{app:errorProp}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
-        \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
-        \label{fig:errorpropboundary}
-    \end{figure}
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
-        \caption{This shows the Tolerance variations calculated by the error propagation equation}
-        \label{fig:errorpropvariation}
-    \end{figure}
-The base function in this calculation is:
-\begin{equation}
-    x(T) = D_{\text{eff}}(T) = \sqrt{\frac{\pi}{2}} \cdot \Big( A_1 (T - T_{\text{ref}}) + A_0 \Big)
-\end{equation}
-Propagating the error through variables $A_1$ and $A_0$:
-\begin{align}
-    &\theta_{A1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
-    \\
-    &\theta_{A1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
-\end{align}
-Base displacement uncertainty (RSS):
-\begin{align}
-    &u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
-    \\
-    &u_D(T) = \sqrt{\Big( (T - T_{\text{ref}}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
-\end{align}
-Total radial error:
-\begin{equation}
-    u_x(T) = \sqrt{\frac{\pi}{2}} \cdot \sqrt{\Big( (T - T_{\text{ref}}) \cdot u_{A1} \Big)^2 + \big( u_{A0} \big)^2}
-\end{equation}
-The following equations calculate the bounds:
-\begin{align}
-    &x_{upper}(T) = x(T) + u_x(T)
-    \\
-    &x_{lower}(T) = x(T) - u_x(T)
-\end{align}
+    As detailed in Section \ref{sec:initial_system_requirements}, the Required Relationhsip
 
-This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
-such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
-$$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
-where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \bar{x}_i}$ \cite{ref_Figliola}.
+        $$ \requiredRelationship $$
+
+    depends on the following independent variables, each with their own tolerance values:
+
+        \begin{align*}
+            &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+            \\
+            &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+        \end{align*}
+
+    The tolerance of $D_{\text{effective}}$ as a function of temperature can be found using the following formula:
+
+        \begin{equation}
+            D_{\text{eff}} = \overline{D_{\text{eff}}}(T) \pm u_D(T)
+        \end{equation}
+
+    such that
+
+        \begin{equation}
+            u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+            \label{eq:KM_gen}
+        \end{equation}
+
+    We can find these values as follows:
+
+        \begin{align}
+            &\theta_{A_1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
+            \\
+            &u_{A_1} = (5\%)(\SI{-1.52e-6}{m \per \degreeCelsius}) = \SI{-7.62e-8}{} \frac{m}{\degC}
+            \\
+            &\theta_{A_0} = \frac{\partial D_{\text{eff}}}{\partial A_0} = 1
+            \\
+            &u_{A_0} = (5\%)(\SI{2.54e-4}{m}) = \SI{1.27e-5}{m}
+        \end{align}
+
+    Plugging these into \ref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
+
+        \begin{equation}
+            u_{D_{\text{eff}}} = \sqrt{\left( (\SI{-7.62e-8}{} \frac{m}{\degC}) (T-T_{\text{ref}}) \right)^2 + \left( \SI{1.27e-5}{m} \right)^2}
+        \end{equation}
+
+    Therefore, the complete Required Relationship reduces to equations \ref{eq:RR_symb} and \ref{eq:RR_full} in symbolic and numeric form, respectively.
+
+        \begin{align}
+            D_{\text{effective}} &= A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \notag \\
+                &\quad \pm \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
+            \\[6pt]
+            D_{\text{effective}} &= \SI{-1.52e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{2.54e-4}{\meter} \notag \\
+                &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
+        \end{align}
+
+    Equation \ref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}
+    As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{tolerance_boundaries.png}
+            \caption{This shows the Tolerance Boundaries calculated by the error propagation equation}
+            \label{fig:errorpropboundary}
+        \end{figure}
+
+    However, if we plot the tolerance alone, as in Figure \ref{fig:errorpropvariation}, we see that $u_{D_{\text{eff}}}$ varies slightly with temperature.
+    Its minimum is at $T_{\text{ref}}$, which motivated the decision to ensure minimum error at this temperature.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{tolerance_variation.png}
+            \caption{This shows the Tolerance variations calculated by the error propagation equation}
+            \label{fig:errorpropvariation}
+        \end{figure}
+
+    Finally, the tolerance boundaries for $X(T)$ can be easily found by multiplying every value by $X = \sqrt{\frac{\pi}{2}} D_{\text{eff}}$,
+    which relationship is derived in Appendix \ref{app:orifice_geometry}.
+
+        \begin{align}
+            X &= \sqrt{\frac{\pi}{2}} \left( A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \right) \notag \\
+                &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
+            \\[6pt]
+            X &= \SI{-1.91e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{3.18e-4}{\meter} \notag \\
+                &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
+        \end{align}
+
+    This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
+    such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
+    $$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
+    where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \overline{x}_i}$ \cite{ref_Figliola}.
 
 
 
 \section{Orifice Geometry}
 \label{app:orifice_geometry}
 
-The orifice, as defined in Section \ref{sec:sys_arch_overview} and depicted in Figure \ref{fig: orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
+    The orifice, as defined in Section \ref{sec:sys_arch_overview} and depicted in Figure \ref{fig: orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[height=2in]{orifice.png}
-    \caption{Orifice geometry, repeated}
-    \label{fig:orifice_rep}
-\end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=2in]{orifice.png}
+        \caption{Orifice geometry, repeated}
+        \label{fig:orifice_rep}
+    \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[height=2in]{orifice_detailed.png}
-    \caption{Orifice geometry, detailed}
-    \label{fig:orifice_detailed}
-\end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=2in]{orifice_detailed.png}
+        \caption{Orifice geometry, detailed}
+        \label{fig:orifice_detailed}
+    \end{figure}
 
-The effective diameter, as defined in equation \ref{eq:d_eff}, equals the diameter of a circle with equivalent area.
-Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
-is can be related to the effective diameter as follows:
+    The effective diameter, as defined in equation \ref{eq:d_eff}, equals the diameter of a circle with equivalent area.
+    Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
+    is can be related to the effective diameter as follows:
 
-    $$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
-    $$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
-    $$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
+        $$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
+        $$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
+        $$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
 
-Therefore,
+    Therefore,
 
-    $$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
+        $$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
 
 
 \end{appendices}
