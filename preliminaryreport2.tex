@@ -1516,7 +1516,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 assembly.
         
     \section{Actuator Subsystem}
-        The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:act_sel_crit}, listed again in Table \ref{tab:mount_specs_disc}:
+        The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:act_sel_crit}, listed again in Table \ref{tab:act_specs_disc}:
 
         \begin{table}[H]
             \centering
@@ -1578,7 +1578,7 @@ This Preliminary Machine Architecture Report explains and dimensions each subsys
                 \label{fig:al_alpha}
             \end{figure}            
             
-            Table \label{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            Table \ref{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
             
             Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
             
@@ -1945,7 +1945,7 @@ expansion and the resisting forces have negligible effect on actuator length.
                     \\\addlinespace
                     $\alpha_{Invar}$ &
                     CTE of Invar &
-                    $1.20 \times 10^{-6} \, \degC$
+                    $1.20 \times 10^{-6} \, \degC^{-1}$
                     \\\addlinespace
                     $H$ &
                     Mount height &
@@ -2390,7 +2390,6 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 
 \newpage
 \begin{appendices}
-\appendix
 
 % --- Appendix A: Final Design Requirements ---
 \chapter{Final Design Requirements}
