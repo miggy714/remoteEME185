@@ -16,7 +16,7 @@
 % ---------- Graphics & Figures ----------
 \usepackage{graphicx}% THE core package for inserting images.
 % Usage: \includegraphics[width=0.8\textwidth]{filename.png}
-\graphicspath{{figures/}}
+\graphicspath{{figures3/}}
 \usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
 \usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
 % ---------- Tables ----------
@@ -2610,13 +2610,13 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                     xlabel={$T$},
                     ylabel={$D_{\text{eff}}$},
                 ]
-                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures/D.csv};
+                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures3/D.csv};
                     \addlegendentry{$\overline{D}(T)$}
 
-                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures/D.csv};
+                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/D.csv};
                     \addlegendentry{Upper limit}
 
-                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures/D.csv};
+                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/D.csv};
                     \addlegendentry{Lower limit}
                 \end{axis}
             \end{tikzpicture}
@@ -2634,7 +2634,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                     xlabel={$T$},
                     ylabel={$u_{D_{\text{eff}}}$},
                 ]
-                    \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures/u_D.csv};
+                    \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures3/u_D.csv};
 
                 \end{axis}
             \end{tikzpicture}
@@ -2663,13 +2663,13 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                     xlabel={$T$},
                     ylabel={$X(T)$},
                 ]
-                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures/X.csv};
+                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures3/X.csv};
                     \addlegendentry{$\overline{X}(T)$}
 
-                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures/X.csv};
+                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/X.csv};
                     \addlegendentry{Upper limit}
 
-                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures/X.csv};
+                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/X.csv};
                     \addlegendentry{Lower limit}
                 \end{axis}
             \end{tikzpicture}
@@ -2684,7 +2684,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                     xlabel={$T$},
                     ylabel={$u_X$},
                 ]
-                    \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures/u_X.csv};
+                    \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures3/u_X.csv};
 
                 \end{axis}
             \end{tikzpicture}
