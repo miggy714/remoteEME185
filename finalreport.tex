@@ -323,7 +323,7 @@
 
         \multirow[c]{3}{0.45\textwidth}{Must fix the relation between the actuator and valve subsystems such that $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$}
         &
-        Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
+        Maintain all dimensional tolerances to $5\ \mu m$ where specified in drawing M2
         \\ \cline{2-2}
         &
         Allow adjustment of the mount's critical dimension from within \calRange\ above the target value to within \calTol\ above or below said target
@@ -645,7 +645,7 @@ This Design Report \todo{Summary}.
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
         According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
-        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \ref{eq: transfer_function}:
+        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq: transfer_function}:
         
         \begin{equation}
             D = \frac{dD}{dT} \Delta T + D_0
@@ -658,7 +658,7 @@ This Design Report \todo{Summary}.
             \label{eq: transfer_function}
         \end{equation}
 
-        This must equal the Required Relationship in equation \ref{eq: required_relationship}. 
+        This must equal the Required Relationship in equation \eqref{eq: required_relationship}. 
         Therefore,
 
         \begin{equation}
@@ -702,8 +702,8 @@ This Design Report \todo{Summary}.
         These serve three purposes:
 
         \begin{enumerate}
-            \item To define the component of the system-control transfer function (eq. \ref{eq: transfer_function}) for which that subsystem is responsible
-            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \ref{eq: required_relationship}
+            \item To define the component of the system-control transfer function (eq. \eqref{eq: transfer_function}) for which that subsystem is responsible
+            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq: required_relationship}
             \item To limit error that affects the specifications of other subsystems
         \end{enumerate}
 
@@ -834,7 +834,7 @@ This Design Report \todo{Summary}.
         \label{subsec:act_sel_crit}
 
         The actuator subsystem governs the open-loop control derivative $\frac{dL}{dT}$
-        as defined in Figure \ref{fig:controls_diagram}, and equations \ref{eq: transfer_function} and \ref{eq:actuator_control}.
+        as defined in Figure \ref{fig:controls_diagram}, and equations \eqref{eq: transfer_function} and \eqref{eq:actuator_control}.
         Thus, assuming $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}}$ and $\frac{dX}{dL} = -1$ within the valve subsystem
         (which is correct practice when calculating error propagation),
         $\frac{dL}{dT}$ must equal $\sqrt{\frac{\pi}{2}} A_1$.
@@ -2042,11 +2042,11 @@ expansion and the resisting forces have negligible effect on actuator length.
 
         Recall that the system transfer function is 
         
-        $\transferFunction$ \quad (eq. \ref{eq: transfer_function})
+        $\transferFunction$ \quad (eq. \eqref{eq: transfer_function})
         
         which must equal the required relationship
 
-        $\requiredRelationship$ \quad (eq. \ref{eq: required_relationship})
+        $\requiredRelationship$ \quad (eq. \eqref{eq: required_relationship})
 
         to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
         The error in height of the orifice, X(T), is the sum of the greatest errors in the system. We have calculated the following dimensional or operational deviations throughout the Discussion:
@@ -2408,7 +2408,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
 
         $$D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$$
 
-    which corresponds to the system transfer function in equation \ref{eq: transfer_function}:
+    which corresponds to the system transfer function in equation \eqref{eq: transfer_function}:
 
         $$D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]$$
 
@@ -2514,7 +2514,7 @@ project’s minimum duration. This path began with the fundamental tasks of spon
     \end{tabular}
 \end{table}
 
-$\left( \text{Equation\ \ref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
+$\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
 
 % --- Appendix B: Engineering Drawing Package ---
 \chapter{Engineering Drawing Package}
@@ -2583,13 +2583,13 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
             &u_{A_0} = (5\%)(\SI{2.54e-4}{m}) = \SI{1.27e-5}{m}
         \end{align}
 
-    Plugging these into \ref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
+    Plugging these into \eqref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
 
         \begin{equation}
             u_{D_{\text{eff}}} = \sqrt{\left( (\SI{-7.62e-8}{} \frac{m}{\degC}) (T-T_{\text{ref}}) \right)^2 + \left( \SI{1.27e-5}{m} \right)^2}
         \end{equation}
 
-    Therefore, the complete Required Relationship reduces to equations \ref{eq:RR_symb} and \ref{eq:RR_full} in symbolic and numeric form, respectively.
+    Therefore, the complete Required Relationship reduces to equations \eqref{eq:RR_symb} and \eqref{eq:RR_full} in symbolic and numeric form, respectively.
 
         \begin{align}
             D_{\text{effective}} &= A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \notag \\
@@ -2599,7 +2599,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
                 &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
         \end{align}
 
-    Equation \ref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
+    Equation \eqref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
     As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
 
         \begin{figure}[H]
@@ -2719,7 +2719,7 @@ Pay special heed to the specified tolerances; as elaborated in this report, thes
         \label{fig:orifice_detailed}
     \end{figure}
 
-    The effective diameter, as defined in equation \ref{eq:d_eff}, equals the diameter of a circle with equivalent area.
+    The effective diameter, as defined in equation \eqref{eq:d_eff}, equals the diameter of a circle with equivalent area.
     Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
     can be related to the effective diameter as follows:
 
