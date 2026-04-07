@@ -495,6 +495,217 @@ This Design Report \todo{Summary}.
 
     \todo{Ask Dr. Schofield about only using 2 reqs, not 3, since we only have that many}
 
+    Sandia National Labs provided us with exactly two system requirements, 
+    defined precisely as follows:
+
+    \begin{enumerate}
+        \item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
+        
+            \begin{equation}
+                \requiredRelationship
+                \label{eq: required_relationship}
+            \end{equation}
+
+            Where:
+            \begin{align*}
+                &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+                \\
+                &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+                \\
+                &T_{\text{reference}} = \specTempRef \degC
+                \\
+                &T_{\text{ambient}}\ \in\ [\specTempLow, \specTempHigh] \degC 
+            \end{align*}
+
+        \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
+    \end{enumerate}
+    
+    These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
+    A mechanical envelope is the total volume that the device is allowed to occupy at all times.
+    When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
+    Thus, for clarity, the system axes will be defined as follows:
+
+    \newpage
+
+    % NOTE - These are consistent with the main CAD assembly axes
+    \begin{itemize}
+        \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
+        \item The "Vertical" axis (y-axis) points directly upwards
+        \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
+    \end{itemize}
+
+    These are depicted in Figure \ref{fig:mainIsometric}.
+
+    Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
+
+    \begin{equation}
+        \coldBoundary
+        \label{eq: coldBoundary}
+    \end{equation}
+    
+    \begin{equation}
+        \hotBoundary
+        \label{eq: hotBoundary}
+    \end{equation}
+
+    \begin{equation}
+        \DTref
+        \label{eq: DTref}
+    \end{equation}
+
+    These tolerance values are derived in Appendix \ref{app:errorProp}.
+    The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
+    
+    \begin{equation}
+        A = \frac{\pi}{4}D_{\text{effective}}^2
+        \label{eq:d_eff}
+    \end{equation}
+    
+    In order to passively drive the valve orifice diameter by ambient temperature change, 
+    our team developed three sub-architectures:
+    a valve, to restrict the flow;
+    an actuator, to drive the valve movement,
+    and a mount, to fix the relative positions of the two.
+
+    In addition to these requirements, our sponsor supplied us with the following design conditions:
+    
+    \begin{enumerate}
+        \item The upstream gas pressure $P$ will lie within the range $0.6895\ \text{MPa} \leq P \leq \specPressure\ \text{MPa}$.
+        \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 80 \degC$.
+        \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
+        \item The gas will be a noble gas or Hydrogen.
+        \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
+        \item The ambient temperature will remain fixed during operation.
+        \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
+    \end{enumerate} 
+    
+    The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
+    and isolate the temperature-sensitive device controller
+    from heat transfer from the internal gas for a full minute during operation.
+    Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
+    This leaves little room for additional design criteria. Each subsystem must accomplish its mission to extremely small tolerance
+    despite these conditions and any errors introduced by every other subsystem.
+    
+    Thus, to maximize the \device 's potential for success, we proceeded with one chief criterion beyond the necessary specifications:
+    the selected architecture should be as simple as possible. Through several iterative changes,
+    we developed the following system architecture.
+
+
+    \todo{Update the below requirements}
+
+    Below are the subsystem specifications needed to satisfy the Required Relationship:
+
+        $$D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$$
+
+    which corresponds to the system transfer function in equation \eqref{eq: transfer_function}:
+
+        $$D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]$$
+
+    \todo{TF above is out of date}
+
+
+    \newpage
+    \enlargethispage{4cm}
+    \begin{table}[H]
+        \centering
+        \caption{System-Level Requirements and Specification Rolldown}
+        \label{tab:system_specs}
+        \renewcommand{\arraystretch}{1.4}
+        \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
+
+            \hline
+            \textbf{System requirement}
+                &
+            \textbf{Core responsibility}
+                &
+            \textbf{Specification} \\
+
+            \hline
+
+            % ---- RR block ----
+            \multirow[c]{9}{0.2\textwidth}{%
+                \device\ must satisfy the Required Relationship:
+                $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
+            }
+                &
+            Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
+                &
+            Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
+            \\ \cline{2-3}
+
+                &
+            Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
+                &
+            Must limit total thermal expansion and forced compression to \dXdLTol
+            \\ \cline{2-3}
+
+                &
+            \multirow[c]{2}{0.3\textwidth}{%
+                bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
+            }
+                &
+            Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
+            \\ \cline{3-3}
+
+                &
+                &
+            Prevent a reaction force of more than \FTolValve
+            \\ \cline{2-3}
+
+            &
+            Valve housing must prevent critical failure by rupture
+            &
+            Withstand a minimum of 10{,}000 psi internal pressure
+            \\ \cline{2-3}
+
+                &
+            Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
+                &
+            Limit the error of $\alpha$ and $L_0$ such that
+            $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
+            \\ \cline{2-3}
+
+                &
+            \multirow[c]{3}{0.3\textwidth}{%
+                Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
+            }
+                &
+            Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
+            \\ \cline{3-3}
+
+                &
+                &
+            Allow adjustment from within \calRange\ above target to within \calTol\ of target
+            \\ \cline{3-3}
+
+                &
+                &
+            Limit thermal expansion to \mountdLTol
+            \\ \hline
+
+            % ---- ME block ----
+            \multirow[c]{2}{0.2\textwidth}{%
+                \device\ must remain approximately within the Mechanical Envelope
+            }
+                &
+            Valve must not exceed its portion of the ME
+                &
+            Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
+            \\ \cline{2-3}
+
+                &
+            Mount must not exceed its portion of the ME
+                &
+            Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
+            
+            \\ \hline
+
+        \end{tabular}
+    \end{table}
+
+    $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
+
+
 \chapter{System Architecture}
 \label{sec:Arch}
 
@@ -511,709 +722,6 @@ This Design Report \todo{Summary}.
         \caption{DELETE BEFORE SUBMISSION}
         \label{fig:del_arch_req_2}
     \end{figure}
-
-\chapter{Requirement Satisfaction}
-\label{sec:Risk}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_DFMEA_reqs_1.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_DFMEA_1}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_DFMEA_reqs_2.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_DFMEAE_2}
-    \end{figure}
-
-\chapter{Model Verification}
-\label{sec:Test}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_test_reqs.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_test}
-    \end{figure}
-
-\chapter{Conclusion}
-\label{sec:Concl}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_concl_reqs.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_concl}
-    \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \chapter{Cited References}
-% \label{sec:references}
-
-% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
-% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
-%
-% The [99] tells LaTeX the widest label will be two digits.
-
-\begin{thebibliography}{99}
-
-    \bibitem{ref_sandiaprompt}
-    B.\ Bon,
-    ``Passive Temperature Compensation Device --- Project Prompt,''
-    Sandia National Laboratories, SAND2025-15446O, 2025.
-
-    \bibitem{asme_b313}
-    American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
-    ASME, New York, NY, 2022.
-
-    \bibitem{steen2010laser}
-    W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-    Springer, London, UK, 2010.
-
-    \bibitem{aws2020welding}
-    American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
-    AWS, Miami, FL, 2020.
-
-    \bibitem{miniflex_design}
-    Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
-    Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-    [Accessed: Mar. 2026].
-
-    \bibitem{muraca1972aluminum}
-    R.\ F.\ Muraca and J.\ S.\ Whittick,
-    \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed.,
-    Western Applied Research \& Development, Inc.,
-    NASA CR-123772, May 1972.
-    Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
-    [Accessed: Mar. 2026].
-
-    \bibitem{matweb}
-    MatWeb, LLC, \textit{MatWeb Material Property Data}, 
-    [Online]. Available: \url{https://www.matweb.com}, 
-    Accessed: March 20, 2026.
-
-    \bibitem{ref_Nise}
-    N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
-
-    \bibitem{ref_Figliola}
-    R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
-
-    \bibitem{ref_carpentertechnology}
-    Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf.}
-    [Accessed: Mar. 20, 2026].
-   
-    \bibitem{ref_AZoM}
-     AZoM, "Properties: Invar — Nickel Iron Alloy," AZoM.com. \url{https://www.azom.com/properties.aspx?ArticleID=515.}
-    [Accessed: Mar. 20, 2026].
-
-    \bibitem{ref_AircraftMaterials}
-    Aircraft Materials Ltd., "Invar 36 / Nilo 36 / Alloy 36 (ASTM F1684)," AircraftMaterials.com. \url{https://www.aircraftmaterials.com/data/nickel/al36.html. }
-    [Accessed: Mar. 20, 2026].
-
-    \bibitem{ref_ISO}
-    International Organization for Standardization, "Mechanical properties of fasteners made of carbon steel and alloy steel — 
-    Part 1: Bolts, screws and studs with specified property classes — Coarse thread and fine pitch thread," ISO 898-1:2013, Geneva, Switzerland, 2013.
-
-    \bibitem{ref_ASM}
-    ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
-    
-
-    
-
-
-
-    % Add more \bibitem entries as needed.
-    % In the body text, cite as: \cite{ref_sandiaprompt}
-
-\end{thebibliography}
-
-
-% ============================================================================
-% APPENDICES
-% ============================================================================
-% TEMPLATE GUIDANCE:
-%   - Label and title every appendix
-%   - You MUST refer to each appendix in the body of the report
-%   - Include: working drawings, product sheets, price quotes,
-%     updated requirements table, scoring matrices, etc.
-%
-% IMPORTANT: Appendices don't count toward estimated page lengths
-% of other sections, so put detailed tables and drawings here.
-% ============================================================================
-
-\newpage
-\begin{appendices}
-\appendix
-
-\chapter{Calculations}
-\label{app:calcs}
-
-    \todo{Include any overfill from the main body of the report to keep it under 50 pages.}
-
-\chapter{Manufacturing and Operation}
-\label{app:mfg}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_app_reqs_1.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_app_reqs_1}
-    \end{figure}
-
-\chapter{Engineering Drawing Package}
-\label{app:drawings}
-
-    \todo{Some description}
-
-    %\includepdf[pages=1-??, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
-
-
-\chapter{Data Sheets}
-\label{app:datasheets}
-
-The following data sheets are included below:
-
-\begin{enumerate}
-    \item Mini-Flex bellows (excerpts from their 2026 catalog)
-\end{enumerate}
-
-
-%\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
-\todo{Include all relevant material and product data}
-
-
-% --- Appendix D: Detailed Calculations ---
-
-\chapter{Project Management}
-\label{sec:project_management}
-
-
-\todo{Update to final task list (from spreadsheet) and Gantt chart. As listed in template, tell the story of this quarter. We should all participate in this.}
-
-\begin{table}[h]
-\caption{Task List for Winter and Spring Quarters}
-\centering
-\begin{tabular}{@{} c l @{}}
-\toprule
-\textbf{\#} & \textbf{Task Description} \\
-\midrule
-\multicolumn{2}{c}{\textbf{Winter Quarter}} \\
-\midrule
-1  & Prepare Questions for Sponsors \\
-2  & First Memo Report \\
-3  & Sponsor Meeting (Recurring) \\
-4  & Define Problem Statement \\
-5  & Research Potential Solutions \\
-6  & Second Memo Report \\
-7  & Fully Define Design Space \\
-8  & Third Memo Report \\
-9  & Problem Statement \\
-10 & Project Specifications \\
-11 & Presentation of Alternative Solutions \\
-12 & Preliminary Calculations \\
-13 & Final Designs \\
-14 & Report Revision \\
-15 & Subsystem Delegation \& Communication \\
-16 & Performance Calculations \\
-17 & Design Refinement \\
-18 & Establish Sub-component Geometry \\
-19 & CAD \\
-20 & Fourth Memo Report \\
-21 & Subsystem Integration \& Team Coordination \\
-22 & Finalize Machine Architecture \\
-23 & System Architecture \\
-24 & Discussion \\
-25 & Project Management \\
-26 & Bill of Materials \\
-27 & Abstract \\
-28 & Report Revision \& Submission \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\newpage
-
-\begin{table}[h]
-\centering
-\begin{tabular}{@{} c l @{}}
-\toprule
-\textbf{\#} & \textbf{Task Description} \\
-\midrule
-\multicolumn{2}{c}{\textbf{Spring Quarter}} \\
-\midrule
-29 & Assess Manufacturable Components \\
-30 & Order Materials \\
-31 & Sponsor Preliminary Design Review \\
-32 & Tolerance Stack-up Analysis \\
-33 & CAD Revisions \\
-34 & FEA (Actuator, Valve, Gears) \\
-35 & CFD (Valve) \\
-36 & Thermal Analysis \\
-37 & Design Revision \\
-38 & Safety/Risk Assessment \\
-39 & Rapid Prototyping/Machining \\
-40 & Finish POC Model \\
-41 & Complete Product Demonstration \\
-42 & Draft Poster Design \\
-43 & Final Report \\
-44 & Final Poster Design \\
-45 & Critical Design Reviews \\
-46 & Design Showcase \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-% --- 5.2: Gantt Chart ---
-\section{Gantt Chart}
-\label{subsec:gantt}
-
-    An updated Gantt chart is provided below, spanning both the Winter and Spring quarters. 
-    The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
-    The vertical line represents the current date.
-
-% \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
-
-
-
-
-
-\chapter{Del: Final Design Requirements [Copy elements into section \ref{sec:Req}]}
-
-    Below is a complete rolldown of the system requirements into subsystem specifications
-    as previously listed in Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs}.
-
-    Remember that the chief objective of the \device\ is to satisfy the Required Relationship:
-
-        $$D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$$
-
-    which corresponds to the system transfer function in equation \eqref{eq: transfer_function}:
-
-        $$D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]$$
-
-    while the secondary, soft requirement is to remain within the 10 cm x 10 cm x 10 cm Mechanical Envelope.
-
-
-\newpage
-\enlargethispage{4cm}
-\begin{table}[H]
-    \centering
-    \caption{System-Level Requirements and Specification Rolldown}
-    \label{tab:system_specs}
-    \renewcommand{\arraystretch}{1.4}
-    \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
-
-        \hline
-        \textbf{System requirement}
-            &
-        \textbf{Core responsibility}
-            &
-        \textbf{Specification} \\
-
-        \hline
-
-        % ---- RR block ----
-        \multirow[c]{9}{0.2\textwidth}{%
-            \device\ must satisfy the Required Relationship:
-            $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
-        }
-            &
-        Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
-            &
-        Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
-        \\ \cline{2-3}
-
-            &
-        Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
-            &
-        Must limit total thermal expansion and forced compression to \dXdLTol
-        \\ \cline{2-3}
-
-            &
-        \multirow[c]{2}{0.3\textwidth}{%
-            bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
-        }
-            &
-        Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
-        \\ \cline{3-3}
-
-            &
-            &
-        Prevent a reaction force of more than \FTolValve
-        \\ \cline{2-3}
-
-        &
-        Valve housing must prevent critical failure by rupture
-        &
-        Withstand a minimum of 10{,}000 psi internal pressure
-        \\ \cline{2-3}
-
-            &
-        Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
-            &
-        Limit the error of $\alpha$ and $L_0$ such that
-        $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
-        \\ \cline{2-3}
-
-            &
-        \multirow[c]{3}{0.3\textwidth}{%
-            Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
-        }
-            &
-        Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
-        \\ \cline{3-3}
-
-            &
-            &
-        Allow adjustment from within \calRange\ above target to within \calTol\ of target
-        \\ \cline{3-3}
-
-            &
-            &
-        Limit thermal expansion to \mountdLTol
-        \\ \hline
-
-        % ---- ME block ----
-        \multirow[c]{2}{0.2\textwidth}{%
-            \device\ must remain approximately within the Mechanical Envelope
-        }
-            &
-        Valve must not exceed its portion of the ME
-            &
-        Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
-        \\ \cline{2-3}
-
-            &
-        Mount must not exceed its portion of the ME
-            &
-        Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
-        
-        \\ \hline
-
-    \end{tabular}
-\end{table}
-
-$\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
-
-
-\chapter{Del: Detailed Calculations [Copy elements into Appendix \ref{app:calcs}]}
-
-\section{Error Propagation Calculation}
-\label{app:errorProp}
-
-    As detailed in Section \ref{sec:initial_system_requirements}, the Required Relationship
-
-        $$ \requiredRelationship $$
-
-    depends on the following independent variables, each with their own tolerance values:
-
-        \begin{align*}
-            &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
-            \\
-            &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
-        \end{align*}
-
-    The tolerance of $D_{\text{effective}}$ as a function of temperature can be found using the following formula:
-
-        \begin{equation}
-            D_{\text{eff}} = \overline{D_{\text{eff}}}(T) \pm u_D(T)
-        \end{equation}
-
-    such that
-
-        \begin{equation}
-            u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
-            \label{eq:KM_gen}
-        \end{equation}
-
-    We can find these values as follows:
-
-        \begin{align}
-            &\theta_{A_1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
-            \\
-            &u_{A_1} = (5\%)(\SI{-1.52e-6}{m \per \degreeCelsius}) = \SI{-7.62e-8}{} \frac{m}{\degC}
-            \\
-            &\theta_{A_0} = \frac{\partial D_{\text{eff}}}{\partial A_0} = 1
-            \\
-            &u_{A_0} = (5\%)(\SI{2.54e-4}{m}) = \SI{1.27e-5}{m}
-        \end{align}
-
-    Plugging these into \eqref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
-
-        \begin{equation}
-            u_{D_{\text{eff}}} = \sqrt{\left( (\SI{-7.62e-8}{} \frac{m}{\degC}) (T-T_{\text{ref}}) \right)^2 + \left( \SI{1.27e-5}{m} \right)^2}
-        \end{equation}
-
-    Therefore, the complete Required Relationship reduces to equations \eqref{eq:RR_symb} and \eqref{eq:RR_full} in symbolic and numeric form, respectively.
-
-        \begin{align}
-            D_{\text{effective}} &= A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \notag \\
-                &\quad \pm \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
-            \\[6pt]
-            D_{\text{effective}} &= \SI{-1.52e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{2.54e-4}{\meter} \notag \\
-                &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
-        \end{align}
-
-    Equation \eqref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
-    As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
-
-        \begin{figure}[H]
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                    legend pos=north east,
-                    xlabel={$T$},
-                    ylabel={$D_{\text{eff}}$},
-                ]
-                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures3/D.csv};
-                    \addlegendentry{$\overline{D}(T)$}
-
-                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/D.csv};
-                    \addlegendentry{Upper limit}
-
-                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/D.csv};
-                    \addlegendentry{Lower limit}
-                \end{axis}
-            \end{tikzpicture}
-            \caption{$D_{\text{eff}}$ with tolerable deviation}
-            \label{fig:errorpropboundary}
-        \end{figure}
-
-    However, if we plot the tolerance alone, as in Figure \ref{fig:errorpropvariation}, we see that $u_{D_{\text{eff}}}$ varies slightly with temperature.
-    Its minimum is at $T_{\text{ref}}$, which motivated the decision to ensure minimum error at this temperature.
-
-        \begin{figure}[H]
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                    xlabel={$T$},
-                    ylabel={$u_{D_{\text{eff}}}$},
-                ]
-                    \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures3/u_D.csv};
-
-                \end{axis}
-            \end{tikzpicture}
-            \caption{$u_{D_{\text{eff}}}$ variation with T}
-            \label{fig:errorpropvariation}
-        \end{figure}
-
-    Finally, the tolerance boundaries for $X(T)$ can be easily found by multiplying every value by $X = \sqrt{\frac{\pi}{2}} D_{\text{eff}}$,
-    which relationship is derived in Appendix \ref{app:orifice_geometry}.
-
-        \begin{align}
-            X &= \sqrt{\frac{\pi}{2}} \left( A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \right) \notag \\
-                &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb_X}
-            \\[6pt]
-            X &= \SI{-1.91e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{3.18e-4}{\meter} \notag \\
-                &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full_X}
-        \end{align}
-
-    As in Figures \ref{fig:errorpropboundary} and \ref{fig:errorpropvariation}, the same can be shown for $X(T)$ in Figures \ref{fig:errorpropboundary_X} and \ref{fig:errorpropvariation_X}.
-
-        \begin{figure}[H]
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                    legend pos=north east,
-                    xlabel={$T$},
-                    ylabel={$X(T)$},
-                ]
-                    \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures3/X.csv};
-                    \addlegendentry{$\overline{X}(T)$}
-
-                    \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/X.csv};
-                    \addlegendentry{Upper limit}
-
-                    \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/X.csv};
-                    \addlegendentry{Lower limit}
-                \end{axis}
-            \end{tikzpicture}
-            \caption{$X(T)$ with tolerable deviation}
-            \label{fig:errorpropboundary_X}
-        \end{figure}
-
-        \begin{figure}[H]
-            \centering
-            \begin{tikzpicture}
-                \begin{axis}[
-                    xlabel={$T$},
-                    ylabel={$u_X$},
-                ]
-                    \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures3/u_X.csv};
-
-                \end{axis}
-            \end{tikzpicture}
-            \caption{$u_X$ variation with T}
-            \label{fig:errorpropvariation_X}
-        \end{figure}
-
-
-    This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
-    such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
-    $$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
-    where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \overline{x}_i}$ \cite{ref_Figliola}.
-
-
-
-\section{Orifice Geometry}
-\label{app:orifice_geometry}
-
-    The orifice, as defined in Section \ref{sec:sys_arch_overview} and depicted in Figure \ref{fig: orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=2in]{orifice.png}
-        \caption{Orifice geometry, repeated}
-        \label{fig:orifice_rep}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[height=2in]{orifice_detailed.png}
-        \caption{Orifice geometry, detailed}
-        \label{fig:orifice_detailed}
-    \end{figure}
-
-    The effective diameter, as defined in equation \eqref{eq:d_eff}, equals the diameter of a circle with equivalent area.
-    Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
-    can be related to the effective diameter as follows:
-
-        $$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
-        $$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
-        $$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
-
-    Therefore,
-
-        $$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
-
-
-\chapter{Del: System Architecture [Copy elements into Section \ref{sec:Arch}]}
-
-\todo{Change the structure to match the template. Keep as much of the below content from Report 2 as needed.}
-
-\label{sec:system_architecture}
-
-    \section{System Requirements}
-    \label{sec:initial_system_requirements}
-        Sandia National Labs provided us with exactly two system requirements, 
-        defined precisely as follows:
-
-        \begin{enumerate}
-            \item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
-            
-                \begin{equation}
-                    \requiredRelationship
-                    \label{eq: required_relationship}
-                \end{equation}
-
-                Where:
-                \begin{align*}
-                    &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
-                    \\
-                    &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
-                    \\
-                    &T_{\text{reference}} = \specTempRef \degC
-                    \\
-                    &T_{\text{ambient}}\ \in\ [\specTempLow, \specTempHigh] \degC 
-                \end{align*}
-
-            \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
-        \end{enumerate}
-        
-        These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
-        A mechanical envelope is the total volume that the device is allowed to occupy at all times.
-        When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
-        Thus, for clarity, the system axes will be defined as follows:
-
-        \newpage
-
-        % NOTE - These are consistent with the main CAD assembly axes
-        \begin{itemize}
-            \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-            \item The "Vertical" axis (y-axis) points directly upwards
-            \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
-        \end{itemize}
-
-        These are depicted in Figure \ref{fig:mainIsometric}.
-
-        Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
-
-        \begin{equation}
-            \coldBoundary
-            \label{eq: coldBoundary}
-        \end{equation}
-        
-        \begin{equation}
-            \hotBoundary
-            \label{eq: hotBoundary}
-        \end{equation}
-
-        \begin{equation}
-            \DTref
-            \label{eq: DTref}
-        \end{equation}
-
-        These tolerance values are derived in Appendix \ref{app:errorProp}.
-        The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
-        
-        \begin{equation}
-            A = \frac{\pi}{4}D_{\text{effective}}^2
-            \label{eq:d_eff}
-        \end{equation}
-        
-        In order to passively drive the valve orifice diameter by ambient temperature change, 
-        our team developed three sub-architectures:
-        a valve, to restrict the flow;
-        an actuator, to drive the valve movement,
-        and a mount, to fix the relative positions of the two.
-
-        In addition to these requirements, our sponsor supplied us with the following design conditions:
-        
-        \begin{enumerate}
-            \item The upstream gas pressure $P$ will lie within the range $0.6895\ \text{MPa} \leq P \leq \specPressure\ \text{MPa}$.
-            \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 80 \degC$.
-            \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
-            \item The gas will be a noble gas or Hydrogen.
-            \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
-            \item The ambient temperature will remain fixed during operation.
-            \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
-        \end{enumerate} 
-        
-        The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
-        and isolate the temperature-sensitive device controller
-        from heat transfer from the internal gas for a full minute during operation.
-        Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
-        This leaves little room for additional design criteria. Each subsystem must accomplish its mission to extremely small tolerance
-        despite these conditions and any errors introduced by every other subsystem.
-        
-        Thus, to maximize the \device 's potential for success, we proceeded with one chief criterion beyond the necessary specifications:
-        the selected architecture should be as simple as possible. Through several iterative changes,
-        we developed the following system architecture.
 
     \section{System Architecture Overview}
     \label{sec:sys_arch_overview}
@@ -1636,27 +1144,12 @@ $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac
             % Paragraph 5
             The mount is made of Invar 36, selected for its low coefficient of thermal expansion, machinability, and rigidity.
 
-% ============================================================================
-% SECTION 3: DISCUSSION
-% ============================================================================
-% GRADING: Section IV — 25 points total
-%   4.1) Discussion of requirements and rolldown to subsystems (5.0 pts)
-%        "Half points well described requirement updates,
-%         half points roll down discussion"
-%   4.2) Discussion of subsystem interactions (10.0 pts)
-%        "Half marks accurate technical discussions, describes how
-%         subsystems work together. Half marks for proper engineering
-%         drawing package."
-%   4.3) Proof that design will meet requirements / calculations (10.0 pts)
-%        "Accurate, well motivated / related to requirements,
-%         reasonable assumptions stated"
-%
-% This is the MOST HEAVILY WEIGHTED section (25 pts).
-% ============================================================================
 
-\chapter{Del: Discussion [Copy elements into Section \ref{sec:Risk}}]}
-\label{sec:discussion}
-    %--- BEGIN CONTENT ---
+\chapter{Requirement Satisfaction}
+\label{sec:Satisfaction}
+
+    \todo{This section is a precursor to Section \ref{sec:Risk}. See that section for the required details; this will mostly come from Report 2 Discussion.}
+
     \section{Valve Subsystem}
             As enumerated in Section \ref{subsec:valve_sel_crit}, the Valve Subsystem must meet or exceed the following specifications, listed again in Table \ref{tab:valve_specs_disc}:
 
@@ -2103,66 +1596,7 @@ $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac
                 \item Lateral: 80 mm, the width of the housing flanges.
                 \item Vertical: 5 mm. Only the thickness of the housing flanges affects the mechanical envelope.
             \end{itemize}
-        
-        \subsection{Design Requirement Updates}
-        \label{subsec:valve_req_updates}
-
-                The core system-level requirements established in the Preliminary Design Report remained 
-                unchanged entering the detailed design phase: the valve must produce a linear change in 
-                effective diameter with respect to ambient temperature, and must withstand an internal 
-                operating pressure of \specPressure\ MPa. What changed substantially was the team's understanding 
-                of what could be physically realized given the scale of the device, the number of moving 
-                parts, and the tolerancing demands of precision machining at sub-millimeter orifice sizes.
-
-                The Preliminary Design Report selected the hexagonal diaphragm as the valve architecture 
-                on the strength of its theoretical properties. The hexagonal geometry was shown analytically 
-                to produce a linear relationship between actuator displacement and effective orifice diameter, 
-                and it performed well in the screening and scoring matrices on criteria such as force 
-                resistance and flow stability. However, as the team moved from concept into detailed design, 
-                it became clear that the hexagonal diaphragm presented fundamental manufacturability 
-                challenges that could not be resolved within the scope of this project. The design required 
-                six independent trapezoidal sliding plates, each interfacing with adjacent plates along 
-                precision-machined edges, all operating at an orifice scale thinner than the tip of a 
-                ballpoint pen. The tolerance stack-up across six moving parts at this scale introduced 
-                unquantifiable uncertainty in the effective diameter, and no feasible assembly sequence 
-                could be identified that would allow the device to be built, sealed against \specPressure\ MPa 
-                internal pressure, and calibrated reliably. The design was theoretically sound but 
-                physically unrealizable under the project constraints.
-
-                Following sponsor feedback and internal reassessment, the team reset its design assumptions 
-                and returned to the valve selection problem with manufacturability elevated to a primary 
-                constraint alongside linearity and pressure resistance. This shift in perspective produced 
-                a fundamentally different solution: a two-plate sliding valve consisting of one fixed plate 
-                and one moving plate. The orifice is formed by the overlap between an opening in the fixed 
-                plate and an opening in the moving plate. As the actuator displaces the moving plate, the 
-                overlapping area changes, producing a linear change in effective orifice diameter. The 
-                geometry satisfies the same linearity requirement as the hexagonal design but with a 
-                fraction of the part count and a straightforward machining and assembly path.
-
-                This simplification did not eliminate design complexity; it redirected it. By reducing 
-                the valve to two plates, the team was able to clearly identify and quantify three new 
-                subsystem-level design requirements that the hexagonal design had obscured: managing hoop 
-                stress in the valve housing under internal pressure, sealing the valve stem that drives the 
-                moving plate through the housing wall, and ensuring the structural integrity of all 
-                construction welds. These requirements are tractable and calculable in a way that the 
-                tolerance uncertainties of the hexagonal design were not, and they form the basis of the 
-                detailed analyses presented in the following sections.
-
-                The transition to the two-plate valve architecture allowed system-level specifications to 
-                be rolled down into clearly defined subsystem requirements for the first time. The 
-                operating pressure requirement of \specPressure\ MPa rolled down into a housing wall thickness 
-                specification governed by thick-wall hoop stress analysis, a weld joint quality requirement 
-                mandating radiographic inspection, and a stem seal 
-                specification requiring a bellows assembly capable of withstanding full internal pressure 
-                without leakage. The linearity requirement rolled down into a geometric constraint on the 
-                orifice plate overlap profile, which must be designed such that lateral displacement of 
-                the moving plate produces a proportional change in effective diameter across the full 
-                temperature operating range. The hydrogen 
-                compatibility requirement rolled down into the material specification of Inconel 718 (bellows material) and 1018 steel (housing material) for 
-                all wetted components, driven by the need for hydrogen embrittlement resistance, 
-                low-temperature toughness, and weld compatibility between the valve stem and bellows 
-                assembly.
-        
+                
     \section{Actuator Subsystem}
         The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:act_sel_crit}, listed again in Table \ref{tab:mount_specs_disc}:
 
@@ -2399,40 +1833,6 @@ displacement in both cases, confirming that the net displacement is dominated by
 expansion and the resisting forces have negligible effect on actuator length.
 
 
-        \subsection{Design Requirement Updates}
-        \label{subsec:act_req_updates}
-
-         Requirements for actuator operation have developed with further sub-requirements being 
-        defined and individual weight being reevaluated by importance. Preliminary 
-        conditions were defined by the need to deliver necessary stroke length for valve operation, 
-        that thermal expansion
-        should be precise and predictable, and that actuator length combined with other sub-system
-        components should be contained within the mechanical envelope. The governing equation for
-        the actuator expansion $\Delta L = L_o\Delta T\alpha $ relates expansion magnitude to 
-        undeformed length $L_o$ and the linear coefficient of expansion $\alpha$. In preliminary 
-        designs actuator length was maximized within the bounds of the mechanical envelope. 
-        An amplifying interface between the valve stem and actuator was designed to increase 
-        linear movement to the necessary stroke length via a compound gear train. This allowed the
-        system to meet actuation distance needs of the valve while keeping within the mechanical 
-        envelope. Discussion with subject matter experts and further calculations 
-        showed that backlash and expected tolerance deviations from machining and assembly would
-        be compounded by the gear train. 
-        This would push the entire system out of error tolerance and 
-        sparked consideration of eliminating the interface in favor of increasing un-deformed actuator
-        length $L_o$. The increase in the weighted importance of precision led to discussion with
-        our sponsor solidifying the mechanical envelope as a soft requirement. This allowed the actuator
-        length to exceed the bounds of the mechanical envelope in interest of preserving movement precision.
-
-        Though considered a "soft requirement", deviation outside of the mechanical envelope should still 
-        be minimized. Further research was done into materials with higher coefficients of thermal 
-        expansion to decrease necessary actuator length and it was found that zinc and magnesium alloys,
-        as well as specialized polymers can exceed the expansion of aluminum. 
-        Issues with these materials brought material property requirements
-        to the forefront of our consideration regarding stability of mechanical properties across the operating temperature
-        range. 
-
-
-
     \section{Mount Subsystem}
 
      \subsection{Overview}
@@ -2510,294 +1910,497 @@ expansion and the resisting forces have negligible effect on actuator length.
 
 
        
-        \subsection{Design Requirement Updates}
-        \subsubsection{Trapezoidal Mount Plate Requirement Updates}
-            The system-level mechanical envelope requirement was ($\leq$ 10 $cm^3$) and the stiffness requirement both roll down directly to the mount plates. The plates must be tall enough to house the actuator block in the cavity between them, wide enough such that the base can cradle the valve housing,
-            and stiff enough such that deflection from the actuator's reaction force is negligible. 
-
-        \subsection{Trapezoidal Mount Plate Current Implementation}
-            The two trapezoidal mount plates are machined from Invar 36 stock. The plates rise vertically from the fixture and taper inward toward the top, forming the A-frame geometry visible in Figure \ref{fig:mount_cutaway_oblique}. The actuator fits in the cavity between the two plates with the upper end welded to the interior
-            top face. Holes machined through the top of each plate provide access for the laser beam welding process that bonds the actuator to the mount. The large open windows on the sides provide access for laser welding the valve stem to the lower end of the actuator. These features were implemented in the design with manufacturing in mind.
-            
-
-             \begin{table}[H]
-                \centering
-                \caption{Mount Parameters}
-                \label{tab:mount_parameters}
-                \begin{tabularx}{\textwidth}{l X l}
-                    \toprule
-                    \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-                    \midrule
-                    Material &
-                    &
-                    Invar 36
-                        \\\addlinespace
-                    $E$ &
-                    Young's Modulus &
-                    140 GPa
-                    \\\addlinespace
-                    $S_y$ &
-                    Yield Strength &
-                    240 MPa
-                    \\\addlinespace
-                    $\alpha_{Invar}$ &
-                    CTE of Invar &
-                    $1.20 \times 10^{-6} \, \degC ^{-1}$
-                    \\\addlinespace
-                    $H$ &
-                    Mount height &
-                    122.48 mm
-                    \\\addlinespace
-                    $\Delta{T}$ &
-                    Operating temperature range &
-                    85 $\degC$
-                    \\\addlinespace
-                    F &
-                    Axial actuation force &
-                    168.96 N
-                    \\\bottomrule
-                \end{tabularx}
-            \end{table}           
-
-        \subsubsection{Trapezoidal Mount Structural Stiffness}
-        In addition to thermal expansion, the mount plate thickness is an important consideration. The plates must be thick enough such that the actuator's reaction force or response to pressure does not cause any mechanical deflection. The actuator exerts a maximum force
-         of F = 168.96 N, which is the bellows spring force at full stroke, per Section \ref{subsec:valve_spec_1}. This force is reacted at the top of the mount and transmitted down through the two trapezoidal plates to the fixture. A detailed stiffness analysis using the machined cross-section geometry from the CAD model, or equivalently a finite element analysis under the 168.96 N reaction load, is planned for the spring quarter model validation phase. 
-         Given that Invar 36 has a modulus of 140 GPa and the mount plates have substantial cross-sectional area at their base, the deflection under such a modest load is expected to be negligible relative to the 162 µm stroke from $T_{\text{ref}}$, but this will be quantitatively confirmed before fabrication.
         
-        \subsubsection{Fasteners Design Requirement Updates}
-        The fastener joints must maintain a sufficient enough clamping force across the full operating temperature range. Any discrepancy between the fasteners and the fixture corrupts the calibration of the entire device.
+\chapter{Risk Assessment}
+\label{sec:Risk}
 
-        \subsubsection{Fasteners Current Implementation}
-        Eight M5 black-oxide alloy steel socket head screws secure the mount plates to the fixture. The valve housing and calibration shim stack are clamped between these screws. Each screw passes through the mount from the top, through the washer calibration stack, over the housing, and threads into the fixture at the base.
-        A standard 18-8 M5 stainless steel oversized washer sits under each screw head to distribute the clamping load across the mount plate surface. 
-        
-        \begin{table}[H]
-                \centering
-                \caption{Fastener Parameters}
-                \label{tab:fastener_parameters}
-                \begin{tabularx}{\textwidth}{l X l}
-                    \toprule
-                    \textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-                    \midrule
-                    Fastener &
-                    M5 Black-oxide alloy steel socket head screw &
-                    McMaster 91290A254
-                        \\\addlinespace
-                    $A_t$ &
-                    Tensile stress area &
-                    14.1$mm^2$
-                    \\\addlinespace
-                    $S_p$ &
-                    Proof load stress &
-                    970 MPa
-                    \\\addlinespace
-                    $\alpha_{Invar}$ &
-                    CTE of Invar &
-                    $1.20 \times 10^{-6} \, \degC$
-                    \\\addlinespace
-                    $H$ &
-                    Mount height &
-                    88.9 mm
-                    \\\addlinespace
-                    $\alpha_{Aluminum}$ &
-                    CTE of aluminum actuator &
-                    $23.6 \times 10^{-6} \, \degC$
-                        \\\addlinespace
-                    $\Delta{T}$ &
-                    Max displacement from reference &
-                    85 $\degC$
-                    \\\addlinespace
-                    F &
-                    Axial actuation force &
-                    168.96 N
-                    \\\bottomrule
-                \end{tabularx}
-            \end{table}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_DFMEA_reqs_1.png}
+        \caption{DELETE BEFORE SUBMISSION}
+        \label{fig:del_DFMEA_1}
+    \end{figure}
 
-        Using the proof load equation, we can calculate the total capacity of force for the joint:
-        \[ F_{bolt} = A_t \times S_p \]
-        Plugging in the values from the table:
-        \[ F_{bolt} = \SI{14.2e-6}{\metre\squared} \times 970 \times {MN/m^2} = 13.774 \ \text{kN} \]
-
-        For a total of eight screws:
-         \[ F_{total} = 8 \times \SI{14.2e-6}{\metre\squared} \times 970 \times {MN/m^2} = 110.192 \ \text{kN} \]
-
-        The maximum external separating load on the joint is the actuator force of 168.96 N. The factor of safety against the joint separation is:
-        \[ FOS_{bolt} = F_{total} / F = 81.5 \]
-        
-        The bolted joint is more than capable of receiving the actuator load. The M5 fastener size was selected not for the structural necessity but for standardization, ease of assembly, and compatibility with the shim washer stack geometry.
-
-        \subsubsection{Fasteners Preload Stability}
-        The fasteners (alloy steel, \( \alpha \approx 11.5 \times 10^{-6} /^\circ\text{C} \)) pass through the Invar 36 mount plates (\( \alpha = 1.30 \times 10^{-6} /^\circ\text{C} \)), 
-        the steel shim washers (\( \alpha \approx 12.0 \times 10^{-6} /^\circ\text{C} \)), and thread into the fixture. The CTE mismatch between the fastener and the Invar mount means the bolt will expand more than the clamped material over the joint grip length. 
-        The worst-case thermal preload shift occurs at the cold extreme of \( -60^\circ\text{C} \), representing \( \Delta T = 85^\circ\text{C} \) below the reference. For a grip length on the order of \( 25 \text{ mm} \), the differential expansion between the bolt and the Invar is:
-        \(\Delta\delta = L_{\text{grip}} \cdot (\alpha_{\text{bolt}} - \alpha_{\text{Invar}}) \cdot \Delta T = 25 \times (11.5 - 1.30) \times 10^{-6} \times 85 \approx 0.022 \text{ mm} = 22 \text{ µm}\)
-
-        This $22 \, \mu\text{m}$ of differential expansion will slightly increase bolt preload at low temperatures and slightly decrease it at elevated temperatures. 
-        Given that the proof load per bolt ($13.774 \ \text{kN}$) exceeds the per-bolt share of the actuator load ($168.96 / 8 \approx 21.1 \, \text{N}$) by a factor of $6.52 \times 10^8$, this preload variation does not threaten joint integrity. 
-
-
-
-
-        % \subsection{Calibration Stack}
-        % \subsection{Fasteners}
-        
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_DFMEA_reqs_2.png}
+        \caption{DELETE BEFORE SUBMISSION}
+        \label{fig:del_DFMEAE_2}
+    \end{figure}
 
 
 
 
 
-    
 
-    \section{Subsystem Interaction}
-    
+
+\chapter{Model Verification}
+\label{sec:Test}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_test_reqs.png}
+        \caption{DELETE BEFORE SUBMISSION}
+        \label{fig:del_test}
+    \end{figure}
+
+\chapter{Conclusion}
+\label{sec:Concl}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_concl_reqs.png}
+        \caption{DELETE BEFORE SUBMISSION}
+        \label{fig:del_concl}
+    \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \chapter{Cited References}
+% \label{sec:references}
+
+% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
+% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
+%
+% The [99] tells LaTeX the widest label will be two digits.
+
+\begin{thebibliography}{99}
+
+    \bibitem{ref_sandiaprompt}
+    B.\ Bon,
+    ``Passive Temperature Compensation Device --- Project Prompt,''
+    Sandia National Laboratories, SAND2025-15446O, 2025.
+
+    \bibitem{asme_b313}
+    American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+    ASME, New York, NY, 2022.
+
+    \bibitem{steen2010laser}
+    W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+    Springer, London, UK, 2010.
+
+    \bibitem{aws2020welding}
+    American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
+    AWS, Miami, FL, 2020.
+
+    \bibitem{miniflex_design}
+    Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
+    Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+    [Accessed: Mar. 2026].
+
+    \bibitem{muraca1972aluminum}
+    R.\ F.\ Muraca and J.\ S.\ Whittick,
+    \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed.,
+    Western Applied Research \& Development, Inc.,
+    NASA CR-123772, May 1972.
+    Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
+    [Accessed: Mar. 2026].
+
+    \bibitem{matweb}
+    MatWeb, LLC, \textit{MatWeb Material Property Data}, 
+    [Online]. Available: \url{https://www.matweb.com}, 
+    Accessed: March 20, 2026.
+
+    \bibitem{ref_Nise}
+    N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+
+    \bibitem{ref_Figliola}
+    R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
+
+    \bibitem{ref_carpentertechnology}
+    Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf.}
+    [Accessed: Mar. 20, 2026].
    
-    The three subsystems of the PTCD form an open-loop control chain as depicted in Figure \ref{fig:controls_diagram}. Each subsystem has inputs within the system transfer function, and the interactions between them define the net behavior of the device. This section describes the mechanical and thermal interfaces between subsystems and identifies the coupling effects that each must account for.
+    \bibitem{ref_AZoM}
+     AZoM, "Properties: Invar — Nickel Iron Alloy," AZoM.com. \url{https://www.azom.com/properties.aspx?ArticleID=515.}
+    [Accessed: Mar. 20, 2026].
+
+    \bibitem{ref_AircraftMaterials}
+    Aircraft Materials Ltd., "Invar 36 / Nilo 36 / Alloy 36 (ASTM F1684)," AircraftMaterials.com. \url{https://www.aircraftmaterials.com/data/nickel/al36.html. }
+    [Accessed: Mar. 20, 2026].
+
+    \bibitem{ref_ISO}
+    International Organization for Standardization, "Mechanical properties of fasteners made of carbon steel and alloy steel — 
+    Part 1: Bolts, screws and studs with specified property classes — Coarse thread and fine pitch thread," ISO 898-1:2013, Geneva, Switzerland, 2013.
+
+    \bibitem{ref_ASM}
+    ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
     
-    \subsection{Mount–Actuator Interface}
-    The actuator block is welded to the interior top face of the mount. This weld joint defines the fixed boundary condition from which the actuator expands downward. Because both the mount and actuator are exposed to the same ambient temperature, both undergo thermal expansion simultaneously. The mount expands downward from its anchor at the fixture toward the valve, while the actuator expands downward from its anchor at the top of the mount toward the valve stem. 
-    These two expansions oppose one another: the mount's growth effectively raises the actuator's anchor point relative to the valve housing, reducing the net stroke delivered to the valve. The net displacement is therefore:
-    $$ \delta_{\text{net}} = L_{\text{act}} \cdot \alpha_{\text{Al}} \cdot \Delta T - H_{\text{mount}} \cdot \alpha_{\text{Invar}} \cdot \Delta T $$
-    The selection of Invar 36 for the mount minimizes the opposing direction of expansion. At $-60\,^\circ\text{C}$, the mount contributes only $\alpha_{\text{Invar}} \cdot H \cdot \Delta T = (1.2 \times 10^{-6})(88.9)(85) \approx 9.1\,\mu\text{m}$ of opposing displacement, 
-    compared to the actuator's expansion of approximately $162\,\mu\text{m}$ over the same interval. The actuator length $L_0 = 84.335\,\text{mm}$ was sized to deliver the required net stroke after subtracting this mount expansion.
-
-    \subsection{Actuator–Valve Interface}
-    The lower end of the actuator is laser welded directly to the valve stem. This rigid connection transmits the actuator's thermal displacement to the translating orifice plate with a unity gain of $dX/dL = 1$. The displacement delivered by the actuator is identically the displacement received by the valve plate. This direct coupling eliminates backlash and hysteresis that would arise from 
-    intermediate mechanical interfaces. However, it also means that the valve's reaction force is transmitted directly back into the actuator. The bellows spring force of $F_s = 168.96\,\text{N}$ at full stroke compresses the 
-    actuator axially. This deflection is negligible, but is carried upward through the actuator into the mount. This must be stiff enough to absorb it without measurable deflection of its own.
-
-    \subsection{Mount–Valve Interface} 
-    The mount sits on top of the valve housing, separated by the calibration shim stack. The vertical distance from the interior top face of the mount to the orifice plate defines the reference offset $X(T_{\text{ref}})$. This distance governs the constant $A_0$ in: $$\requiredRelationship$$ The shim washers between the mount and housing enable 
-    adjustment during final assembly to bring $X(T_{\text{ref}})$ within the specified $\pm 5\,\mu\text{m}$ of its target value. The eight M5 fasteners clamp the mount, shim stack, and housing together as a rigid unit, ensuring 
-    that the calibrated offset does not shift under thermal cycling or the actuator's reaction load.
-
-    \subsection{Thermal Coupling}
-    \label{subsec:sub_int}
-
-    All three subsystems are exposed to the ambient air temperature, which is the sole input to the control system. The valve housing thermally isolates the actuator from the internal gas flow. The $10\,\text{mm}$ steel 
-    wall thickness ensures that the potential temperature difference between the gas and the ambient air does not propagate to the actuator. The valve stem, fabricated from Invar 36, provides 
-    additional thermal resistance between the pressurized interior and the actuator. 
-
-
-
-    \section{System Compliance}
-    \label{subsec:sys_comp}
-
-        Recall that the system transfer function is 
-        
-        $\transferFunction$ \quad (eq. \eqref{eq: transfer_function})
-        
-        which must equal the required relationship
-
-        $\requiredRelationship$ \quad (eq. \eqref{eq: required_relationship})
-
-        to the given tolerance. Let us consider the worst-case scenario in which each core responsibility is at the maximum limit of tolerable error.
-        The error in height of the orifice, X(T), is the sum of the greatest errors in the system. We have calculated the following dimensional or operational deviations throughout the Discussion:
-        
-        \begin{itemize}
-            \item The height of the mount from drawing M2: $122.476\,{}^{+0}_{-0.01} mm$
-            \item The length of the actuator from drawing A1: $84.335 \pm 0.005mm$
-            \item The thermal expansion error of the actuator: $162.35\,{}^{+2.4}_{-0} \mu m$
-            \item Actuator compression due to bellows force (this will be in the opposite direction of the other deviations, cancelling them partially): $0.3 \mu m$
-            \item Valve stem compression due to bellows force (this will also negate the other error values): $5 \mu m$
-            \item The dimensional length of the valve stem (because the tolerance only allows the length to err too short, this will also detract from the total error): $24.041\,{}^{+0}_{-0.01} mm$
-            \item Most significantly, the thermal expansion of the mount will decrease the orifice height by: $12.5 \mu m$
-        \end{itemize}
-
-        These sum up to 
-        $(10 + 5 + 2.4 - 0.3 - 5 - 10 - 12.5) = -10.4 \mu m$
-
-        Because $D_{\text{effective}} = \sqrt{\frac{2}{\pi}}*X(T)$, the maximum error in the Required Relationship, according to these specifications, is
-        $\sqrt{\frac{2}{\pi}}*(10.4 \mu m) = 8.3 \mu m$. This is within the tolerance specification for all temperatures.
-        As stated in Section \ref{sec:initial_system_requirements} and Appendix \ref{app:errorProp}, the minimum tolerance is 12.7 $\mu$m.
-        This leaves enough room for unseen errors.
-
-        Note that this calculation makes a number of first-order assumptions, which will be refined early next quarter as the computational model is optimized.
-        These assumptions included the following:
-
-        \begin{itemize}
-            \item The square orifice will have a negligible fillet radius via high-precision manufacturing techniques. These methods will be researched in the coming weeks.
-            \item The thermal expansion of the valve housing will be negligible.
-            \item Several dimensional tolerances were ignored.
-        \end{itemize}
-
-        However, this provides a first-order approximation that if this iteration is not within tolerance, it will at least be close.
-        
-        % \begin{table}[H]
-        %     \centering
-        %     \caption{Control derivative tolerances}
-        %     \label{tab:tol_final}
-        %     \begin{tabular}{cc}
-        %         \toprule
-        %         $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}} \pm \dDdXTol$ \\
-        %         $\frac{dX}{dL} = 1 \pm \dXdLTol$ \\
-        %         $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ \\
-        %         $ dud $ \\
-        %         \bottomrule
-        %     \end{tabular}
-        % \end{table}
-
-            
-
 
     
+
+
+
+    % Add more \bibitem entries as needed.
+    % In the body text, cite as: \cite{ref_sandiaprompt}
+
+\end{thebibliography}
+
+
 % ============================================================================
-% SECTION 4: PRELIMINARY BILL OF MATERIALS
+% APPENDICES
 % ============================================================================
-% GRADING: Section V — 10 points
-%   "All parts included, each part belongs to a sub system,
-%    accurate costs, all info included"
-%
 % TEMPLATE GUIDANCE:
-%   - TABLE FORMAT (mandatory)
-%   - Include: part numbers, part names, quantity, material,
-%     purchased vs fabricated, supplier name/part number if purchased
-%   - For fabricated parts: size and cost of raw material
-%   - Include any special tooling that must be purchased
-%   - Must be complete enough to release your budget for Spring quarter
+%   - Label and title every appendix
+%   - You MUST refer to each appendix in the body of the report
+%   - Include: working drawings, product sheets, price quotes,
+%     updated requirements table, scoring matrices, etc.
 %
-% ESTIMATED LENGTH: 1-2 pages
-%
-% TIP: The longtable environment is used here because the BOM may
-% span multiple pages. Regular tabular would break across pages poorly.
+% IMPORTANT: Appendices don't count toward estimated page lengths
+% of other sections, so put detailed tables and drawings here.
 % ============================================================================
 
-\chapter{Del: Preliminary Bill of Materials [Copy elements into Section \ref{sec:Arch}]}
-\label{sec:bom}
+\newpage
+\begin{appendices}
+\appendix
 
-%--- BEGIN CONTENT ---
+\chapter{Calculations}
+\label{app:calcs}
 
-    Sandia National Labs awarded our team \$2,000 to manufacture and test a prototype of the \device.
-    Due to the extreme precision and conditions required for our design, the prototype will serve as a first-order approximation to the real device.
-    SNL explicitly gave us no budget cap for the final design package, giving us liberty to recommend more expensive and exotic materials, manufacturing methods, and testing procedures after we test this cheaper prototype next quarter.
-    Note that this bill of materials (BOM) covers material costs only and remains subject to revision. Funds for the project were awarded in close proximity to the report's due date allowing for manufacturer selection to be completed early next quarter. The team is actively engaged with manufacturers to obtain quotes for the precision machining required for several components. 
-    These manufacturing costs, along with testing apparatus procurement, will constitute the remainder of the projected budget. The total cost presented here should therefore be considered a preliminary estimate, with the final project 
-    cost to be updated upon receipt of manufacturing quotes early next quarter.
+    \todo{Include any overfill from the main body of the report to keep it under 50 pages.}
 
-    %\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+    \section{Error Propagation Calculation}
+    \label{app:errorProp}
+
+        As detailed in Section \ref{sec:initial_system_requirements}, the Required Relationship
+
+            $$ \requiredRelationship $$
+
+        depends on the following independent variables, each with their own tolerance values:
+
+            \begin{align*}
+                &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+                \\
+                &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+            \end{align*}
+
+        The tolerance of $D_{\text{effective}}$ as a function of temperature can be found using the following formula:
+
+            \begin{equation}
+                D_{\text{eff}} = \overline{D_{\text{eff}}}(T) \pm u_D(T)
+            \end{equation}
+
+        such that
+
+            \begin{equation}
+                u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+                \label{eq:KM_gen}
+            \end{equation}
+
+        We can find these values as follows:
+
+            \begin{align}
+                &\theta_{A_1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
+                \\
+                &u_{A_1} = (5\%)(\SI{-1.52e-6}{m \per \degreeCelsius}) = \SI{-7.62e-8}{} \frac{m}{\degC}
+                \\
+                &\theta_{A_0} = \frac{\partial D_{\text{eff}}}{\partial A_0} = 1
+                \\
+                &u_{A_0} = (5\%)(\SI{2.54e-4}{m}) = \SI{1.27e-5}{m}
+            \end{align}
+
+        Plugging these into \eqref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
+
+            \begin{equation}
+                u_{D_{\text{eff}}} = \sqrt{\left( (\SI{-7.62e-8}{} \frac{m}{\degC}) (T-T_{\text{ref}}) \right)^2 + \left( \SI{1.27e-5}{m} \right)^2}
+            \end{equation}
+
+        Therefore, the complete Required Relationship reduces to equations \eqref{eq:RR_symb} and \eqref{eq:RR_full} in symbolic and numeric form, respectively.
+
+            \begin{align}
+                D_{\text{effective}} &= A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \notag \\
+                    &\quad \pm \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
+                \\[6pt]
+                D_{\text{effective}} &= \SI{-1.52e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{2.54e-4}{\meter} \notag \\
+                    &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
+            \end{align}
+
+        Equation \eqref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
+        As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        legend pos=north east,
+                        xlabel={$T$},
+                        ylabel={$D_{\text{eff}}$},
+                    ]
+                        \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures3/D.csv};
+                        \addlegendentry{$\overline{D}(T)$}
+
+                        \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/D.csv};
+                        \addlegendentry{Upper limit}
+
+                        \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/D.csv};
+                        \addlegendentry{Lower limit}
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$D_{\text{eff}}$ with tolerable deviation}
+                \label{fig:errorpropboundary}
+            \end{figure}
+
+        However, if we plot the tolerance alone, as in Figure \ref{fig:errorpropvariation}, we see that $u_{D_{\text{eff}}}$ varies slightly with temperature.
+        Its minimum is at $T_{\text{ref}}$, which motivated the decision to ensure minimum error at this temperature.
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        xlabel={$T$},
+                        ylabel={$u_{D_{\text{eff}}}$},
+                    ]
+                        \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures3/u_D.csv};
+
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$u_{D_{\text{eff}}}$ variation with T}
+                \label{fig:errorpropvariation}
+            \end{figure}
+
+        Finally, the tolerance boundaries for $X(T)$ can be easily found by multiplying every value by $X = \sqrt{\frac{\pi}{2}} D_{\text{eff}}$,
+        which relationship is derived in Appendix \ref{app:orifice_geometry}.
+
+            \begin{align}
+                X &= \sqrt{\frac{\pi}{2}} \left( A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \right) \notag \\
+                    &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb_X}
+                \\[6pt]
+                X &= \SI{-1.91e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{3.18e-4}{\meter} \notag \\
+                    &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full_X}
+            \end{align}
+
+        As in Figures \ref{fig:errorpropboundary} and \ref{fig:errorpropvariation}, the same can be shown for $X(T)$ in Figures \ref{fig:errorpropboundary_X} and \ref{fig:errorpropvariation_X}.
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        legend pos=north east,
+                        xlabel={$T$},
+                        ylabel={$X(T)$},
+                    ]
+                        \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures3/X.csv};
+                        \addlegendentry{$\overline{X}(T)$}
+
+                        \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/X.csv};
+                        \addlegendentry{Upper limit}
+
+                        \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/X.csv};
+                        \addlegendentry{Lower limit}
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$X(T)$ with tolerable deviation}
+                \label{fig:errorpropboundary_X}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        xlabel={$T$},
+                        ylabel={$u_X$},
+                    ]
+                        \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures3/u_X.csv};
+
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{$u_X$ variation with T}
+                \label{fig:errorpropvariation_X}
+            \end{figure}
 
 
-%--- END CONTENT ---
+        This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
+        such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
+        $$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
+        where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \overline{x}_i}$ \cite{ref_Figliola}.
 
 
-% ============================================================================
-% SECTION 5: PROJECT MANAGEMENT INFORMATION
-% ============================================================================
-% GRADING: Section VI — 15 points total
-%   6.1) Appropriate tasks identified over 2 quarters (5.0 pts)
-%   6.2) Updated Gantt chart for 2 quarters (5.0 pts)
-%   6.3) Critical path method (CPM) analysis (5.0 pts)
-%
-% TEMPLATE GUIDANCE:
-%   - Task list must be specific to YOUR project and design
-%   - Gantt chart must span BOTH quarters (Fall through Spring)
-%   - CPM must be in graphical format with a paragraph description
-%   - If permits or PE sign-offs are needed, note them here
-%
-% ESTIMATED LENGTH: 3-4 pages (could be longer)
-% ============================================================================
+
+    \section{Orifice Geometry}
+    \label{app:orifice_geometry}
+
+        The orifice, as defined in Section \ref{sec:sys_arch_overview} and depicted in Figure \ref{fig: orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=2in]{orifice.png}
+            \caption{Orifice geometry, repeated}
+            \label{fig:orifice_rep}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=2in]{orifice_detailed.png}
+            \caption{Orifice geometry, detailed}
+            \label{fig:orifice_detailed}
+        \end{figure}
+
+        The effective diameter, as defined in equation \eqref{eq:d_eff}, equals the diameter of a circle with equivalent area.
+        Thus, the height of the orifice X as defined in Figures \ref{fig: orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
+        can be related to the effective diameter as follows:
+
+            $$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
+            $$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
+            $$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
+
+        Therefore,
+
+            $$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
 
 
-    \end{appendices}
+
+\chapter{Manufacturing and Operation}
+\label{app:mfg}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_app_reqs_1.png}
+        \caption{DELETE BEFORE SUBMISSION}
+        \label{fig:del_app_reqs_1}
+    \end{figure}
+
+\chapter{Engineering Drawing Package}
+\label{app:drawings}
+
+    \todo{Some description}
+
+    %\includepdf[pages=1-??, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
+
+
+\chapter{Data Sheets}
+\label{app:datasheets}
+
+The following data sheets are included below:
+
+\begin{enumerate}
+    \item Mini-Flex bellows (excerpts from their 2026 catalog)
+\end{enumerate}
+
+
+%\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
+\todo{Include all relevant material and product data}
+
+
+% --- Appendix D: Detailed Calculations ---
+
+\chapter{Project Management}
+\label{sec:project_management}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{Del_app_reqs_2.png}
+        \caption{DELETE BEFORE SUBMITTING}
+        \label{fig:del_app_reqs_2}
+    \end{figure}
+
+\todo{Update to final task list (from spreadsheet) and Gantt chart. As listed in template, tell the story of this quarter. We should all participate in this.}
+
+\begin{table}[h]
+\caption{Task List for Winter and Spring Quarters}
+\centering
+\begin{tabular}{@{} c l @{}}
+\toprule
+\textbf{\#} & \textbf{Task Description} \\
+\midrule
+\multicolumn{2}{c}{\textbf{Winter Quarter}} \\
+\midrule
+1  & Prepare Questions for Sponsors \\
+2  & First Memo Report \\
+3  & Sponsor Meeting (Recurring) \\
+4  & Define Problem Statement \\
+5  & Research Potential Solutions \\
+6  & Second Memo Report \\
+7  & Fully Define Design Space \\
+8  & Third Memo Report \\
+9  & Problem Statement \\
+10 & Project Specifications \\
+11 & Presentation of Alternative Solutions \\
+12 & Preliminary Calculations \\
+13 & Final Designs \\
+14 & Report Revision \\
+15 & Subsystem Delegation \& Communication \\
+16 & Performance Calculations \\
+17 & Design Refinement \\
+18 & Establish Sub-component Geometry \\
+19 & CAD \\
+20 & Fourth Memo Report \\
+21 & Subsystem Integration \& Team Coordination \\
+22 & Finalize Machine Architecture \\
+23 & System Architecture \\
+24 & Discussion \\
+25 & Project Management \\
+26 & Bill of Materials \\
+27 & Abstract \\
+28 & Report Revision \& Submission \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{} c l @{}}
+\toprule
+\textbf{\#} & \textbf{Task Description} \\
+\midrule
+\multicolumn{2}{c}{\textbf{Spring Quarter}} \\
+\midrule
+29 & Assess Manufacturable Components \\
+30 & Order Materials \\
+31 & Sponsor Preliminary Design Review \\
+32 & Tolerance Stack-up Analysis \\
+33 & CAD Revisions \\
+34 & FEA (Actuator, Valve, Gears) \\
+35 & CFD (Valve) \\
+36 & Thermal Analysis \\
+37 & Design Revision \\
+38 & Safety/Risk Assessment \\
+39 & Rapid Prototyping/Machining \\
+40 & Finish POC Model \\
+41 & Complete Product Demonstration \\
+42 & Draft Poster Design \\
+43 & Final Report \\
+44 & Final Poster Design \\
+45 & Critical Design Reviews \\
+46 & Design Showcase \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+% --- 5.2: Gantt Chart ---
+\section{Gantt Chart}
+\label{subsec:gantt}
+
+    An updated Gantt chart is provided below, spanning both the Winter and Spring quarters. 
+    The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
+    The vertical line represents the current date.
+
+% \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
+
+
+\end{appendices}
 
 \end{document}
