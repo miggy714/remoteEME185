@@ -471,13 +471,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 \begin{itemize}
     \item Outlines design motivation, objectives, and selected architecture
-    \item Defines the complete system transfer function
-    \item Analytically demonstrates that the control system produces the required output
+    \item Defines the passive, open-loop control system transfer function
+    \item Analytically demonstrates that the required output will be achieved
     \item Identifies likely sources of error
     \item Numerically verifies the predicted system performance
+    \item Provides all information needed for further development, including shop drawings, material data, the bill of materials, and vendors for all parts
 \end{itemize}
-
-It includes a full drawing package, bill of materials, product data sheets, and vendor contact information.
 
 \todo{Report body may not exceed 50 pages.}
 
@@ -1953,6 +1952,10 @@ expansion and the resisting forces have negligible effect on actuator length.
         \label{fig:del_test}
     \end{figure}
 
+    \todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype.}
+
+    \todo{Bonus: propose physical tests -- the ones we were going to do with our own prototype}
+
 \chapter{Conclusion}
 \label{sec:Concl}
 
@@ -2323,91 +2326,39 @@ The following data sheets are included below:
         \label{fig:del_app_reqs_2}
     \end{figure}
 
-\todo{Update to final task list (from spreadsheet) and Gantt chart. As listed in template, tell the story of this quarter. We should all participate in this.}
+    Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spand a year to develop.
+    We developed five distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
+    Through it all, our team learned more about engineering design and project management than we ever dreamed of. This design program equipped us for industry work far better than we could have asked or imagined.
 
-\begin{table}[h]
-\caption{Task List for Winter and Spring Quarters}
-\centering
-\begin{tabular}{@{} c l @{}}
-\toprule
-\textbf{\#} & \textbf{Task Description} \\
-\midrule
-\multicolumn{2}{c}{\textbf{Winter Quarter}} \\
-\midrule
-1  & Prepare Questions for Sponsors \\
-2  & First Memo Report \\
-3  & Sponsor Meeting (Recurring) \\
-4  & Define Problem Statement \\
-5  & Research Potential Solutions \\
-6  & Second Memo Report \\
-7  & Fully Define Design Space \\
-8  & Third Memo Report \\
-9  & Problem Statement \\
-10 & Project Specifications \\
-11 & Presentation of Alternative Solutions \\
-12 & Preliminary Calculations \\
-13 & Final Designs \\
-14 & Report Revision \\
-15 & Subsystem Delegation \& Communication \\
-16 & Performance Calculations \\
-17 & Design Refinement \\
-18 & Establish Sub-component Geometry \\
-19 & CAD \\
-20 & Fourth Memo Report \\
-21 & Subsystem Integration \& Team Coordination \\
-22 & Finalize Machine Architecture \\
-23 & System Architecture \\
-24 & Discussion \\
-25 & Project Management \\
-26 & Bill of Materials \\
-27 & Abstract \\
-28 & Report Revision \& Submission \\
-\bottomrule
-\end{tabular}
-\end{table}
+    Our sponsor provided us with clear, unchanging system requirements and threw us very few curveballs. We are grateful for this. However, owing to the need for iterative design improvements, our project prognosis underwent the following radical pivots throughout the design process:
 
-\newpage
+    \begin{enumerate}
+        \item Our initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure \ref{fig:hexagon}).
+                As we further developed the model in preparation for the Preliminary Machine Architecture Report, our team determined that this complex mechanism carried too many moving parts and sources of friction and error to achieve the microscopic diameter and extreme tolerance required in our objectives.
+                We held an emergency meeting to consider our alternatives and settled on a new architecture we had not thought of before, the diamond-overlap orifice described throughout this report.
+        \item On March 11, nine days before the due date of 
+        \item Gear to direct
+        \item Changed mount
+        \item Unfunds
+    \end{enumerate}
 
-\begin{table}[h]
-\centering
-\begin{tabular}{@{} c l @{}}
-\toprule
-\textbf{\#} & \textbf{Task Description} \\
-\midrule
-\multicolumn{2}{c}{\textbf{Spring Quarter}} \\
-\midrule
-29 & Assess Manufacturable Components \\
-30 & Order Materials \\
-31 & Sponsor Preliminary Design Review \\
-32 & Tolerance Stack-up Analysis \\
-33 & CAD Revisions \\
-34 & FEA (Actuator, Valve, Gears) \\
-35 & CFD (Valve) \\
-36 & Thermal Analysis \\
-37 & Design Revision \\
-38 & Safety/Risk Assessment \\
-39 & Rapid Prototyping/Machining \\
-40 & Finish POC Model \\
-41 & Complete Product Demonstration \\
-42 & Draft Poster Design \\
-43 & Final Report \\
-44 & Final Poster Design \\
-45 & Critical Design Reviews \\
-46 & Design Showcase \\
-\bottomrule
-\end{tabular}
-\end{table}
+    We learned a ton about tackling complex engineering challenges in a short time
+    1-yr project in 6 months with no experience, all-or-nothing objective, changing parameters
 
+    All told, sponsor was very agreeable and did not throw us many curveballs
+    However, we underwent the following changes:
 
-% --- 5.2: Gantt Chart ---
-\section{Gantt Chart}
-\label{subsec:gantt}
+    Hexagon to pizza cutter
+    Given funds, started planning prototype
+    Gear to straight mount
+    Changed mount geometry
+    Could not afford; full pivot back to comp model
 
-    An updated Gantt chart is provided below, spanning both the Winter and Spring quarters. 
-    The chart includes all major tasks and milestones identified in the task list, with dependencies clearly indicated. 
-    The vertical line represents the current date.
+    \todo{Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}
 
-% \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
+    % \includepdf[pages=1, fitpaper=true, landscape=true]{TaskList.pdf}
+
+    % \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
 
 
 \end{appendices}
