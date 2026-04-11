@@ -29,6 +29,8 @@
 \usepackage{amsmath}% The standard package for equations. Adds align, equation*, etc.
 \usepackage{amssymb}% Extra math symbols (e.g., \therefore, \because, \pm).
 \usepackage{siunitx}% Proper formatting for SI units.
+\sisetup{per-mode=fraction}
+\sisetup{exponent-product=\cdot}
 % Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
 % This ensures consistent unit formatting throughout the document.
 % ---------- Cross-Referencing & Links ----------
@@ -2327,7 +2329,7 @@ The following data sheets are included below:
     \end{figure}
 
     Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spand a year to develop.
-    We developed five distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
+    We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
     Through it all, our team learned more about engineering design and project management than we ever dreamed of. This design program equipped us for industry work far better than we could have asked or imagined.
 
     Our sponsor provided us with clear, unchanging system requirements and threw us very few curveballs. We are grateful for this. However, owing to the need for iterative design improvements, our project prognosis underwent the following radical pivots throughout the design process:
@@ -2336,23 +2338,63 @@ The following data sheets are included below:
         \item Our initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure \ref{fig:hexagon}).
                 As we further developed the model in preparation for the Preliminary Machine Architecture Report, our team determined that this complex mechanism carried too many moving parts and sources of friction and error to achieve the microscopic diameter and extreme tolerance required in our objectives.
                 We held an emergency meeting to consider our alternatives and settled on a new architecture we had not thought of before, the diamond-overlap orifice described throughout this report.
-        \item On March 11, nine days before the due date of 
-        \item Gear to direct
-        \item Changed mount
-        \item Unfunds
+        \item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at SNL for prototype funds amounting to \$2,000.
+                With the sudden responsibility of determining whether we could manufacture the device ourselves, quickly drew up a machining and assembly plan to ensure our model would be ready for purchase by the time we submitted the report.
+                We met with our machine shop manager the next day to ask for his input and inadvertently won a full-hour design review. Beyond valuable insight into strategies and off-campus resources for performing the more difficult machining operations
+                (i.e. the EDM cuts and laser-welded assembly), he gave his input on the reliability of our current actuator-valve interface. Our current model used a double rack-and-pinion (Figure \ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device 's longest dimension.
+                Heeding his advice, after confirming with our sponsor that the Mechanical Envelope could be stretched, we replaced the geared interface with a direct connection, supporting the actuator vertically with a solid-state mount (Figure \ref{fig:trap_mount}).
+        \item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, was hastily designed when we replaced the geared interface.
+                It was unnecessarily complex, difficult to machine, and long enough that its thermal expansion would counteract the thermal actuation.
+                We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, Allvar, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
+                This yielded the final mount architecture, seen in Figure \ref{fig:cyl_mount}.
+        \item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the Allvar mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and laser weld methods,
+                We consulted with our sponsor, who confirmed that a physical prototype was no longer worth testing after deviating so far from the final design.
+                Thus, we pivoted to a fully computation model for our prototype testing.
+                While it may seem the physical model was a wasted effort, we produced a better design for having prepared to manufacture it ourselves.
+                The knowledge that we had to build the \device\ ourselves gave us a real sense fo responsibility for the performance of our design.
+                Without it, we would likely have never changed the rack-and-pinion interface or resolved countless manufacturing and assembly issues that we later identified. 
     \end{enumerate}
 
-    We learned a ton about tackling complex engineering challenges in a short time
-    1-yr project in 6 months with no experience, all-or-nothing objective, changing parameters
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Hexagon.png}
+            \caption{Hexagonal Diaphragm}
+            \label{fig:hexagon}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Gears.png}
+            \caption{Rack-and-Pinion Interface}
+            \label{fig:gears}
+        \end{subfigure}
 
-    All told, sponsor was very agreeable and did not throw us many curveballs
-    However, we underwent the following changes:
+        \vspace{1em}
 
-    Hexagon to pizza cutter
-    Given funds, started planning prototype
-    Gear to straight mount
-    Changed mount geometry
-    Could not afford; full pivot back to comp model
+        \begin{subfigure}[t]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Mount_trapz.png}
+            \caption{Direct mount, first iteration}
+            \label{fig:trap_mount}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[t]{0.45\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{Mount_cyl.png}
+            \caption{Cylindrical Allvar Mount}
+            \label{fig:cyl_mount}
+        \end{subfigure}
+
+        \caption{Design Progression}
+        \label{fig:design_prog}
+    \end{figure}
+
+    \todo{Fix these images, make them active}
+
+    Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
+    Our first exposure to real engineering design, this project will be remembered as the high point in our academic journey.
 
     \todo{Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}
 
