@@ -1,11 +1,7 @@
-% ============================================================================
-% SECTION 0: DOCUMENT CLASS AND PREAMBLE
-% ============================================================================
 \documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
 \setcounter{tocdepth}{3}
 % --- PACKAGES: Each one adds a capability to LaTeX ---
 % Think of packages like Python imports or C #includes.
-%Isaiah has entered the chat
 
 
 % ---------- Page Layout ----------
@@ -138,43 +134,35 @@
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
-\newcommand{\tcd}{TCD}              % Temperature Compensation Device
-\newcommand{\degC}{^{\circ}C}    % Degree Celsius symbol, properly formatted
-\newcommand{\psid}{\text{psid}}      % Pressure differential unit
-\newcommand{\sbsInterface}{Interface}
-\newcommand{\sbsValve}{Valve Mechanism}
-\newcommand{\sbsActuator}{Actuator}
+\newcommand{\degC}{^{\circ}\text{C}}    % Degree Celsius symbol, properly formatted
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
-\newcommand{\coldBoundary}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3\ \mu m}
-\newcommand{\hotBoundary}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4\ \mu m}
-\newcommand{\DTref}{D_{\text{effective}} = 292.1 \pm 12.7\ \mu m}
+
+\newcommand{\Dcold}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3\ \mu m}
+\newcommand{\Dhot}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4\ \mu m}
+\newcommand{\Dref}{D_{\text{effective}} = 292.1 \pm 12.7\ \mu m}
+
+\newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
+\newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
+\newcommand{\Tref}{\SI{25}{\degreeCelsius}} %Celcius
+\newcommand{\specTempChange}{\SI{140}{\degreeCelsius}}
+
+\newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
+\newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
+\newcommand{\specLengthChange}{\SI{267.407}{\micro \meter}}
 \newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
-\newcommand{\govInterface}{\Delta S = \frac{R}{r}\Delta L}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
-\newcommand{\govthermalStress}{\Delta L = L_0 \int \alpha(T)\, dt} %idk
-\newcommand{\specTempHigh}{80} %Celcius
-\newcommand{\specTempLow}{-60} %Celcius
-\newcommand{\specTempRef}{25} %Celcius
-\newcommand{\specVol}{10} % Maximum volume in cm^3
-\newcommand{\specPressure}{68.95}%  68.94757 MPa
-\newcommand{\specDeffLow}{0.17018} %mm
-\newcommand{\specDeffHigh}{0.38354} %mm
+\newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
 \newcommand{\specTolerancePercent}{\pm 5\%}
 \newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
 \newcommand{\specDeffConstTwo}{0.254} %mm
-\newcommand{\specStroke}{0.267} %mm
-\newcommand{\specPressureForceAxial}{\textbf{placeholderaxialforce}} % N
-\newcommand{\specActuatorMaterial}{\textbf{placeholderactuatormaterial}} % No units
-\newcommand{\specActuatorCTE}{22.9 \times 10^{-6} \si{\per\celsius}} % 10^-6/ºC
-\newcommand{\specFriction}{\textbf{placeholderFrictionForce}} % N
+\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} % 10^-6/ºC
+\newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
-\newcommand{\specYoungMActuator}{69 GPa}
-\newcommand{\specCrossSectArea}{0.00090 m^2}
-\newcommand{\specOrigActuatorLength}{84.335 mm}
-\newcommand{\specTempChange}{140 \si{\celsius}}
-\newcommand{\specLengthChange}{0.2674 mm}
+\newcommand{\specYoungMActuator}{\SI{69}{\giga \pascal}}
+\newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
+\newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
 
 % --- Tolerance values for specifications. --- 
 % Fill in with real numbers as we find the relevant values 
@@ -261,7 +249,7 @@
 
             Must not rupture
                 &
-            Withstand a minimum of \specPressure\ MPa internal pressure \\
+            Withstand a minimum of $\specPressure$ internal pressure \\
             
         \hline
 
@@ -393,13 +381,6 @@
 \end{titlepage}
 
 
-% ============================================================================
-% TEAM MEMBER PAGE
-% ============================================================================
-% This page lists all team members, as shown in the Report 2 Template.
-% The grading rubric (Section I) checks that all names are present.
-% ============================================================================
-
 \newpage
 \thispagestyle{empty}  % No header/footer on this page either
 
@@ -431,17 +412,6 @@
     {\large Due \duedate}
 \end{center}
 
-
-% ============================================================================
-% TABLE OF CONTENTS
-% ============================================================================
-% GRADING: Section 1.3 — 5.0 points
-%   "Accurate page numbers, headings and sub-headings used"
-%
-% LaTeX generates this automatically from \section and \subsection commands.
-% You MUST compile TWICE for page numbers to update correctly.
-% ============================================================================
-
 \newpage
 \tableofcontents
 \listoffigures
@@ -452,7 +422,6 @@
 \chapter{Abstract}
 \label{sec:abstract}
 
-%--- BEGIN CONTENT ---
 
 Sandia National Laboratories has tasked our senior design team, 
 the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
@@ -522,9 +491,9 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \\
                 &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
                 \\
-                &T_{\text{reference}} = \specTempRef \degC
+                &T_{\text{reference}} = \Tref \degC
                 \\
-                &T_{\text{ambient}}\ \in\ [\specTempLow, \specTempHigh] \degC 
+                &T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
             \end{align*}
 
         \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
@@ -549,17 +518,17 @@ This Final Design Report illustrates the background, selected architecture, and 
     Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
 
     \begin{equation}
-        \coldBoundary
+        \Dcold
         \label{eq: coldBoundary}
     \end{equation}
     
     \begin{equation}
-        \hotBoundary
+        \Dhot
         \label{eq: hotBoundary}
     \end{equation}
 
     \begin{equation}
-        \DTref
+        \Dref
         \label{eq: DTref}
     \end{equation}
 
@@ -580,8 +549,8 @@ This Final Design Report illustrates the background, selected architecture, and 
     In addition to these requirements, our sponsor supplied us with the following design conditions:
     
     \begin{enumerate}
-        \item The upstream gas pressure $P$ will lie within the range $0.6895\ \text{MPa} \leq P \leq \specPressure\ \text{MPa}$.
-        \item The ambient temperature will vary within the range $-60 \degC \leq T_{\text{ambient}} \leq 80 \degC$.
+        \item The upstream gas pressure $P$ will lie within the range $689.5\ \text{kPa} \leq P \leq \specPressure$.
+        \item The ambient temperature will vary within the range $\Tcold \leq T_{\text{ambient}} \leq \Thot$.
         \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
         \item The gas will be a noble gas or Hydrogen.
         \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
@@ -1313,7 +1282,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                                 \\\addlinespace
                                 $P$ &
                                 Internal pressure &
-                                \specPressure\ MPa
+                                $\specPressure$
                                 \\\addlinespace
                                 $S_y$ &
                                 Yield strength &
@@ -1392,7 +1361,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \midrule
                     $P$ &
                     Internal pressure &
-                    \specPressure\ MPa
+                    $specPressure$
                     \\\addlinespace
                     $D_o$ &
                     Outer diameter &
@@ -1632,7 +1601,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \\\addlinespace
                 $A$ &
                 Cross-sectional area &
-                $\specCrossSectArea$
+                \specCrossSectArea
                 \\\addlinespace
                 $\alpha$ &
                 Coefficient of thermal expansion &
@@ -1644,7 +1613,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \\\addlinespace
                 $\Delta T$ &
                 Temperature change &
-                \specTempChange
+                $\specTempChange$
                 \\\addlinespace
                 $\Delta L$ &
                 Change in length &
@@ -1653,13 +1622,65 @@ This Final Design Report illustrates the background, selected architecture, and 
             \end{tabularx}
         \end{table}
 
+        \todo{Add this in somewhere: calculation of actuator length}
+        \todo{Confirm CTE aluminum}
+
+        The machined length of the actuator (assumed to be at $T_{ref}$, which is very close to room temperature) is a critical dimension. Since the mount will contract as the actuator expands, its length depends on the mount material and the spacing above and below the actuator.
+        A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm. If everything is machined exactly, it will need to be compressed 50 \textmu m upon assembly.
+        If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
+        A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
+
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}[t]{0.5\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Act_dim.png}
+                \caption{Actuator dimension labels}
+                \label{fig:act_dim}
+            \end{minipage}
+            \hfill
+            \begin{minipage}[t]{0.45\textwidth}
+                \todo{Put some of the below text here using minipage}
+            \end{minipage}
+        \end{figure}
+
+        Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
+        a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
+        However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
+        Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
+
+        \begin{align}
+            \Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \\
+            L_{mount} &= t_{wash} + L_{act} + L_{gap}
+        \end{align}
+
+        Plugging in the following values:
+
+        \begin{align*}
+            \alpha_{act} &= \specActuatorCTE \\
+            \alpha_{mount} &= \specMountCTE \\
+            \Delta T &= T_{hot} - T_{cold} = \specTempChange \\
+            \Delta X &= X_{hot} - X_{cold} = \specLengthChange \\
+            t_{wash} &= 0.55\ mm \\
+            L_{gap} &= 5\ mm
+        \end{align*}
+
+        we obtain the following results:
+
+        \begin{align}
+            L_{act} &= \frac{\frac{\Delta X}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
+            &= \frac{\frac{267.407\ \mu m}{140\ \degC} + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+            L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
+        \end{align}
+
+
         \subsection{Specification Compliance}
-    \subsubsection{Specification 1: Thermal Expansion Tolerance}
+    \subsubsection{Specification 1: Actuator thermal Expansion Tolerance}
         \label{subsec:act_spec_1}
 
             The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
-            to its minimum and maximum aperture diameter, $\coldBoundary$ and $\hotBoundary$. To move the plates
-            to these extrema a total stroke length of \specStroke\ mm is required. The governing equation
+            to its minimum and maximum aperture diameter, $\Dcold$ and $\Dhot$. To move the plates
+            to these extrema a total stroke length of $\specLengthChange$ is required. The governing equation
             for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
             dimensions that facilitate this movement. 
 
@@ -1670,7 +1691,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \label{fig:al_alpha}
             \end{figure}            
             
-            Table \label{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+            Table \ref{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
             
             Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
             
@@ -1875,7 +1896,7 @@ expansion and the resisting forces have negligible effect on actuator length.
             \label{tab:mount_specs_disc}
         \end{table}
         \subsection{Specification Compliance}
-        \subsubsection{Specification 1: Dimensional tolerances}
+        \subsubsection{Specification 1: Mount dimensional tolerances}
         \label{subsec:mount_spec_1}
 
         Table \ref{tab:mount_specs_disc} lists again the specifications from Section \ref{subsec:mount_sel_crit}
@@ -2355,42 +2376,38 @@ The following data sheets are included below:
                 Without it, we would likely have never changed the rack-and-pinion interface or resolved countless manufacturing and assembly issues that we later identified. 
     \end{enumerate}
 
-    \begin{figure}[H]
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \begin{subfigure}[t]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Hexagon.png}
-            \caption{Hexagonal Diaphragm}
-            \label{fig:hexagon}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[t]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Gears.png}
-            \caption{Rack-and-Pinion Interface}
-            \label{fig:gears}
-        \end{subfigure}
+        \includegraphics[width=\textwidth]{Hexagon.png}
+        \captionof{figure}{Hexagonal Diaphragm}
+        \label{fig:hexagon}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Gears.png}
+        \captionof{figure}{Rack-and-Pinion Interface}
+        \label{fig:gears}
+    \end{minipage}
 
-        \vspace{1em}
+    \vspace{1em}
 
-        \begin{subfigure}[t]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Mount_trapz.png}
-            \caption{Direct mount, first iteration}
-            \label{fig:trap_mount}
-        \end{subfigure}
-        \hfill
-        \begin{subfigure}[t]{0.45\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{Mount_cyl.png}
-            \caption{Cylindrical Allvar Mount}
-            \label{fig:cyl_mount}
-        \end{subfigure}
-
-        \caption{Design Progression}
-        \label{fig:design_prog}
-    \end{figure}
-
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Mount_trapz.png}
+        \captionof{figure}{Direct Mount, first iteration}
+        \label{fig:trap_mount}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Mount_cyl.png}
+        \captionof{figure}{Cylindrical Allvar Mount}
+        \label{fig:cyl_mount}
+    \end{minipage}
+\end{figure}
     \todo{Fix these images, make them active}
 
     Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
