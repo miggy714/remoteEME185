@@ -157,6 +157,8 @@
 \newcommand{\specTolerancePercent}{\pm 5\%}
 \newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
 \newcommand{\specDeffConstTwo}{0.254} %mm
+\newcommand{\A1}{\specDeffConstOne mm \specTolerancePercent}
+\newcommand{\A0}{\specDeffConstTwo mm \specTolerancePercent}
 \newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} % 10^-6/ºC
 \newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
@@ -482,7 +484,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             
                 \begin{equation}
                     \requiredRelationship
-                    \label{eq: required_relationship}
+                    \label{eq:required_relationship}
                 \end{equation}
 
                 Where:
@@ -513,21 +515,21 @@ This Final Design Report illustrates the background, selected architecture, and 
 
         These are depicted in Figure \ref{fig:mainIsometric}.
 
-        Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
+        Equation \eqref{eq:required_relationship} is characterized by a linear relationship with the following extrema:
 
         \begin{equation}
             \Dcold
-            \label{eq: coldBoundary}
+            \label{eq:coldBoundary}
         \end{equation}
         
         \begin{equation}
             \Dhot
-            \label{eq: hotBoundary}
+            \label{eq:hotBoundary}
         \end{equation}
 
         \begin{equation}
             \Dref
-            \label{eq: DTref}
+            \label{eq:DTref}
         \end{equation}
 
         These tolerance values are derived in Appendix \ref{app:errorProp}.
@@ -774,7 +776,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \label{subsec:act_sel_crit}
 
         The actuator subsystem governs the open-loop control derivative $\frac{dL}{dT}$
-        as defined in Figure \ref{fig:controls_diagram}, and equations \eqref{eq: transfer_function} and \eqref{eq:actuator_control}.
+        as defined in Figure \ref{fig:controls_diagram}, and equations \eqref{eq:transfer_function} and \eqref{eq:actuator_control}.
         Thus, assuming $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}}$ and $\frac{dX}{dL} = -1$ within the valve subsystem
         (which is correct practice when calculating error propagation),
         $\frac{dL}{dT}$ must equal $\sqrt{\frac{\pi}{2}} A_1$.
@@ -938,14 +940,43 @@ This Final Design Report illustrates the background, selected architecture, and 
 
     \todo{TF here (they drive subsystem specs). Replace all hand drawings with nice ones.}
 
+    Remember the two requirements stipulated by SNL:
+
+    \begin{enumerate}
+        \item Satisfy the Required Relationship $\requiredRelationship$
+        \item Do not exceed the Mechanical Envelope of $(10 cm)^3$
+    \end{enumerate}
+
     To derive the subsystem specifications necessary to satisfy the system requirements, one must understand a few details about control systems theory\cite{ref_Nise}.
     A passive control system, such as the \device, can be represented by a simple open-loop diagram as in Figure \ref{fig:controls_gen}.
     Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
-    \todo{In this case, the \device\ "TF" inputs T, outputs D}
+    In this case, the \device\ system inputs the ambient air temperature, converts its value to effective diameter, and ouputs the result.
+    $\hat{G}_sys$, which is known as the system Transfer Function, mathematically represents this physical input-output translation.
+    To satisfy the system requirements, $\hat{G}_sys$ must equal the Required Relationship from equation \eqref{eq:required_relationship}:
+
+        \begin{equation}
+            \hat{G}_sys = A_1 (T-T_{ref}) + A_0 = (\A1)(T-T_{ref}) + (\A0)
+            \label{eq:req_TF}
+        \end{equation}
+
+    Satisfaction of this transfer function, along with the Mechanical Envelope, drives subsystem specification.
+    In order to determine the rolldown from the Required Relationship to its relevant specifications, we must determine the system Transfer Function produced by the architecture described in section \ref{sec:Arch} to ensure that it matches equation \eqref{eq:req_TF}.
+
+    
 
     \begin{figure}[H]
         \centering
         \includegraphics[width=.5\textwidth]{controls_gen.png}
+        \caption{General Passive Open-Loop Controls Diagram}
+        \label{fig:controls_gen}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\textwidth]{TF.png}
+        \caption{Full System Transfer Function}
+        \label{fig:TF}
+    \end{figure}
 
 
 
@@ -969,7 +1000,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
         Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
         According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
-        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq: transfer_function}:
+        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq:transfer_function}:
         
         \begin{equation}
             D = \frac{dD}{dT} \Delta T + D_0
@@ -979,10 +1010,10 @@ This Final Design Report illustrates the background, selected architecture, and 
         
         \begin{equation}
             \transferFunction
-            \label{eq: transfer_function}
+            \label{eq:transfer_function}
         \end{equation}
 
-        This must equal the Required Relationship in equation \eqref{eq: required_relationship}. 
+        This must equal the Required Relationship in equation \eqref{eq:required_relationship}. 
         Therefore,
 
         \begin{equation}
@@ -1026,8 +1057,8 @@ This Final Design Report illustrates the background, selected architecture, and 
         These serve three purposes:
 
         \begin{enumerate}
-            \item To define the component of the system-control transfer function (eq. \eqref{eq: transfer_function}) for which that subsystem is responsible
-            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq: required_relationship}
+            \item To define the component of the system-control transfer function (eq. \eqref{eq:transfer_function}) for which that subsystem is responsible
+            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq:required_relationship}
             \item To limit error that affects the specifications of other subsystems
         \end{enumerate}
 
@@ -1138,7 +1169,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             \end{tabular}
         \end{table}
 
-        $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference: } D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
+        $\left( \text{Equation\ \eqref{eq:transfer_function}, for reference: } D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
 
 
 \chapter{Requirement Satisfaction}
@@ -2156,7 +2187,7 @@ expansion and the resisting forces have negligible effect on actuator length.
         such that
 
             \begin{equation}
-                u_D(T) = \sqrt{\left( \theta_{A1} \cdot u_{A1} \right)^2 + \left( \theta_{A0} \cdot u_{A0} \right)^2}
+                u_D(T) = \sqrt{\left( \theta_{A_1} \cdot u_{A_1} \right)^2 + \left( \theta_{A_0} \cdot u_{A_0} \right)^2}
                 \label{eq:KM_gen}
             \end{equation}
 
