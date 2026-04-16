@@ -64,6 +64,8 @@
 \onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
 %-------- For Box diagrams
 \usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns,intersections}
 \usetikzlibrary{arrows.meta, positioning}
 % ---------- Appendix Support ----------
 \usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
@@ -100,9 +102,6 @@
 }
 %-----------For landscape pages----------
 \usepackage{pdflscape}
-\usepackage{tikz}
-    \usetikzlibrary{patterns}
-    \usetikzlibrary{patterns,intersections}
 \usepackage{pgfplots}
     \pgfplotsset{compat=1.18}
 \usepackage{multirow}
@@ -157,8 +156,8 @@
 \newcommand{\specTolerancePercent}{\pm 5\%}
 \newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
 \newcommand{\specDeffConstTwo}{0.254} %mm
-\newcommand{\A1}{\specDeffConstOne mm \specTolerancePercent}
-\newcommand{\A0}{\specDeffConstTwo mm \specTolerancePercent}
+\newcommand{\Aone}{\specDeffConstOne mm \specTolerancePercent}
+\newcommand{\Azero}{\specDeffConstTwo mm \specTolerancePercent}
 \newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} % 10^-6/ºC
 \newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
@@ -947,229 +946,243 @@ This Final Design Report illustrates the background, selected architecture, and 
         \item Do not exceed the Mechanical Envelope of $(10 cm)^3$
     \end{enumerate}
 
-    To derive the subsystem specifications necessary to satisfy the system requirements, one must understand a few details about control systems theory\cite{ref_Nise}.
-    A passive control system, such as the \device, can be represented by a simple open-loop diagram as in Figure \ref{fig:controls_gen}.
-    Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
-    In this case, the \device\ system inputs the ambient air temperature, converts its value to effective diameter, and ouputs the result.
-    $\hat{G}_sys$, which is known as the system Transfer Function, mathematically represents this physical input-output translation.
-    To satisfy the system requirements, $\hat{G}_sys$ must equal the Required Relationship from equation \eqref{eq:required_relationship}:
+    \section{System Transfer Function}
+    \label{sec:TF}
 
-        \begin{equation}
-            \hat{G}_sys = A_1 (T-T_{ref}) + A_0 = (\A1)(T-T_{ref}) + (\A0)
-            \label{eq:req_TF}
-        \end{equation}
+        To derive the subsystem specifications necessary to satisfy the system requirements, one must understand a few details about control systems theory\cite{ref_Nise}.
+        A passive control system, such as the \device, can be represented by a simple open-loop diagram as in Figure \ref{fig:TF_gen}.
+        Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
+        In this case, the \device\ system inputs the ambient air temperature, converts its value to effective diameter, and ouputs the result.
+        $\hat{G}_sys$, which is known as the system Transfer Function, mathematically represents this physical input-output translation.
+        To satisfy the system requirements, $\hat{G}_sys$ must equal the Required Relationship from equation \eqref{eq:required_relationship}:
 
-    Satisfaction of this transfer function, along with the Mechanical Envelope, drives subsystem specification.
-    In order to determine the rolldown from the Required Relationship to its relevant specifications, we must determine the system Transfer Function produced by the architecture described in section \ref{sec:Arch} to ensure that it matches equation \eqref{eq:req_TF}.
+            \begin{equation}
+                \hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
+                \label{eq:req_TF}
+            \end{equation}
 
-    
+        Satisfaction of this transfer function, along with the Mechanical Envelope, drives subsystem specification.
+        In order to determine the rolldown from the Required Relationship to its relevant specifications, we must determine the system Transfer Function produced by the architecture described in section \ref{sec:Arch} to ensure that it matches equation \eqref{eq:req_TF}.
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=.5\textwidth]{controls_gen.png}
-        \caption{General Passive Open-Loop Controls Diagram}
-        \label{fig:controls_gen}
-    \end{figure}
-
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=.5\textwidth]{TF.png}
-        \caption{Full System Transfer Function}
-        \label{fig:TF}
-    \end{figure}
-
-
-
-
-
-    \todo{Specs here}
-
-
-
-
-
-
-
-
-
-
-
-    
-    \newpage
-    \todo{Below is the Report 2 TF analysis. Replace with the updated transfer function}
-
-        Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
-        According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
-        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq:transfer_function}:
         
-        \begin{equation}
-            D = \frac{dD}{dT} \Delta T + D_0
-        \end{equation}
-
-        which can be expanded,
-        
-        \begin{equation}
-            \transferFunction
-            \label{eq:transfer_function}
-        \end{equation}
-
-        This must equal the Required Relationship in equation \eqref{eq:required_relationship}. 
-        Therefore,
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} \cdot \frac{dL}{dT}\frac{dX}{dL} = A_1
-            \label{eq:actuator_control}
-        \end{equation}
-
-        The control derivative $\frac{dL}{dT}$ will be governed by the actuator. 
-        $\frac{dX}{dL}$ will be governed by the valve subsystem.
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} \cdot X(T_{\text{ref}}) = A_0
-            \label{eq:mount_control}
-        \end{equation}
-
-        The constant $X(T_{\text{ref}})$ is governed by the mount subassembly.
-        Finally,
-
-        \begin{equation}
-            D_{\text{effective}} = - \sqrt{\frac{2}{\pi}} \cdot X
-            \label{eq:D_X}
-        \end{equation}
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} = - \sqrt{\frac{2}{\pi}}
-            \label{eq:valve_control}
-        \end{equation}
-
-         as calculated in Appendix \ref{app:orifice_geometry}. The control derivative $\frac{dD_{\text{eff}}}{dX}$ is governed by the valve subassembly.
-
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=3in]{controls_diagram.png}
-            \caption{\device\ open-loop control diagram}
-            \label{fig:controls_diagram}
+            \includegraphics[width=.4\textwidth]{TF_gen.png}
+            \caption{General Passive Open-Loop Controls Diagram}
+            \label{fig:TF_gen}
         \end{figure}
 
-        In the context of these governing equations, the following sections define the selection criteria for each subsystem and qualitatively describes the optimal architecture we selected to meet these specifications.
-        Subsystem specifications, if properly defined, guarantee that a device whose subsystems keep their requirements will in turn keep the requirements.
-        These serve three purposes:
-
-        \begin{enumerate}
-            \item To define the component of the system-control transfer function (eq. \eqref{eq:transfer_function}) for which that subsystem is responsible
-            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq:required_relationship}
-            \item To limit error that affects the specifications of other subsystems
-        \end{enumerate}
-
-        Several specifications serve two other purposes: two limit the mechanical envelope of each respective sub-component
-        such that the total mechanical envelope does not exceed the required Mechanical Envelope by more than 35$\%$ 
-        (because Requirement 2 was specified as a soft requirement by our sponsor),
-        and one prevents catastrophic failure by rupture due to the high-pressure gas.
-
-
-    \todo{Below is the Report 2 spec table. Update to match the new specifications.}
-
         \newpage
-        \enlargethispage{4cm}
-        \begin{table}[H]
+
+        \begin{figure}[H]
             \centering
-            \caption{System-Level Requirements and Specification Rolldown}
-            \label{tab:system_specs}
-            \renewcommand{\arraystretch}{1.4}
-            \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
+            \includegraphics[width=\textwidth]{TF.png}
+            \caption{Full System Transfer Function}
+            \label{fig:TF}
+        \end{figure}
 
-                \hline
-                \textbf{System requirement}
-                    &
-                \textbf{Core responsibility}
-                    &
-                \textbf{Specification} \\
+        Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack
+        Notice for the general structure: $T_{ambient}$ inputs into a row of sub-functions, representing the thermal expansion of each critical component.
+        These sub-transfer functions represent the thermal expansion of each critical component and output the undeformed length $\ell$ of that part at a given temperature.
+        Because each bellows applies a spring force against the actuation motion, these values must be evaluated through a force balance via a system of equations, yielding the final lengths of each critical component.
+        These final values are summed to obtain the position of each square hole. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is input to the final transfer function $\hat{G}_O$ to obtain $D_{effective}$.
 
-                \hline
+        
 
-                % ---- RR block ----
-                \multirow[c]{9}{0.2\textwidth}{%
-                    \device\ must satisfy the Required Relationship:
-                    $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
-                }
-                    &
-                Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
-                    &
-                Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
-                \\ \cline{2-3}
+        Let us begin with the upper row of sub-transfer functions. 
+
+    \section{Subsystem Specificaitons}
+    \label{sec:Specs_rolldown}
+
+        \todo{Specs here}
+
+
+
+
+
+
+
+
+
+
+
+        
+        \newpage
+        \todo{Below is the Report 2 TF analysis. Replace with the updated transfer function}
+
+            Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
+            According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
+            The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq:transfer_function}:
+            
+            \begin{equation}
+                D = \frac{dD}{dT} \Delta T + D_0
+            \end{equation}
+
+            which can be expanded,
+            
+            \begin{equation}
+                \transferFunction
+                \label{eq:transfer_function}
+            \end{equation}
+
+            This must equal the Required Relationship in equation \eqref{eq:required_relationship}. 
+            Therefore,
+
+            \begin{equation}
+                \frac{dD_{\text{eff}}}{dX} \cdot \frac{dL}{dT}\frac{dX}{dL} = A_1
+                \label{eq:actuator_control}
+            \end{equation}
+
+            The control derivative $\frac{dL}{dT}$ will be governed by the actuator. 
+            $\frac{dX}{dL}$ will be governed by the valve subsystem.
+
+            \begin{equation}
+                \frac{dD_{\text{eff}}}{dX} \cdot X(T_{\text{ref}}) = A_0
+                \label{eq:mount_control}
+            \end{equation}
+
+            The constant $X(T_{\text{ref}})$ is governed by the mount subassembly.
+            Finally,
+
+            \begin{equation}
+                D_{\text{effective}} = - \sqrt{\frac{2}{\pi}} \cdot X
+                \label{eq:D_X}
+            \end{equation}
+
+            \begin{equation}
+                \frac{dD_{\text{eff}}}{dX} = - \sqrt{\frac{2}{\pi}}
+                \label{eq:valve_control}
+            \end{equation}
+
+            as calculated in Appendix \ref{app:orifice_geometry}. The control derivative $\frac{dD_{\text{eff}}}{dX}$ is governed by the valve subassembly.
+
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[height=3in]{controls_diagram.png}
+                \caption{\device\ open-loop control diagram}
+                \label{fig:controls_diagram}
+            \end{figure}
+
+            In the context of these governing equations, the following sections define the selection criteria for each subsystem and qualitatively describes the optimal architecture we selected to meet these specifications.
+            Subsystem specifications, if properly defined, guarantee that a device whose subsystems keep their requirements will in turn keep the requirements.
+            These serve three purposes:
+
+            \begin{enumerate}
+                \item To define the component of the system-control transfer function (eq. \eqref{eq:transfer_function}) for which that subsystem is responsible
+                \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq:required_relationship}
+                \item To limit error that affects the specifications of other subsystems
+            \end{enumerate}
+
+            Several specifications serve two other purposes: two limit the mechanical envelope of each respective sub-component
+            such that the total mechanical envelope does not exceed the required Mechanical Envelope by more than 35$\%$ 
+            (because Requirement 2 was specified as a soft requirement by our sponsor),
+            and one prevents catastrophic failure by rupture due to the high-pressure gas.
+
+
+        \todo{Below is the Report 2 spec table. Update to match the new specifications.}
+
+            \newpage
+            \enlargethispage{4cm}
+            \begin{table}[H]
+                \centering
+                \caption{System-Level Requirements and Specification Rolldown}
+                \label{tab:system_specs}
+                \renewcommand{\arraystretch}{1.4}
+                \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
+
+                    \hline
+                    \textbf{System requirement}
+                        &
+                    \textbf{Core responsibility}
+                        &
+                    \textbf{Specification} \\
+
+                    \hline
+
+                    % ---- RR block ----
+                    \multirow[c]{9}{0.2\textwidth}{%
+                        \device\ must satisfy the Required Relationship:
+                        $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
+                    }
+                        &
+                    Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
+                        &
+                    Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
+                    \\ \cline{2-3}
+
+                        &
+                    Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
+                        &
+                    Must limit total thermal expansion and forced compression to \dXdLTol
+                    \\ \cline{2-3}
+
+                        &
+                    \multirow[c]{2}{0.3\textwidth}{%
+                        bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
+                    }
+                        &
+                    Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
+                    \\ \cline{3-3}
+
+                        &
+                        &
+                    Prevent a reaction force of more than \FTolValve
+                    \\ \cline{2-3}
 
                     &
-                Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
+                    Valve housing must prevent critical failure by rupture
                     &
-                Must limit total thermal expansion and forced compression to \dXdLTol
-                \\ \cline{2-3}
+                    Withstand a minimum of 10{,}000 psi internal pressure
+                    \\ \cline{2-3}
 
-                    &
-                \multirow[c]{2}{0.3\textwidth}{%
-                    bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
-                }
-                    &
-                Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
-                \\ \cline{3-3}
+                        &
+                    Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
+                        &
+                    Limit the error of $\alpha$ and $L_0$ such that
+                    $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
+                    \\ \cline{2-3}
 
-                    &
-                    &
-                Prevent a reaction force of more than \FTolValve
-                \\ \cline{2-3}
+                        &
+                    \multirow[c]{3}{0.3\textwidth}{%
+                        Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
+                    }
+                        &
+                    Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
+                    \\ \cline{3-3}
 
-                &
-                Valve housing must prevent critical failure by rupture
-                &
-                Withstand a minimum of 10{,}000 psi internal pressure
-                \\ \cline{2-3}
+                        &
+                        &
+                    Allow adjustment from within \calRange\ above target to within \calTol\ of target
+                    \\ \cline{3-3}
 
-                    &
-                Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
-                    &
-                Limit the error of $\alpha$ and $L_0$ such that
-                $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
-                \\ \cline{2-3}
+                        &
+                        &
+                    Limit thermal expansion to \mountdLTol
+                    \\ \hline
 
-                    &
-                \multirow[c]{3}{0.3\textwidth}{%
-                    Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
-                }
-                    &
-                Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
-                \\ \cline{3-3}
+                    % ---- ME block ----
+                    \multirow[c]{2}{0.2\textwidth}{%
+                        \device\ must remain approximately within the Mechanical Envelope
+                    }
+                        &
+                    Valve must not exceed its portion of the ME
+                        &
+                    Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
+                    \\ \cline{2-3}
 
-                    &
-                    &
-                Allow adjustment from within \calRange\ above target to within \calTol\ of target
-                \\ \cline{3-3}
+                        &
+                    Mount must not exceed its portion of the ME
+                        &
+                    Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
+                    
+                    \\ \hline
 
-                    &
-                    &
-                Limit thermal expansion to \mountdLTol
-                \\ \hline
+                \end{tabular}
+            \end{table}
 
-                % ---- ME block ----
-                \multirow[c]{2}{0.2\textwidth}{%
-                    \device\ must remain approximately within the Mechanical Envelope
-                }
-                    &
-                Valve must not exceed its portion of the ME
-                    &
-                Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
-                \\ \cline{2-3}
-
-                    &
-                Mount must not exceed its portion of the ME
-                    &
-                Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
-                
-                \\ \hline
-
-            \end{tabular}
-        \end{table}
-
-        $\left( \text{Equation\ \eqref{eq:transfer_function}, for reference: } D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
+            $\left( \text{Equation\ \eqref{eq:transfer_function}, for reference: } D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
 
 
 \chapter{Requirement Satisfaction}
@@ -1409,7 +1422,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \midrule
                     $P$ &
                     Internal pressure &
-                    $specPressure$
+                    $\specPressure$
                     \\\addlinespace
                     $D_o$ &
                     Outer diameter &
