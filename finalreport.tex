@@ -454,235 +454,113 @@ This Final Design Report illustrates the background, selected architecture, and 
 \chapter{Introduction}
 \label{sec:Intro}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_introduction_requirements.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_intro_req}
-    \end{figure}
+    \section{Motivation}
+    \label{sec:background}
 
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{Del_introduction_requirements.png}
+            \caption{DELETE BEFORE SUBMISSION}
+            \label{fig:del_intro_req}
+        \end{figure}
 
-\chapter{System Requirements}
-\label{sec:Req}
+    \section{System Requirements}
+    \label{sec:Req}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_requirements_requirements.png}
-        \caption{DELETE BEFORE SUBMISSION}
-        \label{fig:del_req_req}
-    \end{figure}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{Del_requirements_requirements.png}
+            \caption{DELETE BEFORE SUBMISSION}
+            \label{fig:del_req_req}
+        \end{figure}
 
-    \todo{Ask Dr. Schofield about only using 2 reqs, not 3, since we only have that many}
+        Sandia National Labs provided us with exactly two system requirements, 
+        defined precisely as follows:
 
-    Sandia National Labs provided us with exactly two system requirements, 
-    defined precisely as follows:
-
-    \begin{enumerate}
-        \item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
-        
-            \begin{equation}
-                \requiredRelationship
-                \label{eq: required_relationship}
-            \end{equation}
-
-            Where:
-            \begin{align*}
-                &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
-                \\
-                &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
-                \\
-                &T_{\text{reference}} = \Tref \degC
-                \\
-                &T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
-            \end{align*}
-
-        \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
-    \end{enumerate}
-    
-    These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
-    A mechanical envelope is the total volume that the device is allowed to occupy at all times.
-    When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
-    Thus, for clarity, the system axes will be defined as follows:
-
-    \newpage
-
-    % NOTE - These are consistent with the main CAD assembly axes
-    \begin{itemize}
-        \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-        \item The "Vertical" axis (y-axis) points directly upwards
-        \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
-    \end{itemize}
-
-    These are depicted in Figure \ref{fig:mainIsometric}.
-
-    Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
-
-    \begin{equation}
-        \Dcold
-        \label{eq: coldBoundary}
-    \end{equation}
-    
-    \begin{equation}
-        \Dhot
-        \label{eq: hotBoundary}
-    \end{equation}
-
-    \begin{equation}
-        \Dref
-        \label{eq: DTref}
-    \end{equation}
-
-    These tolerance values are derived in Appendix \ref{app:errorProp}.
-    The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
-    
-    \begin{equation}
-        A = \frac{\pi}{4}D_{\text{effective}}^2
-        \label{eq:d_eff}
-    \end{equation}
-    
-    In order to passively drive the valve orifice diameter by ambient temperature change, 
-    our team developed three sub-architectures:
-    a valve, to restrict the flow;
-    an actuator, to drive the valve movement,
-    and a mount, to fix the relative positions of the two.
-
-    In addition to these requirements, our sponsor supplied us with the following design conditions:
-    
-    \begin{enumerate}
-        \item The upstream gas pressure $P$ will lie within the range $689.5\ \text{kPa} \leq P \leq \specPressure$.
-        \item The ambient temperature will vary within the range $\Tcold \leq T_{\text{ambient}} \leq \Thot$.
-        \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
-        \item The gas will be a noble gas or Hydrogen.
-        \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
-        \item The ambient temperature will remain fixed during operation.
-        \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
-    \end{enumerate} 
-    
-    The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
-    and isolate the temperature-sensitive device controller
-    from heat transfer from the internal gas for a full minute during operation.
-    Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
-    This leaves little room for additional design criteria. Each subsystem must accomplish its mission to extremely small tolerance
-    despite these conditions and any errors introduced by every other subsystem.
-    
-    Thus, to maximize the \device 's potential for success, we proceeded with one chief criterion beyond the necessary specifications:
-    the selected architecture should be as simple as possible. Through several iterative changes,
-    we developed the following system architecture.
-
-
-    \todo{Update the below requirements}
-
-    Below are the subsystem specifications needed to satisfy the Required Relationship:
-
-        $$D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$$
-
-    which corresponds to the system transfer function in equation \eqref{eq: transfer_function}:
-
-        $$D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]$$
-
-    \todo{TF above is out of date}
-
-
-    \newpage
-    \enlargethispage{4cm}
-    \begin{table}[H]
-        \centering
-        \caption{System-Level Requirements and Specification Rolldown}
-        \label{tab:system_specs}
-        \renewcommand{\arraystretch}{1.4}
-        \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
-
-            \hline
-            \textbf{System requirement}
-                &
-            \textbf{Core responsibility}
-                &
-            \textbf{Specification} \\
-
-            \hline
-
-            % ---- RR block ----
-            \multirow[c]{9}{0.2\textwidth}{%
-                \device\ must satisfy the Required Relationship:
-                $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
-            }
-                &
-            Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
-                &
-            Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
-            \\ \cline{2-3}
-
-                &
-            Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
-                &
-            Must limit total thermal expansion and forced compression to \dXdLTol
-            \\ \cline{2-3}
-
-                &
-            \multirow[c]{2}{0.3\textwidth}{%
-                bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
-            }
-                &
-            Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
-            \\ \cline{3-3}
-
-                &
-                &
-            Prevent a reaction force of more than \FTolValve
-            \\ \cline{2-3}
-
-            &
-            Valve housing must prevent critical failure by rupture
-            &
-            Withstand a minimum of 10{,}000 psi internal pressure
-            \\ \cline{2-3}
-
-                &
-            Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
-                &
-            Limit the error of $\alpha$ and $L_0$ such that
-            $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
-            \\ \cline{2-3}
-
-                &
-            \multirow[c]{3}{0.3\textwidth}{%
-                Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
-            }
-                &
-            Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
-            \\ \cline{3-3}
-
-                &
-                &
-            Allow adjustment from within \calRange\ above target to within \calTol\ of target
-            \\ \cline{3-3}
-
-                &
-                &
-            Limit thermal expansion to \mountdLTol
-            \\ \hline
-
-            % ---- ME block ----
-            \multirow[c]{2}{0.2\textwidth}{%
-                \device\ must remain approximately within the Mechanical Envelope
-            }
-                &
-            Valve must not exceed its portion of the ME
-                &
-            Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
-            \\ \cline{2-3}
-
-                &
-            Mount must not exceed its portion of the ME
-                &
-            Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
+        \begin{enumerate}
+            \item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
             
-            \\ \hline
+                \begin{equation}
+                    \requiredRelationship
+                    \label{eq: required_relationship}
+                \end{equation}
 
-        \end{tabular}
-    \end{table}
+                Where:
+                \begin{align*}
+                    &A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+                    \\
+                    &A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+                    \\
+                    &T_{\text{reference}} = \Tref \degC
+                    \\
+                    &T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
+                \end{align*}
 
-    $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference:} D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
+            \item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
+        \end{enumerate}
+        
+        These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
+        A mechanical envelope is the total volume that the device is allowed to occupy at all times.
+        When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
+        Thus, for clarity, the system axes will be defined as follows:
+
+        % NOTE - These are consistent with the main CAD assembly axes
+        \begin{itemize}
+            \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
+            \item The "Vertical" axis (y-axis) points directly upwards
+            \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
+        \end{itemize}
+
+        These are depicted in Figure \ref{fig:mainIsometric}.
+
+        Equation \eqref{eq: required_relationship} is characterized by a linear relationship with the following extrema:
+
+        \begin{equation}
+            \Dcold
+            \label{eq: coldBoundary}
+        \end{equation}
+        
+        \begin{equation}
+            \Dhot
+            \label{eq: hotBoundary}
+        \end{equation}
+
+        \begin{equation}
+            \Dref
+            \label{eq: DTref}
+        \end{equation}
+
+        These tolerance values are derived in Appendix \ref{app:errorProp}.
+        The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
+        
+        \begin{equation}
+            A = \frac{\pi}{4}D_{\text{effective}}^2
+            \label{eq:d_eff}
+        \end{equation}
+        
+        In order to passively drive the valve orifice diameter by ambient temperature change, 
+        our team developed three sub-architectures:
+        a valve, to restrict the flow;
+        an actuator, to drive the valve movement,
+        and a mount, to fix the relative positions of the two.
+
+        In addition to these requirements, our sponsor supplied us with the following design conditions:
+        
+        \begin{enumerate}
+            \item The upstream gas pressure $P$ will lie within the range $689.5\ \text{kPa} \leq P \leq \specPressure$.
+            \item The ambient temperature will vary within the range $\Tcold \leq T_{\text{ambient}} \leq \Thot$.
+            \item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
+            \item The gas will be a noble gas or Hydrogen.
+            \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
+            \item The ambient temperature will remain fixed during operation.
+            \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
+        \end{enumerate} 
+        
+        The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
+        and isolate the temperature-sensitive device controller
+        from heat transfer from the internal gas for a full minute during operation.
+        Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
+        \todo{outline of the next major sections}
 
 
 \chapter{System Architecture}
@@ -773,74 +651,6 @@ This Final Design Report illustrates the background, selected architecture, and 
             \label{fig: orifice}
         \end{figure}
 
-        Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
-        According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
-        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq: transfer_function}:
-        
-        \begin{equation}
-            D = \frac{dD}{dT} \Delta T + D_0
-        \end{equation}
-
-        which can be expanded,
-        
-        \begin{equation}
-            \transferFunction
-            \label{eq: transfer_function}
-        \end{equation}
-
-        This must equal the Required Relationship in equation \eqref{eq: required_relationship}. 
-        Therefore,
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} \cdot \frac{dL}{dT}\frac{dX}{dL} = A_1
-            \label{eq:actuator_control}
-        \end{equation}
-
-        The control derivative $\frac{dL}{dT}$ will be governed by the actuator. 
-        $\frac{dX}{dL}$ will be governed by the valve subsystem.
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} \cdot X(T_{\text{ref}}) = A_0
-            \label{eq:mount_control}
-        \end{equation}
-
-        The constant $X(T_{\text{ref}})$ is governed by the mount subassembly.
-        Finally,
-
-        \begin{equation}
-            D_{\text{effective}} = - \sqrt{\frac{2}{\pi}} \cdot X
-            \label{eq:D_X}
-        \end{equation}
-
-        \begin{equation}
-            \frac{dD_{\text{eff}}}{dX} = - \sqrt{\frac{2}{\pi}}
-            \label{eq:valve_control}
-        \end{equation}
-
-         as calculated in Appendix \ref{app:orifice_geometry}. The control derivative $\frac{dD_{\text{eff}}}{dX}$ is governed by the valve subassembly.
-
-
-        \begin{figure}[H]
-            \centering
-            \includegraphics[height=3in]{controls_diagram.png}
-            \caption{\device\ open-loop control diagram}
-            \label{fig:controls_diagram}
-        \end{figure}
-
-        In the context of these governing equations, the following sections define the selection criteria for each subsystem and qualitatively describes the optimal architecture we selected to meet these specifications.
-        Subsystem specifications, if properly defined, guarantee that a device whose subsystems keep their requirements will in turn keep the requirements.
-        These serve three purposes:
-
-        \begin{enumerate}
-            \item To define the component of the system-control transfer function (eq. \eqref{eq: transfer_function}) for which that subsystem is responsible
-            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq: required_relationship}
-            \item To limit error that affects the specifications of other subsystems
-        \end{enumerate}
-
-        Several specifications serve two other purposes: two limit the mechanical envelope of each respective sub-component
-        such that the total mechanical envelope does not exceed the required Mechanical Envelope by more than 35$\%$ 
-        (because Requirement 2 was specified as a soft requirement by our sponsor),
-        and one prevents catastrophic failure by rupture due to the high-pressure gas.
  
 
 
@@ -1122,6 +932,213 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             % Paragraph 5
             The mount is made of Invar 36, selected for its low coefficient of thermal expansion, machinability, and rigidity.
+
+\chapter{Specification Rolldown}
+\label{sec:Specs}
+
+    \todo{TF here (they drive subsystem specs). Replace all hand drawings with nice ones.}
+
+    To derive the subsystem specifications necessary to satisfy the system requirements, one must understand a few details about control systems theory\cite{ref_Nise}.
+    A passive control system, such as the \device, can be represented by a simple open-loop diagram as in Figure \ref{fig:controls_gen}.
+    Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
+    \todo{In this case, the \device\ "TF" inputs T, outputs D}
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.5\textwidth]{controls_gen.png}
+
+
+
+
+
+    \todo{Specs here}
+
+
+
+
+
+
+
+
+
+
+
+    
+    \newpage
+    \todo{Below is the Report 2 TF analysis. Replace with the updated transfer function}
+
+        Thus, the entire system can be summarized by the open-loop control diagram represented by Figure \ref{fig:controls_diagram}, where X is the vertical distance between the two central vertices.
+        According to control systems theory\cite{ref_Nise}, a passive device is represented by an open-loop control diagram with no sensor feedback.
+        The system transfer function inputs $T_{\text{ambient}}$, outputs $D_{\text{effective}}$, and can be represented by the general equation \eqref{eq: transfer_function}:
+        
+        \begin{equation}
+            D = \frac{dD}{dT} \Delta T + D_0
+        \end{equation}
+
+        which can be expanded,
+        
+        \begin{equation}
+            \transferFunction
+            \label{eq: transfer_function}
+        \end{equation}
+
+        This must equal the Required Relationship in equation \eqref{eq: required_relationship}. 
+        Therefore,
+
+        \begin{equation}
+            \frac{dD_{\text{eff}}}{dX} \cdot \frac{dL}{dT}\frac{dX}{dL} = A_1
+            \label{eq:actuator_control}
+        \end{equation}
+
+        The control derivative $\frac{dL}{dT}$ will be governed by the actuator. 
+        $\frac{dX}{dL}$ will be governed by the valve subsystem.
+
+        \begin{equation}
+            \frac{dD_{\text{eff}}}{dX} \cdot X(T_{\text{ref}}) = A_0
+            \label{eq:mount_control}
+        \end{equation}
+
+        The constant $X(T_{\text{ref}})$ is governed by the mount subassembly.
+        Finally,
+
+        \begin{equation}
+            D_{\text{effective}} = - \sqrt{\frac{2}{\pi}} \cdot X
+            \label{eq:D_X}
+        \end{equation}
+
+        \begin{equation}
+            \frac{dD_{\text{eff}}}{dX} = - \sqrt{\frac{2}{\pi}}
+            \label{eq:valve_control}
+        \end{equation}
+
+         as calculated in Appendix \ref{app:orifice_geometry}. The control derivative $\frac{dD_{\text{eff}}}{dX}$ is governed by the valve subassembly.
+
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=3in]{controls_diagram.png}
+            \caption{\device\ open-loop control diagram}
+            \label{fig:controls_diagram}
+        \end{figure}
+
+        In the context of these governing equations, the following sections define the selection criteria for each subsystem and qualitatively describes the optimal architecture we selected to meet these specifications.
+        Subsystem specifications, if properly defined, guarantee that a device whose subsystems keep their requirements will in turn keep the requirements.
+        These serve three purposes:
+
+        \begin{enumerate}
+            \item To define the component of the system-control transfer function (eq. \eqref{eq: transfer_function}) for which that subsystem is responsible
+            \item To limit deviation from that transfer function such that the total error remains within the tolerance allowed by eq. \eqref{eq: required_relationship}
+            \item To limit error that affects the specifications of other subsystems
+        \end{enumerate}
+
+        Several specifications serve two other purposes: two limit the mechanical envelope of each respective sub-component
+        such that the total mechanical envelope does not exceed the required Mechanical Envelope by more than 35$\%$ 
+        (because Requirement 2 was specified as a soft requirement by our sponsor),
+        and one prevents catastrophic failure by rupture due to the high-pressure gas.
+
+
+    \todo{Below is the Report 2 spec table. Update to match the new specifications.}
+
+        \newpage
+        \enlargethispage{4cm}
+        \begin{table}[H]
+            \centering
+            \caption{System-Level Requirements and Specification Rolldown}
+            \label{tab:system_specs}
+            \renewcommand{\arraystretch}{1.4}
+            \begin{tabular}{|m{0.2\textwidth}|m{0.3\textwidth}|m{0.4\textwidth}|}
+
+                \hline
+                \textbf{System requirement}
+                    &
+                \textbf{Core responsibility}
+                    &
+                \textbf{Specification} \\
+
+                \hline
+
+                % ---- RR block ----
+                \multirow[c]{9}{0.2\textwidth}{%
+                    \device\ must satisfy the Required Relationship:
+                    $D_{\text{eff}} = A_1(T - T_{\text{ref}}) + A_0$
+                }
+                    &
+                Valve orifice must govern $\frac{dD_{\text{eff}}}{dX} = \sqrt{\frac{2}{\pi}}$ to within \dDdXTol\
+                    &
+                Maintain all dimensional tolerances to $-1\ \mu m$ where specified in drawings V4 and V5
+                \\ \cline{2-3}
+
+                    &
+                Valve stem must govern $\frac{dX}{dL} = 1$ to within \dXdLTol\
+                    &
+                Must limit total thermal expansion and forced compression to \dXdLTol
+                \\ \cline{2-3}
+
+                    &
+                \multirow[c]{2}{0.3\textwidth}{%
+                    bellows must not change $\frac{dL}{dT}$ by more than \dLdTTolValve\ %
+                }
+                    &
+                Prevent a temperature gradient of less than \dTTol\ between the internal gas and the actuator contact point
+                \\ \cline{3-3}
+
+                    &
+                    &
+                Prevent a reaction force of more than \FTolValve
+                \\ \cline{2-3}
+
+                &
+                Valve housing must prevent critical failure by rupture
+                &
+                Withstand a minimum of 10{,}000 psi internal pressure
+                \\ \cline{2-3}
+
+                    &
+                Actuator must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct\
+                    &
+                Limit the error of $\alpha$ and $L_0$ such that
+                $\sqrt{(L_0 u_\alpha)^2 + (\alpha u_{L_0})^2} \leq $\dLdTTolAct
+                \\ \cline{2-3}
+
+                    &
+                \multirow[c]{3}{0.3\textwidth}{%
+                    Mount must fix $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$ %
+                }
+                    &
+                Maintain all dimensional tolerances to $0.005\ \mu m$ where specified in drawing M2
+                \\ \cline{3-3}
+
+                    &
+                    &
+                Allow adjustment from within \calRange\ above target to within \calTol\ of target
+                \\ \cline{3-3}
+
+                    &
+                    &
+                Limit thermal expansion to \mountdLTol
+                \\ \hline
+
+                % ---- ME block ----
+                \multirow[c]{2}{0.2\textwidth}{%
+                    \device\ must remain approximately within the Mechanical Envelope
+                }
+                    &
+                Valve must not exceed its portion of the ME
+                    &
+                Must not exceed \valveMEX\ lateral, \valveMEY\ vertical, \valveMEZ\ longitudinal mechanical envelope
+                \\ \cline{2-3}
+
+                    &
+                Mount must not exceed its portion of the ME
+                    &
+                Must not exceed \mountMEX\ lateral, \mountMEY\ vertical, \mountMEZ\ longitudinal mechanical envelope
+                
+                \\ \hline
+
+            \end{tabular}
+        \end{table}
+
+        $\left( \text{Equation\ \eqref{eq: transfer_function}, for reference: } D = \frac{dD}{dX} \left[ \frac{dL}{dT} \frac{dX}{dL} \Delta T + X_0 \right] \right)$
 
 
 \chapter{Requirement Satisfaction}

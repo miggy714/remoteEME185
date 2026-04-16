@@ -1,0 +1,220 @@
+\documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
+\setcounter{tocdepth}{3}
+% --- PACKAGES: Each one adds a capability to LaTeX ---
+% Think of packages like Python imports or C #includes.
+
+\newcommand{\course}{CHE 110A}
+\newcommand{\courseTitle}{Physical Chemistry I: Quantum Mechanics}
+\newcommand{\HWnum}{1}
+\newcommand{\assignment}{PS\ \HWnum}
+\newcommand{\authorName}{Sam van der Veen}
+
+
+% ---------- Page Layout ----------
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
+% ---------- Encoding & Fonts ----------
+\usepackage[utf8]{inputenc}% Allows special characters (é, ü, °) to be typed directly.
+\usepackage[T1]{fontenc} % Ensures proper font encoding in the output PDF. Without this, copy-pasting from the PDF can produce garbled characters.
+% ---------- Graphics & Figures ----------
+\usepackage{graphicx}% THE core package for inserting images.
+% Usage: \includegraphics[width=0.8\textwidth]{filename.png}
+\graphicspath{{figures/}}
+\usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
+\usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
+% ---------- Tables ----------
+\usepackage{booktabs} % Provides \toprule, \midrule, \bottomrule for professional-looking tables.
+% Rule of thumb: NEVER use vertical lines in tables. Use booktabs rules instead.
+\usepackage{tabularx}% Adds the tabularx environment, which lets columns auto-expand to fill width. Great for tables that need to span the full page width.
+\usepackage{multirow}% Allows cells that span multiple rows in tables.
+\usepackage{longtable}% For tables that are too long to fit on one page (like a Bill of Materials).
+% ---------- Math ----------
+\usepackage{amsmath}% The standard package for equations. Adds align, equation*, etc.
+\usepackage{amssymb}% Extra math symbols (e.g., \therefore, \because, \pm).
+\usepackage{siunitx}% Proper formatting for SI units.
+\sisetup{per-mode=fraction}
+\sisetup{exponent-product=\cdot}
+% Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
+% This ensures consistent unit formatting throughout the document.
+% ---------- Cross-Referencing & Links ----------
+\usepackage[
+    colorlinks=true,
+    linkcolor=blue,      % Internal links (sections, figures)
+    citecolor=blue,      % Citation links
+    urlcolor=blue         % URL links
+]{hyperref}
+% Makes all references, citations, and URLs clickable in the PDF.
+% Set colorlinks=false if you want boxes instead of colored text.
+
+
+
+% ---------- Captions ----------
+\usepackage[
+    font=small,           % Caption text slightly smaller than body
+    labelfont=bf,         % "Figure 1:" is bold
+    textfont=it            % The caption description is italic
+]{caption}% Makes figure/table captions look more professional.
+% ---------- Headers & Footers ----------
+\usepackage{fancyhdr}% Customizable headers and footers.
+\pagestyle{fancy}% Activate the fancy header/footer style.
+\fancyhf{}% Clear all default header/footer content.
+\fancyhead[L]{\small \assignment\ - \authorName}% Left header: team name.
+\fancyhead[R]{\small \course}% Right header: course number.
+\fancyfoot[C]{\thepage}% Center footer: page number.
+\renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
+% ---------- Paragraph Formatting ----------
+\usepackage{parskip}% Adds space between paragraphs instead of indenting the first line. This is more common in engineering reports than academic papers.
+\setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
+% ---------- Line Spacing ----------
+\usepackage{setspace}
+\onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
+%-------- For Box diagrams
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+% ---------- Appendix Support ----------
+\usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
+%----------- Title/Chapter formatting -----------------
+\usepackage{titlesec}
+% Format \chapter to look simple (no giant text, no separate page)
+\usepackage{pdfpages}
+% Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
+\usepackage{geometry}
+%allows you to set margins and page size. 
+\titleformat{\chapter}
+  {\LARGE\bfseries}  % format
+  {}                % label
+  {0em}                         % sep between label and title
+  {}                            % before-code
+\titlespacing*{\chapter}{0pt}{20pt}{10pt}  % left, before, after
+
+
+\makeatletter
+\g@addto@macro\appendix{%
+  \titleformat{\chapter}[block]
+    {\huge\bfseries\centering}
+    {\appendixname\ \thechapter}
+    {0em}
+    {\vspace{0.5em}\\}%
+}
+\makeatother
+
+% ---------- PDF Metadata ----------
+\hypersetup{
+    pdftitle={HW \HWnum},
+    pdfauthor={\authorName},
+    pdfsubject={\course},
+}
+%-----------For landscape pages----------
+\usepackage{pdflscape}
+\usepackage{tikz}
+    \usetikzlibrary{patterns}
+    \usetikzlibrary{patterns,intersections}
+\usepackage{pgfplots}
+    \pgfplotsset{compat=1.18}
+\usepackage{multirow}
+\usepackage{array}      % for >{\raggedright\arraybackslash}
+\usepackage{makecell}   % for \makecell
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{enumitem}   % \begin{enumerate}[label=\Alph*.]
+\usepackage{empheq}
+\usepackage{textgreek}
+
+
+% In your preamble
+\newcounter{mycounter}           % creates a counter, initialized to 0
+\newcounter{sub}[mycounter]      % resets 'sub' when 'mycounter' increments
+% ============================================================================
+% SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
+% ============================================================================
+% These are reusable shortcuts. Define them once, use them everywhere.
+% If a name or term changes, you only edit it in ONE place.
+
+
+
+% --- Figure insertion helper ---
+% This command simplifies inserting a figure with a caption and label.
+% Usage: \insertfigure{width}{filename}{caption text}{fig:label}
+%
+% Parameters:
+%   #1 = width relative to text width (e.g., 0.8 for 80%)
+%   #2 = filename (without path if images are in the same directory)
+%   #3 = caption text
+%   #4 = label for cross-referencing (use fig: prefix by convention)
+\newcommand{\insertfigure}[4]{%
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#1\textwidth]{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}
+}
+
+% --- TODO marker for draft mode ---
+% Prints a bold red "TODO" so you can easily spot incomplete sections.
+\usepackage{xcolor}
+\newcommand{\todo}[1]{{\bfseries\color{red}[TODO: #1]}}
+
+
+% Problem / part counters
+\newcounter{problemcounter}
+\newcounter{partcounter}[problemcounter] % resets when problemcounter increments
+\newcounter{subpartcounter}[partcounter] % resets when partcounter increments
+
+\newcommand{\problem}{%
+  \stepcounter{problemcounter}%
+  \newpage%
+  \bigskip\noindent\rule{\linewidth}{0.4pt}\\[2pt]
+  \textbf{\large Problem \theproblemcounter}\\[4pt]
+}
+
+\newcommand{\newPart}{%
+  \stepcounter{partcounter}%
+  \medskip\noindent\textbf{(\Alph{partcounter})}\quad%
+}
+
+\newcommand{\newSubPart}{%
+  \stepcounter{subpartcounter}%
+  \medskip\noindent\hspace{1em}(\roman{subpartcounter})\quad%
+}
+
+
+% "Given / Find / Solution" block
+\newcommand{\given}{\medskip\noindent\textit{Given:}\quad}
+\newcommand{\find}{\noindent\textit{Find:}\quad}
+\newcommand{\solution}{\noindent\textbf{Solution}\\[4pt]}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+  Step 1: Determine type of fit needed
+
+  We will generally need two kinds: clearance or transition fits.
+  The tradeoff: too much clearance is too loose, too much interference presents too much friction.
+  
+  
+  
+  Use Table 7-9 (Shigley's Mechanical Design, 8th ed) to 
+
+\end{document}
