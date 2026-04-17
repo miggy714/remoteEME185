@@ -985,12 +985,51 @@ This Final Design Report illustrates the background, selected architecture, and 
         Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack
         Notice for the general structure: $T_{ambient}$ inputs into a row of sub-functions, representing the thermal expansion of each critical component.
         These sub-transfer functions represent the thermal expansion of each critical component and output the undeformed length $\ell$ of that part at a given temperature.
-        Because each bellows applies a spring force against the actuation motion, these values must be evaluated through a force balance via a system of equations, yielding the final lengths of each critical component.
-        These final values are summed to obtain the position of each square hole. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is input to the final transfer function $\hat{G}_O$ to obtain $D_{effective}$.
+        Because each bellows applies a spring force against the actuation motion, these values must be evaluated through a force balance via a system of equations, yielding the final length $L$ of each critical component.
+        These final values are summed to obtain the position $y$ of each square hole. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is input to the orifice transfer function $\hat{G}_O$ to obtain $D_{effective}$.
 
-        
+        \todo{The below is very long and thin. Compact by making the bullet-point list two columns and putting figure \ref{fig:positional_block_diagram} on the left with text beside it.}
 
-        Let us begin with the upper row of sub-transfer functions. 
+        Each part is labeled and dimensioned as shown in Figure \ref{fig:positional_block_diagram}:
+
+        \begin{itemize}
+            \item Mount (M)
+            \item Actuator (A)
+            \item Upper valve stem (S)
+            \item Upper "top" bellows (T)
+            \item Housing side walls (H)
+            \item Valve orifice (V)
+            \item Lower "bottom" bellows (B)
+            \item Housing top face or "wall" (W)
+            \item Housing outlet or "rear" (R)
+        \end{itemize}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
+            \caption{Positional block diagram}
+            \label{fig:positional_block_diagram}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=.5\textwidth]{positional_block_diagram_zoom.png}
+            \caption{Positional block diagram, detail view}
+            \label{fig:positional_block_diagram_zoom}
+        \end{figure}
+
+        Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
+
+        Let us begin with the upper row of sub-transfer functions. Each part thermally expands, most of all the actuator. Each of these functions, then, inputs a given temperature and converts it to the thermally expanded dimension of the part $\ell$.
+        These values are evaluated by the Force Balance and converted into their final, deformed length $L$.
+        They are summed 
+
+        For each of the above, X variables must be defined:
+
+        \begin{itemize}
+            \item $\hat{G}_i$ = thermal expansion transfer function; inputs temperature, outputs the part's expanded dimension
+        \end{itemize}
+
 
     \section{Subsystem Specificaitons}
     \label{sec:Specs_rolldown}
