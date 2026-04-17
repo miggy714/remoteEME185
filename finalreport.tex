@@ -110,6 +110,7 @@
 \usepackage{calc}
 \usepackage{amsmath}
 \usepackage{multicol}
+\usepackage{mdframed}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -159,8 +160,10 @@
 \newcommand{\specDeffConstTwo}{0.254} %mm
 \newcommand{\Aone}{\specDeffConstOne mm \specTolerancePercent}
 \newcommand{\Azero}{\specDeffConstTwo mm \specTolerancePercent}
-\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} % 10^-6/ºC
+\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} %Evaluated at 25C
 \newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
+\newcommand{\specInvarCTE}{\SI{1.2e-6}{\per \celsius}}
+\newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specYoungMActuator}{\SI{69}{\giga \pascal}}
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
@@ -989,27 +992,24 @@ This Final Design Report illustrates the background, selected architecture, and 
         The top row of sub-transfer functions represents the thermal expansion of each dimensionally critical component; each function takes the given temperature and outputs the thermally expanded length $\ell$ of its respective part.
         However, because each bellows applies a spring force against the actuation motion, these parts will deform. A Force Balance processes these undeformed length values through a system of linear equations, yielding the final length $L$ of each component.
         These final values are summed to obtain the position $y$ of each of the two square holes. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is finally converted to $D_{effective}$ by the orifice transfer function $\hat{G}_O$.
-
-        \todo{The below is very long and thin. Compact by making the bullet-point list two columns and putting figure \ref{fig:positional_block_diagram} on the left with text beside it.}
-
+        
         To understand the origin of the transfer function structure, we must decompose the functional structure of each component of the \device.
         Figure \ref{fig:positional_block_diagram} illustrates the relative position of each component in simplified fashion.
         Each part's thermal transfer function $\hat{G}$, undeformed length $\ell$, and final length $L$ is labeled with its respective subscript as shown in the figure:
-
+        
         \begin{multicols}{2}
-        \begin{itemize}
-            \item Mount (M)
-            \item Actuator (A)
-            \item Upper valve stem (S)
-            \item Upper "top" bellows (T)
-            \item Housing side walls (H)
-            \item Valve orifice (V)
-            \item Lower "bottom" bellows (B)
-            \item Housing top face or "wall" (W)
-            \item Housing outlet or "rear" (R)
-        \end{itemize}
+            \begin{itemize}
+                \item Mount (M)
+                \item Actuator (A)
+                \item Upper valve stem (S)
+                \item Upper "top" bellows (T)
+                \item Housing side walls (H)
+                \item Valve orifice (V)
+                \item Lower "bottom" bellows (B)
+                \item Housing top face or "wall" (W)
+                \item Housing outlet or "rear" (R)
+            \end{itemize}
         \end{multicols}
-
         
         \todo{Update Fig. \ref{fig:positional_block_diagram} it has some unrendered changes (4-16-26)}
         
@@ -1020,13 +1020,17 @@ This Final Design Report illustrates the background, selected architecture, and 
             \label{fig:positional_block_diagram}
         \end{figure}
         
+        Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
+
         \begin{multicols}{2}
         \begin{figure}[H]
             \centering
-            \includegraphics[width=.5\textwidth]{positional_block_diagram_zoom.png}
+            \includegraphics[width=.45\textwidth]{positional_block_diagram_zoom.png}
             \caption{Positional block diagram, detail view}
             \label{fig:positional_block_diagram_zoom}
         \end{figure}
+        
+        \columnbreak
         
         As described in section \ref{sec:Arch}, the mount $(M)$ sits atop the housing "wall" $(W)$.
         The actuator $(A)$ dangles from its upper interior surface, which for our purposes is defined as the undersurface of the Belleville washer.
@@ -1037,17 +1041,51 @@ This Final Design Report illustrates the background, selected architecture, and 
 
         Figure \ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
         Thus, $y_M$ is positive, whereas $y_T$ is negative.
-        Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
 
-        Let us begin with the upper row of sub-transfer functions. Each part thermally expands, most of all the actuator. Each of these functions, then, inputs a given temperature and converts it to the thermally expanded dimension of the part $\ell$.
-        These values are evaluated by the Force Balance and converted into their final, deformed length $L$.
-        They are summed 
+        Each of the nine sub-transfer functions along the top row computes the thermal espansion of each part shown in Figure \ref{fig:positional_block_diagram}.
+        Its value can be approximated as a first-order Taylor Expansion\cite{ref_Jensen}\cite{ref_Stewart} with very little error due to the linear behavior of thermal expansion. This yields
 
-        For each of the above, X variables must be defined:
+            \begin{equation}
+                \ell_i = \hat{G}_{thermal} = \ell_0 + \frac{d \ell}{dT} \Delta T
+            \end{equation}
+
+        where $\hat{G}_{thermal}$ outputs the expanded dimension $\ell_i$ of part $i$, $\ell_0$ is its machined dimension, and $\Delta T = (T_{amb} - T_{ref})$.
+        According to the general principle of thermal expansion\cite{ref_Hibbeler}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material coefficient of thermal expansion (CTE).
+        Thus, the thermal-expansion transfer functions are defined as follows:
+
+        \begin{mdframed}
+            \begin{multicols}{2}
+
+                \begin{align}
+                    \hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} (T - T_{ref})) \\
+                    \hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} (T - T_{ref})) \\
+                    \hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
+                    \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} (T - T_{ref})) \\
+                    \hat{G}_H &= \ell_{H_0} (1 + \alpha_{In} (T - T_{ref}))
+                \end{align}
+                
+                \columnbreak
+                
+                \begin{align}
+                    \hat{G}_V &= \ell_{V_0} (1 + \alpha_{In} (T - T_{ref})) \\
+                    \hat{G}_B &= \ell_{B_0} (1 + \alpha_{In} (T - T_{ref})) \\
+                    \hat{G}_W &= \ell_{W_0} (1 + \alpha_{In} (T - T_{ref})) \\
+                    \hat{G}_R &= \ell_{R_0} (1 + \alpha_{In} (T - T_{ref}))
+                \end{align}
+
+            \end{multicols}
+        \end{mdframed}
+
+        where the material expansion coefficients are as follows:
 
         \begin{itemize}
-            \item $\hat{G}_i$ = thermal expansion transfer function; inputs temperature, outputs the part's expanded dimension
+            \item Aluminum (Al): \specActuatorCTE \todo{Add citation for Al CTE}
+            \item Allvar (ALLV): \specMountCTE\todo{Add citation for ALLV CTE}
+            \item Invar 36 (Inv): \specInvarCTE\cite{ref_CarpenterTechnology}
+            \item Inconel 718 (Inc): \specInconelCTE\cite{ref_SpecialMetals}
         \end{itemize}
+
+
 
 
     \section{Subsystem Specificaitons}
@@ -2198,10 +2236,23 @@ expansion and the resisting forces have negligible effect on actuator length.
 
     \bibitem{ref_ASM}
     ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
-    
 
-    
+    \bibitem{ref_Hibbeler}
+    R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014, eq. 4-4.
 
+    \bibitem{ref_Jensen}
+    N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis. [Unpublished]
+
+    \bibitem{ref_Stewart}
+    J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+    
+    \bibitem{ref_SpecialMetals}
+    Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+    [Accessed: Apr. 17, 2026].
+    
+    \bibitem{ref_carpenter_invar}
+    Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, CRS Holdings LLC, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+    [Accessed: Apr. 17, 2026].
 
 
     % Add more \bibitem entries as needed.
@@ -2209,19 +2260,6 @@ expansion and the resisting forces have negligible effect on actuator length.
 
 \end{thebibliography}
 
-
-% ============================================================================
-% APPENDICES
-% ============================================================================
-% TEMPLATE GUIDANCE:
-%   - Label and title every appendix
-%   - You MUST refer to each appendix in the body of the report
-%   - Include: working drawings, product sheets, price quotes,
-%     updated requirements table, scoring matrices, etc.
-%
-% IMPORTANT: Appendices don't count toward estimated page lengths
-% of other sections, so put detailed tables and drawings here.
-% ============================================================================
 
 \newpage
 \begin{appendices}
@@ -2431,6 +2469,8 @@ expansion and the resisting forces have negligible effect on actuator length.
         \caption{DELETE BEFORE SUBMISSION}
         \label{fig:del_app_reqs_1}
     \end{figure}
+
+    \todo{Do we need to heat-treat the Invar parts?}
 
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
