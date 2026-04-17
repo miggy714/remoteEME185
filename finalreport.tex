@@ -109,6 +109,7 @@
 \usepackage{makecell}   % for \makecell
 \usepackage{calc}
 \usepackage{amsmath}
+\usepackage{multicol}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -982,16 +983,20 @@ This Final Design Report illustrates the background, selected architecture, and 
             \label{fig:TF}
         \end{figure}
 
-        Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack
-        Notice for the general structure: $T_{ambient}$ inputs into a row of sub-functions, representing the thermal expansion of each critical component.
-        These sub-transfer functions represent the thermal expansion of each critical component and output the undeformed length $\ell$ of that part at a given temperature.
-        Because each bellows applies a spring force against the actuation motion, these values must be evaluated through a force balance via a system of equations, yielding the final length $L$ of each critical component.
-        These final values are summed to obtain the position $y$ of each square hole. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is input to the orifice transfer function $\hat{G}_O$ to obtain $D_{effective}$.
+        Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack. Altogether, it comprises eleven smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system. 
+        
+        First, notice the general structure: the transfer function receives $T_{ambient}$ and returns $D_{effective}$ as prescribed.
+        The top row of sub-transfer functions represents the thermal expansion of each dimensionally critical component; each function takes the given temperature and outputs the thermally expanded length $\ell$ of its respective part.
+        However, because each bellows applies a spring force against the actuation motion, these parts will deform. A Force Balance processes these undeformed length values through a system of linear equations, yielding the final length $L$ of each component.
+        These final values are summed to obtain the position $y$ of each of the two square holes. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is finally converted to $D_{effective}$ by the orifice transfer function $\hat{G}_O$.
 
         \todo{The below is very long and thin. Compact by making the bullet-point list two columns and putting figure \ref{fig:positional_block_diagram} on the left with text beside it.}
 
-        Each part is labeled and dimensioned as shown in Figure \ref{fig:positional_block_diagram}:
+        To understand the origin of the transfer function structure, we must decompose the functional structure of each component of the \device.
+        Figure \ref{fig:positional_block_diagram} illustrates the relative position of each component in simplified fashion.
+        Each part's thermal transfer function $\hat{G}$, undeformed length $\ell$, and final length $L$ is labeled with its respective subscript as shown in the figure:
 
+        \begin{multicols}{2}
         \begin{itemize}
             \item Mount (M)
             \item Actuator (A)
@@ -1003,21 +1008,35 @@ This Final Design Report illustrates the background, selected architecture, and 
             \item Housing top face or "wall" (W)
             \item Housing outlet or "rear" (R)
         \end{itemize}
+        \end{multicols}
 
+        
+        \todo{Update Fig. \ref{fig:positional_block_diagram} it has some unrendered changes (4-16-26)}
+        
         \begin{figure}[H]
             \centering
             \includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
             \caption{Positional block diagram}
             \label{fig:positional_block_diagram}
         \end{figure}
-
+        
+        \begin{multicols}{2}
         \begin{figure}[H]
             \centering
             \includegraphics[width=.5\textwidth]{positional_block_diagram_zoom.png}
             \caption{Positional block diagram, detail view}
             \label{fig:positional_block_diagram_zoom}
         \end{figure}
+        
+        As described in section \ref{sec:Arch}, the mount $(M)$ sits atop the housing "wall" $(W)$.
+        The actuator $(A)$ dangles from its upper interior surface, which for our purposes is defined as the undersurface of the Belleville washer.
+        The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
+        These represent the side walls of the housing $(H)$ and the rear face $(R)$ that contains the outlet orifice.
+        The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls.
+    \end{multicols}
 
+        Figure \ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
+        Thus, $y_M$ is positive, whereas $y_T$ is negative.
         Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
 
         Let us begin with the upper row of sub-transfer functions. Each part thermally expands, most of all the actuator. Each of these functions, then, inputs a given temperature and converts it to the thermally expanded dimension of the part $\ell$.
@@ -1730,29 +1749,27 @@ This Final Design Report illustrates the background, selected architecture, and 
         If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
         A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
 
-        \begin{figure}[H]
-            \centering
-            \begin{minipage}[t]{0.5\textwidth}
+        \begin{multicols}{2}
+            \begin{figure}[H]
                 \centering
-                \includegraphics[width=\textwidth]{Act_dim.png}
-                \caption{Actuator dimension labels}
-                \label{fig:act_dim}
-            \end{minipage}
-            \hfill
-            \begin{minipage}[t]{0.45\textwidth}
-                \todo{Put some of the below text here using minipage}
-            \end{minipage}
-        \end{figure}
+                \begin{minipage}[t]{0.5\textwidth}
+                    \centering
+                    \includegraphics[width=\textwidth]{Act_dim.png}
+                    \caption{Actuator dimension labels}
+                    \label{fig:act_dim}
+                \end{minipage}
+            \end{figure}
 
-        Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
-        a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
-        However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
-        Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
-
-        \begin{align}
-            \Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \\
-            L_{mount} &= t_{wash} + L_{act} + L_{gap}
-        \end{align}
+            Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
+            a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
+            However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
+            Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
+            
+            \begin{align}
+                \Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \\
+                L_{mount} &= t_{wash} + L_{act} + L_{gap}
+            \end{align}
+        \end{multicols}
 
         Plugging in the following values:
 
