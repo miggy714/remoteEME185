@@ -995,11 +995,10 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \item Actuator (A)
                 \item Upper valve stem (S)
                 \item Upper "top" bellows (T)
-                \item Housing side walls (H)
-                \item Valve orifice (V)
                 \item Lower "bottom" bellows (B)
+                \item Valve orifice (V)
+                \item Housing side walls (H)
                 \item Housing top face or "wall" (W)
-                \item Housing outlet or "rear" (R)
             \end{itemize}
         \end{multicols}
                 
@@ -1025,7 +1024,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             As described in section \ref{chap:arch}, the mount $(M)$ sits atop the housing "wall" $(W)$.
             The actuator $(A)$ dangles from its upper interior surface, which for our purposes is defined as the undersurface of the Belleville washer.
             The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
-            These represent the side walls of the housing $(H)$ and the rear face $(R)$ that contains the outlet orifice.
+            These represent the side walls of the housing an behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
             The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls.
         \end{multicols}
         
@@ -1055,16 +1054,15 @@ This Final Design Report illustrates the background, selected architecture, and 
                         \hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} (T - T_{ref})) \\
                         \hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
                         \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} (T - T_{ref})) \\
-                        \hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} (T - T_{ref}))
                     \end{align}
                     
                     \columnbreak
                     
                     \begin{align}
-                        \hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
                         \hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} (T - T_{ref})) \\
-                        \hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
-                        \hat{G}_R &= \ell_{R_0} (1 + \alpha_{Inv} (T - T_{ref}))
+                        \hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
+                        \hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
+                        \hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} (T - T_{ref}))
                     \end{align}
 
                 \end{multicols}
@@ -1142,7 +1140,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \right.
             \end{equation}
 
-            This produces seven equations for eight unknown forces $(F_M, F_A, F_S, F_T, F_H, F_V, F_B, \text{ and } F_W)$.
+            This produces seven equations for eight unknown forces $(F_M, F_A, F_S, F_T, F_B, F_V, F_H, \text{ and } F_W)$.
             One might observe that this system remains indeterminate without one additional equation\footnote{It is well-established in the field of Linear Algebra that a system of linear equations with more equations than unknowns is linearly dependent (one or more equations is redundant) or self-contradictory, while that with more unknowns than equations is incomplete. A determinate system of equations requires exactly as many linearly independent equations as unknowns\cite{ref_Anton}.}.
             In fact, this system is linearly dependent and, when rearranged, contains a pair of redundant equations.
 
@@ -1198,9 +1196,9 @@ This Final Design Report illustrates the background, selected architecture, and 
                     k_M L_M - k_W L_W = k_M \ell_M - k_W \ell_W \\[6pt]
                     k_W L_W - k_T L_T - k_H L_H = k_W \ell_W - k_T \ell_T - k_H \ell_H \\[6pt]
                     k_V L_V - k_B L_B = k_V \ell_V - k_B \ell_B \\[6pt]
-                    k_H L_H + k_B L_B = k_H \ell_H + k_B \ell_B \\[6pt]
+                    k_B L_B + k_H L_H = k_B \ell_B + k_H \ell_H \\[6pt]
                     L_M - L_A - L_S + L_T - L_W = 0 \\[6pt]
-                    L_T - L_H - L_V - L_B = 0
+                    L_T - L_B - L_V - L_H = 0
                 \end{array}
                 \right.
             \end{equation}
@@ -1210,14 +1208,14 @@ This Final Design Report illustrates the background, selected architecture, and 
                     k_M & k_A  & 0    & 0     & 0     & 0     & 0     & 0     \\
                     0   & k_A  & -k_S & 0     & 0     & 0     & 0     & 0     \\
                     k_M & 0    & 0    & 0     & 0     & 0     & 0     & -k_W  \\
-                    0   & 0    & 0    & -k_T  & -k_H  & 0     & 0     & k_W   \\
-                    0   & 0    & 0    & 0     & 0     & k_V   & -k_B  & 0     \\
-                    0   & 0    & 0    & 0     & k_H   & 0     & k_B   & 0     \\
+                    0   & 0    & 0    & -k_T  & 0     & 0     & -k_H  & k_W   \\
+                    0   & 0    & 0    & 0     & -k_B  & k_V   & 0     & 0     \\
+                    0   & 0    & 0    & 0     & k_B   & 0     & k_H   & 0     \\
                     1   & -1   & -1   & 1     & 0     & 0     & 0     & -1    \\
                     0   & 0    & 0    & 1     & -1    & -1    & -1    & 0
                 \end{bmatrix}
                 \begin{bmatrix}
-                    L_M \\ L_A \\ L_S \\ L_T \\ L_H \\ L_V \\ L_B \\ L_W
+                    L_M \\ L_A \\ L_S \\ L_T \\ L_B\ L_V \\ L_H \\ L_W
                 \end{bmatrix}
                 =
                 \begin{bmatrix}
@@ -1257,9 +1255,9 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \columnbreak
                     
                     \begin{align*}
-                        L_H &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
-                        L_V &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
                         L_B &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
+                        L_V &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
+                        L_H &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
                         L_W &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)
                     \end{align*}
                 \end{multicols}
@@ -1287,25 +1285,25 @@ This Final Design Report illustrates the background, selected architecture, and 
                 $E_S = E_{\text{Invar}} = \specEInv $\cite{ref_McMaster_Invar}
 
                 $A_S = \frac{\pi}{4} D^2 = \frac{\pi}{4} (3.3528mm)^2 = 2.6 mm^2$
+                
+            \subsubsection{Bellows}
+            \label{subsubsec:spec:TF:force_balance:TB}
 
-            \subsubsection{Housing}
+                $k_T = \specBellowsK $\cite{ref_miniflex_design}
+
+            \subsubsection{Valve Orifice}    
+            \label{subsubsec:spec:TF:force_balance:V}
+            
+            $E_V = E_{\text{Invar}} = \specEInv $
+            
+            $A_V = LW = (7 mm) (7 mm) = 49 mm^2$
+            
+            \subsubsection{Housing}    
             \label{subsubsec:spec:TF:force_balance:H}
 
                 $E_H = E_{\text{Invar}} = \specEInv $\cite{ref_CarpenterTechnology}
 
                 $A_H = LW = (72 mm) (40 mm) = 2880 mm^2$
-
-            \subsubsection{Valve Orifice}
-            \label{subsubsec:spec:TF:force_balance:V}
-
-                $E_V = E_{\text{Invar}} = \specEInv $
-
-                $A_V = LW = (7 mm) (7 mm) = 49 mm^2$
-
-            \subsubsection{Bellows}
-            \label{subsubsec:spec:TF:force_balance:TB}
-
-                $k_T = \specBellowsK $\cite{ref_miniflex_design}
 
             \subsubsection{Top wall}
             \label{subsubsec:spec:TF:force_balance:W}
@@ -1323,7 +1321,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             \begin{align}
                 y_F &= L_M - L_A - L_S - K_V L_V \\
-                y_R &= - \ell_w - L_R
+                y_R &= - L_W - K_H L_H
             \end{align}
 
             To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
@@ -1332,7 +1330,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             This feature is defined as \todo{Define $K_V$}
 
             To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
-            one must travel straight down the housing wall
+            one must travel straight down the housing wall \todo{Define $K_H = 1/2 - \sqrt{2}?$}.
 
     \section{Subsystem Specificaitons}
     \label{sec:spec:rolldown}
