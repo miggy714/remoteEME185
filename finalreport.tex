@@ -645,7 +645,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \end{figure}
     
         The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
-        One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem. 
+        One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
         The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
         If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig:orifice}, the overlap between these squares constitutes the valve orifice. 
         The lower (blue) square is cut into the moving plate, referred to as the “central plate” in this report, such that as the valve stem drives the plate downwards, the valve orifice (represented by the gray square) constricts.
@@ -975,6 +975,8 @@ This Final Design Report illustrates the background, selected architecture, and 
             \vspace*{\fill}
         \end{landscape}
 
+        \todo{Update TF; pdf has unrendered changes (4-18)}
+
         \todo{Figure out how to make Fig. \ref{fig:TF} fill the whole page}
 
         Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack. Altogether, it comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system. 
@@ -1113,19 +1115,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             Equating upper and lower vertical forces at each node produces the following system of equations:
 
-\newcommand{\circlab}[1]{%
-    \tikz[baseline=(char.base)]{
-        \node[shape=circle, draw, inner sep=1pt,
-              minimum size=1.5em] (char) {$#1$};
-    }%
-}
+            \newcommand{\circlab}[1]{%
+                \tikz[baseline=(char.base)]{
+                    \node[shape=circle, draw, inner sep=1pt,
+                        minimum size=1.5em] (char) {$#1$};
+                }%
+            }
 
-\newcommand{\ellipselab}[1]{%
-    \tikz[baseline=(char.base)]{
-        \node[shape=ellipse, draw, inner sep=1pt,
-              minimum width=3.2em, minimum height=1.6em] (char) {$#1$};
-    }%
-}
+            \newcommand{\ellipselab}[1]{%
+                \tikz[baseline=(char.base)]{
+                    \node[shape=ellipse, draw, inner sep=1pt,
+                        minimum width=3.2em, minimum height=1.6em] (char) {$#1$};
+                }%
+            }
+
             \begin{equation}
                 \left\{
                 \begin{array}{ll}
@@ -1326,11 +1329,29 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
             one must travel up the mount, down the actuator, down the valve stem, and partway down the valve orifice.
-            Because $L_V$ represents the total height of the valve orifice, a multiplier is required to find the position of the square cut.
-            This feature is defined as \todo{Define $K_V$}
-
             To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
-            one must travel straight down the housing wall \todo{Define $K_H = 1/2 - \sqrt{2}?$}.
+            one must travel straight down the housing wall.
+            Because $L_V$ and $L_H$ represent the total height of the valve orifice and housing outlet, a multiplier is required to find the position of each square cut.
+            Each square opening is defined such that the valve orifice will be exactly centered at $T_ref$.
+
+            \begin{figure}[H]
+                \centering
+                \begin{minipage}{.45\textwidth}
+                    \centering
+                    \includegraphics[height=.5\textheight]{K_V.png}
+                    \subcaption{Leading orifice geometry}
+                    \label{fig:K_V}
+                \end{minipage}
+                \hfill
+                \begin{minipage}{.45\textwidth}
+                    \centering
+                    \includegraphics[height=.5\textheight]{K_H.png}
+                    \subcaption{Trailing orifice goemetry}
+                    \label{fig:K_H}
+                \end{minipage}
+                \caption{Spring deflection}
+                \label{fig:springs}
+            \end{figure}
 
     \section{Subsystem Specificaitons}
     \label{sec:spec:rolldown}
