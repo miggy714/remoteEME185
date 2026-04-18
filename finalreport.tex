@@ -975,7 +975,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             \vspace*{\fill}
         \end{landscape}
 
-        \todo{Update TF; pdf has unrendered changes (4-18)}
+        \todo{Update TF.png and positional\_block\_diagram.png; PDF's have unrendered changes (4-18) }
 
         \todo{Figure out how to make Fig. \ref{fig:TF} fill the whole page}
 
@@ -1055,7 +1055,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                         \hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} (T - T_{ref})) \\
                         \hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} (T - T_{ref})) \\
                         \hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
-                        \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} (T - T_{ref})) \\
+                        \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} (T - T_{ref}))
                     \end{align}
                     
                     \columnbreak
@@ -1322,36 +1322,55 @@ This Final Design Report illustrates the background, selected architecture, and 
             Finally, we can use these lengths to calculate the values $y_F$ and $y_R$ of the two orifice components shown in Figure \ref{fig:positional_block_diagram_zoom}.
             Using the scheme depicted in Figure \ref{fig:positional_block_diagram}, these are as follows:
 
-            \begin{align}
-                y_F &= L_M - L_A - L_S - K_V L_V \\
-                y_R &= - L_W - K_H L_H
-            \end{align}
+            \vspace{1em}
+            \begin{mdframed}
+                \begin{align}
+                    y_F &= L_M - L_A - L_S - K_V L_V \\
+                    y_R &= - L_W - K_H L_H
+                \end{align}
+            \end{mdframed}
 
             To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
             one must travel up the mount, down the actuator, down the valve stem, and partway down the valve orifice.
             To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
             one must travel straight down the housing wall.
             Because $L_V$ and $L_H$ represent the total height of the valve orifice and housing outlet, a multiplier is required to find the position of each square cut.
-            Each square opening is defined such that the valve orifice will be exactly centered at $T_ref$.
+            As pictured in Figure \ref{fig:K_pos}, the upper and lower corners of the orifice lie $\frac{X_{ref}}{2}$ from the centerline, which lies midway between $y_T$ and $y_B$.
 
             \begin{figure}[H]
                 \centering
-                \begin{minipage}{.45\textwidth}
-                    \centering
-                    \includegraphics[height=.5\textheight]{K_V.png}
-                    \subcaption{Leading orifice geometry}
-                    \label{fig:K_V}
-                \end{minipage}
-                \hfill
-                \begin{minipage}{.45\textwidth}
-                    \centering
-                    \includegraphics[height=.5\textheight]{K_H.png}
-                    \subcaption{Trailing orifice goemetry}
-                    \label{fig:K_H}
-                \end{minipage}
-                \caption{Spring deflection}
-                \label{fig:springs}
+                \includegraphics[width=.5\textwidth]{K_pos.png}
+                \caption{Orifice goemetry}
+                \label{fig:K_pos}
             \end{figure}
+
+            This yields the values for $K_V$ and $K_H$:
+
+            \vspace{1em}
+            \begin{mdframed}
+                \begin{align}
+                    K_V &= \frac{1}{2} - \frac{X_{ref}}{2\ell_{V_0}} \\[6pt]
+                    K_H &= \frac{1}{2} + \frac{X_{ref}}{2\ell_{H_0}}
+                \end{align}
+            \end{mdframed}
+
+            We find the height of the orifice $X$ by taking the difference between the position of the upper and lower corners of the orifice:
+
+            \vspace{1em}
+            \begin{mdframed}
+                \begin{equation}
+                    X = y_F - y_R
+                \end{equation}
+            \end{mdframed}
+
+            Finally, the orifice transfer function $\hat{G}_O$ converts this height as derived in Appendix \ref{app::calcs:orifice_geometry}:
+
+            \vspace{1em}
+            \begin{mdframed}
+                \begin{equation}
+                    \hat{G}_O = \sqrt{\frac{2}{\pi}} X
+                \end{equation}
+            \end{mdframed}
 
     \section{Subsystem Specificaitons}
     \label{sec:spec:rolldown}
