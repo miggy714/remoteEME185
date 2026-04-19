@@ -1218,7 +1218,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                     0   & 0    & 0    & 1     & -1    & -1    & -1    & 0
                 \end{bmatrix}
                 \begin{bmatrix}
-                    L_M \\ L_A \\ L_S \\ L_T \\ L_B\ L_V \\ L_H \\ L_W
+                    L_M \\ L_A \\ L_S \\ L_T \\ L_B \\ L_V \\ L_H \\ L_W
                 \end{bmatrix}
                 =
                 \begin{bmatrix}
@@ -1251,20 +1251,20 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \begin{align*}
                         L_M &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W) \\
                         L_A &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W) \\
-                        L_S &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W) \\
-                        L_T &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W) 
+                        L_S &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)
                     \end{align*}
                     
                     \columnbreak
                     
                     \begin{align*}
-                        L_B &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
                         L_V &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
                         L_H &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)  \\ 
                         L_W &= f(\ell_M, \ell_A, \ell_S, \ell_T, \ell_H, \ell_V, \ell_B, \ell_W)
                     \end{align*}
                 \end{multicols}
             \end{mdframed}
+            
+            The symbolic solution for this matrix equation is far more complicated than is profitable for this report. Therefore, we will solve it numerically using MATLAB later in this report.
             
             Below are the values required to find the spring constant of each part.
             
@@ -1371,6 +1371,22 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \hat{G}_O = \sqrt{\frac{2}{\pi}} X
                 \end{equation}
             \end{mdframed}
+
+
+
+
+
+
+
+            \newpage
+
+            \todo{The below is just a draft for now.}
+
+            \begin{align*}
+                D_{eff} &= \sqrt{\frac{2}{\pi}} X \\
+                &= \sqrt{\frac{2}{\pi}} (y_F - y_R) \\
+                &= \sqrt{\frac{2}{\pi}} \left\{\left[L_M - L_A - L_S - \left(\frac{1}{2} - \frac{X_{ref}}{2\ell_{V_0}}\right) L_V\right] - \left[- L_W - \left(\frac{1}{2} + \frac{X_{ref}}{2\ell_{H_0}}\right) L_H\right]\right\}
+            \end{align*}
 
     \section{Subsystem Specificaitons}
     \label{sec:spec:rolldown}
