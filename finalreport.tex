@@ -465,7 +465,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 \label{chap:Intro}
 
     \section{Motivation}
-    \label{sec:intro:background}
+    \label{sec:intro:motive}
 
         \begin{figure}[H]
             \centering
@@ -473,6 +473,27 @@ This Final Design Report illustrates the background, selected architecture, and 
             \caption{DELETE BEFORE SUBMISSION}
             \label{fig:del_intro_req}
         \end{figure}
+
+        \subsection{Background}
+        \label{subsec:intro:motive:background}
+
+            \todo{General motivation: proof of concept to be able to passively accommodate some temperature fluctuations when running these experiments. Why is this needed? Not sure. Get info from Dr. Bon for more details.}
+
+        \subsection{Objectives}
+        \label{subsec:intro:motive:objectives}
+
+            \todo{This is the second half of Background; now that the "problem" has been established, the flow of thought progresses to "it would be nice if we had a device that could do X for us."}
+
+        \subsection{Potential stakeholders}
+        \label{subsec:intro:motive:stakeholders}
+
+            \todo{Anyone who might interact with this thing: the lab coats, technicians, and researchers primarily}
+
+        \subsection{Concept of Operations}
+        \label{subsec:intro:motive:Ops}
+
+            \todo{Leave the device as a blackbox for now: we don't know how it works yet or even what subsystems it has. But how would a user install and operate a valve that does what we generally described in Objectives?}
+
 
     \section{System Requirements}
     \label{sec:intro:req}
@@ -570,13 +591,19 @@ This Final Design Report illustrates the background, selected architecture, and 
         and isolate the temperature-sensitive device controller
         from heat transfer from the internal gas for a full minute during operation.
         Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
-        \todo{outline of the next major sections}
+        
+        \section{Subsystem Specifications}
+        \label{sec:intro:specs}
 
-    \section{Subsystem Specifications}
-    \label{sec:intro:specs}
+        \todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]}
+                
+            \subsection{Required Relationship rolldown}
+            \label{subsec:intro:specs:RR}
 
-        \todo{Dr. Schofield stipulated that we rolldown the specifications before describing the system architecture because specs drive architecture. Because our exact specs are at a part level, we'll save the TF and full spec rolldown for after system arch, but describe the subsystem-level specs that did indeed drive our architecture in this subsystem. It needs to include rolldown: e.g. each subsystem must be less than 5cm such that the total adds up to our ME}
+            \subsection{Mechanical Envelope rolldown}
+            \label{subsec:intro:specs:ME}
 
+        \todo{Now that our problem statement has been completely and comprehensively defined, give a brief roadmap/outline of the rest of the report.}
 
 \chapter{System Architecture}
 \label{chap:arch}
@@ -974,15 +1001,11 @@ This Final Design Report illustrates the background, selected architecture, and 
         \begin{landscape}
             \centering
             \vspace*{\fill}
-            \includegraphics[width=1.5\textwidth]{TF.png}
+            \includegraphics[width=1.4\textwidth]{TF.png}
             \captionof{figure}{Full System Transfer Function}
             \label{fig:TF}
             \vspace*{\fill}
         \end{landscape}
-
-        \todo{Update TF.png and positional\_block\_diagram.png; PDF's have unrendered changes (4-18) }
-
-        \todo{Figure out how to make Fig. \ref{fig:TF} fill the whole page}
 
         Figure \ref{fig:TF} depicts the full system Transfer Function for the \device. It will take a moment to unpack. Altogether, it comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system. 
         
@@ -1397,7 +1420,7 @@ This Final Design Report illustrates the background, selected architecture, and 
     \label{sec:spec:rolldown}
 
 
-        \todo{Specs here}
+        \todo{Tolerance specs here}
 
 
 
@@ -2091,6 +2114,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
         A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
 
+        \newpage%
         \begin{multicols}{2}
             \begin{figure}[H]
                 \centering
@@ -2411,7 +2435,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \label{fig:del_test}
     \end{figure}
 
-    \todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype.}
+    \todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref{chap:risk}. Follow steps 1-6 above \textit{verbatim}.}
 
     \todo{Bonus: propose physical tests -- the ones we were going to do with our own prototype}
 
@@ -2801,12 +2825,18 @@ The following data sheets are included below:
 \chapter{Project Management}
 \label{app:PM}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\textwidth]{Del_app_reqs_2.png}
-        \caption{DELETE BEFORE SUBMITTING}
-        \label{fig:del_app_reqs_2}
-    \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{Del_app_reqs_2.png}
+    \caption{DELETE BEFORE SUBMITTING}
+    \label{fig:del_app_reqs_2}
+\end{figure}    
+
+\todo{Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}
+
+% \includepdf[pages=1, fitpaper=true, landscape=true]{TaskList.pdf}
+
+% \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
 
     Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spand a year to develop.
     We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
@@ -2818,22 +2848,22 @@ The following data sheets are included below:
         \item Our initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure \ref{fig:hexagon}).
                 As we further developed the model in preparation for the Preliminary Machine Architecture Report, our team determined that this complex mechanism carried too many moving parts and sources of friction and error to achieve the microscopic diameter and extreme tolerance required in our objectives.
                 We held an emergency meeting to consider our alternatives and settled on a new architecture we had not thought of before, the diamond-overlap orifice described throughout this report.
-        \item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at SNL for prototype funds amounting to \$2,000.
+        \item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at SNL for prototype funds amounting to \$2,000.        
                 With the sudden responsibility of determining whether we could manufacture the device ourselves, quickly drew up a machining and assembly plan to ensure our model would be ready for purchase by the time we submitted the report.
                 We met with our machine shop manager the next day to ask for his input and inadvertently won a full-hour design review. Beyond valuable insight into strategies and off-campus resources for performing the more difficult machining operations
                 (i.e. the EDM cuts and laser-welded assembly), he gave his input on the reliability of our current actuator-valve interface. Our current model used a double rack-and-pinion (Figure \ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device 's longest dimension.
                 Heeding his advice, after confirming with our sponsor that the Mechanical Envelope could be stretched, we replaced the geared interface with a direct connection, supporting the actuator vertically with a solid-state mount (Figure \ref{fig:trap_mount}).
-        \item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, was hastily designed when we replaced the geared interface.
+        \item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, was hastily designed when we replaced the geared interface.        
                 It was unnecessarily complex, difficult to machine, and long enough that its thermal expansion would counteract the thermal actuation.
                 We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, Allvar, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
                 This yielded the final mount architecture, seen in Figure \ref{fig:cyl_mount}.
-        \item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the Allvar mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and laser weld methods,
+        \item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the Allvar mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and laser weld methods,        
                 We consulted with our sponsor, who confirmed that a physical prototype was no longer worth testing after deviating so far from the final design.
                 Thus, we pivoted to a fully computation model for our prototype testing.
                 While it may seem the physical model was a wasted effort, we produced a better design for having prepared to manufacture it ourselves.
                 The knowledge that we had to build the \device\ ourselves gave us a real sense fo responsibility for the performance of our design.
                 Without it, we would likely have never changed the rack-and-pinion interface or resolved countless manufacturing and assembly issues that we later identified. 
-    \end{enumerate}
+    \end{enumerate}            
 
 \begin{figure}[H]
     \centering
@@ -2842,14 +2872,14 @@ The following data sheets are included below:
         \includegraphics[width=\textwidth]{Hexagon.png}
         \captionof{figure}{Hexagonal Diaphragm}
         \label{fig:hexagon}
-    \end{minipage}
+    \end{minipage}    
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Gears.png}
         \captionof{figure}{Rack-and-Pinion Interface}
         \label{fig:gears}
-    \end{minipage}
+    \end{minipage}    
 
     \vspace{1em}
 
@@ -2858,25 +2888,20 @@ The following data sheets are included below:
         \includegraphics[width=\textwidth]{Mount_trapz.png}
         \captionof{figure}{Direct Mount, first iteration}
         \label{fig:trap_mount}
-    \end{minipage}
+    \end{minipage}    
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Mount_cyl.png}
         \captionof{figure}{Cylindrical Allvar Mount}
         \label{fig:cyl_mount}
-    \end{minipage}
-\end{figure}
-    \todo{Fix these images, make them active}
+    \end{minipage}    
+\end{figure}    
 
     Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
     Our first exposure to real engineering design, this project will be remembered as the high point in our academic journey.
 
-    \todo{Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}
-
-    % \includepdf[pages=1, fitpaper=true, landscape=true]{TaskList.pdf}
-
-    % \includepdf[pages=1, fitpaper=true, landscape=true]{GanttChart.pdf}
+    \todo{Include something sentimental here? Group picture, signature/personal remarks page, something}
 
 
 \end{appendices}
