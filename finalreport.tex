@@ -2627,6 +2627,19 @@ This Final Design Report illustrates the background, selected architecture, and 
     \section{Error Propagation Calculation}
     \label{app:calcs:errorProp}
 
+        \todo{(Sam) Get rid of the KM stuff and just show the upper and lower bounds, defined as follows:
+        
+        T>T\_ref:
+
+        Upper bound: positive error on both sides, but A1<0 so A1 -= 5\%, A0 += 5\%
+        Lower bound: the opposite. A1 += 5\%, A0 -= 5\%
+
+        T<T\_ref:
+
+        Upper bound: positive error on both sides, but now (T-T\_ref)<0 which negates A1 so both += 5\%
+        Lower bound: the opposite, both -= 5\%
+        }
+
         As detailed in Section \ref{sec:intro:req}, the Required Relationship
 
             $$ \requiredRelationship $$
