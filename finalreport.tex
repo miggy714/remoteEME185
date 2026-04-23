@@ -157,6 +157,7 @@
 \newcommand{\specInvarCTE}{\SI{1.2e-6}{\per \celsius}}
 \newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
 \newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
+\newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
 
 \newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
 \newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
@@ -1047,20 +1048,29 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \caption{Positional block diagram, detail view}
                 \label{fig:positional_block_diagram_zoom}
             \end{figure}
-            
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.45\textwidth]{Housing_split.png}
+                \caption{Separation between Housing Wall (W) and Housing Body (H)}
+                \label{fig:housing_split}
+            \end{figure}
+
             \columnbreak
             
             Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
-            As described in section \ref{chap:arch}, the mount $(M)$ sits atop the housing "wall" $(W)$.
-            The actuator $(A)$ dangles from its upper interior surface, which for our purposes is defined as the undersurface of the Belleville washer.
+            As described in section \ref{chap:arch}, the mount $(M)$ sits atop the housing.
+            The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the Belleville washer.
             The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
-            These represent the side walls of the housing an behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
-            The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls.
+            Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top 10 mm of the whole housing assembly (parts V1, V2, and V3) as shown in Figure \ref{fig:housing_split}.
+            The housing body $(H)$ and "rear" $(R)$ share the lower portion shown in the figure; their expansion is coupled.
+            These represent the side walls of the housing and behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
+            The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls (part V2).
+            
+            Figure \ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (i.e. equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
+            Thus, $y_M$ is positive, whereas $y_T$ is negative.
         \end{multicols}
-        
-        Figure \ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (i.e. equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
-        Thus, $y_M$ is positive, whereas $y_T$ is negative.
-        
+
         \subsection{Thermal Expansion}
         \label{subsec:spec:TF:top_row}
         Let us forgo the top row of temperature-adjusting functions for now and assume we know the temperature of each part. A full thermal analysis will provide these values later in this report.
@@ -1080,19 +1090,19 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \begin{multicols}{2}
 
                     \begin{align}
-                        \hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} (T - T_{ref})) \\
-                        \hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} (T - T_{ref})) \\
-                        \hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
-                        \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} (T - T_{ref}))
+                        \hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} T_{{eff}_M}) \\
+                        \hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} T_{{eff}_A}) \\
+                        \hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} T_{{eff}_S}) \\
+                        \hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} T_{{eff}_T})
                     \end{align}
                     
                     \columnbreak
                     
                     \begin{align}
-                        \hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} (T - T_{ref})) \\
-                        \hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
-                        \hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} (T - T_{ref})) \\
-                        \hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} (T - T_{ref}))
+                        \hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} T_{{eff}_B}) \\
+                        \hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} T_{{eff}_V}) \\
+                        \hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} T_{{eff}_H}) \\
+                        \hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} T_{{eff}_W})
                     \end{align}
 
                 \end{multicols}
@@ -1105,6 +1115,19 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \item Allvar (ALLV): \specMountCTE\cite{ref_AllvarAlloys}
                 \item Invar 36 (Inv): \specInvarCTE\cite{ref_CarpenterTechnology}
                 \item Inconel 718 (Inc): \specInconelCTE\cite{ref_SpecialMetals}
+            \end{itemize}
+
+            and the machined dimensions $\ell_{i_0}$ are as follows from Appendix \ref{app:drawings}:
+
+            \begin{itemize}
+                \item $\ell_{M_0} = 38.541 \text{ mm} - 0.5 \text{ mm} = 38.041 \text{ mm}$\footnote{Top of the mount, for simplicity, is assumed to be the underside of the compressed belleville washer. Since this height is dependent on the use case, we will assume a 0.1 mm compression.}
+                \item $\ell_{A_0} = 32.991 \text{ mm}$
+                \item $\ell_{S_0} = 70.72 \text{ mm} - 32.86 \text{ mm} = 37.86 \text{ mm}$
+                \item $\ell_{T_0} = 22.86 \text{ mm}$
+                \item $\ell_{B_0} = \ell_{T_0} = 22.86 \text{ mm}$
+                \item $\ell_{V_0} = 32.86 \text{ mm} - 27.86 \text{ mm} = 5 \text{ mm}$
+                \item $\ell_{H_0} = 63.72 \text{ mm}$
+                \item $\ell_{W_0} = 10 \text{ mm}$
             \end{itemize}
 
             This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
