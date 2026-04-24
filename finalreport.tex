@@ -1120,7 +1120,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             and the machined dimensions $\ell_{i_0}$ are as follows from Appendix \ref{app:drawings}:
 
             \begin{itemize}
-                \item $\ell_{M_0} = 38.541 \text{ mm} - 0.5 \text{ mm} = 38.041 \text{ mm}$\footnote{Top of the mount, for simplicity, is assumed to be the underside of the compressed belleville washer. Since this height is dependent on the use case, we will assume a 0.1 mm compression.}
+                \item $\ell_{M_0} = 38.541 \text{ mm} - 0.55 \text{ mm} = 38.041 \text{ mm}$\footnote{Top of the mount, for simplicity, is assumed to be the underside of the compressed belleville washer. Since this height is dependent on the use case, we will assume a 0.05 mm compression.}
                 \item $\ell_{A_0} = 32.991 \text{ mm}$
                 \item $\ell_{S_0} = 70.72 \text{ mm} - 32.86 \text{ mm} = 37.86 \text{ mm}$
                 \item $\ell_{T_0} = 22.86 \text{ mm}$
@@ -1251,8 +1251,8 @@ This Final Design Report illustrates the background, selected architecture, and 
                     k_W L_W - k_T L_T - k_H L_H = k_W \ell_W - k_T \ell_T - k_H \ell_H \\[6pt]
                     k_V L_V - k_B L_B = k_V \ell_V - k_B \ell_B \\[6pt]
                     k_B L_B + k_H L_H = k_B \ell_B + k_H \ell_H \\[6pt]
-                    L_M - L_A - L_S + L_T - L_W = 0 \\[6pt]
-                    L_T - L_B - L_V - L_H = 0
+                    L_M - L_A - L_S + L_T + L_W = 0 \\[6pt]
+                    L_T + L_B + L_V - L_H = 0
                 \end{array}
                 \right.
             \end{equation}
@@ -1265,8 +1265,8 @@ This Final Design Report illustrates the background, selected architecture, and 
                     0   & 0    & 0    & -k_T  & 0     & 0     & -k_H  & k_W   \\
                     0   & 0    & 0    & 0     & -k_B  & k_V   & 0     & 0     \\
                     0   & 0    & 0    & 0     & k_B   & 0     & k_H   & 0     \\
-                    1   & -1   & -1   & 1     & 0     & 0     & 0     & -1    \\
-                    0   & 0    & 0    & 1     & -1    & -1    & -1    & 0
+                    1   & -1   & -1   & 1     & 0     & 0     & 0     & 1    \\
+                    0   & 0    & 0    & 1     & 1     & 1     & -1    & 0
                 \end{bmatrix}
                 \begin{bmatrix}
                     L_M \\ L_A \\ L_S \\ L_T \\ L_B \\ L_V \\ L_H \\ L_W
@@ -1377,7 +1377,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             \begin{mdframed}
                 \begin{align}
                     y_F &= L_M - L_A - L_S - K_V L_V \\
-                    y_R &= - L_W - K_H L_H
+                    y_R &= - K_H (L_W + L_H)
                 \end{align}
             \end{mdframed}
 
@@ -1397,11 +1397,13 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             This yields the values for $K_V$ and $K_H$:
 
+            \todo{Make derivation more explicit}
+
             \vspace{1em}
             \begin{mdframed}
                 \begin{align}
-                    K_V &= \frac{1}{2} - \frac{X_{ref}}{2\ell_{V_0}} \\[6pt]
-                    K_H &= \frac{1}{2} + \frac{X_{ref}}{2\ell_{H_0}}
+                    K_V &= \frac{1}{2} - \frac{X_{ref}}{2 \ell_{V_0}} \\[6pt]
+                    K_H &= \frac{1}{2} + \frac{X_{ref}}{4 \ell_{W_0} + 2 \ell_{H_0}}
                 \end{align}
             \end{mdframed}
 
@@ -2481,6 +2483,12 @@ This Final Design Report illustrates the background, selected architecture, and 
     \label{sec:conc:fin_anal}
 
         \todo{Strengths, weaknesses, and limitations of design}
+
+        Brainstorm of weaknesses and unaddressed assumptions:
+
+        \begin{itemize}
+            \item Screw will interfere with actuator expansion
+        \end{itemize}
 
     \section{Recommended Improvements}
     \label{sec:conc:rec}
