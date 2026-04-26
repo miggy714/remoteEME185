@@ -1416,6 +1416,56 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \end{equation}
             \end{mdframed}
 
+        \subsection{Orifice Geometry}
+        \label{subsec:spec:TF:orif}
+
+            Finally, with the height of the orifice, we can calculate its effective diameter.
+            This is the most critical part of the System Transfer Function because the square orifice bears the most potential for machining errors.
+            Such errors will be kept symbolic for now.
+                        
+            \begin{multicols}{2}
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=.45\textwidth]{G_O.png}
+                    \caption{Orifice transfer function}
+                    \label{fig:G_O}
+                \end{figure}
+
+                \columnbreak
+
+                The orifice transfer function $\hat{G}_O$ is best divided into two sub-transfer functions, as in Figure \ref{fig:G_O}:
+                one to convert the orifice height into the resulting error, and one to translate his into the effective diameter.
+                
+            \end{multicols}
+
+
+
+            \subsubsection{$\hat{G}_A$: Height to Area}
+            \label{subsubsec:spec:TF:orif:G_A}
+
+                Under ideal machining conditions, the orifice area is calculated as follows:
+
+                \begin{equation}
+                    A = s^2 = \left( \frac{X}{\sqrt{2}} \right)^2 = \frac{X^2}{2}
+                \end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            \newpage
+
             Finally, the orifice transfer function $\hat{G}_O$ converts this height as derived in Appendix \ref{app::calcs:orifice_geometry}:
 
             \vspace{1em}
@@ -1431,15 +1481,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 
 
-            \newpage
-
-            \todo{The below is just a draft for now.}
-
-            \begin{align*}
-                D_{eff} &= \sqrt{\frac{2}{\pi}} X \\
-                &= \sqrt{\frac{2}{\pi}} (y_F - y_R) \\
-                &= \sqrt{\frac{2}{\pi}} \left\{\left[L_M - L_A - L_S - \left(\frac{1}{2} - \frac{X_{ref}}{2\ell_{V_0}}\right) L_V\right] - \left[- L_W - \left(\frac{1}{2} + \frac{X_{ref}}{2\ell_{H_0}}\right) L_H\right]\right\}
-            \end{align*}
 
     \section{Subsystem Specificaitons}
     \label{sec:spec:rolldown}
