@@ -430,8 +430,7 @@
 
 \newpage  % Start the body of the report on a fresh page
 
-\chapter{Abstract}
-\label{chap:abstract}
+\begin{abstract}
 
 
 Sandia National Laboratories has tasked our senior design team, 
@@ -460,6 +459,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 \end{itemize}
 
 \todo{Report body may not exceed 50 pages.}
+
+\end{abstract}
 
 \chapter{Introduction}
 \label{chap:Intro}
@@ -566,35 +567,153 @@ This Final Design Report illustrates the background, selected architecture, and 
             \item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
             \item The ambient temperature will remain fixed during operation.
             \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
-        \end{enumerate} 
+        \end{enumerate}
+
+        In summary, although our mission is simple, it is incredibly difficult. The \device\ must maintain a pin-size opening with medical precision under extreme operating conditions.
+        These circumstances motivated the design specifications and architecture that will be presented in the following sections.
         
-        The \device\ must withstand the extreme pressure, operate within a wide temperature range, 
-        and isolate the temperature-sensitive device controller
-        from heat transfer from the internal gas for a full minute during operation.
-        Hydrogen is apt to diffuse through flexible surfaces; thus, all wetted parts must be compatible with Hydrogen and prevent its diffusion.
-        
-        \section{Subsystem Specifications}
-        \label{sec:intro:specs}
+    \section{Subsystem Specifications}
+    \label{sec:intro:specs}
 
-        \todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]}
-                
-            \subsection{Required Relationship rolldown}
-            \label{subsec:intro:specs:RR}
+    \todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]; add specifications for operational conditions.}
+            
+    To passively control the flow of a gas, the \device needs two coupled subsystems:
 
-            \subsection{Mechanical Envelope rolldown}
-            \label{subsec:intro:specs:ME}
+    \begin{itemize}
+        \item A valve to restrict the flow
+        \item An actuator to drive the valve's movement
+    \end{itemize}
 
-                % NOTE - These are consistent with the main CAD assembly axes
-                \begin{itemize}
-                    \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-                    \item The "Vertical" axis (y-axis) points directly upwards
-                    \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
-                \end{itemize}
+    The valve assembly includes the housing, which connects to two provided gas pipes via standard thread, an internal variable-size orifice, and a hermitically-sealed piston to connect to the actuator.
+    
+    The actuator assembly is externally mounted to the valve and drives its motion via the piston (Figure \ref{fig:subsystems_conceptual}).
 
-                These are depicted in Figure \ref{fig:mainIsometric}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=.75\textwidth]{subsystems_conceptual.png}
+        \caption{\device \text{ Subsystems}}
+        \label{fig:subsystems_conceptual}
+    \end{figure}
+
+    Our three givens --- the Required Relationship, Mechanical Envelope, and operational conditions --- drive the \device's specifications, which will in turn motivate the optimal design architecture.
+
+        \subsection{Required Relationship rolldown}
+        \label{subsec:intro:specs:RR}
+
+            As stated above, the Required Relationship $(D = A_1 \Delta T + A_0)$ stipulates an extremely precise linear output.
+            These properties --- its precision and first-order nature --- rolldown into several specifications for each subsystem.
+
+            First, to be precise, the \device must be simple. Additional parts drastically increases the potential for error, leakage, or mechanical failure.
+            Second, to maintain a first-order control output, each part must exhibit highly linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
+
+            \begin{itemize}
+                \item \textbf{Precision}
+                    \begin{itemize}
+                        \item The actuator must comprise a simple architecture with minimal failure modes.
+                        \item The valve must comprise a simple architecture with minimal degrees of freedom to minimize error modes.
+                        \item The interface between these must be direct.
+                    \end{itemize}
+                \item \textbf{Linearity}
+                    \begin{itemize}
+                        \item The actutor must expand consistently across the whole temperature range.
+                        \item The valve orifice geometry must maintain the shape of a regular polygon.
+                        \item The valve must not resist the driving force of the actuator.
+                    \end{itemize}
+            \end{itemize}
+
+        \subsection{Mechanical Envelope rolldown}
+        \label{subsec:intro:specs:ME}
+
+            The Mechanical Envelope (10 cm in each direction) can defined along three principal axes, which will be used for reference throughout this report:
+
+            % NOTE - These are consistent with the main CAD assembly axes
+            \begin{itemize}
+                \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
+                \item The "Vertical" axis (y-axis) points directly upwards
+                \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
+            \end{itemize}
+
+            These are depicted in Figure \ref{fig:axes}.
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=.5\textwidth]{Axes.png}
+                \caption{Reference axes for the \device}
+                \label{fig:axes}
+            \end{figure}
+
+            If the assembly is stacked vertically as shown, each subsystem must share the space along that axis and can use the full 10 cm along the other two axes.
+            Furthermore, the device will exceed its vertical envelope by 25 cm to accommodate a direct actuator-valve interface. This was approved by SNL.
+
+            Thus, the mechanical envelope of each subsystem will be specified as follows by longitudinal, vertical, and lateral axes, respectively:
+
+            \begin{itemize}
+                \item Valve: 10 cm $\times$ 71 cm $\times$ 10 cm
+                \item Actuator: 10 cm $\times$ 44 cm $\times$ 10 cm
+            \end{itemize}
+
+            Many valve architectures easily fit within this envelope. However, to provide sufficient movement, the actuator must either use an exceptionally high-expansion material, which provides an inconsistent expansion rate, or use another method to increase its driving distance.
+            Thus, we obtain one specification for the actuator to achieve this:
+
+            The \device\ must use a bimetallic actuator.
+
+            If we select two metals with a great enough difference in expansion rates, we can obtain the necessary movement within this envelope.
+
+        \subsection{Operational Conditions rolldown}
+        \label{subsec:Intro:specs:cond}
+
+            Many of our design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
+            This rolls down to the following subsystem specifications:
+
+            \begin{itemize}
+                \item \textbf{Gas Pressure}
+                    \begin{itemize}
+                        \item The valve housing must be able to withstand $\specPressure$ internal pressure without bursting.
+                        \item The valve must be hermitically sealed to withstand this pressure without leaking.
+                    \end{itemize}
+                \item \textbf{Hydrogen Compatibility}
+                    \begin{itemize}
+                        \item Wetted components must be compatible with hydrogen by exhibiting minimal embrittlement or diffusion.
+                    \end{itemize}
+                \item \textbf{Heat Transfer}
+                    \begin{itemize}
+                        \item The actuator must be thermally isolated from the internal gas.
+                    \end{itemize}
+            \end{itemize}
+    
+    \subsubsection*{Roadmap}
+    % Does not appear in table of contents; is not in Latex
+
+    These specifications drove the development of our final architecture. The rest of this report presents our solution to the given problem and verifies its requirement satisfaction analytically and numerically.
+    The following will be discussed, numbered according to their sections:
+
+    \begin{enumerate}
+        \setcounter{enumi}{1}
+        \item Design Summary
+            \begin{itemize}
+                \item Motivation and governing principles of the system architecture
+                \item Qualitative illustration and description of each subsystem with related bill of materials
+            \end{itemize}
+        \item Analytical Proof of Requirement Satisfaction
+            \begin{itemize}
+                \item Quantitative definition of each part and assembly, with necessary calculations
+                \item Derivation of the passive control system Transfer Function
+                \item Error propagation analysis and demonstrated satisfaction of the Required Relationship
+            \end{itemize}
+        \item Design Failure Modes and Effects Analysis (DFMEA) of high-risk components
+        \item Presentation of the computational prototype with numerical verification of the Transfer Function
+        \item Conclusion
+            \begin{itemize}
+                \item Recommended improvements for the next design iteration
+                \item Final analysis of this design, its advantages, and its weaknesses
+            \end{itemize}
+    \end{enumerate}
+    
+    
 
 
-        \todo{Now that our problem statement has been completely and comprehensively defined, give a brief roadmap/outline of the rest of the report.}
+
+    \todo{Now that our problem statement has been completely and comprehensively defined, give a brief roadmap/outline of the rest of the report.}
 
 \chapter{Final Design of the \device}
 \label{chap:design}
@@ -631,6 +750,8 @@ This Final Design Report illustrates the background, selected architecture, and 
        
        
 
+        \newcommand{\coordAngle}{30} % Angle for coordinate system picture below
+
         \begin{figure}[H]
             \centering
             \begin{tikzpicture}
@@ -639,9 +760,9 @@ This Final Design Report illustrates the background, selected architecture, and 
                 };
                 % 3D axes overlay — adjust (0.8, 0.8) to reposition
                 \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0) -- ({cos(20)},{-sin(20)}) node[right] {$X$};
+                    \draw[->] (0,0) -- ({cos(\coordAngle)},{-sin(\coordAngle)}) node[right] {$X$};
                     \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
-                    \draw[->] (0,0) -- ({-cos(20)},{-sin(20)}) node[below left] {$Z$};
+                    \draw[->] (0,0) -- ({-cos(\coordAngle)},{-sin(\coordAngle)}) node[below left] {$Z$};
                 \end{scope}
             \end{tikzpicture}
             \caption{Complete assembly}
@@ -2607,12 +2728,12 @@ The following data sheets are included below:
 \chapter{Project Management}
 \label{app:PM}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{Del_app_reqs_2.png}
-    \caption{DELETE BEFORE SUBMITTING}
-    \label{fig:del_app_reqs_2}
-\end{figure}    
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=\textwidth]{Del_app_reqs_2.png}
+%     \caption{DELETE BEFORE SUBMITTING}
+%     \label{fig:del_app_reqs_2}
+% \end{figure}    
 
 \todo{Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}
 
@@ -2680,9 +2801,11 @@ The following data sheets are included below:
     \end{minipage}    
 \end{figure}    
 
+    \newpage
     Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
     Our first exposure to real engineering design, this project will be remembered as the high point in our academic journey.
 
+    \newpage
     \todo{Include something sentimental here? Group picture, signature/personal remarks page, something}
 
 
