@@ -139,9 +139,9 @@
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
-\newcommand{\Dcold}{D_{\text{effective}}(-60\degC) = 383.5 \pm 14.3\ \mu m}
-\newcommand{\Dhot}{D_{\text{effective}}(80\degC) = 170.2 \pm 13.4\ \mu m}
-\newcommand{\Dref}{D_{\text{effective}} = 292.1 \pm 12.7\ \mu m}
+\newcommand{\Dcold}{D_{\text{effective}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
+\newcommand{\Dhot}{D_{\text{effective}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
+\newcommand{\Dref}{D_{\text{effective}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -439,20 +439,19 @@ the \teamname, to design a passive temperature compensation device (\device) tha
 The device must restrict its orifice as the ambient temperature of the surrounding air increases.
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, a.k.a. the "sponsor"),
-stipulates that the orifice maintain an effective diameter that varies with temperature between 200 and 500 $\mu$m, or half the width of the ballpoint on a pen,
-with an average tolerance of $\pm 13\ \mu$m, about one fifth the thickness of a human hair.
-Our team designed three interconnected subsystems to accomplish this objective:
+stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m, or half the width of the ballpoint on a pen,
+with an average tolerance of $\pm 13$ \textmu m, about one fifth the thickness of a human hair.
+Our team designed two interconnected subsystems to accomplish this objective:
 
 \begin{itemize}
     \item A square valve orifice, comprising two overlapping square holes
-    \item A passive thermal actuator, which expands with rising temperature and drives the valve
-    \item A mount, which fixes the relative positions of the other subsystems
+    \item A bimetallic thermal actuator, which expands with rising temperature and drives the valve
 \end{itemize}
 
 This Final Design Report illustrates the background, selected architecture, and expected performance of the design and provides a full package required for further development. It achieves the following:
 
 \begin{itemize}
-    \item Outlines design motivation, objectives, and selected architecture
+    \item Outlines design motivation, objectives, and architecture
     \item Defines the passive, open-loop control system transfer function
     \item Analytically demonstrates that the required output will be achieved
     \item Identifies likely sources of error
@@ -478,7 +477,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \subsection{Background}
         \label{subsec:intro:motive:background}
 
-            \todo{General motivation: proof of concept to be able to passively accommodate some temperature fluctuations when running these experiments. Why is this needed? Not sure. Get info from Dr. Bon for more details.}
+            \todo{General motivation: proof of concept to be able to passively accommodate some temperature fluctuations when running these experiments. Why is this device needed? Not sure. Get info from Dr. Bon for more details.}
 
         \subsection{Objectives}
         \label{subsec:intro:motive:objectives}
@@ -488,12 +487,12 @@ This Final Design Report illustrates the background, selected architecture, and 
         \subsection{Potential stakeholders}
         \label{subsec:intro:motive:stakeholders}
 
-            \todo{Anyone who might interact with this thing: the lab coats, technicians, and researchers primarily}
+            \todo{Anyone who might interact with this thing: the lab coats, technicians, and researchers, primarily}
 
         \subsection{Concept of Operations}
         \label{subsec:intro:motive:Ops}
 
-            \todo{Leave the device as a blackbox for now: we don't know how it works yet or even what subsystems it has. But how would a user install and operate a valve that does what we generally described in Objectives?}
+            \todo{Leave the device as a blackbox for now: we don't know how it works yet or even what subsystems it has. But how would a user install and operate a valve that does what we generally described in Objectives? Being a passive device, this is very minimal.}
 
 
     \section{System Requirements}
@@ -533,36 +532,17 @@ This Final Design Report illustrates the background, selected architecture, and 
         
         These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
         A mechanical envelope is the total volume that the device is allowed to occupy at all times.
-        When defining specifications that comply with this requirement, the required dimensions will vary for each principal axis.
-        Thus, for clarity, the system axes will be defined as follows:
 
-        % NOTE - These are consistent with the main CAD assembly axes
-        \begin{itemize}
-            \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-            \item The "Vertical" axis (y-axis) points directly upwards
-            \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
-        \end{itemize}
+        The Required Relationship in equation \eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extremem precision.
+        As derived in Appendix \ref{app:calcs:errorProp}, $D_{\text{effective}}$ must linearly follow $T_{\text{ambient}}$ with the following reference values:
 
-        These are depicted in Figure \ref{fig:mainIsometric}.
+        \begin{align}
+            \Dcold \label{eq:coldBoundary} \\
+            \Dref \label{eq:DTref} \\
+            \Dhot \label{eq:hotBoundary}
+        \end{align}
 
-        Equation \eqref{eq:required_relationship} is characterized by a linear relationship with the following extrema:
-
-        \begin{equation}
-            \Dcold
-            \label{eq:coldBoundary}
-        \end{equation}
-        
-        \begin{equation}
-            \Dhot
-            \label{eq:hotBoundary}
-        \end{equation}
-
-        \begin{equation}
-            \Dref
-            \label{eq:DTref}
-        \end{equation}
-
-        These tolerance values are derived in Appendix \ref{app:errorProp}.
+        These tolerance values are derived in Appendix \ref{app:calcs:errorProp}.
         The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
         
         \begin{equation}
@@ -603,6 +583,16 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             \subsection{Mechanical Envelope rolldown}
             \label{subsec:intro:specs:ME}
+
+                % NOTE - These are consistent with the main CAD assembly axes
+                \begin{itemize}
+                    \item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
+                    \item The "Vertical" axis (y-axis) points directly upwards
+                    \item The "Lateral" axis (x-axis) is perpendicular to each other axis and points right as one looks downstream
+                \end{itemize}
+
+                These are depicted in Figure \ref{fig:mainIsometric}.
+
 
         \todo{Now that our problem statement has been completely and comprehensively defined, give a brief roadmap/outline of the rest of the report.}
 
@@ -734,8 +724,8 @@ This Final Design Report illustrates the background, selected architecture, and 
             Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
             
             \begin{align}
-                \Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \\
-                L_{mount} &= t_{wash} + L_{act} + L_{gap}
+                \Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
+                L_{mount} &= t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
             \end{align}
         \end{multicols}
 
@@ -2361,9 +2351,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 %
 % The [99] tells LaTeX the widest label will be two digits.
 
-\begin{thebibliography}{99}
+\todo{Get rid of unused citations in the bibliography; test all links}
 
-    \todo{Get rid of unused citations; test all links}
+\begin{thebibliography}{99}
 
     \bibitem{ref_sandiaprompt}
     B.\ Bon,
@@ -2474,19 +2464,6 @@ This Final Design Report illustrates the background, selected architecture, and 
     \section{Error Propagation Calculation}
     \label{app:calcs:errorProp}
 
-        \todo{(Sam) Get rid of the KM stuff and just show the upper and lower bounds, defined as follows:
-        
-        T>T\_ref:
-
-        Upper bound: positive error on both sides, but A1<0 so A1 -= 5\%, A0 += 5\%
-        Lower bound: the opposite. A1 += 5\%, A0 -= 5\%
-
-        T<T\_ref:
-
-        Upper bound: positive error on both sides, but now (T-T\_ref)<0 which negates A1 so both += 5\%
-        Lower bound: the opposite, both -= 5\%
-        }
-
         As detailed in Section \ref{sec:intro:req}, the Required Relationship
 
             $$ \requiredRelationship $$
@@ -2503,146 +2480,63 @@ This Final Design Report illustrates the background, selected architecture, and 
 
             \begin{equation}
                 D_{\text{eff}} = \overline{D_{\text{eff}}}(T) \pm u_D(T)
+                \label{eq:error_gen}
             \end{equation}
 
-        such that
+        where
 
             \begin{equation}
-                u_D(T) = \sqrt{\left( \theta_{A_1} \cdot u_{A_1} \right)^2 + \left( \theta_{A_0} \cdot u_{A_0} \right)^2}
-                \label{eq:KM_gen}
+                u_D(T) =
+                \begin{cases}
+                    - (5 \%) A_1 (T - T_{ref}) + (5 \%) A_0 & T \geq T_{ref} \\
+                      (5 \%) A_1 (T - T_{ref}) + (5 \%) A_0 & T < T_{ref}
+                \end{cases}
+                \label{eq:error_particular}
             \end{equation}
 
-        We can find these values as follows:
+        Because $A_1 < 0$ and the sign of $T - T_{ref}$ changes at $T = T_{ref}$, the $A_1$ error term must be reversed for higher temperatures.
+        Combining equations \eqref{eq:error_gen} and \eqref{eq:error_particular}, we find the range allowed by the Required Relationshp across the whole temperature spectrum, represented in Table \ref{tab:RR} and Figure \ref{fig:RR}.
 
-            \begin{align}
-                &\theta_{A_1}(T) = \frac{\partial D_{\text{eff}}}{\partial A_1} = T - T_{\text{ref}}
-                \\
-                &u_{A_1} = (5\%)(\SI{-1.52e-6}{m \per \degreeCelsius}) = \SI{-7.62e-8}{} \frac{m}{\degC}
-                \\
-                &\theta_{A_0} = \frac{\partial D_{\text{eff}}}{\partial A_0} = 1
-                \\
-                &u_{A_0} = (5\%)(\SI{2.54e-4}{m}) = \SI{1.27e-5}{m}
-            \end{align}
+        \begin{table}[H]
+            \centering
+            \caption{Required Relationship $D = A_1 (T - T_{ref}) + A_0$ for $-60 \degC \leq T \leq 80 \degC$}
+            \label{tab:RR}
+            \begin{tabular}{ccc}
+                \toprule
+                $T$ (\textdegree C) & $D$ (\textmu m) & $u_D$ (\textmu m) \\
+                \midrule
+                $-60$ & 383.5 & 19.18 \\
+                $-50$ & 368.3 & 18.42 \\
+                $-40$ & 353.1 & 17.65 \\
+                $-30$ & 337.8 & 16.89 \\
+                $-20$ & 322.6 & 16.13 \\
+                $-10$ & 307.3 & 15.37 \\
+                $0$   & 292.1 & 14.61 \\
+                $10$  & 276.9 & 13.84 \\
+                $20$  & 261.6 & 13.08 \\
+                $25$  & 254.0 & 12.70 \\
+                $30$  & 246.4 & 13.08 \\
+                $40$  & 231.1 & 13.84 \\
+                $50$  & 215.9 & 14.61 \\
+                $60$  & 200.7 & 15.37 \\
+                $70$  & 185.4 & 16.13 \\
+                $80$  & 170.2 & 16.89 \\
+                \bottomrule
+            \end{tabular}
+        \end{table}
 
-        Plugging these into \eqref{eq:KM_gen} yields the following tolerance for $D_{\text{effective}}$ as a function of $T_{\text{ambient}}$:
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\textwidth]{RR.png}
+            \caption{Required Relationship allowed boundary}
+            \label{fig:RR}
+        \end{figure}
 
-            \begin{equation}
-                u_{D_{\text{eff}}} = \sqrt{\left( (\SI{-7.62e-8}{} \frac{m}{\degC}) (T-T_{\text{ref}}) \right)^2 + \left( \SI{1.27e-5}{m} \right)^2}
-            \end{equation}
-
-        Therefore, the complete Required Relationship reduces to equations \eqref{eq:RR_symb} and \eqref{eq:RR_full} in symbolic and numeric form, respectively.
-
-            \begin{align}
-                D_{\text{effective}} &= A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \notag \\
-                    &\quad \pm \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb}
-                \\[6pt]
-                D_{\text{effective}} &= \SI{-1.52e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{2.54e-4}{\meter} \notag \\
-                    &\quad \pm \SI{7.60e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full}
-            \end{align}
-
-        Equation \eqref{eq:RR_full} can be plotted as a function of temperature with its upper and lower boundaries, as shown in Figure \ref{fig:errorpropboundary}.
-        As is evident, the relationship is linear, with the effective diameter decreasing as temperature increases, and the tolerance window is mostly constant.
-
-            \begin{figure}[H]
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                        legend pos=north east,
-                        xlabel={$T$},
-                        ylabel={$D_{\text{eff}}$},
-                    ]
-                        \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=D, col sep=comma] {figures3/D.csv};
-                        \addlegendentry{$\overline{D}(T)$}
-
-                        \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/D.csv};
-                        \addlegendentry{Upper limit}
-
-                        \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/D.csv};
-                        \addlegendentry{Lower limit}
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{$D_{\text{eff}}$ with tolerable deviation}
-                \label{fig:errorpropboundary}
-            \end{figure}
-
-        However, if we plot the tolerance alone, as in Figure \ref{fig:errorpropvariation}, we see that $u_{D_{\text{eff}}}$ varies slightly with temperature.
-        Its minimum is at $T_{\text{ref}}$, which motivated the decision to ensure minimum error at this temperature.
-
-            \begin{figure}[H]
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                        xlabel={$T$},
-                        ylabel={$u_{D_{\text{eff}}}$},
-                    ]
-                        \addplot[thick, mark=none, blue] table [x=T, y=u_D, col sep=comma] {figures3/u_D.csv};
-
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{$u_{D_{\text{eff}}}$ variation with T}
-                \label{fig:errorpropvariation}
-            \end{figure}
-
-        Finally, the tolerance boundaries for $X(T)$ can be easily found by multiplying every value by $X = \sqrt{\frac{\pi}{2}} D_{\text{eff}}$,
-        which relationship is derived in Appendix \ref{app:orifice_geometry}.
-
-            \begin{align}
-                X &= \sqrt{\frac{\pi}{2}} \left( A_1(T_{\text{ambient}}-T_{\text{reference}}) + A_0 \right) \notag \\
-                    &\quad \pm \sqrt{\frac{\pi}{2}} \sqrt{\left( (0.05)(A_1)(T_{\text{ambient}}-T_{\text{reference}}) \right)^2 + ((0.05)(A_0))^2} \label{eq:RR_symb_X}
-                \\[6pt]
-                X &= \SI{-1.91e-6}{} \frac{m}{\degC} (T_{\text{ambient}} - \SI{25}{\degreeCelsius}) + \SI{3.18e-4}{\meter} \notag \\
-                    &\quad \pm \SI{9.53e-8}{} \frac{m}{\degC} \sqrt{(T_{\text{ambient}} - \SI{25}{\degreeCelsius})^2 + \SI{2.78e4}{\degreeCelsius\squared}} \label{eq:RR_full_X}
-            \end{align}
-
-        As in Figures \ref{fig:errorpropboundary} and \ref{fig:errorpropvariation}, the same can be shown for $X(T)$ in Figures \ref{fig:errorpropboundary_X} and \ref{fig:errorpropvariation_X}.
-
-            \begin{figure}[H]
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                        legend pos=north east,
-                        xlabel={$T$},
-                        ylabel={$X(T)$},
-                    ]
-                        \addplot[thick, mark=none, color={rgb,255:red,0;green,200;blue,00}] table [x=T, y=X, col sep=comma] {figures3/X.csv};
-                        \addlegendentry{$\overline{X}(T)$}
-
-                        \addplot[thick, mark=none, red] table [x=T, y=Hi, col sep=comma] {figures3/X.csv};
-                        \addlegendentry{Upper limit}
-
-                        \addplot[thick, mark=none, blue] table [x=T, y=Lo, col sep=comma] {figures3/X.csv};
-                        \addlegendentry{Lower limit}
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{$X(T)$ with tolerable deviation}
-                \label{fig:errorpropboundary_X}
-            \end{figure}
-
-            \begin{figure}[H]
-                \centering
-                \begin{tikzpicture}
-                    \begin{axis}[
-                        xlabel={$T$},
-                        ylabel={$u_X$},
-                    ]
-                        \addplot[thick, mark=none, blue] table [x=T, y=u_x, col sep=comma] {figures3/u_X.csv};
-
-                    \end{axis}
-                \end{tikzpicture}
-                \caption{$u_X$ variation with T}
-                \label{fig:errorpropvariation_X}
-            \end{figure}
-
-
-        This calculation comes from Kline-McClintock error propagation methods used in experimental probability and uncertainty propagation, which states that a dependent variable $x_0 = f(x_1, x_2, x_3...)$,
-        such that the tolerance of each independent variable $x_i$ is stated as $\bar{x}_i \pm u_{x_i}$, is represented by its own tolerance value $x_0 = \bar{x}_0 \pm u_{x_0}$ such that
-        $$ u_{x_0} = \sqrt{\sum{\left( \theta_{x_i} u_{x_i} \right)^2}} $$
-        where $\theta_{x_i} = \frac{\partial x_0}{\partial x_i}\bigg|_{x_i = \overline{x}_i}$ \cite{ref_Figliola}.
-
+        Observe that the error boundary is thinnest about $T_{ref}$; thus, performance is best served if the \device\ is manufactured, assembled, and calibrated near this temperature.
 
 
     \section{Orifice Geometry}
-    \label{app::calcs:orifice_geometry}
+    \label{app:calcs:orifice_geometry}
 
         The orifice, as defined in Section \ref{chap:design:overview} and depicted in Figure \ref{fig:orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
 
