@@ -227,119 +227,6 @@
 
 % --- Spec tables. Defined here so they can be used twice. ---
 
-\newcommand{\valveSpecs}
-{%
-    \renewcommand{\arraystretch}{1.4}
-    \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
-
-        \hline
-
-            \textbf{Core responsibility}
-                & 
-            \textbf{Specification} \\ 
-            
-        \hline
-
-        \vspace{0pt}
-            Must govern
-            $D_{\text{effective}} = \sqrt{\frac{2}{\pi}} \cdot X$
-            to within \dDdXTol
-                &
-            Maintain all dimensional tolerances to $1\ \mu m$ where specified in drawings V4 and V5 \\
-            
-        \hline
-
-        \vspace{0pt}
-            Must govern
-            $\frac{dX}{dL} = -1$
-            to within \dXdLTol
-                &
-            Must limit total thermal expansion and forced compression to \dXdLTol \\
-            
-        \hline
-
-            Must not rupture
-                &
-            Withstand a minimum of $\specPressure$ internal pressure \\
-            
-        \hline
-
-            \multirow[c]{2}{0.45\textwidth}
-                {%
-                    Must not change the control derivative
-                    of the actuator $\frac{dL}{dT}$
-                    by more than \dLdTTolValve%
-                }
-
-                    &
-
-            \rule{0pt}{1.5em}
-                Prevent a temperature gradient of less than \dTTol\ between the internal gas and the point of contact with the actuator \\
-            \cline{2-2}
-        
-                    &
-        
-            \rule{0pt}{2.5em}Prevent a reaction force of more than \FTolValve \\
-            
-        \hline
-
-            Must not exceed its portion of the Mechanical Envelope
-                &
-            Must not exceed a \valveMEX\ lateral, \valveMEY\ vertical, or \valveMEZ\ longitudinal mechanical envelope \\
-
-        \hline
-
-    \end{tabular}
-}
-
-\newcommand{\actSpecs}
-{%
-    \renewcommand{\arraystretch}{1.4}
-    \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
-    \hline
-    \textbf{Core responsibility} & \textbf{Specification} \\ \hline
-
-    \multirow[c]{2}{0.45\textwidth}{%
-        Must govern $\frac{dL}{dT} = \sqrt{\frac{\pi}{2}} A_1$ to within \dLdTTolAct%
-    }
-    &
-    Limit the error of $\alpha$ and $L_0$ such that 
-        $\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} \leq$ \dLdTTolAct
-    \\ \cline{2-2}
-    &
-    Deflect less than \FTolAct\ to any specified reaction force provided by the valve subsystem
-    \\ \hline
-
-    \end{tabular}
-
-}
-
-\newcommand{\mountSpecs}
-{%
-    \renewcommand{\arraystretch}{1.4}
-    \begin{tabular}{|m{0.45\textwidth}|m{0.5\textwidth}|}
-    
-        \hline
-        \textbf{Core responsibility} & \textbf{Specification} \\ \hline
-
-        \multirow[c]{3}{0.45\textwidth}{Must fix the relation between the actuator and valve subsystems such that $X(T_{\text{ref}}) = \sqrt{\frac{2}{\pi}} A_0$}
-        &
-        Maintain all dimensional tolerances to $5\ \mu m$ where specified in drawing M2
-        \\ \cline{2-2}
-        &
-        Allow adjustment of the mount's critical dimension from within \calRange\ above the target value to within \calTol\ above or below said target
-        \\ \cline{2-2}
-        &
-        Limit thermal expansion to \mountdLTol \\ \hline
-
-        Must fit within its portion of the Mechanical Envelope
-        &
-        Must not exceed a \mountMEX\ lateral, \mountMEY\ vertical, or \mountMEZ\ longitudinal mechanical envelope \\
-        \hline
-
-    \end{tabular}
-}
-
 % ============================================================================
 % BEGIN DOCUMENT
 % ============================================================================
@@ -483,7 +370,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \subsection{Objectives}
         \label{subsec:intro:motive:objectives}
 
-            \todo{This is the second half of Background; now that the "problem" has been established, the flow of thought progresses to "it would be nice if we had a device that could do X for us."}
+            \todo{This is the second half of Background; now that the "problem" has been established, the flow of thought progresses to "it would be nice if we had a device that could do X for us." Until Section \ref{chap:design}, the \device\ will be referred to as the "valve".}
 
         \subsection{Potential stakeholders}
         \label{subsec:intro:motive:stakeholders}
@@ -544,19 +431,7 @@ This Final Design Report illustrates the background, selected architecture, and 
         \end{align}
 
         These tolerance values are derived in Appendix \ref{app:calcs:errorProp}.
-        The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
         
-        \begin{equation}
-            A = \frac{\pi}{4}D_{\text{effective}}^2
-            \label{eq:d_eff}
-        \end{equation}
-        
-        In order to passively drive the valve orifice diameter by ambient temperature change, 
-        our team developed three sub-architectures:
-        a valve, to restrict the flow;
-        an actuator, to drive the valve movement,
-        and a mount, to fix the relative positions of the two.
-
         In addition to these requirements, our sponsor supplied us with the following design conditions:
         
         \begin{enumerate}
@@ -569,7 +444,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             \item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
         \end{enumerate}
 
-        In summary, although our mission is simple, it is incredibly difficult. The \device\ must maintain a pin-size opening with medical precision under extreme operating conditions.
+        In summary, although our mission is simple, it is incredibly difficult. The valve must maintain a pin-size opening with medical precision under extreme operating conditions.
         These circumstances motivated the design specifications and architecture that will be presented in the following sections.
         
     \section{Subsystem Specifications}
@@ -577,7 +452,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
     \todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]; add specifications for operational conditions.}
             
-    To passively control the flow of a gas, the \device needs two coupled subsystems:
+    To passively control the flow of a gas, this design requires two coupled subsystems:
 
     \begin{itemize}
         \item A valve to restrict the flow
@@ -591,11 +466,11 @@ This Final Design Report illustrates the background, selected architecture, and 
     \begin{figure}[H]
         \centering
         \includegraphics[width=.75\textwidth]{subsystems_conceptual.png}
-        \caption{\device \text{ Subsystems}}
+        \caption{Subsystem block diagram}
         \label{fig:subsystems_conceptual}
     \end{figure}
 
-    Our three givens --- the Required Relationship, Mechanical Envelope, and operational conditions --- drive the \device's specifications, which will in turn motivate the optimal design architecture.
+    Our three givens --- the Required Relationship, Mechanical Envelope, and operational conditions --- drive the design specifications, which will in turn motivate the optimal design architecture.
 
         \subsection{Required Relationship rolldown}
         \label{subsec:intro:specs:RR}
@@ -603,7 +478,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             As stated above, the Required Relationship $(D = A_1 \Delta T + A_0)$ stipulates an extremely precise linear output.
             These properties --- its precision and first-order nature --- rolldown into several specifications for each subsystem.
 
-            First, to be precise, the \device must be simple. Additional parts drastically increases the potential for error, leakage, or mechanical failure.
+            First, to be precise, the device must be simple. Additional parts drastically increases the potential for error, leakage, or mechanical failure.
             Second, to maintain a first-order control output, each part must exhibit highly linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
 
             \begin{itemize}
@@ -638,7 +513,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             \begin{figure}[H]
                 \centering
                 \includegraphics[width=.5\textwidth]{Axes.png}
-                \caption{Reference axes for the \device}
+                \caption{Reference axes}
                 \label{fig:axes}
             \end{figure}
 
@@ -655,7 +530,7 @@ This Final Design Report illustrates the background, selected architecture, and 
             Many valve architectures easily fit within this envelope. However, to provide sufficient movement, the actuator must either use an exceptionally high-expansion material, which provides an inconsistent expansion rate, or use another method to increase its driving distance.
             Thus, we obtain one specification for the actuator to achieve this:
 
-            The \device\ must use a bimetallic actuator.
+            The actuator must use dissimilar metals to increase its actuation distance.
 
             If we select two metals with a great enough difference in expansion rates, we can obtain the necessary movement within this envelope.
 
@@ -708,12 +583,6 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \item Final analysis of this design, its advantages, and its weaknesses
             \end{itemize}
     \end{enumerate}
-    
-    
-
-
-
-    \todo{Now that our problem statement has been completely and comprehensively defined, give a brief roadmap/outline of the rest of the report.}
 
 \chapter{Final Design of the \device}
 \label{chap:design}
@@ -735,75 +604,86 @@ This Final Design Report illustrates the background, selected architecture, and 
     \section{System Architecture Overview}
     \label{chap:design:overview}
 
-        \todo{Update to current architecture}
-        
-        The \device\ (Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID})
-        comprises the following subassemblies:
+        In solution to the above problem statement, our team presents the Passive Temperature Compensation Device, a high-precision flow control valve that successfully maintains the Required Relationship without power or control.
+        It comprises a valve assembly, with a threaded housing, orifice components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
+        The parts are assembled by electron-beam weld.
+        The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
 
-        \begin{itemize}
-            \item Valve: the central orifice, its valve stem, and a hermetically sealed bellows sit in the central housing component.
-                    These are welded to the housing inlet and outlet, which will connect to the provided gas flow pipes, to make the complete housing structure.
-            \item Actuator: the thermal expansion block sits nested inside the mount superstructure. 
-                    It is welded between the upper interior of the mount and the tip of the valve stem.
-            \item Mount: the device superstructure is welded and bolted together to hold the actuator from its top at a fixed distance from the valve orifice.
-        \end{itemize}
-       
-       
-
-        \newcommand{\coordAngle}{30} % Angle for coordinate system picture below
-
+        \newpage
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}
-                \node[anchor=south west, inner sep=0] (image) {
-                    \includegraphics[height=4in, width=6in, keepaspectratio]{Complete_Assembly_Render.png}
-                };
-                % 3D axes overlay — adjust (0.8, 0.8) to reposition
-                \begin{scope}[shift={(1,8)}, thick, >=Stealth]
-                    \draw[->] (0,0) -- ({cos(\coordAngle)},{-sin(\coordAngle)}) node[right] {$X$};
-                    \draw[->] (0,0) -- (0,{1}) node[above] {$Y$};
-                    \draw[->] (0,0) -- ({-cos(\coordAngle)},{-sin(\coordAngle)}) node[below left] {$Z$};
-                \end{scope}
-            \end{tikzpicture}
+            \includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
             \caption{Complete assembly}
             \label{fig:mainIsometric}
         \end{figure}
 
         \begin{figure}[H]
             \centering
-            \begin{tikzpicture}
-                \node[anchor=south west, inner sep=0] (image) {
-                    \includegraphics[height=4in, width=6in, keepaspectratio]{CompleteAssemblyExploded.png}
-                };
-            \end{tikzpicture}
+            \includegraphics[height=.5\textheight, width=.5\textwidth, keepaspectratio]{CompleteAssemblyExploded.png}
             \caption{Complete assembly exploded view}
             \label{fig:mainExploded}
         \end{figure}
 
         \begin{figure}[H]
             \centering
-            \includegraphics[height=4in, width=6in, keepaspectratio]{SubAssemblyID.png}
-
+            \includegraphics[height=.5\textheight, width=.5\textwidth, keepaspectratio]{SubAssemblyID.png}
             \caption{Sub-assembly identification}
             \label{fig:SubAssemblyID}
         \end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        \todo{Update to current architecture}
+        
     
         The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
         One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
         The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
-        If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig:orifice}, the overlap between these squares constitutes the valve orifice. 
-        The lower (blue) square is cut into the moving plate, referred to as the “central plate” in this report, such that as the valve stem drives the plate downwards, the valve orifice (represented by the gray square) constricts.
+        If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig:orifice}, the diamond-shaped overlap between these squares constitutes the valve orifice. 
+        The lower (blue) square, or leading orifice, is cut into the central moving plate, such that as the valve stem drives the plate downwards, the orifice (represented by the gray square) constricts.
         
-        A rigid mount suspends the thermal actuator, a block of aluminum, above the assembly. 
-        The valve stem is welded to the free base of the actuator such that, as the ambient temperature increases, the actuator base extends downwards, driving the valve stem and central plate downwards with it and closing the valve orifice. 
-        As the temperature decreases, the actuator pulls the central plate back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
-
         \begin{figure}[H]
             \centering
             \includegraphics[height=2in]{orifice.png}
             \caption{Orifice geometry}
             \label{fig:orifice}
         \end{figure}
+
+        A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature changes.
+        The outer material, ALLVAR, shrinks when heated, which the inner material, Aluminum, expands.
+        Thus, as pictured in Figure \ref{fig:active_diagram}, as the ambient temperature increases, the actuator drives the valve stem downwards, shrinking the orifice. 
+        As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
+
+        \begin{figure}[H]
+            \centering
+            \begin{minipage}{.45\textwidth}
+                \centering
+                \includegraphics[width=.5\textwidth]{active_hot.jpg}
+                \subcaption{Cooling actuation}
+                \label{fig:active_hot}
+            \end{minipage}
+            \hfill
+            \begin{minipage}{.45\textwidth}
+                \centering
+                \includegraphics[width=.5\textwidth]{active_cold.png}
+                \subcaption{Heating actuation}
+                \label{fig:active_cold}
+            \end{minipage}
+            \caption{Mechanism of the \device}
+            \label{fig:active_diagram}
+        \end{figure}
+
 
     \section{Valve Subsystem}
     \label{sec:design:valve}
@@ -1393,13 +1273,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
         Appendix \ref{app:requirements} lists the full rolldown of requirements to core responsibilities to design specifications.
 
-        \begin{table}[H]
-            \centering
-            \caption{Valve Selection Criteria}
-            \valveSpecs
-            \label{tab:valve_specs}
-        \end{table}
-
     \subsection{Valve Architecture}
     \label{subsec:arch:valve:architecture}
 
@@ -1510,13 +1383,6 @@ This Final Design Report illustrates the background, selected architecture, and 
     The valve subsystem may also resist the movement of the actuator by providing a reaction force.
     The actuator subsystem must account for any forces it provides within its respective specified limit.
 
-        \begin{table}[H]
-            \centering
-            \caption{Actuator Selection Criteria}
-            \actSpecs
-            \label{tab:act_specs}
-        \end{table}
-
     \subsection{Actuator Architecture}
 
 
@@ -1568,13 +1434,6 @@ This Final Design Report illustrates the background, selected architecture, and 
         introduces a competing displacement that reduces the net stroke delivered to 
         the valve.
 
-
-        \begin{table}[H]
-            \centering
-            \caption{Mount Selection Criteria}
-            \mountSpecs
-            \label{tab:mount_specs}
-        \end{table}
 
     \subsection{Mount Architecture}
         \begin{figure}[H]
@@ -1645,14 +1504,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
     \section{Valve Subsystem}
     \label{sec:sat:valve}
-            As enumerated in Section \ref{subsec:arch:valve:sel_crit}, the Valve Subsystem must meet or exceed the following specifications, listed again in Table \ref{tab:valve_specs_disc}:
-
-        \begin{table}[H]
-            \centering
-            \caption{Valve Specifications (repeated)}
-            \valveSpecs
-            \label{tab:valve_specs_disc}
-        \end{table}
 
         \subsection{Specification Compliance}
         \label{subsec:sat:valve:spec}
@@ -2090,15 +1941,6 @@ This Final Design Report illustrates the background, selected architecture, and 
                     
     \section{Actuator Subsystem}
     \label{sec:sat:act}
-        The Actuator Subsystem must meet or exceed the specifications enumerated in Section \ref{subsec:arch:act:sel_crit}, listed again in Table \ref{tab:mount_specs_disc}:
-
-        \begin{table}[H]
-            \centering
-            \caption{Actuator Specifications (repeated)}
-            \actSpecs
-            \label{tab:act_specs_disc}
-        \end{table}
-
 
         \begin{table}[H]
             \centering
@@ -2320,31 +2162,6 @@ This Final Design Report illustrates the background, selected architecture, and 
     \section{Mount Subsystem}
     \label{sec:sat:mount}
 
-        \subsection{Overview}
-        \label{sec:sat:mount:overview}
-
-            In the original Preliminary Design Report, we did not treat the mount as a subsystem requiring independent analysis. It was solely described as rigid structural frame whose function was to hold
-            the actuator above the valve housing. In this detailed design phase, we realized that we needed to broaden our understanding of this design piece. The mount is not merely a structural bracket, but a dynamic
-            element that responds to thermal changes and whose dimensional behavior directly affects the displacement delivered to the valve. 
-
-            The crux of the matter is that the actuator block is anchored at the top interior face of the mount, and the free end extends downward to contact the valve stem. As the ambient temperature changes, the aluminum
-            actuator expands or contracts the valve stem. However, the steel mount also expands or contracts over the same temperature range as it is nested above the housing. Since the mount and actuator share a common anchor point at the top, the displacement
-            delivered to the valve is not the gross thermal expansion of the actuator alone. It is the difference between the actuator's expansion and the mount's expansion over the same vertical span. Therefore, the mount introduces another element of thermal
-            expansion that directly affects the displacement that subtracts from the actuator's stroke. If this effect is not properly account for, the device can possibly under-stroke and the effective orifice diameter will fail to reach its specified endpoints.
-
-            After realizing how error can cascade from the thermal expansion of the mount, it became crucial to identify subsystem-level design requirements. Within the mount, there are three careful considerations. First, the mount needs to be stiff enough such that its mechanical
-            deflection under the actuator's reaction force is negligible compared to the total actuator stroke. Crucially, to resolve this issue our mount needs enough thickness. Second, the thermal expansion of the mount must be quantified and incorporated into the actuator length calculation.
-            The required actuator length can have overshoot or undershoot negating the entire effects of the valve if the mount thermal expansion is not properly accounted for. Third, the mount must provide a calibration mechanism capable of setting the orifice to the correct effective diameter
-            at the reference temperature of 25 $\degC$ with a resolution at least as fine as the $\pm$0.0127 mm tolerance on $D_{\text{eff}}$. This calibration must also withstand the clamping, thermal cycling, and full operating pressure without shifting. 
-
-            These three requirements are the basis of the analysis presented in the following sections.
-
-            \begin{table}[H]
-                \centering
-                \caption{Mount Specifications (repeated)}
-                \mountSpecs
-                \label{tab:mount_specs_disc}
-            \end{table}
 
         \subsection{Specification Compliance}
         \label{subsec:sat:mount:spec}
@@ -2675,7 +2492,13 @@ This Final Design Report illustrates the background, selected architecture, and 
             \label{fig:orifice_detailed}
         \end{figure}
 
-        The effective diameter, as defined in equation \eqref{eq:d_eff}, equals the diameter of a circle with equivalent area.
+        The effective diameter of an orifice of any geometry is the diameter of a circle with equivalent area, such that
+        
+        \begin{equation}
+            A = \frac{\pi}{4}D_{\text{effective}}^2
+            \label{eq:d_eff}
+        \end{equation}
+
         Thus, the height of the orifice X as defined in Figures \ref{fig:orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
         can be related to the effective diameter as follows:
 
