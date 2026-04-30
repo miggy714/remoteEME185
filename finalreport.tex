@@ -490,7 +490,7 @@ This Final Design Report illustrates the background, selected architecture, and 
                     \end{itemize}
                 \item \textbf{Linearity}
                     \begin{itemize}
-                        \item The actutor must expand consistently across the whole temperature range.
+                        \item The actuator must expand consistently across the whole temperature range.
                         \item The valve orifice geometry must maintain the shape of a regular polygon.
                         \item The valve must not resist the driving force of the actuator.
                     \end{itemize}
@@ -526,6 +526,8 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \item Valve: 10 cm $\times$ 71 cm $\times$ 10 cm
                 \item Actuator: 10 cm $\times$ 44 cm $\times$ 10 cm
             \end{itemize}
+
+            \todo{Move the below to design justification, section \ref{chap:design}}
 
             Many valve architectures easily fit within this envelope. However, to provide sufficient movement, the actuator must either use an exceptionally high-expansion material, which provides an inconsistent expansion rate, or use another method to increase its driving distance.
             Thus, we obtain one specification for the actuator to achieve this:
@@ -685,20 +687,16 @@ This Final Design Report illustrates the background, selected architecture, and 
         \end{figure}
 
 
-    \section{Valve Subsystem}
-    \label{sec:design:valve}
+        \subsection{Valve Subsystem}
+        \label{subsec:design:overview:valve}
 
-    \section{Actuator Subsystem}
-    \label{sec:design:act}
+        \subsection{Actuator Subsystem}
+        \label{subsec:design:overview:act}
 
+    \section{Design Justification}
+    \label{sec:design:just}
 
-
-
-\chapter{Requirement Satisfaction}
-\label{chap:sat}
-
-    \section{Design Calculations}
-    \label{sec:sat}
+        \todo{This is where we show the progression from design specifications to architecture \textit{and dimensions}. Include all quantitative justifications in this section. If needed, split this into two sections -- qualitative and quantitative -- but I'd like to keep individual design items together.}
 
         \todo{Here belong all the calculations and other details to justify the dimensions, material choices, etc. Many of these will assume perfect conditions (e.g. act length assumes no extra forces or intolerances), but that's fine for our purposes. We don't need to perfectly optimize everything.}
 
@@ -749,6 +747,18 @@ This Final Design Report illustrates the background, selected architecture, and 
             L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
         \end{align}
 
+
+
+
+
+\chapter{Requirement Satisfaction}
+\label{chap:sat}
+
+
+    \section{Error Analysis}
+    \label{sec:sat:error}
+
+        \todo{Achievable tolerances}
 
     \section{System Transfer Function}
     \label{sec:sat:TF}
@@ -1251,10 +1261,10 @@ This Final Design Report illustrates the background, selected architecture, and 
                 \end{equation}
             \end{mdframed}
 
-    \section{Precision Analysis}
-    \label{sec:sat:precision}
+        \subsection{Transfer Function Results}
+        \label{sec:sat:TF:results}
 
-        \todo{Okay, now that we've defined system performance with symbolic tolerances, let's find the limits of our machining tolerances, plug them into the TF code, and present the results.}
+            \todo{TF results}
 
 
 
@@ -2545,8 +2555,6 @@ The following data sheets are included below:
 %\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
 \todo{Include all relevant material and product data}
 
-
-% --- Appendix D: Detailed Calculations ---
 
 \chapter{Project Management}
 \label{app:PM}
