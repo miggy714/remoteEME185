@@ -97,7 +97,7 @@
 
 % ---------- PDF Metadata ----------
 \hypersetup{
-	pdftitle={Preliminary Machine Architecture Report -- Passive Temperature Compensation Device},
+	pdftitle={Final Design Report -- Passive Temperature Compensation Device},
 	pdfauthor={Team 16: Noble Aggie Labs},
 	pdfsubject={EME-185A/B Senior Design, UC Davis},
 }
@@ -130,7 +130,8 @@
 \newcommand{\organization}{Sandia National Laboratories}
 \newcommand{\coursename}{EME 185}
 \newcommand{\instructor}{Professor Jonathan Schofield}
-\newcommand{\ta}{Xiangpu Wang}
+\newcommand{\university}{University of California, Davis}
+\newcommand{\ta}{Teaching Assistant Xiangpu Wang}
 \newcommand{\duedate}{3 June 2026}
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
@@ -249,10 +250,11 @@
 	% --- Project Title ---
 	\begin{center}
 		{\LARGE\bfseries\color{blue!70!black} \projecttitle}\\[12pt]
-		{\large\bfseries SPONSORED BY: \MakeUppercase{\sponsor},}\\
-		{\large\bfseries \MakeUppercase{\organization}}
+		{\large By the}\\[12pt]
+		{\Large\bfseries \teamname}\\[24pt]
 	\end{center}
-	\vfill  % Push the following content to the vertical center/bottom
+
+	\vspace{0.4in}
 
 	% --- Report Type ---
 	\begin{center}
@@ -260,15 +262,13 @@
 	\end{center}
 
 	\vspace{0.4in}
-
-	% --- Course Information ---
+	
 	\begin{center}
-		{\large \coursename}\\[4pt]
-		{\large \MakeUppercase{\instructor}}\\[4pt]
-		{\large \MakeUppercase{\ta, Teaching Assistant}}
+		{\large SPONSORED BY \MakeUppercase{\sponsor},}\\
+		{\large \MakeUppercase{\organization}}
 	\end{center}
 
-	\vspace{0.4in}
+	\vfill
 
 	% --- Submission Deadline ---
 	\begin{center}
@@ -280,35 +280,35 @@
 
 
 \newpage
-\thispagestyle{empty}  % No header/footer on this page either
+\thispagestyle{empty}
+\vspace*{\fill}
 
-\vspace*{1in}
 \begin{center}
-	{\Large\bfseries Team \teamnumber}\\[24pt]
 
-	% --- List all team members ---
-	% TODO: Verify spelling of all names
-	{\large
-		Isaiah Mathew\\[8pt]
-		Jon Pizarro\\[8pt]
-		Nicholas Metta\\[8pt]
-		John Bodine\\[8pt]
-		Miguel Cuaycong\\[8pt]
-		Sam van der Veen\\[8pt]
+	{\large\bfseries Passive Temperature Compensation Device}\\[6pt]
+	{\large Final Design Report}\\[24pt]
+
+	\textcopyright\ 2026 by\\[6pt]
+	Miguel Cuaycong, Jon Pizarro, Nicholas Metta,\\
+	Isaiah Mathew, John Bodine, and Sam van der Veen\\[24pt]
+
+	{\small
+	
+	EME 185: Mechanical Systems Design Project\\
+	University of California, Davis\\[12pt]
+
+	Advised by \instructor\ and\\
+	\ta\\[24pt]
+
+	\textit{All rights reserved. No part of this report may be reproduced}\\
+	\textit{without consent from the authors, UC Davis,}\\
+	\textit{or Sandia National Laboratories.}\\[24pt]
+
 	}
 
-	\vspace{0.6in}
-
-	{\Large\itshape \projecttitle}\\[12pt]
-	{\large By the}\\[12pt]
-	{\Large\bfseries \teamname}\\[24pt]
-	{\large Sponsored by \sponsor, \organization}\\[36pt]
-	{\large Final Design Report}\\[12pt]
-	{\large \coursename}\\[6pt]
-	{\large \instructor}\\[6pt]
-	{\large TA \ta}\\[12pt]
-	{\large Due \duedate}
 \end{center}
+
+\vspace*{\fill}
 
 \newpage
 \tableofcontents
@@ -350,7 +350,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 \end{abstract}
 
 \chapter{Introduction}
-\label{chap:Intro}
+\label{chap:intro}
 
 	\section{Motivation}
 	\label{sec:intro:motive}
@@ -2259,7 +2259,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 		\todo{Strengths, weaknesses, and limitations of design}
 
-		Mention that one of the fundamental objectives of this device (make sure this is included in section \ref{intro:motive}) is to be able to be adjusted later for its more specific use case.
+		Mention that one of the fundamental objectives of this device (make sure this is included in section \ref{sec:intro:motive}) is to be able to be adjusted later for its more specific use case.
 		The RR is highly precise, but it's the precision that matters more than the exact values achieved. Note how this design can be customized down the road to reach a different target.
 
 		Brainstorm of weaknesses and unaddressed assumptions:
