@@ -167,11 +167,8 @@
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
 \newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
-\newcommand{\specTolerancePercent}{\pm 5\%}
-\newcommand{\specDeffConstOne}{-1.524(10)^{-3}} %mm/degC
-\newcommand{\specDeffConstTwo}{0.254} %mm
-\newcommand{\Aone}{\specDeffConstOne mm \specTolerancePercent}
-\newcommand{\Azero}{\specDeffConstTwo mm \specTolerancePercent}
+\newcommand{\Aone}{\SI{-1.524e-3}{\frac{mm}{\degC}} \pm 5\%}
+\newcommand{\Azero}{\SI{0.254}{mm} \pm 5\%}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
 \newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
@@ -352,6 +349,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 \chapter{Introduction}
 \label{chap:intro}
 
+	\todo{Personal preference (Sam): Don't use the phrase "PTCD" until section \ref{chap:design}. Helps with the big-reveal effect.}
+
 	\section{Motivation}
 	\label{sec:intro:motive}
 
@@ -406,11 +405,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				Where:
 				\begin{align*}
-					&A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+					&A_1 = \Aone
 					\\
-					&A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+					&A_0 = \Azero
 					\\
-					&T_{\text{reference}} = \Tref \degC
+					&T_{\text{reference}} = \Tref
 					\\
 					&T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
 				\end{align*}
@@ -475,11 +474,81 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Required Relationship rolldown}
 		\label{subsec:intro:specs:RR}
 
-			As stated above, the Required Relationship $(D = A_1 \Delta T + A_0)$ stipulates an extremely precise linear output.
-			These properties --- its precision and first-order nature --- rolldown into several specifications for each subsystem.
+			\todo{Delete this: \ref{sec:sat:TF}}
+
+			The Required Relationship is best understood as a passive system transfer function, commonly used in the field of control theory\cite{ref_Nise},
+			represented by a simple open-loop diagram as in Figure \ref{fig:TF_gen}.
+			Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
+			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system.
+			Notice the absense of a feedback loop; this satisfies the core requirement that this system be passive.
+			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely modeled to achieve the desired output without real-time adjustment.
+
+			\todo{Make these figures all the same scale so the TF boxes look the same size}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.5\textwidth]{TF_gen.png}
+				\caption{General Passive Open-Loop Controls Diagram}
+				\label{fig:TF_gen}
+			\end{figure}
+
+			\newpage
+			\begin{multicols}{2}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[height=.4\textheight]{TF_RR.png}
+					\caption{Required Relationship Transfer Function}
+					\label{fig:TF_RR}
+				\end{figure}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[height=.4\textheight]{TF_sub.png}
+					\caption{Subsystem Control}
+					\label{fig:TF_sub}
+				\end{figure}
+				\newcolumn
+				This transfer function converts the relationship
+				
+				\begin{equation}
+					(D = A_1 \Delta T + A_0)
+				\end{equation}
+				
+				to the system-representative form
+				
+				\begin{equation}
+					D = \frac{dD}{dT} \Delta T + D_{ref}
+				\end{equation}
+
+				The reference value $D_{ref}$ represents the diameter size when $T_{amb} = T_{ref}$; its value must equal $A_0$, determined solely by the valve subsystem's geometry.
+				The control derivative term $\frac{dD}{dT}$ adds an additional value $\Delta D$ as $T_{amb}$ changes; its value must equal $A_1$, determined by both subsystems.
+				The subsystem effects on this derivative are multiplied, allowing us to represent the system transfer function as a series of sub-transfer functions (Figure \ref{fig:TF_sub}).
+				These will drive the core subsystem specifications.
+
+				The required system transfer function can now be represented in its complete form:
+
+				\begin{equation}
+					D_{eff} = \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_{ref} \\
+					= A_1 \Delta T + A_0
+				\end{equation}
+
+				where
+
+				\begin{align*}
+					\frac{dL}{dT} &\text{ is determined by the actuator, and}
+					\frac{dD}{dL} &\text{ is determined by the valve}
+				\end{align*}
+
+			\end{multicols}
+
+			\newpage
+			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro \meter}$.
+			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
 
 			First, to be precise, the device must be simple. Additional parts drastically increases the potential for error, leakage, or mechanical failure.
 			Second, to maintain a first-order control output, each part must exhibit highly linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
+
+			\subsubsection{Actuator specifications}
+
+				
 
 			\begin{itemize}
 				\item \textbf{Precision}
@@ -763,19 +832,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{System Transfer Function}
 	\label{sec:sat:TF}
 
-		Remember the two requirements stipulated by SNL:
+		\todo{Delete this: \ref{subsec:intro:specs:RR}}
 
-		\begin{enumerate}
-			\item Satisfy the Required Relationship $\requiredRelationship$
-			\item Do not exceed the Mechanical Envelope of $(10 cm)^3$
-		\end{enumerate}
-
-		To derive the subsystem specifications necessary to satisfy the system requirements, one must understand a few details about control systems theory\cite{ref_Nise}.
-		A passive control system, such as the \device, can be represented by a simple open-loop diagram as in Figure \ref{fig:TF_gen}.
-		Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
-		In this case, the \device\ system inputs the ambient air temperature, converts its value to effective diameter, and ouputs the result.
-		$\hat{G}_sys$, which is known as the system Transfer Function, mathematically represents this physical input-output translation.
-		To satisfy the system requirements, $\hat{G}_sys$ must equal the Required Relationship from equation \eqref{eq:required_relationship}:
+		Recall from Section \ref{subsec:intro:specs:RR} that the Required Relationship, the core objective of the \device, is best described as a passive system transfer function.
 
 			\begin{equation}
 				\hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
@@ -787,12 +846,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 		
 
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=.4\textwidth]{TF_gen.png}
-			\caption{General Passive Open-Loop Controls Diagram}
-			\label{fig:TF_gen}
-		\end{figure}
 
 		\newpage
 		\thispagestyle{empty}
@@ -2423,9 +2476,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 		depends on the following independent variables, each with their own tolerance values:
 
 			\begin{align*}
-				&A_1 = \specDeffConstOne \specTolerancePercent\ \frac{\text{mm}}\degC
+				&A_1 = \Aone
 				\\
-				&A_0 = \specDeffConstTwo \specTolerancePercent\ \text{mm}
+				&A_0 = \Azero
 			\end{align*}
 
 		The tolerance of $D_{\text{effective}}$ as a function of temperature can be found using the following formula:
