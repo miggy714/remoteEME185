@@ -167,11 +167,35 @@
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
 \newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
-\newcommand{\Aone}{\SI{-1.524e-3}{\frac{mm}{\degC}} \pm 5\%}
-\newcommand{\Azero}{\SI{0.254}{mm} \pm 5\%}
+\newcommand{\AoneExact}{\SI{-1.524e-3}{\frac{mm}{\degC}}}
+\newcommand{\Aone}{\AoneExact \pm 5\%}
+\newcommand{\AzeroExact}{\SI{0.254}{mm}}
+\newcommand{\Azero}{\AzeroExact \pm 5\%}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
 \newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+
+% Transfer function specifications
+
+\newcommand{\GA}{\SI{1.216}{\frac{\micro \meter}{\celsius}}}
+\newcommand{\GV}{\num{-1.253}}
+
+% System Requirements
+\newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
+\newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\ReqC}{The device shall operate under \specPressure\ internal pressure with Hydrogen gas, with thermal isolation of the actuator}
+
+% Valve specifications
+\newcommand{\SpecVA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 71 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
+\newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
+\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
+
+% Actuator specifications
+\newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 44 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow}
 
 % --- Tolerance values for specifications. --- 
 % Fill in with real numbers as we find the relevant values 
@@ -312,6 +336,10 @@
 \listoffigures
 \listoftables
 
+\newpage
+
+\todo{Table of acronyms}
+
 \newpage  % Start the body of the report on a fresh page
 
 \begin{abstract}
@@ -321,7 +349,7 @@ Sandia National Laboratories has tasked our senior design team,
 the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
 The device must restrict its orifice as the ambient temperature of the surrounding air increases.
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
-The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, a.k.a. the "sponsor"),
+The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, aka the "sponsor" or the "client"),
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m, or half the width of the ballpoint on a pen,
 with an average tolerance of $\pm 13$ \textmu m, about one fifth the thickness of a human hair.
 Our team designed two interconnected subsystems to accomplish this objective:
@@ -381,7 +409,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{Leave the device as a blackbox for now: we don't know how it works yet or even what subsystems it has. But how would a user install and operate a valve that does what we generally described in Objectives? Being a passive device, this is very minimal.}
 
-
 	\section{System Requirements}
 	\label{sec:intro:req}
 
@@ -392,11 +419,26 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{fig:del_req_req}
 		\end{figure}
 
-		Sandia National Labs provided us with exactly two system requirements, 
-		defined precisely as follows:
+		\begin{multicols}{2}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.49\textwidth]{NASA_req.png}
+				\caption{System Requirement Definition Flowdown}
+				\label{fig:NASA_req}
+			\end{figure}
+			\todo{Add an arrow for specs to design, then design back to specs, representing the fact that specs are partially informed by final selected architecture?}
+
+			\newcolumn
+
+			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition \cite{ref_NASA}.
+			Typically, a techical systems design project involves two preliminary tasks: definition of functional and performance system requirements that satisfy the client's stated objectives
+			and rolldown of those system-level requirements into subsystem specifications. This is shown in Figure \ref{fig:NASA_req}.
+		\end{multicols}
+
+		Our client, Sandia National Labs, completed this first task for us, defining two system requirements precisely as follows:
 
 		\begin{enumerate}
-			\item The device must passively restrict the provided flow of gas without external input or control such that the effective diameter of its orifice obeys the following relationship with the ambient temperature of the outside environment:
+			\item The device shall passively restrict the provided flow of gas according to the following relationship:
 			
 				\begin{equation}
 					\requiredRelationship
@@ -405,22 +447,28 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				Where:
 				\begin{align*}
+					&T_{\text{ambient}} \text{ (aka } T_{amb} \text{) is the ambient air temperature}
+					\\
+					&D_{\text{effective}} \text{ (aka } D_{eff} \text{) is the effective orifice diameter}
+					\\
 					&A_1 = \Aone
 					\\
 					&A_0 = \Azero
 					\\
-					&T_{\text{reference}} = \Tref
+					&T_{\text{reference}} \text{ (aka } T_{ref} \text{)} = \Tref
 					\\
 					&T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
 				\end{align*}
 
-			\item The device must remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
+			\item The device should remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
 		\end{enumerate}
 		
-		These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report. They are a strict requirement and a soft guideline, respectively.
-		A mechanical envelope is the total volume that the device is allowed to occupy at all times.
+		These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report.
+		Note the difference between the obligation keywords, "shall" and "should", of the two requirements.
+		As laid out by NASA's handbook, the former indicates a strict requirement, whereas the latter gives a goal while allowing for violation in favor of a higher-priority trade-off.
+		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
 
-		The Required Relationship in equation \eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extremem precision.
+		The Required Relationship in equation \eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extreme precision.
 		As derived in Appendix \ref{app:calcs:errorProp}, $D_{\text{effective}}$ must linearly follow $T_{\text{ambient}}$ with the following reference values:
 
 		\begin{align}
@@ -451,16 +499,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	\todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]; add specifications for operational conditions.}
 			
-	To passively control the flow of a gas, this design requires two coupled subsystems:
+	Our client stipulated the system requirements we must follow. Our role remains to define the requisite subsystems to accomplish these objectives, specifying the role of each.
+	
+	Passive, temperature-responsive gas flow control requires two coupled subsystems:
 
 	\begin{itemize}
 		\item A valve to restrict the flow
-		\item An actuator to drive the valve's movement
+		\item An actuator to drive the valve's movement as driven by temperature
 	\end{itemize}
 
-	The valve assembly includes the housing, which connects to two provided gas pipes via standard thread, an internal variable-size orifice, and a hermitically-sealed piston to connect to the actuator.
+	The valve assembly must contain and restrict the gas flow.
+	This requires a housing that can be threaded to two gas pipes, an internal variable-size orifice, and a hermitically-sealed piston to connect to the actuator.
 	
-	The actuator assembly is externally mounted to the valve and drives its motion via the piston (Figure \ref{fig:subsystems_conceptual}).
+	The actuator assembly must influence the valve from the outside so it responds to the ambient air temperature.
+	Thus, it should be externally mounted to the valve and drive its motion via the piston (Figure \ref{fig:subsystems_conceptual}).
 
 	\begin{figure}[H]
 		\centering
@@ -473,8 +525,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 		\subsection{Required Relationship rolldown}
 		\label{subsec:intro:specs:RR}
-
-			\todo{Delete this: \ref{sec:sat:TF}}
 
 			The Required Relationship is best understood as a passive system transfer function, commonly used in the field of control theory\cite{ref_Nise},
 			represented by a simple open-loop diagram as in Figure \ref{fig:TF_gen}.
@@ -526,44 +576,64 @@ This Final Design Report illustrates the background, selected architecture, and 
 				The required system transfer function can now be represented in its complete form:
 
 				\begin{equation}
-					D_{eff} = \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_{ref} \\
-					= A_1 \Delta T + A_0
+					\begin{aligned}
+						D_{eff} &= \hat{G}_{A_0} \hat{G}_{V_0} \Delta T + D_{ref} \\
+						&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_(T_{ref}) \\
+						&= A_1 \Delta T + A_0
+					\end{aligned}
 				\end{equation}
 
 				where
 
 				\begin{align*}
-					\frac{dL}{dT} &\text{ is determined by the actuator, and}
-					\frac{dD}{dL} &\text{ is determined by the valve}
+					\frac{dL}{dT} &\text{ is determined by the actuator, and} \\[6pt]
+					\frac{dD}{dL} &\text{ is determined by the valve.}
 				\end{align*}
 
 			\end{multicols}
 
 			\newpage
+
 			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro \meter}$.
 			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
+			First, to be precise, each subsystem must be designed with a simple architecture. Additional parts drastically increases the potential for error, leakage, or other modes of failure.
+			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
+			
+			Rolldown of the governing equation
 
-			First, to be precise, the device must be simple. Additional parts drastically increases the potential for error, leakage, or mechanical failure.
-			Second, to maintain a first-order control output, each part must exhibit highly linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
+			\begin{equation}
+				\hat{G}_{RR} = \hat{G}_{A_0} \hat{G}_{V_0} = \frac{dL}{dT} \frac{dD}{dL} = A_1
+			\end{equation}
 
-			\subsubsection{Actuator specifications}
+			into its specificied subcomponents allows for an unconstrained enumeration of values so long as each architecture supports a linear, precise output.
+			This process was iterative and depended in part on the architecture selected and described in section \ref{chap:design}.
+			Thus, the following rolldown will seem arbitrary at first until the full design architecture is revealed. The selected valve architecture best supports a transfer function of
 
-				
+			\begin{equation}
+				\hat{G}_{V_0} = - \sqrt{\frac{\pi}{2}} = \GV
+			\end{equation}
 
-			\begin{itemize}
-				\item \textbf{Precision}
+			necessitating an actuator transfer function of
+
+			\begin{equation}
+				\hat{G}_{A_0} = \frac{A_1}{- \sqrt{\frac{\pi}{2}}} = - \sqrt{\frac{2}{\pi}} (\AoneExact) = \GA
+			\end{equation}
+
+			From these, we derive our first subsystem specifications:
+
+			\vspace{1em}
+			\begin{mdframed}
 					\begin{itemize}
-						\item The actuator must comprise a simple architecture with minimal failure modes.
-						\item The valve must comprise a simple architecture with minimal degrees of freedom to minimize error modes.
-						\item The interface between these must be direct.
+							\item Valve subsystem
+							\begin{enumerate}
+									\item \SpecVA
+							\end{enumerate}
+							\item Actuator subsystem
+							\begin{enumerate}
+									\item \SpecAA
+							\end{enumerate}
 					\end{itemize}
-				\item \textbf{Linearity}
-					\begin{itemize}
-						\item The actuator must expand consistently across the whole temperature range.
-						\item The valve orifice geometry must maintain the shape of a regular polygon.
-						\item The valve must not resist the driving force of the actuator.
-					\end{itemize}
-			\end{itemize}
+			\end{mdframed}
 
 		\subsection{Mechanical Envelope rolldown}
 		\label{subsec:intro:specs:ME}
@@ -586,24 +656,24 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\label{fig:axes}
 			\end{figure}
 
-			If the assembly is stacked vertically as shown, each subsystem must share the space along that axis and can use the full 10 cm along the other two axes.
-			Furthermore, the device will exceed its vertical envelope by 25 cm to accommodate a direct actuator-valve interface. This was approved by SNL.
+			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full 10 cm along the other axes.
+			As with the sub-transfer functions, the division of the vertical mechanical envelop is partially informed by the final selected design architecture.
 
-			Thus, the mechanical envelope of each subsystem will be specified as follows by longitudinal, vertical, and lateral axes, respectively:
-
-			\begin{itemize}
-				\item Valve: 10 cm $\times$ 71 cm $\times$ 10 cm
-				\item Actuator: 10 cm $\times$ 44 cm $\times$ 10 cm
-			\end{itemize}
-
-			\todo{Move the below to design justification, section \ref{chap:design}}
-
-			Many valve architectures easily fit within this envelope. However, to provide sufficient movement, the actuator must either use an exceptionally high-expansion material, which provides an inconsistent expansion rate, or use another method to increase its driving distance.
-			Thus, we obtain one specification for the actuator to achieve this:
-
-			The actuator must use dissimilar metals to increase its actuation distance.
-
-			If we select two metals with a great enough difference in expansion rates, we can obtain the necessary movement within this envelope.
+			\vspace{1em}
+			\begin{mdframed}
+					\begin{itemize}
+							\item Valve subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{1}
+									\item \SpecVB
+							\end{enumerate}
+							\item Actuator subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{1}
+									\item \SpecAB
+							\end{enumerate}
+					\end{itemize}
+			\end{mdframed}
 
 		\subsection{Operational Conditions rolldown}
 		\label{subsec:Intro:specs:cond}
@@ -611,27 +681,79 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Many of our design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
 			This rolls down to the following subsystem specifications:
 
-			\begin{itemize}
-				\item \textbf{Gas Pressure}
+			\vspace{1em}
+			\begin{mdframed}
 					\begin{itemize}
-						\item The valve housing must be able to withstand $\specPressure$ internal pressure without bursting.
-						\item The valve must be hermitically sealed to withstand this pressure without leaking.
+							\item Valve subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{2}
+									\item \SpecVCA
+									\item \SpecVCB
+									\item \SpecVCC
+							\end{enumerate}
+							\item Actuator subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{2}
+									\item \SpecACA
+							\end{enumerate}
 					\end{itemize}
-				\item \textbf{Hydrogen Compatibility}
-					\begin{itemize}
-						\item Wetted components must be compatible with hydrogen by exhibiting minimal embrittlement or diffusion.
-					\end{itemize}
-				\item \textbf{Heat Transfer}
-					\begin{itemize}
-						\item The actuator must be thermally isolated from the internal gas.
-					\end{itemize}
-			\end{itemize}
-	
+			\end{mdframed}
+
+		\subsection{Final Subsystem Specifications}
+		\label{subsec:intro:spec:final}
+
+			The final system requirements and subsystem specifications are presented in Table \ref{tab:final_specs}.
+
+			\begin{table}[H]
+					\centering
+					\caption{System Requirements and Subsystem Specification Rolldown}
+					\label{tab:final_specs}
+					\renewcommand{\arraystretch}{1.3}
+					\begin{tabularx}{\textwidth}{
+							>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
+							>{\raggedright\arraybackslash}X                  % Requirement
+							>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
+							>{\raggedright\arraybackslash}X                  % Valve spec
+							>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
+							>{\raggedright\arraybackslash}X                  % Actuator spec
+					}
+					\toprule
+					\textbf{} & \textbf{System Requirements} &
+					\textbf{} & \textbf{Valve Specifications} &
+					\textbf{} & \textbf{Actuator Specifications} \\
+					\midrule
+
+					% Row 1
+					R.1 & \ReqA &
+					V.1.1 & \SpecVA &
+					A.1.1 & \SpecAA \\
+					\midrule
+
+					% Row 2
+					R.2 & \ReqB &
+					V.2.1 & \SpecVB &
+					A.2.1 & \SpecAB \\
+					\midrule
+
+					\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
+					V.3.1 & \SpecVCA &
+					\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
+
+					& & V.3.2 & \SpecVCB & & \\
+
+					& & V.3.3 & \SpecVCC & & \\
+
+					\bottomrule
+					\end{tabularx}
+			\end{table}
+
 	\subsubsection*{Roadmap}
-	% Does not appear in table of contents; is not in Latex
+	% Does not appear in table of contents
 
 	These specifications drove the development of our final architecture. The rest of this report presents our solution to the given problem and verifies its requirement satisfaction analytically and numerically.
 	The following will be discussed, numbered according to their sections:
+
+	\todo{Adjust near end of quarter. Structure has been changed slightly.}
 
 	\begin{enumerate}
 		\setcounter{enumi}{1}
@@ -740,16 +862,16 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_hot.jpg}
+				\includegraphics[width=.5\textwidth]{active_cold.jpg}
 				\subcaption{Cooling actuation}
-				\label{fig:active_hot}
+				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_cold.png}
+				\includegraphics[width=.5\textwidth]{active_hot.png}
 				\subcaption{Heating actuation}
-				\label{fig:active_cold}
+				\label{fig:active_hot}
 			\end{minipage}
 			\caption{Mechanism of the \device}
 			\label{fig:active_diagram}
@@ -832,20 +954,15 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{System Transfer Function}
 	\label{sec:sat:TF}
 
-		\todo{Delete this: \ref{subsec:intro:specs:RR}}
+		The required transfer function from section \ref{subsec:intro:specs:RR} describes the system under ideal conditions and cannot properly account for systematic errors.
+		To fully analyze the expected performance, of the \device, we must derive a new, comprehensive system Transfer Function that we can then compare the the required output: 
 
-		Recall from Section \ref{subsec:intro:specs:RR} that the Required Relationship, the core objective of the \device, is best described as a passive system transfer function.
+		\begin{equation}
+			\hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
+			\label{eq:req_TF}
+		\end{equation}
 
-			\begin{equation}
-				\hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
-				\label{eq:req_TF}
-			\end{equation}
-
-		satisfaction of this transfer function, along with the Mechanical Envelope, drives subsystem specification.
-		In order to determine the rolldown from the Required Relationship to its relevant specifications, we must determine the system Transfer Function produced by the architecture described in section \ref{chap:design} to ensure that it matches equation \eqref{eq:req_TF}.
-
-		
-
+		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
 
 		\newpage
 		\thispagestyle{empty}
@@ -2451,6 +2568,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 	McMaster-Carr, \textit{[Thermally Stable Invar 36 Nickel Alloy Rod], Part No. 4279K16}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/4279K16-4279K169/}
 	[Accessed: Apr. 17, 2026].
 
+	\bibitem{ref_NASA}
+	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+	Washington, DC: NASA, 2016, Sec.~4.2.
+
+
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
 
@@ -2639,7 +2761,7 @@ The following data sheets are included below:
 		\item Our initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure \ref{fig:hexagon}).
 				As we further developed the model in preparation for the Preliminary Machine Architecture Report, our team determined that this complex mechanism carried too many moving parts and sources of friction and error to achieve the microscopic diameter and extreme tolerance required in our objectives.
 				We held an emergency meeting to consider our alternatives and settled on a new architecture we had not thought of before, the diamond-overlap orifice described throughout this report.
-		\item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at SNL for prototype funds amounting to \$2,000.        
+		\item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at Sandia Labs for prototype funds amounting to \$2,000.        
 				With the sudden responsibility of determining whether we could manufacture the device ourselves, quickly drew up a machining and assembly plan to ensure our model would be ready for purchase by the time we submitted the report.
 				We met with our machine shop manager the next day to ask for his input and inadvertently won a full-hour design review. Beyond valuable insight into strategies and off-campus resources for performing the more difficult machining operations
 				(i.e. the EDM cuts and laser-welded assembly), he gave his input on the reliability of our current actuator-valve interface. Our current model used a double rack-and-pinion (Figure \ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device 's longest dimension.
@@ -2692,6 +2814,14 @@ The following data sheets are included below:
 	\newpage
 	Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
 	Our first exposure to real engineering design, this project will be remembered as the high point in our academic journey.
+
+	\todo{Add detail that we iteratively developed our specs in close communication with our sponsor (client) in accordance with NASA p. 54 note?}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{del_NASA_comm.png}
+		\caption{DELETE BEFORE SUBMISSION: NASA p. 54 note, section 4.2}
+	\end{figure}
 
 	\newpage
 	\todo{Include something sentimental here? Group picture, signature/personal remarks page, something}
