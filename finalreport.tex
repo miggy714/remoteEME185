@@ -187,15 +187,15 @@
 
 % Valve specifications
 \newcommand{\SpecVA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
-\newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 71 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
 \newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
 \newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
 
 % Actuator specifications
 \newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
-\newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 44 cm $\times$ 10 cm mechanical envelope}
-\newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow \todo{Make this one more exact and out-come focussed.}}
 
 % --- Tolerance values for specifications. --- 
 % Fill in with real numbers as we find the relevant values 
@@ -247,7 +247,7 @@
 \usepackage{xcolor}
 \newcommand{\todo}[1]{{\bfseries\color{red}[TODO: #1]}}
 
-% --- Spec tables. Defined here so they can be used twice. ---
+
 
 % ============================================================================
 % BEGIN DOCUMENT
@@ -338,7 +338,44 @@
 
 \newpage
 
-\todo{Table of acronyms}
+\section*{List of Acronyms}
+
+\begin{tabularx}{\textwidth}{@{} l X @{}}
+    \toprule
+    \textbf{Acronym} & \textbf{Definition} \\
+    \midrule
+    Al      & Aluminum \\
+    ALLV    & Allvar (negative-CTE alloy) \\
+    ASME    & American Society of Mechanical Engineers \\
+    AWS     & American Welding Society \\
+    BOM     & Bill of Materials \\
+    CAD     & Computer-Aided Design \\
+    CTE     & Coefficient of Thermal Expansion \\
+    DFMEA   & Design Failure Modes and Effects Analysis \\
+    DOF     & Degree of Freedom \\
+    EDM     & Electrical Discharge Machining \\
+    EME     & Engineering, Mechanical (course prefix) \\
+    FS      & Factor of Safety \\
+    Inc     & Inconel 718 \\
+    Inv     & Invar 36 \\
+    ISO     & International Organization for Standardization \\
+    LBW     & Laser Beam Welding \\
+    MATLAB  & Matrix Laboratory (numerical computing software) \\
+    NASA    & National Aeronautics and Space Administration \\
+    PTCD    & Passive Temperature Compensation Device \\
+    RR      & Required Relationship \\
+    SF      & Safety Factor \\
+    SI      & Système International (International System of Units) \\
+    SNL     & Sandia National Laboratories \\
+    TF      & Transfer Function \\
+    UC Davis & University of California, Davis \\
+    \bottomrule
+\end{tabularx}
+
+
+
+
+
 
 \newpage  % Start the body of the report on a fresh page
 
@@ -349,9 +386,9 @@ Sandia National Laboratories has tasked our senior design team,
 the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
 The device must restrict its orifice as the ambient temperature of the surrounding air increases.
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
-The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia National Labs (SNL, aka the "sponsor" or the "client"),
+The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m, or half the width of the ballpoint on a pen,
-with an average tolerance of $\pm 13$ \textmu m, about one fifth the thickness of a human hair.
+with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
 Our team designed two interconnected subsystems to accomplish this objective:
 
 \begin{itemize}
@@ -377,8 +414,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 \chapter{Introduction}
 \label{chap:intro}
 
-	\todo{Personal preference (Sam): Don't use the phrase "PTCD" until section \ref{chap:design}. Helps with the big-reveal effect.}
-
 	\section{Motivation}
 	\label{sec:intro:motive}
 
@@ -392,32 +427,71 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Background}
 		\label{subsec:intro:motive:background}
 
-			\todo{General motivation: proof of concept to be able to passively accommodate some temperature fluctuations when running these experiments. Why is this device needed? Not sure. Get info from Dr. Bon for more details.}
+			Sandia National Laboratories, a United States security research facility in Livermore, CA, often performs high-precision experiments involving the flow of high-pressure $\text{H}_{\text{2}}$ gas.
+			These experiments are hyper-sensitive to environmental temperature fluctuations and must be tightly controlled.
+			Gas flow in each of many\footnote{\todo{Several? Dozens? Hundreds?}} independent channels must be restricted by an orifice a few dozen micrometers across at most that close as the ambient air temperature rises to protect sensitive equipment or carefully control conditions downstream.
+			Typically, an active-control feedback loop, coupled with a close-tolerance, solenoid-powered valve, would easily compensate for these temperature variations.
+			However, the lab technicians often cannot actively monitor or control the flow due to energy, personnel, or space constraints.
+			They would require a fully passive thermomechanical valve, one that could tightly control the flow of high-pressure gas across a wide temperature range.
+			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
+			Thermostatic actuators\footnote{\todo{Cite}} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
+			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
+			and are designed for low-pressure, light-tolerance applications.
+			Thermal louvers and thermostatic bypass valves\footnote{\todo{Cite the paper on thermal switches that Isaiah found}} passively regulate delicate satelite equipment at the size and precision Sandia requires, but switch on and off to compensate for the binary thermal extremes of space rather than operating continuously over their temperature range.
+			Therefore, despite this design foundation, a continuous, high-precision, passive valve that manipulates fluid flow without responding to its conditions would prove a novel and highly challenging exercise.
 
-		\subsection{Objectives}
-		\label{subsec:intro:motive:objectives}
+			
+			\subsection{Objectives}
+			\label{subsec:intro:motive:objectives}
 
-			\todo{This is the second half of Background; now that the "problem" has been established, the flow of thought progresses to "it would be nice if we had a device that could do X for us." Until Section \ref{chap:design}, the \device\ will be referred to as the "valve".}
+				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors\footnote{\todo{Don't use "we" in this report. It's unprofessional.}} of this paper, to develop a high-pressure, Hydrogen-compatible, passive temperature compensation device that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
+				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package presented in this report.
+				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
+				\begin{itemize}
+					\item Restrict the provided flow of gas, at a pressure of up to 680 atmospheres, with an orifice smaller than the tip of a ballpoint pen.
+					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to 20 \textmu m\footnote{No more than the width of a human hair\cite{ref_NIH}}.
+					\item Do so without depending on external power, using active control, or exceeding a volume of $\SI{10}{cm}^3$.
+				\end{itemize}
+			
 		\subsection{Potential stakeholders}
 		\label{subsec:intro:motive:stakeholders}
 
-			\todo{Anyone who might interact with this thing: the lab coats, technicians, and researchers, primarily}
+			Application of this valve is highly specialized for experiments performed Sandia Labs and would not be commercially viable without more generalized development.
+			Thus, our primary stakeholder remains the engineers, researchers, and lab technicians at SNL.
+			Primarily, test engineers, the technicians conducting the experiments, would be able to integrate the valve into experimental apparatuses with two threaded attachments, allowing them to control their experiments with much greater precision and freedom.
+			Once installed, the device would self-maintain its controlled conditions without the need for power, monitoring, or adjustment.
+			If designed properly, it could perform its function unnoticed for years before needing to be replaced, taking a significant source of headache out of the experimental control process.
+			Secondarily, research engineers, those developing the experimental concept and using its results, would be able to put greater trust in the precision of their experimental conditions despite changing environmental factors.
+			Thus, their findings would come with greater parametric reliability due to the tighter control their technicians had over the conditions of the gas being tested.
+			This proof-of-concept design would also pave the way for similar devices with equally precise control outputs but slightly different output values, tuned as necessary to the given experiment.
+			Research engineers at SNL with access to such capabilities could quickly design a new configuration of the device more suitable for the particulars of their research.
+
+			The valve could similarly be custom-ordered by external organizations once the reconfiguration process is streamlined.
+			Companies in the aerospace, military, or gas handling or processing industry may have a use for a high-capacity, high-precision, no-input valve such as this one.
+			Because Sandia requires an excessively small, precise orifice within a handheld device, development for commercial application would be equivalent at worst and comparably easy at best. 
 
 		\subsection{Concept of Operations}
 		\label{subsec:intro:motive:Ops}
 
-			\todo{Leave the device as a blackbox for now: we don't know how it works yet or even what subsystems it has. But how would a user install and operate a valve that does what we generally described in Objectives? Being a passive device, this is very minimal.}
+			Operation of this valve consists primarily of assembly and installation. After the device is assembled at Sandia's machine shop, the manufacturers thread the valve into a stream of low-pressure, room-temperature air.
+			Precisely measuring the upstream and downstream gas pressure and external air pressure, they adjust a calibration screw that holds two pieces of the valve at a precise distance until it reaches its expected pressure drop,
+			indicating that the room-temperature orifice size has been reached.
+
+			As a test engineer sets up his experimental apparatus, he inserts the valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
+			No further attention is needed until the device malfunctions at the end of its lifetime, at which point the entire device must be replaced.
+			The chief advantage of this device is its passive nature; if it works correctly, test engineers can ignore the entire control system during its lifetime until they need to change the experiment.
+
 
 	\section{System Requirements}
 	\label{sec:intro:req}
 
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=\textwidth]{Del_requirements_requirements.png}
-			\caption{DELETE BEFORE SUBMISSION}
-			\label{fig:del_req_req}
-		\end{figure}
+		% \begin{figure}[H]
+		% 	\centering
+		% 	\includegraphics[width=\textwidth]{Del_requirements_requirements.png}
+		% 	\caption{DELETE BEFORE SUBMISSION}
+		% 	\label{fig:del_req_req}
+		% \end{figure}
 
 		\begin{multicols}{2}
 			\begin{figure}[H]
@@ -477,7 +551,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\Dhot \label{eq:hotBoundary}
 		\end{align}
 
-		These tolerance values are derived in Appendix \ref{app:calcs:errorProp}.
+		These tolerance values are derived in Appendix \ref{app:calcs:errorProp}. 
 		
 		In addition to these requirements, our sponsor supplied us with the following design conditions:
 		
@@ -497,8 +571,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{Subsystem Specifications}
 	\label{sec:intro:specs}
 
-	\todo{Now reveal the two subsystems that we will naturally need: an actuator to drive the system, and a valve to perform the restriction. Leave those subsystems as blackboxes for now. Describe (largely in qualitative terms) what each must do to achieve Required Relationship [RR]; give quantitative rolldown for Mechanical Envelope [ME]; add specifications for operational conditions.}
-			
 	Our client stipulated the system requirements we must follow. Our role remains to define the requisite subsystems to accomplish these objectives, specifying the role of each.
 	
 	Passive, temperature-responsive gas flow control requires two coupled subsystems:
@@ -862,14 +934,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_cold.jpg}
+				\includegraphics[width=.5\textwidth]{active_cold.png}
 				\subcaption{Cooling actuation}
 				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_hot.png}
+				\includegraphics[width=.5\textwidth]{active_hot.jpg}
 				\subcaption{Heating actuation}
 				\label{fig:active_hot}
 			\end{minipage}
@@ -2442,6 +2514,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{Recommended Improvements}
 	\label{sec:conc:rec}
 
+		\begin{itemize}
+		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much.
+		\end{itemize}
+
 
 
 
@@ -2572,6 +2648,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
 
+	\bibitem{ref_NIH}
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
+	[Accessed: May 4, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
