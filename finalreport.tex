@@ -77,6 +77,33 @@
 % Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
 \usepackage{geometry}
 %allows you to set margins and page size. 
+\usepackage{mdframed}     % warning/note boxes
+\usepackage{enumitem}     % list formatting
+\usepackage{booktabs}     % tables
+\usepackage{xcolor}       % color support
+\usepackage{upgreek}
+
+
+\definecolor{warnred}{RGB}{180,30,30}
+\definecolor{warnbg}{RGB}{255,235,235}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteblue}{RGB}{30,80,160}
+
+\newmdenv[
+  linecolor=warnred, backgroundcolor=warnbg,
+  linewidth=1.5pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{warningbox}
+
+\newmdenv[
+  linecolor=noteblue, backgroundcolor=notebg,
+  linewidth=1pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{notebox}
+
+
 \titleformat{\chapter}
  {\LARGE\bfseries}  % format
  {}                % label
@@ -930,18 +957,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 		Thus, as pictured in Figure \ref{fig:active_diagram}, as the ambient temperature increases, the actuator drives the valve stem downwards, shrinking the orifice. 
 		As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
 
+		\todo{Uncomment the images once they are in the repo.}
 		\begin{figure}[H]
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_cold.png}
+				%\includegraphics[width=.5\textwidth]{active_cold.jpg}
 				\subcaption{Cooling actuation}
 				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_hot.jpg}
+				%\includegraphics[width=.5\textwidth]{active_hot.png}
 				\subcaption{Heating actuation}
 				\label{fig:active_hot}
 			\end{minipage}
@@ -2792,6 +2820,261 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	\todo{Do we need to heat-treat the Invar parts?}
 
+
+
+\chapter*{User Guide}
+\addcontentsline{toc}{chapter}{User Guide}
+\setcounter{section}{0}
+\renewcommand{\thesection}{\arabic{section}}
+
+\begin{center}
+  {\Large \textbf{Passive Temperature Compensation Device (PTCD)}} \\[4pt]
+  Noble Aggie Labs \\
+  Revision 1.0 \\
+	June 2026
+\end{center}
+
+\bigskip
+
+\begin{warningbox}
+\textbf{\large \textcolor{warnred}{$\blacktriangle$ ~ CRITICAL SAFETY NOTICE ~ $\blacktriangle$}}
+
+\medskip
+This device operates with \textbf{high-pressure gas up to 68.95~MPa (10{,}000~psi)},
+including potentially \textbf{flammable gases such as hydrogen.}
+Failure to follow these instructions may result in \textbf{serious injury or death.}
+
+\medskip
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+  \item All personnel must be trained in high-pressure gas handling before working with this device.
+  \item All connections and testing must comply with \textbf{ASME~B31.3} and applicable local safety regulations.
+  \item Hydrogen is extremely flammable. Work in a well-ventilated area with appropriate gas detection equipment active.
+  \item \textbf{Never work on a pressurised system.} Confirm the system is fully depressurised before installation, removal, or adjustment.
+  \item Wear appropriate PPE at all times: safety glasses, face shield, and flame-resistant clothing. Use insulated gloves near temperature extremes ($-60\,^{\circ}$C to $+80\,^{\circ}$C).
+\end{itemize}
+\end{warningbox}
+
+\bigskip
+
+%-------------------------------------------------------------------
+\section{Product Overview}
+%-------------------------------------------------------------------
+
+\subsection{Background}
+
+The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to 68.95~MPa (10{,}000~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD mantains it's specified orifice diameter across a temperature range of $-60\,^{\circ}$C to $+80\,^{\circ}$C, and is calibrated at room temperature ($25\,^{\circ}$C) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
+
+\subsection{Intended Users}
+
+This guide is written for test engineers and laboratory technicians who operate high-pressure gas experiments. Users are assumed to have familiarity with pressurised gas systems and applicable codes. 
+
+%-------------------------------------------------------------------
+\section{System Description}
+%-------------------------------------------------------------------
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox{0.75\textwidth}{\centering
+    \vspace{2cm}
+    \textit{[PLACEHOLDER: Labelled isometric view of complete PTCD assembly.
+    Labels: Actuator Sub-assembly (A0), Valve Sub-assembly (V0),
+    Gas Inlet, Gas Outlet, Calibration Screw.]}
+    \vspace{2cm}
+  }}
+  \caption{Complete PTCD assembly.}
+  \label{fig:ug_overview}
+\end{figure}
+
+The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminium on the inside and Allvar on the outside. Because aluminium expands and Allvar contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurised gas inside the valve.
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox{0.75\textwidth}{\centering
+    \vspace{2cm}
+    \textit{[PLACEHOLDER: Annotated cross-section showing the gas flow path
+    (inlet $\rightarrow$ orifice $\rightarrow$ outlet), valve stem, bellows,
+    actuator, and shim-washer stack. Arrow indicating stem travel direction
+    with increasing temperature.]}
+    \vspace{2cm}
+  }}
+  \caption{PTCD cross-section schematic.}
+  \label{fig:ug_crosssection}
+\end{figure}
+
+
+\textbf{How it works:} Rising ambient temperature causes the actuator to push the valve stem downward, reducing the orifice overlap and restricting flow. Falling temperature pulls the stem back up, opening the orifice. The device requires no power and makes no adjustments on its own --- it simply follows temperature.
+
+
+%-------------------------------------------------------------------
+\section{Before You Begin}
+%-------------------------------------------------------------------
+
+\subsection{What You Will Need}
+
+\begin{itemize}[itemsep=3pt]
+  \item High-pressure gas supply with upstream shut-off valve and regulator
+  \item Compatible pipe with appropriate thread to match the PTCD ports
+  \item Pipe sealant approved for the gas and pressure in use (see Section~\ref{sec:sealing})
+  \item Two wrenches sized for the pipe fittings
+  \item Calibrated pressure gauge (upstream of PTCD)
+  \item Hydrogen-rated leak detector or electronic gas sensor
+  \item Downstream isolation valve
+  \item Rigid, level mounting surface (see Section~\ref{sec:mounting})
+  \item PPE: safety glasses, face shield, flame-resistant clothing, insulated gloves
+\end{itemize}
+
+\subsection{Pipe Sealing}
+\label{sec:sealing}
+
+\begin{warningbox}
+\textbf{\textcolor{warnred}{WARNING --- Sealing Requirements}}
+
+Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately 20~MPa. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
+\end{warningbox}
+
+\subsection{Mounting}
+\label{sec:mounting}
+\textbf{NOTE:} The actuator responds to the temperature of the air surrounding it. Anything that heats or cools the actuator other than the ambient air will introduce error in the orifice diameter.
+
+Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \textbf{15~cm of free air clearance around the actuator on all sides}, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
+
+\subsection{Ambient Air Conditions}
+
+The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{30 minutes} for it to equilibrate before pressurising or recording data. Temperature changes faster than approximately 5~$^{\circ}$C/min may cause a transient lag between the ambient reading and the actual orifice position.
+
+%-------------------------------------------------------------------
+\section{Installation}
+%-------------------------------------------------------------------
+
+\begin{warningbox}
+\textbf{\textcolor{warnred}{WARNING}} \quad Confirm the upstream supply is \textbf{fully shut off and depressurised} before beginning. Never connect or disconnect the PTCD under pressure.
+\end{warningbox}
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox{0.75\textwidth}{\centering
+    \vspace{2cm}
+    \textit{[PLACEHOLDER: Gas circuit diagram showing: high-pressure source,
+    upstream shut-off valve, pressure gauge, PTCD, downstream manifold or
+    unit under test, downstream vent/isolation valve. Flow direction arrow.]}
+    \vspace{2cm}
+  }}
+  \caption{Typical PTCD installation in a high-pressure gas circuit.}
+  \label{fig:ug_install}
+\end{figure}
+
+\begin{enumerate}[leftmargin=1.8em, itemsep=6pt]
+
+  \item \textbf{Inspect the device.} Check for shipping damage. Confirm the actuator is seated on the housing and the calibration screw is present and undamaged. Do not install a damaged unit.
+
+  \item \textbf{Identify inlet and outlet.} The inlet is the upstream port; the outlet connects to the downstream load. Refer to Figure~\ref{fig:ug_crosssection} and the flow-direction marking on the housing. \textbf{Installing the device backwards may result in damage to internal components.}
+
+  \item \textbf{Mount the device first.} Secure the PTCD to the bench or fixture before connecting any pipe. Tightening pipe fittings against an unsecured device transmits torque directly to the actuator and can shift the calibration.
+
+  \item \textbf{Prepare and connect the inlet.} Clean the threads, apply approved sealant, and thread the upstream fitting in by hand. Use two wrenches to tighten (one on the housing, one on the pipe fitting) to tighten to the specified torque per the chosen sealing method. \textbf{Do not bear against the actuator sub-assembly.}
+
+  \item \textbf{Connect the outlet.} Repeat the same procedure on the downstream port.
+
+  \item \textbf{Check actuator clearance.} Confirm no pipe, cable, or clamp contacts the actuator and that 15~cm of free air clearance is maintained on all sides.
+
+\end{enumerate}
+
+%-------------------------------------------------------------------
+\section{Leak Testing}
+\label{sec:leaktest}
+%-------------------------------------------------------------------
+
+\begin{warningbox}
+\textbf{\textcolor{warnred}{WARNING --- Hydrogen Service}} \quad Hydrogen is odourless and colourless. You cannot see or smell a hydrogen leak. Use \textbf{electronic hydrogen-specific gas detectors} or a certified hydrogen-compatible liquid leak solution. Never use an open flame.
+\end{warningbox}
+
+With the downstream valve closed, slowly bring the system to \textbf{10\% of the intended operating pressure}. Apply leak detector around every threaded joint and the bellows area and wait at least 60~seconds at each location. If a leak is found, shut off the supply, depressurise completely, re-make the connection, and repeat. \textbf{Never tighten a fitting under pressure.} Once the system is leak-free at 10\%, step up in increments of no more than 25\% of the final pressure, checking for leaks at each step. Log the test pressure, gas type, date, and operator name.
+
+%-------------------------------------------------------------------
+\section{Calibration}
+%-------------------------------------------------------------------
+
+The PTCD is calibrated at final assembly. Field recalibration is only needed if the device has been damaged, if the measured orifice diameter at $T_\mathrm{ref}$ falls outside tolerance, or if the device is being set up for a different target relationship.\textbf{The PTCD is not designed for disassembly.} Any attempt at disassembly may damgage components resulting in unsafe operating conditions. Any modifactions are to be done at the user's own risk.
+
+
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox{0.75\textwidth}{\centering
+    \vspace{2cm}
+    \textit{[PLACEHOLDER: Annotated detail of shim-washer calibration stack.
+    Labels: copper crush washer (top), thin steel shim (middle),
+    thick steel shim (bottom). Arrow showing direction of height increase
+    and resulting effect on orifice diameter.]}
+    \vspace{2cm}
+  }}
+  \caption{Shim-washer calibration stack.}
+  \label{fig:ug_calib}
+\end{figure}
+
+
+Depressurise the system before calibrating. Measure the orifice diameter at $T_\mathrm{ref} = 25\,^{\circ}$C using the sponsor-provided optical procedure and calculate the required height correction. Adjust the T6 adjustment screw in minute increments to achieve the target effective diameter. 
+\begin{warningbox}
+\textbf{\textcolor{warnred}{CAUTION:}} Do not over-tighten the calibration screw on top of the actuator. It pre-loads a Belleville washer inside the assembly.
+\end{warningbox}
+
+%-------------------------------------------------------------------
+\section{Operation}
+%-------------------------------------------------------------------
+
+\begin{figure}[htbp]
+  \centering
+  \fbox{\parbox{0.75\textwidth}{\centering
+    \vspace{2cm}
+    \textit{[PLACEHOLDER: Concept of Operations flowchart: (1) Install and leak-test,
+    (2) Equilibrate temperature (30~min), (3) Pressurise, (4) Passive operation ---
+    ambient temperature drives actuator, actuator drives orifice,
+    (5) Depressurise and purge on shutdown.]}
+    \vspace{2cm}
+  }}
+  \caption{PTCD concept of operations.}
+  \label{fig:ug_conops}
+\end{figure}
+
+\begin{enumerate}[leftmargin=1.8em, itemsep=6pt]
+
+  \item \textbf{Install and leak-test} per Sections~4 and~5.
+
+  \item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{30~minutes} or until the ambient temperature has been stable to within $\pm\,1\,^{\circ}$C for 10~minutes.
+
+  \item \textbf{Check conditions.} Record the ambient temperature and confirm it is within $-60\,^{\circ}$C to $+80\,^{\circ}$C. Confirm the upstream pressure is within the rated range.
+
+  \item \textbf{Pressurise.} Slowly open the upstream supply to the desired operating pressure. Do not exceed 68.95~MPa.
+
+  \item \textbf{Operate.} No further action is required. The PTCD adjusts the orifice automatically as temperature changes.
+
+  \item \textbf{Shutdown.} Close the upstream supply valve and open the downstream vent to relieve pressure. Verify depressurisation with a gauge. If hydrogen was used, purge the lines before disconnecting any fittings.
+
+\end{enumerate}
+
+
+%-------------------------------------------------------------------
+\section{Quick-Reference Parameters}
+%-------------------------------------------------------------------
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Notes} \\
+\midrule
+Reference temperature $T_\mathrm{ref}$ & $25\,^{\circ}$C & Calibration point \\
+Operating temperature range & $-60\,^{\circ}$C to $+80\,^{\circ}$C & Ambient at actuator \\
+Orifice diameter at $-60\,^{\circ}$C & $383.5 \pm 19.2\,\upmu$m & Maximum open \\
+Orifice diameter at $+25\,^{\circ}$C & $254.0 \pm 12.7\,\upmu$m & Reference \\
+Orifice diameter at $+80\,^{\circ}$C & $170.2 \pm 16.9\,\upmu$m & Minimum open \\
+Max.\ operating pressure & 68.95~MPa (10{,}000~psi) & \\
+Min.\ operating pressure & 689.5~kPa (100~psi) & \\
+Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+	
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
 
