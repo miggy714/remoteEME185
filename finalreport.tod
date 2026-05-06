@@ -1,0 +1,56 @@
+\contentsline {todos}{\numberline {1}Report body may not exceed 50 pages.}{1}{Doc-Start}%
+\contentsline {todos}{\numberline {1}Several? Dozens? Hundreds?}{1}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Cite}{2}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Cite the paper on thermal switches that Isaiah found}{2}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Don't use "we" in this report. It's unprofessional.}{2}{subsection.1.1.2}%
+\contentsline {todos}{\numberline {4}Add an arrow for specs to design, then design back to specs, representing the fact that specs are partially informed by final selected architecture?}{4}{figure.caption.2}%
+\contentsline {todos}{\numberline {7}Make these figures all the same scale so the TF boxes look the same size}{7}{subsection.1.3.1}%
+\contentsline {todos}{\numberline {13}Make this one more exact and out-come focussed.}{13}{Item.17}%
+\contentsline {todos}{\numberline {14}Make this one more exact and out-come focussed.}{14}{table.caption.8}%
+\contentsline {todos}{\numberline {14}Adjust near end of quarter. Structure has been changed slightly.}{14}{table.caption.8}%
+\contentsline {todos}{\numberline {20}Uncomment the images once they are in the repo.}{20}{figure.caption.14}%
+\contentsline {todos}{\numberline {20}Include reference to BOM in Appendix}{20}{figure.caption.15}%
+\contentsline {todos}{\numberline {21}Insert full-subsystem, exploded, and part ID images below}{21}{subsection.2.1.1}%
+\contentsline {todos}{\numberline {21}Insert images of Valve Orifice and Housing Outlet and their assembly below}{21}{figure.caption.18}%
+\contentsline {todos}{\numberline {22}Insert Valve Inlet image, plus one with orifice inside}{22}{figure.caption.21}%
+\contentsline {todos}{\numberline {22}Insert Housing Center image, and one with inlet, centers, and orifice}{22}{figure.caption.23}%
+\contentsline {todos}{\numberline {22}Insert figure of bellows, and one of it inserted into whole assembly without Outlet}{22}{figure.caption.25}%
+\contentsline {todos}{\numberline {22}Cutaway images}{22}{figure.caption.27}%
+\contentsline {todos}{\numberline {22}Talk about LBW assembly}{22}{figure.caption.27}%
+\contentsline {todos}{\numberline {23}Insert full-subsystem, exploded, and part ID images below}{23}{subsection.2.1.2}%
+\contentsline {todos}{\numberline {23}Explain bimetallic expansion}{23}{figure.caption.30}%
+\contentsline {todos}{\numberline {23}Justify thermal isolation}{23}{figure.caption.30}%
+\contentsline {todos}{\numberline {23}Mention calibration}{23}{figure.caption.30}%
+\contentsline {todos}{\numberline {23}This is where we show the progression from design specifications to architecture \textit {and dimensions}. Include all quantitative justifications in this section. Many of these will assume perfect conditions (e.g. act length assumes no extra forces or intolerances), but that's fine for our purposes. We don't need to perfectly optimize everything.}{23}{section.2.2}%
+\contentsline {todos}{\numberline {23}Valve TF (mostly calculated in Appendix \ref {app:calcs:valveTF}) and D(Tref). Justify direct contact (dX/dL = -1)}{23}{section*.31}%
+\contentsline {todos}{\numberline {24}Derive dL/dT TF -> dimensions of actuator and mount -> mention violation of ME is okay}{24}{section*.31}%
+\contentsline {todos}{\numberline {26}Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts}{26}{subsection.2.2.2}%
+\contentsline {todos}{\numberline {26}All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components.}{26}{subsection.2.2.3}%
+\contentsline {todos}{\numberline {30}All bellows information}{30}{subsection.2.2.4}%
+\contentsline {todos}{\numberline {30}Simply justify some of the valve subassembly dimensions. Actuator is mostly covered in section \ref {subsubsec:design:just:TF:act}}{30}{subsection.2.2.5}%
+\contentsline {todos}{\numberline {30}Brief word here, mostly satisfied by bellows}{30}{subsection.2.2.6}%
+\contentsline {todos}{\numberline {30}Calibration -> forces required (we haven't calculated these yet). Include calibration in the specs?}{30}{subsection.2.2.7}%
+\contentsline {todos}{\numberline {30}All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}{30}{subsection.2.2.8}%
+\contentsline {todos}{\numberline {30}Talk about 3/4" threaded interface and related length required in each part}{30}{subsection.2.2.9}%
+\contentsline {todos}{\numberline {31}Justify the features that were included for the sake of machinability and assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows)}{31}{subsection.2.2.10}%
+\contentsline {todos}{\numberline {31}Justify the fit-tolerances in drawings}{31}{subsection.2.2.11}%
+\contentsline {todos}{\numberline {31}Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}{31}{subsection.2.2.12}%
+\contentsline {todos}{\numberline {31}All other nontrivial dimensions, design choices, and other issues go in this section}{31}{subsection.2.2.12}%
+\contentsline {todos}{\numberline {32}Achievable tolerances and other error calculations}{32}{section.3.1}%
+\contentsline {todos}{\numberline {32}Below if Report 2's CTE analysis. Give it a double-check.}{32}{subsection.3.1.1}%
+\contentsline {todos}{\numberline {39}Add citation for Al CTE}{39}{equation.3.10}%
+\contentsline {todos}{\numberline {45}Cite E\_Aluminum\_6061}{45}{equation.3.15}%
+\contentsline {todos}{\numberline {47}Make derivation more explicit}{47}{figure.caption.40}%
+\contentsline {todos}{\numberline {49}TF results}{49}{subsection.3.2.5}%
+\contentsline {todos}{\numberline {52}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{52}{figure.caption.44}%
+\contentsline {todos}{\numberline {52}Bonus: propose physical tests -- the ones we were going to do with our own prototype}{52}{figure.caption.44}%
+\contentsline {todos}{\numberline {53}Strengths, weaknesses, and limitations of design}{53}{section.6.1}%
+\contentsline {todos}{\numberline {53}Get rid of unused citations in the bibliography; test all links}{53}{section.6.2}%
+\contentsline {todos}{\numberline {58}Include any overfill from the main body of the report to keep it under 50 pages.}{58}{appendix.A}%
+\contentsline {todos}{\numberline {62}Insert BOM with brief description. Include EDM quote if possible. Attach MiniFlex quote.}{62}{appendix.B}%
+\contentsline {todos}{\numberline {63}Do we need to heat-treat the Invar parts?}{63}{figure.caption.51}%
+\contentsline {todos}{\numberline {72}Some description}{72}{appendix.D}%
+\contentsline {todos}{\numberline {73}Include all relevant material and product data}{73}{Item.35}%
+\contentsline {todos}{\numberline {74}Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}{74}{appendix.F}%
+\contentsline {todos}{\numberline {77}Add detail that we iteratively developed our specs in close communication with our sponsor (client) in accordance with NASA p. 54 note?}{77}{figure.caption.58}%
+\contentsline {todos}{\numberline {78}Include something sentimental here? Group picture, signature/personal remarks page, something}{78}{figure.caption.59}%
