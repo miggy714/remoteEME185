@@ -999,7 +999,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			This is attached to a valve stem, which extends upwards through the housing to connect to the actuator, which drives its motion.
 			This housing pentration is hermitically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
 
-			\todo{Insert full-subsystem, exploded, and part ID images below}
+			\todo{Condense this by resizing figures and using two-column (figure next to text) where possible}
 
 			\begin{figure}[H]
 				\centering
@@ -1010,14 +1010,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{Valve_exploded.png}
+				\includegraphics[height=.49\textheight]{Valve_exploded.png}
 				\caption{Valve subsystem exploded view}
 				\label{fig:valve_exploded}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{Valve_ID.png}
+				\includegraphics[height=.49\textheight]{Valve_ID.png}
 				\caption{Valve subsystem part identification}
 				\label{fig:valve_ID}
 			\end{figure}
@@ -1027,18 +1027,16 @@ This Final Design Report illustrates the background, selected architecture, and 
 			It lies flush against the Housing Outlet (V3, Figure \ref{fig:V3}), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
 			Together, these comprise the \device's orifice.
 
-			\todo{Insert images of Valve Orifice and Housing Outlet and their assembly below}
-
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{V4.png}
+				\includegraphics[height=4in]{V4.png}
 				\caption{V4: Valve Orifice}
 				\label{fig:V4}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{V3.png}
+				\includegraphics[width=.7\textwidth]{V3.png}
 				\caption{V3: Housing Outlet}
 				\label{fig:V3}
 			\end{figure}
@@ -1053,103 +1051,123 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (V2, Figure \ref{fig:V2}), pressing it against the face of the Outlet and limiting all motion to the vertical degree of freedom.
 			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
 
-			\todo{Insert Valve Inlet image, plus one with orifice inside}
-
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{V2.png}
+				\includegraphics[width=.7\textwidth]{V2.png}
 				\caption{V2: Housing Inlet}
 				\label{fig:V2}
 			\end{figure}
 
 			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{V2_V4.png}
-				\caption{Valve Orifice fit in Housing Inlet}
-				\label{fig:V2_V4}
+					\centering
+					\begin{minipage}{0.34\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{V2_V4.png}
+							\caption{Valve Orifice fit in Housing Inlet}
+							\label{fig:V2_V4}
+					\end{minipage}
+					\hfill
+					\begin{minipage}{0.64\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{V2_V3_V4.png}
+							\caption{Valve Orifice fit in Housing Assembly}
+							\label{fig:V2_V3_V4}
+					\end{minipage}
 			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{V2_V3_V4.png}
-				\caption{Valve Orifice fit in Housing Assembly}
-				\label{fig:V2_V3_V4}
-			\end{figure}
-
 
 			Two Housing Center pieces (V1, Figure \ref{fig:V1}) plug the remaining gaps.
 			They contain holes for the valve stems to slide through, guiding their motion.
 
-			\todo{Insert Housing Center image, and one with inlet, centers, and orifice}
-
 			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{V1.png}
-				\caption{V1: Housing Center}
-				\label{fig:V1}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{V1_insert.png}
-				\caption{Housing Center fit into assembly}
-				\label{fig:V1_insert}
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{V1.png}
+					\caption{V1: Housing Center}
+					\label{fig:V1}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{V1_insert.png}
+					\caption{Housing Center fit into assembly}
+					\label{fig:V1_insert}
+				\end{minipage}
 			\end{figure}
 
 			To hermitically seal these holes, a bellows (I718\_159\_72\_430, Figure \ref{fig:I718_159_72_430}) is welded between the Valve Orifice and each Housing Center.
 			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
 
-			\todo{Insert figure of bellows, and one of it inserted into whole assembly without Outlet}
+			\begin{figure}[H]
+				\begin{minipage}{.49\textwidth}
+					\vfill
+					\includegraphics[height=3in]{bellows.png}
+					\caption{I718\_159\_72\_430: Bellows}
+					\label{fig:bellows}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{bellows_insert.png}
+					\caption{Bellows in the full assembly}
+					\label{fig:bellows_insert}
+				\end{minipage}
+			\end{figure}
+
+			Figure \ref{fig:zoom_cut} shows the orifice in full assembly. Observe the moving centerpiece pressed against the outlet face the the housing inlet.
+			The bellows are welded to its upper and lower surfaces to seal the valve stems.
+			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure \ref{fig:orifice}.
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{bellows.png}
-				\caption{I718\_159\_72\_430: Bellows}
-				\label{fig:bellows}
+				\includegraphics[width=\textwidth]{Zoom_cut.png}
+				\caption{Valve, Section View}
+				\label{fig:zoom_cut}
 			\end{figure}
 
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{bellows_insert.png}
-				\caption{Bellows in the full assembly}
-				\label{fig:bellows_insert}
-			\end{figure}
-
-
-
-			\todo{Cutaway images}
-
-			\todo{Talk about LBW assembly}
+			All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
+			The welded surfaces can be reliably modeled as fused material.
 
 		\subsection{Actuator Subsystem}
 		\label{subsec:design:overview:act}
 
 			\todo{Insert full-subsystem, exploded, and part ID images below}
 
-			\begin{figure}[H]
-				\centering
-				% \includegraphics[width=\textwidth]{Actuator_full.png}
-				\caption{Actuator subsystem}
-				\label{fig:actuator_full}
+			\begin{figure}
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[height=.5\textheight, width=\textwidth, keepaspectratio]{Act_full.png}
+					\caption{Actuator subsystem}
+					\label{fig:actuator_full}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.5\textwidth}
+					\centering
+					\includegraphics[height=.5\textheight, width=\textwidth, keepaspectratio]{Act_exploded.png}
+					\caption{Actuator subsystem exploded view}
+					\label{fig:actuator_exploded}
+				\end{minipage}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				% \includegraphics[width=\textwidth]{Actuator_exploded.png}
-				\caption{Actuator subsystem exploded view}
-				\label{fig:actuator_exploded}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				% \includegraphics[width=\textwidth]{Actuator_ID.png}
+				\includegraphics[width=\textwidth]{Act_ID.png}
 				\caption{Actuator subsystem part identification}
 				\label{fig:actuator_ID}
 			\end{figure}
 
-			\todo{Explain bimetallic expansion}
+			This bimetallic actuator drives the valve by a difference in thermal expansion rates.
+			A central Aluminum expansion rod nests inside an ALLVAR mount, suspended from above by a screw-washer assembly.
+			The base of the mound it electron-beam welded to the upper exterior surface of the valve housing, centered at the valve stem, which protrudes from this surface and is welded to the base of the expansion rod.
+			This connection is shown in Figure \ref{fig:Act_cut}.
 
-			\todo{Justify thermal isolation}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=\textwidth]{Act_cut.png}
+				\caption{Actuator-Valve Interface}
+				\label{fig:Act_cut}
+			\end{figure}
+
+			\todo{Depict what hapens at temp changes; Justify thermal isolation}
 
 			\todo{Mention calibration}
 
