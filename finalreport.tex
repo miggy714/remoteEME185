@@ -272,8 +272,13 @@
 % --- TODO marker for draft mode ---
 % Prints a bold red "TODO" so you can easily spot incomplete sections.
 \usepackage{xcolor}
-\newcommand{\todo}[1]{{\bfseries\color{red}[TODO: #1]}}
-
+\usepackage{tocloft} % For listoftodos
+% --- TODO marker ---
+\newlistof{todos}{tod}{List of TODO's}
+\newcommand{\todo}[1]{%
+    \textbf{\textcolor{red}{[TODO: #1]}}%
+    \addcontentsline{tod}{todos}{\protect\numberline{\thepage}#1}%
+}
 
 
 % ============================================================================
@@ -287,7 +292,7 @@
 
 	% --- Cover Photo: Sandia National Laboratories Aerial View ---
 	\begin{center}
-		\includegraphics[width=\textwidth]{SandiaNationalLabCoverPhoto2.jpg}
+		\includegraphics[width=\textwidth]{SNL4.jpg}
 	\end{center}
 	\vspace{0.4in}
 	% --- UC Davis College of Engineering Logo ---
@@ -360,12 +365,14 @@
 
 \newpage
 \tableofcontents
+\newpage
 \listoffigures
+\newpage
 \listoftables
 
 \newpage
 
-\section*{List of Acronyms}
+\section*{\large{List of Acronyms}}
 
 \begin{tabularx}{\textwidth}{@{} l X @{}}
     \toprule
@@ -399,7 +406,8 @@
     \bottomrule
 \end{tabularx}
 
-
+\newpage
+\listoftodos
 
 
 
@@ -455,10 +463,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\label{subsec:intro:motive:background}
 
 			Sandia National Laboratories, a United States security research facility in Livermore, CA, often performs high-precision experiments involving the flow of high-pressure $\text{H}_{\text{2}}$ gas.
-			These experiments are hyper-sensitive to environmental temperature fluctuations and must be tightly controlled.
+			These experiments are sensitive to environmental temperature fluctuations and must be tightly controlled.
 			Gas flow in each of many\footnote{\todo{Several? Dozens? Hundreds?}} independent channels must be restricted by an orifice a few dozen micrometers across at most that close as the ambient air temperature rises to protect sensitive equipment or carefully control conditions downstream.
 			Typically, an active-control feedback loop, coupled with a close-tolerance, solenoid-powered valve, would easily compensate for these temperature variations.
-			However, the lab technicians often cannot actively monitor or control the flow due to energy, personnel, or space constraints.
+			However, the lab technicians often cannot actively monitor or control the flow due to power, personnel, or space constraints.
 			They would require a fully passive thermomechanical valve, one that could tightly control the flow of high-pressure gas across a wide temperature range.
 			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
 			Thermostatic actuators\footnote{\todo{Cite}} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
@@ -476,7 +484,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
 				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to 680 atmospheres, with an orifice smaller than the tip of a ballpoint pen.
+					\item Restrict the provided flow of gas, at a pressure of up to 70 MPa (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
 					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to 20 \textmu m\footnote{No more than the width of a human hair\cite{ref_NIH}}.
 					\item Do so without depending on external power, using active control, or exceeding a volume of $\SI{10}{cm}^3$.
 				\end{itemize}
@@ -858,17 +866,22 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\setcounter{enumi}{1}
 		\item Design Summary
 			\begin{itemize}
-				\item Motivation and governing principles of the system architecture
-				\item Qualitative illustration and description of each subsystem with related bill of materials
+				\item Qualitative illustration and description of the system architecture
+				\item Motivation and governing principles behind each design decision
+				\item Quantitative demonstration of subsystem specification compliance with other calculations
+				\item Itemized Bill of Materials
 			\end{itemize}
-		\item Analytical Proof of Requirement Satisfaction
+		\item Analytical Proof of System Requirement Satisfaction
 			\begin{itemize}
-				\item Quantitative definition of each part and assembly, with necessary calculations
-				\item Derivation of the passive control system Transfer Function
+				\item Derivation of the system output Transfer Function
 				\item Error propagation analysis and demonstrated satisfaction of the Required Relationship
 			\end{itemize}
-		\item Design Failure Modes and Effects Analysis (DFMEA) of high-risk components
-		\item Presentation of the computational prototype with numerical verification of the Transfer Function
+		\item Design Failure Modes and Effects Analysis (DFMEA) of High-Risk Components
+		\item Numerical Verification
+			\begin{itemize}
+				\item Presentation of the computational prototype
+				\item Verification of system requirement satisfaction
+			\end{itemize}
 		\item Conclusion
 			\begin{itemize}
 				\item Recommended improvements for the next design iteration
@@ -936,10 +949,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 
 
-		\todo{Update to current architecture}
-		
-	
-		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut in them. 
+		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
 		One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
 		The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
 		If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure \ref{fig:orifice}, the diamond-shaped overlap between these squares constitutes the valve orifice. 
@@ -953,7 +963,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\end{figure}
 
 		A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature changes.
-		The outer material, ALLVAR, shrinks when heated, which the inner material, Aluminum, expands.
+		The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands.
 		Thus, as pictured in Figure \ref{fig:active_diagram}, as the ambient temperature increases, the actuator drives the valve stem downwards, shrinking the orifice. 
 		As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
 
@@ -977,69 +987,477 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{fig:active_diagram}
 		\end{figure}
 
+		\todo{Include reference to BOM in Appendix}
+
 
 		\subsection{Valve Subsystem}
 		\label{subsec:design:overview:valve}
 
+			The valve subsystem (Figures \ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, allowing a minimal stream of gas to exit through a small internal orifice.
+			Its housing threads to stainless steel pipes supplied the test engineer using the device and provides the structural support necessary to hold the internal pressure.
+			Its central plate, which contains the leading orifice hole, lies between the inlet and outlet components and slides vertically within the assembly.
+			This is attached to a valve stem, which extends upwards through the housing to connect to the actuator, which drives its motion.
+			This housing pentration is hermitically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
+
+			\todo{Insert full-subsystem, exploded, and part ID images below}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Valve_full.png}
+				\caption{Valve subsystem}
+				\label{fig:valve_full}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Valve_exploded.png}
+				\caption{Valve subsystem exploded view}
+				\label{fig:valve_exploded}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Valve_ID.png}
+				\caption{Valve subsystem part identification}
+				\label{fig:valve_ID}
+			\end{figure}
+
+			The Valve Orifice (V4, Figure \ref{fig:V4}) comprises the leading orifice hole near its center.
+			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
+			It lies flush against the Housing Outlet (V3, Figure \ref{fig:V3}), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
+			Together, these comprise the \device's orifice.
+
+			\todo{Insert images of Valve Orifice and Housing Outlet and their assembly below}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V4.png}
+				\caption{V4: Valve Orifice}
+				\label{fig:V4}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V3.png}
+				\caption{V3: Housing Outlet}
+				\label{fig:V3}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{orif_assem.png}
+				\caption{Orifice Assembly}
+				\label{fig:orif_assem}
+			\end{figure}
+
+			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (V2, Figure \ref{fig:V2}), pressing it against the face of the Outlet and limiting all motion to the vertical degree of freedom.
+			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
+
+			\todo{Insert Valve Inlet image, plus one with orifice inside}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V2.png}
+				\caption{V2: Housing Inlet}
+				\label{fig:V2}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V2_V4.png}
+				\caption{Valve Orifice fit in Housing Inlet}
+				\label{fig:V2_V4}
+			\end{figure}
+
+
+			Two Housing Center pieces (V1, Figure \ref{fig:V1}) plug the remaining gaps.
+			They contain holes for the valve stems to slide through, guiding their motion.
+
+			\todo{Insert Housing Center image, and one with inlet, centers, and orifice}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V1.png}
+				\caption{V1: Housing Center}
+				\label{fig:V1}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{V1_insert.png}
+				\caption{Housing Center fit into assembly}
+				\label{fig:V1_insert}
+			\end{figure}
+
+			To hermitically seal these holes, a bellows (I718\_159\_72\_430, Figure \ref{fig:I718_159_72_430}) is welded between the Valve Orifice and each Housing Center.
+			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
+
+			\todo{Insert figure of bellows, and one of it inserted into whole assembly without Outlet}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{bellows.png}
+				\caption{I718\_159\_72\_430: Bellows}
+				\label{fig:bellows}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{bellows_insert.png}
+				\caption{Bellows in the full assembly}
+				\label{fig:bellows_insert}
+			\end{figure}
+
+
+
+			\todo{Cutaway images}
+
+			\todo{Talk about LBW assembly}
+
 		\subsection{Actuator Subsystem}
 		\label{subsec:design:overview:act}
+
+			\todo{Insert full-subsystem, exploded, and part ID images below}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Actuator_full.png}
+				\caption{Actuator subsystem}
+				\label{fig:actuator_full}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Actuator_exploded.png}
+				\caption{Actuator subsystem exploded view}
+				\label{fig:actuator_exploded}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Actuator_ID.png}
+				\caption{Actuator subsystem part identification}
+				\label{fig:actuator_ID}
+			\end{figure}
+
+			\todo{Explain bimetallic expansion}
+
+			\todo{Justify thermal isolation}
+
+			\todo{Mention calibration}
 
 	\section{Design Justification}
 	\label{sec:design:just}
 
-		\todo{This is where we show the progression from design specifications to architecture \textit{and dimensions}. Include all quantitative justifications in this section. If needed, split this into two sections -- qualitative and quantitative -- but I'd like to keep individual design items together.}
+		\todo{This is where we show the progression from design specifications to architecture \textit{and dimensions}. Include all quantitative justifications in this section. Many of these will assume perfect conditions (e.g. act length assumes no extra forces or intolerances), but that's fine for our purposes. We don't need to perfectly optimize everything.}
 
-		\todo{Here belong all the calculations and other details to justify the dimensions, material choices, etc. Many of these will assume perfect conditions (e.g. act length assumes no extra forces or intolerances), but that's fine for our purposes. We don't need to perfectly optimize everything.}
+		\subsection{Transfer Functions and Critical Dimensions}
+		\label{subsec:design:just:TF}
 
-		The machined length of the actuator (assumed to be at $T_{ref}$, which is very close to room temperature) is a critical dimension. Since the mount will contract as the actuator expands, its length depends on the mount material and the spacing above and below the actuator.
-		A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm. If everything is machined exactly, it will need to be compressed 50 \textmu m upon assembly.
-		If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
-		A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
+			Specifications V.1.1 and A.1.1 require specific input-output relationships to satisfy system requirement R.1, the Required Relationship.
+			These values are driven by the geometry described above and by the dimensions we select for each part.
 
-		\newpage%
-		\begin{multicols}{2}
-			\begin{figure}[H]
-				\centering
-				\begin{minipage}[t]{0.5\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{Act_dim.png}
-					\caption{Actuator dimension labels}
-					\label{fig:act_dim}
-				\end{minipage}
-			\end{figure}
+			\subsubsection{Valve Transfer Function}
+			\label{subsubsec:design:just:TF:valve}
 
-			Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
-			a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
-			However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
-			Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
+				\todo{Valve TF (mostly calculated in Appendix \ref{app:calcs:valveTF}) and D(Tref). Justify direct contact (dX/dL = -1)}
+
+			\subsubsection{Actuator Transfer Function}
+			\label{subsubsec:design:just:TF:act}
+
+				\todo{Derive dL/dT TF -> dimensions of actuator and mount -> mention violation of ME is okay}
+
+				The machined length of the actuator (assumed to be at $T_{ref}$, which is very close to room temperature) is a critical dimension. Since the mount will contract as the actuator expands, its length depends on the mount material and the spacing above and below the actuator.
+				A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm. If everything is machined exactly, it will need to be compressed 50 \textmu m upon assembly.
+				If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
+				A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
+
+				\newpage%
+				\begin{multicols}{2}
+					\begin{figure}[H]
+						\centering
+						\begin{minipage}[t]{0.5\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{Act_dim.png}
+							\caption{Actuator dimension labels}
+							\label{fig:act_dim}
+						\end{minipage}
+					\end{figure}
+
+					Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
+					a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
+					However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
+					Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
+					
+					\begin{align}
+						\Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
+						L_{mount} &= t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
+					\end{align}
+				\end{multicols}
+
+				Plugging in the following values:
+
+				\begin{align*}
+					\alpha_{act} &= \specActuatorCTE \\
+					\alpha_{mount} &= \specMountCTE \\
+					\Delta T &= T_{hot} - T_{cold} = \specTempChange \\
+					\Delta X &= X_{hot} - X_{cold} = \specLengthChange \\
+					t_{wash} &= 0.55\ mm \\
+					L_{gap} &= 5\ mm
+				\end{align*}
+
+				we obtain the following results:
+
+				\begin{align}
+					L_{act} &= \frac{\frac{\Delta X}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
+					&= \frac{\frac{267.407\ \mu m}{140\ \degC} + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+					L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
+				\end{align}
+
+		\subsection{Valve Architecture Selection Criteria}
+		\label{subsec:design:just:geo_sel}
+
+			\todo{Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts}
+
+		\subsection{Pressure Capacity}
+		\label{subsec:design:just:P}
+
+			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components.}
+
+			The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
+			The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
+			The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
+			The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
+			The following equations are used to verify structural integrity under the specified conditions.
+			Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
+
+			\begin{table}[H]
+							\centering
+							\caption{Valve Housing Parameter Values}
+							\label{tab:housing_parameters}
+							\begin{tabularx}{\textwidth}{l X l}
+								\toprule
+								\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+								\midrule
+								Material &
+								&
+								1018 Cold-Rolled Steel
+								\\\addlinespace
+								$r_i$ &
+								Inner radius &
+								9.53 mm
+								\\\addlinespace
+								$t$ &
+								Wall thickness (minimum) &
+								10 mm
+								\\\addlinespace
+								$r_o$ &
+								Outer radius (minimum) &
+								19.53 mm
+								\\\addlinespace
+								$P$ &
+								Internal pressure &
+								$\specPressure$
+								\\\addlinespace
+								$S_y$ &
+								Yield strength &
+								370 MPa \cite{matweb}
+								\\\bottomrule
+							\end{tabularx}
+						\end{table}
+
+			Principal Stresses:
+			\begin{equation}
+			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx 112.05 \ \text{MPa} \quad (\text{Hoop Stress})
+			\label{hoop}    
+			\end{equation}
+
+			\begin{equation}
+			\sigma_{r} = -P \approx -68.95 \ \text{MPa} \quad (\text{Radial Stress})
+			\label{radial}  
+		\end{equation}
+
+			\begin{equation}
+			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx 21.55 \ \text{MPa} \quad (\text{Longitudinal Stress})
+			\label{longitudinal}
+			\end{equation}
+			\\~\\
+			Von Mises Equivalent Stress:
 			
-			\begin{align}
-				\Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
-				L_{mount} &= t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
-			\end{align}
-		\end{multicols}
+			\begin{equation}
+			\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}
+			\label{vonmises}  
+			\end{equation}
 
-		Plugging in the following values:
+			\begin{equation}
+			\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} 
+			\approx 156.75 \ \text{MPa}
+			\label{vonmises2}     
+			\end{equation}
 
-		\begin{align*}
-			\alpha_{act} &= \specActuatorCTE \\
-			\alpha_{mount} &= \specMountCTE \\
-			\Delta T &= T_{hot} - T_{cold} = \specTempChange \\
-			\Delta X &= X_{hot} - X_{cold} = \specLengthChange \\
-			t_{wash} &= 0.55\ mm \\
-			L_{gap} &= 5\ mm
-		\end{align*}
+			The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
+			
+			\begin{equation}
+			FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36
+			\label{fs}
+			\end{equation}
 
-		we obtain the following results:
+			The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.36$.
+			The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
+			
+			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
+			Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
+			full penetration \cite{steen2010laser}.
+			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
+			LBW's high power density enables complete fusion across the interface, and the square butt profile 
+			is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured 
+			\cite{aws2020welding}.
+			Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
+			Table 302.3.4 \cite{asme_b313}.
+			The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
+			and cracking, all of which could significantly reduce joint strength \cite{aws2020welding}.
+			\\~\\
+			The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
+			(Equation 3a or Equation \eqref{tmin_weld}, below) \cite{asme_b313}, which governs the required minimum wall thickness as a function 
+			of the weld joint quality factor $E$:
+			
+			\begin{equation}
+			t_{min} = \frac{P D_o}{2(SEW + PY)}
+			\label{tmin_weld}
+			\end{equation}
 
-		\begin{align}
-			L_{act} &= \frac{\frac{\Delta X}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
-			&= \frac{\frac{267.407\ \mu m}{140\ \degC} + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
-			L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
-		\end{align}
+			\begin{table}[H]
+				\centering
+				\caption{Weld Analysis Parameter Values}
+				\label{tab:weld_parameters}
+				\begin{tabularx}{\textwidth}{l X l}
+					\toprule
+					\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+					\midrule
+					$P$ &
+					Internal pressure &
+					$\specPressure$
+					\\\addlinespace
+					$D_o$ &
+					Outer diameter &
+					39.06 mm
+					\\\addlinespace
+					$S$ &
+					ASME allowable stress, $S_y$ / 1.5 &
+					246.7 MPa
+					\\\addlinespace
+					$W$ &
+					Weld strength reduction factor &
+					1.0
+					\\\addlinespace
+					$Y$ &
+					Coefficient for austenitic steels &
+					0.4
+					\\\addlinespace
+					$E$ &
+					Weld joint quality factor &
+					1.0
+					\\\bottomrule
+				\end{tabularx}
+			\end{table}
 
+			The ASME allowable stress is derived directly from the housing yield strength using the standard 
+			code factor of $S = S_y / 1.5 = 370 / 1.5 = 246.7\ \text{MPa}$.
+			Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
+			on the level of examination applied:
 
+			\begin{itemize}
+				\item $E = 0.80$: Single butt weld with visual inspection only.
+				\item $E = 0.85$: Double butt weld or spot radiography.
+				\item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
+			\end{itemize}
 
+			With full radiography ($E = 1.00$), the minimum required wall thickness is:
+			
+			\begin{equation}
+			t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
+			\approx 5.17 \ \text{mm}
+			\label{t_num}
+			\end{equation}
+
+			Since $t_{min} = 5.17\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
+			The thickness safety factor at the weld joint is:
+			
+			\begin{equation}
+			SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93
+			\label{sf_weld}    
+			\end{equation}
+			\\~\\
+			As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
+			($\sigma_\theta = 112.05\ \text{MPa}$) is compared directly against the weld joint allowable stress 
+			\cite{asme_b313}:
+			
+			\begin{equation}
+			\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}
+			\label{stress_allow}
+			\end{equation}
+
+			\begin{equation}
+			\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}
+			\label{ineq_hoop}
+			\end{equation}
+
+			The weld joint stress safety factor is:
+			\begin{equation}
+			SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20
+			\label{sf_stress}    
+			\end{equation}
+			
+			These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
+			the weld joint introduces no strength penalty relative to the base material.
+			The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
+
+		\subsection{Hermitic Seal}
+		\label{subsec:design:just:bellows}
+
+			\todo{All bellows information}
+
+		\subsection{Valve Housing Dimensions}
+		\label{subsec:design:just:valve_dim}
+
+			\todo{Simply justify some of the valve subassembly dimensions. Actuator is mostly covered in section \ref{subsubsec:design:just:TF:act}}
+
+		\subsection{Hydrogen Compatibility}
+		\label{subsec:design:just:H}
+
+			\todo{Brief word here, mostly satisfied by bellows}
+
+		\subsection{Calibration}
+		\label{subsec:design:just:cal}
+
+			\todo{Calibration -> forces required (we haven't calculated these yet). Include calibration in the specs?}
+
+		\subsection{Laser-Beam Welded Assembly}
+		\label{subsec:design:just:LBW}
+
+			\todo{All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}
+
+		\subsection{Threaded Interface}
+		\label{subsec:design:just:thread}
+
+			\todo{Talk about 3/4" threaded interface and related length required in each part}
+
+		\subsection{Machinability Considerations}
+		\label{subsec:design:just:machine}
+
+			\todo{Justify the features that were included for the sake of machinability and assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows)}
+
+		\subsection{Precision Fits}
+		\label{subsec:design:just:fits}
+
+			\todo{Justify the fit-tolerances in drawings}
+
+		\subsection{Material Selection}
+		\label{subsec:design:just:mat}
+
+			\todo{Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}
+
+		\todo{All other nontrivial dimensions, design choices, and other issues go in this section}
 
 
 \chapter{Requirement Satisfaction}
@@ -1049,7 +1467,49 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{Error Analysis}
 	\label{sec:sat:error}
 
-		\todo{Achievable tolerances}
+		\todo{Achievable tolerances and other error calculations}
+
+		\subsection{Variations in the Actuator's Coefficient of Thermal Expansion}
+		\label{subsec:sat:error:CTE}
+		
+			\todo{Below if Report 2's CTE analysis. Give it a double-check.}
+
+			The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
+			to its minimum and maximum aperture diameter, $\Dcold$ and $\Dhot$. To move the plates
+			to these extrema a total stroke length of $\specLengthChange$ is required. The governing equation
+			for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
+			dimensions that facilitate this movement. 
+
+			\begin{figure}[H]
+				\centering
+				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+				\label{fig:al_alpha}
+			\end{figure}            
+			
+			Table \ref{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+			
+			Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
+			
+			$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+			
+			To find the actual change in length based on a constant change in $\alpha$, we use the formula 
+			\begin{align*}
+				\Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
+				&= 84.335 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+				&= (84.335)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
+				&= 0.1363 \text{ mm}
+			\end{align*}
+
+			The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
+
+			$Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
+
+			The 2.4 microns fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
+			Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
+
+			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
+
 
 	\section{System Transfer Function}
 	\label{sec:sat:TF}
@@ -1490,10 +1950,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 			This is the most critical part of the System Transfer Function because the square orifice bears the most potential for machining errors.
 			Such errors will be kept symbolic for now.
 						
+			\newpage
 			\begin{multicols}{2}
 				\begin{figure}[H]
 					\centering
-					\includegraphics[width=.45\textwidth]{G_O.png}
+					\includegraphics[height=.3\textheight]{G_O.png}
 					\caption{Orifice transfer function}
 					\label{fig:G_O}
 				\end{figure}
@@ -1535,953 +1996,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\label{sec:sat:TF:results}
 
 			\todo{TF results}
-
-
-
-	
-
-
-\chapter{DELETE BEFORE SUBMITTING Below is leftover System Architecture from Report 2}
-
-	\subsection{Valve Selection Criteria}
-	\label{subsec:arch:valve:sel_crit}
-
-		As detailed in the above section, each subsystem must maintain its portion of the transfer function within enough tolerance such that the whole system satisfies the Required Relationship.
-		Tables \ref{tab:valve_specs}, \ref{tab:act_specs}, and \ref{tab:mount_specs} itemize the selection criteria required to keep this relationship for the valve, actuator, and mount subsystems respectively.
-		Each table lists the subsystem's core responsibilities on the left, which dictate the behavior of the transfer function or the total mechanical envelope,
-		and the individual subsystem specifications necessary to fulfill these responsibilities. The subsequent discussion proves that each subsystem meets the specifications on the right of the table.
-
-		Appendix \ref{app:requirements} lists the full rolldown of requirements to core responsibilities to design specifications.
-
-	\subsection{Valve Architecture}
-	\label{subsec:arch:valve:architecture}
-
-		The valve subsystem (Figures \ref{fig:valve_isometric} and \ref{fig:valve_exploded}), colloquially referred to as the "pizza cutter" valve, controls the effective diameter as it is driven by the actuator.
-		It consists of the following components, as identified in Figure \ref{fig:valve_id}:
-
-		\begin{itemize}
-			\item Housing elements. The housing inlet (V2) and outlet (V3) thread into the pipe providing gas flow.
-					The thread size can be adjusted according to the size of pipe used.
-					These are laser-welded to the housing center (V1), which holds the central valve assembly.
-					Flanges extend from either side of the housing to connect to the mount subassembly via its fasteners.
-			\item Central valve assembly. Pictured in more detail in Figure \ref{fig:valve_wireframe}, the valve stem (V4) is welded to the top of the valve orifice (V5). It protrudes through a hole bored in the top of the housing center to connect to the actuator. A bellows (V6) is used to hermetically seal this hole.
-		\end{itemize}
-		
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3.5in, width=5.5in, keepaspectratio]{Valve_Subsystem_Render.png}
-			\caption{Valve subsystem isometric view}
-			\label{fig:valve_isometric}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3.5in, width=5.5in, keepaspectratio]{ValveSubsystemExploded.png}
-			\caption{Valve subsystem exploded view}
-			\label{fig:valve_exploded}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3.5in, width=5.5in, keepaspectratio]{ValveID.png}
-			\caption{Valve subsystem with part ID's}
-			\label{fig:valve_id}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3.5in, width=5.5in, keepaspectratio]{Valve_interior_wireframe.png}
-			\caption{Central valve components}
-			\label{fig:valve_wireframe}
-		\end{figure}
-
-		As pictured in Figure \ref{fig:orifice}, the V5 (referred to as the "valve orifice" and the "central plate" interchangeably) comprises a square diamond cut through its face.
-		The housing outlet is similarly cut such that the two holes will slightly overlap.
-		The valve stem will drive the central plate downwards, shrinking the orifice. The bellows maintains a hermetic seal, stretching slightly with the valve motion.
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{Valve_cutaway_isometric.png}
-			\caption{Valve subsystem cutaway view}
-			\label{fig:valve_cutaway_isometric}
-		\end{figure}
-
-		Figures \ref{fig:valve_cutaway_isometric}, \ref{fig:valve_cutaway_normal}, and \ref{fig:valve_cutaway_close} show the internal mechanism once assembled. The central plate sits flush against the housing outlet, held in place by the pressure of the gas flow.
-		The resulting orifice, as shown in Figure \ref{fig:valve_interior}, is very small compared to the entire assembly.
-		Across the entire temperature range, the maximum orifice size (at the coldest temperature) is about twice the minimum orifice size (at the hottest temperature).
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{Valve_cutaway_normal.png}
-			\caption{Valve subsystem internal mechanism}
-			\label{fig:valve_cutaway_normal}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{Valve_interior.png}
-			\caption{Valve orifice front view}
-			\label{fig:valve_interior}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{Valve_cutaway_close.png}
-			\caption{Valve orifice internal mechanism, close view}
-			\label{fig:valve_cutaway_close}
-		\end{figure}
-
-	\subsection{Actuator Selection Criteria}
-	\label{subsec:arch:act:sel_crit}
-
-	The actuator subsystem governs the open-loop control derivative $\frac{dL}{dT}$
-	as defined in Figure \ref{fig:controls_diagram}, and equations \eqref{eq:transfer_function} and \eqref{eq:actuator_control}.
-	Thus, assuming $\frac{dD}{dX} = -\sqrt{\frac{2}{\pi}}$ and $\frac{dX}{dL} = -1$ within the valve subsystem
-	(which is correct practice when calculating error propagation),
-	$\frac{dL}{dT}$ must equal $\sqrt{\frac{\pi}{2}} A_1$.
-	Because
-	$\frac{dL}{dT} = \alpha L_0$,
-	two sources drive its error:
-
-	\begin{enumerate}
-		\item Changes in the coefficient of thermal expansion (CTE) $\alpha$ across the temperature range
-		\item Machining errors in the length of the actuator at $T_{\text{ref}}$, $L_0$
-	\end{enumerate}
-
-	Thus, using Kline-McClintock error propagation, the error of $\frac{dL}{dT}$ is calculated as
-	
-	\begin{equation}
-		u_{\frac{dL}{dT}} =
-		\sqrt{
-			\left( \frac{\partial \left( \frac{dL}{dT} \right)}{\partial \alpha} \cdot u_{alpha} \right)^2 + 
-			\left( \frac{\partial \left( \frac{dL}{dT} \right)}{\partial L_0} \cdot u_{L_0} \right)^2}
-		\label{eq:udLdX}
-	\end{equation}
-
-	where $u_x$ is the error of variable x, and the partial derivatives are evaluated at their variable's respective averages. \cite{ref_Figliola}
-
-	The valve subsystem may also resist the movement of the actuator by providing a reaction force.
-	The actuator subsystem must account for any forces it provides within its respective specified limit.
-
-	\subsection{Actuator Architecture}
-
-
-	\begin{figure}[H]
-		\centering
-		\includegraphics[height=4in, width=6in, keepaspectratio]{Actuator_isometric.png}
-		\caption{Actuator block}
-		\label{fig:actuator_isometric}
-	\end{figure}
-
-		% Paragraph 1
-		The actuator subsystem (Figure \ref{fig:actuator_isometric}, part number A0 in Figure \ref{fig:SubAssemblyID}) is a single aluminum block that is driven by ambient temperature changes into a proportional linear displacement. The governing equation of the actuator is $\govActuator$, where $L_0$ is the actuator's free length, $\alpha$ is the coefficient of thermal expansion of aluminum, and $\Delta$T is the difference between 
-		the current ambient temperature and determined reference temperature. Since $\alpha$ remains approximately constant throughout the operating temperature range, the relationship between temperature and displacement is linear with minimal error, which will be quantified in Section \ref{subsec:sat:act:spec:therm}.
-
-		% Paragraph 2
-		The actuator block is mounted between the top inside face of the mount and the top of the valve stem via laser weld. As the ambient temperature rises, the actuator expands downwards pushing the valve stem and translating the plate downward to close the orifice. Similarly, as ambient temperature decreases, the actuator contracts causing the plate to be pulled up, therefore reopening the orifice.
-		The actuator is machined to the exact length necessary to expand 267 $\mu$m across the temperature range.
-
-		% Paragraph 3
-		One of the most significant design decisions was positioning the actuator block outside the pressure boundary of the valve. It is thermally isolated from the gas flow by the valve housing walls and the bellows assembly. It responds directly to the ambient air temperature instead of the gas temperature.
-		This thermal isolation ensures that the 20 $\degC$ difference between the gas and ambient air does not infringe on the operation of the actuator. Moreover, under constraint, the actuator is capable of generating significant thermal stress force that exceeds the friction loads in the system and the bellows spring forces. 
-		This force margin ensures reliable actuation across the entire temperature range. 
-
-	\subsection{Mount Selection Criteria}
-	\label{subsec:arch:mount:sel_crit}
-		The mount subsystem serves as the primary structural interface of the assembly, 
-		axially restraining the actuator at one end while transferring reaction forces 
-		from the valve subsystem below. 
-
-		The mount must satisfy three primary selection criteria:
-
-		\begin{enumerate}
-			\item Sufficient structural rigidity to axially restrain the actuator at its 
-			upper boundary condition and withstand the reaction force transmitted upward 
-			from the valve subsystem
-
-			\item A low coefficient of thermal expansion $\alpha$ to minimize thermal 
-			growth of the mount in the axial direction, ensuring that expansion of the 
-			mount does not oppose the intended downward thermal expansion of the actuator
-
-			\item Geometric compatibility with the housing such that the mount 
-			structurally integrates all components of the assembly within the required mechanical envelope
-
-		\end{enumerate}
-
-		The second criterion is of particular importance to the function of the device. 
-		Because the actuator is designed to expand axially downward into the valve 
-		subsystem with increasing temperature, any upward thermal growth of the mount 
-		introduces a competing displacement that reduces the net stroke delivered to 
-		the valve.
-
-
-	\subsection{Mount Architecture}
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=4in, width=6in, keepaspectratio]{Mount_Subsystem_Render.png}
-			\caption{Mount subsystem isometric view}
-			\label{fig:mount_isometric}
-		\end{figure}
-
-
-		% Paragraph 1
-		The mount subsystem (Figures \ref{fig:mount_isometric}, \ref{fig:mount_exploded}) comprises the following components, as identified in Figure \ref{fig:mount_id}:
-		\begin{itemize}
-			\item Structural components. A fixture (M2) provides a common reference for all the other parts secure to.
-					Two mount parts (M1) sit above the fixture, separated by flanges that extend from the valve housing.
-			\item Calibration stack. Eight screws (M3) and washers (M4) mount the valve housing flanges between the mount A-frame and the fixture.
-					To calibrate the height of the mount relative to the housing, eight thick shim washers (M5), thin shim washers (M6), and copper crush washers (M7) are placed between the housing and the mount.
-					The screws are precisely tightened, crushing the washers, until the right tolerance is achieved.
-		\end{itemize}
-
-		Note that the screws and washers are all standard metric size M5, not to be confused with their respective part numbers.
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{MountSubsystemExploded.png}
-			\caption{Mount subsystem exploded view}
-			\label{fig:mount_exploded}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{MountID.png}
-			\caption{Mount subsystem with part ID's}
-			\label{fig:mount_id}
-		\end{figure}
-
-		% Paragraph 2
-		The two trapezoidal mount plates are fabricated from Invar 36 in order minimize the thermal expansion and therefore error caused by the mount. They are vertically oriented to form an A-frame structure and mounted through the housing onto the fixture as seen in Fig. \ref{fig:mount_cutaway_oblique}. The actuator block is housed inside the cavity between the A-frame structure. The upper end is anchored onto the interior top face of the mount.
-		The holes machined into the top of each trapezoidal plate provide ease of access for laser welding the top of the actuator to the mount structure. Similarly, the large open windows on the side of the mount plates provide ample clearance for laser welding the valve stem to the actuator at the lowest connection point. These features were designed around the laser beam welding process as each weld joint must be 
-		reachable from outside the assembly without having to disassemble adjacent components. The design focus was for the mount geometry to accommodate the welding tool path rather than requiring the weld to be made before the assembly.
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=3in, width=5in, keepaspectratio]{Mount_cutaway_oblique.png}
-			\caption{Mount subsystem cutaway oblique view}
-			\label{fig:mount_cutaway_oblique}
-		\end{figure}
-		
-		% Paragraph 4
-		The eight socket head cap screws secure the mount plates to the fixture, which contains corresponding threaded holes and can be assumed to be fixed.
-		Each fastener passes through the mount from the top, through the housing, and threads into the fixture at the base. On top of the mount, each screw is seated against a stainless steel washer to distribute the clamping load.
-		Between the underside of the mount and the top face of the housing, the three shim washers are stacked in the following order (top to bottom):
-		\begin{enumerate}
-			\item One annealed copper crush washer
-			\item One thin steel shim washer
-			\item One thick steel shim washer
-		\end{enumerate}
-		The crush washer deforms plastically under clamping load to allow for precise positioning during the calibration phase. The thin and thick shim washers provide discrete height adjustment as needed.
-		By selecting or combining the shim thicknesses, we can set the precise vertical offset between the mount's actuator anchor point and the valve housing. This shimming capability is the primary calibration mechanism for the PTCD, as the assemble can be shimmed to the correct actuator-to-valve distance during final assembly and testing if any machined dimensions fall outside the desired tolerance.
-
-		% Paragraph 5
-		The mount is made of Invar 36, selected for its low coefficient of thermal expansion, machinability, and rigidity.
-
-
-
-
-\chapter{DELETE BEFORE SUBMITTING Below is leftover Discussion from Report 2}
-
-	\section{Valve Subsystem}
-	\label{sec:sat:valve}
-
-		\subsection{Specification Compliance}
-		\label{subsec:sat:valve:spec}
-
-			\subsubsection{Specification 1: Valve dimensional tolerances}
-			\label{subsubsec:sat:valve:spec:dim}
-
-				As specified, drawings V4 and V5 mandate a tolerance of 1 $\mu m$ on all critical dimensions.
-
-			\subsubsection{Specification 2: Valve Stem displacement}
-			\label{subsubsec:sat:valve:spec:disp}
-
-
-				The valve will undergo both mechanical compression and thermal expansion due to exposure to temperature change and system forces.
-				Mechanical deformation will occur due to actuation force and is characterized in the following calculation:
-				\begin{equation}
-					\delta_{compression} = \frac{F *L_{stem}}{\pi d_{stem}^2/4 E} = 5.0975 \text{ microns}
-					\label{eq:stem_compression}
-				\end{equation}
-
-
-				There will also be minimal thermal expansion from the valve stem itself. The total error from the linear expansion follows the formula:
-				\begin{equation}
-					\delta_{thermal} = \alpha_{\text{Invar}} L_{\text{stem}} \Delta T = (1.2 \times 10^{-6})(24.041)(85) = 2.45 \text{ microns}
-					\label{eq:stem_thermal_expansion}
-				\end{equation}
-				See table \ref{tab:stem_parameters} for the parameter values used in this calculation.
-
-				This is slightly higher than expected but it still much lower than the requirements. In addition, this error is opposite of the compression error caused by the force on the valve stem and by actuator over-expansion (discussed in chapter \ref{chap:design:act:sub_description}). 
-				Note that within the valve stem the total deflection will be that of thermal expansion minus that of compression: $5.0975-2.45 = -2.6475 \text{ microns}$. This magnitude is just lower than the specificaton of 2.75 $\mu$m.
-
-				The valve stem (Figure \ref{fig:stem_bellows_orifice}) transmits mechanical displacement from outside the valve to the orifice plate itself.
-				The stem diameter was sized in accordance with the inner diameter of the bellows, and the calculations below validate its structural capability under the surrounding forces present in the assembly.
-				The stem must withstand the axial actuation force without yielding or buckling.
-				Its material was selected to be Invar 36 for its relatively low coefficient of thermal expansion which thermally insulates the valve from the actuator and prevents thermal expansion of the stem from affecting the valve orifice size.
-
-				\begin{figure}[H]
-					\centering
-					\includegraphics[height=4in, width=6in, keepaspectratio]{StembellowsOrifice_Render.png}
-					\caption{Valve stem, bellows, and orifice plates view}
-					\label{fig:stem_bellows_orifice}
-				\end{figure}
-
-				\begin{table}[H]
-					\centering
-					\caption{Valve Stem Parameter Values}
-					\label{tab:stem_parameters}
-					\begin{tabularx}{\textwidth}{l X l}
-						\toprule
-						\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-						\midrule
-						Material &
-								&
-						Invar 36
-						\\\addlinespace
-						$d$ &
-						Stem diameter &
-						2.62 mm
-						\\\addlinespace
-						$K_{column}$ &
-						End condition factor &
-						1.0
-						\\\addlinespace
-						$E$ &
-						Young's modulus &
-						148 GPa \cite{matweb}
-						\\\addlinespace
-						$S_y$ &
-						Yield strength &
-						483 MPa \cite{matweb}
-						\\\addlinespace
-						$F$ &
-						Axial actuation force &
-						168.96 N
-						\\\addlinespace
-						$L_{seg}$ &
-						Unsupported length &
-						10.54 mm
-						\\\addlinespace
-						$L_{stem}$ &
-						Total stem length &
-						24.041 mm \cite{matweb}
-						\\\bottomrule
-					\end{tabularx}
-				\end{table}
-
-				Axial stress:
-				\begin{equation}
-				\sigma_{axial} = \frac{F}{A_{stem}} = \frac{F}{\dfrac{\pi d^2}{4}} = \frac{168.96}{\dfrac{\pi (2.62 \times 10^{-3})^2}{4}} = \frac{168.96}{5.389 \times 10^{-6}} \approx 31.34 \ \text{MPa}
-				\label{axial_stress}
-				\end{equation}
-
-				The axial stress of $31.34\ \text{MPa}$ is well below the yield strength of $483\ \text{MPa}$, giving a yield safety factor of $S_y / \sigma_{axial} = 483 / 31.34 \approx 15.41$.
-				The stem therefore operates comfortably within its elastic range under the full actuation load, and the small diameter is justified by the low force demand.
-				\\~\\
-				Critical buckling load (Euler):
-				\begin{equation}
-				P_{cr} = \frac{\pi^2 E I}{(K_{column} L_{seg})^2}, \quad I = \frac{\pi d^4}{64} = \frac{\pi (2.62)^4}{64} \approx 2.313 \ \text{mm}^4
-				\label{crit_buck}
-				\end{equation}
-
-				\begin{equation}
-				P_{cr} = \frac{\pi^2 (148{,}000)(2.313)}{(1.0 \times 10.54)^2} \approx 30{,}413 \ \text{N}
-				\label{crit_buck2}    
-				\end{equation}
-
-				The stem is laterally guided at the top and bottom, making it a pin-pin column with $K_{column} = 1.0$ and an unsupported length of $L_{seg} = 10.54\ \text{mm}$.
-				The critical buckling load yields a buckling safety factor of $30{,}413 / 168.96 \approx 180$.
-				Given the short unsupported length of the stem, buckling is not a governing concern for this geometry.
-				\\~\\
-
-			\subsubsection{Specification 3: Pressure rating}
-			\label{subsubsec:sat:valve:spec:press}
-
-				The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
-				The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
-				The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
-				The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
-				The following equations are used to verify structural integrity under the specified conditions.
-				Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
-
-				\begin{table}[H]
-								\centering
-								\caption{Valve Housing Parameter Values}
-								\label{tab:housing_parameters}
-								\begin{tabularx}{\textwidth}{l X l}
-									\toprule
-									\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-									\midrule
-									Material &
-									&
-									1018 Cold-Rolled Steel
-									\\\addlinespace
-									$r_i$ &
-									Inner radius &
-									9.53 mm
-									\\\addlinespace
-									$t$ &
-									Wall thickness (minimum) &
-									10 mm
-									\\\addlinespace
-									$r_o$ &
-									Outer radius (minimum) &
-									19.53 mm
-									\\\addlinespace
-									$P$ &
-									Internal pressure &
-									$\specPressure$
-									\\\addlinespace
-									$S_y$ &
-									Yield strength &
-									370 MPa \cite{matweb}
-									\\\bottomrule
-								\end{tabularx}
-							\end{table}
-
-				Principal Stresses:
-				\begin{equation}
-				\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx 112.05 \ \text{MPa} \quad (\text{Hoop Stress})
-				\label{hoop}    
-				\end{equation}
-
-				\begin{equation}
-				\sigma_{r} = -P \approx -68.95 \ \text{MPa} \quad (\text{Radial Stress})
-				\label{radial}  
-			\end{equation}
-
-				\begin{equation}
-				\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx 21.55 \ \text{MPa} \quad (\text{Longitudinal Stress})
-				\label{longitudinal}
-				\end{equation}
-				\\~\\
-				Von Mises Equivalent Stress:
-				
-				\begin{equation}
-				\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}
-				\label{vonmises}  
-				\end{equation}
-
-				\begin{equation}
-				\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} 
-				\approx 156.75 \ \text{MPa}
-				\label{vonmises2}     
-				\end{equation}
-
-				The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
-				
-				\begin{equation}
-				FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36
-				\label{fs}
-				\end{equation}
-
-				The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.36$.
-				The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
-				
-				The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
-				Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
-				full penetration \cite{steen2010laser}.
-				Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
-				LBW's high power density enables complete fusion across the interface, and the square butt profile 
-				is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured 
-				\cite{aws2020welding}.
-				Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
-				Table 302.3.4 \cite{asme_b313}.
-				The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
-				and cracking, all of which could significantly reduce joint strength \cite{aws2020welding}.
-				\\~\\
-				The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
-				(Equation 3a or Equation \eqref{tmin_weld}, below) \cite{asme_b313}, which governs the required minimum wall thickness as a function 
-				of the weld joint quality factor $E$:
-				
-				\begin{equation}
-				t_{min} = \frac{P D_o}{2(SEW + PY)}
-				\label{tmin_weld}
-				\end{equation}
-
-				\begin{table}[H]
-					\centering
-					\caption{Weld Analysis Parameter Values}
-					\label{tab:weld_parameters}
-					\begin{tabularx}{\textwidth}{l X l}
-						\toprule
-						\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-						\midrule
-						$P$ &
-						Internal pressure &
-						$\specPressure$
-						\\\addlinespace
-						$D_o$ &
-						Outer diameter &
-						39.06 mm
-						\\\addlinespace
-						$S$ &
-						ASME allowable stress, $S_y$ / 1.5 &
-						246.7 MPa
-						\\\addlinespace
-						$W$ &
-						Weld strength reduction factor &
-						1.0
-						\\\addlinespace
-						$Y$ &
-						Coefficient for austenitic steels &
-						0.4
-						\\\addlinespace
-						$E$ &
-						Weld joint quality factor &
-						1.0
-						\\\bottomrule
-					\end{tabularx}
-				\end{table}
-
-				The ASME allowable stress is derived directly from the housing yield strength using the standard 
-				code factor of $S = S_y / 1.5 = 370 / 1.5 = 246.7\ \text{MPa}$.
-				Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
-				on the level of examination applied:
-
-				\begin{itemize}
-					\item $E = 0.80$: Single butt weld with visual inspection only.
-					\item $E = 0.85$: Double butt weld or spot radiography.
-					\item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
-				\end{itemize}
-
-				With full radiography ($E = 1.00$), the minimum required wall thickness is:
-				
-				\begin{equation}
-				t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
-				\approx 5.17 \ \text{mm}
-				\label{t_num}
-				\end{equation}
-
-				Since $t_{min} = 5.17\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
-				The thickness safety factor at the weld joint is:
-				
-				\begin{equation}
-				SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93
-				\label{sf_weld}    
-				\end{equation}
-				\\~\\
-				As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
-				($\sigma_\theta = 112.05\ \text{MPa}$) is compared directly against the weld joint allowable stress 
-				\cite{asme_b313}:
-				
-				\begin{equation}
-				\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}
-				\label{stress_allow}
-				\end{equation}
-
-				\begin{equation}
-				\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}
-				\label{ineq_hoop}
-				\end{equation}
-
-				The weld joint stress safety factor is:
-				\begin{equation}
-				SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20
-				\label{sf_stress}    
-				\end{equation}
-				
-				These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
-				the weld joint introduces no strength penalty relative to the base material.
-				The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
-			
-			\subsubsection{Specification 4: Temperature gradient}
-			\label{subsubsec:sat:valve:spec:temp}
-
-				\todo{HT analysis}
-
-			\subsubsection{Specification 5: Reaction force}
-			\label{subsubsec:sat:valve:spec:force}
-
-				\begin{figure}[H]
-					\centering
-					\includegraphics[height=4in, width=6in, keepaspectratio]{bellows.png}
-					\caption{CAD model of the bellows}
-					\label{fig:bellows}
-				\end{figure}
-
-				The welded metal bellows transmits an axial stroke $\delta$ from an external actuator into a high-pressure hydrogen valve while maintaining zero leakage. The bellows must withstand internal pressure $P$, provide the required displacement without plastic deformation, and minimize actuator force demand.
-				\\~\\
-				Figure \ref{fig:bellows}, illustrates the valve assembly with the bellows. It is laser beam welded to the central valve housing and the valve stem, ensuring a leak-tight seal while permitting the necessary axial movement. 
-				This weld joint is one of the first steps
-				The following equations address the key design parameters and constraints governing the selection of appropriate bellows geometry and material.
-				Accounting for the spring force of the bellows is important for actuator sizing.
-				
-				Let $K$ be the spring rate of the bellows, which depends on material properties, geometry, and convolution count $N$.
-				The spring force is proportional to deflection $\delta$.
-				\\~\\
-
-				\begin{table}[H]
-					\centering
-					\caption{Bellows Parameters}
-					\label{tab:bellows_parameters}
-					\begin{tabularx}{\textwidth}{l X l}
-						\toprule
-						\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-						\midrule
-						Material &
-						Hydrogen Compatible &
-						Inconel 718
-							\\\addlinespace
-						$D_o$ &
-						Outside convolution diameter &
-						4.826 mm
-						\\\addlinespace
-						$D_i$ &
-						Inside convolution diameter &
-						2.616 mm
-						\\\addlinespace
-						$t$ &
-						Wall thickness &
-						0.183 mm
-						\\\addlinespace
-						$L$ &
-						Convolution free length &
-						4.191 mm
-						\\\addlinespace
-						$A$ &
-						Effective area &
-						$10.84 \ \text{mm}^2$
-							\\\addlinespace
-						$N$ &
-						Number of convolutions &
-						7
-						\\\addlinespace
-						$P_{burst}$ &
-						Burst pressure &
-						86.87 MPa
-						\\\addlinespace
-						$k$ &
-						Spring rate &
-						630.46 N/mm
-						\\\bottomrule
-					\end{tabularx}
-				\end{table}
-
-				Spring force:
-				\begin{equation}
-				F_s = K \delta = (630.46 \ \text{N/mm})(0.267 \ \text{mm}) \approx 168.96 \ \text{N}
-				\label{force_spring}    
-				\end{equation}
-
-				The resulting spring force confirms that the stroke demand is well within the elastic operating 
-				range of the selected bellows \cite{miniflex_design}.
-				The relatively high spring rate of $K = 630.46\ \text{N/mm}$ provides strong squirm resistance 
-				under pressure while still producing a manageable spring load given the small stroke $\delta$.
-				This balance between stiffness and stroke compliance is central to the optimized selection.
-				\\~\\
-				Total force required for actuation:
-				\begin{equation}
-				F_{total} = K \delta + F_{friction} \pm mg \approx 168.96 + F_{friction} \pm mg \ \text{N}
-				\label{force_total}
-				\end{equation}
-
-				Since $\delta$ is very small, the spring force contribution is modest but nonetheless significant. 
-				The term $F_{friction}$ accounts for any additional forces due to friction in the system, which 
-				is minimized through careful design and material selection.
-				The term $mg$ accounts for gravitational forces acting on the valve stem, which are minimal given 
-				the small mass of the stem.
-				Together, these contributions result in a low total actuation force demand that is easily 
-				achievable with a compact actuator.
-				\\~\\
-				Critical squirm pressure is the pressure at which the bellows becomes unstable and experiences 
-				lateral deformation \cite{miniflex_design}.
-				This occurs when the bellows is unrestrained from sideways movement and the internal pressure 
-				exceeds the bellows' ability to maintain its shape.
-				As noted in the Mini-Flex design guide, squirm will not occur if the bellows is guided internally 
-				or externally by a dowel pin, that being the valve stem, or used in a close-fitting bore \cite{miniflex_design}.
-				Because the valve body provides lateral restraint, the bellows will not experience squirm, and 
-				the critical squirm pressure is therefore not a limiting factor in this design.
-				\\~\\
-				Burst pressure is the maximum pressure the bellows can withstand while laterally restrained.
-				The Mini-Flex design guide defines burst pressure as the minimum internal pressure that will not 
-				result in fracture when the bellows is restrained from squirm or sideways movement \cite{miniflex_design}.
-				The design is governed by the following relationship:
-
-				\begin{equation}
-				P_{operating} < P_{burst} \quad \Rightarrow \quad 68.95 \ \text{MPa} < 86.87 \ \text{MPa}
-				\label{ineq_burst}
-				\end{equation}
-
-				For this application, the bellows carries a safety factor of 1.26 against burst.
-				An optimized design targets a burst safety factor in this range, as too low a factor risks failure 
-				under overpressure events, while too high a factor necessitates a larger, stiffer bellows that 
-				increases spring load and actuator demand.
-
-			\subsubsection{Specification 6: Mechanical envelope}
-			\label{subsubsec:sat:valve:spec:ME}
-
-				As shown in Appendix \ref{app:drawings}, the valve subsystem's maximum mechanical envelope is 
-				\begin{itemize}
-					\item Longitudinal: 100 mm. This is the sum of the length of the housing inlet and outlet (47.6 mm each) and the housing center (4.8 mm).
-					\item Lateral: 80 mm, the width of the housing flanges.
-					\item Vertical: 5 mm. Only the thickness of the housing flanges affects the mechanical envelope.
-				\end{itemize}
-					
-	\section{Actuator Subsystem}
-	\label{sec:sat:act}
-
-		\begin{table}[H]
-			\centering
-			\caption{Actuator Parameter Values}
-			\label{tab:actuator_parameters}
-			\begin{tabularx}{\textwidth}{l X l}
-				\toprule
-				\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-				\midrule
-				$E$ &
-				Young's modulus &
-				$\specEAl$
-				\\\addlinespace
-				$A$ &
-				Cross-sectional area &
-				\specCrossSectArea
-				\\\addlinespace
-				$\alpha$ &
-				Coefficient of thermal expansion &
-			 $ \specActuatorCTE$
-				\\\addlinespace
-				$L_0$ &
-				Original actuator length &
-				$\specOrigActuatorLength$
-				\\\addlinespace
-				$\Delta T$ &
-				Temperature change &
-				$\specTempChange$
-				\\\addlinespace
-				$\Delta L$ &
-				Change in length &
-				$\specLengthChange$
-				\\\bottomrule
-			\end{tabularx}
-		\end{table}
-
-		\subsection{Specification Compliance}
-		\label{subsec:sat:act:spec}
-	
-			\subsubsection{Specification 1: Actuator thermal Expansion Tolerance}
-			\label{subsubsec:sat:act:spec:therm}
-
-				The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
-				to its minimum and maximum aperture diameter, $\Dcold$ and $\Dhot$. To move the plates
-				to these extrema a total stroke length of $\specLengthChange$ is required. The governing equation
-				for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
-				dimensions that facilitate this movement. 
-
-				\begin{figure}[H]
-					\centering
-					\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-					\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-					\label{fig:al_alpha}
-				\end{figure}            
-				
-				Table \ref{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
-				
-				Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
-				
-				$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
-				
-				To find the actual change in length based on a constant change in $\alpha$, we use the formula 
-				\begin{align*}
-					\Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
-					&= 84.335 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-					&= (84.335)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
-					&= 0.1363 \text{ mm}
-				\end{align*}
-
-				The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
-
-				$Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
-
-				The 2.4 microns fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
-				Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
-
-				$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
-
-			\subsubsection{Specification 2: Reaction force deflection}
-			\label{subsubsec:sat:act:spec:force}
-
-				The actuator must overcome resisting forces without deformation before expansion can be 
-				translated into movement. The forces resisting actuator expansion include friction
-				and other un-modeled losses in the actuator-valve system, as well as the spring force of
-				the bellows. The below calculations show that any error caused by deflection is minimal
-				and will not cause the system to fall outside of the design requirements.
-
-				\begin{table}[H]
-					\centering
-					\caption{Actuator variables}
-					\label{tab:act_known_var}
-					\renewcommand{\arraystretch}{1.4}
-					\begin{tabularx}{\textwidth}{l X l}
-						\toprule
-						\textbf{Symbol} & \textbf{Description} & \textbf{Value} \\
-						\midrule
-						$L_0$ &
-						Original actuator length &
-						\SI{84.335}{mm}
-						\\\addlinespace
-						$\alpha$ &
-						Thermal expansion coefficient (aluminum) &
-						\SI{23.1e-6}{\per\celsius}
-						\\\addlinespace
-						$\Delta T_{\text{lower}}$ &
-						Temperature change (lower bound) &
-						\SI{-80}{\celsius}
-						\\\addlinespace
-						$\Delta T_{\text{upper}}$ &
-						Temperature change (upper bound) &
-						\SI{+60}{\celsius}
-						\\\addlinespace
-						$k$ &
-						Bellows spring constant &
-						\SI{630236}{N/m}
-						\\\addlinespace
-						$F_{\text{friction}}$ &
-						Friction force (estimated) &
-						\SI{3}{N}
-						\\\addlinespace
-						$w$ &
-						Actuator face width &
-						\SI{0.03}{m}
-						\\\addlinespace
-						$t$ &
-						Actuator face thickness &
-						\SI{0.03}{m}
-						\\\addlinespace
-						$E_{\text{Al}}$ &
-						Young's modulus of aluminum &
-						\SI{69}{GPa}
-						\\\bottomrule
-					\end{tabularx}
-				\end{table}
-
-				\noindent\textbf{Deflection Calculations}
-
-				\vspace{1em}
-				Unit conversion for spring constant:
-				\begin{equation}
-					k = \specBellowsK\;\frac{\text{lbf}}{\text{in}}
-					\times \frac{4.448\;\text{N}}{\text{lbf}}
-					\times \frac{1\;\text{in}}{0.0254\;\text{m}}
-					= 630{,}236\;\frac{\text{N}}{\text{m}}
-				\end{equation}
-
-				Displacement of the valve stem due to a temperature change $\Delta T$:
-				\begin{equation}
-					\delta x = L_0 \cdot \alpha \cdot \Delta T
-				\end{equation}
-
-				Force exerted by the bellows spring opposing the displacement:
-				\begin{equation}
-					F_{bellows} = k \cdot \delta x
-				\end{equation}
-
-				The total resistance the actuator must overcome is the sum of friction and bellows spring force.
-				Note that the largest contributor to friction force will be the sliding of the valve plates. As
-				the system is only required to adjust prior to testing, there will be no hydrogen flow and thus minimal
-				normal force pressing the plates together. Citing $F_{friction} = \mu*N $, we can assume friction force
-				will be minimal but include a worst-case value of 3N in calculations. This results in:
-				\begin{equation}
-					F_{resistance} = F_{bellows} + F_{friction}
-				\end{equation}
-
-				This force is applied to the face of the actuator of area calculated:
-				\begin{equation}
-					A_{contact} = w \cdot t
-				\end{equation}
-
-				The compressive or tensile stress on the actuator face:
-				\begin{equation}
-					\sigma = \frac{F_{resistance}}{A_{contact}}
-				\end{equation}
-
-				Using Young's modulus (valid for both tension and compression in aluminum) to obtain strain:
-				\begin{equation}
-					\varepsilon = \frac{\sigma}{E_{Al}}
-				\end{equation}
-
-				The elastic deformation of the actuator caused by the resisting force:
-				\begin{equation}
-					\delta_{mech} = \varepsilon \cdot L_0
-				\end{equation}
-
-				The mechanical deflection as a percentage of the thermal displacement to 
-				quantify actuation error at temperature extrema:
-				\begin{equation}
-					\%\,\text{error} = \frac{\delta_{mech}}{\delta x} \times 100\%
-				\end{equation}
-
-				\noindent\textbf{Results}
-
-				\begin{table}[h!]
-				\centering
-				\caption{Summary of results for upper and lower temperature bounds}
-				\vspace{0.5em}
-				\begin{tabular}{lSS}
-				\toprule
-				\textbf{Parameter} & \textbf{Lower Bound} & \textbf{Upper Bound} \\
-								& {($\Delta T = -80$\,\textdegree C)} & {($\Delta T = +60$\,\textdegree C)} \\
-				\midrule
-				$\delta x$ \textnormal{(m)}              & 2.6741e-4   & 1.0505e-4  \\
-				$F_{bellows}$ \textnormal{(N)}           & 168.6       & 66.2       \\
-				$F_{friction}$ \textnormal{(N)}          & 3.0         & 3.0        \\
-				$F_{resistance}$ \textnormal{(N)}        & 171.6       & 69.2       \\
-				$\sigma$ \textnormal{(MPa)}              & 0.191       & 0.077      \\
-				$\varepsilon$ \textnormal{(\textmu strain)} & 2.77     & 1.12       \\
-				$\delta_{mech}$ \textnormal{(m)}         & 2.33e-7     & 9.42e-8    \\
-				\%\,\textnormal{error}                   & 0.087       & 0.090      \\
-				\bottomrule
-				\end{tabular}
-				\end{table}
-
-				\noindent The mechanical deflection due to the resisting force is less than $0.1\%$ of the thermal
-				displacement in both cases, confirming that the net displacement is dominated by thermal
-				expansion and the resisting forces have negligible effect on actuator length.
-
-	\section{Mount Subsystem}
-	\label{sec:sat:mount}
-
-
-		\subsection{Specification Compliance}
-		\label{subsec:sat:mount:spec}
-
-			\subsubsection{Specification 1: Mount dimensional tolerances}
-			\label{subsubsec:sat:mount:spec:dim}
-
-			Table \ref{tab:mount_specs_disc} lists again the specifications from Section \ref{subsec:arch:mount:sel_crit}
-
-				The dimensions between the base of the mount and the upper interior, where the actuator will be mounted, are specified as 0.005 $\mu$m in the engineering drawings.
-
-			\subsubsection{Specification 2: User calibration}
-			\label{subsubsec:sat:mount:spec:cal}
-
-				Shim washers are commonly used for micrometer-level height adjustments. After manufacturing, our team will be able to measure the exact dimensions of our parts tools available in the machine shop on campus.
-				After calculation of the expected post-assembly value of $X(T_{\text{ref}})$, we can increase the height of the mount by one of three values:
-
-				\begin{itemize}
-					\item 100 $\mu m$ with the thick washer
-					\item 10 $\mu m$ with the thin washer
-					\item 110 $\mu m$ with both washers
-				\end{itemize}
-
-				depending on the measured tolerance values. Finally, we will add the crush washers, which provide reliable plastic compression to a tolerance of $5 \mu m$ over a range of $15 \mu m$.
-				We will be able to tighten the screws with a torque wrench, compressing and plastically deforming the crush washers, to precisely bring the mount height down from a height of $15 \mu m$ above to within $5 \mu m$ above or below the target height. This complies with the specified range. 
-
-			\subsubsection{Specification 3: Thermal expansion}
-			\label{subsubsec:sat:mount:spec:therm}
-
-				\todo{Mount thermal expansion}
-
-			\subsubsection{Specification 4: Mechanical envelope}
-			\label{subsubsec:sat:mount:spec:ME}
-
-				As shown in Appendix \ref{app:drawings}, the mount subsystem's maximum mechanical envelope is
-				\begin{itemize}
-					\item Longitudinal: 100 mm. Its ends lie flush with the housing inlet and outlet faces.
-					\item Lateral: 80 mm. Its sides also lie flush with the housing flanges.
-					\item Vertical: 127.43 mm. This is the total height of the mount, which site on top of the housing flanges.
-				\end{itemize}
 
 \chapter{Risk Assessment}
 \label{chap:risk}
@@ -2806,7 +2320,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			$$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
 
+\chapter{Complete Bill of Materials}
+\label{app:BOM}
 
+	\todo{Insert BOM with brief description. Include EDM quote if possible. Attach MiniFlex quote.}
 
 \chapter{Manufacturing and Operation}
 \label{app:mfg}
