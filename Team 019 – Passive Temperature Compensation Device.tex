@@ -1,0 +1,551 @@
+\documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
+\setcounter{tocdepth}{3}
+% --- PACKAGES: Each one adds a capability to LaTeX ---
+% Think of packages like Python imports or C #includes.
+
+
+% ---------- Page Layout ----------
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
+% ---------- Encoding & Fonts ----------
+\usepackage[utf8]{inputenc}% Allows special characters (é, ü, °) to be typed directly.
+\usepackage[T1]{fontenc} % Ensures proper font encoding in the output PDF. Without this, copy-pasting from the PDF can produce garbled characters.
+% ---------- Graphics & Figures ----------
+\usepackage{graphicx}% THE core package for inserting images.
+% Usage: \includegraphics[width=0.8\textwidth]{filename.png}
+\graphicspath{{figures3/}}
+\usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
+\usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
+% ---------- Tables ----------
+\usepackage{booktabs} % Provides \toprule, \midrule, \bottomrule for professional-looking tables.
+% Rule of thumb: NEVER use vertical lines in tables. Use booktabs rules instead.
+\usepackage{tabularx}% Adds the tabularx environment, which lets columns auto-expand to fill width. Great for tables that need to span the full page width.
+\usepackage{multirow}% Allows cells that span multiple rows in tables.
+\usepackage{longtable}% For tables that are too long to fit on one page (like a Bill of Materials).
+% ---------- Math ----------
+\usepackage{amsmath}% The standard package for equations. Adds align, equation*, etc.
+\usepackage{amssymb}% Extra math symbols (e.g., \therefore, \because, \pm).
+\usepackage{siunitx}% Proper formatting for SI units.
+\sisetup{per-mode=fraction}
+\sisetup{exponent-product=\cdot}
+% Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
+% This ensures consistent unit formatting throughout the document.
+% ---------- Bibliography ----------
+\usepackage[numbers, sort&compress]{natbib}
+% IEEE-style numeric citations: [1], [2,3], [4-7]
+% "sort&compress" turns [3,1,2] into [1-3]
+% ---------- Cross-Referencing & Links ----------
+\usepackage[
+	colorlinks=true,
+	linkcolor=blue,      % Internal links (sections, figures)
+	citecolor=blue,      % Citation links
+	urlcolor=blue         % URL links
+]{hyperref}
+% Makes all references, citations, and URLs clickable in the PDF.
+% Set colorlinks=false if you want boxes instead of colored text.
+% ---------- Captions ----------
+\usepackage[
+	font=small,           % Caption text slightly smaller than body
+	labelfont=bf,         % "Figure 1:" is bold
+	textfont=it            % The caption description is italic
+]{caption}% Makes figure/table captions look more professional.
+% ---------- Headers & Footers ----------
+\usepackage{fancyhdr}% Customizable headers and footers.
+\pagestyle{fancy}% Activate the fancy header/footer style.
+\fancyhf{}% Clear all default header/footer content.
+\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}% Left header: team name.
+\fancyhead[R]{\small EME 185}% Right header: course number.
+\fancyfoot[C]{\thepage}% Center footer: page number.
+\renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
+% ---------- Paragraph Formatting ----------
+\usepackage{parskip}% Adds space between paragraphs instead of indenting the first line. This is more common in engineering reports than academic papers.
+\setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
+% ---------- Line Spacing ----------
+\usepackage{setspace}
+\onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
+%-------- For Box diagrams
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns,intersections}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{shapes.geometric}
+% ---------- Appendix Support ----------
+\usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
+%----------- Title/Chapter formatting -----------------
+\usepackage{titlesec}
+% Format \chapter to look simple (no giant text, no separate page)
+\usepackage{pdfpages}
+% Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
+\usepackage{geometry}
+%allows you to set margins and page size. 
+\usepackage{mdframed}     % warning/note boxes
+\usepackage{enumitem}     % list formatting
+\usepackage{booktabs}     % tables
+\usepackage{xcolor}       % color support
+\usepackage{upgreek}
+
+
+\definecolor{warnred}{RGB}{180,30,30}
+\definecolor{warnbg}{RGB}{255,235,235}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteblue}{RGB}{30,80,160}
+
+\newmdenv[
+  linecolor=warnred, backgroundcolor=warnbg,
+  linewidth=1.5pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{warningbox}
+
+\newmdenv[
+  linecolor=noteblue, backgroundcolor=notebg,
+  linewidth=1pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{notebox}
+
+
+\titleformat{\chapter}
+ {\LARGE\bfseries}  % format
+ {}                % label
+ {0em}                         % sep between label and title
+ {}                            % before-code
+\titlespacing*{\chapter}{0pt}{20pt}{10pt}  % left, before, after
+
+
+\makeatletter
+\g@addto@macro\appendix{%
+ \titleformat{\chapter}[block]
+	{\huge\bfseries\centering}
+	{\appendixname\ \thechapter}
+	{0em}
+	{\vspace{0.5em}\\}%
+}
+\makeatother
+
+% ---------- PDF Metadata ----------
+\hypersetup{
+	pdftitle={Final Design Report -- Passive Temperature Compensation Device},
+	pdfauthor={Team 16: Noble Aggie Labs},
+	pdfsubject={EME-185A/B Senior Design, UC Davis},
+}
+%-----------For landscape pages----------
+\usepackage{pdflscape}
+\usepackage{pgfplots}
+	\pgfplotsset{compat=1.18}
+\usepackage{multirow}
+\usepackage{array}      % for >{\raggedright\arraybackslash}
+\usepackage{makecell}   % for \makecell
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{mdframed}
+
+% In your preamble
+\newcounter{mycounter}           % creates a counter, initialized to 0
+\newcounter{sub}[mycounter]      % resets 'sub' when 'mycounter' increments
+% ============================================================================
+% SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
+% ============================================================================
+% These are reusable shortcuts. Define them once, use them everywhere.
+% If a name or term changes, you only edit it in ONE place.
+
+
+% --- Project-specific shortcuts ---
+\newcommand{\projecttitle}{Passive Temperature Compensation Device}
+\newcommand{\teamname}{Noble Aggie Labs}
+\newcommand{\teamnumber}{16}
+\newcommand{\sponsor}{Dr.\ Bradley Bon}
+\newcommand{\organization}{Sandia National Laboratories}
+\newcommand{\coursename}{EME 185}
+\newcommand{\instructor}{Professor Jonathan Schofield}
+\newcommand{\university}{University of California, Davis}
+\newcommand{\ta}{Teaching Assistant Xiangpu Wang}
+\newcommand{\duedate}{3 June 2026}
+% --- Convenience commands for common terms ---
+% Using these ensures consistent terminology throughout the report.
+\newcommand{\device}{PTCD}
+\newcommand{\degC}{^{\circ}\text{C}}    % Degree Celsius symbol, properly formatted
+\newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
+
+\newcommand{\Dcold}{D_{\text{effective}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
+\newcommand{\Dhot}{D_{\text{effective}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
+\newcommand{\Dref}{D_{\text{effective}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
+
+\newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
+\newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
+\newcommand{\Tref}{\SI{25}{\degreeCelsius}} %Celcius
+\newcommand{\specTempChange}{\SI{140}{\degreeCelsius}}
+
+\newcommand{\specEAl}{\SI{69}{\giga \pascal}}
+\newcommand{\specEALLV}{\SI{55}{\giga \pascal}}
+\newcommand{\specEInv}{\SI{193}{\giga \pascal}}
+\newcommand{\specEInc}{\SI{200}{\giga \pascal}}
+\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} %Evaluated at 25C
+\newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
+\newcommand{\specInvarCTE}{\SI{1.2e-6}{\per \celsius}}
+\newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
+\newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
+\newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
+
+\newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
+\newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
+\newcommand{\specLengthChange}{\SI{267.407}{\micro \meter}}
+\newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
+\newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
+\newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
+\newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
+\newcommand{\AoneExact}{\SI{-1.524e-3}{\frac{mm}{\degC}}}
+\newcommand{\Aone}{\AoneExact \pm 5\%}
+\newcommand{\AzeroExact}{\SI{0.254}{mm}}
+\newcommand{\Azero}{\AzeroExact \pm 5\%}
+\newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
+\newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
+\newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+
+% Transfer function specifications
+
+\newcommand{\GA}{\SI{1.216}{\frac{\micro \meter}{\celsius}}}
+\newcommand{\GV}{\num{-1.253}}
+
+% System Requirements
+\newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
+\newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\ReqC}{The device shall operate under \specPressure\ internal pressure with Hydrogen gas, with thermal isolation of the actuator}
+
+% Valve specifications
+\newcommand{\SpecVA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
+\newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
+\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
+
+% Actuator specifications
+\newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow \todo{Make this one more exact and out-come focussed.}}
+
+% --- Tolerance values for specifications. --- 
+% Fill in with real numbers as we find the relevant values 
+
+%Valve tolerances
+\newcommand{\dDdXTol}{$0.1\ \mu m$}
+\newcommand{\dXdLTol}{$2.75\ \mu m$}
+\newcommand{\pressureSF}{1.4}
+\newcommand{\dXdTTol}{$0.01\ \mu m$}
+\newcommand{\dLdTTolValve}{$0.1\ \mu m$}
+\newcommand{\dTTol}{$1\ \degC$}
+\newcommand{\FTolValve}{170 N}
+\newcommand{\valveMEX}{100 mm}
+\newcommand{\valveMEY}{5 mm}
+\newcommand{\valveMEZ}{100 mm}
+
+%Actuator tolerances
+\newcommand{\dLdTTolAct}{$0.3\ \mu m$}
+\newcommand{\FTolAct}{\FTolValve}
+
+%Mount tolerances
+\newcommand{\mountdLTol}{$12.5\ \mu m$}
+\newcommand{\calRange}{$15\ \mu m$}
+\newcommand{\calTol}{$5\ \mu m$}
+\newcommand{\mountMEX}{100 mm}
+\newcommand{\mountMEY}{130 mm}
+\newcommand{\mountMEZ}{100 mm}
+
+% --- Figure insertion helper ---
+% This command simplifies inserting a figure with a caption and label.
+% Usage: \insertfigure{width}{filename}{caption text}{fig:label}
+%
+% Parameters:
+%   #1 = width relative to text width (e.g., 0.8 for 80%)
+%   #2 = filename (without path if images are in the same directory)
+%   #3 = caption text
+%   #4 = label for cross-referencing (use fig:prefix by convention)
+\newcommand{\insertfigure}[4]{%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=#1\textwidth]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{figure}
+}
+
+% --- TODO marker for draft mode ---
+% Prints a bold red "TODO" so you can easily spot incomplete sections.
+\usepackage{xcolor}
+\usepackage{tocloft} % For listoftodos
+% --- TODO marker ---
+\newlistof{todos}{tod}{List of TODO's}
+\newcommand{\todo}[1]{%
+    \textbf{\textcolor{red}{[TODO: #1]}}%
+    \addcontentsline{tod}{todos}{\protect\numberline{\thepage}#1}%
+}
+
+
+% ============================================================================
+% BEGIN DOCUMENT
+% ============================================================================
+
+
+\begin{document}
+\begin{titlepage}
+	\thispagestyle{empty}   % No header/footer on the title page
+
+	% --- Cover Photo: Sandia National Laboratories Aerial View ---
+	\begin{center}
+		\includegraphics[width=\textwidth]{SNL4.jpg}
+	\end{center}
+	\vspace{0.4in}
+	% --- UC Davis College of Engineering Logo ---
+	\begin{center}
+			\includegraphics[width=3in]{COE.png}
+	\end{center}
+	\vspace{0.6in}
+	% --- Project Title ---
+	\begin{center}
+		{\LARGE\bfseries\color{blue!70!black} \projecttitle}\\[12pt]
+		{\large By the}\\[12pt]
+		{\Large\bfseries \teamname}\\[24pt]
+	\end{center}
+
+	\vspace{0.4in}
+
+	% --- Report Type ---
+	\begin{center}
+		{\large\bfseries FINAL DESIGN REPORT}
+	\end{center}
+
+	\vspace{0.4in}
+	
+	\begin{center}
+		{\large SPONSORED BY \MakeUppercase{\sponsor},}\\
+		{\large \MakeUppercase{\organization}}
+	\end{center}
+
+	\vfill
+
+	% --- Submission Deadline ---
+	\begin{center}
+		{\large\bfseries \MakeUppercase{\duedate}}
+	\end{center}
+
+	\vspace{0.5in}
+\end{titlepage}
+
+
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{center}
+
+	{\large\bfseries Passive Temperature Compensation Device}\\[6pt]
+	{\large Final Design Report}\\[24pt]
+
+	\textcopyright\ 2026 by\\[6pt]
+	Miguel Cuaycong, Jon Pizarro, Nicholas Metta,\\
+	Isaiah Mathew, John Bodine, and Sam van der Veen\\[24pt]
+
+	{\small
+	
+	EME 185: Mechanical Systems Design Project\\
+	University of California, Davis\\[12pt]
+
+	Advised by \instructor\ and\\
+	\ta\\[24pt]
+
+	\textit{All rights reserved. No part of this report may be reproduced}\\
+	\textit{without consent from the authors, UC Davis,}\\
+	\textit{or Sandia National Laboratories.}\\[24pt]
+
+	}
+
+\end{center}
+
+\vspace*{\fill}
+
+
+\newpage  % Start the body of the report on a fresh page
+
+\begin{abstract}
+
+
+Sandia National Laboratories has tasked our senior design team, 
+the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
+The device must restrict its orifice as the ambient temperature of the surrounding air increases.
+The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
+The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
+stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m, or half the width of the ballpoint on a pen,
+with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
+Our team designed two interconnected subsystems to accomplish this objective:
+
+\begin{itemize}
+	\item A square valve orifice, comprising two overlapping square holes
+	\item A bimetallic thermal actuator, which expands with rising temperature and drives the valve
+\end{itemize}
+
+This Final Design Report illustrates the background, selected architecture, and expected performance of the design and provides a full package required for further development. It achieves the following:
+
+\begin{itemize}
+	\item Outlines design motivation, objectives, and architecture
+	\item Defines the passive, open-loop control system transfer function
+	\item Analytically demonstrates that the required output will be achieved
+	\item Identifies likely sources of error
+	\item Numerically verifies the predicted system performance
+	\item Provides all information needed for further development, including shop drawings, material data, the bill of materials, and vendors for all parts
+\end{itemize}
+
+\todo{Report body may not exceed 50 pages.}
+
+\end{abstract}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \chapter{Cited References}
+% \label{sec:references}
+
+% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
+% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
+%
+% The [99] tells LaTeX the widest label will be two digits.
+
+\todo{Get rid of unused citations in the bibliography; test all links}
+
+\begin{thebibliography}{99}
+
+	\bibitem{ref_sandiaprompt}
+	B.\ Bon,
+	``Passive Temperature Compensation Device --- Project Prompt,''
+	Sandia National Laboratories, SAND2025-15446O, 2025.
+
+	\bibitem{ref_asme_b313}
+	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+	ASME, New York, NY, 2022.
+
+	\bibitem{ref_steen2010laser}
+	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+	Springer, London, UK, 2010.
+
+	\bibitem{ref_aws2020welding}
+	American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
+	AWS, Miami, FL, 2020.
+
+	\bibitem{ref_miniflex_design}
+	Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
+	Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Mar. 2026].
+
+	\bibitem{ref_muraca1972aluminum}
+	R.\ F.\ Muraca and J.\ S.\ Whittick,
+	\textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed.,
+	Western Applied Research \& Development, Inc.,
+	NASA CR-123772, May 1972.
+	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
+	[Accessed: Mar. 2026].
+
+	\bibitem{ref_matweb}
+	MatWeb, LLC, \textit{MatWeb Material Property Data}, 
+	[Online]. Available: \url{https://www.matweb.com}, 
+	Accessed: March 20, 2026.
+
+	\bibitem{ref_Nise}
+	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+
+	\bibitem{ref_Figliola}
+	R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
+
+	\bibitem{ref_CarpenterTechnology}
+	Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	[Accessed: Apr. 17, 2026].
+ 
+	\bibitem{ref_AZoM}
+	AZoM, "Properties: Invar — Nickel Iron Alloy," AZoM.com. \url{https://www.azom.com/properties.aspx?ArticleID=515}
+	[Accessed: Mar. 20, 2026].
+
+	\bibitem{ref_AircraftMaterials}
+	Aircraft Materials Ltd., "Invar 36 / Nilo 36 / Alloy 36 (ASTM F1684)," AircraftMaterials.com. \url{https://www.aircraftmaterials.com/data/nickel/al36.html}
+	[Accessed: Mar. 20, 2026].
+
+	\bibitem{ref_ISO}
+	International Organization for Standardization, "Mechanical properties of fasteners made of carbon steel and alloy steel — 
+	Part 1: Bolts, screws and studs with specified property classes — Coarse thread and fine pitch thread," ISO 898-1:2013, Geneva, Switzerland, 2013.
+
+	\bibitem{ref_ASM}
+	ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
+
+	\bibitem{ref_Hibbeler_therm}
+	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014, eq. (4-4).
+
+	\bibitem{ref_Hibbeler_spring}
+	Hibbeler, eq. (4-2)
+
+	\bibitem{ref_Jensen}
+	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis. [Unpublished]
+
+	\bibitem{ref_Stewart}
+	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+	
+	\bibitem{ref_SpecialMetals}
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+	[Accessed: Apr. 17, 2026].
+	
+	\bibitem{ref_AllvarAlloys}
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/what-is-negative-thermal-expansion/}
+	[Accessed: Apr. 17, 2026].
+
+	\bibitem{ref_Young_Freedman}
+	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, eq. (6-8).
+
+	\bibitem{ref_Anton}
+	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
+	Hoboken, NJ: Wiley, 2019, p. 228.
+
+	\bibitem{ref_McMaster_Invar}
+	McMaster-Carr, \textit{[Thermally Stable Invar 36 Nickel Alloy Rod], Part No. 4279K16}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/4279K16-4279K169/}
+	[Accessed: Apr. 17, 2026].
+
+	\bibitem{ref_NASA}
+	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+	Washington, DC: NASA, 2016, Sec.~4.2.
+
+	\bibitem{ref_NIH}
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
+	[Accessed: May 4, 2026].
+
+	% Add more \bibitem entries as needed.
+	% In the body text, cite as: \cite{ref_sandiaprompt}
+
+\end{thebibliography}
+
+
+\newpage
+\begin{appendices}
+\appendix
+
+
+
+\end{appendices}
+
+\end{document}
