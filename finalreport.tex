@@ -682,13 +682,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				The required system transfer function can now be represented in its complete form:
 
-				\begin{equation}
-					\begin{aligned}
-						D_{eff} &= \hat{G}_{A_0} \hat{G}_{V_0} \Delta T + D_{ref} \\
-						&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_(T_{ref}) \\
-						&= A_1 \Delta T + A_0
-					\end{aligned}
-				\end{equation}
+				\begin{align*}
+					D_{eff} &= \hat{G}_{A_0} \hat{G}_{V_0} \Delta T + D_{ref} \\
+					&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_(T_{ref}) \\
+					&= A_1 \Delta T + A_0
+				\end{align*}
 
 				where
 
@@ -923,17 +921,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\end{figure}
 
 		\begin{figure}[H]
-			\centering
-			\includegraphics[height=.5\textheight, width=.5\textwidth, keepaspectratio]{CompleteAssemblyExploded.png}
-			\caption{Complete assembly exploded view}
-			\label{fig:mainExploded}
-		\end{figure}
-
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=.5\textheight, width=.5\textwidth, keepaspectratio]{SubAssemblyID.png}
-			\caption{Sub-assembly identification}
-			\label{fig:SubAssemblyID}
+			\begin{minipage}{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{CompleteAssemblyExploded.png}
+				\caption{Complete assembly exploded view}
+				\label{fig:mainExploded}
+			\end{minipage}
+			\hfill
+			\begin{minipage}{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{SubAssemblyID.png}
+				\caption{Sub-assembly identification}
+				\label{fig:SubAssemblyID}
+			\end{minipage}
 		\end{figure}
 
 
@@ -967,19 +967,18 @@ This Final Design Report illustrates the background, selected architecture, and 
 		Thus, as pictured in Figure \ref{fig:active_diagram}, as the ambient temperature increases, the actuator drives the valve stem downwards, shrinking the orifice. 
 		As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
 
-		\todo{Uncomment the images once they are in the repo.}
 		\begin{figure}[H]
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				%\includegraphics[width=.5\textwidth]{active_cold.jpg}
+				\includegraphics[width=.5\textwidth]{active_cold.png}
 				\subcaption{Cooling actuation}
 				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				%\includegraphics[width=.5\textwidth]{active_hot.png}
+				\includegraphics[width=.5\textwidth]{active_hot.png}
 				\subcaption{Heating actuation}
 				\label{fig:active_hot}
 			\end{minipage}
@@ -1003,23 +1002,25 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{Valve_full.png}
+				\includegraphics[height=.5\textheight]{Valve_full.png}
 				\caption{Valve subsystem}
 				\label{fig:valve_full}
 			\end{figure}
 
 			\begin{figure}[H]
-				\centering
-				\includegraphics[height=.49\textheight]{Valve_exploded.png}
-				\caption{Valve subsystem exploded view}
-				\label{fig:valve_exploded}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[height=.49\textheight]{Valve_ID.png}
-				\caption{Valve subsystem part identification}
-				\label{fig:valve_ID}
+				\begin{minipage}{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{Valve_exploded.png}
+					\caption{Valve subsystem exploded view}
+					\label{fig:valve_exploded}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{Valve_ID.png}
+					\caption{Valve subsystem part identification}
+					\label{fig:valve_ID}
+				\end{minipage}
 			\end{figure}
 
 			The Valve Orifice (V4, Figure \ref{fig:V4}) comprises the leading orifice hole near its center.
@@ -1060,14 +1061,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\begin{figure}[H]
 					\centering
-					\begin{minipage}{0.34\textwidth}
+					\begin{minipage}{0.39\textwidth}
 							\centering
 							\includegraphics[width=\textwidth]{V2_V4.png}
 							\caption{Valve Orifice fit in Housing Inlet}
 							\label{fig:V2_V4}
 					\end{minipage}
 					\hfill
-					\begin{minipage}{0.64\textwidth}
+					\begin{minipage}{0.59\textwidth}
 							\centering
 							\includegraphics[width=\textwidth]{V2_V3_V4.png}
 							\caption{Valve Orifice fit in Housing Assembly}
@@ -1099,6 +1100,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\begin{figure}[H]
 				\begin{minipage}{.49\textwidth}
+					\centering
 					\vfill
 					\includegraphics[height=3in]{bellows.png}
 					\caption{I718\_159\_72\_430: Bellows}
@@ -1127,37 +1129,41 @@ This Final Design Report illustrates the background, selected architecture, and 
 			All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 			The welded surfaces can be reliably modeled as fused material.
 
+			All machined parts are made of Invar 36, a Ni-Fe alloy with an exceptionally low coefficient of thermal expansion.
+			Because the \device\ depends on passive thermal expansion to drive its behavior, these components must expand as little as possible to ensure minimal deviation from the intended control output.
+
 		\subsection{Actuator Subsystem}
 		\label{subsec:design:overview:act}
 
-			\todo{Insert full-subsystem, exploded, and part ID images below}
+			The actuator subsystem (Figures \ref{fig:act_full}, \ref{fig:act_exploded}, \ref{fig:act_ID}) sits atop the valve housing, where it maintains equilibrium with the surrounding ambient air temperature.
+			It comprises an internal expansion rod to drive the valve stem, an external mount to suspend it from above, a screw and washer to secure them together, and a belleville washer to enable precise calibration.
 
-			\begin{figure}
+			\begin{figure}[H]
 				\begin{minipage}{.5\textwidth}
 					\centering
-					\includegraphics[height=.5\textheight, width=\textwidth, keepaspectratio]{Act_full.png}
+					\includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_full.png}
 					\caption{Actuator subsystem}
-					\label{fig:actuator_full}
+					\label{fig:act_full}
 				\end{minipage}
 				\hfill
 				\begin{minipage}{.5\textwidth}
 					\centering
-					\includegraphics[height=.5\textheight, width=\textwidth, keepaspectratio]{Act_exploded.png}
+					\includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_exploded.png}
 					\caption{Actuator subsystem exploded view}
-					\label{fig:actuator_exploded}
+					\label{fig:act_exploded}
 				\end{minipage}
 			\end{figure}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{Act_ID.png}
+				\includegraphics[height=.4\textheight]{Act_ID.png}
 				\caption{Actuator subsystem part identification}
-				\label{fig:actuator_ID}
+				\label{fig:act_ID}
 			\end{figure}
 
-			This bimetallic actuator drives the valve by a difference in thermal expansion rates.
-			A central Aluminum expansion rod nests inside an ALLVAR mount, suspended from above by a screw-washer assembly.
-			The base of the mound it electron-beam welded to the upper exterior surface of the valve housing, centered at the valve stem, which protrudes from this surface and is welded to the base of the expansion rod.
+			The central Aluminum expansion rod (A1) nests inside an ALLVAR mount (A2), suspended by the screw-washer assembly (93237A101, 93475A195, 90362A141).
+			The base of the mount is electron-beam welded to the top of the valve housing
+			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure \ref{fig:Act_cut}.
 
 			\begin{figure}[H]
@@ -1167,9 +1173,25 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\label{fig:Act_cut}
 			\end{figure}
 
-			\todo{Depict what hapens at temp changes; Justify thermal isolation}
+			The central Aluminum expansion rod drives the valve stem motion.
+			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, causing the expansion rod to expand relative to the rest of the assembly when heated.
+			ALLVAR, a proprietary alloy manufactured by ALLVAR Alloys, shrinks when heated even faster than the aluminum expands.
+			Because the actuator is mounted from the top, this bimetallic actuator drives the valve stem further than either metal would on its own.
+			As the ambient temperature rises, the ALLVAR mount shrinks, lowering the expansion rod from above;
+			this, in turn, expands downwards, driving the valve stem and closing the orifice.
+			As the temperature decreases, the components reverse direction:
+			the mount expands, lifting the expansion rod, which shrinks and lifts the valve stem to open the orifice.
 
-			\todo{Mention calibration}
+			The expansion rod is thermally separated from the internal gas by a 5 mm gap. Heat transfer must be minimized from this gas, which will be up to 20 $\degC$ hotter than the outside air.
+			Some heat will still transfer, altering the percieved ambient temperature and introducing error into the system,
+			but the thick housing wall, minimal contact with the Invar, and continual free convection with the atmosphere will minimize this error.
+
+			Small machining and assembly errors may introduce a constant offset. For instance, if the weld between the expansion rod and the valve stem separates them by 2 \textmu m,
+			the orifice height will be 2 \textmu m too high at all times, shifting the effective diameter towards its upper boundary.
+			Even this deviation is significant relative to the 10-20 \textmu m tolerance window for the effective diameter.
+			To counter this potential constant error, the actuator subsystem includes a calibration stack.
+			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
+			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders is tuned.
 
 	\section{Design Justification}
 	\label{sec:design:just}
