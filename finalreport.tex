@@ -204,13 +204,21 @@
 
 % Transfer function specifications
 
-\newcommand{\GA}{\SI{1.216}{\frac{\micro \meter}{\celsius}}}
-\newcommand{\GV}{\num{-1.253}}
+\newcommand{\GA}{\SI{1.91}{\frac{\micro \meter}{\celsius}}}
+\newcommand{\GV}{\num{-0.798}}
 
 % System Requirements
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
 \newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\ReqC}{The device shall operate under \specPressure\ internal pressure with Hydrogen gas, with thermal isolation of the actuator}
+\newcommand{\RRfull}
+{
+	\begin{align*}
+		D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
+		&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D(T_{ref}) \\
+		&= A_1 \Delta T + A_0
+	\end{align*}
+}
 
 % Valve specifications
 \newcommand{\SpecVA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
@@ -279,6 +287,9 @@
     \textbf{\textcolor{red}{[TODO: #1]}}%
     \addcontentsline{tod}{todos}{\protect\numberline{\thepage}#1}%
 }
+
+% For links to spec table
+\newcommand{\specref}[1]{\hyperref[tab:specs]{#1}}
 
 
 % ============================================================================
@@ -374,37 +385,37 @@
 
 \section*{\large{List of Acronyms}}
 
-\begin{tabularx}{\textwidth}{@{} l X @{}}
-    \toprule
-    \textbf{Acronym} & \textbf{Definition} \\
-    \midrule
-    Al      & Aluminum \\
-    ALLV    & Allvar (negative-CTE alloy) \\
-    ASME    & American Society of Mechanical Engineers \\
-    AWS     & American Welding Society \\
-    BOM     & Bill of Materials \\
-    CAD     & Computer-Aided Design \\
-    CTE     & Coefficient of Thermal Expansion \\
-    DFMEA   & Design Failure Modes and Effects Analysis \\
-    DOF     & Degree of Freedom \\
-    EDM     & Electrical Discharge Machining \\
-    EME     & Engineering, Mechanical (course prefix) \\
-    FS      & Factor of Safety \\
-    Inc     & Inconel 718 \\
-    Inv     & Invar 36 \\
-    ISO     & International Organization for Standardization \\
-    LBW     & Laser Beam Welding \\
-    MATLAB  & Matrix Laboratory (numerical computing software) \\
-    NASA    & National Aeronautics and Space Administration \\
-    PTCD    & Passive Temperature Compensation Device \\
-    RR      & Required Relationship \\
-    SF      & Safety Factor \\
-    SI      & Système International (International System of Units) \\
-    SNL     & Sandia National Laboratories \\
-    TF      & Transfer Function \\
-    UC Davis & University of California, Davis \\
-    \bottomrule
-\end{tabularx}
+	\begin{tabularx}{\textwidth}{@{} l X @{}}
+			\toprule
+			\textbf{Acronym} & \textbf{Definition} \\
+			\midrule
+			Al      & Aluminum \\
+			ALLV    & Allvar (negative-CTE alloy) \\
+			ASME    & American Society of Mechanical Engineers \\
+			AWS     & American Welding Society \\
+			BOM     & Bill of Materials \\
+			CAD     & Computer-Aided Design \\
+			CTE     & Coefficient of Thermal Expansion \\
+			DFMEA   & Design Failure Modes and Effects Analysis \\
+			DOF     & Degree of Freedom \\
+			EDM     & Electrical Discharge Machining \\
+			EME     & Engineering, Mechanical (course prefix) \\
+			FS      & Factor of Safety \\
+			Inc     & Inconel 718 \\
+			Inv     & Invar 36 \\
+			ISO     & International Organization for Standardization \\
+			LBW     & Laser Beam Welding \\
+			MATLAB  & Matrix Laboratory (numerical computing software) \\
+			NASA    & National Aeronautics and Space Administration \\
+			PTCD    & Passive Temperature Compensation Device \\
+			RR      & Required Relationship \\
+			SF      & Safety Factor \\
+			SI      & Système International (International System of Units) \\
+			SNL     & Sandia National Laboratories \\
+			TF      & Transfer Function \\
+			UC Davis & University of California, Davis \\
+			\bottomrule
+	\end{tabularx}
 
 \newpage
 \listoftodos
@@ -682,11 +693,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				The required system transfer function can now be represented in its complete form:
 
-				\begin{align*}
-					D_{eff} &= \hat{G}_{A_0} \hat{G}_{V_0} \Delta T + D_{ref} \\
-					&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D_(T_{ref}) \\
-					&= A_1 \Delta T + A_0
-				\end{align*}
+				\RRfull
 
 				where
 
@@ -715,13 +722,13 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Thus, the following rolldown will seem arbitrary at first until the full design architecture is revealed. The selected valve architecture best supports a transfer function of
 
 			\begin{equation}
-				\hat{G}_{V_0} = - \sqrt{\frac{\pi}{2}} = \GV
+				\hat{G}_{V_0} = - \sqrt{\frac{2}{\pi}} = \GV
 			\end{equation}
 
 			necessitating an actuator transfer function of
 
 			\begin{equation}
-				\hat{G}_{A_0} = \frac{A_1}{- \sqrt{\frac{\pi}{2}}} = - \sqrt{\frac{2}{\pi}} (\AoneExact) = \GA
+				\hat{G}_{A_0} = \frac{A_1}{- \sqrt{\frac{2}{\pi}}} = - \sqrt{\frac{\pi}{2}} (\AoneExact) = \GA
 			\end{equation}
 
 			From these, we derive our first subsystem specifications:
@@ -810,46 +817,47 @@ This Final Design Report illustrates the background, selected architecture, and 
 			The final system requirements and subsystem specifications are presented in Table \ref{tab:final_specs}.
 
 			\begin{table}[H]
-					\centering
-					\caption{System Requirements and Subsystem Specification Rolldown}
-					\label{tab:final_specs}
-					\renewcommand{\arraystretch}{1.3}
-					\begin{tabularx}{\textwidth}{
-							>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
-							>{\raggedright\arraybackslash}X                  % Requirement
-							>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
-							>{\raggedright\arraybackslash}X                  % Valve spec
-							>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
-							>{\raggedright\arraybackslash}X                  % Actuator spec
-					}
-					\toprule
-					\textbf{} & \textbf{System Requirements} &
-					\textbf{} & \textbf{Valve Specifications} &
-					\textbf{} & \textbf{Actuator Specifications} \\
-					\midrule
+				\centering
+				\caption{System Requirements and Subsystem Specification Rolldown}
+				\label{tab:final_specs}
+				\renewcommand{\arraystretch}{1.3}
+				\begin{tabularx}{\textwidth}{
+						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
+						>{\raggedright\arraybackslash}X                  % Requirement
+						>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
+						>{\raggedright\arraybackslash}X                  % Valve spec
+						>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
+						>{\raggedright\arraybackslash}X                  % Actuator spec
+				}
+				\toprule
+				\textbf{} & \textbf{System Requirements} &
+				\textbf{} & \textbf{Valve Specifications} &
+				\textbf{} & \textbf{Actuator Specifications} \\
+				\midrule
 
-					% Row 1
-					R.1 & \ReqA &
-					V.1.1 & \SpecVA &
-					A.1.1 & \SpecAA \\
-					\midrule
+				% Row 1
+				R.1 & \ReqA &
+				V.1.1 & \SpecVA &
+				A.1.1 & \SpecAA \\
+				\midrule
 
-					% Row 2
-					R.2 & \ReqB &
-					V.2.1 & \SpecVB &
-					A.2.1 & \SpecAB \\
-					\midrule
+				% Row 2
+				R.2 & \ReqB &
+				V.2.1 & \SpecVB &
+				A.2.1 & \SpecAB \\
+				\midrule
 
-					\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
-					V.3.1 & \SpecVCA &
-					\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
+				\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
+				V.3.1 & \SpecVCA &
+				\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
 
-					& & V.3.2 & \SpecVCB & & \\
+				& & V.3.2 & \SpecVCB & & \\
 
-					& & V.3.3 & \SpecVCC & & \\
+				& & V.3.3 & \SpecVCC & & \\
 
-					\bottomrule
-					\end{tabularx}
+				\bottomrule
+				\end{tabularx}
+				\label{tab:specs}
 			\end{table}
 
 	\subsubsection*{Roadmap}
@@ -915,7 +923,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\newpage
 		\begin{figure}[H]
 			\centering
-			\includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
+			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
 			\caption{Complete assembly}
 			\label{fig:mainIsometric}
 		\end{figure}
@@ -1029,17 +1037,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Together, these comprise the \device's orifice.
 
 			\begin{figure}[H]
-				\centering
-				\includegraphics[height=4in]{V4.png}
-				\caption{V4: Valve Orifice}
-				\label{fig:V4}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.7\textwidth]{V3.png}
-				\caption{V3: Housing Outlet}
-				\label{fig:V3}
+				\begin{minipage}{.49\textwidth}
+					\centering
+					\includegraphics[height=3.5in]{V4.png}
+					\caption{V4: Valve Orifice}
+					\label{fig:V4}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.49\textwidth}
+					\centering
+					\includegraphics[height=3.5in]{V3.png}
+					\caption{V3: Housing Outlet}
+					\label{fig:V3}
+				\end{minipage}
 			\end{figure}
 
 			\begin{figure}[H]
@@ -1095,7 +1105,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{minipage}
 			\end{figure}
 
-			To hermitically seal these holes, a bellows (I718\_159\_72\_430, Figure \ref{fig:I718_159_72_430}) is welded between the Valve Orifice and each Housing Center.
+			To hermitically seal these holes, a bellows (I718\_159\_72\_430, Figure \ref{fig:bellows}) is welded between the Valve Orifice and each Housing Center.
 			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
 
 			\begin{figure}[H]
@@ -1204,23 +1214,79 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Transfer Functions and Critical Dimensions}
 		\label{subsec:design:just:TF}
 
-			Specifications V.1.1 and A.1.1 require specific input-output relationships to satisfy system requirement R.1, the Required Relationship.
+			Specifications \specref{V.1.1} and \specref{A.1.1} require specific input-output relationships to satisfy system requirement R.1, the Required Relationship:
+
+			\RRfull
+
 			These values are driven by the geometry described above and by the dimensions we select for each part.
+
+			\begin{multicols}{2}
+				\begin{figure}[H]
+						\centering
+						\includegraphics[height=.85\textheight]{L_X.png}
+						\caption{Dimension definitions}
+						\label{fig:L_X}
+				\end{figure}
+			\newcolumn
+				Let us define the change in the actuator length, $\Delta L$, as the vertical extension of the expansion rod (A1), which includes any rigid-body motion driven by the mount.
+				See Figure \ref{fig:L_X}. Thus, if the mount shrinks, and the expansion rod grows, by 1 \textmu m each, the length $L$ will increase by 2 \textmu m.
+				This drives the valve stem an equal amount, lowering the valve stem and shrinking the orifice height $X$ by 2 \textmu m.
 
 			\subsubsection{Valve Transfer Function}
 			\label{subsubsec:design:just:TF:valve}
 
-				\todo{Valve TF (mostly calculated in Appendix \ref{app:calcs:valveTF}) and D(Tref). Justify direct contact (dX/dL = -1)}
+				The valve orifice geometry governs the transfer function
+
+				\begin{equation*}
+					\hat{G}_{V_0} = \frac{dD}{dL} = \frac{dD}{dX} \frac{dX}{dL}
+				\end{equation*}
+
+				that translates the change in the actuator's length, $L$\footnote{Note that the actuator movement may more readily be defined as the distance between the base of the mount and the base of the actuator, which in fact decreases as $L$ increases. The actuator length is a legacy parameter from earlier stages in the design process, when the design featured a rigid Invar mount and only the expansion rod moved.},
+				to a change in effective diameter $D$.
+				The orifice diameter is most readily defined by the vertical distance $X$ between its upper and lower vertices.
+				As derived in Appendix \ref{app:calcs:orifice_geometry}, the effective diameter of this orifice scales with the height by a constant factor such that
+
+				\begin{equation}
+					D_{eff} = \sqrt{\frac{2}{\pi}} X
+				\end{equation}
+
+				therefore
+
+				\begin{equation}
+					\frac{dD}{dX} = \sqrt{\frac{2}{\pi}}
+				\end{equation}
+
+				\end{multicols}
+
+				As shown in Figure \ref{fig:L_X}, the orifice shrinks as the actuator expands, giving us the second control derivative
+
+				\begin{equation}
+					\frac{dX}{dL} = -1
+				\end{equation}
+
+				therefore, multiplying these together we find
+
+				\begin{equation}
+					\hat{G}_{V_0} = -\sqrt{\frac{2}{\pi}} = \GV
+				\end{equation}
+
+				as prescribed. This specification value was informed by the orifice architecture after the design was developed; motivation for the architecture will be explained in section \ref{subsec:design:just:geo_sel}.
 
 			\subsubsection{Actuator Transfer Function}
 			\label{subsubsec:design:just:TF:act}
 
 				\todo{Derive dL/dT TF -> dimensions of actuator and mount -> mention violation of ME is okay}
 
-				The machined length of the actuator (assumed to be at $T_{ref}$, which is very close to room temperature) is a critical dimension. Since the mount will contract as the actuator expands, its length depends on the mount material and the spacing above and below the actuator.
-				A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm. If everything is machined exactly, it will need to be compressed 50 \textmu m upon assembly.
-				If machining errors are present, which is virtually guaranteed, this washer height assumption will introduce slight error in expansion rates on the same order as the error introduced by the manufacturing dimension errors.
-				A 5mm gap will separate the free end of the actuator from the housing, spanned by the valve stem and thermally insulating the actuator from direct heat transfer with the heated gas inside the valve.
+				The bimetallic actuator expands at a constant rate with temperature, governing the transfer function
+				
+				\begin{equation*}
+					\hat{G}_{A_0} = \frac{dL}{dT}
+				\end{equation*}
+				
+				that translates the ambient temperature into motion.
+				The length of each of its components drives that expansion rate. Its dimensions are shown in greater detail in Figure \ref{fig:act_dim}.
+				A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm\footnote{The exact compression height of the belleville washer is, by nature an unknown and varies between each device. If the washer needs to be compressed more or less than assumed, the deviation from the expected expansion rate will be no greater than that already introduced by the machining error.}
+				A 5mm gap, spanned by the valve stem, will separate the free end of the actuator from the housing, thermally insulating the actuator from direct heat transfer with the hot internal gas.
 
 				\newpage%
 				\begin{multicols}{2}
@@ -1234,24 +1300,31 @@ This Final Design Report illustrates the background, selected architecture, and 
 						\end{minipage}
 					\end{figure}
 
-					Figure \ref{fig:act_dim} denominates the dimensions of the mount-actuator assembly. Assuming the base of the mount, where it is welded to the housing, to be fixed,
-					a regular mount will expand upwards as the ambient temperature rises, lifting the actuator from the top as the actuator expands downwards. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
-					However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta X$ by a double-negative. Here, $\Delta X$ is treated as a positive value when the actuator expands.
+					Assuming the base of the mount, welded to the housing, to be fixed,
+					and assuming for now that the CTE of ALLVAR is positive,
+					the expansion rod (aka the "actuator") will expand townwards as it is lifted upwards when heated. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
+					However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta L$ by a double-negative.
 					Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
 					
 					\begin{align}
-						\Delta X &= \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
-						L_{mount} &= t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
+						\Delta L = \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
+						L_{mount} = t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
 					\end{align}
 				\end{multicols}
+
+				\newpage
+
+				Our target, as specified by Specification \specref{A.1.1}, is
+
+				\begin{equation}
+					\frac{dL}{dT} = \frac{\Delta L}{\Delta T} = \GA
+				\end{equation}
 
 				Plugging in the following values:
 
 				\begin{align*}
 					\alpha_{act} &= \specActuatorCTE \\
 					\alpha_{mount} &= \specMountCTE \\
-					\Delta T &= T_{hot} - T_{cold} = \specTempChange \\
-					\Delta X &= X_{hot} - X_{cold} = \specLengthChange \\
 					t_{wash} &= 0.55\ mm \\
 					L_{gap} &= 5\ mm
 				\end{align*}
@@ -1259,15 +1332,17 @@ This Final Design Report illustrates the background, selected architecture, and 
 				we obtain the following results:
 
 				\begin{align}
-					L_{act} &= \frac{\frac{\Delta X}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
-					&= \frac{\frac{267.407\ \mu m}{140\ \degC} + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+					L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
+					&= \frac{\GA + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
 					L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
 				\end{align}
+
+				These critical dimension ensure that 
 
 		\subsection{Valve Architecture Selection Criteria}
 		\label{subsec:design:just:geo_sel}
 
-			\todo{Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts}
+			\todo{Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts. Justify direct contact.}
 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
@@ -1465,17 +1540,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Hermitic Seal}
 		\label{subsec:design:just:bellows}
 
-			\todo{All bellows information}
+			\todo{All bellows information. Satisfies H-comp.}
 
-		\subsection{Valve Housing Dimensions}
-		\label{subsec:design:just:valve_dim}
+		\subsection{Noncritical dimensions and features}
+		\label{subsec:design:just:gen_dim}
 
-			\todo{Simply justify some of the valve subassembly dimensions. Actuator is mostly covered in section \ref{subsubsec:design:just:TF:act}}
-
-		\subsection{Hydrogen Compatibility}
-		\label{subsec:design:just:H}
-
-			\todo{Brief word here, mostly satisfied by bellows}
+			\todo{Justify all noncritical dimensions here (act diameter enough for minimal compression, internal channel size and height and valve stem diameter just big enough for bellows, pipe-interface thread size and length). Talk about machinability, assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows).}
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -1486,16 +1556,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\label{subsec:design:just:LBW}
 
 			\todo{All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}
-
-		\subsection{Threaded Interface}
-		\label{subsec:design:just:thread}
-
-			\todo{Talk about 3/4" threaded interface and related length required in each part}
-
-		\subsection{Machinability Considerations}
-		\label{subsec:design:just:machine}
-
-			\todo{Justify the features that were included for the sake of machinability and assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows)}
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -2369,6 +2429,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 		Therefore,
 
 			$$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
+
+		Finally, we can rearrange this relation to obtain the effective diameter as a function of X:
+
+		\begin{mdframed}
+			\begin{equation*}
+				D_{eff} = \sqrt{\frac{2}{\pi}} X
+			\end{equation*}
+		\end{mdframed}
+
+		Therefore, we can find the ideal Valve Subsystem Transfer Function as described in sections \ref{subsec:intro:specs:RR} and \ref{subsubsec:design:just:TF:valve}:
+
+		\begin{equation*}
+			\hat{G}_{V_0} = \frac{dD}{dL} = \sqrt{\frac{2}{\pi}}
+		\end{equation*}
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
