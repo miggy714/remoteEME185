@@ -890,19 +890,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 \chapter{Final Design of the \device}
 \label{chap:design}
 
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=\textwidth]{Del_architecture_requirements_1.png}
-		\caption{DELETE BEFORE SUBMISSION}
-		\label{fig:del_arch_req_1}
-	\end{figure}
+	% \begin{figure}[H]
+	% 	\centering
+	% 	\includegraphics[width=\textwidth]{Del_architecture_requirements_1.png}
+	% 	\caption{DELETE BEFORE SUBMISSION}
+	% 	\label{fig:del_arch_req_1}
+	% \end{figure}
 
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=\textwidth]{Del_architecture_requirements_2.png}
-		\caption{DELETE BEFORE SUBMISSION}
-		\label{fig:del_arch_req_2}
-	\end{figure}
+	% \begin{figure}[H]
+	% 	\centering
+	% 	\includegraphics[width=\textwidth]{Del_architecture_requirements_2.png}
+	% 	\caption{DELETE BEFORE SUBMISSION}
+	% 	\label{fig:del_arch_req_2}
+	% \end{figure}
 
 	\section{System Architecture Overview}
 	\label{chap:design:overview}
@@ -1192,6 +1192,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 			To counter this potential constant error, the actuator subsystem includes a calibration stack.
 			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
 			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders is tuned.
+
+			The complete Bill of Materials, with accompanying part diagrams, is given in Appendix \ref{app:BOM}.
+			Complete machine architecture drawings are given in Appendix \ref{app:drawings}.
 
 	\section{Design Justification}
 	\label{sec:design:just}
@@ -2370,7 +2373,29 @@ This Final Design Report illustrates the background, selected architecture, and 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
-	\todo{Insert BOM with brief description. Include EDM quote if possible. Attach MiniFlex quote.}
+	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
+	The full Bill of Materials is provided on the next page, with corresponding part numbers, materials, sizes, prices, distributer's links.
+
+	\newpage
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height = .4\textheight]{valve_ID.png}
+		\caption{Valve Part ID's}
+		\label{fig:valve_ID_app}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height = .4\textheight]{Act_ID.png}
+		\caption{Actuator Part ID's}
+		\label{fig:act_ID_app}
+	\end{figure}
+
+	\newpage
+	\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+
+	\newpage
+	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
 
 \chapter{Manufacturing and Operation}
 \label{app:mfg}
