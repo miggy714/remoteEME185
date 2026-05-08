@@ -289,7 +289,6 @@
 % BEGIN DOCUMENT
 % ============================================================================
 
-
 \begin{document}
 \pagenumbering{roman}
 \begin{titlepage}
@@ -336,11 +335,11 @@
 	\vspace{0.5in}
 \end{titlepage}
 
-
 \newpage
 \thispagestyle{empty}
 \vspace*{\fill}
 
+% copyright page
 \begin{center}
 
 	{\large\bfseries Passive Temperature Compensation Device}\\[6pt]
@@ -1325,6 +1324,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 					&= A_1 \Delta T + A_0
 				\end{align*}
 
+				This bimetallic architecture enables the actuator to be half the length of solitary high-expansion metal, keeping its total length (45.55 mm, accounting for the mount's upper wall and the screw that protrudes from its top) within the specified vertical mechanical envelope.
+
 		\subsection{Valve Architecture Selection Criteria}
 		\label{subsec:design:just:geo_sel}
 
@@ -1346,13 +1347,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\hat{G}_{RR} = \hat{G}_{V_0} \hat{G}_{A_0} = A_1
 			\end{equation*}
 
-			in section \ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlear behavior in one subsystem must be either reparameterized in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated error.
+			in section \ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlear behavior in one subsystem must be either reparameterized in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated as error.
 			$\hat{G}_{RR}$'s tolerable error is limited to 5\% of $A_1$, or $\SI{76.2}{\frac{nm}{\degC}}$, a razor-thin margin.
-			To best reach this target, the selection process only permitted subsystem architectures that exhibited first-order behavior, allowed minimal degrees of freedom, and interfaced directly with one another.
-			Thus, the final design contains a single moving part, and the actuator and valve stem are precision-welded directly against one another.
+			To best reach this target, the selection process only permitted subsystem architectures that exhibit first-order behavior, admits minimal degrees of freedom, and interface directly with one another.
 			
 			Many actuator design alternatives readily fit these criteria, as most materials maintain a linear thermal expansion rate.
-			However, most valve architectures more readily translate their driving motion directly to the area of their orifice area rather than their effective diameter.
+			However, most valve architectures more readily translate their driving motion directly to the area of their orifice rather than its effective diameter.
 			For instance, the needle valve, a reliable and precise design commonly used for gas flow control, subtracts one circle (the cross-section of its needle) from another (the hole the needle is inserted into).
 			This difference causes a constant change in orifice area as the needle is moved.
 			Because
@@ -1366,12 +1366,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Many flexible membranes required to construct a circular orifice permit Hydrogen embrittlement and diffusion, ruling out a circular geometry.
 			Complex-polygon architectures, such as hexagonal camera-style aperature, comprise more degrees of freedom than the precise relationship allows.
 			The diamond orifice, on the other hand, performs linearly with two interfacing components and a single degree of freedom.
-			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in chapter \ref{chap:sat}, enabled satisfaction of the Required Relationship.
+			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in chapter \ref{chap:sat}, ultimately satisfies the Required Relationship.
 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
 
-			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole)}
+			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole). Mention valve's lateral mechanical envelope here; was driven by pressure-vessel dimensions.}
 
 			The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
 			The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
@@ -1566,27 +1566,31 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{All bellows information. Satisfies H-comp.}
 
+
+
+			The bellows drove many of the surrounding dimensions and design features.
 			According to the manufacturer's Design Guide\ref{ref_miniflex_design}, the burst pressure assumes that the bellows is "restrained from squirm or sideways movement" such that "squirm will not occur if the bellows is guided internally... by a rod stem".
-			The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (ID) of the bellows to provide support against the strong external pressure.
-			These both measure \specBellowsID.
+			The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
+			The housing inlet allows just enough internal space to fit the bellows to minimize waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
+			This violation is justified in section \ref{subsubsec:design:just:gen_dim:ME}.
 			
 		\subsection{Noncritical dimensions and features}
 		\label{subsec:design:just:gen_dim}
 
-			\todo{Justify all noncritical dimensions here (act diameter enough for minimal compression, internal channel size and height and valve stem diameter just big enough for bellows, pipe-interface thread size and length). Talk about machinability, assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows). Show satisfaction of valve ME spec; justify violation of actuator ME spec.}
-
 			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
-			Here, the noncritical elements are justified as motivated by our design specifications.
+			Here, other important elements are justified as motivated by our design specifications.
 
 			\subsubsection{Actuator Diameter}
 			\label{subsubsec:design:just:gen_dim:act_diam}
 
 				The bellows act as springs.
-				Applying a slight resistance force as the valve orifice moves, they compress or stretch the long, thin metal of the two actuator rods, which themselves act as springs in series and compound one another's error as the deviate from their intended length.
-				Though imperceptable, this deflection can be easily minimized and optimized by increasing the cross-sectional area of each component properly.
-				As calculated later in sections \ref{subsec:sat:TF:force_balance:M} and \ref{subsubsec:sat:TF:force_balance:A}, their areas are nearly equal, ensuring minimal net deflection, as shown in Figure \ref{fig:mount_thick_opt}.
-				The deflection decrease reaches a point of diminishing return at a total outer diameter (OD) of around 25 mm (Figure \ref{fig:mount_OD_opt}), and the mount's wall thickness was optimized at 3.5 mm (Figure \ref{fig:mount_thick_opt}).
-				The total cross-section area was maximized by precisely fitting the two cylinders together, as further described in Section \ref{subsec:design:just:fits}.
+				Applying a slight resistance force as the valve orifice moves, they compress or stretch the long, thin metal of the two actuator rods, which themselves act as springs in series and compound one another's error as they are stretched from their natural length.
+				Though imperceptable, the actuator deflection can be easily minimized and optimized by increasing the cross-sectional area of each component properly.
+				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of 25 mm (Figure \ref{fig:mount_OD_opt}).
+				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
+				The total deflection is minimized at a mount wall thickness of 3.5 mm (Figure \ref{fig:mount_thick_opt}).
+				It should be no surprise that, as calculated in sections \ref{subsubsec:sat:TF:force_balance:M} and \ref{subsubsec:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
+				The decrease of one to increase decrease the other would lead to a net loss in the subsystem spring constant.
 
 				\begin{figure}[H]
 					\centering
@@ -1647,7 +1651,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 						\end{axis}
 					\end{tikzpicture}
-					\caption{Actuator subsystem OD optimization}
+					\caption{Actuator subsystem diameter optimization}
 					\label{fig:mount_OD_opt}
 				\end{figure}
 
@@ -1721,33 +1725,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 					\label{fig:mount_thick_opt}
 				\end{figure}
 
-			\subsubsection{Housing Inlet Dimensions}
-			\label{subsubsec:design:just:gen_dim:HI}
-
-				The bellows (Appendix \ref{app:datasheets}) primarily drove the valve's internal geometry and total height.
-				Each bellows measures just under 7 mm in diameter and \specBellowsHeight\ tall. The Housing Inlet contains a channel just wide enough for each bellows to fit snugly inside, minimizing empty internal space.
-				The valve orifice measures exactly 7 mm so it slides precisely inside this channel.
-
-				Each housing center provides a 10 mm wall to withstand the pressure force. Pressure calculations are dealt with in section \ref{subsec:design:just:P}.
-
-				Two bellows, a 5 mm valve orifice, and two 10 mm walls total
-
-				\begin{equation}
-					2 (22.86) + 5 + 2 (10) = 70.72\ mm
-				\end{equation}
-
-				This violation of the vertical mechanical envelope is addressed in section \ref{subsubsec:design:just:gen_dim:ME}.
-
 			\subsubsection{Threaded Interface}
 			\label{subsubsec:design:just:gen_dim:thread}
-
-				\todo{3/4" thread and required length for it on either side of the housing. Extra 10mm on housing outlet to bear force}
 
 				As detailed by Sandia, gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
 				This design features a 19.05 mm (3/4") threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
 
 				The housing inlet and outlet provide 15 and 20 mm threaded length for an airtight seal.
-				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals 72 mm, we within its design specification.
+				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals 72 mm, well within its design specification.
 
 			\subsubsection{Machinability Considerations}
 			\label{subsubsec:design:just:gen_dim:machine}
@@ -1757,9 +1742,13 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Assemblability Considerations}
 			\label{subsubsec:design:just:gen_dim:assem}
 
-				\todo{Housing center in pieces to enable weld; briefly walk through whole process and how design accommodates}
-
-				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix \ref{app:mfg}
+				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix \ref{app:mfg}.
+				Every weld operation requires an orthogonal beam at all times.
+				The housing center is broken into two pieces, allowing the bellows to be welded to the valve orifice and the housing centers to separately with a full 360$^\circ$ line of sight.
+				The subassembly can then be inserted into the housing inlet and welded in place from above, then fit to the housing outlet and welded from the outside.
+				The actuator expansion rod is attached to the valve stem with a 360$^\circ$ weld.
+				This is screwed to the mount, which is then welded to the housing.
+				This modular approach allows for full line-of-sight welding and simple assembly.
 
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
@@ -1769,14 +1758,27 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
 
-				\todo{Demonstrate valve compliance; justify actuator violation for the sake of precision -- verified priority shift with sponsor (shows good communication)}
+				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(45.55 + 70.72) = \SI{116.27}{mm}$, a 16\% violation of the required mechanical envelope.
+				This was necessary to allow a direct interface with between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
+				Confirming this priority shift with Sandia Labs, our team decided to make the slight trade in size for the sake of precision and system performance.
 
-
+				A few design changes, discussed in section \ref{sec:conc:rec}, may allow the \device\ to fit within the Mechanical Envelope.
+				These would slightly sacrifice precision. Our team could not estimate the impact of these changes during the initial design process,
+				but the tools since developed and presented in section \ref{sec:sat:TF} readily allow for a more informed trade-off analysis.
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
 
 			\todo{Calibration -> forces required (we haven't calculated these yet). Include calibration in the specs?}
+
+			The manufacturer will need to calibrate each device after assembly to correct for any constant-offset error introduced by machining and assembly errors.
+			This requires only a low-pressure operation test of room-temperature air.
+			The user can pump room-temperature air at a couple hundred kPa (2-3 atmospheres) while measuring the upstream pressure, downstream pressure, and ambient air temperature precisely.
+			The required orifice diameter will correspond to a given pressure drop.
+			While reading live measurements, he can adjust the screw as necessary.
+			The belleville washer will maintain pressure between the two actuator cylinders, allowing the user to precisely set the orifice at this temperature and maintaining that setpoint.
+
+			The torque required to tighten the screw is calculated in Appendix \ref{app:calcs:belle}.
 
 		\subsection{Laser-Beam Welded Assembly}
 		\label{subsec:design:just:LBW}
@@ -2394,30 +2396,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\label{sec:conc:rec}
 
 		\begin{itemize}
-		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much.
+		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much. Could also use higher spring constant bellows, which is shorter, since deflection was so small. Can easily calculate impact with TF code.
+		\item Belleville: more washers? Change something else about assembly?
 		\end{itemize}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2443,15 +2424,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 	AWS, Miami, FL, 2020.
 
 	\bibitem{ref_miniflex_design}
-	Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
-	Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Mar. 2026].
+	Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb. 23, 2026].
 
 	\bibitem{ref_muraca1972aluminum}
-	R.\ F.\ Muraca and J.\ S.\ Whittick,
-	\textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed.,
-	Western Applied Research \& Development, Inc.,
-	NASA CR-123772, May 1972.
+	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
 	[Accessed: Mar. 2026].
 
@@ -2516,6 +2493,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 	McMaster-Carr, \textit{[Thermally Stable Invar 36 Nickel Alloy Rod], Part No. 4279K16}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/4279K16-4279K169/}
 	[Accessed: Apr. 17, 2026].
 
+	\bibitem{ref_McMaster_belle}
+	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	[Accessed: May 8, 2026].
+
 	\bibitem{ref_NASA}
 	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
@@ -2524,9 +2505,28 @@ This Final Design Report illustrates the background, selected architecture, and 
 	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
 	[Accessed: May 4, 2026].
 
-	\bibitem{ref_miniflex_design}
-	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, p. 5, Mini-Flex Corporation, Oxnard, CA. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Feb 23, 2026].
+	\bibitem{ref_din6796}
+	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+
+	\bibitem{ref_dinen16984}
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+
+	\bibitem{ref_dinen16983}
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+
+	\bibitem{ref_almen1936}
+	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+
+	\bibitem{ref_ledbetter1981}
+	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,''
+	\textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+
+	\bibitem{ref_shigley}
+	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
+	8th~ed., McGraw-Hill, New York, 2006.
+
+	
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2543,7 +2543,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	\todo{Include any overfill from the main body of the report to keep it under 50 pages.}
 
-	\section{Error Propagation Calculation}
+	\section{Required Relationship: Tolerable Error}
 	\label{app:calcs:errorProp}
 
 		As detailed in Section \ref{sec:intro:req}, the Required Relationship
@@ -2668,6 +2668,106 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\hat{G}_{V_0} = \frac{dD}{dL} = \sqrt{\frac{2}{\pi}}
 		\end{equation*}
 
+	\section{Belleville Washer Reaction Force}
+	\label{app:calcs:belle}
+
+		The belleville washer that separates the two cylinders of the actuator (A1 and A2), purchased from McMaster Carr\cite{ref_McMaster_belle}, applies a spring force as it is clamped by the screw during the calibration process.
+		According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the Deutsches Institut für Normung (DIN, German Institute for Standardization), standard 6796\cite{ref_din6796},
+		which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
+		This paper assumes a deflection of 50 \textmu m and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
+		However, the washer can deflect up to 200 \textmu m if necessary.
+		The following force is required to apply a deflection within this range during calibration:
+
+		\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle}, \cite{ref_ledbetter1981}
+
+		\begin{itemize}
+			\item Outer Diameter $OD = \SI{5}{mm}$
+			\item Inner Diameter $ID = \SI{2.2}{mm}$
+			\item Young's Modulus $E = \SI{193}{GPa}$
+			\item Poisson's Ratio $\nu = 0.27$
+			\item Free height $H = \SI{0.6}{mm}$
+			\item Thickness $t = \SI{0.4}{mm}$
+			\item Cone height $h = H - t = \SI{0.2}{mm}$
+			\item Deflection $0 \leq \delta \leq \SI{0.2}{mm}$
+		\end{itemize}
+
+		\begin{equation}
+			\begin{aligned}
+				\text{Diameter Ratio } \alpha &= \frac{OD}{ID} \\
+				\text{Load Constant } M &= \frac{6}{\pi \ln(\alpha)} \left( \frac{\alpha - 1}{\alpha} \right)^2 \\
+				\text{Load } P &= \frac{E \delta}{(1 - \nu^2) M \frac{OD^2}{4}} \left[ \left( h - \delta \right) \left( h - \frac{\delta}{2} \right) t + t^3 \right]			\end{aligned}
+		\end{equation}
+
+		From these, we obtain the expected force value
+
+		\begin{equation}
+			P(\SI{50}{\micro \meter}) = \SI{170}{N}
+		\end{equation}
+
+		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite[Eq.~8-27, Table~8-15]{ref_shigley}:
+
+		\begin{equation}
+			T = K F d = (0.18) (\SI{170}{N}) (\SI{2}{mm})
+		\end{equation}
+
+		where
+
+		\begin{align*}
+			K \text{ is the nut factor (assuming Loctite is applied, which is recommended in the Manufacturing Guide - Appendix \ref{app:mfg})}
+			F \text{ is the reaction load}
+			d \text{ is the diameter of the M2 screw}
+		\end{align*}
+		
+		yielding an expected torque of $\SI{1.5e-3}{N-m}$ at the 50 \textmu m compression, a very reasonable value for an M2 screw.
+
+		Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
+
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+				\begin{axis}[
+					width=12cm,
+					height=7cm,
+					xlabel={Deflection $\delta$ ($\mu$m)},
+					ylabel={Load $P$ (N)},
+					title={Belleville Washer Load--Deflection Curve},
+					xmin=0, xmax=201,
+					ymin=0,
+					grid=major,
+					grid style={dashed, gray!40},
+					tick align=outside,
+				]
+					\addplot[blue, thick, no marks]
+						table[col sep=comma, x index=0, y index=1] {figures3/F.csv};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Reaction force of the belleville washer as it is compressed by the screw}
+			\label{fig:belle_force}
+		\end{figure}
+
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+				\begin{axis}[
+					width=12cm,
+					height=7cm,
+					xlabel={Deflection $\delta$ ($\mu$m)},
+					ylabel={Torque $T$ (N$\cdot$m)},
+					title={Required Tightening Torque vs.\ Deflection},
+					xmin=0, xmax=201,
+					ymin=0,
+					grid=major,
+					grid style={dashed, gray!40},
+					tick align=outside,
+				]
+					\addplot[red, thick, no marks]
+						table[col sep=comma, x index=0, y index=2] {figures3/F.csv};
+				\end{axis}
+			\end{tikzpicture}
+			\caption{Torque required to tighten the screw as it compresses the belleville washer}
+			\label{fig:belle_torque}
+		\end{figure}
+
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
@@ -2696,7 +2796,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
 
 \chapter{Manufacturing and Operation}
-\label{app:mfg}
 
 	\begin{figure}[H]
 		\centering
@@ -2704,12 +2803,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\caption{DELETE BEFORE SUBMISSION}
 		\label{fig:del_app_reqs_1}
 	\end{figure}
-
+	
 \chapter*{Manufacturing Guide}
-
+\label{app:mfg}
+	
 	\todo{Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}
 
-	\todo{Do we need to heat-treat the Invar parts?}
+	\todo{Notes:}
+	\color{red}
+	{
+		\begin{itemize}
+			\item Do we need to heat-treat the Invar parts?
+			\item Recommend applying Loctite for lubrication and firm seal when calibrating
+		\end{itemize}
+	}
 
 \chapter*{User Guide}
 \label{app:op}
