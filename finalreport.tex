@@ -474,7 +474,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Typically, an active-control feedback loop, coupled with a close-tolerance, solenoid-powered valve, would easily compensate for these temperature variations.
 			However, the lab technicians often cannot actively monitor or control the flow due to power, personnel, or space constraints.
 			They would require a fully passive thermomechanical valve, one that could tightly control the flow of high-pressure gas across a wide temperature range.
-			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
+			Passive temperature-compensating devices exist on the current market, \todo{maybe mention that most have a binary function and do not allow for flow adjustment} but none approach the size or performance characteristics needed.
 			Thermostatic actuators\footnote{\todo{Cite}} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
 			and are designed for low-pressure, light-tolerance applications.
@@ -1780,6 +1780,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\label{subsec:design:just:mat}
 
 			\todo{Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}
+
+Given the demanding constraints for the actuator subsystem proper choice of materials is crucial. 
+Device passivity requires precision actuation without correction or sensing (mention the +/-15um again?). 
+The actuator must be sensitive to changes in temperature with minimal difference in function across 
+the operating temperature range. These conditions paired with force and deflection calculations showed that 
+hydraulics and pneumatics could not be considered due to insufficient CTE and unwanted compression. 
+Polymers show promising high CTE’s and some with sufficient stiffness, but have properties that vary greatly 
+across the operating temperature range that could surface in error or failure. Ceramics do not display as 
+high if CTEs though their stiffness and property stability are good. Their low machinability and brittleness 
+narrows our choice down to metals.  Aluminum was chosen as it has relatively high and constant CTE
+ and sufficient stiffness. The choice of Allvar for the second material in the bimetallic component 
+ compliments aluminum’s positive CTE with a greater negative CTE. Allvar like aluminum showcases CTE 
+ stability and excellent stiffness. These two metals paired offer a solution that can deliver long 
+ and accurate stroke lengths across our temperature range with negligible deflection under stress.
 
 		\todo{All other nontrivial dimensions, design choices, and other issues go in this section}
 
