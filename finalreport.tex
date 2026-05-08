@@ -208,6 +208,23 @@
 \newcommand{\GV}{\num{-0.798}}
 
 % System Requirements
+% \newcommand{\ReqA}
+% 	{
+% 	The device shall passively restrict gas flow according to the Required Relationship
+% 	$D_{eff} = A_1 (T_{amb} - T_{ref}) + A_0$
+% 	where
+% 	\begin{align*}
+% 		&D_{eff} \text{ is the effective orifice diameter}
+% 		\\
+% 		&T_{amb} \text{ is the external ambient temperature}
+% 		\\
+% 		&T_{ref} = 25 \degC
+% 		\\
+% 		&A_1 = \Aone
+% 		\\
+% 		&A_0 = \Azero
+% 	\end{align*}
+% 	}
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
 \newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\ReqC}{The device shall operate under \specPressure\ internal pressure with Hydrogen gas, with thermal isolation of the actuator}
@@ -221,7 +238,8 @@
 }
 
 % Valve specifications
-\newcommand{\SpecVA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter \\ $D_{eff}(T_{ref}) = \AzeroExact$}
 \newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
 \newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
@@ -231,33 +249,6 @@
 \newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
 \newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow \todo{Make this one more exact and out-come focussed.}}
-
-% --- Tolerance values for specifications. --- 
-% Fill in with real numbers as we find the relevant values 
-
-%Valve tolerances
-\newcommand{\dDdXTol}{$0.1\ \mu m$}
-\newcommand{\dXdLTol}{$2.75\ \mu m$}
-\newcommand{\pressureSF}{1.4}
-\newcommand{\dXdTTol}{$0.01\ \mu m$}
-\newcommand{\dLdTTolValve}{$0.1\ \mu m$}
-\newcommand{\dTTol}{$1\ \degC$}
-\newcommand{\FTolValve}{170 N}
-\newcommand{\valveMEX}{100 mm}
-\newcommand{\valveMEY}{5 mm}
-\newcommand{\valveMEZ}{100 mm}
-
-%Actuator tolerances
-\newcommand{\dLdTTolAct}{$0.3\ \mu m$}
-\newcommand{\FTolAct}{\FTolValve}
-
-%Mount tolerances
-\newcommand{\mountdLTol}{$12.5\ \mu m$}
-\newcommand{\calRange}{$15\ \mu m$}
-\newcommand{\calTol}{$5\ \mu m$}
-\newcommand{\mountMEX}{100 mm}
-\newcommand{\mountMEY}{130 mm}
-\newcommand{\mountMEZ}{100 mm}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -627,7 +618,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\end{itemize}
 
 	The valve assembly must contain and restrict the gas flow.
-	This requires a housing that can be threaded to two gas pipes, an internal variable-size orifice, and a hermitically-sealed piston to connect to the actuator.
+	This requires a housing that can be threaded to two gas pipes, an internal variable-size orifice, and a hermetically-sealed piston to connect to the actuator.
 	
 	The actuator assembly must influence the valve from the outside so it responds to the ambient air temperature.
 	Thus, it should be externally mounted to the valve and drive its motion via the piston (Figure \ref{fig:subsystems_conceptual}).
@@ -698,8 +689,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 				where
 
 				\begin{align*}
-					\frac{dL}{dT} &\text{ is determined by the actuator, and} \\[6pt]
-					\frac{dD}{dL} &\text{ is determined by the valve.}
+					\frac{dL}{dT} &\text{ is determined by the actuator} \\[6pt]
+					\frac{dD}{dL} &\text{ is determined by the valve, and} \\[6pt]
+					D_{ref} &\text{ is determined by the valve.}
 				\end{align*}
 
 			\end{multicols}
@@ -731,6 +723,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\hat{G}_{A_0} = \frac{A_1}{- \sqrt{\frac{2}{\pi}}} = - \sqrt{\frac{\pi}{2}} (\AoneExact) = \GA
 			\end{equation}
 
+			Finally, the valve must govern the reference value $D_{ref}$ such that 
+			
+			\begin{equation}
+				D_{ref} = A_0 = \AzeroExact
+			\end{equation}
+
 			From these, we derive our first subsystem specifications:
 
 			\vspace{1em}
@@ -738,7 +736,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 					\begin{itemize}
 							\item Valve subsystem
 							\begin{enumerate}
-									\item \SpecVA
+									\item \SpecVAA
+									\item \SpecVAB
 							\end{enumerate}
 							\item Actuator subsystem
 							\begin{enumerate}
@@ -814,12 +813,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Final Subsystem Specifications}
 		\label{subsec:intro:spec:final}
 
-			The final system requirements and subsystem specifications are presented in Table \ref{tab:final_specs}.
+			The final system requirements and subsystem specifications are presented in Table \ref{tab:specs}.
 
 			\begin{table}[H]
 				\centering
 				\caption{System Requirements and Subsystem Specification Rolldown}
-				\label{tab:final_specs}
 				\renewcommand{\arraystretch}{1.3}
 				\begin{tabularx}{\textwidth}{
 						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
@@ -836,17 +834,22 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\midrule
 
 				% Row 1
-				R.1 & \ReqA &
-				V.1.1 & \SpecVA &
-				A.1.1 & \SpecAA \\
+				\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
+				V.1.1 & \SpecVAA &
+				\multirow{3}{=}{\vspace{10em}A.1.1} & \multirow{3}{=}{\SpecAA} \\
+
+				& & V.1.2 & \SpecVAB & & \\
+
 				\midrule
 
 				% Row 2
 				R.2 & \ReqB &
 				V.2.1 & \SpecVB &
 				A.2.1 & \SpecAB \\
+				
 				\midrule
 
+				% Row 3
 				\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
 				V.3.1 & \SpecVCA &
 				\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
@@ -865,8 +868,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	These specifications drove the development of our final architecture. The rest of this report presents our solution to the given problem and verifies its requirement satisfaction analytically and numerically.
 	The following will be discussed, numbered according to their sections:
-
-	\todo{Adjust near end of quarter. Structure has been changed slightly.}
 
 	\begin{enumerate}
 		\setcounter{enumi}{1}
@@ -916,11 +917,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\label{chap:design:overview}
 
 		In solution to the above problem statement, our team presents the Passive Temperature Compensation Device, a high-precision flow control valve that successfully maintains the Required Relationship without power or control.
-		It comprises a valve assembly, with a threaded housing, orifice components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
+		It comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
 		The parts are assembled by electron-beam weld.
 		The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
 
-		\newpage
 		\begin{figure}[H]
 			\centering
 			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
@@ -943,19 +943,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\label{fig:SubAssemblyID}
 			\end{minipage}
 		\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
 		One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
@@ -994,8 +981,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{fig:active_diagram}
 		\end{figure}
 
-		\todo{Include reference to BOM in Appendix}
-
+		The complete Bill of Materials fo the \device\ can be found in Appendix \ref{app:BOM}.
 
 		\subsection{Valve Subsystem}
 		\label{subsec:design:overview:valve}
@@ -1004,9 +990,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Its housing threads to stainless steel pipes supplied the test engineer using the device and provides the structural support necessary to hold the internal pressure.
 			Its central plate, which contains the leading orifice hole, lies between the inlet and outlet components and slides vertically within the assembly.
 			This is attached to a valve stem, which extends upwards through the housing to connect to the actuator, which drives its motion.
-			This housing pentration is hermitically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
-
-			\todo{Condense this by resizing figures and using two-column (figure next to text) where possible}
+			This housing pentration is hermetically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
 
 			\begin{figure}[H]
 				\centering
@@ -1031,116 +1015,82 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{minipage}
 			\end{figure}
 
-			The Valve Orifice (V4, Figure \ref{fig:V4}) comprises the leading orifice hole near its center.
+			The Valve Orifice (V4) comprises the leading orifice hole near its center.
 			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
-			It lies flush against the Housing Outlet (V3, Figure \ref{fig:V3}), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
-			Together, these comprise the \device's orifice.
-
-			\begin{figure}[H]
-				\begin{minipage}{.49\textwidth}
-					\centering
-					\includegraphics[height=3.5in]{V4.png}
-					\caption{V4: Valve Orifice}
-					\label{fig:V4}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.49\textwidth}
-					\centering
-					\includegraphics[height=3.5in]{V3.png}
-					\caption{V3: Housing Outlet}
-					\label{fig:V3}
-				\end{minipage}
-			\end{figure}
+			It lies flush against the Housing Outlet (V3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
+			Together, these comprise the \device's orifice, shown in Figure \ref{fig_orif_assem}.
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=\textwidth]{orif_assem.png}
+				\includegraphics[width=.8\textwidth]{orif_assem.png}
 				\caption{Orifice Assembly}
 				\label{fig:orif_assem}
 			\end{figure}
 
-			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (V2, Figure \ref{fig:V2}), pressing it against the face of the Outlet and limiting all motion to the vertical degree of freedom.
-			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.7\textwidth]{V2.png}
-				\caption{V2: Housing Inlet}
-				\label{fig:V2}
-			\end{figure}
+			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (V2), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
+			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls as in Figure \ref{fig:V2}
 
 			\begin{figure}[H]
 					\centering
-					\begin{minipage}{0.39\textwidth}
+					\begin{subfigure}{0.39\textwidth}
 							\centering
-							\includegraphics[width=\textwidth]{V2_V4.png}
+							\includegraphics[width=.7\textwidth]{V2_V4.png}
 							\caption{Valve Orifice fit in Housing Inlet}
 							\label{fig:V2_V4}
-					\end{minipage}
+					\end{subfigure}
 					\hfill
-					\begin{minipage}{0.59\textwidth}
+					\begin{subfigure}{0.59\textwidth}
 							\centering
-							\includegraphics[width=\textwidth]{V2_V3_V4.png}
+							\includegraphics[width=.7\textwidth]{V2_V3_V4.png}
 							\caption{Valve Orifice fit in Housing Assembly}
 							\label{fig:V2_V3_V4}
-					\end{minipage}
+					\end{subfigure}
+					\caption{Housing assembly}
+					\label{fig:V2}
 			\end{figure}
 
-			Two Housing Center pieces (V1, Figure \ref{fig:V1}) plug the remaining gaps.
-			They contain holes for the valve stems to slide through, guiding their motion.
-
-			\begin{figure}[H]
-				\begin{minipage}{.5\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{V1.png}
-					\caption{V1: Housing Center}
-					\label{fig:V1}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.5\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{V1_insert.png}
-					\caption{Housing Center fit into assembly}
-					\label{fig:V1_insert}
-				\end{minipage}
-			\end{figure}
-
-			To hermitically seal these holes, a bellows (I718\_159\_72\_430, Figure \ref{fig:bellows}) is welded between the Valve Orifice and each Housing Center.
-			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
-
-			\begin{figure}[H]
+			\begin{multicols}{2}
 				\begin{minipage}{.49\textwidth}
-					\centering
-					\vfill
-					\includegraphics[height=3in]{bellows.png}
-					\caption{I718\_159\_72\_430: Bellows}
-					\label{fig:bellows}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[height=4in]{V1_bellows.png}
+						\caption{V1: Housing Center}
+						\label{fig:V1_bellows}
+					\end{figure}
 				\end{minipage}
-				\hfill
-				\begin{minipage}{.49\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{bellows_insert.png}
-					\caption{Bellows in the full assembly}
-					\label{fig:bellows_insert}
-				\end{minipage}
-			\end{figure}
+			\newcolumn
+				Two Housing Center pieces (V1) plug the remaining gaps.
+				They contain holes for the valve stems to slide through, guiding their motion.
 
-			Figure \ref{fig:zoom_cut} shows the orifice in full assembly. Observe the moving centerpiece pressed against the outlet face the the housing inlet.
+				To hermetically seal these holes, a bellows (I718\_159\_72\_430) is welded between the Valve Orifice and each Housing Center.
+				As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
+				The housing center and bellows are inserted in Figure \ref{fig:V1_bellows}.
+			\end{multicols}
+
+
+			Figures \ref{fig:cut_zoom} and \ref{fig:cut_zoom_zoom} show the orifice in full assembly. Observe the moving centerpiece pressed against the outlet face the the housing inlet.
 			The bellows are welded to its upper and lower surfaces to seal the valve stems.
 			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure \ref{fig:orifice}.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=\textwidth]{Zoom_cut.png}
-				\caption{Valve, Section View}
-				\label{fig:zoom_cut}
-			\end{figure}
 
 			All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 			The welded surfaces can be reliably modeled as fused material.
 
 			All machined parts are made of Invar 36, a Ni-Fe alloy with an exceptionally low coefficient of thermal expansion.
 			Because the \device\ depends on passive thermal expansion to drive its behavior, these components must expand as little as possible to ensure minimal deviation from the intended control output.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[height=.4\textheight]{cut_zoom.png}
+				\caption{Valve Subsystem, Section View}
+				\label{fig:cut_zoom}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[height=.4\textheight]{cut_zoom_zoom.png}
+				\caption{Valve, Section View (detail)}
+				\label{fig:cut_zoom_zoom}
+			\end{figure}
 
 		\subsection{Actuator Subsystem}
 		\label{subsec:design:overview:act}
@@ -1209,8 +1159,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\section{Design Justification}
 	\label{sec:design:just}
 
-		\todo{This is where we show the progression from design specifications to architecture \textit{and dimensions}. Include all quantitative justifications in this section. Many of these will assume perfect conditions (e.g. act length assumes no extra forces or intolerances), but that's fine for our purposes. We don't need to perfectly optimize everything.}
-
 		\subsection{Transfer Functions and Critical Dimensions}
 		\label{subsec:design:just:TF}
 
@@ -1220,6 +1168,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			These values are driven by the geometry described above and by the dimensions we select for each part.
 
+			\newpage%
 			\begin{multicols}{2}
 				\begin{figure}[H]
 						\centering
@@ -1270,7 +1219,25 @@ This Final Design Report illustrates the background, selected architecture, and 
 					\hat{G}_{V_0} = -\sqrt{\frac{2}{\pi}} = \GV
 				\end{equation}
 
-				as prescribed. This specification value was informed by the orifice architecture after the design was developed; motivation for the architecture will be explained in section \ref{subsec:design:just:geo_sel}.
+				as prescribed.
+
+				The valve subsystem also controls the reference orifice diameter $D_{ref}$.
+				We can find this by calculating the orifice height at $T_{ref}$.
+				According to dimensions from the engineering drawings in Appendix \ref{app:drawings}, the top corner of the leading orifice lies
+
+				\begin{equation*}
+					\SI{40.201}{mm} - \SI{5}{mm} = \SI{35.201}{mm}
+				\end{equation*}
+
+				below the top surface of the housing, including a 5 mm gap between that and the valve stem-actuator interface at this temperature.
+				The bottom corner of the trailing orifice lies $\SI{35.519}{mm}$ below the same surface, resulting in an effective diameter of
+				\todo{Verify the two dimensions above once drawings are finished}
+
+				\begin{equation}
+					D_{ref} = \sqrt{\frac{2}{\pi}} X_{ref} = \sqrt{\frac{2}{\pi}} (\SI{35.519}{mm} - \SI{35.201}{mm}) = \AzeroExact
+				\end{equation}
+
+				as specified. This specification value was informed by the orifice architecture after the design was developed; motivation for the architecture will be explained in section \ref{subsec:design:just:geo_sel}.
 
 			\subsubsection{Actuator Transfer Function}
 			\label{subsubsec:design:just:TF:act}
@@ -1312,9 +1279,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 					\end{align}
 				\end{multicols}
 
-				\newpage
-
-				Our target, as specified by Specification \specref{A.1.1}, is
+				Our target, from Specification \specref{A.1.1}, is
 
 				\begin{equation}
 					\frac{dL}{dT} = \frac{\Delta L}{\Delta T} = \GA
@@ -1337,12 +1302,63 @@ This Final Design Report illustrates the background, selected architecture, and 
 					L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
 				\end{align}
 
-				These critical dimension ensure that 
+				These critical dimension ensure that the actuator subsystem maintains the specified output
+
+				\begin{equation}
+					\hat{G}_{A_0} = \frac{A_1}{-\sqrt{\frac{2}{\pi}}} = \GA
+				\end{equation}
+
+				Altogether, $\hat{G}_{V_0},\ \hat{G}_{A_0}, \text{ and } D_{ref}$ combine to satisfy the functional system requirement \specref{R.1}:
+				
+				\begin{align*}
+					D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
+					&= \left( \GV \right) \left( \GA \right) \Delta T + \AzeroExact \\
+					&= \left( \AoneExact \right) \Delta T + \AzeroExact \\
+					&= A_1 \Delta T + A_0
+				\end{align*}
 
 		\subsection{Valve Architecture Selection Criteria}
 		\label{subsec:design:just:geo_sel}
 
 			\todo{Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts. Justify direct contact.}
+
+			To the first-time observer, the valve geometry appears peculiar and unintuitive.
+			The diamond-orifice architecture was developed after heavy consideration and several design iterations, described in more detail in Appendix \ref{app:PM}.
+			The following selection criteria motivated the final design of the valve orifice:
+
+			\begin{itemize}
+				\item Linearity
+				\item Simplicity
+				\item Direct Actuation
+			\end{itemize}
+
+			The Required Relationship stipulates that the \device\ maintain a constant temperature-diameter conversion rate, represented by the joint transfer function
+
+			\begin{equation*}
+				\hat{G}_{RR} = \hat{G}_{V_0} \hat{G}_{A_0} = A_1
+			\end{equation*}
+
+			in section \ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlear behavior in one subsystem must be either reparameterized in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated error.
+			$\hat{G}_{RR}$'s tolerable error is limited to 5\% of $A_1$, or $\SI{76.2}{\frac{nm}{\degC}}$, a razor-thin margin.
+			To best reach this target, the selection process only permitted subsystem architectures that exhibited first-order behavior, allowed minimal degrees of freedom, and interfaced directly with one another.
+			Thus, the final design contains a single moving part, and the actuator and valve stem are precision-welded directly against one another.
+			
+			Many actuator design alternatives readily fit these criteria, as most materials maintain a linear thermal expansion rate.
+			However, most valve architectures more readily translate their driving motion directly to the area of their orifice area rather than their effective diameter.
+			For instance, the needle valve, a reliable and precise design commonly used for gas flow control, subtracts one circle (the cross-section of its needle) from another (the hole the needle is inserted into).
+			This difference causes a constant change in orifice area as the needle is moved.
+			Because
+
+			\begin{equation*}
+				A \propto D_{eff}^2
+			\end{equation*}
+
+			as established in Appendix \ref{app:calcs:orifice_geometry}, the effective diameter follows a second-order output.
+			A linear relationship requires a regular orifice geometry (such as a circle, a square, or a hexagon) that maintains its shape, all sides changing at the same rate.
+			Many flexible membranes required to construct a circular orifice permit Hydrogen embrittlement and diffusion, ruling out a circular geometry.
+			Complex-polygon architectures, such as hexagonal camera-style aperature, comprise more degrees of freedom than the precise relationship allows.
+			The diamond orifice, on the other hand, performs linearly with two interfacing components and a single degree of freedom.
+			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in chapter \ref{chap:sat}, enabled satisfaction of the Required Relationship.
 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
@@ -1537,7 +1553,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			the weld joint introduces no strength penalty relative to the base material.
 			The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
 
-		\subsection{Hermitic Seal}
+		\subsection{Hermetic Seal}
 		\label{subsec:design:just:bellows}
 
 			\todo{All bellows information. Satisfies H-comp.}
@@ -1545,7 +1561,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Noncritical dimensions and features}
 		\label{subsec:design:just:gen_dim}
 
-			\todo{Justify all noncritical dimensions here (act diameter enough for minimal compression, internal channel size and height and valve stem diameter just big enough for bellows, pipe-interface thread size and length). Talk about machinability, assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows).}
+			\todo{Justify all noncritical dimensions here (act diameter enough for minimal compression, internal channel size and height and valve stem diameter just big enough for bellows, pipe-interface thread size and length). Talk about machinability, assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows). Show satisfaction of valve ME spec; justify violation of actuator ME spec.}
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -1568,7 +1584,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\todo{Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}
 
 		\todo{All other nontrivial dimensions, design choices, and other issues go in this section}
-
 
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
@@ -2161,6 +2176,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\begin{itemize}
 			\item Screw will interfere with actuator expansion
 			\item Rotational precision of EDM feature assumed perfect because calculations too complicated
+			\item Leaking around V4
 		\end{itemize}
 
 	\section{Recommended Improvements}
@@ -2193,13 +2209,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 
 
-% \chapter{Cited References}
-% \label{sec:references}
-
-% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
-% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
-%
-% The [99] tells LaTeX the widest label will be two digits.
 
 \todo{Get rid of unused citations in the bibliography; test all links}
 
@@ -2483,8 +2492,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	\todo{Do we need to heat-treat the Invar parts?}
 
-
-
 \chapter*{User Guide}
 \addcontentsline{toc}{chapter}{User Guide}
 \setcounter{section}{0}
@@ -2737,14 +2744,12 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \end{tabular}
 \end{center}
 
-	
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
 
 	\todo{Some description}
 
 	%\includepdf[pages=1-??, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
-
 
 \chapter{Data Sheets}
 \label{app:datasheets}
@@ -2758,7 +2763,7 @@ The following data sheets are included below:
 
 %\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
 \todo{Include all relevant material and product data}
-
+\todo{Put material properties with references here as a catch-all.}
 
 \chapter{Project Management}
 \label{app:PM}
@@ -2794,7 +2799,7 @@ The following data sheets are included below:
 		\item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, was hastily designed when we replaced the geared interface.        
 				It was unnecessarily complex, difficult to machine, and long enough that its thermal expansion would counteract the thermal actuation.
 				We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, Allvar, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
-				This yielded the final mount architecture, seen in Figure \ref{fig:cyl_mount}.
+				This yielded the final mount architecture, seen in Figure \ref{fig:main_isometric}.
 		\item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the Allvar mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and laser weld methods,        
 				We consulted with our sponsor, who confirmed that a physical prototype was no longer worth testing after deviating so far from the final design.
 				Thus, we pivoted to a fully computation model for our prototype testing.
@@ -2830,9 +2835,9 @@ The following data sheets are included below:
 	\hfill
 	\begin{minipage}[t]{0.45\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{Mount_cyl.png}
+		\includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
 		\captionof{figure}{Cylindrical Allvar Mount}
-		\label{fig:cyl_mount}
+		\label{fig:Complete_Assembly_Render}
 	\end{minipage}    
 \end{figure}    
 
@@ -2850,6 +2855,8 @@ The following data sheets are included below:
 
 	\newpage
 	\todo{Include something sentimental here? Group picture, signature/personal remarks page, something}
+
+	Our team, the Noble Aggie Labs, extends our deepest gratitude to Prof. Jon Schofield of UC Davis, his teaching assistant Xiangpu Wang, and most especially Dr. Bon of Sandia National Laboratories for their invaluable assistance in the delopment of this project. 
 
 
 \end{appendices}
