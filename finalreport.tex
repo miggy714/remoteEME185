@@ -421,6 +421,7 @@
 
 \begin{abstract}
 \pagenumbering{arabic}
+\todo{Set page number counter to start at 2 next page}
 
 
 Sandia National Laboratories has tasked our senior design team, 
@@ -605,6 +606,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\item The ambient temperature will remain fixed during operation.
 			\item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
 		\end{enumerate}
+
+		Certain conditions are given in ranges. This design is intended to be a proof-of-concept model, the first iteration in the engineering loop, that can be easily adjusted in later design iterations for individual experiments.
+		The design architecture must account for the worst-case parameters: the maximum pressure and the most extreme temperature and heat transfer conditions.
 
 		In summary, although our mission is simple, it is incredibly difficult. The valve must maintain a pin-size opening with medical precision under extreme operating conditions.
 		These circumstances motivated the design specifications and architecture that will be presented in the following sections.
@@ -1367,7 +1371,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
 
-			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components.}
+			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole)}
 
 			The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
 			The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
@@ -1739,15 +1743,23 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				\todo{3/4" thread and required length for it on either side of the housing. Extra 10mm on housing outlet to bear force}
 
+				As detailed by Sandia, gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
+				This design features a 19.05 mm (3/4") threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
+
+				The housing inlet and outlet provide 15 and 20 mm threaded length for an airtight seal.
+				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals 72 mm, we within its design specification.
+
 			\subsubsection{Machinability Considerations}
 			\label{subsubsec:design:just:gen_dim:machine}
 
-				\todo{Any features we changesd for machinability}
+				\todo{Any features we changesd for machinability. Delete if we don't have anything to say here}
 
 			\subsubsection{Assemblability Considerations}
 			\label{subsubsec:design:just:gen_dim:assem}
 
 				\todo{Housing center in pieces to enable weld; briefly walk through whole process and how design accommodates}
+
+				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix \ref{app:mfg}
 
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
@@ -2375,6 +2387,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\item Screw will interfere with actuator expansion
 			\item Rotational precision of EDM feature assumed perfect because calculations too complicated
 			\item Leaking around V4
+			\item Doesn't allow for 1" pipe (should have allowed for that option)
 		\end{itemize}
 
 	\section{Recommended Improvements}
@@ -2692,9 +2705,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\label{fig:del_app_reqs_1}
 	\end{figure}
 
+\chapter*{Manufacturing Guide}
+
+	\todo{Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}
+
 	\todo{Do we need to heat-treat the Invar parts?}
 
 \chapter*{User Guide}
+\label{app:op}
 \addcontentsline{toc}{chapter}{User Guide}
 \setcounter{section}{0}
 \renewcommand{\thesection}{\arabic{section}}
