@@ -186,6 +186,8 @@
 \newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
 \newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
 \newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
+\newcommand{\specBellowsOD}{\SI{6.528}{\milli \meter}}
+\newcommand{\specBellowsID}{\SI{3.353}{\milli \meter}}
 
 \newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
 \newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
@@ -227,7 +229,7 @@
 % 	}
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
 \newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
-\newcommand{\ReqC}{The device shall operate under \specPressure\ internal pressure with Hydrogen gas, with thermal isolation of the actuator}
+\newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
 \newcommand{\RRfull}
 {
 	\begin{align*}
@@ -239,7 +241,7 @@
 
 % Valve specifications
 \newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
-\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter \\ $D_{eff}(T_{ref}) = \AzeroExact$}
+\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter     $D_{eff}(T_{ref}) = \AzeroExact$}
 \newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
 \newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
@@ -248,7 +250,7 @@
 % Actuator specifications
 \newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
 \newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
-\newcommand{\SpecACA}{The actuator shall remain thermally isolated from the gas flow \todo{Make this one more exact and out-come focussed.}}
+\newcommand{\SpecACA}{The actuator shall allow no more than \todo{Spec Temp} deviation in its temperature from $T_{amb}$\ within the test window}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -289,6 +291,7 @@
 
 
 \begin{document}
+\pagenumbering{roman}
 \begin{titlepage}
 	\thispagestyle{empty}   % No header/footer on the title page
 
@@ -417,6 +420,7 @@
 \newpage  % Start the body of the report on a fresh page
 
 \begin{abstract}
+\pagenumbering{arabic}
 
 
 Sandia National Laboratories has tasked our senior design team, 
@@ -1558,10 +1562,204 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{All bellows information. Satisfies H-comp.}
 
+			According to the manufacturer's Design Guide\ref{ref_miniflex_design}, the burst pressure assumes that the bellows is "restrained from squirm or sideways movement" such that "squirm will not occur if the bellows is guided internally... by a rod stem".
+			The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (ID) of the bellows to provide support against the strong external pressure.
+			These both measure \specBellowsID.
+			
 		\subsection{Noncritical dimensions and features}
 		\label{subsec:design:just:gen_dim}
 
 			\todo{Justify all noncritical dimensions here (act diameter enough for minimal compression, internal channel size and height and valve stem diameter just big enough for bellows, pipe-interface thread size and length). Talk about machinability, assemblability (e.g. breaking the Housing Center up like we did so we could weld bellows). Show satisfaction of valve ME spec; justify violation of actuator ME spec.}
+
+			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
+			Here, the noncritical elements are justified as motivated by our design specifications.
+
+			\subsubsection{Actuator Diameter}
+			\label{subsubsec:design:just:gen_dim:act_diam}
+
+				The bellows act as springs.
+				Applying a slight resistance force as the valve orifice moves, they compress or stretch the long, thin metal of the two actuator rods, which themselves act as springs in series and compound one another's error as the deviate from their intended length.
+				Though imperceptable, this deflection can be easily minimized and optimized by increasing the cross-sectional area of each component properly.
+				As calculated later in sections \ref{subsec:sat:TF:force_balance:M} and \ref{subsubsec:sat:TF:force_balance:A}, their areas are nearly equal, ensuring minimal net deflection, as shown in Figure \ref{fig:mount_thick_opt}.
+				The deflection decrease reaches a point of diminishing return at a total outer diameter (OD) of around 25 mm (Figure \ref{fig:mount_OD_opt}), and the mount's wall thickness was optimized at 3.5 mm (Figure \ref{fig:mount_thick_opt}).
+				The total cross-section area was maximized by precisely fitting the two cylinders together, as further described in Section \ref{subsec:design:just:fits}.
+
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}
+						\begin{axis}[
+								ybar,
+								bar width=5pt,
+								width=\textwidth,
+								height=0.45\textwidth,
+								xlabel={Mount OD (mm)},
+								ylabel={Actuation Error (\%)},
+								xtick=data,
+								xticklabels={12.70, 15.88, 19.05, 22.22, 25.40, 28.57, 31.75, 34.92, 38.10},
+								x tick label style={rotate=45, anchor=east, font=\small},
+								legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
+								legend cell align={left},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								ymin=0,
+								ymax=0.45,
+								ytick={0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45},
+								yticklabel={\pgfmathprintnumber[fixed, precision=2]{\tick}},
+								enlarge x limits=0.08,
+								nodes near coords,
+								nodes near coords style={font=\tiny, rotate=90, anchor=west},
+								every node near coord/.append style={/pgf/number format/fixed, 
+																										/pgf/number format/precision=3},
+						]
+
+						%% Hot excursion bars (Design 1) — plotted first
+						\addplot[fill={rgb,255:red,230;green,89;blue,46}, draw=none] coordinates {
+								(1, 0.3837)
+								(2, 0.1628)
+								(3, 0.0972)
+								(4, 0.0677)
+								(5, 0.0515)
+								(6, 0.0413)
+								(7, 0.0344)
+								(8, 0.0294)
+								(9, 0.0257)
+						};
+
+						%% Cold excursion bars (Design 1) — plotted second
+						\addplot[fill={rgb,255:red,51;green,153;blue,219}, draw=none] coordinates {
+								(1, 0.3464)
+								(2, 0.1470)
+								(3, 0.0877)
+								(4, 0.0611)
+								(5, 0.0465)
+								(6, 0.0373)
+								(7, 0.0310)
+								(8, 0.0266)
+								(9, 0.0232)
+						};
+
+						\legend{Cold excursion ($T_\text{low}=-60^\circ$C),
+										Hot excursion ($T_\text{high}=80^\circ$C)}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Actuator subsystem OD optimization}
+					\label{fig:mount_OD_opt}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\pgfplotstableread[col sep=comma]{figures3/elastic_deformation.csv}\elasticdata
+					\begin{tikzpicture}
+						\begin{axis}[
+								width=\textwidth,
+								height=0.5\textwidth,
+								xlabel={Wall thickness (mm)},
+								ylabel={$\delta_{\text{elastic,max}}$ ($\upmu$m)},
+								xmin=0, xmax=12,
+								ymin=0, ymax=1.0,
+								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
+								restrict y to domain=0:1.0,
+								xtick={0,1,...,12},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								legend style={
+										at={(0.98,0.98)},
+										anchor=north east,
+										font=\small,
+										cells={anchor=west}
+								},
+								clip=true,
+						]
+
+						%% Allvar tube (mount)
+						\addplot[
+								color={rgb,255:red,46;green,115;blue,178},
+								mark=*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
+						\addlegendentry{Allvar tube (mount)}
+
+						%% Al rod (actuator)
+						\addplot[
+								color={rgb,255:red,217;green,84;blue,26},
+								mark=square*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_al_max_um] {\elasticdata};
+						\addlegendentry{Al rod (actuator)}
+
+						%% Combined series
+						\addplot[
+								color={rgb,255:red,33;green,140;blue,33},
+								mark=diamond*,
+								mark size=3pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_ser_max_um] {\elasticdata};
+						\addlegendentry{Combined series}
+
+						%% Optimal wall thickness vertical line at 3.5 mm
+						\draw[dashed, black, line width=1.2pt] (axis cs:3.5, 0) -- (axis cs:3.5, 1.0);
+
+						%% Minimum point marker at (3.5, 0.1401)
+						\addplot[
+								only marks,
+								mark=*,
+								mark size=4pt,
+								color=black,
+						] coordinates {(3.5, 0.140052)};
+						\addlegendentry{Series min @ $t_{\text{wall}} = 3.5$ mm}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Mount wall thickness optimization}
+					\label{fig:mount_thick_opt}
+				\end{figure}
+
+			\subsubsection{Housing Inlet Dimensions}
+			\label{subsubsec:design:just:gen_dim:HI}
+
+				The bellows (Appendix \ref{app:datasheets}) primarily drove the valve's internal geometry and total height.
+				Each bellows measures just under 7 mm in diameter and \specBellowsHeight\ tall. The Housing Inlet contains a channel just wide enough for each bellows to fit snugly inside, minimizing empty internal space.
+				The valve orifice measures exactly 7 mm so it slides precisely inside this channel.
+
+				Each housing center provides a 10 mm wall to withstand the pressure force. Pressure calculations are dealt with in section \ref{subsec:design:just:P}.
+
+				Two bellows, a 5 mm valve orifice, and two 10 mm walls total
+
+				\begin{equation}
+					2 (22.86) + 5 + 2 (10) = 70.72\ mm
+				\end{equation}
+
+				This violation of the vertical mechanical envelope is addressed in section \ref{subsubsec:design:just:gen_dim:ME}.
+
+			\subsubsection{Threaded Interface}
+			\label{subsubsec:design:just:gen_dim:thread}
+
+				\todo{3/4" thread and required length for it on either side of the housing. Extra 10mm on housing outlet to bear force}
+
+			\subsubsection{Machinability Considerations}
+			\label{subsubsec:design:just:gen_dim:machine}
+
+				\todo{Any features we changesd for machinability}
+
+			\subsubsection{Assemblability Considerations}
+			\label{subsubsec:design:just:gen_dim:assem}
+
+				\todo{Housing center in pieces to enable weld; briefly walk through whole process and how design accommodates}
+
+			\subsubsection{Valve Orifice Contact Friction}
+			\label{subsubsec:design:just:gen_dim:friction}
+
+				\todo{Talk about coating to prevent galling}
+
+			\subsubsection{Mechanical Envelope Specifications}
+			\label{subsubsec:design:just:gen_dim:ME}
+
+				\todo{Demonstrate valve compliance; justify actuator violation for the sake of precision -- verified priority shift with sponsor (shows good communication)}
+
+
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -2312,6 +2510,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\bibitem{ref_NIH}
 	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
 	[Accessed: May 4, 2026].
+
+	\bibitem{ref_miniflex_design}
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, p. 5, Mini-Flex Corporation, Oxnard, CA. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb 23, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
