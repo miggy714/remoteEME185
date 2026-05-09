@@ -184,10 +184,12 @@
 \newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
 \newcommand{\specInvarCTE}{\SI{1.3e-6}{\per \celsius}}
 \newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
-\newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
+\newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}} % 430 lb/in
 \newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
-\newcommand{\specBellowsOD}{\SI{6.528}{\milli \meter}}
-\newcommand{\specBellowsID}{\SI{3.353}{\milli \meter}}
+\newcommand{\specBellowsOD}{\SI{6.528}{\milli \meter}} % Conv OD 0.257"
+\newcommand{\specBellowsID}{\SI{3.353}{\milli \meter}} % Conv ID 0.132"
+\newcommand{\specBellowsSquirm}{\SI{20.68}{\mega \pascal}} % 3000 psi
+\newcommand{\specBellowsBurst}{\SI{74.12}{\mega \pascal}} % 10750 psi
 
 \newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
 \newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
@@ -1566,13 +1568,29 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{All bellows information. Satisfies H-comp.}
 
+			\begin{multicols}{2}
+				\begin{minipage}{.49\textwidth}
+					\begin{figure}[H]
+						\centering
+						\includegraphics[width=\textwidth]{bellows.png}
+						\caption{CAD model of the I718-159-72-430 bellows}
+						\label{fig:bellows}
+					\end{figure}
+				\end{minipage}
 
+			\newcolumn
 
-			The bellows drove many of the surrounding dimensions and design features.
-			According to the manufacturer's Design Guide\ref{ref_miniflex_design}, the burst pressure assumes that the bellows is "restrained from squirm or sideways movement" such that "squirm will not occur if the bellows is guided internally... by a rod stem".
-			The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
-			The housing inlet allows just enough internal space to fit the bellows to minimize waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
-			This violation is justified in section \ref{subsubsec:design:just:gen_dim:ME}.
+				Any mechanical penetration of a pressure vessel requires a flexible, sealed interface. Polymer-based gaskets and O-rings are often used, but most such materials permit Hydrogen diffusion and embrittlement, permitting leakage and directly violating specification \specref{V.3.3}.
+				Flexible metal bellows provide a high-pressure, Hydrogen-compatible alternative. The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
+				The I718-15-72-430, pictured in Figure \ref{fig:bellows}, can hold a seal at pressures up to 
+
+				The bellows drove many of the surrounding dimensions and design features.
+				According to the manufacturer's Design Guide\ref{ref_miniflex_design}, the burst pressure assumes that the bellows is "restrained from squirm or sideways movement" such that "squirm will not occur if the bellows is guided internally... by a rod stem".
+				The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
+				The housing inlet allows just enough internal space to fit the bellows to minimize waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
+				This violation is justified in section \ref{subsubsec:design:just:gen_dim:ME}.
+
+			\end{multicols}
 			
 		\subsection{Noncritical dimensions and features}
 		\label{subsec:design:just:gen_dim}
@@ -1822,7 +1840,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Invar housing}
 			\label{subsubsec:design:just:mat:Inv}
 
-			Invar 36^{\textregistered{}}, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
+			Invar 36$^{\textregistered{}}$, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
 			Swiss physicist and metrologist Charles \'{E}douard Guillaume developed the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
 			He won a Nobel Prize for this discovery in 1920\footnote{
 				The curious individual may find Guillaume's 1920 Nobel Prize lecture\cite{ref_Invar_1920} particularly fascinating.
@@ -1840,7 +1858,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\subitem Test
 			\end{itemize}
 
-			INCONEL^{\textregistered{}} Alloy 718, the material used by Mini-Flex for their high-pressure bellows, is an exceptionally strong metal alloy.
+			INCONEL$^{\textregistered{}}$ Alloy 718, the material used by Mini-Flex for their high-pressure bellows, is an exceptionally strong metal alloy.
 			Special Metals Corporation\cite{ref_SpecialMetals_gen} holds the registered trademark.
 			\todo{material props}\cite{ref_SpecialMetals_Inc}
 
@@ -2559,6 +2577,18 @@ This Final Design Report illustrates the background, selected architecture, and 
 	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
 	[Accessed: Feb. 23, 2026]
 
+	\bibitem{ref_McMaster_Al} % 6061 Aluminum stock specificaitons
+	McMaster-Carr, \textit{[Multipurpose 6061 Aluminum Rod], Part No. 8974K289}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/8974K48-8974K289/}
+	[Accessed: May 9, 2026].
+
+	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_McMaster_belle} % Standard washer part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+	[Accessed: May 8, 2026].
+
 	\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
 	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
@@ -3151,16 +3181,19 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 
 	\section{McMaster Part Drawings and Specifications}
 	
-		\includepdf[fitpaper=true, landscape=true]{90362A141_drawing.pdf}
-		\includepdf[pages=1, fitpaper=true, landscape=true]{90362A141_specs.pdf}
-		\includepdf[fitpaper=true, landscape=true]{93475A195_drawing.pdf}
-		\includepdf[pages=1, fitpaper=true, landscape=true]{93475A195_specs.pdf}
-		\includepdf[fitpaper=true, landscape=true]{93237A101_drawing.pdf}
-		\includepdf[pages=1, fitpaper=true, landscape=true]{93237A101_specs.pdf}
+		% \includepdf[fitpaper=true, landscape=true]{90362A141_drawing.pdf}
+		% \includepdf[pages=1, fitpaper=true, landscape=true]{90362A141_specs.pdf}
+		% \includepdf[fitpaper=true, landscape=true]{93475A195_drawing.pdf}
+		% \includepdf[pages=1, fitpaper=true, landscape=true]{93475A195_specs.pdf}
+		% \includepdf[fitpaper=true, landscape=true]{93237A101_drawing.pdf}
+		% \includepdf[pages=1, fitpaper=true, landscape=true]{93237A101_specs.pdf}
 
 	\section{Bellows Specifications}
 
-		\includepdf[fitpaper=true, landscape=true]{I718-159-72-430.pdf}
+		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
+		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that this value assumes no 
+
+		% \includepdf[fitpaper=true, landscape=true]{I718-159-72-430.pdf}
 
 	\section{Material Properties}
 
