@@ -1375,12 +1375,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole). Mention valve's lateral mechanical envelope here; was driven by pressure-vessel dimensions.}
 
-			The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from 1018 steel and analyzed for its ability to withstand the internal pressure. 
+			The housing consists of three distinct sections: the inlet, the outlet, and the central body, each of which is constructed from \todo{Invar} and analyzed for its ability to withstand the internal pressure. 
 			The housing sections are integrated between the fixture and the mount; they provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe, while the central body is a rectangular prism that contains the orifice plate and bellows assembly.
 			The housing is modeled as a thick-walled cylinder in order to determine the appropriate wall thickness required to sustain the internal pressure.
 			The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
 			The following equations are used to verify structural integrity under the specified conditions.
 			Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
+
+			\todo{Sub invar for steel}
 
 			\begin{table}[H]
 							\centering
@@ -1787,16 +1789,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
 
-			\todo{Calibration -> forces required (we haven't calculated these yet). Include calibration in the specs?}
+			Slight machining errors in every dimension will be present. Even those within their specified tolerance can endanger the system performance of the \device.
+			Deviation from the intended thermal expansion rate cannot be adjusted post-manufacture, but any constant offset, such as from extra length in the valve stem, can be.
+			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance.
+			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
+			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
+			See Appendix \ref{app:calcs:belle} for further calculations.
 
-			The manufacturer will need to calibrate each device after assembly to correct for any constant-offset error introduced by machining and assembly errors.
-			This requires only a low-pressure operation test of room-temperature air.
-			The user can pump room-temperature air at a couple hundred kPa (2-3 atmospheres) while measuring the upstream pressure, downstream pressure, and ambient air temperature precisely.
-			The required orifice diameter will correspond to a given pressure drop.
-			While reading live measurements, he can adjust the screw as necessary.
-			The belleville washer will maintain pressure between the two actuator cylinders, allowing the user to precisely set the orifice at this temperature and maintaining that setpoint.
-
-			The torque required to tighten the screw is calculated in Appendix \ref{app:calcs:belle}.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.5\textwidth]{cal.png}
+				\caption{System Calibration with a Belleville Washer}
+				\label{fig:cal}
+			\end{figure}
 
 		\subsection{Laser-Beam Welded Assembly}
 		\label{subsec:design:just:LBW}
@@ -2538,19 +2543,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
 	Hoboken, NJ: Wiley, 2019, p. 228.
 
-	\bibitem{ref_din6796} % Standard for belleville washer
-	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
-
-	\bibitem{ref_dinen16984} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
-
-	\bibitem{ref_dinen16983} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
-
-	\bibitem{ref_almen1936} % Referenced by DIN 16983
-	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
-	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
-
 	\bibitem{ref_steen2010laser} % Laser weld guide
 	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
 	Springer, London, UK, 2010.
@@ -2566,6 +2558,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 	\bibitem{ref_Young_Freedman} % Hooke's Law
 	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+	
+	\bibitem{ref_din6796} % Standard for belleville washer
+	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+
+	\bibitem{ref_dinen16984} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+
+	\bibitem{ref_dinen16983} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+
+	\bibitem{ref_almen1936} % Referenced by DIN 16983
+	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
 
 	% PRODUCT INFORMATION
 
@@ -2585,7 +2590,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_McMaster_belle} % Standard washer part specificaitons
+	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
 	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
 	[Accessed: May 8, 2026].
 
@@ -2880,7 +2885,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 	\end{figure}
 
 	\newpage
-	\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+	% \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
 
 	\newpage
 	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
@@ -2896,17 +2901,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 	
 \chapter*{Manufacturing Guide}
 \label{app:mfg}
+
+\addcontentsline{toc}{chapter}{Manufacturing Guide}
+\setcounter{section}{0}
+\renewcommand{\thesection}{\arabic{section}}
 	
 	\todo{Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}
 
 	\todo{Notes:}
 	\color{red}
-	{
 		\begin{itemize}
 			\item Do we need to heat-treat the Invar parts?
 			\item Recommend applying Loctite for lubrication and firm seal when calibrating
 		\end{itemize}
-	}
+	\color{black}
 
 \chapter*{User Guide}
 \label{app:op}
@@ -3086,17 +3094,10 @@ The PTCD is calibrated at final assembly. Field recalibration is only needed if 
 
 
 \begin{figure}[htbp]
-  \centering
-  \fbox{\parbox{0.75\textwidth}{\centering
-    \vspace{2cm}
-    \textit{[PLACEHOLDER: Annotated detail of shim-washer calibration stack.
-    Labels: copper crush washer (top), thin steel shim (middle),
-    thick steel shim (bottom). Arrow showing direction of height increase
-    and resulting effect on orifice diameter.]}
-    \vspace{2cm}
-  }}
-  \caption{Shim-washer calibration stack.}
-  \label{fig:ug_calib}
+	\centering
+	\includegraphics[width=.5\textwidth]{cal.png}
+	\caption{System Calibration with a Belleville Washer, repeated}
+	\label{fig:ug_calib}
 \end{figure}
 
 
@@ -3161,6 +3162,8 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \end{tabular}
 \end{center}
 
+\renewcommand{\thesection}{\thechapter.\arabic{section}}
+
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
 
@@ -3171,7 +3174,7 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \chapter{Data Sheets}
 \label{app:datasheets}
 
-	The following information is provided on the following pages:
+	The following information is provided below:
 
 	\begin{enumerate}
 		\item Part drawings and specifications for the screw, standard washer, and belleville washer
@@ -3179,8 +3182,13 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 		\item Material data sheets
 	\end{enumerate}
 
+	\newpage
 	\section{McMaster Part Drawings and Specifications}
+	\label{app:datasheets:McMaster}
+
+		Source: McMaster Carr\cite{ref_McMaster_screw, ref_McMaster_std, ref_McMaster_belle}.
 	
+		\todo{Uncomment below pdfs}
 		% \includepdf[fitpaper=true, landscape=true]{90362A141_drawing.pdf}
 		% \includepdf[pages=1, fitpaper=true, landscape=true]{90362A141_specs.pdf}
 		% \includepdf[fitpaper=true, landscape=true]{93475A195_drawing.pdf}
@@ -3189,20 +3197,70 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 		% \includepdf[pages=1, fitpaper=true, landscape=true]{93237A101_specs.pdf}
 
 	\section{Bellows Specifications}
+	\label{app:datasheets:Bellows}
 
 		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
 		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that this value assumes no 
 
+		\todo{Uncomment below pdf}
 		% \includepdf[fitpaper=true, landscape=true]{I718-159-72-430.pdf}
 
 	\section{Material Properties}
+	\label{app:datasheets:mat}
 
+    Below are the material properties used throughout this report:
+    Aluminum 6061~\cite{ref_NASA_specs_Al},
+    ALLVAR~\cite{ref_AllvarAlloys},
+    Invar 36~\cite{ref_Carpenter_Inv},
+    Inconel 718~\cite{ref_SpecialMetals_Inc}, and
+    316 Stainless Steel~\cite{ref_Ledbetter_Stainless}.
 
+    \begin{table}[H]
+        \centering
+        \caption{Material Properties}
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabularx}{\textwidth}{
+            >{\raggedright\arraybackslash}p{0.22\textwidth}
+            >{\centering\arraybackslash}X
+            >{\centering\arraybackslash}X
+            >{\centering\arraybackslash}X
+        }
+        \toprule
+        \textbf{Material} &
+        \textbf{CTE} $\left(\frac{\upmu\text{m}}{\text{m}\cdot\degC}\right)$ &
+        \textbf{$E$} (GPa) &
+        \textbf{$\nu$} \\
+        \midrule
 
+        Aluminum 6061
+            & \num{22.85}
+            & \num{68.95}
+            & --- \\
 
-%\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
-\todo{Include all relevant material and product data}
-\todo{Put material properties with references here as a catch-all.}
+        ALLVAR
+            & \num{-30}
+            & \num{55}
+            & --- \\
+
+        Invar 36
+            & \num{1.3}
+            & \num{141}
+            & --- \\
+
+        Inconel 718
+            & \num{13.2}
+            & \num{200}
+            & --- \\
+
+        316 Stainless Steel
+            & ---
+            & \num{207.8}
+            & \num{0.282} \\
+
+        \bottomrule
+        \end{tabularx}
+        \label{tab:mat_props}
+    \end{table}
 
 \chapter{Project Management}
 \label{app:PM}
