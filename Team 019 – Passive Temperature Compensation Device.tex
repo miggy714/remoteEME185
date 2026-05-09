@@ -52,8 +52,8 @@
 \usepackage{fancyhdr}% Customizable headers and footers.
 \pagestyle{fancy}% Activate the fancy header/footer style.
 \fancyhf{}% Clear all default header/footer content.
-\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}% Left header: team name.
-\fancyhead[R]{\small EME 185}% Right header: course number.
+\fancyhead[L]{\small Team 019 --- Noble Aggie Labs}% Left header: team name.
+\fancyhead[R]{\small Sandia Design Award}% Right header: course number.
 \fancyfoot[C]{\thepage}% Center footer: page number.
 \renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
 % ---------- Paragraph Formatting ----------
@@ -295,12 +295,16 @@
         {\LARGE\bfseries \projecttitle}\\[8pt]
         {\large\bfseries SANDIA DESIGN AWARD REPORT}\\[32pt]
 
+		\vspace{0.5in}
+
         % --- Team Info ---
         {\large Prepared by the}\\[8pt]
         {\Large\bfseries \teamname}\\[12pt]
 		{\Large\bfseries Team 019}\\[12pt]
         {Miguel Cuaycong, Jon Pizarro, Nicholas Metta,}\\
         {Isaiah Mathew, John Bodine, and Sam van der Veen}\\[32pt]
+
+		\vspace{0.5in}
 
         % --- Course & Institution ---
         {\large EME 185: Mechanical Systems Design Project}\\
@@ -309,9 +313,8 @@
 		\vspace{1in}
 
         % --- Advisors & Sponsors ---
-        {Advised by \instructor\ and \ta}\\[16pt]
-        {SPONSORED BY \MakeUppercase{\sponsor},}\\
-        {\MakeUppercase{\organization}}
+        {Advised by \instructor\ and \ta}\\
+        {Sponsored by {\sponsor}, {\organization}}
     \end{center}
 
     \vfill
@@ -337,8 +340,7 @@
 
 
 \newpage  % Start the body of the report on a fresh page
-\begin{abstract}
-
+\section*{Problem Statement}
 
 Sandia National Laboratories has tasked our senior design team, 
 the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
@@ -347,7 +349,6 @@ The \device\ must be purely thermo-mechanically driven, functioning without reli
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m,
 with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
-
 
 This Sandia Design Report illustrates selection procedure, final solution, and testing methods of our design. It achieves the following:
 
@@ -359,15 +360,19 @@ This Sandia Design Report illustrates selection procedure, final solution, and t
 	\item Identifies potential areas for improvement and next steps
 \end{itemize}
 
-\todo{Report body may not exceed 50 pages.}
+\section*{Design Approach}
 
-\end{abstract}
 
-\section{Final Solution}
+\section*{Final Solution}
 
-\section{Evaluation and Verification}
+In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision  control valve that 
+successfully maintains the Required Relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
+components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
+assembled by electron-beam weld. The full assembly is pictured in 
 
-\section{Improvements and Future Work}
+\section*{Evaluation and Verification}
+
+\section*{Improvements and Future Work}
 
 
 \chapter{DELETE BEFORE SUBMISSION: Brainstorm -- what sets our design apart?}
@@ -432,26 +437,6 @@ This Sandia Design Report illustrates selection procedure, final solution, and t
 					\item Surface coating applied to prevent galling
 			\end{itemize}
 	\end{itemize}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
