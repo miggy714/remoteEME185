@@ -1,0 +1,44 @@
+\contentsline {todos}{\numberline {1}Set page number counter to start at 2 next page}{1}{Doc-Start}%
+\contentsline {todos}{\numberline {1}Report body may not exceed 50 pages.}{1}{Doc-Start}%
+\contentsline {todos}{\numberline {1}Several? Dozens? Hundreds?}{1}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Cite}{2}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Cite the paper on thermal switches that Isaiah found}{2}{subsection.1.1.1}%
+\contentsline {todos}{\numberline {2}Don't use "we" in this report. It's unprofessional.}{2}{subsection.1.1.2}%
+\contentsline {todos}{\numberline {4}Add an arrow for specs to design, then design back to specs, representing the fact that specs are partially informed by final selected architecture?}{4}{figure.caption.2}%
+\contentsline {todos}{\numberline {8}Make these figures all the same scale so the TF boxes look the same size}{8}{subsection.1.3.1}%
+\contentsline {todos}{\numberline {14}Spec Temp}{14}{Item.18}%
+\contentsline {todos}{\numberline {15}Spec Temp}{15}{table.caption.8}%
+\contentsline {todos}{\numberline {30}Verify the two dimensions above once drawings are finished}{30}{equation.2.4}%
+\contentsline {todos}{\numberline {30}Derive dL/dT TF -> dimensions of actuator and mount -> mention violation of ME is okay}{30}{equation.2.5}%
+\contentsline {todos}{\numberline {34}Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts. Justify direct contact.}{34}{subsection.2.2.2}%
+\contentsline {todos}{\numberline {35}All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole). Mention valve's lateral mechanical envelope here; was driven by pressure-vessel dimensions.}{35}{subsection.2.2.3}%
+\contentsline {todos}{\numberline {38}All bellows information. Satisfies H-comp.}{38}{subsection.2.2.4}%
+\contentsline {todos}{\numberline {41}Any features we changesd for machinability. Delete if we don't have anything to say here}{41}{figure.caption.29}%
+\contentsline {todos}{\numberline {41}Talk about coating to prevent galling}{41}{figure.caption.29}%
+\contentsline {todos}{\numberline {42}Calibration -> forces required (we haven't calculated these yet). Include calibration in the specs?}{42}{subsection.2.2.6}%
+\contentsline {todos}{\numberline {42}All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}{42}{subsection.2.2.7}%
+\contentsline {todos}{\numberline {42}Justify the fit-tolerances in drawings}{42}{subsection.2.2.8}%
+\contentsline {todos}{\numberline {42}Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}{42}{subsection.2.2.9}%
+\contentsline {todos}{\numberline {42}Isaiah: Add Al justification}{42}{section*.30}%
+\contentsline {todos}{\numberline {43}ALLVAR justification}{43}{section*.30}%
+\contentsline {todos}{\numberline {43}Ashby}{43}{section*.30}%
+\contentsline {todos}{\numberline {43}material props}{43}{section*.30}%
+\contentsline {todos}{\numberline {43}All other nontrivial dimensions, design choices, and other issues go in this section (\ref {sec:design:just}).}{43}{section*.30}%
+\contentsline {todos}{\numberline {44}Achievable tolerances and other error calculations}{44}{section.3.1}%
+\contentsline {todos}{\numberline {44}Below if Report 2's CTE analysis. Give it a double-check.}{44}{subsection.3.1.1}%
+\contentsline {todos}{\numberline {59}Make derivation more explicit}{59}{figure.caption.36}%
+\contentsline {todos}{\numberline {61}TF results}{61}{subsection.3.2.5}%
+\contentsline {todos}{\numberline {64}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{64}{figure.caption.40}%
+\contentsline {todos}{\numberline {64}Bonus: propose physical tests -- the ones we were going to do with our own prototype}{64}{figure.caption.40}%
+\contentsline {todos}{\numberline {65}Strengths, weaknesses, and limitations of design}{65}{section.6.1}%
+\contentsline {todos}{\numberline {65}Rearrange citations so appear in order of appearance; test all links}{65}{section.6.2}%
+\contentsline {todos}{\numberline {70}Include any overfill from the main body of the report to keep it under 50 pages.}{70}{appendix.A}%
+\contentsline {todos}{\numberline {79}Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}{79}{figure.caption.50}%
+\contentsline {todos}{\numberline {81}Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}{81}{appendix*.52}%
+\contentsline {todos}{\numberline {81}Notes:}{81}{appendix*.52}%
+\contentsline {todos}{\numberline {90}Some description}{90}{appendix.D}%
+\contentsline {todos}{\numberline {100}Include all relevant material and product data}{100}{section.E.3}%
+\contentsline {todos}{\numberline {100}Put material properties with references here as a catch-all.}{100}{section.E.3}%
+\contentsline {todos}{\numberline {101}Uncomment the below lines to include TaskList.pdf and GanttChart.pdf}{101}{appendix.F}%
+\contentsline {todos}{\numberline {104}Add detail that we iteratively developed our specs in close communication with our sponsor (client) in accordance with NASA p. 54 note?}{104}{figure.caption.59}%
+\contentsline {todos}{\numberline {105}Include something sentimental here? Group picture, signature/personal remarks page, something}{105}{figure.caption.60}%
