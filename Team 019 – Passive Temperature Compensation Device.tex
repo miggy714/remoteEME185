@@ -350,7 +350,7 @@ The required mathematical relationship between the ambient temperature and a cha
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m,
 with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
 
-This Sandia Design Report illustrates selection procedure, final solution, and testing methods of our design. It achieves the following:
+This Sandia Design Award Report illustrates selection procedure, final solution, and testing methods of our design. It achieves the following:
 
 \begin{itemize}
 	\item Outlines design approach and the decision process that led to the final design
@@ -366,78 +366,54 @@ This Sandia Design Report illustrates selection procedure, final solution, and t
 \section*{Final Solution}
 
 In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision  control valve that 
-successfully maintains the Required Relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
+successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
 components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
-assembled by electron-beam weld. The full assembly is pictured in 
+assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
+showing the internal components and their arrangement.
+
+\begin{figure}[H]
+    \centering
+    % Left Image (a)
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
+        \caption{Complete assembly}
+        \label{fig:mainIsometric}
+    \end{subfigure}
+    \hfill % Adds flexible space between the two images
+    % Right Image (b)
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{CompleteAssemblyExploded.png}
+        \caption{Complete assembly exploded view}
+        \label{fig:mainExploded}
+    \end{subfigure}
+    \caption{Overall PTCD assembly and exploded view highlighting internal components.}
+    \label{fig:assembly_combined}
+\end{figure}
+
+At the heart of the design is the valve orifice, which is a square aperture that provides a linear flow response to the actuator's motion. 
+Two square holes form the aperture, one in the valve outlet and one in the valve stem, which are precisely aligned to create an effective 
+orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
+relationship between actuator displacement and flow restriction (Appendix~\ref{sec:flow}). The orifice is cut using wire EDM, allowing 
+for a very small corner radius, which is critical for achieving the required precision in flow control. 
+
+A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature 
+changes. The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands. Thus, as the ambient temperature 
+increases, the actuator drives the valve stem downwards, shrinking the orifice. As the temperature decreases, the actuator pulls the stem 
+back up, opening the orifice again. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
+an equal distance.
+
+Calibration
+
+Sealing
+
+Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
+of the design.
 
 \section*{Evaluation and Verification}
 
 \section*{Improvements and Future Work}
-
-
-\chapter{DELETE BEFORE SUBMISSION: Brainstorm -- what sets our design apart?}
-
-	\begin{itemize}
-			\item Square orifice
-			\begin{itemize}
-					\item Linear flow response
-					\item Simple, minimal DOF
-					\item Cut with sinker EDM: very small corner radius (wire EDM minimum $\approx \SI{0.056}{mm}$)
-			\end{itemize}
-
-			\item Bimetallic actuator
-			\begin{itemize}
-					\item Compact form factor
-					\item Solid construction is geometrically simple
-					\item Constant coefficient of thermal expansion
-					\item Thermally isolated from surroundings
-			\end{itemize}
-
-			\item Weld joints
-			\begin{itemize}
-					\item Enables simple mates with minimal degrees of freedom
-			\end{itemize}
-
-			\item Calibration
-			\begin{itemize}
-					\item Eliminates constant offset errors from manufacturing or assembly
-					\item Procedure is straightforward to perform
-			\end{itemize}
-
-			\item Bellows
-			\begin{itemize}
-					\item Small, flexible, high-pressure seal
-					\item Hydrogen-compatible
-					\item Low reaction force
-					\item Provides valve stem support
-					\item Housing dimensioned to match convolution OD and length exactly
-			\end{itemize}
-
-			\item Direct interface
-			\begin{itemize}
-					\item Trade-off analysis performed: precision prioritized over height
-					\item Client communication conducted to adjust design priorities
-			\end{itemize}
-
-			\item Material selection
-			\begin{itemize}
-					\item Invar 36: low CTE, justified via Ashby plot
-					\item ALLVAR: negative CTE alloy, contracts with increasing temperature
-					\item Aluminum 6061: selected per client input (confirm rationale with Isaiah)
-					\item Inconel 718 bellows: high strength at elevated temperature
-			\end{itemize}
-
-			\item Precision fits
-			\begin{itemize}
-					\item Exact interference and clearance fits specified throughout assembly
-			\end{itemize}
-
-			\item Valve orifice coating
-			\begin{itemize}
-					\item Surface coating applied to prevent galling
-			\end{itemize}
-	\end{itemize}
-
 
 
 
@@ -560,7 +536,30 @@ assembled by electron-beam weld. The full assembly is pictured in
 \begin{appendices}
 \appendix
 
+\chapter{Derivations and Calculations}
+\label{app:derivations}
+% Insert your math, A0/A1 calculations, error propagation, and transfer function here.
+% You can use your custom commands like this:
+% The transfer function of the bimetallic actuator is defined as:
+% \begin{equation}
+%     \transferFunction
+% \end{equation}
 
+
+\chapter{Computational Modeling}
+\label{app:modeling}
+% Insert your FEA (stress and thermal gradient) plots and results here.
+% You can easily insert images using your custom helper command:
+% \insertfigure{0.9}{fea_results.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:thermal_fea}
+
+
+\chapter{Assembly Drawing and Bill of Materials}
+\label{app:drawings}
+% Insert your consolidated BOM table here.
+
+% To seamlessly insert a full-page landscape PDF of your SolidWorks drawing, 
+% uncomment the line below and change the filename:
+% \includepdf[pages=-, landscape=true]{Your_Top_Level_Drawing.pdf}
 
 \end{appendices}
 
