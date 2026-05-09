@@ -176,13 +176,13 @@
 \newcommand{\Tref}{\SI{25}{\degreeCelsius}} %Celcius
 \newcommand{\specTempChange}{\SI{140}{\degreeCelsius}}
 
-\newcommand{\specEAl}{\SI{69}{\giga \pascal}}
+\newcommand{\specEAl}{\SI{68.95}{\giga \pascal}}
 \newcommand{\specEALLV}{\SI{55}{\giga \pascal}}
-\newcommand{\specEInv}{\SI{193}{\giga \pascal}}
+\newcommand{\specEInv}{\SI{141}{\giga \pascal}}
 \newcommand{\specEInc}{\SI{200}{\giga \pascal}}
 \newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} %Evaluated at 25C
 \newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
-\newcommand{\specInvarCTE}{\SI{1.2e-6}{\per \celsius}}
+\newcommand{\specInvarCTE}{\SI{1.3e-6}{\per \celsius}}
 \newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
 \newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
 \newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
@@ -545,7 +545,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\newcolumn
 
-			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition \cite{ref_NASA}.
+			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition \cite{ref_NASA_specs_guide}.
 			Typically, a techical systems design project involves two preliminary tasks: definition of functional and performance system requirements that satisfy the client's stated objectives
 			and rolldown of those system-level requirements into subsystem specifications. This is shown in Figure \ref{fig:NASA_req}.
 		\end{multicols}
@@ -1082,7 +1082,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 			The welded surfaces can be reliably modeled as fused material.
 
-			All machined parts are made of Invar 36, a Ni-Fe alloy with an exceptionally low coefficient of thermal expansion.
+			All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low coefficient of thermal expansion.
 			Because the \device\ depends on passive thermal expansion to drive its behavior, these components must expand as little as possible to ensure minimal deviation from the intended control output.
 
 			\begin{figure}[H]
@@ -1795,7 +1795,19 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\todo{Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}
 
-		\todo{All other nontrivial dimensions, design choices, and other issues go in this section}
+			Invar 36\textregistered{}, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
+			Swiss physicist and metrologist Charles \'{E}douard Guillaume developed the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
+			He won a Nobel Prize for this discovery in 1920\footnote{
+				The curious individual may find Guillaume's 1920 Nobel Prize lecture\cite{ref_Invar_1920} particularly fascinating.
+			}\cite{ref_Invar_1920}.
+			Carpenter Technology\cite{ref_Carpenter_gen}, a manufacturer of the alloy, now holds the registered trademark to the name Invar 36 and confirms that its CTE reaches no more than $\SI{1.3}{\frac{\mu m}{\degC}}$ within our temperature range\cite{ref_Carpenter_Inv},
+			ten times less than that of steel\cite{ref_ASM_Steel} and 20 times less than Aluminum\cite{ref_NASA_specs_Al}.
+
+			INCONEL\textregistered{} Alloy 718, the material used by Mini-Flex for their high-pressure bellows, is an exceptionally strong metal alloy.
+			Special Metals Corporation\cite{ref_SpecialMetals_gen} holds the registered trademark.
+			\todo{material props}\cite{ref_SpecialMetals_Inc}
+
+		\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
 
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
@@ -1824,7 +1836,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\label{fig:al_alpha}
 			\end{figure}            
 			
-			Table \ref{fig:al_alpha} \cite{muraca1972aluminum} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
+			Table \ref{fig:al_alpha} \cite{ref_NASA_specs_Al} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
 			
 			Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
 			
@@ -1946,7 +1958,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{equation}
 
 			where $\hat{G}_{thermal}$ outputs the expanded dimension $\ell_i$ of part $i$, $\ell_0$ is its machined dimension, and $\Delta T = (T_{amb} - T_{ref})$.
-			According to the general principle of thermal expansion\cite{ref_Hibbeler_therm}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material coefficient of thermal expansion (CTE).
+			According to the general principle of thermal expansion\cite[Eq.~4-4]{ref_Hibbeler}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material coefficient of thermal expansion (CTE).
 			Thus, the thermal-expansion transfer functions are defined as follows:
 
 			\vspace{1em}
@@ -1975,10 +1987,10 @@ This Final Design Report illustrates the background, selected architecture, and 
 			where the material expansion coefficients are as follows:
 
 			\begin{itemize}
-				\item Aluminum (Al): \specActuatorCTE \todo{Add citation for Al CTE}
+				\item Aluminum (Al): \specActuatorCTE\cite[Table~9-22]{ref_NASA_specs_Al}
 				\item Allvar (ALLV): \specMountCTE\cite{ref_AllvarAlloys}
-				\item Invar 36 (Inv): \specInvarCTE\cite{ref_CarpenterTechnology}
-				\item Inconel 718 (Inc): \specInconelCTE\cite{ref_SpecialMetals}
+				\item Invar 36 (Inv): \specInvarCTE\cite{ref_Carpenter_Inv}
+				\item Inconel 718 (Inc): \specInconelCTE\cite{ref_SpecialMetals_Inc}
 			\end{itemize}
 
 			and the machined dimensions $\ell_{i_0}$ are as follows from Appendix \ref{app:drawings}:
@@ -2149,7 +2161,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{eq:matrix}
 			\end{equation}
 
-			Each undeformed length $\ell$ is provided by the thermal transfer functions. With the exception of the two bellows, whose spring constants are given, each spring constant $k$ is calculated by material properties and part geometry\cite{ref_Hibbeler_spring}:
+			Each undeformed length $\ell$ is provided by the thermal transfer functions. With the exception of the two bellows, whose spring constants are given, each spring constant $k$ is calculated by material properties and part geometry\cite[Eq.~4-2]{ref_Hibbeler}:
 			
 			\begin{equation}
 				k = \frac{EA}{\ell}
@@ -2193,14 +2205,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Actuator}
 			\label{subsubsec:sat:TF:force_balance:A}
 
-				$E_A = E_{\text{Aluminum}} = \specEAl $ \todo{Cite E\_Aluminum\_6061}
+				$E_A = E_{\text{Aluminum}} = \specEAl$\cite[p.~39]{ref_NASA_specs_Al}
 
 				$A_A = \frac{\pi}{4} D^2 = \frac{\pi}{4} (18mm)^2 = 254.5 \text{ mm}^2$
 
 			\subsubsection{Valve Stem}
 			\label{subsubsec:sat:TF:force_balance:S}
 
-				$E_S = E_{\text{Invar}} = \specEInv $\cite{ref_McMaster_Invar}
+				$E_S = E_{\text{Invar}} = \specEInv $\cite{ref_Carpenter_Inv}
 
 				$A_S = \frac{\pi}{4} D^2 = \frac{\pi}{4} (3.353 \text{ mm})^2 = 2.6 \text{ mm}^2$
 				
@@ -2219,7 +2231,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Housing}    
 			\label{subsubsec:sat:TF:force_balance:H}
 
-				$E_H = E_{\text{Invar}} = \specEInv $\cite{ref_CarpenterTechnology}
+				$E_H = E_{\text{Invar}} = \specEInv $
 
 				$A_H = LW = (72 mm) (40 mm) = 2880 \text{ mm}^2$
 
@@ -2402,131 +2414,137 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 
 
-\todo{Get rid of unused citations in the bibliography; test all links}
+\todo{Rearrange citations so appear in order of appearance; test all links}
 
 \begin{thebibliography}{99}
 
-	\bibitem{ref_sandiaprompt}
+	% PROJECT REQUIREMENTS
+
+	\bibitem{ref_sandiaprompt} % SNL Project Prompt
 	B.\ Bon,
 	``Passive Temperature Compensation Device --- Project Prompt,''
 	Sandia National Laboratories, SAND2025-15446O, 2025.
 
-	\bibitem{ref_asme_b313}
-	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
-	ASME, New York, NY, 2022.
+	% MATERIAL DATA
 
-	\bibitem{ref_steen2010laser}
-	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-	Springer, London, UK, 2010.
-
-	\bibitem{ref_aws2020welding}
-	American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
-	AWS, Miami, FL, 2020.
-
-	\bibitem{ref_miniflex_design}
-	Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Feb. 23, 2026].
-
-	\bibitem{ref_muraca1972aluminum}
+	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
+		% CTE at room temp = 23.85 μm/C
+		% E = 68.95 MPa
 	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
-	[Accessed: Mar. 2026].
-
-	\bibitem{ref_matweb}
-	MatWeb, LLC, \textit{MatWeb Material Property Data}, 
-	[Online]. Available: \url{https://www.matweb.com}, 
-	Accessed: March 20, 2026.
-
-	\bibitem{ref_Nise}
-	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
-
-	\bibitem{ref_Figliola}
-	R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
-
-	\bibitem{ref_CarpenterTechnology}
-	Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
-	[Accessed: Apr. 17, 2026].
- 
-	\bibitem{ref_AZoM}
-	AZoM, "Properties: Invar — Nickel Iron Alloy," AZoM.com. \url{https://www.azom.com/properties.aspx?ArticleID=515}
-	[Accessed: Mar. 20, 2026].
-
-	\bibitem{ref_AircraftMaterials}
-	Aircraft Materials Ltd., "Invar 36 / Nilo 36 / Alloy 36 (ASTM F1684)," AircraftMaterials.com. \url{https://www.aircraftmaterials.com/data/nickel/al36.html}
-	[Accessed: Mar. 20, 2026].
-
-	\bibitem{ref_ISO}
-	International Organization for Standardization, "Mechanical properties of fasteners made of carbon steel and alloy steel — 
-	Part 1: Bolts, screws and studs with specified property classes — Coarse thread and fine pitch thread," ISO 898-1:2013, Geneva, Switzerland, 2013.
-
-	\bibitem{ref_ASM}
-	ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
-
-	\bibitem{ref_Hibbeler_therm}
-	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014, eq. (4-4).
-
-	\bibitem{ref_Hibbeler_spring}
-	Hibbeler, eq. (4-2)
-
-	\bibitem{ref_Jensen}
-	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis. [Unpublished]
-
-	\bibitem{ref_Stewart}
-	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
-	
-	\bibitem{ref_SpecialMetals}
-	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-	[Accessed: Apr. 17, 2026].
-	
-	\bibitem{ref_AllvarAlloys}
-	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/what-is-negative-thermal-expansion/}
-	[Accessed: Apr. 17, 2026].
-
-	\bibitem{ref_Young_Freedman}
-	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, eq. (6-8).
-
-	\bibitem{ref_Anton}
-	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-	Hoboken, NJ: Wiley, 2019, p. 228.
-
-	\bibitem{ref_McMaster_Invar}
-	McMaster-Carr, \textit{[Thermally Stable Invar 36 Nickel Alloy Rod], Part No. 4279K16}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/4279K16-4279K169/}
-	[Accessed: Apr. 17, 2026].
-
-	\bibitem{ref_McMaster_belle}
-	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_NASA}
+	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
+		% CTE = -30 μm/C
+		% E = 55 GPa
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
+		% CTE = 1.3 μm/C
+		% E = 141 GPa
+	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_SpecialMetals_Inc} % Inconel
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007, p. . [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+	[Accessed: Apr. 17, 2026].
+
+	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
+		% 18-8 304 SS:
+			% E = 210.1 GPa
+			% ν = 0.279
+		% 316 SS:
+			% E = 207.8 GPa
+			% E = 0.282
+	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+
+	\bibitem{ref_ASM_Steel} % Used for CTE comparison
+		% CTE = 11.7
+		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
+
+	% COURSE TEXTS AND ENGINEERING PRACTICES
+
+	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
 	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
 
-	\bibitem{ref_NIH}
-	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
-	[Accessed: May 4, 2026].
+	\bibitem{ref_Nise} % Controls and Transfer Functions
+	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
 
-	\bibitem{ref_din6796}
+	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
+	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
+	[Unpublished]
+
+	\bibitem{ref_Stewart} % Calculus and Taylor Series
+	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+
+	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
+	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
+	Hoboken, NJ: Wiley, 2019, p. 228.
+
+	\bibitem{ref_din6796} % Standard for belleville washer
 	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
 
-	\bibitem{ref_dinen16984}
+	\bibitem{ref_dinen16984} % Referenced by DIN 6796
 	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
 
-	\bibitem{ref_dinen16983}
+	\bibitem{ref_dinen16983} % Referenced by DIN 6796
 	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
 
-	\bibitem{ref_almen1936}
+	\bibitem{ref_almen1936} % Referenced by DIN 16983
 	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
 	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
 
-	\bibitem{ref_ledbetter1981}
-	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,''
-	\textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+	% ENGINEERING CALCULATIONS
 
-	\bibitem{ref_shigley}
+	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
 	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-	8th~ed., McGraw-Hill, New York, 2006.
+	8th~ed., McGraw-Hill, New York, 2006, Eq.~8-27, Table~8-15.
 
-	
+	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
+	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+
+	\bibitem{ref_Young_Freedman} % Hooke's Law
+	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+
+	% PRODUCT INFORMATION
+
+	\bibitem{ref_miniflex_design} % Bellows catalog design guide
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb. 23, 2026].
+
+	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
+	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+	[Accessed: Feb. 23, 2026]
+
+	\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
+	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	[Accessed: May 8, 2026].
+
+	% TRIVIAL INFORMATION
+
+	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
+	[Accessed: May 4, 2026].
+
+	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
+	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
+	Available: \url{https://gallica.bnf.fr/ark:/12148/bpt6k3080s/f239.item}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
+	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
+	Carpenter Technology Corporation, \textit{Carpenter Technology: Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_SpecialMetals_gen}
+	Special Metals Corporation, \textit{Special Metals: High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	[Accessed: May 8, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2678,13 +2696,13 @@ This Final Design Report illustrates the background, selected architecture, and 
 		However, the washer can deflect up to 200 \textmu m if necessary.
 		The following force is required to apply a deflection within this range during calibration:
 
-		\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle}, \cite{ref_ledbetter1981}
+		\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle, ref_ledbetter1981}
 
 		\begin{itemize}
 			\item Outer Diameter $OD = \SI{5}{mm}$
 			\item Inner Diameter $ID = \SI{2.2}{mm}$
-			\item Young's Modulus $E = \SI{193}{GPa}$
-			\item Poisson's Ratio $\nu = 0.27$
+			\item Young's Modulus $E = \SI{207.8}{GPa}$
+			\item Poisson's Ratio $\nu = 0.282$
 			\item Free height $H = \SI{0.6}{mm}$
 			\item Thickness $t = \SI{0.4}{mm}$
 			\item Cone height $h = H - t = \SI{0.2}{mm}$
@@ -2701,24 +2719,25 @@ This Final Design Report illustrates the background, selected architecture, and 
 		From these, we obtain the expected force value
 
 		\begin{equation}
-			P(\SI{50}{\micro \meter}) = \SI{170}{N}
+			P(\SI{50}{\micro \meter}) = \SI{184}{N}
 		\end{equation}
 
-		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite[Eq.~8-27, Table~8-15]{ref_shigley}:
+		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
 
 		\begin{equation}
-			T = K F d = (0.18) (\SI{170}{N}) (\SI{2}{mm})
+			T = K F d = (0.18) (\SI{184}{N}) (\SI{2}{mm})
 		\end{equation}
 
 		where
 
 		\begin{align*}
-			K \text{ is the nut factor (assuming Loctite is applied, which is recommended in the Manufacturing Guide - Appendix \ref{app:mfg})}
-			F \text{ is the reaction load}
+			K \text{ is the nut factor (assuming Loctite is applied,} \\
+			\text{which is recommended in the Manufacturing Guide - Appendix \ref{app:mfg})} \\
+			F \text{ is the reaction load} \\
 			d \text{ is the diameter of the M2 screw}
 		\end{align*}
 		
-		yielding an expected torque of $\SI{1.5e-3}{N-m}$ at the 50 \textmu m compression, a very reasonable value for an M2 screw.
+		yielding an expected torque of $\SI{1.7e-3}{N-m}$ at the 50 \textmu m compression, a very reasonable value for an M2 screw.
 
 		Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
 
@@ -3081,11 +3100,30 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \chapter{Data Sheets}
 \label{app:datasheets}
 
-The following data sheets are included below:
+	The following information is provided on the following pages:
 
-\begin{enumerate}
-	\item Mini-Flex bellows (excerpts from their 2026 catalog)
-\end{enumerate}
+	\begin{enumerate}
+		\item Part drawings and specifications for the screw, standard washer, and belleville washer
+		\item Bellows part specifications (exerpt from Mini-Flex's 2026 metal bellows catalog)
+		\item Material data sheets
+	\end{enumerate}
+
+	\section{McMaster Part Drawings and Specifications}
+	
+		\includepdf[fitpaper=true, landscape=true]{90362A141_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{90362A141_specs.pdf}
+		\includepdf[fitpaper=true, landscape=true]{93475A195_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{93475A195_specs.pdf}
+		\includepdf[fitpaper=true, landscape=true]{93237A101_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{93237A101_specs.pdf}
+
+	\section{Bellows Specifications}
+
+		\includepdf[fitpaper=true, landscape=true]{I718-159-72-430.pdf}
+
+	\section{Material Properties}
+
+
 
 
 %\includepdf[pages=1-2, fitpaper=true, landscape=true]{bellows_catalog.pdf}
