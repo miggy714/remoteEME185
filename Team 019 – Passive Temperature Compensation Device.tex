@@ -404,14 +404,25 @@ increases, the actuator drives the valve stem downwards, shrinking the orifice. 
 back up, opening the orifice again. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
 an equal distance.
 
-Calibration
+Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a belleville washer. By adjusting 
+the preload on the belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
+motion corresponds to the required orifice diameter at the reference temperature of \SI{25}{\degreeCelsius}. This allows us to meet the required relationship 
+with high precision, as the actuator's response is directly translated into the valve's effective diameter.
 
-Sealing
+Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows. The bellows provide a hermetic seal while allowing for the 
+necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure of \SI{68.95}{\mega\pascal} without leakage. 
+The use of two bellows (upper and lower) provides a balanced response to the internal pressure, minimizing the net force on the valve stem and thus reducing the 
+load on the actuator. This design choice is critical for maintaining the precision of the device, as it prevents deformation of the valve components under pressure 
+that could otherwise affect the orifice geometry.
 
 Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
-of the design.
+of the design. Electron beam welding was selected for its ability to create strong, precise welds all of which will be verified through full radiographic inspection.
+
 
 \section*{Evaluation and Verification}
+
+Verification of the \device\ was conducted through a series of calculations and computational models which were used to compare the performance of the design against 
+the specified requirements through the derived transfer function of the system:
 
 \section*{Improvements and Future Work}
 
@@ -536,15 +547,187 @@ of the design.
 \begin{appendices}
 \appendix
 
+\titleformat{\chapter}[block]
+  {\Large\bfseries}
+  {\appendixname\ \thechapter\ -\ }
+  {0pt}
+  {}
+\titlespacing*{\chapter}{0pt}{6pt}{10pt}
+
+
 \chapter{Derivations and Calculations}
 \label{app:derivations}
-% Insert your math, A0/A1 calculations, error propagation, and transfer function here.
-% You can use your custom commands like this:
-% The transfer function of the bimetallic actuator is defined as:
-% \begin{equation}
-%     \transferFunction
-% \end{equation}
 
+% ------------------------------------------------------------
+\subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+% ------------------------------------------------------------
+
+The effective diameter, $D_\text{eff}$ is the diameter of a circle of equal area,
+$A = \frac{\pi}{4} D_\text{eff}^2$.
+The PTCD orifice is the diamond-shaped overlap of two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
+Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
+the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
+\begin{equation}
+    \frac{\pi}{4} D_\text{eff}^2 = \frac{X^2}{2}
+    \qquad \Longrightarrow \qquad
+    D_\text{eff} = \sqrt{\frac{2}{\pi}}\, X
+    \label{eq:app_Deff_X}
+\end{equation}
+Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
+the valve transfer function is:
+\begin{equation}
+    \hat{G}_{V_0} = \frac{dD_\text{eff}}{dX}\,\frac{dX}{dL}
+        = \sqrt{\frac{2}{\pi}} \cdot (-1) = -0.798
+    \label{eq:app_GV}
+\end{equation}
+This result is purely geometric and produces a first-order (linear) diameter
+response, a property unique among hydrogen-compatible, manufacturable geometries.
+
+% ------------------------------------------------------------
+\subsection*{A.2 \quad Actuator Dimension Derivation}
+% ------------------------------------------------------------
+
+The bimetallic actuator consists of an aluminium expansion rod (length
+$L_\text{act}$, CTE $\alpha_\text{Al}$) nested inside an ALLVAR mount
+(length $L_\text{mount}$, CTE $\alpha_\text{ALLV}$).
+Because the mount base is welded to the housing (fixed) and the rod hangs
+from inside the mount, both materials act in the \emph{same} direction:
+\begin{equation}
+    \Delta L = \bigl(L_\text{act}\,\alpha_\text{Al}
+                   - L_\text{mount}\,\alpha_\text{ALLV}\bigr)\Delta T
+    \label{eq:app_actuation}
+\end{equation}
+The geometric constraint (belleville washer height $t_\text{wash} = 0.55$~mm,
+thermal isolation gap $L_\text{gap} = 5$~mm) gives:
+\begin{equation}
+    L_\text{mount} = t_\text{wash} + L_\text{act} + L_\text{gap}
+    \label{eq:app_act_dim}
+\end{equation}
+
+The required actuator transfer function follows from
+$\hat{G}_{A_0} = A_1 / \hat{G}_{V_0}$:
+\begin{equation}
+    \hat{G}_{A_0}
+        = \frac{dL}{dT}
+        = \frac{A_1}{-\sqrt{2/\pi}}
+        = -\sqrt{\frac{\pi}{2}}\,(- 1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C})
+        = 1.91\ \frac{\mu\text{m}}{^\circ\text{C}}
+    \label{eq:app_GA}
+\end{equation}
+
+Substituting Equation~\eqref{eq:app_act_dim} into
+Equation~\eqref{eq:app_actuation}, setting $\Delta L / \Delta T =
+\hat{G}_{A_0}$, and solving for $L_\text{act}$:
+\begin{align}
+    L_\text{act}
+        &= \frac{\hat{G}_{A_0}
+                 + (t_\text{wash} + L_\text{gap})\,\alpha_\text{ALLV}}
+               {\alpha_\text{Al} - \alpha_\text{ALLV}}
+    \notag \\[6pt]
+        &= \frac{1.91\ \mu\text{m}/^\circ\text{C}
+                 + (5.55\ \text{mm})(-30 \times 10^{-6}\ /^\circ\text{C})}
+               {22.85 \times 10^{-6} - (-30 \times 10^{-6})}
+        = 32.991\ \text{mm}
+    \label{eq:app_Lact}
+    \\[6pt]
+    L_\text{mount}
+        &= 32.991 + 0.55 + 5 = 38.541\ \text{mm}
+    \label{eq:app_Lmount}
+\end{align}
+These are the critical dimensions machined into the actuator
+subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
+mechanical envelope for the subsystem.
+
+% ------------------------------------------------------------
+\subsection*{A.3 \quad System Transfer Function: Proof of Requirement Satisfaction}
+% ------------------------------------------------------------
+
+The Required Relationship (Requirement R.1) demands:
+\begin{equation}
+    D_\text{eff} = A_1 (T_\text{amb} - T_\text{ref}) + A_0,
+    \qquad
+    A_1 = -1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C},\quad
+    A_0 = 0.254\ \text{mm}
+    \label{eq:app_RR}
+\end{equation}
+
+The system transfer function is composed of the two subsystem transfer
+functions in series, plus the valve reference diameter $D_\text{ref}$:
+\begin{align}
+    D_\text{eff}
+        &= \hat{G}_{V_0}\,\hat{G}_{A_0}\,\Delta T + D_\text{ref}
+    \notag \\
+        &= \left(-\sqrt{\tfrac{2}{\pi}}\right)
+           \left(+\sqrt{\tfrac{\pi}{2}}\,|A_1|\right)
+           \Delta T
+           + A_0
+    \notag \\
+        &= \bigl(-0.798\bigr)\bigl(1.91\ \mu\text{m}/^\circ\text{C}\bigr)
+           \Delta T + 0.254\ \text{mm}
+    \notag \\
+        &= \bigl(-1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C}\bigr)
+           \Delta T + 0.254\ \text{mm}
+        = A_1 \Delta T + A_0 \quad \checkmark
+    \label{eq:app_TF_proof}
+\end{align}
+
+The resulting effective diameters at the temperature extremes are:
+\begin{align*}
+    D_\text{eff}(-60\,^\circ\text{C})
+        &= 383.5 \pm 19.2\ \mu\text{m} \\
+    D_\text{eff}(+25\,^\circ\text{C})
+        &= 254.0 \pm 12.7\ \mu\text{m} \\
+    D_\text{eff}(+80\,^\circ\text{C})
+        &= 170.2 \pm 16.9\ \mu\text{m}
+\end{align*}
+The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
+human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
+
+% ------------------------------------------------------------
+\subsection*{A.4 \quad Pressure Vessel Structural Verification}
+% ------------------------------------------------------------
+
+The valve housing is modelled as a thick-walled cylinder of Invar~36
+under internal pressure $P = 68.95$~MPa. Principal stresses at the
+\emph{inner wall} (worst case) are:
+\begin{align}
+    \sigma_\theta
+        &= P\left(\frac{r_o^2+r_i^2}{r_o^2-r_i^2}\right)
+         = 68.95\left(\frac{19.53^2+9.53^2}{19.53^2-9.53^2}\right)
+         \approx 112.1\ \text{MPa}
+    \quad\text{(hoop)} \\
+    \sigma_r   &= -P \approx -68.95\ \text{MPa}
+    \quad\text{(radial)} \\
+    \sigma_z
+        &= P\left(\frac{r_i^2}{r_o^2-r_i^2}\right)
+         \approx 21.6\ \text{MPa}
+    \quad\text{(longitudinal)}
+\end{align}
+The von~Mises equivalent stress is:
+\begin{equation}
+    \sigma_\text{vm}
+    = \sqrt{\frac{(\sigma_\theta-\sigma_r)^2
+                 +(\sigma_r-\sigma_z)^2
+                 +(\sigma_z-\sigma_\theta)^2}{2}}
+    \approx 156.8\ \text{MPa}
+\end{equation}
+With a material yield strength $S_y = 370$~MPa (Invar~36):
+\begin{equation}
+    FS = \frac{S_y}{\sigma_\text{vm}}
+               = \frac{370}{156.8}
+               \approx 2.36
+\end{equation}
+For weldments, the ASME~B31.3 minimum wall thickness (with $E = 1.0$ from 100\%
+radiographic inspection) is:
+\begin{equation}
+    t_\text{min}
+    = \frac{P\,D_o}{2(S\,E\,W + P\,Y)}
+    = \frac{68.95 \times 39.06}{2(246.7 + 27.6)}
+    \approx 5.17\ \text{mm}
+    \;<\;
+    t_\text{actual}
+\end{equation}
+Both checks confirm structural viability with comfortable margins.
 
 \chapter{Computational Modeling}
 \label{app:modeling}
@@ -562,5 +745,4 @@ of the design.
 % \includepdf[pages=-, landscape=true]{Your_Top_Level_Drawing.pdf}
 
 \end{appendices}
-
 \end{document}
