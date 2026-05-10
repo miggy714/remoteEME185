@@ -27,6 +27,7 @@
 \usepackage{siunitx}% Proper formatting for SI units.
 \sisetup{per-mode=fraction}
 \sisetup{exponent-product=\cdot}
+\DeclareSIUnit{\fahrenheit}{\textdegree F}
 % Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
 % This ensures consistent unit formatting throughout the document.
 % ---------- Bibliography ----------
@@ -138,6 +139,7 @@
 \usepackage{calc}
 \usepackage{multicol}
 \usepackage{mdframed}
+\usepackage{wrapfig}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -159,7 +161,7 @@
 \newcommand{\instructor}{Professor Jonathan Schofield}
 \newcommand{\university}{University of California, Davis}
 \newcommand{\ta}{Teaching Assistant Xiangpu Wang}
-\newcommand{\duedate}{3 June 2026}
+\newcommand{\duedate}{5 June 2026}
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
@@ -167,9 +169,10 @@
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
-\newcommand{\Dcold}{D_{\text{effective}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
-\newcommand{\Dhot}{D_{\text{effective}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
-\newcommand{\Dref}{D_{\text{effective}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
+\newcommand{\Dcoldval}{}
+\newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm 19.2 \si{\micro\meter}}
+\newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm 16.9 \si{\micro\meter}}
+\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 292.1 \pm 12.7 \si{\micro\meter}}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -180,11 +183,11 @@
 \newcommand{\specEALLV}{\SI{55}{\giga \pascal}}
 \newcommand{\specEInv}{\SI{141}{\giga \pascal}}
 \newcommand{\specEInc}{\SI{200}{\giga \pascal}}
-\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} %Evaluated at 25C
-\newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
-\newcommand{\specInvarCTE}{\SI{1.3e-6}{\per \celsius}}
-\newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
-\newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}} % 430 lb/in
+\newcommand{\specActuatorCTE}{\SI{22.85}{\micro\meter\per\meter\per\celsius}} %Evaluated at 25C
+\newcommand{\specMountCTE}{\SI{-30}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInvarCTE}{\SI{1.3}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInconelCTE}{\SI{13.2}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specBellowsK}{\SI{75.3}{\kilo \newton \per \meter}} % 430 lb/in
 \newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
 \newcommand{\specBellowsOD}{\SI{6.528}{\milli \meter}} % Conv OD 0.257"
 \newcommand{\specBellowsID}{\SI{3.353}{\milli \meter}} % Conv ID 0.132"
@@ -198,17 +201,19 @@
 \newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
 \newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
 \newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
-\newcommand{\AoneExact}{\SI{-1.524e-3}{\frac{mm}{\degC}}}
+\newcommand{\AoneExact}{\SI{-1.524e-3}{\milli\meter\per\celsius}}
 \newcommand{\Aone}{\AoneExact \pm 5\%}
-\newcommand{\AzeroExact}{\SI{0.254}{mm}}
+\newcommand{\AzeroExact}{\SI{0.254}{\milli\meter}}
 \newcommand{\Azero}{\AzeroExact \pm 5\%}
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
 \newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+\newcommand{\specActDefTotal}{\SI{267}{\micro \meter}}
+\newcommand{\specActDefHot}{\SI{152.8}{\micro \meter}}
 
 % Transfer function specifications
 
-\newcommand{\GA}{\SI{1.91}{\frac{\micro \meter}{\celsius}}}
+\newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
 \newcommand{\GV}{\num{-0.798}}
 
 % System Requirements
@@ -430,8 +435,8 @@ the \teamname, to design a passive temperature compensation device (\device) tha
 The device must restrict its orifice as the ambient temperature of the surrounding air increases.
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
-stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m, or half the width of the ballpoint on a pen,
-with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
+stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and \SI{380}{\micro\meter}, or half the width of the ballpoint on a pen,
+with an average tolerance of $\pm \SI{13}{\micro\meter}$, about the thickness of a human hair.
 Our team designed two interconnected subsystems to accomplish this objective:
 
 \begin{itemize}
@@ -493,8 +498,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 				\begin{itemize}
 					\item Restrict the provided flow of gas, at a pressure of up to 70 MPa (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
-					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to 20 \textmu m\footnote{No more than the width of a human hair\cite{ref_NIH}}.
-					\item Do so without depending on external power, using active control, or exceeding a volume of $\SI{10}{cm}^3$.
+					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}}.
+					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
 				\end{itemize}
 			
 		\subsection{Potential stakeholders}
@@ -524,7 +529,6 @@ This Final Design Report illustrates the background, selected architecture, and 
 			As a test engineer sets up his experimental apparatus, he inserts the valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
 			No further attention is needed until the device malfunctions at the end of its lifetime, at which point the entire device must be replaced.
 			The chief advantage of this device is its passive nature; if it works correctly, test engineers can ignore the entire control system during its lifetime until they need to change the experiment.
-
 
 	\section{System Requirements}
 	\label{sec:intro:req}
@@ -1155,9 +1159,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 			Some heat will still transfer, altering the percieved ambient temperature and introducing error into the system,
 			but the thick housing wall, minimal contact with the Invar, and continual free convection with the atmosphere will minimize this error.
 
-			Small machining and assembly errors may introduce a constant offset. For instance, if the weld between the expansion rod and the valve stem separates them by 2 \textmu m,
-			the orifice height will be 2 \textmu m too high at all times, shifting the effective diameter towards its upper boundary.
-			Even this deviation is significant relative to the 10-20 \textmu m tolerance window for the effective diameter.
+			Small machining and assembly errors may introduce a constant offset. For instance, if the weld between the expansion rod and the valve stem separates them by \SI{2}{\micro\meter},
+			the orifice height will be \SI{2}{\micro\meter} too high at all times, shifting the effective diameter towards its upper boundary.
+			Even this deviation is significant relative to the 10-\SI{20}{\micro\meter} tolerance window for the effective diameter.
 			To counter this potential constant error, the actuator subsystem includes a calibration stack.
 			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
 			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders is tuned.
@@ -1187,8 +1191,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{figure}
 			\newcolumn
 				Let us define the change in the actuator length, $\Delta L$, as the vertical extension of the expansion rod (A1), which includes any rigid-body motion driven by the mount.
-				See Figure \ref{fig:L_X}. Thus, if the mount shrinks, and the expansion rod grows, by 1 \textmu m each, the length $L$ will increase by 2 \textmu m.
-				This drives the valve stem an equal amount, lowering the valve stem and shrinking the orifice height $X$ by 2 \textmu m.
+				See Figure \ref{fig:L_X}. Thus, if the mount shrinks, and the expansion rod grows, by \SI{1}{\micro\meter} each, the length $L$ will increase by \SI{2}{\micro\meter}.
+				This drives the valve stem an equal amount, lowering the valve stem and shrinking the orifice height $X$ by \SI{2}{\micro\meter}.
 
 			\subsubsection{Valve Transfer Function}
 			\label{subsubsec:design:just:TF:valve}
@@ -1235,15 +1239,14 @@ This Final Design Report illustrates the background, selected architecture, and 
 				According to dimensions from the engineering drawings in Appendix \ref{app:drawings}, the top corner of the leading orifice lies
 
 				\begin{equation*}
-					\SI{40.201}{mm} - \SI{5}{mm} = \SI{35.201}{mm}
+					\SI{40.201}{\milli\meter} - \SI{5}{\milli\meter} = \SI{35.201}{\milli\meter}
 				\end{equation*}
 
 				below the top surface of the housing, including a 5 mm gap between that and the valve stem-actuator interface at this temperature.
-				The bottom corner of the trailing orifice lies $\SI{35.519}{mm}$ below the same surface, resulting in an effective diameter of
-				\todo{Verify the two dimensions above once drawings are finished}
+				The bottom corner of the trailing orifice lies $\SI{35.519}{\milli\meter}$ below the same surface, resulting in an effective diameter of
 
 				\begin{equation}
-					D_{ref} = \sqrt{\frac{2}{\pi}} X_{ref} = \sqrt{\frac{2}{\pi}} (\SI{35.519}{mm} - \SI{35.201}{mm}) = \AzeroExact
+					D_{ref} = \sqrt{\frac{2}{\pi}} X_{ref} = \sqrt{\frac{2}{\pi}} (\SI{35.519}{\milli\meter} - \SI{35.201}{\milli\meter}) = \AzeroExact
 				\end{equation}
 
 				as specified. This specification value was informed by the orifice architecture after the design was developed; motivation for the architecture will be explained in section \ref{subsec:design:just:geo_sel}.
@@ -1251,87 +1254,92 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Actuator Transfer Function}
 			\label{subsubsec:design:just:TF:act}
 
-				\todo{Derive dL/dT TF -> dimensions of actuator and mount -> mention violation of ME is okay}
+			The bimetallic actuator expands at a constant rate with temperature, governing the transfer function
+			
+			\begin{equation*}
+				\hat{G}_{A_0} = \frac{dL}{dT}
+			\end{equation*}
+			
+			that translates the ambient temperature into motion.
+			The length of each of its components drives that expansion rate. Its dimensions are shown in greater detail in Figure \ref{fig:act_dim}.
+			A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures \SI{0.6}{\milli\meter} tall; we will assume a compressed height of \SI{0.55}{\milli\meter}\footnote{The exact compression height of the belleville washer is, by nature an unknown and varies between each device. If the washer needs to be compressed more or less than assumed, the deviation from the expected expansion rate will be no greater than that already introduced by the machining error.}
+			A \SI{5}{\milli\meter} gap, spanned by the valve stem, will separate the free end of the actuator from the housing, thermally insulating the actuator from direct heat transfer with the hot internal gas.
 
-				The bimetallic actuator expands at a constant rate with temperature, governing the transfer function
-				
-				\begin{equation*}
-					\hat{G}_{A_0} = \frac{dL}{dT}
-				\end{equation*}
-				
-				that translates the ambient temperature into motion.
-				The length of each of its components drives that expansion rate. Its dimensions are shown in greater detail in Figure \ref{fig:act_dim}.
-				A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures 0.6 mm tall; we will assume a compressed height of 0.55 mm\footnote{The exact compression height of the belleville washer is, by nature an unknown and varies between each device. If the washer needs to be compressed more or less than assumed, the deviation from the expected expansion rate will be no greater than that already introduced by the machining error.}
-				A 5mm gap, spanned by the valve stem, will separate the free end of the actuator from the housing, thermally insulating the actuator from direct heat transfer with the hot internal gas.
+			\begin{wrapfigure}{l}{0.49\textwidth}
+				\centering
+				\includegraphics[width=0.49\textwidth]{Act_dim.png}
+				\caption{Actuator dimension labels}
+				\label{fig:act_dim}
+			\end{wrapfigure}
 
-				\newpage%
-				\begin{multicols}{2}
-					\begin{figure}[H]
-						\centering
-						\begin{minipage}[t]{0.5\textwidth}
-							\centering
-							\includegraphics[width=\textwidth]{Act_dim.png}
-							\caption{Actuator dimension labels}
-							\label{fig:act_dim}
-						\end{minipage}
-					\end{figure}
+			Assuming the base of the mount, welded to the housing, to be fixed,
+			and assuming for now that the CTE of ALLVAR is positive,
+			the expansion rod (aka the ``actuator'') will expand downwards as it is lifted upwards when heated. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
+			However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta L$ by a double-negative.
+			Adding the dimensions in Figure \ref{fig:act_dim} yields the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
+			
+			\begin{align}
+				\Delta L = \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
+				L_{mount} = t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
+			\end{align}
 
-					Assuming the base of the mount, welded to the housing, to be fixed,
-					and assuming for now that the CTE of ALLVAR is positive,
-					the expansion rod (aka the "actuator") will expand townwards as it is lifted upwards when heated. This action yields the actuation-temperature relationship in equation \eqref{eq:actuation}.
-					However, because Allvar's CTE is negative, this mount will shrink as the actuator expands, aiding its action. Thus, the second term in equation \eqref{eq:actuation} increases the actuation distance $\Delta L$ by a double-negative.
-					Adding the dimensions in Figure \ref{fig:act_dim} yeilds the geometric relations in equation \eqref{eq:act_dim}, giving us the following system of two equations:
-					
-					\begin{align}
-						\Delta L = \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
-						L_{mount} = t_{wash} + L_{act} + L_{gap} \label{eq:act_dim}
-					\end{align}
-				\end{multicols}
+			Our target, from Specification \specref{A.1.1}, is
 
-				Our target, from Specification \specref{A.1.1}, is
+			\begin{equation}
+				\frac{dL}{dT} = \frac{\Delta L}{\Delta T} = \GA
+			\end{equation}
 
-				\begin{equation}
-					\frac{dL}{dT} = \frac{\Delta L}{\Delta T} = \GA
-				\end{equation}
+			Plugging in the following values:
 
-				Plugging in the following values:
+			\begin{align*}
+				\alpha_{act} &= \specActuatorCTE \\
+				\alpha_{mount} &= \specMountCTE \\
+				t_{wash} &= \SI{0.55}{\milli\meter} \\
+				L_{gap} &= \SI{5}{\milli\meter}
+			\end{align*}
 
-				\begin{align*}
-					\alpha_{act} &= \specActuatorCTE \\
-					\alpha_{mount} &= \specMountCTE \\
-					t_{wash} &= 0.55\ mm \\
-					L_{gap} &= 5\ mm
-				\end{align*}
+			we obtain the following results:
 
-				we obtain the following results:
+			\begin{align}
+				L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
+				&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+				L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter}
+			\end{align}
 
-				\begin{align}
-					L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
-					&= \frac{\GA + (5.55\ mm) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
-					L_{mount} &= L_{act} + t_{wash} + L_{gap} = 38.541\ mm
-				\end{align}
+			These critical dimensions ensure that the actuator subsystem maintains the specified output
 
-				These critical dimension ensure that the actuator subsystem maintains the specified output
+			\begin{equation}
+				\hat{G}_{A_0} = \frac{A_1}{-\sqrt{\frac{2}{\pi}}} = \GA
+			\end{equation}
 
-				\begin{equation}
-					\hat{G}_{A_0} = \frac{A_1}{-\sqrt{\frac{2}{\pi}}} = \GA
-				\end{equation}
-
-				Altogether, $\hat{G}_{V_0},\ \hat{G}_{A_0}, \text{ and } D_{ref}$ combine to satisfy the functional system requirement \specref{R.1}:
-				
-				\begin{align*}
-					D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
-					&= \left( \GV \right) \left( \GA \right) \Delta T + \AzeroExact \\
-					&= \left( \AoneExact \right) \Delta T + \AzeroExact \\
-					&= A_1 \Delta T + A_0
-				\end{align*}
+			Altogether, $\hat{G}_{V_0},\ \hat{G}_{A_0}, \text{ and } D_{ref}$ combine to satisfy the functional system requirement \specref{R.1}:
+			
+			\begin{align*}
+				D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
+				&= \left( \GV \right) \left( \GA \right) \Delta T + \AzeroExact \\
+				&= \left( \AoneExact \right) \Delta T + \AzeroExact \\
+				&= A_1 \Delta T + A_0
+			\end{align*}
 
 				This bimetallic architecture enables the actuator to be half the length of solitary high-expansion metal, keeping its total length (45.55 mm, accounting for the mount's upper wall and the screw that protrudes from its top) within the specified vertical mechanical envelope.
 
+				It is useful to note that the total required motion of the actuator is
+
+				\begin{equation}
+					\Delta L = \frac{dL}{dD} \Delta D = \frac{\Delta D_{eff}}{\hat{G}_{V_0}} = \frac{D_{hot} - D_{cold}}{-\sqrt{\frac{2}{\pi}}} = \frac{\SI{170.2}{\micro\meter} - \SI{383.5}{\micro\meter}}{-\sqrt{\frac{2}{\pi}}} = \specActDefTotal
+				\end{equation}
+
+				an imperceptable motion to the human eye. The maximum extension from the reference point is
+
+				\begin{equation}
+					\Delta L = \frac{D_{hot} - D_{ref}}{-\sqrt{\frac{2}{\pi}}} = \frac{\SI{170.2}{\micro\meter} - \SI{292.1}{\micro\meter}}{-\sqrt{\frac{2}{\pi}}} = \specActDefHot
+					\label{eq:act_def_hot}
+				\end{equation}
+
+				These values will be used elsewhere to calculate conditions at the extrema.
+
 		\subsection{Valve Architecture Selection Criteria}
 		\label{subsec:design:just:geo_sel}
-
-			\todo{Justification for the valve architecture: linear, minimal dof, simple. Briefly mention alts. Justify direct contact.}
 
 			To the first-time observer, the valve geometry appears peculiar and unintuitive.
 			The diamond-orifice architecture was developed after heavy consideration and several design iterations, described in more detail in Appendix \ref{app:PM}.
@@ -1350,7 +1358,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\end{equation*}
 
 			in section \ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlear behavior in one subsystem must be either reparameterized in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated as error.
-			$\hat{G}_{RR}$'s tolerable error is limited to 5\% of $A_1$, or $\SI{76.2}{\frac{nm}{\degC}}$, a razor-thin margin.
+			$\hat{G}_{RR}$'s tolerable error is limited to 5\% of $A_1$, or \SI{76.2}{\nano\meter\per\celsius}, a razor-thin margin.
 			To best reach this target, the selection process only permitted subsystem architectures that exhibit first-order behavior, admits minimal degrees of freedom, and interface directly with one another.
 			
 			Many actuator design alternatives readily fit these criteria, as most materials maintain a linear thermal expansion rate.
@@ -1421,17 +1429,17 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			Principal Stresses:
 			\begin{equation}
-			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx 112.05 \ \text{MPa} \quad (\text{Hoop Stress})
+			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx \SI{112.05}{\mega\pascal} \quad (\text{Hoop Stress})
 			\label{hoop}    
 			\end{equation}
 
 			\begin{equation}
-			\sigma_{r} = -P \approx -68.95 \ \text{MPa} \quad (\text{Radial Stress})
+			\sigma_{r} = -P \approx \SI{-68.95}{\mega\pascal} \quad (\text{Radial Stress})
 			\label{radial}  
 		\end{equation}
 
 			\begin{equation}
-			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx 21.55 \ \text{MPa} \quad (\text{Longitudinal Stress})
+			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx \SI{21.55}{\mega\pascal} \quad (\text{Longitudinal Stress})
 			\label{longitudinal}
 			\end{equation}
 			\\~\\
@@ -1444,7 +1452,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			\begin{equation}
 			\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} 
-			\approx 156.75 \ \text{MPa}
+			\approx \SI{156.75}{\mega\pascal}
 			\label{vonmises2}     
 			\end{equation}
 
@@ -1455,8 +1463,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{fs}
 			\end{equation}
 
-			The wall thickness of $10\ \text{mm}$ produces a Von Mises stress of $156.75\ \text{MPa}$, yielding a factor of safety of $FS \approx 2.36$.
-			The housing design ensures that $10\ \text{mm}$ is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than $10\ \text{mm}$.
+			The wall thickness of \SI{10}{\milli\meter} produces a Von Mises stress of \SI{156.75}{\mega\pascal}, yielding a factor of safety of $FS \approx 2.36$.
+			The housing design ensures that \SI{10}{\milli\meter} is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than \SI{10}{\milli\meter}.
 			
 			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
 			Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
@@ -1515,7 +1523,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\end{table}
 
 			The ASME allowable stress is derived directly from the housing yield strength using the standard 
-			code factor of $S = S_y / 1.5 = 370 / 1.5 = 246.7\ \text{MPa}$.
+			code factor of $S = S_y / 1.5 = 370 / 1.5 = \SI{246.7}{\mega\pascal}$.
 			Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
 			on the level of examination applied:
 
@@ -1529,11 +1537,11 @@ This Final Design Report illustrates the background, selected architecture, and 
 			
 			\begin{equation}
 			t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
-			\approx 5.17 \ \text{mm}
+			\approx \SI{5.17}{\milli\meter}
 			\label{t_num}
 			\end{equation}
 
-			Since $t_{min} = 5.17\ \text{mm} < t_{actual} = 10\ \text{mm}$, the design is verified.
+			Since $t_{min} = \SI{5.17}{\milli\meter} < t_{actual} = \SI{10}{\milli\meter}$, the design is verified.
 			The thickness safety factor at the weld joint is:
 			
 			\begin{equation}
@@ -1542,16 +1550,16 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\end{equation}
 			\\~\\
 			As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
-			($\sigma_\theta = 112.05\ \text{MPa}$) is compared directly against the weld joint allowable stress 
+			($\sigma_\theta = \SI{112.05}{\mega\pascal}$) is compared directly against the weld joint allowable stress 
 			\cite{asme_b313}:
 			
 			\begin{equation}
-			\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = 246.7 \ \text{MPa}
+			\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = \SI{246.7}{\mega\pascal}
 			\label{stress_allow}
 			\end{equation}
 
 			\begin{equation}
-			\sigma_\theta = 112.05 \ \text{MPa} < \sigma_{allow} = 246.7 \ \text{MPa}
+			\sigma_\theta = \SI{112.05}{\mega\pascal} < \sigma_{allow} = \SI{246.7}{\mega\pascal}
 			\label{ineq_hoop}
 			\end{equation}
 
@@ -1563,37 +1571,50 @@ This Final Design Report illustrates the background, selected architecture, and 
 			
 			These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$) \cite{asme_b313}, 
 			the weld joint introduces no strength penalty relative to the base material.
-			The joint is viable with a thickness margin of $ 4.83\ \text{mm}$ and a stress safety factor of $2.20$.            
+			The joint is viable with a thickness margin of \SI{4.83}{\milli\meter} and a stress safety factor of $2.20$.            
 
 		\subsection{Hermetic Seal}
 		\label{subsec:design:just:bellows}
 
-			\todo{All bellows information. Satisfies H-comp.}
+		\begin{wrapfigure}{l}{0.45\textwidth}
+				\centering
+				\includegraphics[width=0.43\textwidth]{bellows.png}
+				\caption{CAD model of the I718-159-72-430 bellows}
+				\label{fig:bellows}
+		\end{wrapfigure}
 
-			\begin{multicols}{2}
-				\begin{minipage}{.49\textwidth}
-					\begin{figure}[H]
-						\centering
-						\includegraphics[width=\textwidth]{bellows.png}
-						\caption{CAD model of the I718-159-72-430 bellows}
-						\label{fig:bellows}
-					\end{figure}
-				\end{minipage}
+		Any mechanical penetration of a pressure vessel requires a flexible, sealed interface. Polymer-based gaskets and O-rings are often used, but most such materials permit Hydrogen diffusion and embrittlement, permitting leakage and directly violating specification \specref{V.3.3}.
+		Flexible metal bellows provide a high-pressure, Hydrogen-compatible alternative. The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
+		The I718-15-72-430, pictured in Figure \ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst\ while only providing only a couple Newton's spring resistance per bellows at its maximum deflection.
+		Thus, at the maximum deflection from the reference point (see eq. \eqref{eq:act_def_hot}), the reaction force is only
 
-			\newcolumn
+		\begin{equation}
+			F = 2 k \Delta L = 2 \specBellowsK \specActDefHot = \SI{23}{\newton}
+		\end{equation}
 
-				Any mechanical penetration of a pressure vessel requires a flexible, sealed interface. Polymer-based gaskets and O-rings are often used, but most such materials permit Hydrogen diffusion and embrittlement, permitting leakage and directly violating specification \specref{V.3.3}.
-				Flexible metal bellows provide a high-pressure, Hydrogen-compatible alternative. The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
-				The I718-15-72-430, pictured in Figure \ref{fig:bellows}, can hold a seal at pressures up to 
+		from both bellows using Hooke's Law\cite{ref_Young_Freedman}.
 
-				The bellows drove many of the surrounding dimensions and design features.
-				According to the manufacturer's Design Guide\ref{ref_miniflex_design}, the burst pressure assumes that the bellows is "restrained from squirm or sideways movement" such that "squirm will not occur if the bellows is guided internally... by a rod stem".
-				The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
-				The housing inlet allows just enough internal space to fit the bellows to minimize waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
-				This violation is justified in section \ref{subsubsec:design:just:gen_dim:ME}.
+		The lower valve stem leads to nothing. It and the second bellows could easily be discarded.
+		However, because the whole centerpiece is surrounded by high-pressure air, doing so would create a force imbalance.
+		Every pressure force on one side of the part is balanced by an equivalent force on the opposite side except for the area sealed by the top bellows\footnote{The bellows' two necks have different diameters; the smaller of those ("Neck 1" in the bellows catalog\cite{ref_miniflex_catalog}) connects to the Valve Orifice},
+		inside of which is air at atmospheric pressure.
+		The corresponding area under the valve orifice would take unequilibriated pressure, causing a net upwards force of
 
-			\end{multicols}
-			
+		\begin{equation}
+			\begin{aligned}
+				F &= P A = (\textit{internal pressure}) \left( \frac{\pi}{4} (\textit{Neck 1 OD}) \right)
+				& = (\specPressure) \left( \frac{\pi}{4} (\SI{4.09}{\milli\meter})^2 \right) = \SI{900}{\newton}
+			\end{aligned}
+		\end{equation}
+
+		The second bellows solves this, adding a maximum of \SI{23}{\newton} from its spring reaction to remove a constant \SI{900}{\newton}.
+
+		The bellows drove many of the surrounding dimensions and design features.
+		According to the manufacturer's Design Guide~\cite{ref_miniflex_design}, the burst pressure assumes that the bellows is ``restrained from squirm or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod stem''.
+		The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
+		The housing inlet allows just enough internal space to fit the bellows to minimize waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
+		This violation is justified in section \ref{subsubsec:design:just:gen_dim:ME}.
+
 		\subsection{Noncritical dimensions and features}
 		\label{subsec:design:just:gen_dim}
 
@@ -1778,7 +1799,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
 
-				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(45.55 + 70.72) = \SI{116.27}{mm}$, a 16\% violation of the required mechanical envelope.
+				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(45.55 + 70.72) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
 				This was necessary to allow a direct interface with between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
 				Confirming this priority shift with Sandia Labs, our team decided to make the slight trade in size for the sake of precision and system performance.
 
@@ -1811,63 +1832,102 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
 
-			\todo{Justify the fit-tolerances in drawings}
+			The \device\ features several components that will slide closely against one another, either once during assembly or repeatedly during operation.
+			The tolerances of the inner and outer component, which are referred to as the "shaft" and "hole" (though not always circular), can be optimized according to the application's precision-friction trade-off. 
+			Shigley's Mechanical Engineering Design\cite[Table~7-9, A-11, A-12]{ref_shigley} establishes best practice for fit tolerances by fine-tuning the maximum and minimum tolerances of each hole and shaft dimension.
+			For each of the following fits, the necessary balance between locational precision and frictionless movement yielded a particular fit type, which corresponds to a given code (e.g. H7/g6) for use in the engineering drawings.
+
+			\begin{itemize}
+				\item The actuator slides against the mount as it expands. To minimize deflection (see section \ref{subsubsec:design:just:gen_dim:act_diam}), the internal expansion rod should fully span the mount's bore diameter.
+					However, sufficient clearance will ensure that their surfaces do not touch, especially as each expands laterally\footnote{ALLVAR is not isotropic. This means that although its vertical CTE is negative, its horizontal CTE values are positive like any ordinary metal. Thus, both components of the actuator will expand as they heat, building friction at their contact surfaces if not given sufficient clearance.}
+					with temperature. A \textit{free running fit} (H9/d9) provides sufficiet accuracy with enough clearance to avoid any friction.
+				\item The valve orifice must be machined to the bellows' exact convolution inner diameter to support it against pressure-driven squirm (see section \ref{subsec:design:just:bellows}), but like the actuator, contact should be avoided.
+					Because Inconel and Invar expand far less than aluminum and ALLVAR, a closer fit can be afforded to prevent lateral movement.
+					A \textit{sliding fit} (H7/g6) allows for low-friction movement at low speeds; it is the closest fit before contact occurs.
+					While the bellows convolution inner diameter tolerance cannot be manipulated, a g6 tolerance on the valve stem will ensure minimal friction.
+					Likewise, the hole in the housing center guides the valve stem's motion and requires the same tolerance (H7).
+				\item The valve stem's lateral placement critically affects the orifice geometry; its fit must permit minimal side-to-side movement. However, as with the valve stem, a snug fit risks galling (see section \ref{subsubsec:design:just:gen_dim:friction}), which would allow for a buildup of static friction before movement occurs.
+					As with the valve stem, a \textit{sliding fit} (H7/g6) ensures free locational motion while maintaining light contact on all sides.
+				\item The housing center should fit snugly into seated into the housing inlet upon assembly.
+					After it is welded in place, friction will be irrelevant; thus, to locate the housing center's hole as precisely as necessary, a \textit{locational clearance fit} (H7/h6) will be applied.
+			\end{itemize}
 
 		\subsection{Material Selection}
 		\label{subsec:design:just:mat}
 
-			\todo{Justify Invar, ALLVAR, Aluminum as best choices -- maybe even talk about Inconel.}
-
+		
 			Each material selected for the \device\ enabled its exceptional performance despite impossible design circumstances.
+			The Ashby Chart\todo{cite} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
+			Materials further up and to the right will possess greater driving authority when expanding, either by a higher Coefficient of Thermal Expansion (CTE) $\alpha$ or higher stiffness $E$.
+			
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=.75\textwidth]{ashby.png}
+				\caption{The Ashby Chart for Metals, Polymers, and Ceramics}
+				\label{fig:ashby}
+			\end{figure}
 
+			\todo{Cite Ashby, fix its tilt}
+			
 			\subsubsection{Aluminum expansion rod}
 			\label{subsubsec:design:just:mat:Al}
 
-				Given the demanding constraints for the actuator subsystem proper choice of materials is crucial. 
-				Device passivity requires precision actuation without correction or sensing (mention the +/-15um again?). 
-				The actuator must be sensitive to changes in temperature with minimal difference in function across 
-				the operating temperature range. These conditions paired with force and deflection calculations showed that 
-				hydraulics and pneumatics could not be considered due to insufficient CTE and unwanted compression. 
-				Polymers show promising high CTE’s and some with sufficient stiffness, but have properties that vary greatly 
-				across the operating temperature range that could surface in error or failure. Ceramics do not display as 
-				high if CTEs though their stiffness and property stability are good. Their low machinability and brittleness 
-				narrows our choice down to metals.  Aluminum was chosen as it has relatively high and constant CTE
-				and sufficient stiffness. The choice of Allvar for the second material in the bimetallic component 
-				compliments aluminum’s positive CTE with a greater negative CTE. Allvar like aluminum showcases CTE 
-				stability and excellent stiffness. These two metals paired offer a solution that can deliver long 
-				and accurate stroke lengths across our temperature range with negligible deflection under stress.
+				The actuator expansion rod requires a high, stable thermal expansion rate to properly drive the valve stem.
+				As reflected on the Ashby Chart, polymers possess the highest CTE, but they are soft (meaning they will readily deflect under reaction forces, such as from the bellows) and exhibit an inconsistent expansion rate across the full design temperature range.
+				Ceramics, though they have a high thermal stiffness, will hardly expand due to their low CTE, and their high modulus of elasticity makes them nearly impossible to machine to the necessary tolerance.
+				Some metals, such as certain Zinc and Magnesium alloys, have a CTE as high as \SI{30}{\micro\meter\per\meter\per\celsius}, but like the polymers, their expansion rates are too inconsistent for the precise output required for the \device's precise control output.
+				Aluminum\cite{ref_NASA_specs_Al} stands alone as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
 
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
-				\todo{ALLVAR justification}
+				\begin{wrapfigure}{l}{.45\textwidth}
+					\centering
+					\includegraphics[width=.43\textwidth]{ALLVAR_CTE.png}
+					\caption{CTE of ALLVAR against other metals}
+					\label{fig:ALLVAR_CTE}
+				\end{wrapfigure}
+
+				ALLVAR Alloy 30\cite{ref_AllvarAlloys}, used for the mount as the second actuator metal, is a proprietary, Titanium-based alloy patented by ALLVAR Alloys\cite{ref_AllvarAlloys_gen}.
+				Unlike any other metal, it shrinks along one axis when heated, allowing a shorter bimetallic actuator than a simple, monometallic aluminum actuator would be.
+				Its CTE magnitude is even higher than that of Aluminum and just as consistent\footnote{Although ALLVAR Alloys does not provide temperature-dependent thermal expansion data for their products, and although their thermal expansion data presented in Figure \ref{fig:ALLVAR_CTE} is imprecise, they claim a mostly linear expansion rate across our whole design temperature range.}
+				(Figure \ref{fig:ALLVAR_CTE}\cite{ref_AllvarAlloys}).
 
 			\subsubsection{Invar housing}
 			\label{subsubsec:design:just:mat:Inv}
 
-			Invar 36$^{\textregistered{}}$, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
-			Swiss physicist and metrologist Charles \'{E}douard Guillaume developed the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
+			Invar 36\textsuperscript{{\textregistered{}}}\cite{ref_Carpenter_Inv}, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
+			Swiss physicist and metrologist Charles \'{E}douard Guillaume unexpectedly discovered the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
 			He won a Nobel Prize for this discovery in 1920\footnote{
 				The curious individual may find Guillaume's 1920 Nobel Prize lecture\cite{ref_Invar_1920} particularly fascinating.
 			}\cite{ref_Invar_1920}.
-			Carpenter Technology\cite{ref_Carpenter_gen}, a manufacturer of the alloy, now holds the registered trademark to the name Invar 36 and confirms that its CTE reaches no more than $\SI{1.3}{\frac{\mu m}{\degC}}$ within our temperature range\cite{ref_Carpenter_Inv},
+			Carpenter Technology\cite{ref_Carpenter_gen}, a manufacturer of the alloy, now holds the registered trademark to the name Invar 36 and confirms that its CTE reaches no more than \specInvarCTE\ within our temperature range\cite{ref_Carpenter_Inv},
 			ten times less than that of steel\cite{ref_ASM_Steel} and 20 times less than Aluminum\cite{ref_NASA_specs_Al}.
 			This special property allows exceptional thermal stability in the parts not designed to expand, allowing for the necessary precision in passive thermomechanical performance.
-			\todo{Ashby}
+			The Ashby Chart in Figure \ref{fig:ashby} makes apparent that Invar stands alone as a low-expansion metal. Only ceramics, which are too hard to machine, approach its expansion rate.
+			Invar is plotted with such an eccentric ellipse, not because its CTE is inconsistent across temperature, but because myriad heat-treatment and work-hardening processes can bring its CTE as low as \SI{0.15}{\micro\meter\per\meter\per\celsius}.
+			Guillaume claimed to have brought one sample of Invar wire several kilometers long to a negative CTE, annealed it back to near-zero, and found its expansion rate imperceptible even at that length\cite[p. 452]{ref_Invar_1920}.
 
 			\subsubsection{Inconel bellows}
 			\label{subsubsec:design:just:mat:Inc}
 
-			\begin{itemize}
-				\item Test
-				\subitem Test
-			\end{itemize}
+				INCONEL\textsuperscript{{\textregistered{}}}\cite{ref_SpecialMetals_Inc} Alloy 718, a Nickel superalloy used by Mini-Flex for their high-pressure bellows, outperforms any other metal on several key metrics for a hermitic seal and is ubiquitous in the aerospace industry\cite[p.~1]{ref_SpecialMetals_Inc}.
+				Special Metals Corporation\cite{ref_SpecialMetals_gen} now holds the registered trademark\footnote{Like Invar, Inconel was discovered by mistake, this time by American metallurgist Herbert Louis Eiselstein for INCO in 1965\cite{ref_Inconel_1965}. Curious readers will find his 1991 account of the discovery (given at a metallurgy conference in 1991) compelling\cite{ref_Inconel_1991}.}.
+				Its CTE and Elastic Modulus (Appendix \ref{app:datasheets:mat}) are unspectacular and near that of steel.
+				Nevertheless, conventional metals such as steel fail several criteria required to meet and maintain Specifications \specref{V.3.2} and \specref{V.3.3}:
 
-			INCONEL$^{\textregistered{}}$ Alloy 718, the material used by Mini-Flex for their high-pressure bellows, is an exceptionally strong metal alloy.
-			Special Metals Corporation\cite{ref_SpecialMetals_gen} holds the registered trademark.
-			\todo{material props}\cite{ref_SpecialMetals_Inc}
+				\begin{itemize}
+					\item Strength at temperature. All metals soften when heated and grow brittle when cooled. Inconel, according to its developer, is "suitable for temperatures from [\SI{-250}{\celsius}] up to [\SI{700}{\celsius}]"%
+						\footnote{Converted from \si{\fahrenheit}}\cite[p.~62, 74--76]{ref_Inconel_1965}.
+					\item Fatigue resistance. Metals wear with repeated cyclic loads such as the oscillatory motion required of the bellows throughout its lifetime. Inconel outlasts most metals under such conditions, cited as having "Good tensile, fatigue, creep, and rupture strength" by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
+					\item Hydrogen compatibility. All gases diffuse (penetrate) through all metals imperceptibly. Hydrogen does this particularly aggressively, leading to Hydrogen embrittlement, the loss of a metal's ductility as its material reacts with the seeping gas.
+						Inconel, though an imperfect barrier, is particularly immune to this phenomenon. Jonathan Lee, writing for NASA in 2016\cite[Table~4]{ref_NASA_Inc}, rated Inconel 718 as "Extreme" on the Hydrogen Environmental Embrittlement (HEE) scale at conditions up to \SI{68.9}{\mega\pascal}.
+					\item Weldability. Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for electron-beam welds, drove the alloy's industry dominance.
+				\end{itemize}
 
-		\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
+				See Appendix \ref{app:datasheets:mat} for relevant material data used throughout this report.
+
+			\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
 
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
@@ -1898,7 +1958,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			
 			Table \ref{fig:al_alpha} \cite{ref_NASA_specs_Al} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
 			
-			Using $\alpha = 22.7 \times 10^{-6} \frac{1}{\degC}$, we get the expected
+			Using $\alpha = \specActuatorCTE$, we get the expected
 			
 			$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
 			
@@ -1912,12 +1972,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
 
-			$Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = 2.4 \text{ microns}$
+			$Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = \SI{2.4}{\micro\meter}$
 
 			The 2.4 microns fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
-			Using the dimensional tolerance of $5 \mu m$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
+			Using the dimensional tolerance of $\SI{5}{\micro\meter}$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
-			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * 2.4 \mu m \right) ^2 + \left( 23E-6 * 5 \mu m \right) ^2} = 0.2 \mu m \leq 0.3 \mu m$$
+			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * \SI{2.4}{\micro\meter} \right) ^2 + \left( 23E-6 * \SI{5}{\micro\meter} \right) ^2} = \SI{0.2}{\micro\meter} \leq \SI{0.3}{\micro\meter}$$
 
 
 	\section{System Transfer Function}
@@ -2317,20 +2377,20 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{align}
 			\end{mdframed}
 
+			\begin{wrapfigure}{l}{0.5\textwidth}
+				\centering
+				\includegraphics[width=0.48\textwidth]{K_pos.png}
+				\caption{Orifice geometry}
+				\label{fig:K_pos}
+			\end{wrapfigure}
+
 			To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
 			one must travel up the mount, down the actuator, down the valve stem, and partway down the valve orifice.
 			To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
 			one must travel straight down the housing wall.
 			Because $L_V$ and $L_H$ represent the total height of the valve orifice and housing outlet, a multiplier is required to find the position of each square cut.
+
 			As pictured in Figure \ref{fig:K_pos}, the upper and lower corners of the orifice lie $\frac{X_{ref}}{2}$ from the centerline, which lies midway between $y_T$ and $y_B$.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.5\textwidth]{K_pos.png}
-				\caption{Orifice goemetry}
-				\label{fig:K_pos}
-			\end{figure}
-
 			This yields the values for $K_V$ and $K_H$:
 
 			\todo{Make derivation more explicit}
@@ -2352,30 +2412,22 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\end{equation}
 			\end{mdframed}
 
-		\subsection{Orifice Geometry}
-		\label{subsec:sat:TF:orif}
+    \subsection{Orifice Geometry}
+    \label{subsec:sat:TF:orif}
+
+			\begin{wrapfigure}{l}{0.25\textwidth}
+					\centering
+					\includegraphics[width=0.23\textwidth]{G_O.png}
+					\caption{Orifice transfer function}
+					\label{fig:G_O}
+			\end{wrapfigure}
 
 			Finally, with the height of the orifice, we can calculate its effective diameter.
 			This is the most critical part of the System Transfer Function because the square orifice bears the most potential for machining errors.
 			Such errors will be kept symbolic for now.
-						
-			\newpage
-			\begin{multicols}{2}
-				\begin{figure}[H]
-					\centering
-					\includegraphics[height=.3\textheight]{G_O.png}
-					\caption{Orifice transfer function}
-					\label{fig:G_O}
-				\end{figure}
 
-				\columnbreak
-
-				The orifice transfer function $\hat{G}_O$ is best divided into two sub-transfer functions, as in Figure \ref{fig:G_O}:
-				one to convert the orifice height into the resulting error, and one to translate his into the effective diameter.
-				
-			\end{multicols}
-
-
+			The orifice transfer function $\hat{G}_O$ is best divided into two sub-transfer functions, as in Figure \ref{fig:G_O}:
+			one to convert the orifice this into the orifice area $A$, and one to convert area into effective diameter $D_{eff}$.
 
 			\subsubsection{$\hat{G}_A$: Height to Area}
 			\label{subsubsec:sat:TF:orif:G_A}
@@ -2385,6 +2437,12 @@ This Final Design Report illustrates the background, selected architecture, and 
 				\begin{equation}
 					A = s^2 = \left( \frac{X}{\sqrt{2}} \right)^2 = \frac{X^2}{2}
 				\end{equation}
+
+				\todo{Not finished}
+
+
+
+
 
 
 
@@ -2488,27 +2546,33 @@ This Final Design Report illustrates the background, selected architecture, and 
 	% MATERIAL DATA
 
 	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
-		% CTE at room temp = 23.85 μm/C
+		% CTE at room temp = 23.85 ppm/C
 		% E = 68.95 MPa
 	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
 	[Accessed: May 8, 2026].
 
 	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
-		% CTE = -30 μm/C
+		% CTE = -30 ppm/C
 		% E = 55 GPa
 	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
 	[Accessed: May 8, 2026].
 
 	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
-		% CTE = 1.3 μm/C
+		% CTE = 1.3 ppm/C
 		% E = 141 GPa
 	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_SpecialMetals_Inc} % Inconel
+	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
+		% CTE = 13.2 ppm/C
+		% E = 200 GPa
 	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007, p. . [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
 	[Accessed: Apr. 17, 2026].
+
+	\bibitem{ref_NASA_Inc} % Inconel advantages
+	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
 	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
 		% 18-8 304 SS:
@@ -2520,7 +2584,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
 	\bibitem{ref_ASM_Steel} % Used for CTE comparison
-		% CTE = 11.7
+		% CTE = 11.7 ppm/C
 		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
 
 	% COURSE TEXTS AND ENGINEERING PRACTICES
@@ -2614,12 +2678,24 @@ This Final Design Report illustrates the background, selected architecture, and 
 	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
 	[Accessed: May 8, 2026].
 
+	\bibitem{ref_Inconel_1965}
+	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+
+	\bibitem{ref_Inconel_1991}
+	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
+	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+
+	\bibitem{ref_AllvarAlloys_gen}
+	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+	[Accessed: May 9, 2026] 
+
 	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
-	Carpenter Technology Corporation, \textit{Carpenter Technology: Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
 	[Accessed: May 8, 2026].
 
 	\bibitem{ref_SpecialMetals_gen}
-	Special Metals Corporation, \textit{Special Metals: High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
 
 	% Add more \bibitem entries as needed.
@@ -2679,7 +2755,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			\label{tab:RR}
 			\begin{tabular}{ccc}
 				\toprule
-				$T$ (\textdegree C) & $D$ (\textmu m) & $u_D$ (\textmu m) \\
+				$T$ (\textdegree C) & $D$ (\si{\micro\meter}) & $u_D$ (\si{\micro\meter}) \\
 				\midrule
 				$-60$ & 383.5 & 19.18 \\
 				$-50$ & 368.3 & 18.42 \\
@@ -2768,21 +2844,21 @@ This Final Design Report illustrates the background, selected architecture, and 
 		The belleville washer that separates the two cylinders of the actuator (A1 and A2), purchased from McMaster Carr\cite{ref_McMaster_belle}, applies a spring force as it is clamped by the screw during the calibration process.
 		According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the Deutsches Institut für Normung (DIN, German Institute for Standardization), standard 6796\cite{ref_din6796},
 		which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
-		This paper assumes a deflection of 50 \textmu m and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
-		However, the washer can deflect up to 200 \textmu m if necessary.
+		This paper assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
+		However, the washer can deflect up to \SI{200}{\micro\meter} if necessary.
 		The following force is required to apply a deflection within this range during calibration:
 
 		\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle, ref_ledbetter1981}
 
 		\begin{itemize}
-			\item Outer Diameter $OD = \SI{5}{mm}$
-			\item Inner Diameter $ID = \SI{2.2}{mm}$
-			\item Young's Modulus $E = \SI{207.8}{GPa}$
+			\item Outer Diameter $OD = \SI{5}{\milli\meter}$
+			\item Inner Diameter $ID = \SI{2.2}{\milli\meter}$
+			\item Young's Modulus $E = \SI{207.8}{\giga\pascal}$
 			\item Poisson's Ratio $\nu = 0.282$
-			\item Free height $H = \SI{0.6}{mm}$
-			\item Thickness $t = \SI{0.4}{mm}$
-			\item Cone height $h = H - t = \SI{0.2}{mm}$
-			\item Deflection $0 \leq \delta \leq \SI{0.2}{mm}$
+			\item Free height $H = \SI{0.6}{\milli\meter}$
+			\item Thickness $t = \SI{0.4}{\milli\meter}$
+			\item Cone height $h = H - t = \SI{0.2}{\milli\meter}$
+			\item Deflection $0 \leq \delta \leq \SI{0.2}{\milli\meter}$
 		\end{itemize}
 
 		\begin{equation}
@@ -2801,7 +2877,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
 
 		\begin{equation}
-			T = K F d = (0.18) (\SI{184}{N}) (\SI{2}{mm})
+			T = K F d = (0.18) (\SI{184}{N}) (\SI{2}{\milli\meter})
 		\end{equation}
 
 		where
@@ -2813,7 +2889,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 			d \text{ is the diameter of the M2 screw}
 		\end{align*}
 		
-		yielding an expected torque of $\SI{1.7e-3}{N-m}$ at the 50 \textmu m compression, a very reasonable value for an M2 screw.
+		yielding an expected torque of \SI{1.7e-3}{\newton\meter} at the \SI{50}{\micro\meter} compression, a very reasonable value for an M2 screw.
 
 		Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
 
@@ -2913,6 +2989,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 		\begin{itemize}
 			\item Do we need to heat-treat the Invar parts?
 			\item Recommend applying Loctite for lubrication and firm seal when calibrating
+			\item Finishing pass on HI after internals have been inserted
+			\item Apply coat to orifice
+			\item Finishing pass on critical faces; measure from those faces
 		\end{itemize}
 	\color{black}
 
@@ -3095,7 +3174,7 @@ The PTCD is calibrated at final assembly. Field recalibration is only needed if 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=.5\textwidth]{cal.png}
+	\includegraphics[width=.75\textwidth]{cal.png}
 	\caption{System Calibration with a Belleville Washer, repeated}
 	\label{fig:ug_calib}
 \end{figure}
@@ -3200,7 +3279,8 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 	\label{app:datasheets:Bellows}
 
 		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
-		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that this value assumes no 
+		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that "Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore" \cite[p.~5]{ref_miniflex_design}.
+		The valve stem provides such support, dimensioned to provide a sliding-fit interface (see section \ref{subsec:design:just:fits}).
 
 		\todo{Uncomment below pdf}
 		% \includepdf[fitpaper=true, landscape=true]{I718-159-72-430.pdf}
