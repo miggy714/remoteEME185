@@ -12,7 +12,7 @@
 % ---------- Graphics & Figures ----------
 \usepackage{graphicx}% THE core package for inserting images.
 % Usage: \includegraphics[width=0.8\textwidth]{filename.png}
-\graphicspath{{figures3/}}
+\graphicspath{{figuresSandiaAward/}}
 \usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
 \usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
 % ---------- Tables ----------
@@ -393,6 +393,12 @@ showing the internal components and their arrangement.
 \end{figure}
 
 The design utilizes the difference in thermal expansion between two materials to create displacement that directly translates into a change in the valve orifice size, thus controlling the gas flow.
+
+The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of Aluminum 6061 and ALLVAR. While standard metals expand when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
+
+By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into precise mechanical work. As the temperature rises, the Aluminum core pushes downward while the ALLVAR housing pulls the reference plane upward. This "push-pull" effect creates a compounded relative
+ displacement at the valve stem. This thermo-mechanical coupling allows the device to achieve the high-resolution motion required to maintain the $\pm 13$ \textmu m orifice tolerance without any external power or electronic feedback. This relationship is mathematically modeled by the governing equation $\govActuator$, where the effective displacement is a direct 
+ function of the material properties and the thermal gradient.
 
 At the heart of the design is the valve orifice, which is a square aperture that provides a linear flow response to the actuator's motion. 
 Two square holes form the aperture, one in the valve outlet and one in the valve stem, which are precisely aligned to create an effective 
