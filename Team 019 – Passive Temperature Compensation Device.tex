@@ -348,7 +348,7 @@ The device must restrict its orifice as the ambient temperature of the surroundi
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m,
-with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
+with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair \cite{ref_sandiaprompt}.
 
 This Sandia Design Award Report illustrates selection procedure, final solution, and testing methods of our design. It achieves the following:
 
@@ -365,7 +365,7 @@ This Sandia Design Award Report illustrates selection procedure, final solution,
 
 \section*{Final Solution}
 
-In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision  control valve that 
+In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision control valve that 
 successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
 components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
 assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
@@ -376,7 +376,7 @@ showing the internal components and their arrangement.
     % Left Image (a)
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
+        \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
         \caption{Complete assembly}
         \label{fig:mainIsometric}
     \end{subfigure}
@@ -384,7 +384,7 @@ showing the internal components and their arrangement.
     % Right Image (b)
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{CompleteAssemblyExploded.png}
+        \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
         \caption{Complete assembly exploded view}
         \label{fig:mainExploded}
     \end{subfigure}
@@ -392,14 +392,17 @@ showing the internal components and their arrangement.
     \label{fig:assembly_combined}
 \end{figure}
 
+The design utilizes the difference in thermal expansion between two materials to create displacement that directly translates into a change in the valve orifice size, thus controlling the gas flow.
+
 At the heart of the design is the valve orifice, which is a square aperture that provides a linear flow response to the actuator's motion. 
 Two square holes form the aperture, one in the valve outlet and one in the valve stem, which are precisely aligned to create an effective 
 orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
-relationship between actuator displacement and flow restriction (Appendix~\ref{sec:flow}). The orifice is cut using wire EDM, allowing 
-for a very small corner radius, which is critical for achieving the required precision in flow control. 
+relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire EDM, allowing 
+for a very small minimum corner radius (0.056 mm), which is critical for achieving the required precision in flow control. 
+The valve orifice extends into two stems that transfer the actuator's motion to the aperture. All contact surfaces are coated with a to prevent galling.
 
 A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature 
-changes. The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands. Thus, as the ambient temperature 
+changes. The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands \cite{ref_muraca1972aluminum}. Thus, as the ambient temperature 
 increases, the actuator drives the valve stem downwards, shrinking the orifice. As the temperature decreases, the actuator pulls the stem 
 back up, opening the orifice again. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
 an equal distance.
@@ -409,20 +412,23 @@ the preload on the belleville washer via the adjustment screw and consequently t
 motion corresponds to the required orifice diameter at the reference temperature of \SI{25}{\degreeCelsius}. This allows us to meet the required relationship 
 with high precision, as the actuator's response is directly translated into the valve's effective diameter.
 
-Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows. The bellows provide a hermetic seal while allowing for the 
+Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
 necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure of \SI{68.95}{\mega\pascal} without leakage. 
 The use of two bellows (upper and lower) provides a balanced response to the internal pressure, minimizing the net force on the valve stem and thus reducing the 
 load on the actuator. This design choice is critical for maintaining the precision of the device, as it prevents deformation of the valve components under pressure 
 that could otherwise affect the orifice geometry.
 
 Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
-of the design. Electron beam welding was selected for its ability to create strong, precise welds all of which will be verified through full radiographic inspection.
+of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds all of which will be verified through full radiographic inspection.
+
+Throughout the design, exact interface dimensions and tolerances were carefully calculated to ensure that components fit together with the necessary precision to meet the required specifications. 
+The design also incorporates features to facilitate assembly and encourage access for welding. Compared to previous iterations, the final design achieves a more compact and robust configuration with fewer unique parts.
 
 
 \section*{Evaluation and Verification}
 
 Verification of the \device\ was conducted through a series of calculations and computational models which were used to compare the performance of the design against 
-the specified requirements through the derived transfer function of the system:
+the specified requirements through the derived transfer function of the system \cite{ref_Figliola}.
 
 \section*{Improvements and Future Work}
 
