@@ -345,10 +345,10 @@ The device must restrict its orifice as the ambient temperature of the surroundi
 The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
 The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
 stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m,
-with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair.
+with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair \cite{ref_sandiaprompt}.
+\todo{Maybe give design pressure and temperature range? That's a good chunk of the project's difficulty.}
 
-
-This Sandia Design Report illustrates selection procedure, final solution, and testing methods of our design. It achieves the following:
+This Sandia Design Award Report illustrates the selection procedure, final solution, and testing methods of our design. It achieves the following:
 
 \begin{itemize}
 	\item Outlines design approach and the decision process that led to the final design
@@ -359,6 +359,17 @@ This Sandia Design Report illustrates selection procedure, final solution, and t
 \end{itemize}
 
 \section*{Design Approach}
+
+The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve.
+Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent. When coming
+up with the design for both the actuator and the valve we went through many different possibilities, but eventually decided on the design we did using a scoring matrix to rank all of the designs we had a see which one 
+fit our requirements the best.
+
+For the actuator, some of the designs we came up with were: bimetallic coil, thermal expansion rod, wax bladder, piston-cylinder assembly. The criteria we used when evaluating these different designs were: effectiveness over the 
+required temperature range, linearity of response, fit within required mechanical envelope, ability to withstand fluid force and adequate displacement so we would not need a gear mechanism to amplify the motion. After evaluating all of
+the different designs we decided on a variant of the thermal expansion rod due to it's simplicity in design and it's very predictable linear response to temperature changes. Then we needed to choose the material for the actuator. For this we 
+went with aluminum due to its high coefficient of thermal expansion, low cost, and ease of manufacturing. We also needed to decide on the material for the mount that held the actuator. At first we went with steel due to it's low cost and 
+machinability, but we found that steel's coefficient of thermal expansion
 
 
 \section*{Final Solution}
@@ -412,7 +423,7 @@ load on the actuator. This design choice is critical for maintaining the precisi
 that could otherwise affect the orifice geometry.
 
 Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
-of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds all of which will be verified through full radiographic inspection.
+of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds, all of which will be verified through full radiographic inspection.
 
 Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a Belleville washer. By adjusting 
 the preload on the Belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
@@ -748,7 +759,7 @@ Both checks confirm structural viability with comfortable margins.
     \captionof{figure}{Bill of Materials}
     \label{fig:bom}
 \end{landscape}
-\includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
+% \includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
 
 \end{appendices}
 
