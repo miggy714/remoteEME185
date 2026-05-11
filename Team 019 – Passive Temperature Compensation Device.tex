@@ -381,7 +381,7 @@ showing the internal components and their arrangement.
     % Left Image (a)
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        % \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
+        \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
         \caption{Complete assembly}
         \label{fig:mainIsometric}
     \end{subfigure}
@@ -389,7 +389,7 @@ showing the internal components and their arrangement.
     % Right Image (b)
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        % \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
+        \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
         \caption{Complete assembly exploded view}
         \label{fig:mainExploded}
     \end{subfigure}
@@ -408,7 +408,7 @@ At the heart of the valve design is the valve orifice (4), which consists of an 
 Two square holes form the aperture, one in the valve outlet (3) and one in the valve stem, which are precisely aligned to create an effective 
 orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
 relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire electro discharge machining (EDM), allowing 
-for a very small minimum corner radius (0.056 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a to prevent galling.
+for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
 
 The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
 
@@ -432,8 +432,10 @@ The design also incorporates features to facilitate assembly and encourage acces
 
 \section*{Evaluation and Verification}
 
-Verification of the \device\ was conducted through a series of calculations and computational models which were used to compare the performance of the design against 
-the specified requirements through the derived transfer function of the system \cite{ref_Figliola}.
+After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
+Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems\cite{ref_Nise}.
+The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
+The transfer function produced the system output results shown in Figure \ref{TF}, verifying satisfaction of the required relationship despite these sources of error.
 
 \section*{Improvements and Future Work}
 The \device\ design reliably and precisely accomplishes the specified requirements while operating in extreme temperature and pressure conditions. However, manufacturing and assembly of the device will require careful attention to detail and precision. With the current design, we anticipate that the most significant challenges will occur in repeatability of the manufacturing process therefore any future design iterations should focus on improving the manufacturability of the device. 
@@ -579,7 +581,7 @@ These tests are designed to validate design and to support the computational mod
 
 The effective diameter, $D_\text{eff}$ is the diameter of a circle of equal area,
 $A = \frac{\pi}{4} D_\text{eff}^2$.
-The PTCD orifice is the diamond-shaped overlap of two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
+The PTCD orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
 Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
 the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
 \begin{equation}
@@ -755,7 +757,7 @@ Both checks confirm structural viability with comfortable margins.
 \label{app:drawings}
     \section*{Bill of Materials}
     \centering
-    % \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{BOM.png}
+    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{BOM.png}
     \captionof{figure}{Bill of Materials}
     \label{fig:bom}
 \end{landscape}
