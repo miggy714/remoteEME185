@@ -477,22 +477,22 @@ This Final Design Report illustrates the background, selected architecture, and 
 
 			Sandia National Laboratories, a United States security research facility in Livermore, CA, often performs high-precision experiments involving the flow of high-pressure $\text{H}_{\text{2}}$ gas.
 			These experiments are sensitive to environmental temperature fluctuations and must be tightly controlled.
-			Gas flow in each of many\footnote{\todo{Several? Dozens? Hundreds?}} independent channels must be restricted by an orifice a few dozen micrometers across at most that close as the ambient air temperature rises to protect sensitive equipment or carefully control conditions downstream.
+			Gas flow in one or two independent channels must be restricted by an orifice a few dozen micrometers across at most that close as the ambient air temperature rises to protect sensitive equipment or carefully control conditions downstream.
 			Typically, an active-control feedback loop, coupled with a close-tolerance, solenoid-powered valve, would easily compensate for these temperature variations.
 			However, the lab technicians often cannot actively monitor or control the flow due to power, personnel, or space constraints.
 			They would require a fully passive thermomechanical valve, one that could tightly control the flow of high-pressure gas across a wide temperature range.
-			Passive temperature-compensating devices exist on the current market, \todo{maybe mention that most have a binary function and do not allow for flow adjustment} but none approach the size or performance characteristics needed.
-			Thermostatic actuators\footnote{\todo{Cite}} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
+			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
+			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
 			and are designed for low-pressure, light-tolerance applications.
-			Thermal louvers and thermostatic bypass valves\footnote{\todo{Cite the paper on thermal switches that Isaiah found}} passively regulate delicate satelite equipment at the size and precision Sandia requires, but switch on and off to compensate for the binary thermal extremes of space rather than operating continuously over their temperature range.
+			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satelite equipment at the size and precision Sandia requires, but switch on and off to compensate for the binary thermal extremes of space rather than operating continuously over their temperature range.
 			Therefore, despite this design foundation, a continuous, high-precision, passive valve that manipulates fluid flow without responding to its conditions would prove a novel and highly challenging exercise.
 
 			
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors\footnote{\todo{Don't use "we" in this report. It's unprofessional.}} of this paper, to develop a high-pressure, Hydrogen-compatible, passive temperature compensation device that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
+				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors of this paper, to develop a high-pressure, Hydrogen-compatible, passive temperature compensation device that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package presented in this report.
 				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
@@ -1876,7 +1876,8 @@ This Final Design Report illustrates the background, selected architecture, and 
 				As reflected on the Ashby Chart, polymers possess the highest CTE, but they are soft (meaning they will readily deflect under reaction forces, such as from the bellows) and exhibit an inconsistent expansion rate across the full design temperature range.
 				Ceramics, though they have a high thermal stiffness, will hardly expand due to their low CTE, and their high modulus of elasticity makes them nearly impossible to machine to the necessary tolerance.
 				Some metals, such as certain Zinc and Magnesium alloys, have a CTE as high as \SI{30}{\micro\meter\per\meter\per\celsius}, but like the polymers, their expansion rates are too inconsistent for the precise output required for the \device's precise control output.
-				Aluminum\cite{ref_NASA_specs_Al} stands alone as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
+				Aluminum\cite{ref_NASA_specs_Al} stands alone\footnote{This absolute must be taken with a grain of salt. While ALLVAR, Invar 36, and Inconel 718 show strong evidence that they are the best material choices for their respective applications, Aluminum may be best replaced with a certain Zinc or Magnesium alloy. While Aluminum is a suitable choice, its selection process was expidited to keep up with the tight project schedule; further research may reveal an alloy with a consistent CTE higher than that of Aluminum, allowing for a shorter bimetallic actuator.} 
+				as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
 
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
@@ -1892,6 +1893,9 @@ This Final Design Report illustrates the background, selected architecture, and 
 				Unlike any other metal, it shrinks along one axis when heated, allowing a shorter bimetallic actuator than a simple, monometallic aluminum actuator would be.
 				Its CTE magnitude is even higher than that of Aluminum and just as consistent\footnote{Although ALLVAR Alloys does not provide temperature-dependent thermal expansion data for their products, and although their thermal expansion data presented in Figure \ref{fig:ALLVAR_CTE} is imprecise, they claim a mostly linear expansion rate across our whole design temperature range.}
 				(Figure \ref{fig:ALLVAR_CTE}\cite{ref_AllvarAlloys}).
+
+				Several thermal switch designs\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026}, which make use of a binary-output bimetallic actuator for aerospace heat-transfer applications, have used the ALLVAR-Aluminum combination\footnote{The cited papers\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} were provided to our team directly by ALLVAR Alloys in support of their technology.},
+				serving to validate the choice of this combination.
 
 			\subsubsection{Invar housing}
 			\label{subsubsec:design:just:mat:Inv}
@@ -2662,6 +2666,33 @@ This Final Design Report illustrates the background, selected architecture, and 
 	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
 
+	% BACKGROUND INFORMATION
+
+	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
+	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
+	Sec.~1.2.
+
+	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
+	Available: \url{https://patents.google.com/patent/US2115501}
+	[Accessed: May 11, 2026].
+
+	\bibitem{ref_Bugby_2021} % ALLVAR-Aluminum thermal switch
+	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
+	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
+	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
+
+	\bibitem{ref_Ralphs_2024} % ALLVAR-Aluminum thermal switch
+	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
+	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
+	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+
+	\bibitem{ref_Ralphs_2026} % ALLVAR-Aluminum thermal switch
+	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
+	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
+	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+
 	% TRIVIAL INFORMATION
 
 	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
@@ -2678,15 +2709,15 @@ This Final Design Report illustrates the background, selected architecture, and 
 	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Inconel_1965}
+	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
 	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
 	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
 
-	\bibitem{ref_Inconel_1991}
+	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
 	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
 	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
 
-	\bibitem{ref_AllvarAlloys_gen}
+	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
 	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
 	[Accessed: May 9, 2026] 
 
@@ -2694,7 +2725,7 @@ This Final Design Report illustrates the background, selected architecture, and 
 	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_SpecialMetals_gen}
+	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
 	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
 
