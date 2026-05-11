@@ -395,29 +395,9 @@ showing the internal components and their arrangement.
 
 The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
 
-<<<<<<< HEAD
-The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of Aluminum 6061 and ALLVAR. While standard metals expand when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
-
-By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into precise mechanical work. As the temperature rises, the Aluminum core pushes downward while the ALLVAR housing pulls the reference plane upward\todo{Actually since CTE<0, it also pushes the ref plane downward}. This "push-pull" effect creates a compounded relative
- displacement at the valve stem. This thermo-mechanical coupling allows the device to achieve the high-resolution motion required to maintain the $\pm 13$ \textmu m orifice tolerance without any external power or electronic feedback. This relationship is mathematically modeled by the governing equation $\govActuator$\todo{Better eqn: $\Delta L = \left( L_{core} \alpha_{core} - L_{mount} \alpha_{mount} \right) \Delta T$}, where the effective displacement is a direct 
- function of the material properties and the thermal gradient.
-
-At the heart of the design is the valve orifice, which is\todo{comprises} a square\todo{diamond} aperture that provides a linear flow response to the actuator's motion. 
-Two square holes form the aperture, one in the valve outlet and one in the valve stem, which are precisely aligned to create an effective 
-orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
-relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire EDM, allowing 
-for a very small minimum corner radius (0.056 mm), which is critical for achieving the required precision in flow control. 
-The valve orifice extends into two stems that transfer the actuator's motion to the aperture. All contact surfaces are coated with a \todo{noun} to prevent galling.
-
-A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature 
-changes. The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands \cite{ref_muraca1972aluminum}. Thus, as the ambient temperature 
-increases, the actuator drives the valve stem downwards, shrinking the orifice. As the temperature decreases, the actuator pulls the stem 
-back up, opening the orifice again. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
-=======
 By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
 displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$, where the effective displacement is a direct  
 function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
->>>>>>> 036e7054bdc711624c4c2f54d862e1269ee01635
 an equal distance.
 
 At the heart of the valve design is the valve orifice (4), which consists of an aperture at its center and attached upper and lower cylindrical stems. The upper stem is fixed to the actuator at its top. The orifice itself is a square aperture that provides a linear flow response to the actuator's motion. 
@@ -771,7 +751,7 @@ Both checks confirm structural viability with comfortable margins.
     \captionof{figure}{Bill of Materials}
     \label{fig:bom}
 \end{landscape}
-\includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
+% \includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
 
 \end{appendices}
 \end{document}
