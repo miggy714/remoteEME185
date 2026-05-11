@@ -435,7 +435,7 @@ The design also incorporates features to facilitate assembly and encourage acces
 After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
 Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems\cite{ref_Nise}.
 The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
-The transfer function produced the system output results shown in Figure \ref{TF}, verifying satisfaction of the required relationship despite these sources of error.
+The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
 
 \section*{Improvements and Future Work}
 The \device\ design reliably and precisely accomplishes the specified requirements while operating in extreme temperature and pressure conditions. However, manufacturing and assembly of the device will require careful attention to detail and precision. With the current design, we anticipate that the most significant challenges will occur in repeatability of the manufacturing process therefore any future design iterations should focus on improving the manufacturability of the device. 
@@ -751,6 +751,26 @@ Both checks confirm structural viability with comfortable margins.
 % Insert your FEA (stress and thermal gradient) plots and results here.
 % You can easily insert images using your custom helper command:
 % \insertfigure{0.9}{fea_results.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:thermal_fea}
+
+    \section{System Control Transfer Function}
+    \label{app:TF}
+
+        Figure \ref{fig:TF} represents the transfer function, derived and encoded into C++ to verify the expected results from the \device.
+        The details of its derivation are too in-deptch for presentation here, but the curious reader might find the following summary enlightening.
+
+        Each block represents a subpart of the system, which takes one value as its input and outputs a new value.
+        The ambient temperature is input into each of eight independent parts. The first row of blocks represents temperature adjustment as each part equilibriates with the hotter internal gas.
+        The second row represents the thermal expansion of every part, including those which are not supposed to expand.
+        The resulting length values of these mechanically coupled parts are entered into a spring-force balance (a system of eight linearly independent equations), giving the final length of each part.
+        These are properly summed to find the position of each orifice, whose difference comprises the height of the final overlap between them.
+        This is then converted to the effective diameter.
+
+        \insertfigure{0.9}{TF.png}{Transfer Function Block Diagram.}{fig:TF}
+
+        This transfer funciton, when given best-estimate error values and calculated, yeilds the system output shown in Figure \ref{fig:fig:TF_plot}.
+        The gold line, the function-estimated output, fits well within the tolerated error band, demonstrating a real prototype would likely produce similarly satisfactory results.
+
+        \insertfigure{0.9}{TF_plot.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:TF_plot}
 
 \begin{landscape}
 \chapter{Bill of Materials and Assembly Drawings}
