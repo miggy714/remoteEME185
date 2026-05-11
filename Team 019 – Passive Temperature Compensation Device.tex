@@ -358,103 +358,75 @@ This Sandia Design Report illustrates selection procedure, final solution, and t
 	\item Identifies potential areas for improvement and next steps
 \end{itemize}
 
-\section{Final Solution}
-
-When desgining our system, the first major hurdle that we had to overcome was getting our system to linearly actuate across the entire 
-temperature range. In coming up with ideas to accomplish this, we split the system into two subsystems. Then all we would need to do was 
-make sure that each subsystem was linear, and the overall system would be linear. For both subsystems, we looked over many differnet design
-possibilities. 
+\section*{Design Approach}
 
 
+\section*{Final Solution}
 
-\section{Evaluation and Verification}
+In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision control valve that 
+successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
+components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
+assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
+showing the internal components and their arrangement.
 
-\section{Improvements and Future Work}
+\begin{figure}[H]
+    \centering
+    % Left Image (a)
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
+        \caption{Complete assembly}
+        \label{fig:mainIsometric}
+    \end{subfigure}
+    \hfill % Adds flexible space between the two images
+    % Right Image (b)
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
+        \caption{Complete assembly exploded view}
+        \label{fig:mainExploded}
+    \end{subfigure}
+    \caption{Overall PTCD assembly and exploded view highlighting internal components.}
+    \label{fig:assembly_combined}
+\end{figure}
 
+The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
 
-\chapter{DELETE BEFORE SUBMISSION: Brainstorm -- what sets our design apart?}
+By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
+displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$, where the effective displacement is a direct  
+function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
+an equal distance.
 
-	\begin{itemize}
-			\item Square orifice
-			\begin{itemize}
-					\item Linear flow response
-					\item Simple, minimal DOF
-					\item Cut with sinker EDM: very small corner radius (wire EDM minimum $\approx \SI{0.056}{mm}$)
-			\end{itemize}
+At the heart of the valve design is the valve orifice (4), which consists of an aperture at its center and attached upper and lower cylindrical stems. The upper stem is fixed to the actuator at its top. The orifice itself is a square aperture that provides a linear flow response to the actuator's motion. 
+Two square holes form the aperture, one in the valve outlet (3) and one in the valve stem, which are precisely aligned to create an effective 
+orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
+relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire electro discharge machining (EDM), allowing 
+for a very small minimum corner radius (0.056 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a to prevent galling.
 
-			\item Bimetallic actuator
-			\begin{itemize}
-					\item Compact form factor
-					\item Solid construction is geometrically simple
-					\item Constant coefficient of thermal expansion
-					\item Thermally isolated from surroundings
-			\end{itemize}
+Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
+necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure of \SI{68.95}{\mega\pascal} without leakage. 
+The use of two bellows (upper and lower) provides a balanced response to the internal pressure, minimizing the net force on the valve stem and thus reducing the 
+load on the actuator. This design choice is critical for maintaining the precision of the device, as it prevents deformation of the valve components under pressure 
+that could otherwise affect the orifice geometry.
 
-			\item Weld joints
-			\begin{itemize}
-					\item Enables simple mates with minimal degrees of freedom
-			\end{itemize}
+Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
+of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds all of which will be verified through full radiographic inspection.
 
-			\item Calibration
-			\begin{itemize}
-					\item Eliminates constant offset errors from manufacturing or assembly
-					\item Procedure is straightforward to perform
-			\end{itemize}
+Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a belleville washer. By adjusting 
+the preload on the belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
+motion corresponds to the required orifice diameter at the reference temperature of \SI{25}{\degreeCelsius}. This allows us to meet the required relationship 
+with high precision, as the actuator's response is directly translated into the valve's effective diameter.
 
-			\item Bellows
-			\begin{itemize}
-					\item Small, flexible, high-pressure seal
-					\item Hydrogen-compatible
-					\item Low reaction force
-					\item Provides valve stem support
-					\item Housing dimensioned to match convolution OD and length exactly
-			\end{itemize}
-
-			\item Direct interface
-			\begin{itemize}
-					\item Trade-off analysis performed: precision prioritized over height
-					\item Client communication conducted to adjust design priorities
-			\end{itemize}
-
-			\item Material selection
-			\begin{itemize}
-					\item Invar 36: low CTE, justified via Ashby plot
-					\item ALLVAR: negative CTE alloy, contracts with increasing temperature
-					\item Aluminum 6061: selected per client input (confirm rationale with Isaiah)
-					\item Inconel 718 bellows: high strength at elevated temperature
-			\end{itemize}
-
-			\item Precision fits
-			\begin{itemize}
-					\item Exact interference and clearance fits specified throughout assembly
-			\end{itemize}
-
-			\item Valve orifice coating
-			\begin{itemize}
-					\item Surface coating applied to prevent galling
-			\end{itemize}
-	\end{itemize}
+Throughout the design, exact interface dimensions and tolerances were carefully calculated to ensure that components fit together with the necessary precision to meet the required specifications. 
+The design also incorporates features to facilitate assembly and encourage access for welding. Compared to previous iterations, the final design achieves a more compact and robust configuration with fewer unique parts.
 
 
+\section*{Evaluation and Verification}
 
+Verification of the \device\ was conducted through a series of calculations and computational models which were used to compare the performance of the design against 
+the specified requirements through the derived transfer function of the system \cite{ref_Figliola}.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+\section*{Improvements and Future Work}
 
 
 
