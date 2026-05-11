@@ -124,9 +124,9 @@
 
 % ---------- PDF Metadata ----------
 \hypersetup{
-	pdftitle={Final Design Report -- Passive Temperature Compensation Device},
-	pdfauthor={Team 16: Noble Aggie Labs},
-	pdfsubject={EME-185A/B Senior Design, UC Davis},
+	pdftitle={Sandia Design Award Report -- Passive Temperature Compensation Device},
+	pdfauthor={Team 019: Noble Aggie Labs},
+	pdfsubject={EME-185 Mechanical Systems Design Project, UC Davis},
 }
 %-----------For landscape pages----------
 \usepackage{pdflscape}
@@ -152,14 +152,14 @@
 % --- Project-specific shortcuts ---
 \newcommand{\projecttitle}{Passive Temperature Compensation Device}
 \newcommand{\teamname}{Noble Aggie Labs}
-\newcommand{\teamnumber}{16}
+\newcommand{\teamnumber}{019}
 \newcommand{\sponsor}{Dr.\ Bradley Bon}
 \newcommand{\organization}{Sandia National Laboratories}
 \newcommand{\coursename}{EME 185}
 \newcommand{\instructor}{Professor Jonathan Schofield}
 \newcommand{\university}{University of California, Davis}
 \newcommand{\ta}{Teaching Assistant Xiangpu Wang}
-\newcommand{\duedate}{3 June 2026}
+\newcommand{\duedate}{12 May 2026}
 % --- Convenience commands for common terms ---
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
@@ -400,7 +400,7 @@ showing the internal components and their arrangement.
 The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
 
 By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
-displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$, where the effective displacement is a direct  
+displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$\todo{Better eqn: $\Delta L = \left( L_{core} \alpha_{core} - L_{mount} \alpha_{mount} \right) \Delta T$}, where the effective displacement is a direct  
 function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
 an equal distance.
 
