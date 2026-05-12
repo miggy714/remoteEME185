@@ -361,10 +361,23 @@
 
 \section*{Design Approach}
 
-    Two subsystems accomplish this objective. The Actuator thermomechanically responds to ambient temperature changes; the Valve restricts gas flow as driven by the actuator.
-    To achieve the above required relationship,
-    each subsystem must comprise a simple architecture with a single degree of freedom and yield a first-order output.
-    Thus, the \device\ design process combined proven architectures with one novel approach to create a simple, robust, first-order passive flow control valve.
+The primary design requirement is that orifice flow area vary linearly with ambient temperature over the specified temperature range. The system was divided into 
+two subsystems: the actuator, which thermomechanically responds to ambient temperature, and the valve, which restricts gas flow as driven by the actuator. For the 
+combined system to produce a first-order linear output, each subsystem must independently exhibit a single degree of freedom and a linear response. Candidate designs 
+for each subsystem were evaluated against defined criteria using a scoring matrix, which prioritizes linearity and simplicity.
+
+For the actuator, candidates included a bimetallic coil, wax bladder, and piston-cylinder assembly and were evaluated against a thermal expansion rod. 
+All the other candidates were rejected on the basis of nonlinearity or mechanical complexity. Aluminum was selected for the rod material due to its high 
+CTE and machinability. Allvar 30 was selected for the mount instead of steel because its negative CTE increases rather than reduces actuator displacement.
+
+For the valve, all conventional valve types were evaluated, including stopper, panel, rotary, and pinch valve configurations, and were rejected for their 
+inability to produce a linear flow area response. A novel geometry was developed in which two plates with square orifices are rotationally offset by 45 degrees. 
+The overlapping area between the orifices varies linearly with relative plate displacement, satisfying the linearity requirement through geometry alone, with a single moving component.
+
+    %Two subsystems accomplish this objective. The Actuator thermomechanically responds to ambient temperature changes; the Valve restricts gas flow as driven by the actuator.
+    %To achieve the above required relationship,
+    %each subsystem must comprise a simple architecture with a single degree of freedom and yield a first-order output.
+    %Thus, the \device\ design process combined proven architectures with one novel approach to create a simple, robust, first-order passive flow control valve.
 
     % The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve.
     % Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent.
