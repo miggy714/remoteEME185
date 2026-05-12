@@ -61,7 +61,7 @@
 \setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
 % ---------- Line Spacing ----------
 \usepackage{setspace}
-\onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
+\onehalfspacing % 1.5 line spacing for easy reading
 %-------- For Box diagrams
 \usepackage{tikz}
 \usetikzlibrary{patterns}
@@ -339,108 +339,110 @@
 \newpage  % Start the body of the report on a fresh page
 \section*{Problem Statement}
 
-Sandia National Laboratories has tasked our senior design team, 
-the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
-The device must restrict its orifice as the ambient temperature of the surrounding air increases.
-The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
-The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
-stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and 380 \textmu m,
-with an average tolerance of $\pm 13$ \textmu m, about the thickness of a human hair \cite{ref_sandiaprompt}.
-\todo{Maybe give design pressure and temperature range? That's a good chunk of the project's difficulty.}
-
-This Sandia Design Award Report illustrates the selection procedure, final solution, and testing methods of our design. It achieves the following:
-
-\begin{itemize}
-	\item Outlines design approach and the decision process that led to the final design
-	\item Shows selection of optimal design that meets the required specifications
-	\item Explains how the design will be tested to verify that it meets the specifications
-	\item Verifies that the final design meets all specified requirements
-	\item Identifies potential areas for improvement and next steps
-\end{itemize}
+	Sandia National Laboratories conducts numerous experiments requiring the flow of precisely-controlled Hydrogen gas.
+	These experiments are sensitive to fluctuations in temperature; the flow must be adjusted to compensate for these changes.
+	However, power and space constraints prohibit the use of embedded control systems.
+	Sandia commissioned the Noble Aggie Labs from UC Davis to design and prototype a Passive Temperature Compensation Device (PTCD)
+	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its effective orifice diameter according to the relationship
+    $D_{\text{eff}} = A_1 (T_{\text{amb}} - \SI{25}{\celsius}) + A_0$,
+    where $A_1 = \Aone$ and $A_0 = \Azero$.
+    The PTCD must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
 
 \section*{Design Approach}
 
-The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve. Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent. When coming up with the design for both the actuator and the valve we went through many different possibilities, but eventually decided on the design we did using a scoring matrix to rank all of the designs we had to see which one fit our requirements the best.
-
-For the actuator, some of the designs we came up with were: bimetallic coil, thermal expansion rod, wax bladder, piston-cylinder assembly. The criteria we used when evaluating these different designs were: effectiveness over the required temperature range, linearity of response, fit within required mechanical envelope, ability to withstand fluid force and adequate displacement so we would not need a gear mechanism to amplify the motion. After evaluating all of the different designs we decided on a variant of the thermal expansion rod due to its simplicity in design and its very predictable linear response to temperature changes. Then we needed to choose the material for the actuator. For this we went with aluminum due to its high coefficient of thermal expansion, low cost, and ease of manufacturing. We also needed to decide on the material for the mount that held the actuator. At first we went with steel due to its low cost and machinability, but we found that steel's coefficient of thermal expansion is way too high and would counteract the expansion of the aluminum too much. Because of this we decided to go with Allvar 30 due to the fact that it has a negative coefficient of thermal expansion which would help with the thermal expansion instead of negating it like the steel does.
-
-For the valve, the main priority we were looking for was it being linear over the thermal range. The main valve types that we looked at were: stopper valves, panel valves, a hexagonal diaphragm, a rotator valve and a valve that restricts the pipe by squeezing it. Eventually, we found that none of these valves would have worked because linearity would not have been possible. Instead we designed our own new valve that is two plates with square orifices cut into them and then configured diagonally. Because the plates are square and diagonal, when they slide past each other the hole will stay square shaped and therefore it will maintain its linearity. This was the main reason we went with this new design with the valve. In addition, it was very simple with just one moving part (one of the plates) and nothing else. 
 
 
+    The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve.
+    Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent.
+    When coming up with the design for both the actuator and the valve we went through many different possibilities, but eventually decided on the design we did using a scoring matrix to rank all of the designs we had to see which one fit our requirements the best.
+
+    For the actuator, some of the designs we came up with were: bimetallic coil, thermal expansion rod, wax bladder, piston-cylinder assembly.
+    The criteria we used when evaluating these different designs were: effectiveness over the required temperature range, linearity of response, fit within required mechanical envelope, ability to withstand fluid force and adequate displacement so we would not need a gear mechanism to amplify the motion.
+    After evaluating all of the different designs we decided on a variant of the thermal expansion rod due to its simplicity in design and its very predictable linear response to temperature changes. Then we needed to choose the material for the actuator.
+    For this we went with aluminum due to its high coefficient of thermal expansion, low cost, and ease of manufacturing. We also needed to decide on the material for the mount that held the actuator.
+    At first we went with steel due to its low cost and machinability, but we found that steel's coefficient of thermal expansion is way too high and would counteract the expansion of the aluminum too much.
+    Because of this we decided to go with Allvar 30 due to the fact that it has a negative coefficient of thermal expansion which would help with the thermal expansion instead of negating it like the steel does.
+
+    For the valve, the main priority we were looking for was it being linear over the thermal range. The main valve types that we looked at were: stopper valves, panel valves, a hexagonal diaphragm, a rotator valve and a valve that restricts the pipe by squeezing it.
+    Eventually, we found that none of these valves would have worked because linearity would not have been possible.
+    Instead we designed our own new valve that is two plates with square orifices cut into them and then configured diagonally.
+    Because the plates are square and diagonal, when they slide past each other the hole will stay square shaped and therefore it will maintain its linearity. This was the main reason we went with this new design with the valve.
+    In addition, it was very simple with just one moving part (one of the plates) and nothing else. 
 
 \section*{Final Solution}
 
-In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision control valve that 
-successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
-components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
-assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
-showing the internal components and their arrangement.
+    In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision control valve that 
+    successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
+    components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
+    assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
+    showing the internal components and their arrangement.
 
-\begin{figure}[H]
-    \centering
-    % Left Image (a)
-    \begin{subfigure}[b]{0.48\textwidth}
+    \begin{figure}[h]
         \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
-        \caption{Complete assembly}
-        \label{fig:mainIsometric}
-    \end{subfigure}
-    \hfill % Adds flexible space between the two images
-    % Right Image (b)
-    \begin{subfigure}[b]{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
-        \caption{Complete assembly exploded view}
-        \label{fig:mainExploded}
-    \end{subfigure}
-    \caption{Overall PTCD assembly and exploded view highlighting internal components.}
-    \label{fig:assembly_combined}
-\end{figure}
+        % Left Image (a)
+        \begin{subfigure}[b]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
+            \caption{Complete assembly}
+            \label{fig:mainIsometric}
+        \end{subfigure}
+        \hfill % Adds flexible space between the two images
+        % Right Image (b)
+        \begin{subfigure}[b]{0.48\textwidth}
+            \centering
+            \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
+            \caption{Complete assembly exploded view}
+            \label{fig:mainExploded}
+        \end{subfigure}
+        \caption{Overall PTCD assembly and exploded view highlighting internal components.}
+        \label{fig:assembly_combined}
+    \end{figure}
 
-The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
+    The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
 
-By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
-displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$\todo{Better eqn: $\Delta L = \left( L_{core} \alpha_{core} - L_{mount} \alpha_{mount} \right) \Delta T$}, where the effective displacement is a direct  
-function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
-an equal distance.
+    By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
+    displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$\todo{Better eqn: $\Delta L = \left( L_{core} \alpha_{core} - L_{mount} \alpha_{mount} \right) \Delta T$}, where the effective displacement is a direct  
+    function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
+    an equal distance.
 
-At the heart of the valve design is the valve orifice (4), which consists of an aperture at its center and attached upper and lower cylindrical stems. The upper stem is fixed to the actuator at its top. The orifice itself is a square aperture that provides a linear flow response to the actuator's motion. 
-Two square holes form the aperture, one in the valve outlet (3) and one in the valve stem, which are precisely aligned to create an effective 
-orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
-relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire electro discharge machining (EDM), allowing 
-for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
+    At the heart of the valve design is the valve orifice (4), which consists of an aperture at its center and attached upper and lower cylindrical stems. The upper stem is fixed to the actuator at its top. The orifice itself is a square aperture that provides a linear flow response to the actuator's motion. 
+    Two square holes form the aperture, one in the valve outlet (3) and one in the valve stem, which are precisely aligned to create an effective 
+    orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
+    relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire electro discharge machining (EDM), allowing 
+    for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
 
-The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
+    The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
 
-Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows (5) \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
-necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure without leakage. 
-The use of two bellows (upper and lower) provides a balanced response to the internal pressure, minimizing the net force on the valve stem and thus reducing the 
-load on the actuator. This design choice is critical for maintaining the precision of the device, as it prevents deformation of the valve components under pressure 
-that could otherwise affect the orifice geometry.
+    Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows (5) \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
+    necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure without leakage. 
+    The use of two bellows (upper and lower) provides a balanced response to the internal pressure, minimizing the net force on the valve stem and thus reducing the 
+    load on the actuator. This design choice is critical for maintaining the precision of the device, as it prevents deformation of the valve components under pressure 
+    that could otherwise affect the orifice geometry.
 
-Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
-of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds, all of which will be verified through full radiographic inspection.
+    Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
+    of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds, all of which will be verified through full radiographic inspection.
 
-Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a Belleville washer (8). By adjusting 
-the preload on the Belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
-motion corresponds to the required orifice diameter at the reference temperature of \SI{25}{\degreeCelsius}. This allows us to meet the required relationship 
-with high precision, as the actuator's response is directly translated into the valve's effective diameter.
+    Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a Belleville washer (8). By adjusting 
+    the preload on the Belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
+    motion corresponds to the required orifice diameter at the reference temperature of \SI{25}{\degreeCelsius}. This allows us to meet the required relationship 
+    with high precision, as the actuator's response is directly translated into the valve's effective diameter.
 
-Throughout the design, exact interface dimensions and tolerances were carefully calculated to ensure that components fit together with the necessary precision to meet the required specifications. 
-The design also incorporates features to facilitate assembly and encourage access for welding. Compared to previous iterations, the final design achieves a more compact and robust configuration with fewer unique parts.
+    Throughout the design, exact interface dimensions and tolerances were carefully calculated to ensure that components fit together with the necessary precision to meet the required specifications. 
+    The design also incorporates features to facilitate assembly and encourage access for welding. Compared to previous iterations, the final design achieves a more compact and robust configuration with fewer unique parts.
 
 
 \section*{Evaluation and Verification}
 
-After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
-Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems\cite{ref_Nise}.
-The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
-The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
+    After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
+    Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems\cite{ref_Nise}.
+    The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
+    The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
 
 \section*{Improvements and Future Work}
-The \device\ design reliably and precisely accomplishes the specified requirements while operating in extreme temperature and pressure conditions. However, manufacturing and assembly of the device will require careful attention to detail and precision. With the current design, we anticipate that the most significant challenges will occur in repeatability of the manufacturing process therefore any future design iterations should focus on improving the manufacturability of the device. 
-Following the successful fabrication of the current design, future work will include physically testing the device in a laboratory setting under controlled temperature and pressure conditions to validate the computational models and ensure that the device meets the specified performance requirements. There are two tests that will be conducted to verify accuracy and precision of the device. A dry test will subject the device to a specified ambient temperature using an environment chamber and the orifice effective diameter will be optically measured. Secondly, a wet test will subject the device to fluid flow at a specified inlet pressure and ambient temperature for 60 seconds while measuring the pressure drop across the orifice.
-These tests are designed to validate design and to support the computational modeling used to verify the design. 
+
+    The \device\ design reliably and precisely accomplishes the specified requirements while operating in extreme temperature and pressure conditions. However, manufacturing and assembly of the device will require careful attention to detail and precision. With the current design, we anticipate that the most significant challenges will occur in repeatability of the manufacturing process therefore any future design iterations should focus on improving the manufacturability of the device. 
+    Following the successful fabrication of the current design, future work will include physically testing the device in a laboratory setting under controlled temperature and pressure conditions to validate the computational models and ensure that the device meets the specified performance requirements. There are two tests that will be conducted to verify accuracy and precision of the device. A dry test will subject the device to a specified ambient temperature using an environment chamber and the orifice effective diameter will be optically measured. Secondly, a wet test will subject the device to fluid flow at a specified inlet pressure and ambient temperature for 60 seconds while measuring the pressure drop across the orifice.
+    These tests are designed to validate design and to support the computational modeling used to verify the design. 
 
 
 
