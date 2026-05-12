@@ -357,7 +357,7 @@
 	Sandia commissioned the Noble Aggie Labs from UC Davis to design and prototype a Passive Temperature Compensation Device (\device)
 	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its effective orifice diameter according to the relationship
     $D_{\text{eff}} = A_1 (T_{\text{amb}} - \SI{25}{\celsius}) + A_0$,
-    where $A_1 = \Aone$, $A_0 = \Azero$, and $(\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius})$.
+    where $A_1 = \Aone$, $A_0 = \Azero$, and $(\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius})$\cite{ref_sandiaprompt}.
     The \device\ must contain, seal, and restrict the gas at a maximum pressure of \specPressure, resist Hydrogen diffusion and embrittlement, and fit within a $(\SI{10}{\centi\meter})^3$ mechanical envelope.
     
 \section*{Sandia Impact}
@@ -409,7 +409,7 @@ The overlapping area between the orifices varies linearly with relative plate di
 \end{figure}
 
     The bimetallic actuator, the functional core of the \device, leverages the difference in Coefficients of Thermal Expansion (CTE) between two metals. An Aluminum 6061 expansion rod (6) nests inside a hollow, cylindrical ALLVAR mount (7).
-    Aluminum's expansion rate $\alpha_{\text{Al}} \approx \specActuatorCTE$; it expands when heated. ALLVAR, a proprietary technology made by ALLVAR Alloys, shrinks when heated at a rate of $\alpha_{\text{ALLV}} \approx \specMountCTE$ \cite{ref_AllvarAlloys}.
+    Aluminum's expansion rate $\alpha_{\text{Al}} \approx \specActuatorCTE$; it expands when heated. ALLVAR, a proprietary technology made by ALLVAR Alloys, shrinks when heated at a rate of $\alpha_{\text{ALLV}} \approx \specMountCTE$ \cite{ref_AllvarAlloys, ref_NASA_specs_Al}.
     The mount, secured at its base, lowers the assembly as it shrinks while the aluminum rod, fastened to the mount from above by the screw-washer assembly (8, 9, 10), simultaneously expands downwards.
     Temperature decrease produces the reverse effect.
     The assembly linearly translates the ambient temperature into compound relative displacement according to the governing equation $\Delta L = \left( L_{\text{actuator}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \Delta T$.
@@ -436,7 +436,7 @@ The overlapping area between the orifices varies linearly with relative plate di
     The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}.
     The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice.
     The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry.
-    The housing is fabricated from Invar 36, a one-of-a-kind alloy renowned in the aerospace industry for its low CTE $(\alpha \approx \SI{1.3}{\micro\meter\per\meter\per\celsius})$\cite{ref_Carpenter_Inv, ref_Invar_1897, ref_Invar_1920}.
+    The housing is fabricated from Invar 36, a one-of-a-kind alloy renowned in the aerospace industry for its low CTE $(\alpha \approx \SI{1.3}{\micro\meter\per\meter\per\celsius})$ \cite{ref_Carpenter_Inv, ref_Invar_1897, ref_Invar_1920}.
 
     Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows (5) \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
     necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure without leakage. 
