@@ -172,12 +172,12 @@
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
 \newcommand{\degC}{^{\circ}\text{C}}    % Degree Celsius symbol, properly formatted
-\newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\requiredRelationship}{D_{\text{eff}} = A_1 (T_{\text{amb}} - T_{\text{ref}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
-\newcommand{\Dcold}{D_{\text{effective}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
-\newcommand{\Dhot}{D_{\text{effective}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
-\newcommand{\Dref}{D_{\text{effective}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
+\newcommand{\Dcold}{D_{\text{eff}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
+\newcommand{\Dhot}{D_{\text{eff}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
+\newcommand{\Dref}{D_{\text{eff}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -209,6 +209,7 @@
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
 \newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+\newcommand{\specMountEffLength}{\SI{37.991}{\milli\meter}} % Without washer thickness; = L_act + 5 mm gap
 
 % Transfer function specifications
 
@@ -357,14 +358,16 @@
 	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its effective orifice diameter according to the relationship
     $D_{\text{eff}} = A_1 (T_{\text{amb}} - \SI{25}{\celsius}) + A_0$,
     where $A_1 = \Aone$ and $A_0 = \Azero$.
-    The \device\ must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
-
+    
 \section*{Design Approach}
-
-    Two subsystems accomplish this objective. The Actuator thermomechanically responds to ambient temperature changes; the Valve restricts gas flow as driven by the actuator.
-    To achieve the above required relationship,
-    each subsystem must comprise a simple architecture with a single degree of freedom and yield a first-order output.
-    Thus, the \device\ design process combined proven architectures with one novel approach to create a simple, robust, first-order passive flow control valve.
+    
+    The \device\ must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
+    Two subsystems accomplish this objective. The Actuator thermomechanically converts ambient temperature changes to displacement; the Valve restricts gas flow as driven by the actuator.
+    To meet the above required relationship, each subsystem must comprise a simple architecture with a single degree of freedom and yield a first-order output with a narrow margin for error.
+    Most notably, each of these must exhibit a linear input-output behavior, an unnatural property for flow-control valves.
+    Motivated by these specifications, the \device\ design combines aerospace-standard technology with a novel valve architecture to convert thermal expansion to flow control.
+    A bimetallic actuator directly translates ambient temperature changes to displacement of the valve's orifice component;
+    the valve, in turn, contains and restricts the high-pressure flow with a variable diamond orifice, composed of the overlap between two sharp-cornered holes.
 
     % The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve.
     % Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent.
@@ -422,12 +425,14 @@
     \end{wrapfigure}
 
     The valve subsystem comprises the central orifice, structural housing, and associated hermetic seals. A novel orifice architecture was required to achieve the linear relationship between displacement (provided by the actuator) and effective diameter.
-    While most gas flow control valves exhibit a first-order change in orifice area, the required temperature-diameter translation required that the orifice remain a regular polygon.
+    While most gas flow control valves exhibit a first-order change in orifice area, the specified temperature-diameter translation required that the orifice remain a regular polygon.
     The PTCD achieves this with a unique diamond-overlap approach, pictured in Figure \ref{fig:orifice}.
     The valve stem (4) and housing outlet (3) each contain a small square hole rotated \SI{45}{\degree}. When assembled, these are pressed against one another and slightly offset such that gas may only flow through the overlap between them.
     As the actuator drives the valve stem downwards, its diamond (pictured as blue in Fig. \ref{fig:orifice}) descends relative to the fixed diamond on the housing, shrinking the overlap and restricting the flow.
-    Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in the linear output required.
+    Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in a linear output.
     As calculated in Appendix~\ref{app:derivations}, the bimetallic actuator and diamond orifice combine to produce the exact linear relationship required by Sandia.
+
+    \todo{Continue}
     
     The orifice is cut using wire electro discharge machining (EDM), allowing 
     for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
@@ -599,12 +604,47 @@
 \label{app:derivations}
 
 % ------------------------------------------------------------
-\subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+\subsection*{A.1 \quad System Output of the \device}
 % ------------------------------------------------------------
 
-The effective diameter, $D_\text{eff}$ is the diameter of a circle of equal area,
+The Required Relationship given in the problem statement
+
+$$\requiredRelationship$$
+
+where
+
+$$A_1 = \Aone$$
+$$A_0 = \Azero$$
+$$T_{\text{ref}} = \SI{25}{\celsius}$$
+$$(\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius})$$
+
+stipulates a linear temperature-diameter control output with the following endpoints:
+
+$$\Dcold$$
+$$\Dhot$$
+
+The \device\ is tuned to produce exactly these results. Each subsystem contributes one control derivative to the system output relation
+
+$$D_{\device} = \frac{dL}{dT} \frac{dX}{dL} \frac{dD}{dX} \Delta T + D(T_{\text{ref}})$$
+
+$\frac{dL}{dT}$ is driven by the actuator subsystem, which converts changes in temperature to length change according to the relation
+
+\begin{equation}
+    \begin{aligned}
+        \frac{dL}{dT} &= \left( L_{\text{core}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \\
+        &= \left[ \left( \specOrigActuatorLength \right) \left( \specActuatorCTE \right) - \left( \specMountEffLength \right) \left( \specMountCTE \right) \right] = \SI{1.91}{\micro\meter\per\celsius}
+    \end{aligned}
+\end{equation}
+
+As the actuator expands and $L$ increases, it directly drives the valve stem. The orifice height $X$, defined in Figure \ref{fig:orifice}, decreases as much as $L$ increases.
+Thus, $\frac{dX}{dL} = -1$.
+
+$\frac{dD}{dX}$ is driven by the valve subsystem orifice geometry.
+The area of the orifice is defined by its side length
+$$A = s^2$$
+The effective diameter, $D_\text{eff}$, is the diameter of a circle of equal area,
 $A = \frac{\pi}{4} D_\text{eff}^2$.
-The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
+The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$, where $s$ is the side length of the overlap diamond.
 Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
 the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
 \begin{equation}
@@ -613,6 +653,13 @@ the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
     D_\text{eff} = \sqrt{\frac{2}{\pi}}\, X
     \label{eq:app_Deff_X}
 \end{equation}
+
+
+
+% ------------------------------------------------------------
+\subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+% ------------------------------------------------------------
+
 Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
 the valve transfer function is:
 \begin{equation}
