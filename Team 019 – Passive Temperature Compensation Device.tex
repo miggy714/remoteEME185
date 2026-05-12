@@ -172,12 +172,12 @@
 % Using these ensures consistent terminology throughout the report.
 \newcommand{\device}{PTCD}
 \newcommand{\degC}{^{\circ}\text{C}}    % Degree Celsius symbol, properly formatted
-\newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\requiredRelationship}{D_{\text{eff}} = A_1 (T_{\text{amb}} - T_{\text{ref}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
-\newcommand{\Dcold}{D_{\text{effective}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
-\newcommand{\Dhot}{D_{\text{effective}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
-\newcommand{\Dref}{D_{\text{effective}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
+\newcommand{\Dcold}{D_{\text{eff}}(-60 \degC) = 383.5 \pm 19.2\ \mu m}
+\newcommand{\Dhot}{D_{\text{eff}}(80 \degC) = 170.2 \pm 16.9\ \mu m}
+\newcommand{\Dref}{D_{\text{eff}}(25 \degC) = 292.1 \pm 12.7\ \mu m}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -209,6 +209,7 @@
 \newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
 \newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
 \newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+\newcommand{\specMountEffLength}{\SI{37.991}{\milli\meter}} % Without washer thickness; = L_act + 5 mm gap
 
 % Transfer function specifications
 
@@ -357,8 +358,7 @@
 	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its effective orifice diameter according to the relationship
     $D_{\text{eff}} = A_1 (T_{\text{amb}} - \SI{25}{\celsius}) + A_0$,
     where $A_1 = \Aone$ and $A_0 = \Azero$.
-    The \device\ must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
-
+    
 \section*{Design Approach}
 
 The primary design requirement is that orifice flow area vary linearly with ambient temperature over the specified temperature range. The system was divided into 
@@ -421,10 +421,10 @@ The overlapping area between the orifices varies linearly with relative plate di
 \end{figure}
 
     The bimetallic actuator, the functional core of the \device, leverages the difference in Coefficients of Thermal Expansion (CTE) between two metals. An Aluminum 6061 expansion rod (6) nests inside a hollow, cylindrical ALLVAR mount (7).
-    Aluminum's expansion rate $\alpha_{\text{Al}} \approx \specActuatorCTE$; it expands when heated. ALLVAR, a proprietary technology made by ALLVAR Alloys, shrinks when heated at a rate of $\alpha_{\text{ALLV}} \approx \specMountCTE$.
+    Aluminum's expansion rate $\alpha_{\text{Al}} \approx \specActuatorCTE$; it expands when heated. ALLVAR, a proprietary technology made by ALLVAR Alloys, shrinks when heated at a rate of $\alpha_{\text{ALLV}} \approx \specMountCTE$ \cite{ref_AllvarAlloys}.
     The mount, secured at its base, lowers the assembly as it shrinks while the aluminum rod, fastened to the mount from above by the screw-washer assembly (8, 9, 10), simultaneously expands downwards.
     Temperature decrease produces the reverse effect.
-    The assembly linearly translates the ambient temperature into compount relative displacement according to the governing equation $\Delta L = \left( L_{\text{core}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \Delta T$.
+    The assembly linearly translates the ambient temperature into compound relative displacement according to the governing equation $\Delta L = \left( L_{\text{actuator}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \Delta T$.
     At full range, the actuator drives the valve \SI{267}{\micro\meter}.
 
     \begin{wrapfigure}{l}{.3\textwidth}
@@ -435,15 +435,17 @@ The overlapping area between the orifices varies linearly with relative plate di
     \end{wrapfigure}
 
     The valve subsystem comprises the central orifice, structural housing, and associated hermetic seals. A novel orifice architecture was required to achieve the linear relationship between displacement (provided by the actuator) and effective diameter.
-    While most gas flow control valves exhibit a first-order change in orifice area, the required temperature-diameter translation required that the orifice remain a regular polygon.
+    While most gas flow control valves exhibit a first-order change in orifice area, the specified temperature-diameter translation required that the orifice remain a regular polygon.
     The PTCD achieves this with a unique diamond-overlap approach, pictured in Figure \ref{fig:orifice}.
     The valve stem (4) and housing outlet (3) each contain a small square hole rotated \SI{45}{\degree}. When assembled, these are pressed against one another and slightly offset such that gas may only flow through the overlap between them.
     As the actuator drives the valve stem downwards, its diamond (pictured as blue in Fig. \ref{fig:orifice}) descends relative to the fixed diamond on the housing, shrinking the overlap and restricting the flow.
-    Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in the linear output required.
+    Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in a linear output.
     As calculated in Appendix~\ref{app:derivations}, the bimetallic actuator and diamond orifice combine to produce the exact linear relationship required by Sandia.
+
+    \todo{Continue}
     
-    The orifice is cut using wire electro discharge machining (EDM), allowing 
-    for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
+    The orifice is cut using wire electro discharge machining, allowing 
+    for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a physical vapor deposition (PVD) coating to prevent galling.
 
     The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
 
@@ -468,7 +470,7 @@ The overlapping area between the orifices varies linearly with relative plate di
 \section*{Evaluation and Verification}
 
     After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
-    Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems\cite{ref_Nise}.
+    Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems \cite{ref_Nise}.
     The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
     The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
 
@@ -491,104 +493,192 @@ The overlapping area between the orifices varies linearly with relative plate di
 
 \begin{thebibliography}{99}
 
-	\bibitem{ref_sandiaprompt}
+	\bibitem{ref_sandiaprompt} % SNL Project Prompt
 	B.\ Bon,
 	``Passive Temperature Compensation Device --- Project Prompt,''
 	Sandia National Laboratories, SAND2025-15446O, 2025.
 
-	\bibitem{ref_asme_b313}
-	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
-	ASME, New York, NY, 2022.
+	% MATERIAL DATA
 
-	\bibitem{ref_steen2010laser}
-	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-	Springer, London, UK, 2010.
-
-	\bibitem{ref_aws2020welding}
-	American Welding Society, \textit{AWS D1.1/D1.1M: Structural Welding Code --- Steel}, 
-	AWS, Miami, FL, 2020.
-
-	\bibitem{ref_miniflex_design}
-	Mini-Flex Corporation, \textit{Metal bellows Design Guide}, Mini-Flex Corporation, 
-	Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Mar. 2026].
-
-	\bibitem{ref_muraca1972aluminum}
-	R.\ F.\ Muraca and J.\ S.\ Whittick,
-	\textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed.,
-	Western Applied Research \& Development, Inc.,
-	NASA CR-123772, May 1972.
+	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
+		% CTE at room temp = 23.85 ppm/C
+		% E = 68.95 MPa
+	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
-	[Accessed: Mar. 2026].
+	[Accessed: May 8, 2026].
 
-	\bibitem{ref_matweb}
-	MatWeb, LLC, \textit{MatWeb Material Property Data}, 
-	[Online]. Available: \url{https://www.matweb.com}, 
-	Accessed: March 20, 2026.
+	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
+		% CTE = -30 ppm/C
+		% E = 55 GPa
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Nise}
-	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
+		% CTE = 1.3 ppm/C
+		% E = 141 GPa
+	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Figliola}
-	R. S. Figliola and D. E. Beasley, Theory and Design for Mechanical Measurements, 7th ed. Hoboken, NJ: Wiley, 2020, pp. 172–175.
-
-	\bibitem{ref_CarpenterTechnology}
-	Carpenter Technology Corporation, "Invar 36," Material Safety Data Sheet. \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
-	[Accessed: Apr. 17, 2026].
- 
-	\bibitem{ref_AZoM}
-	AZoM, "Properties: Invar — Nickel Iron Alloy," AZoM.com. \url{https://www.azom.com/properties.aspx?ArticleID=515}
-	[Accessed: Mar. 20, 2026].
-
-	\bibitem{ref_AircraftMaterials}
-	Aircraft Materials Ltd., "Invar 36 / Nilo 36 / Alloy 36 (ASTM F1684)," AircraftMaterials.com. \url{https://www.aircraftmaterials.com/data/nickel/al36.html}
-	[Accessed: Mar. 20, 2026].
-
-	\bibitem{ref_ISO}
-	International Organization for Standardization, "Mechanical properties of fasteners made of carbon steel and alloy steel — 
-	Part 1: Bolts, screws and studs with specified property classes — Coarse thread and fine pitch thread," ISO 898-1:2013, Geneva, Switzerland, 2013.
-
-	\bibitem{ref_ASM}
-	ASM International, Properties and Selection: Irons, Steels, and High-Performance Alloys, ASM Handbook, vol. 1. Materials Park, OH, USA: ASM International, 1993.
-
-	\bibitem{ref_Hibbeler_therm}
-	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014, eq. (4-4).
-
-	\bibitem{ref_Hibbeler_spring}
-	Hibbeler, eq. (4-2)
-
-	\bibitem{ref_Jensen}
-	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis. [Unpublished]
-
-	\bibitem{ref_Stewart}
-	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
-	
-	\bibitem{ref_SpecialMetals}
-	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-	[Accessed: Apr. 17, 2026].
-	
-	\bibitem{ref_AllvarAlloys}
-	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/what-is-negative-thermal-expansion/}
+	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
+		% CTE = 13.2 ppm/C
+		% E = 200 GPa
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007, p. . [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
 	[Accessed: Apr. 17, 2026].
 
-	\bibitem{ref_Young_Freedman}
-	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, eq. (6-8).
+	\bibitem{ref_NASA_Inc} % Inconel advantages
+	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
-	\bibitem{ref_Anton}
-	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-	Hoboken, NJ: Wiley, 2019, p. 228.
+	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
+		% 18-8 304 SS:
+			% E = 210.1 GPa
+			% ν = 0.279
+		% 316 SS:
+			% E = 207.8 GPa
+			% E = 0.282
+	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
-	\bibitem{ref_McMaster_Invar}
-	McMaster-Carr, \textit{[Thermally Stable Invar 36 Nickel Alloy Rod], Part No. 4279K16}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/4279K16-4279K169/}
-	[Accessed: Apr. 17, 2026].
+	\bibitem{ref_ASM_Steel} % Used for CTE comparison
+		% CTE = 11.7 ppm/C
+		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
 
-	\bibitem{ref_NASA}
+	% COURSE TEXTS AND ENGINEERING PRACTICES
+
+	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
 	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
 
-	\bibitem{ref_NIH}
+	\bibitem{ref_Nise} % Controls and Transfer Functions
+	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+
+	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
+	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
+	[Unpublished]
+
+	\bibitem{ref_Stewart} % Calculus and Taylor Series
+	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+
+	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
+	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
+	Hoboken, NJ: Wiley, 2019, p. 228.
+
+	\bibitem{ref_steen2010laser} % Laser weld guide
+	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+	Springer, London, UK, 2010.
+
+	% ENGINEERING CALCULATIONS
+
+	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
+	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
+	8th~ed., McGraw-Hill, New York, 2006, Eq.~8-27, Table~8-15.
+
+	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
+	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+
+	\bibitem{ref_Young_Freedman} % Hooke's Law
+	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+	
+	\bibitem{ref_din6796} % Standard for belleville washer
+	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+
+	\bibitem{ref_dinen16984} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+
+	\bibitem{ref_dinen16983} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+
+	\bibitem{ref_almen1936} % Referenced by DIN 16983
+	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+
+	% PRODUCT INFORMATION
+
+	\bibitem{ref_miniflex_design} % Bellows catalog design guide
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb. 23, 2026].
+
+	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
+	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+	[Accessed: Feb. 23, 2026]
+
+	\bibitem{ref_McMaster_Al} % 6061 Aluminum stock specificaitons
+	McMaster-Carr, \textit{[Multipurpose 6061 Aluminum Rod], Part No. 8974K289}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/8974K48-8974K289/}
+	[Accessed: May 9, 2026].
+
+	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
+	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	[Accessed: May 8, 2026].
+
+	% BACKGROUND INFORMATION
+
+	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
+	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
+	Sec.~1.2.
+
+	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
+	Available: \url{https://patents.google.com/patent/US2115501}
+	[Accessed: May 11, 2026].
+
+	\bibitem{ref_Bugby_2021} % ALLVAR-Aluminum thermal switch
+	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
+	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
+	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
+
+	\bibitem{ref_Ralphs_2024} % ALLVAR-Aluminum thermal switch
+	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
+	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
+	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+
+	\bibitem{ref_Ralphs_2026} % ALLVAR-Aluminum thermal switch
+	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
+	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
+	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+
+	% TRIVIAL INFORMATION
+
+	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
 	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
 	[Accessed: May 4, 2026].
+
+	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
+	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
+	Available: \url{https://gallica.bnf.fr/ark:/12148/bpt6k3080s/f239.item}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
+	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
+	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+
+	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
+	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
+	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+
+	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
+	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+	[Accessed: May 9, 2026] 
+
+	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
+	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
+	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	[Accessed: May 8, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
@@ -612,13 +702,51 @@ The overlapping area between the orifices varies linearly with relative plate di
 \label{app:derivations}
 
 % ------------------------------------------------------------
-\subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+\subsection*{A.1 \quad System Output of the \device}
 % ------------------------------------------------------------
 
-The effective diameter, $D_\text{eff}$ is the diameter of a circle of equal area,
+The Required Relationship given in the problem statement
+
+$$\requiredRelationship$$
+
+where
+
+$$A_1 = \Aone$$
+$$A_0 = \Azero$$
+$$T_{\text{ref}} = \SI{25}{\celsius}$$
+$$(\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius})$$
+
+stipulates a linear temperature-diameter control output with the following endpoints:
+
+$$\Dcold$$
+$$\Dhot$$
+
+The \device\ is tuned to produce exactly these results. Each subsystem contributes one control derivative to the system output relation
+
+\begin{equation}
+    D_{\device} = \frac{dL}{dT} \frac{dX}{dL} \frac{dD}{dX} \Delta T + D(T_{\text{ref}})
+\end{equation}
+
+$\frac{dL}{dT}$ is driven by the actuator subsystem, which converts changes in temperature to length change according to the relation
+
+\begin{equation}
+    \begin{aligned}
+        \frac{dL}{dT} &= \left( L_{\text{core}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \\
+        &= \left[ \left( \specOrigActuatorLength \right) \left( \specActuatorCTE \right) - \left( \specMountEffLength \right) \left( \specMountCTE \right) \right] \\
+        &= \SI{1.91}{\micro\meter\per\celsius}
+    \end{aligned}
+\end{equation}
+
+As the actuator expands and $L$ increases, it directly drives the valve stem. The orifice height $X$, defined in Figure \ref{fig:orifice}, decreases as much as $L$ increases.
+Thus, $\frac{dX}{dL} = -1$.
+
+$\frac{dD}{dX}$ is driven by the valve subsystem orifice geometry.
+The area of the orifice is defined by its side length
+$$A = s^2$$
+The effective diameter, $D_\text{eff}$, is the diameter of a circle of equal area,
 $A = \frac{\pi}{4} D_\text{eff}^2$.
-The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
-Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
+The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$, where $s$ is the side length of the overlap diamond.
+Since the actuator drives the orifice height $X$,
 the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
 \begin{equation}
     \frac{\pi}{4} D_\text{eff}^2 = \frac{X^2}{2}
@@ -626,73 +754,93 @@ the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
     D_\text{eff} = \sqrt{\frac{2}{\pi}}\, X
     \label{eq:app_Deff_X}
 \end{equation}
-Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
-the valve transfer function is:
+Thus,
 \begin{equation}
-    \hat{G}_{V_0} = \frac{dD_\text{eff}}{dX}\,\frac{dX}{dL}
-        = \sqrt{\frac{2}{\pi}} \cdot (-1) = -0.798
-    \label{eq:app_GV}
+    \frac{dD}{dX} = \sqrt{\frac{2}{\pi}} = 0.798
 \end{equation}
-This result is purely geometric and produces a first-order (linear) diameter
-response, a property unique among hydrogen-compatible, manufacturable geometries.
+
+Finally, the reference orifice diameter is set by the position of the valve stem hole such that
+\begin{equation}
+    D_{ref} = \SI{0.254}{\milli\meter}
+\end{equation}
+
+therefore
+\begin{equation}
+    D_{\device} = (\SI{1.91}{\micro\meter\per\celsius})(-1)(0.798) \Delta T + \SI{0.254}{\milli\meter}
+\end{equation}
+as prescribed.
+
+% % ------------------------------------------------------------
+% \subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+% % ------------------------------------------------------------
+
+% Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
+% the valve transfer function is:
+% \begin{equation}
+%     \hat{G}_{V_0} = \frac{dD_\text{eff}}{dX}\,\frac{dX}{dL}
+%         = \sqrt{\frac{2}{\pi}} \cdot (-1) = -0.798
+%     \label{eq:app_GV}
+% \end{equation}
+% This result is purely geometric and produces a first-order (linear) diameter
+% response, a property unique among hydrogen-compatible, manufacturable geometries.
+
+% % ------------------------------------------------------------
+% \subsection*{A.2 \quad Actuator Dimension Derivation}
+% % ------------------------------------------------------------
+
+% The bimetallic actuator consists of an aluminium expansion rod (length
+% $L_\text{act}$, CTE $\alpha_\text{Al}$) nested inside an ALLVAR mount
+% (length $L_\text{mount}$, CTE $\alpha_\text{ALLV}$).
+% Because the mount base is welded to the housing (fixed) and the rod hangs
+% from inside the mount, both materials act in the \emph{same} direction:
+% \begin{equation}
+%     \Delta L = \bigl(L_\text{act}\,\alpha_\text{Al}
+%                    - L_\text{mount}\,\alpha_\text{ALLV}\bigr)\Delta T
+%     \label{eq:app_actuation}
+% \end{equation}
+% The geometric constraint (belleville washer height $t_\text{wash} = 0.55$~mm,
+% thermal isolation gap $L_\text{gap} = 5$~mm) gives:
+% \begin{equation}
+%     L_\text{mount} = t_\text{wash} + L_\text{act} + L_\text{gap}
+%     \label{eq:app_act_dim}
+% \end{equation}
+
+% The required actuator transfer function follows from
+% $\hat{G}_{A_0} = A_1 / \hat{G}_{V_0}$:
+% \begin{equation}
+%     \hat{G}_{A_0}
+%         = \frac{dL}{dT}
+%         = \frac{A_1}{-\sqrt{2/\pi}}
+%         = -\sqrt{\frac{\pi}{2}}\,(- 1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C})
+%         = 1.91\ \frac{\mu\text{m}}{^\circ\text{C}}
+%     \label{eq:app_GA}
+% \end{equation}
+
+% Substituting Equation~\eqref{eq:app_act_dim} into
+% Equation~\eqref{eq:app_actuation}, setting $\Delta L / \Delta T =
+% \hat{G}_{A_0}$, and solving for $L_\text{act}$:
+% \begin{align}
+%     L_\text{act}
+%         &= \frac{\hat{G}_{A_0}
+%                  + (t_\text{wash} + L_\text{gap})\,\alpha_\text{ALLV}}
+%                {\alpha_\text{Al} - \alpha_\text{ALLV}}
+%     \notag \\[6pt]
+%         &= \frac{1.91\ \mu\text{m}/^\circ\text{C}
+%                  + (5.55\ \text{mm})(-30 \times 10^{-6}\ /^\circ\text{C})}
+%                {22.85 \times 10^{-6} - (-30 \times 10^{-6})}
+%         = 32.991\ \text{mm}
+%     \label{eq:app_Lact}
+%     \\[6pt]
+%     L_\text{mount}
+%         &= 32.991 + 0.55 + 5 = 38.541\ \text{mm}
+%     \label{eq:app_Lmount}
+% \end{align}
+% These are the critical dimensions machined into the actuator
+% subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
+% mechanical envelope for the subsystem.
 
 % ------------------------------------------------------------
-\subsection*{A.2 \quad Actuator Dimension Derivation}
-% ------------------------------------------------------------
-
-The bimetallic actuator consists of an aluminium expansion rod (length
-$L_\text{act}$, CTE $\alpha_\text{Al}$) nested inside an ALLVAR mount
-(length $L_\text{mount}$, CTE $\alpha_\text{ALLV}$).
-Because the mount base is welded to the housing (fixed) and the rod hangs
-from inside the mount, both materials act in the \emph{same} direction:
-\begin{equation}
-    \Delta L = \bigl(L_\text{act}\,\alpha_\text{Al}
-                   - L_\text{mount}\,\alpha_\text{ALLV}\bigr)\Delta T
-    \label{eq:app_actuation}
-\end{equation}
-The geometric constraint (belleville washer height $t_\text{wash} = 0.55$~mm,
-thermal isolation gap $L_\text{gap} = 5$~mm) gives:
-\begin{equation}
-    L_\text{mount} = t_\text{wash} + L_\text{act} + L_\text{gap}
-    \label{eq:app_act_dim}
-\end{equation}
-
-The required actuator transfer function follows from
-$\hat{G}_{A_0} = A_1 / \hat{G}_{V_0}$:
-\begin{equation}
-    \hat{G}_{A_0}
-        = \frac{dL}{dT}
-        = \frac{A_1}{-\sqrt{2/\pi}}
-        = -\sqrt{\frac{\pi}{2}}\,(- 1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C})
-        = 1.91\ \frac{\mu\text{m}}{^\circ\text{C}}
-    \label{eq:app_GA}
-\end{equation}
-
-Substituting Equation~\eqref{eq:app_act_dim} into
-Equation~\eqref{eq:app_actuation}, setting $\Delta L / \Delta T =
-\hat{G}_{A_0}$, and solving for $L_\text{act}$:
-\begin{align}
-    L_\text{act}
-        &= \frac{\hat{G}_{A_0}
-                 + (t_\text{wash} + L_\text{gap})\,\alpha_\text{ALLV}}
-               {\alpha_\text{Al} - \alpha_\text{ALLV}}
-    \notag \\[6pt]
-        &= \frac{1.91\ \mu\text{m}/^\circ\text{C}
-                 + (5.55\ \text{mm})(-30 \times 10^{-6}\ /^\circ\text{C})}
-               {22.85 \times 10^{-6} - (-30 \times 10^{-6})}
-        = 32.991\ \text{mm}
-    \label{eq:app_Lact}
-    \\[6pt]
-    L_\text{mount}
-        &= 32.991 + 0.55 + 5 = 38.541\ \text{mm}
-    \label{eq:app_Lmount}
-\end{align}
-These are the critical dimensions machined into the actuator
-subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
-mechanical envelope for the subsystem.
-
-% ------------------------------------------------------------
-\subsection*{A.3 \quad System Transfer Function: Proof of Requirement Satisfaction}
+\subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
 % ------------------------------------------------------------
 
 The Required Relationship (Requirement R.1) demands:
@@ -737,7 +885,7 @@ The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
 human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
 
 % ------------------------------------------------------------
-\subsection*{A.4 \quad Pressure Vessel Structural Verification}
+\subsection*{A.3 \quad Pressure Vessel Structural Verification}
 % ------------------------------------------------------------
 
 The valve housing is modelled as a thick-walled cylinder of Invar~36
