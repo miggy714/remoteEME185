@@ -188,10 +188,10 @@
 \newcommand{\specEALLV}{\SI{55}{\giga \pascal}}
 \newcommand{\specEInv}{\SI{193}{\giga \pascal}}
 \newcommand{\specEInc}{\SI{200}{\giga \pascal}}
-\newcommand{\specActuatorCTE}{\SI{22.85e-6}{\per \celsius}} %Evaluated at 25C
-\newcommand{\specMountCTE}{\SI{-30e-6}{\per \celsius}}
-\newcommand{\specInvarCTE}{\SI{1.2e-6}{\per \celsius}}
-\newcommand{\specInconelCTE}{\SI{13.2e-6}{\per \celsius}}
+\newcommand{\specActuatorCTE}{\SI{22.85}{\micro\meter\per\meter\per\celsius}} %Evaluated at 25C
+\newcommand{\specMountCTE}{\SI{-30}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInvarCTE}{\SI{1.3}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInconelCTE}{\SI{13.2}{\micro\meter\per\meter\per\celsius}}
 \newcommand{\specBellowsK}{\SI{3806}{\newton \per \meter}}
 \newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
 
@@ -376,8 +376,8 @@ combined system to produce a first-order linear output, each subsystem must inde
 for each subsystem were evaluated against defined criteria using a scoring matrix, which prioritizes linearity and simplicity.
 
 For the actuator, candidates included a bimetallic coil, wax bladder, and piston-cylinder assembly and were evaluated against a thermal expansion rod. 
-All the other candidates were rejected on the basis of nonlinearity or mechanical complexity. Aluminum was selected for the rod material due to its high 
-CTE and machinability. Allvar 30 was selected for the mount instead of steel because its negative CTE increases rather than reduces actuator displacement.
+All the other candidates were rejected on the basis of nonlinearity or mechanical complexity. Aluminum was selected for the rod material due to its high, consistent
+coefficient of thermal expansion (CTE) and machinability. Allvar 30 was selected for the mount instead of steel because its negative CTE increases rather than reduces actuator displacement.
 
 For the valve, all conventional valve types were evaluated, including stopper, panel, rotary, and pinch valve configurations, and were rejected for their 
 inability to produce a linear flow area response. A novel geometry was developed in which two plates with square orifices are rotationally offset by 45 degrees. 
@@ -450,13 +450,14 @@ The overlapping area between the orifices varies linearly with relative plate di
     As the actuator drives the valve stem downwards, its diamond (pictured as blue in Fig. \ref{fig:orifice}) descends relative to the fixed diamond on the housing, shrinking the overlap and restricting the flow.
     Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in a linear output.
     As calculated in Appendix~\ref{app:derivations}, the bimetallic actuator and diamond orifice combine to produce the exact linear relationship required by Sandia.
-
-    \todo{Continue}
     
     The orifice is cut using wire electro discharge machining, allowing 
     for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a physical vapor deposition (PVD) coating to prevent galling.
 
-    The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
+    The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}.
+    The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice.
+    The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry.
+    The housing is fabricated from Invar 36, a one-of-a-kind alloy renowned in the aerospace industry for its low CTE $(\alpha \approx \SI{1.3}{\micro\meter\per\meter\per\celsius})$\cite{ref_Carpenter_Inv, ref_Invar_1897, ref_Invar_1920}.
 
     Sealing of the valve is achieved through a combination of welded joints and two Inconel 718 bellows (5) \cite{ref_miniflex_design}. The bellows provide a hermetic seal while allowing for the 
     necessary axial motion of the valve stem, ensuring that the device can operate under the specified internal pressure without leakage. 
@@ -465,7 +466,7 @@ The overlapping area between the orifices varies linearly with relative plate di
     that could otherwise affect the orifice geometry.
 
     Weld joints are used throughout the assembly to enable simple mates with minimal degrees of freedom, contributing to the overall robustness
-    of the design \cite{ref_aws2020welding}. Electron beam welding was selected for its ability to create strong, precise welds, all of which will be verified through full radiographic inspection.
+    of the design \cite{ref_steen2010laser}. Electron beam welding was selected for its ability to create strong, precise welds, all of which will be verified through full radiographic inspection.
 
     Calibration of the device is performed during final assembly through the use of a manually-torqued adjustment screw and a Belleville washer (8). By adjusting 
     the preload on the Belleville washer via the adjustment screw and consequently the vertical position of the valve orifice, we can ensure that the actuator's 
@@ -480,25 +481,20 @@ The overlapping area between the orifices varies linearly with relative plate di
 
     After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
     Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems \cite{ref_Nise}.
-    The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
+    The resulting computation, represented graphically in Appendix~\ref{app:modeling}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
     The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
+    The gold line, the function-estimated output, fits well within the tolerated error band, demonstrating a real prototype would likely produce similarly satisfactory results.
+
+    \insertfigure{0.9}{TF_plot.png}{System Verification}{fig:TF_plot}
+
+    Numerical verification of the \device\ will consist of a computational prototype to test against various failure modes.
+    This is still in-progress and will be completed by the end of the academic quarter. The following section discusses this verification in more detail.
 
 \section*{Improvements and Future Work}
 
-    The \device\ design reliably and precisely accomplishes the specified requirements while operating in extreme temperature and pressure conditions. However, manufacturing and assembly of the device will require careful attention to detail and precision. With the current design, we anticipate that the most significant challenges will occur in repeatability of the manufacturing process therefore any future design iterations should focus on improving the manufacturability of the device. 
-    Following the successful fabrication of the current design, future work will include physically testing the device in a laboratory setting under controlled temperature and pressure conditions to validate the computational models and ensure that the device meets the specified performance requirements. There are two tests that will be conducted to verify accuracy and precision of the device. A dry test will subject the device to a specified ambient temperature using an environment chamber and the orifice effective diameter will be optically measured. Secondly, a wet test will subject the device to fluid flow at a specified inlet pressure and ambient temperature for 60 seconds while measuring the pressure drop across the orifice.
-    These tests are designed to validate design and to support the computational modeling used to verify the design. 
+    The current \device\ design reliably accomplishes the specified requirements under extreme temperature and pressure conditions. Further computational verification is currently in progress, including FEA, CFD, and thermal analysis to further validate the design prior to physical testing. The primary challenge anticipated in future development is manufacturing repeatability, which should be the focus of subsequent design iterations.
 
-
-
-
-% \chapter{Cited References}
-% \label{sec:references}
-
-% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
-% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
-%
-% The [99] tells LaTeX the widest label will be two digits.
+    Following fabrication, physical validation will consist of two tests: a dry test, in which the device is subjected to a controlled ambient temperature and the effective orifice diameter is optically measured; and a wet test, in which fluid flows at a specified inlet pressure and ambient temperature for 60 seconds while pressure drop is recorded. 
 
 \begin{thebibliography}{99}
 
@@ -711,7 +707,7 @@ The overlapping area between the orifices varies linearly with relative plate di
 \label{app:derivations}
 
 % ------------------------------------------------------------
-\subsection*{A.1 \quad System Output of the \device}
+\section{A.1 \quad System Output of the \device}
 % ------------------------------------------------------------
 
 The Required Relationship given in the problem statement
@@ -848,53 +844,53 @@ as prescribed.
 % subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
 % mechanical envelope for the subsystem.
 
+% % ------------------------------------------------------------
+% \subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
+% % ------------------------------------------------------------
+
+% The Required Relationship (Requirement R.1) demands:
+% \begin{equation}
+%     D_\text{eff} = A_1 (T_\text{amb} - T_\text{ref}) + A_0,
+%     \qquad
+%     A_1 = -1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C},\quad
+%     A_0 = 0.254\ \text{mm}
+%     \label{eq:app_RR}
+% \end{equation}
+
+% The system transfer function is composed of the two subsystem transfer
+% functions in series, plus the valve reference diameter $D_\text{ref}$:
+% \begin{align}
+%     D_\text{eff}
+%         &= \hat{G}_{V_0}\,\hat{G}_{A_0}\,\Delta T + D_\text{ref}
+%     \notag \\
+%         &= \left(-\sqrt{\tfrac{2}{\pi}}\right)
+%            \left(+\sqrt{\tfrac{\pi}{2}}\,|A_1|\right)
+%            \Delta T
+%            + A_0
+%     \notag \\
+%         &= \bigl(-0.798\bigr)\bigl(1.91\ \mu\text{m}/^\circ\text{C}\bigr)
+%            \Delta T + 0.254\ \text{mm}
+%     \notag \\
+%         &= \bigl(-1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C}\bigr)
+%            \Delta T + 0.254\ \text{mm}
+%         = A_1 \Delta T + A_0 \quad \checkmark
+%     \label{eq:app_TF_proof}
+% \end{align}
+
+% The resulting effective diameters at the temperature extremes are:
+% \begin{align*}
+%     D_\text{eff}(-60\,^\circ\text{C})
+%         &= 383.5 \pm 19.2\ \mu\text{m} \\
+%     D_\text{eff}(+25\,^\circ\text{C})
+%         &= 254.0 \pm 12.7\ \mu\text{m} \\
+%     D_\text{eff}(+80\,^\circ\text{C})
+%         &= 170.2 \pm 16.9\ \mu\text{m}
+% \end{align*}
+% The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
+% human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
+
 % ------------------------------------------------------------
-\subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
-% ------------------------------------------------------------
-
-The Required Relationship (Requirement R.1) demands:
-\begin{equation}
-    D_\text{eff} = A_1 (T_\text{amb} - T_\text{ref}) + A_0,
-    \qquad
-    A_1 = -1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C},\quad
-    A_0 = 0.254\ \text{mm}
-    \label{eq:app_RR}
-\end{equation}
-
-The system transfer function is composed of the two subsystem transfer
-functions in series, plus the valve reference diameter $D_\text{ref}$:
-\begin{align}
-    D_\text{eff}
-        &= \hat{G}_{V_0}\,\hat{G}_{A_0}\,\Delta T + D_\text{ref}
-    \notag \\
-        &= \left(-\sqrt{\tfrac{2}{\pi}}\right)
-           \left(+\sqrt{\tfrac{\pi}{2}}\,|A_1|\right)
-           \Delta T
-           + A_0
-    \notag \\
-        &= \bigl(-0.798\bigr)\bigl(1.91\ \mu\text{m}/^\circ\text{C}\bigr)
-           \Delta T + 0.254\ \text{mm}
-    \notag \\
-        &= \bigl(-1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C}\bigr)
-           \Delta T + 0.254\ \text{mm}
-        = A_1 \Delta T + A_0 \quad \checkmark
-    \label{eq:app_TF_proof}
-\end{align}
-
-The resulting effective diameters at the temperature extremes are:
-\begin{align*}
-    D_\text{eff}(-60\,^\circ\text{C})
-        &= 383.5 \pm 19.2\ \mu\text{m} \\
-    D_\text{eff}(+25\,^\circ\text{C})
-        &= 254.0 \pm 12.7\ \mu\text{m} \\
-    D_\text{eff}(+80\,^\circ\text{C})
-        &= 170.2 \pm 16.9\ \mu\text{m}
-\end{align*}
-The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
-human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
-
-% ------------------------------------------------------------
-\subsection*{A.3 \quad Pressure Vessel Structural Verification}
+\section{A.2 \quad Pressure Vessel Structural Verification}
 % ------------------------------------------------------------
 
 The valve housing is modelled as a thick-walled cylinder of Invar~36
@@ -939,43 +935,25 @@ radiographic inspection) is:
 \end{equation}
 Both checks confirm structural viability with comfortable margins.
 
-\chapter{Computational Modeling}
+\chapter{Computational Modeling: System Transfer Function}
 \label{app:modeling}
-% Insert your FEA (stress and thermal gradient) plots and results here.
-% You can easily insert images using your custom helper command:
-% \insertfigure{0.9}{fea_results.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:thermal_fea}
 
-    \section{System Control Transfer Function}
-    \label{app:TF}
+    Figure \ref{fig:TF} represents the transfer function, derived and encoded into C++ to verify the expected results from the \device.
+    The details of its derivation are too in-deptch for presentation here, but the curious reader might find the following summary enlightening.
 
-        Figure \ref{fig:TF} represents the transfer function, derived and encoded into C++ to verify the expected results from the \device.
-        The details of its derivation are too in-deptch for presentation here, but the curious reader might find the following summary enlightening.
+    Each block represents a subpart of the system, which takes one value as its input and outputs a new value.
+    The ambient temperature is input into each of eight independent parts. The first row of blocks represents temperature adjustment as each part equilibriates with the hotter internal gas.
+    The second row represents the thermal expansion of every part, including those which are not supposed to expand.
+    The resulting length values of these mechanically coupled parts are entered into a spring-force balance (a system of eight linearly independent equations), giving the final length of each part.
+    These are properly summed to find the position of each orifice, whose difference comprises the height of the final overlap between them.
+    This is then converted to the effective diameter.
 
-        Each block represents a subpart of the system, which takes one value as its input and outputs a new value.
-        The ambient temperature is input into each of eight independent parts. The first row of blocks represents temperature adjustment as each part equilibriates with the hotter internal gas.
-        The second row represents the thermal expansion of every part, including those which are not supposed to expand.
-        The resulting length values of these mechanically coupled parts are entered into a spring-force balance (a system of eight linearly independent equations), giving the final length of each part.
-        These are properly summed to find the position of each orifice, whose difference comprises the height of the final overlap between them.
-        This is then converted to the effective diameter.
+    \insertfigure{0.9}{TF.png}{Transfer Function Block Diagram.}{fig:TF}
 
-        \insertfigure{0.9}{TF.png}{Transfer Function Block Diagram.}{fig:TF}
-
-        This transfer funciton, when given best-estimate error values and calculated, yeilds the system output shown in Figure \ref{fig:fig:TF_plot}.
-        The gold line, the function-estimated output, fits well within the tolerated error band, demonstrating a real prototype would likely produce similarly satisfactory results.
-
-        \insertfigure{0.9}{TF_plot.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:TF_plot}
-
-\begin{landscape}
 \chapter{Bill of Materials and Assembly Drawings}
 \label{app:drawings}
-    \section*{Bill of Materials}
-    \centering
-    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{BOM.png}
-    \captionof{figure}{Bill of Materials}
-    \label{fig:bom}
-\end{landscape}
-% \includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
+\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+\includepdf[pages=1-6, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
 
 \end{appendices}
-
 \end{document}
