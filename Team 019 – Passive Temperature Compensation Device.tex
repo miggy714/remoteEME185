@@ -145,6 +145,7 @@
 \usepackage{calc}
 \usepackage{multicol}
 \usepackage{mdframed}
+\usepackage{wrapfig}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -352,15 +353,18 @@
 	Sandia National Laboratories conducts numerous experiments requiring the flow of precisely-controlled Hydrogen gas.
 	These experiments are sensitive to fluctuations in temperature; the flow must be adjusted to compensate for these changes.
 	However, power and space constraints prohibit the use of embedded control systems.
-	Sandia commissioned the Noble Aggie Labs from UC Davis to design and prototype a Passive Temperature Compensation Device (PTCD)
+	Sandia commissioned the Noble Aggie Labs from UC Davis to design and prototype a Passive Temperature Compensation Device (\device)
 	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its effective orifice diameter according to the relationship
     $D_{\text{eff}} = A_1 (T_{\text{amb}} - \SI{25}{\celsius}) + A_0$,
     where $A_1 = \Aone$ and $A_0 = \Azero$.
-    The PTCD must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
+    The \device\ must maintain this orifice, no larger than the tip of a ballpoint pen, to within a hair's breadth of its setpoint across a wide temperature range.
 
 \section*{Design Approach}
 
-
+    Two subsystems accomplish this objective. The Actuator thermomechanically responds to ambient temperature changes; the Valve restricts gas flow as driven by the actuator.
+    To achieve the above required relationship,
+    each subsystem must comprise a simple architecture with a single degree of freedom and yield a first-order output.
+    Thus, the \device\ design process combined proven architectures with one novel approach to create a simple, robust, first-order passive flow control valve.
 
     The main design requirement for our project is that the valve has to be linearly dependent on the ambient temperature. To achieve this we split our design into two main subsystems: the actuator and the valve.
     Then we made sure that both of them were linearly dependent on the ambient temperature and if they were both individually linearly dependent then combined they would still remain linearly dependent.
@@ -381,11 +385,8 @@
 
 \section*{Final Solution}
 
-    In solution to the problem statement, our team presents the Passive Temperature Compensation Device, a high-precision control valve that 
-    successfully maintains the required relationship without power or control. It comprises a valve assembly, with a threaded housing, orifice 
-    components, and associated hermitic seals; and an actuator assembly, with a bimetallic architecture and calibration system. The parts are 
-    assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
-    showing the internal components and their arrangement.
+    The final design of the Passive Temperature Compensation Device, pictured in Figure \ref{fig:assembly_combined}, thermomechanically controls Hydrogen gas flow at \specPressure\ to the specified tolerance across the full design temperature range $(\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius})$
+    using a simple, compact architecture.
 
   \begin{figure}[h]
     \centering
@@ -406,17 +407,27 @@
     \label{fig:assembly_combined}
 \end{figure}
 
-    The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
+    The bimetallic actuator, the functional core of the \device, leverages the difference in Coefficients of Thermal Expansion (CTE) between two metals. An Aluminum 6061 expansion rod (6) nests inside a hollow, cylindrical ALLVAR mount (7).
+    Aluminum's expansion rate $\alpha_{\text{Al}} \approx \specActuatorCTE$; it expands when heated. ALLVAR, a proprietary technology made by ALLVAR Alloys, shrinks when heated at a rate of $\alpha_{\text{ALLV}} \approx \specMountCTE$.
+    The mount, secured at its base, lowers the assembly as it shrinks while the aluminum rod, fastened to the mount from above by the screw-washer assembly (8, 9, 10), simultaneously expands downwards.
+    Temperature decrease produces the reverse effect.
+    The assembly linearly translates the ambient temperature into compount relative displacement according to the governing equation $\Delta L = \left( L_{\text{core}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \Delta T$.
+    At full range, the actuator drives the valve \SI{267}{\micro\meter}.
 
     By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
     displacement at the valve orifice. This relationship is mathematically modeled by the governing equation  $\Delta L = \left( L_{actuator} \alpha_{actuator} - L_{mount} \alpha_{mount} \right) \Delta T$, where the effective displacement is a direct  
     function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
     an equal distance.
 
-    At the heart of the valve design is the valve orifice (4), which consists of an aperture at its center and attached upper and lower cylindrical stems. The upper stem is fixed to the actuator at its top. The orifice itself is a square aperture that provides a linear flow response to the actuator's motion. 
-    Two square holes form the aperture, one in the valve outlet (3) and one in the valve stem, which are precisely aligned to create an effective 
-    orifice that varies in size as the stem moves. The square geometry was selected for its linear flow response, which simplifies the 
-    relationship between actuator displacement and flow restriction (Appendix~\ref{app:derivations}). The orifice is cut using wire electro discharge machining (EDM), allowing 
+    The valve subsystem comprises the central orifice, structural housing, and associated hermetic seals. A novel orifice architecture was required to achieve the linear relationship between displacement (provided by the actuator) and effective diameter.
+    While most gas flow control valves exhibit a first-order change in orifice area, the required temperature-diameter translation required that the orifice remain a regular polygon.
+    The PTCD achieves this with a unique diamond-overlap approach, pictured in Figure \ref{fig:orifice}.
+    The valve stem (4) and housing outlet (3) each contain a small square hole rotated \SI{45}{\degree}. When assembled, these are pressed against one another and slightly offset such that gas may only flow through the overlap between them.
+    As the actuator drives the valve stem downwards, its diamond (pictured as blue in Fig. \ref{fig:orifice}) descends relative to the fixed diamond on the housing, shrinking the overlap and restricting the flow.
+    Their \SI{45}{\degree} rotation allows the orifice to remain a square, resulting in the linear output required.
+    As calculated in Appendix~\ref{app:derivations}, the bimetallic actuator and diamond orifice combine to produce the exact linear relationship required by Sandia.
+    
+    The orifice is cut using wire electro discharge machining (EDM), allowing 
     for a very small minimum corner radius (0.076 mm), which is critical for achieving the required precision in flow control. All contact surfaces are coated with a \todo{noun} to prevent galling.
 
     The valve housing components are responsible for maintaining the structural integrity of the device under specified internal pressure of \SI{68.95}{\mega\pascal}. The housing includes the valve inlet (1), which connects to the gas source, the housing center pieces (2), which contain the valve internal components, and the valve outlet (3), which directs the flow through the orifice. The housing is designed with a compact form factor to meet the specified mechanical envelope while providing sufficient material thickness and support to withstand the internal pressure without deformation that could affect the orifice geometry. The housing is fabricated from Invar 36, chosen for its high strength, relatively low CTE, and compatibility with hydrogen gas under high-pressure conditions \cite{ref_SpecialMetals}.
@@ -591,7 +602,7 @@
 
 The effective diameter, $D_\text{eff}$ is the diameter of a circle of equal area,
 $A = \frac{\pi}{4} D_\text{eff}^2$.
-The PTCD orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
+The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$ where $s$ is the inscribed square side.
 Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
 the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
 \begin{equation}
