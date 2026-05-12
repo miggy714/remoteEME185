@@ -472,21 +472,20 @@ The overlapping area between the orifices varies linearly with relative plate di
 
     After completion of the final design iteration, verification of the \device\ control output was conducted both analytically and numerically.
     Analytical verification consisted of derivation and calculation of the passive system control transfer function, commonly used in the field of control systems \cite{ref_Nise}.
-    The resulting computation, represented graphically in Appendix~\ref{app:TF}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
+    The resulting computation, represented graphically in Appendix~\ref{app:modeling}, analytically estimated the effect of heat transfer, machining errors, thermal expansion of every part, and spring reactions from the bellows.
     The transfer function produced the system output results shown in Figure \ref{fig:TF_plot}, verifying satisfaction of the required relationship despite these sources of error.
+    The gold line, the function-estimated output, fits well within the tolerated error band, demonstrating a real prototype would likely produce similarly satisfactory results.
+
+    \insertfigure{0.9}{TF_plot.png}{System Verification}{fig:TF_plot}
+
+    Numerical verification of the \device\ will consist of a computational prototype to test against various failure modes.
+    This is still in-progress and will be completed by the end of the academic quarter. The following section discusses this verification in more detail.
 
 \section*{Improvements and Future Work}
 
     The current \device\ design reliably accomplishes the specified requirements under extreme temperature and pressure conditions. Further computational verification is currently in progress, including FEA, CFD, and thermal analysis to further validate the design prior to physical testing. The primary challenge anticipated in future development is manufacturing repeatability, which should be the focus of subsequent design iterations.
 
     Following fabrication, physical validation will consist of two tests: a dry test, in which the device is subjected to a controlled ambient temperature and the effective orifice diameter is optically measured; and a wet test, in which fluid flows at a specified inlet pressure and ambient temperature for 60 seconds while pressure drop is recorded. 
-% \chapter{Cited References}
-% \label{sec:references}
-
-% --- Option B: Manual bibliography (simpler, no .bib file needed) ---
-% Each \bibitem{key} creates a reference. Cite with \cite{key} in text.
-%
-% The [99] tells LaTeX the widest label will be two digits.
 
 \begin{thebibliography}{99}
 
@@ -699,7 +698,7 @@ The overlapping area between the orifices varies linearly with relative plate di
 \label{app:derivations}
 
 % ------------------------------------------------------------
-\subsection*{A.1 \quad System Output of the \device}
+\section{A.1 \quad System Output of the \device}
 % ------------------------------------------------------------
 
 The Required Relationship given in the problem statement
@@ -836,53 +835,53 @@ as prescribed.
 % subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
 % mechanical envelope for the subsystem.
 
+% % ------------------------------------------------------------
+% \subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
+% % ------------------------------------------------------------
+
+% The Required Relationship (Requirement R.1) demands:
+% \begin{equation}
+%     D_\text{eff} = A_1 (T_\text{amb} - T_\text{ref}) + A_0,
+%     \qquad
+%     A_1 = -1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C},\quad
+%     A_0 = 0.254\ \text{mm}
+%     \label{eq:app_RR}
+% \end{equation}
+
+% The system transfer function is composed of the two subsystem transfer
+% functions in series, plus the valve reference diameter $D_\text{ref}$:
+% \begin{align}
+%     D_\text{eff}
+%         &= \hat{G}_{V_0}\,\hat{G}_{A_0}\,\Delta T + D_\text{ref}
+%     \notag \\
+%         &= \left(-\sqrt{\tfrac{2}{\pi}}\right)
+%            \left(+\sqrt{\tfrac{\pi}{2}}\,|A_1|\right)
+%            \Delta T
+%            + A_0
+%     \notag \\
+%         &= \bigl(-0.798\bigr)\bigl(1.91\ \mu\text{m}/^\circ\text{C}\bigr)
+%            \Delta T + 0.254\ \text{mm}
+%     \notag \\
+%         &= \bigl(-1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C}\bigr)
+%            \Delta T + 0.254\ \text{mm}
+%         = A_1 \Delta T + A_0 \quad \checkmark
+%     \label{eq:app_TF_proof}
+% \end{align}
+
+% The resulting effective diameters at the temperature extremes are:
+% \begin{align*}
+%     D_\text{eff}(-60\,^\circ\text{C})
+%         &= 383.5 \pm 19.2\ \mu\text{m} \\
+%     D_\text{eff}(+25\,^\circ\text{C})
+%         &= 254.0 \pm 12.7\ \mu\text{m} \\
+%     D_\text{eff}(+80\,^\circ\text{C})
+%         &= 170.2 \pm 16.9\ \mu\text{m}
+% \end{align*}
+% The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
+% human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
+
 % ------------------------------------------------------------
-\subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
-% ------------------------------------------------------------
-
-The Required Relationship (Requirement R.1) demands:
-\begin{equation}
-    D_\text{eff} = A_1 (T_\text{amb} - T_\text{ref}) + A_0,
-    \qquad
-    A_1 = -1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C},\quad
-    A_0 = 0.254\ \text{mm}
-    \label{eq:app_RR}
-\end{equation}
-
-The system transfer function is composed of the two subsystem transfer
-functions in series, plus the valve reference diameter $D_\text{ref}$:
-\begin{align}
-    D_\text{eff}
-        &= \hat{G}_{V_0}\,\hat{G}_{A_0}\,\Delta T + D_\text{ref}
-    \notag \\
-        &= \left(-\sqrt{\tfrac{2}{\pi}}\right)
-           \left(+\sqrt{\tfrac{\pi}{2}}\,|A_1|\right)
-           \Delta T
-           + A_0
-    \notag \\
-        &= \bigl(-0.798\bigr)\bigl(1.91\ \mu\text{m}/^\circ\text{C}\bigr)
-           \Delta T + 0.254\ \text{mm}
-    \notag \\
-        &= \bigl(-1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C}\bigr)
-           \Delta T + 0.254\ \text{mm}
-        = A_1 \Delta T + A_0 \quad \checkmark
-    \label{eq:app_TF_proof}
-\end{align}
-
-The resulting effective diameters at the temperature extremes are:
-\begin{align*}
-    D_\text{eff}(-60\,^\circ\text{C})
-        &= 383.5 \pm 19.2\ \mu\text{m} \\
-    D_\text{eff}(+25\,^\circ\text{C})
-        &= 254.0 \pm 12.7\ \mu\text{m} \\
-    D_\text{eff}(+80\,^\circ\text{C})
-        &= 170.2 \pm 16.9\ \mu\text{m}
-\end{align*}
-The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
-human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
-
-% ------------------------------------------------------------
-\subsection*{A.3 \quad Pressure Vessel Structural Verification}
+\section{A.2 \quad Pressure Vessel Structural Verification}
 % ------------------------------------------------------------
 
 The valve housing is modelled as a thick-walled cylinder of Invar~36
@@ -927,42 +926,25 @@ radiographic inspection) is:
 \end{equation}
 Both checks confirm structural viability with comfortable margins.
 
-\chapter{Computational Modeling}
+\chapter{Computational Modeling: System Transfer Function}
 \label{app:modeling}
-% Insert your FEA (stress and thermal gradient) plots and results here.
-% You can easily insert images using your custom helper command:
-% \insertfigure{0.9}{fea_results.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:thermal_fea}
 
-    \section{System Control Transfer Function}
-    \label{app:TF}
+    Figure \ref{fig:TF} represents the transfer function, derived and encoded into C++ to verify the expected results from the \device.
+    The details of its derivation are too in-deptch for presentation here, but the curious reader might find the following summary enlightening.
 
-        Figure \ref{fig:TF} represents the transfer function, derived and encoded into C++ to verify the expected results from the \device.
-        The details of its derivation are too in-deptch for presentation here, but the curious reader might find the following summary enlightening.
+    Each block represents a subpart of the system, which takes one value as its input and outputs a new value.
+    The ambient temperature is input into each of eight independent parts. The first row of blocks represents temperature adjustment as each part equilibriates with the hotter internal gas.
+    The second row represents the thermal expansion of every part, including those which are not supposed to expand.
+    The resulting length values of these mechanically coupled parts are entered into a spring-force balance (a system of eight linearly independent equations), giving the final length of each part.
+    These are properly summed to find the position of each orifice, whose difference comprises the height of the final overlap between them.
+    This is then converted to the effective diameter.
 
-        Each block represents a subpart of the system, which takes one value as its input and outputs a new value.
-        The ambient temperature is input into each of eight independent parts. The first row of blocks represents temperature adjustment as each part equilibriates with the hotter internal gas.
-        The second row represents the thermal expansion of every part, including those which are not supposed to expand.
-        The resulting length values of these mechanically coupled parts are entered into a spring-force balance (a system of eight linearly independent equations), giving the final length of each part.
-        These are properly summed to find the position of each orifice, whose difference comprises the height of the final overlap between them.
-        This is then converted to the effective diameter.
+    \insertfigure{0.9}{TF.png}{Transfer Function Block Diagram.}{fig:TF}
 
-        \insertfigure{0.9}{TF.png}{Transfer Function Block Diagram.}{fig:TF}
-
-        This transfer funciton, when given best-estimate error values and calculated, yeilds the system output shown in Figure \ref{fig:fig:TF_plot}.
-        The gold line, the function-estimated output, fits well within the tolerated error band, demonstrating a real prototype would likely produce similarly satisfactory results.
-
-        \insertfigure{0.9}{TF_plot.png}{Thermal isolation FEA results demonstrating compliance with requirements.}{fig:TF_plot}
-
-\begin{landscape}
 \chapter{Bill of Materials and Assembly Drawings}
 \label{app:drawings}
-    \section*{Bill of Materials}
-    \centering
-    \includegraphics[width=\linewidth, height=0.8\textheight, keepaspectratio]{BOM.png}
-    \captionof{figure}{Bill of Materials}
-    \label{fig:bom}
-\end{landscape}
-% \includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
+\includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+\includepdf[pages=1-3, fitpaper=true, landscape=true]{AssemblyDrawings.pdf}
 
 \end{appendices}
 
