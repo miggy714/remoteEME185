@@ -625,14 +625,17 @@ $$\Dhot$$
 
 The \device\ is tuned to produce exactly these results. Each subsystem contributes one control derivative to the system output relation
 
-$$D_{\device} = \frac{dL}{dT} \frac{dX}{dL} \frac{dD}{dX} \Delta T + D(T_{\text{ref}})$$
+\begin{equation}
+    D_{\device} = \frac{dL}{dT} \frac{dX}{dL} \frac{dD}{dX} \Delta T + D(T_{\text{ref}})
+\end{equation}
 
 $\frac{dL}{dT}$ is driven by the actuator subsystem, which converts changes in temperature to length change according to the relation
 
 \begin{equation}
     \begin{aligned}
         \frac{dL}{dT} &= \left( L_{\text{core}} \alpha_{\text{Al}} - L_{\text{mount}} \alpha_{\text{ALLV}} \right) \\
-        &= \left[ \left( \specOrigActuatorLength \right) \left( \specActuatorCTE \right) - \left( \specMountEffLength \right) \left( \specMountCTE \right) \right] = \SI{1.91}{\micro\meter\per\celsius}
+        &= \left[ \left( \specOrigActuatorLength \right) \left( \specActuatorCTE \right) - \left( \specMountEffLength \right) \left( \specMountCTE \right) \right] \\
+        &= \SI{1.91}{\micro\meter\per\celsius}
     \end{aligned}
 \end{equation}
 
@@ -645,7 +648,7 @@ $$A = s^2$$
 The effective diameter, $D_\text{eff}$, is the diameter of a circle of equal area,
 $A = \frac{\pi}{4} D_\text{eff}^2$.
 The \device\ orifice is the diamond-shaped overlap between two $45^\circ$-rotated squares with area $A = s^2$, where $s$ is the side length of the overlap diamond.
-Since the actuator drives the orifice height $X$ (vertex-to-vertex distance),
+Since the actuator drives the orifice height $X$,
 the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
 \begin{equation}
     \frac{\pi}{4} D_\text{eff}^2 = \frac{X^2}{2}
@@ -653,80 +656,93 @@ the Pythagorean theorem gives $s = X/\sqrt{2}$, so:
     D_\text{eff} = \sqrt{\frac{2}{\pi}}\, X
     \label{eq:app_Deff_X}
 \end{equation}
-
-
-
-% ------------------------------------------------------------
-\subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
-% ------------------------------------------------------------
-
-Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
-the valve transfer function is:
+Thus,
 \begin{equation}
-    \hat{G}_{V_0} = \frac{dD_\text{eff}}{dX}\,\frac{dX}{dL}
-        = \sqrt{\frac{2}{\pi}} \cdot (-1) = -0.798
-    \label{eq:app_GV}
-\end{equation}
-This result is purely geometric and produces a first-order (linear) diameter
-response, a property unique among hydrogen-compatible, manufacturable geometries.
-
-% ------------------------------------------------------------
-\subsection*{A.2 \quad Actuator Dimension Derivation}
-% ------------------------------------------------------------
-
-The bimetallic actuator consists of an aluminium expansion rod (length
-$L_\text{act}$, CTE $\alpha_\text{Al}$) nested inside an ALLVAR mount
-(length $L_\text{mount}$, CTE $\alpha_\text{ALLV}$).
-Because the mount base is welded to the housing (fixed) and the rod hangs
-from inside the mount, both materials act in the \emph{same} direction:
-\begin{equation}
-    \Delta L = \bigl(L_\text{act}\,\alpha_\text{Al}
-                   - L_\text{mount}\,\alpha_\text{ALLV}\bigr)\Delta T
-    \label{eq:app_actuation}
-\end{equation}
-The geometric constraint (belleville washer height $t_\text{wash} = 0.55$~mm,
-thermal isolation gap $L_\text{gap} = 5$~mm) gives:
-\begin{equation}
-    L_\text{mount} = t_\text{wash} + L_\text{act} + L_\text{gap}
-    \label{eq:app_act_dim}
+    \frac{dD}{dX} = \sqrt{\frac{2}{\pi}} = 0.798
 \end{equation}
 
-The required actuator transfer function follows from
-$\hat{G}_{A_0} = A_1 / \hat{G}_{V_0}$:
+Finally, the reference orifice diameter is set by the position of the valve stem hole such that
 \begin{equation}
-    \hat{G}_{A_0}
-        = \frac{dL}{dT}
-        = \frac{A_1}{-\sqrt{2/\pi}}
-        = -\sqrt{\frac{\pi}{2}}\,(- 1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C})
-        = 1.91\ \frac{\mu\text{m}}{^\circ\text{C}}
-    \label{eq:app_GA}
+    D_{ref} = \SI{0.254}{\milli\meter}
 \end{equation}
 
-Substituting Equation~\eqref{eq:app_act_dim} into
-Equation~\eqref{eq:app_actuation}, setting $\Delta L / \Delta T =
-\hat{G}_{A_0}$, and solving for $L_\text{act}$:
-\begin{align}
-    L_\text{act}
-        &= \frac{\hat{G}_{A_0}
-                 + (t_\text{wash} + L_\text{gap})\,\alpha_\text{ALLV}}
-               {\alpha_\text{Al} - \alpha_\text{ALLV}}
-    \notag \\[6pt]
-        &= \frac{1.91\ \mu\text{m}/^\circ\text{C}
-                 + (5.55\ \text{mm})(-30 \times 10^{-6}\ /^\circ\text{C})}
-               {22.85 \times 10^{-6} - (-30 \times 10^{-6})}
-        = 32.991\ \text{mm}
-    \label{eq:app_Lact}
-    \\[6pt]
-    L_\text{mount}
-        &= 32.991 + 0.55 + 5 = 38.541\ \text{mm}
-    \label{eq:app_Lmount}
-\end{align}
-These are the critical dimensions machined into the actuator
-subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
-mechanical envelope for the subsystem.
+therefore
+\begin{equation}
+    D_{\device} = (\SI{1.91}{\micro\meter\per\celsius})(-1)(0.798) \Delta T + \SI{0.254}{\milli\meter}
+\end{equation}
+as prescribed.
+
+% % ------------------------------------------------------------
+% \subsection*{A.1 \quad Orifice Geometry and Valve Transfer Function}
+% % ------------------------------------------------------------
+
+% Since $X$ decreases by 1~\textmu m per 1~\textmu m of actuator extension ($dX/dL = -1$),
+% the valve transfer function is:
+% \begin{equation}
+%     \hat{G}_{V_0} = \frac{dD_\text{eff}}{dX}\,\frac{dX}{dL}
+%         = \sqrt{\frac{2}{\pi}} \cdot (-1) = -0.798
+%     \label{eq:app_GV}
+% \end{equation}
+% This result is purely geometric and produces a first-order (linear) diameter
+% response, a property unique among hydrogen-compatible, manufacturable geometries.
+
+% % ------------------------------------------------------------
+% \subsection*{A.2 \quad Actuator Dimension Derivation}
+% % ------------------------------------------------------------
+
+% The bimetallic actuator consists of an aluminium expansion rod (length
+% $L_\text{act}$, CTE $\alpha_\text{Al}$) nested inside an ALLVAR mount
+% (length $L_\text{mount}$, CTE $\alpha_\text{ALLV}$).
+% Because the mount base is welded to the housing (fixed) and the rod hangs
+% from inside the mount, both materials act in the \emph{same} direction:
+% \begin{equation}
+%     \Delta L = \bigl(L_\text{act}\,\alpha_\text{Al}
+%                    - L_\text{mount}\,\alpha_\text{ALLV}\bigr)\Delta T
+%     \label{eq:app_actuation}
+% \end{equation}
+% The geometric constraint (belleville washer height $t_\text{wash} = 0.55$~mm,
+% thermal isolation gap $L_\text{gap} = 5$~mm) gives:
+% \begin{equation}
+%     L_\text{mount} = t_\text{wash} + L_\text{act} + L_\text{gap}
+%     \label{eq:app_act_dim}
+% \end{equation}
+
+% The required actuator transfer function follows from
+% $\hat{G}_{A_0} = A_1 / \hat{G}_{V_0}$:
+% \begin{equation}
+%     \hat{G}_{A_0}
+%         = \frac{dL}{dT}
+%         = \frac{A_1}{-\sqrt{2/\pi}}
+%         = -\sqrt{\frac{\pi}{2}}\,(- 1.524 \times 10^{-3}\ \text{mm/}^\circ\text{C})
+%         = 1.91\ \frac{\mu\text{m}}{^\circ\text{C}}
+%     \label{eq:app_GA}
+% \end{equation}
+
+% Substituting Equation~\eqref{eq:app_act_dim} into
+% Equation~\eqref{eq:app_actuation}, setting $\Delta L / \Delta T =
+% \hat{G}_{A_0}$, and solving for $L_\text{act}$:
+% \begin{align}
+%     L_\text{act}
+%         &= \frac{\hat{G}_{A_0}
+%                  + (t_\text{wash} + L_\text{gap})\,\alpha_\text{ALLV}}
+%                {\alpha_\text{Al} - \alpha_\text{ALLV}}
+%     \notag \\[6pt]
+%         &= \frac{1.91\ \mu\text{m}/^\circ\text{C}
+%                  + (5.55\ \text{mm})(-30 \times 10^{-6}\ /^\circ\text{C})}
+%                {22.85 \times 10^{-6} - (-30 \times 10^{-6})}
+%         = 32.991\ \text{mm}
+%     \label{eq:app_Lact}
+%     \\[6pt]
+%     L_\text{mount}
+%         &= 32.991 + 0.55 + 5 = 38.541\ \text{mm}
+%     \label{eq:app_Lmount}
+% \end{align}
+% These are the critical dimensions machined into the actuator
+% subsystem. Both fit within the specified $10\ \text{cm} \times 5\ \text{cm}$
+% mechanical envelope for the subsystem.
 
 % ------------------------------------------------------------
-\subsection*{A.3 \quad System Transfer Function: Proof of Requirement Satisfaction}
+\subsection*{A.2 \quad System Transfer Function: Proof of Requirement Satisfaction}
 % ------------------------------------------------------------
 
 The Required Relationship (Requirement R.1) demands:
@@ -771,7 +787,7 @@ The tolerance of ${\sim}13$--$19\ \mu\text{m}$ (approximately the width of a
 human hair) represents a $\pm 5\%$ specification on $A_1$ and $A_0$.
 
 % ------------------------------------------------------------
-\subsection*{A.4 \quad Pressure Vessel Structural Verification}
+\subsection*{A.3 \quad Pressure Vessel Structural Verification}
 % ------------------------------------------------------------
 
 The valve housing is modelled as a thick-walled cylinder of Invar~36
