@@ -61,7 +61,7 @@
 \setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
 % ---------- Line Spacing ----------
 \usepackage{setspace}
-\onehalfspacing % 1.5 line spacing for easy reading
+\setstretch{1.15} % 1.5 line spacing for easy reading
 %-------- For Box diagrams
 \usepackage{tikz}
 \usetikzlibrary{patterns}
@@ -82,6 +82,13 @@
 \usepackage{booktabs}     % tables
 \usepackage{xcolor}       % color support
 \usepackage{upgreek}
+\usepackage{sectsty}
+
+% Change the font size of all sections
+\sectionfont{\large}
+
+% Change the font size of all subsections
+\subsectionfont{\normalsize}
 
 
 \definecolor{warnred}{RGB}{180,30,30}
@@ -295,12 +302,16 @@
         {\LARGE\bfseries \projecttitle}\\[8pt]
         {\large\bfseries SANDIA DESIGN AWARD REPORT}\\[32pt]
 
+		\vspace{.5in}
+
         % --- Team Info ---
         {\large Prepared by the}\\[8pt]
         {\Large\bfseries \teamname}\\[12pt]
 		{\Large\bfseries Team 019}\\[12pt]
         {Miguel Cuaycong, Jon Pizarro, Nicholas Metta,}\\
         {Isaiah Mathew, John Bodine, and Sam van der Veen}\\[32pt]
+
+		\vspace{1in}
 
         % --- Course & Institution ---
         {\large EME 185: Mechanical Systems Design Project}\\
@@ -309,9 +320,8 @@
 		\vspace{1in}
 
         % --- Advisors & Sponsors ---
-        {Advised by \instructor\ and \ta}\\[16pt]
-        {SPONSORED BY \MakeUppercase{\sponsor},}\\
-        {\MakeUppercase{\organization}}
+        {Advised by \instructor\ and \ta}\\
+        {Sponsored by {\sponsor}, {\organization}}
     \end{center}
 
     \vfill
@@ -377,31 +387,29 @@
     assembled by electron-beam weld. The full assembly is pictured in \autoref{fig:mainIsometric}, with an exploded view in \autoref{fig:mainExploded} 
     showing the internal components and their arrangement.
 
-    \begin{figure}[h]
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
-        % Left Image (a)
-        \begin{subfigure}[b]{0.48\textwidth}
-            \centering
-            \includegraphics[width=\textwidth, keepaspectratio]{full_assembly.png}
-            \caption{Complete assembly}
-            \label{fig:mainIsometric}
-        \end{subfigure}
-        \hfill % Adds flexible space between the two images
-        % Right Image (b)
-        \begin{subfigure}[b]{0.48\textwidth}
-            \centering
-            \includegraphics[width=\textwidth, keepaspectratio]{exploded_callout.png}
-            \caption{Complete assembly exploded view}
-            \label{fig:mainExploded}
-        \end{subfigure}
-        \caption{Overall PTCD assembly and exploded view highlighting internal components.}
-        \label{fig:assembly_combined}
-    \end{figure}
+        \includegraphics[height=0.35\textheight, keepaspectratio]{full_assembly.png}
+        \caption{Complete assembly}
+        \label{fig:mainIsometric}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[height=0.40\textheight, keepaspectratio]{exploded_callout.png}
+        \caption{Complete assembly exploded view}
+        \label{fig:mainExploded}
+    \end{subfigure}
+    \caption{Overall PTCD assembly and exploded view highlighting internal components.}
+    \label{fig:assembly_combined}
+\end{figure}
 
     The functional core of the \device\ is a bimetallic actuator that leverages the difference in Coefficients of Thermal Expansion (CTE) of an Aluminum 6061 actuator (6) mounted inside a hollow, cylindrical ALLVAR mount (7). While the Aluminum actuator expands significantly when heated, the ALLVAR alloy is engineered with a negative CTE ($\alpha \approx \specMountCTE$), meaning it physically contracts as temperature increases. 
 
     By fixing an Aluminum actuator ($\alpha \approx \specActuatorCTE$) within an ALLVAR mounting structure, the \device\ transforms ambient temperature fluctuations into linear displacement. As the temperature rises, the Aluminum core expands downward while the ALLVAR housing contracts in the same direction. This creates a compounded relative 
-    displacement at the valve orifice. This relationship is mathematically modeled by the governing equation $\govActuator$\todo{Better eqn: $\Delta L = \left( L_{core} \alpha_{core} - L_{mount} \alpha_{mount} \right) \Delta T$}, where the effective displacement is a direct  
+    displacement at the valve orifice. This relationship is mathematically modeled by the governing equation  $\Delta L = \left( L_{actuator} \alpha_{actuator} - L_{mount} \alpha_{mount} \right) \Delta T$, where the effective displacement is a direct  
     function of the material properties and the thermal gradient. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve 
     an equal distance.
 
