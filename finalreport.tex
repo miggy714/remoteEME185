@@ -423,37 +423,30 @@
 \newpage  % Start the body of the report on a fresh page
 
 \begin{abstract}
-\pagenumbering{arabic}
-\todo{Set page number counter to start at 2 next page}
 
-Sandia National Laboratories has tasked our senior design team, 
-the \teamname, to design a passive temperature compensation device (\device) that regulates gas flow. 
-The device must restrict its orifice as the ambient temperature of the surrounding air increases.
-The \device\ must be purely thermo-mechanically driven, functioning without reliance on embedded systems (electronics and controls) or user input.
-The required mathematical relationship between the ambient temperature and a characteristic orifice geometry, as provided by Sandia Labs,
-stipulates that the orifice maintain an effective diameter that varies with temperature between 170 and \SI{380}{\micro\meter}, or half the width of the ballpoint on a pen,
-with an average tolerance of $\pm \SI{13}{\micro\meter}$, about the thickness of a human hair.
-Our team designed two interconnected subsystems to accomplish this objective:
+	Sandia National Laboratories conducts numerous experiments requiring the flow of precisely-controlled Hydrogen gas.
+	These experiments are sensitive to fluctuations in temperature; the flow must be adjusted to compensate for these changes.
+	However, power and space constraints prohibit the use of embedded control systems, and existing passive flow control solutions do not approach the size and precision these experiments require.
+	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a Passive Temperature Compensation Device (PTCD)
+	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its restriction according to the ambient air temperature.
+	The PTCD maintains an orifice smaller than the tip of a ballpoint pen to an average tolerance of $\pm \SI{13}{\micro\meter}$, about the thickness of a human hair. 
+	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
-\begin{itemize}
-	\item A square valve orifice, comprising two overlapping square holes
-	\item A bimetallic thermal actuator, which expands with rising temperature and drives the valve
-\end{itemize}
+	This Design Report illustrates the background, selected architecture, and expected performance of the PTCD and provides a full package required for further development,
+	with the following objectives:
 
-This Final Design Report illustrates the background, selected architecture, and expected performance of the design and provides a full package required for further development. It achieves the following:
-
-\begin{itemize}
-	\item Outlines design motivation, objectives, and architecture
-	\item Defines the passive, open-loop control system transfer function
-	\item Analytically demonstrates that the required output will be achieved
-	\item Identifies likely sources of error
-	\item Numerically verifies the predicted system performance
-	\item Provides all information needed for further development, including shop drawings, material data, the bill of materials, and vendors for all parts
-\end{itemize}
-
-\todo{Report body may not exceed 50 pages.}
+	\begin{itemize}
+		\item Outline design motivation, objectives, and architecture
+		\item Define the passive, open-loop control system transfer function
+		\item Analytically demonstrate that the required output will be achieved
+		\item Identify likely sources of error
+		\item Numerically verify the predicted system performance
+		\item Provide all information needed for further development, including shop drawings, material data, the bill of materials, and vendors for all parts
+	\end{itemize}
 
 \end{abstract}
+
+\pagenumbering{arabic}
 
 \chapter{Introduction}
 \label{chap:intro}
