@@ -1670,7 +1670,7 @@
 								width=\textwidth,
 								height=0.5\textwidth,
 								xlabel={Wall thickness (mm)},
-								ylabel={$\delta_{\text{elastic,max}}$ ($\upmu$m)},
+								ylabel={Total deflection ($\upmu$m)},
 								xmin=0, xmax=12,
 								ymin=0, ymax=1.0,
 								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
@@ -1778,7 +1778,7 @@
 
 			Slight machining errors in every dimension will be present. Even those within their specified tolerance can endanger the system performance of the \device.
 			Deviation from the intended thermal expansion rate cannot be adjusted post-manufacture, but any constant offset, such as from extra length in the valve stem, can be.
-			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance.
+			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance in satisfaction of Specification \specref{A.1.2}.
 			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
 			See Appendix \ref{app:calcs:belle} for further calculations.
@@ -1823,7 +1823,7 @@
 
 		
 			Each material selected for the \device\ enabled its exceptional performance despite impossible design circumstances.
-			The Ashby Chart\todo{cite} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
+			The Ashby Chart\cite{ref_ashby} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
 			Materials further up and to the right will possess greater driving authority when expanding, either by a higher Coefficient of Thermal Expansion (CTE) $\alpha$ or higher stiffness $E$.
 			
 			\begin{figure}[h]
@@ -1832,8 +1832,6 @@
 				\caption{The Ashby Chart for Metals, Polymers, and Ceramics}
 				\label{fig:ashby}
 			\end{figure}
-
-			\todo{Cite Ashby, fix its tilt}
 			
 			\subsubsection{Aluminum expansion rod}
 			\label{subsubsec:design:just:mat:Al}
@@ -1848,7 +1846,7 @@
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
-				\todo{Apparently ALLVAR also has a very low CTE. Helps insulate despite direct contact wth housing}
+				\todo{Apparently ALLVAR also has a very low thermal conductivity. Helps insulate despite direct contact wth housing}
 
 				\begin{wrapfigure}{l}{.45\textwidth}
 					\centering
@@ -1901,8 +1899,6 @@
 
 				See Appendix \ref{app:datasheets:mat} for relevant material data used throughout this report.
 
-			\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
-
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
 
@@ -1914,45 +1910,32 @@
 
 		\subsection{Variations in the Actuator's Coefficient of Thermal Expansion}
 		\label{subsec:sat:error:CTE}
+
+			Typical material specifications list a single coefficient of thermal expansion (CTE).
+			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
+			NASA studied the behavior of Aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure \ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
 		
-			\todo{Below if Report 2's CTE analysis. Give it a double-check.}
-
-			The actuator must undergo enough thermal expansion (or contraction) to move the valve plate
-			to its minimum and maximum aperture diameter, $\Dcold$ and $\Dhot$. To move the plates
-			to these extrema a total stroke length of $\specLengthChange$ is required. The governing equation
-			for thermal expansion $\Delta L = L_o\Delta T\alpha $ is used to determine materials and actuator
-			dimensions that facilitate this movement. 
-
 			\begin{figure}[H]
 				\centering
 				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
 				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
 				\label{fig:al_alpha}
-			\end{figure}            
+			\end{figure}
 			
-			Table \ref{fig:al_alpha} \cite{ref_NASA_specs_Al} shows the change in $\alpha$ across the operating temperature range. As shown in the table, $\alpha$ changes constantly depending on the temperature. However the change in $\alpha$ from $T_{\text{ref}}$ to $T_{max}$ is very small and will only account for an error of a few microns which is well within the error range given in our design requirements.
-			
-			Using $\alpha = \specActuatorCTE$, we get the expected
-			
-			$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (\SI{84.335}{\milli\meter})(\SI{22.7e-6}{\per\celsius})(\SI{70}{\celsius}) = \SI{0.1339}{\milli\meter}$  
-			
-			To find the actual change in length based on a constant change in $\alpha$, we use the formula 
-			\begin{align*}
-				\Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
-				&= \SI{84.335}{\milli\meter} \int_{\SI{10}{\celsius}}^{\SI{80}{\celsius}} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-				&= (\SI{84.335}{\milli\meter})\left[(0.0058(\SI{80}{\celsius})^2 + 22.6(\SI{80}{\celsius})) - (0.0058(\SI{10}{\celsius})^2 + 22.6(\SI{10}{\celsius}))\right] \times 10^{-6} \\
-				&= \SI{0.1363}{\milli\meter}
-			\end{align*}
+			Though no numerical data was provided, the temperature-dependent Aluminum CTE values can be approximated from this graph, shown in Table \ref{tab:CTE_Al} in the Appendix.
+			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in section \ref{chap:design},
+			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
+			These introduce nonlinear behavior, resulting in quantifiable error.
 
-			The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
+		\subsection{Machine Tolerances}
+		\label{subsec:sat:error:mach}
 
-			$\text{Error} = \Delta L_{actual} - \Delta L_{expected} = \SI{0.1363}{\milli\meter} - \SI{0.1339}{\milli\meter} = \SI{2.4}{\micro\meter}$
+			\todo{General drawing tolerances for crit dims and vendor-specific EDM achievable fillet radius and position tol. Reference TF.cpp for this.}
 
-			The \SI{2.4}{\micro\meter} fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
-			Using the dimensional tolerance of $\SI{5}{\micro\meter}$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
+		\subsection{Heat Transfer}
+		\label{subsec:sat:error:dT}
 
-			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( \SI{84.335}{\milli\meter} \cdot \SI{2.4}{\micro\meter} \right) ^2 + \left( \SI{23e-6}{\per\celsius} \cdot \SI{5}{\micro\meter} \right) ^2} = \SI{0.2}{\micro\meter} \leq \SI{0.3}{\micro\meter}$$
-
+			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
 
 	\section{System Transfer Function}
 	\label{sec:sat:TF}
@@ -2502,11 +2485,9 @@
 		\begin{itemize}
 		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much. Could also use higher spring constant bellows, which is shorter, since deflection was so small. Can easily calculate impact with TF code.
 		\item Belleville: more washers? Change something else about assembly?
+		\item Optimize orifice dim (1mm was arbitrary)
 		\end{itemize}
 
-
-
-\todo{Rearrange citations so appear in order of appearance; test all links}
 
 \begin{thebibliography}{99}
 
@@ -2950,7 +2931,8 @@
 	\todo{Double-check that BOM is up-to-date. Recheck McMaster prices}
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
-	The full Bill of Materials is provided on the next page, with corresponding part numbers, materials, sizes, prices, distributer's links.
+	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
+	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in section \ref{sec:sat:error} were taken from this quote.
 
 	\newpage
 	\begin{figure}[H]
@@ -2969,6 +2951,18 @@
 
 	\newpage
 	% \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{Invar_quote.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{ALLVAR_quote.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{Bellows.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{EDM_quote.pdf}
 
 	\newpage
 	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
@@ -3314,7 +3308,7 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
         }
         \toprule
         \textbf{Material} &
-        \textbf{CTE} $\left(\frac{\upmu\text{m}}{\text{m}\cdot\degC}\right)$ &
+        \textbf{CTE @} $T_{ref} \left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
         \textbf{$E$} (GPa) &
         \textbf{$\nu$} \\
         \midrule
@@ -3348,6 +3342,47 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
         \end{tabularx}
         \label{tab:mat_props}
     \end{table}
+
+		\begin{table}[H]
+				\centering
+				\caption{Aluminum CTE as a function of temperature\cite{ref_NASA_specs_Al}}
+				\label{tab:CTE_Al}
+				\begin{tabular}{cc}
+						\toprule
+						$T$ (\si{\degreeCelsius}) & $\alpha$ (\si{\micro\meter\per\meter\per\degreeCelsius}) \\
+						\midrule
+						$-60$ & 21.8 \\
+						$-55$ & 21.9 \\
+						$-50$ & 22.0 \\
+						$-45$ & 22.1 \\
+						$-40$ & 22.2 \\
+						$-35$ & 22.25 \\
+						$-30$ & 22.3 \\
+						$-25$ & 22.35 \\
+						$-20$ & 22.4 \\
+						$-15$ & 22.45 \\
+						$-10$ & 22.5 \\
+						$-5$  & 22.55 \\
+						$0$   & 22.6 \\
+						$5$   & 22.65 \\
+						$10$  & 22.7 \\
+						$15$  & 22.75 \\
+						$20$  & 22.8 \\
+						$25$  & 22.85 \\
+						$30$  & 22.9 \\
+						$35$  & 23.0 \\
+						$40$  & 23.1 \\
+						$45$  & 23.15 \\
+						$50$  & 23.2 \\
+						$55$  & 23.25 \\
+						$60$  & 23.3 \\
+						$65$  & 23.35 \\
+						$70$  & 23.4 \\
+						$75$  & 23.45 \\
+						$80$  & 23.5 \\
+						\bottomrule
+				\end{tabular}
+		\end{table}
 
 \chapter{Project Management}
 \label{app:PM}
