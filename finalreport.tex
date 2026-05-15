@@ -238,7 +238,7 @@
 % 	\end{align*}
 % 	}
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
-\newcommand{\ReqB}{The device should remain within a 10 cm $\times$ 10 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
 \newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
 \newcommand{\RRfull}
 {
@@ -252,7 +252,7 @@
 % Valve specifications
 \newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
 \newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter     $D_{eff}(T_{ref}) = \AzeroExact$}
-\newcommand{\SpecVB}{The valve subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
 \newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
 \newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
 \newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
@@ -260,7 +260,7 @@
 % Actuator specifications
 \newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
 \newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
-\newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
 \newcommand{\SpecACA}{The actuator shall allow no more than \todo{Spec Temp} deviation in its temperature from $T_{amb}$\ within the test window}
 
 % --- Figure insertion helper ---
@@ -414,7 +414,7 @@
 			PTCD    & Passive Temperature Compensation Device \\
 			RR      & Required Relationship \\
 			SF      & Safety Factor \\
-			SI      & Système International (International System of Units) \\
+			SI      & Syst\`{e}me International (International System of Units) \\
 			SNL     & Sandia National Laboratories \\
 			TF      & Transfer Function \\
 			UC Davis & University of California, Davis \\
@@ -481,7 +481,7 @@
 				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
 				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to 70 MPa (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
+					\item Restrict the provided flow of gas, at a pressure of up to \SI{70}{\mega\pascal} (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
 					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}}.
 					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
 				\end{itemize}
@@ -572,10 +572,10 @@
 					&T_{\text{ambient}}\ \in\ [\Tcold, \Thot] \degC 
 				\end{align*}
 
-			\item The device should remain within a mechanical envelope of 10 cm x 10 cm x 10 cm
+			\item The device should remain within a mechanical envelope of \SI{10}{\centi\meter} x \SI{10}{\centi\meter} x \SI{10}{\centi\meter}
 		\end{enumerate}
 		
-		These will be referred to as the “Required Relationship” and the “Mechanical Envelope” throughout the remainder of the report.
+		These will be referred to as the "Required Relationship" and the "Mechanical Envelope" throughout the remainder of the report.
 		Note the difference between the obligation keywords, "shall" and "should", of the two requirements.
 		As laid out by NASA's handbook, the former indicates a strict requirement, whereas the latter gives a goal while allowing for violation in favor of a higher-priority trade-off.
 		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
@@ -596,9 +596,9 @@
 		\begin{enumerate}
 			\item The upstream gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$.
 			\item The ambient temperature will vary within the range $\Tcold \leq T_{\text{ambient}} \leq \Thot$.
-			\item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
+			\item The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
 			\item The gas will be a noble gas or Hydrogen.
-			\item The gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
+			\item The gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
 			\item The ambient temperature will remain fixed during operation.
 			\item The device will be tested by the sponsor to validate required compliance, both without gas flow and for up to 60 seconds with gas flow
 		\end{enumerate}
@@ -702,7 +702,7 @@
 
 			\newpage
 
-			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro \meter}$.
+			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro\meter}$.
 			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
 			First, to be precise, each subsystem must be designed with a simple architecture. Additional parts drastically increases the potential for error, leakage, or other modes of failure.
 			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
@@ -759,7 +759,7 @@
 		\subsection{Mechanical Envelope rolldown}
 		\label{subsec:intro:specs:ME}
 
-			The Mechanical Envelope (10 cm in each direction) can defined along three principal axes, which will be used for reference throughout this report:
+			The Mechanical Envelope (\SI{10}{\centi\meter} in each direction) can defined along three principal axes, which will be used for reference throughout this report:
 
 			% NOTE - These are consistent with the main CAD assembly axes
 			\begin{itemize}
@@ -777,7 +777,7 @@
 				\label{fig:axes}
 			\end{figure}
 
-			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full 10 cm along the other axes.
+			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full \SI{10}{\centi\meter} along the other axes.
 			As with the sub-transfer functions, the division of the vertical mechanical envelop is partially informed by the final selected design architecture.
 
 			\vspace{1em}
@@ -939,7 +939,7 @@
 		A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature changes.
 		The outer material, ALLVAR, shrinks when heated, while the inner material, Aluminum, expands.
 		Thus, as pictured in Figure \ref{fig:active_diagram}, as the ambient temperature increases, the actuator drives the valve stem downwards, shrinking the orifice. 
-		As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands 267 $\mu$m, driving the valve an equal distance.
+		As the temperature decreases, the actuator pulls the stem back up, opening the orifice again. Across the total design temperature range, the actuator expands \SI{267}{\micro\meter}, driving the valve an equal distance.
 
 		\begin{figure}[H]
 			\centering
@@ -1121,13 +1121,13 @@
 			As the temperature decreases, the components reverse direction:
 			the mount expands, lifting the expansion rod, which shrinks and lifts the valve stem to open the orifice.
 
-			The expansion rod is thermally separated from the internal gas by a 5 mm gap. Heat transfer must be minimized from this gas, which will be up to 20 $\degC$ hotter than the outside air.
+			The expansion rod is thermally separated from the internal gas by a \SI{5}{\milli\meter} gap. Heat transfer must be minimized from this gas, which will be up to \SI{20}{\degreeCelsius} hotter than the outside air.
 			Some heat will still transfer, altering the percieved ambient temperature and introducing error into the system,
 			but the thick housing wall, minimal contact with the Invar, and continual free convection with the atmosphere will minimize this error.
 
 			Small machining and assembly errors may introduce a constant offset. For instance, if the weld between the expansion rod and the valve stem separates them by \SI{2}{\micro\meter},
 			the orifice height will be \SI{2}{\micro\meter} too high at all times, shifting the effective diameter towards its upper boundary.
-			Even this deviation is significant relative to the 10-\SI{20}{\micro\meter} tolerance window for the effective diameter.
+			Even this deviation is significant relative to the \SIrange{10}{20}{\micro\meter} tolerance window for the effective diameter.
 			To counter this potential constant error, the actuator subsystem includes a calibration stack.
 			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
 			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders is tuned.
@@ -1208,7 +1208,7 @@
 					\SI{40.201}{\milli\meter} - \SI{5}{\milli\meter} = \SI{35.201}{\milli\meter}
 				\end{equation*}
 
-				below the top surface of the housing, including a 5 mm gap between that and the valve stem-actuator interface at this temperature.
+				below the top surface of the housing, including a \SI{5}{\milli\meter} gap between that and the valve stem-actuator interface at this temperature.
 				The bottom corner of the trailing orifice lies $\SI{35.519}{\milli\meter}$ below the same surface, resulting in an effective diameter of
 
 				\begin{equation}
@@ -1287,7 +1287,7 @@
 				&= A_1 \Delta T + A_0
 			\end{align*}
 
-				This bimetallic architecture enables the actuator to be half the length of solitary high-expansion metal, keeping its total length (45.55 mm, accounting for the mount's upper wall and the screw that protrudes from its top) within the specified vertical mechanical envelope.
+				This bimetallic architecture enables the actuator to be half the length of solitary high-expansion metal, keeping its total length (\SI{45.55}{\milli\meter}, accounting for the mount's upper wall and the screw that protrudes from its top) within the specified vertical mechanical envelope.
 
 				It is useful to note that the total required motion of the actuator is
 
@@ -1372,15 +1372,15 @@
 								\\\addlinespace
 								$r_i$ &
 								Inner radius &
-								9.53 mm
+								\SI{9.53}{\milli\meter}
 								\\\addlinespace
 								$t$ &
 								Wall thickness (minimum) &
-								10 mm
+								\SI{10}{\milli\meter}
 								\\\addlinespace
 								$r_o$ &
 								Outer radius (minimum) &
-								19.53 mm
+								\SI{19.53}{\milli\meter}
 								\\\addlinespace
 								$P$ &
 								Internal pressure &
@@ -1388,14 +1388,14 @@
 								\\\addlinespace
 								$S_y$ &
 								Yield strength &
-								370 MPa \cite{matweb}
+								\SI{370}{\mega\pascal} \cite{matweb}
 								\\\bottomrule
 							\end{tabularx}
 						\end{table}
 
 			Principal Stresses:
 			\begin{equation}
-			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{19.53^2 + 9.53^2}{19.53^2 - 9.53^2} \right) \approx \SI{112.05}{\mega\pascal} \quad (\text{Hoop Stress})
+			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = \SI{68.95}{\mega\pascal} \left( \frac{(\SI{19.53}{\milli\meter})^2 + (\SI{9.53}{\milli\meter})^2}{(\SI{19.53}{\milli\meter})^2 - (\SI{9.53}{\milli\meter})^2} \right) \approx \SI{112.05}{\mega\pascal} \quad (\text{Hoop Stress})
 			\label{hoop}    
 			\end{equation}
 
@@ -1405,7 +1405,7 @@
 		\end{equation}
 
 			\begin{equation}
-			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{9.53^2}{19.53^2 - 9.53^2} \right) \approx \SI{21.55}{\mega\pascal} \quad (\text{Longitudinal Stress})
+			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = \SI{68.95}{\mega\pascal} \left( \frac{(\SI{9.53}{\milli\meter})^2}{(\SI{19.53}{\milli\meter})^2 - (\SI{9.53}{\milli\meter})^2} \right) \approx \SI{21.55}{\mega\pascal} \quad (\text{Longitudinal Stress})
 			\label{longitudinal}
 			\end{equation}
 			\\~\\
@@ -1417,7 +1417,7 @@
 			\end{equation}
 
 			\begin{equation}
-			\sigma_{vm} = \sqrt{\frac{(112.05 - (-68.95))^2 + (-68.95 - 21.55)^2 + (21.55 - 112.05)^2}{2}} 
+			\sigma_{vm} = \sqrt{\frac{(\SI{112.05}{\mega\pascal} - (\SI{-68.95}{\mega\pascal}))^2 + (\SI{-68.95}{\mega\pascal} - \SI{21.55}{\mega\pascal})^2 + (\SI{21.55}{\mega\pascal} - \SI{112.05}{\mega\pascal})^2}{2}} 
 			\approx \SI{156.75}{\mega\pascal}
 			\label{vonmises2}     
 			\end{equation}
@@ -1425,7 +1425,7 @@
 			The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
 			
 			\begin{equation}
-			FS = \frac{S_y}{\sigma_{vm}} = \frac{370}{156.75} \approx 2.36
+			FS = \frac{S_y}{\sigma_{vm}} = \frac{\SI{370}{\mega\pascal}}{\SI{156.75}{\mega\pascal}} \approx 2.36
 			\label{fs}
 			\end{equation}
 
@@ -1467,11 +1467,11 @@
 					\\\addlinespace
 					$D_o$ &
 					Outer diameter &
-					39.06 mm
+					\SI{39.06}{\milli\meter}
 					\\\addlinespace
 					$S$ &
 					ASME allowable stress, $S_y$ / 1.5 &
-					246.7 MPa
+					\SI{246.7}{\mega\pascal}
 					\\\addlinespace
 					$W$ &
 					Weld strength reduction factor &
@@ -1489,7 +1489,7 @@
 			\end{table}
 
 			The ASME allowable stress is derived directly from the housing yield strength using the standard 
-			code factor of $S = S_y / 1.5 = 370 / 1.5 = \SI{246.7}{\mega\pascal}$.
+			code factor of $S = S_y / 1.5 = \SI{370}{\mega\pascal} / 1.5 = \SI{246.7}{\mega\pascal}$.
 			Per ASME B31.3 Table 302.3.4 \cite{asme_b313}, the weld joint quality factor $E$ depends entirely 
 			on the level of examination applied:
 
@@ -1502,7 +1502,7 @@
 			With full radiography ($E = 1.00$), the minimum required wall thickness is:
 			
 			\begin{equation}
-			t_{min} = \frac{68.95 \times 39.06}{2\left(246.7 \times 1.00 \times 1.0 + 68.95 \times 0.4\right)} 
+			t_{min} = \frac{\SI{68.95}{\mega\pascal} \times \SI{39.06}{\milli\meter}}{2\left(\SI{246.7}{\mega\pascal} \times 1.00 \times 1.0 + \SI{68.95}{\mega\pascal} \times 0.4\right)} 
 			\approx \SI{5.17}{\milli\meter}
 			\label{t_num}
 			\end{equation}
@@ -1511,7 +1511,7 @@
 			The thickness safety factor at the weld joint is:
 			
 			\begin{equation}
-			SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{10}{5.17} \approx 1.93
+			SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{\SI{10}{\milli\meter}}{\SI{5.17}{\milli\meter}} \approx 1.93
 			\label{sf_weld}    
 			\end{equation}
 			\\~\\
@@ -1520,7 +1520,7 @@
 			\cite{asme_b313}:
 			
 			\begin{equation}
-			\sigma_{allow} = S \cdot E \cdot W = 246.7 \times 1.00 \times 1.0 = \SI{246.7}{\mega\pascal}
+			\sigma_{allow} = S \cdot E \cdot W = \SI{246.7}{\mega\pascal} \times 1.00 \times 1.0 = \SI{246.7}{\mega\pascal}
 			\label{stress_allow}
 			\end{equation}
 
@@ -1531,7 +1531,7 @@
 
 			The weld joint stress safety factor is:
 			\begin{equation}
-			SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{246.7}{112.05} \approx 2.20
+			SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{\SI{246.7}{\mega\pascal}}{\SI{112.05}{\mega\pascal}} \approx 2.20
 			\label{sf_stress}    
 			\end{equation}
 			
@@ -1593,9 +1593,9 @@
 				The bellows act as springs.
 				Applying a slight resistance force as the valve orifice moves, they compress or stretch the long, thin metal of the two actuator rods, which themselves act as springs in series and compound one another's error as they are stretched from their natural length.
 				Though imperceptable, the actuator deflection can be easily minimized and optimized by increasing the cross-sectional area of each component properly.
-				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of 25 mm (Figure \ref{fig:mount_OD_opt}).
+				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure \ref{fig:mount_OD_opt}).
 				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
-				The total deflection is minimized at a mount wall thickness of 3.5 mm (Figure \ref{fig:mount_thick_opt}).
+				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure \ref{fig:mount_thick_opt}).
 				It should be no surprise that, as calculated in sections \ref{subsubsec:sat:TF:force_balance:M} and \ref{subsubsec:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
 				The decrease of one to increase decrease the other would lead to a net loss in the subsystem spring constant.
 
@@ -1653,8 +1653,8 @@
 								(9, 0.0232)
 						};
 
-						\legend{Cold excursion ($T_\text{low}=-60^\circ$C),
-										Hot excursion ($T_\text{high}=80^\circ$C)}
+						\legend{Cold excursion ($T_\text{low}=\SI{-60}{\degreeCelsius}$),
+										Hot excursion ($T_\text{high}=\SI{80}{\degreeCelsius}$)}
 
 						\end{axis}
 					\end{tikzpicture}
@@ -1670,7 +1670,7 @@
 								width=\textwidth,
 								height=0.5\textwidth,
 								xlabel={Wall thickness (mm)},
-								ylabel={Total deflection ($\upmu$m)},
+								ylabel={$\delta_{\text{elastic,max}}$ ($\upmu$m)},
 								xmin=0, xmax=12,
 								ymin=0, ymax=1.0,
 								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
@@ -1724,7 +1724,7 @@
 								mark size=4pt,
 								color=black,
 						] coordinates {(3.5, 0.140052)};
-						\addlegendentry{Series min @ $t_{\text{wall}} = 3.5$ mm}
+						\addlegendentry{Series min @ $t_{\text{wall}} = \SI{3.5}{\milli\meter}$}
 
 						\end{axis}
 					\end{tikzpicture}
@@ -1735,11 +1735,11 @@
 			\subsubsection{Threaded Interface}
 			\label{subsubsec:design:just:gen_dim:thread}
 
-				As detailed by Sandia, gas will be supplied by a stainless steel pipe between 1.524 mm and 25.4 mm in diameter.
-				This design features a 19.05 mm (3/4") threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
+				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
+				This design features a \SI{19.05}{\milli\meter} (3/4\") threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
 
-				The housing inlet and outlet provide 15 and 20 mm threaded length for an airtight seal.
-				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals 72 mm, well within its design specification.
+				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length for an airtight seal.
+				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
 
 			\subsubsection{Machinability Considerations}
 			\label{subsubsec:design:just:gen_dim:machine}
@@ -1765,7 +1765,7 @@
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
 
-				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(45.55 + 70.72) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
+				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(\SI{45.55}{\milli\meter} + \SI{70.72}{\milli\meter}) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
 				This was necessary to allow a direct interface with between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
 				Confirming this priority shift with Sandia Labs, our team decided to make the slight trade in size for the sake of precision and system performance.
 
@@ -1778,7 +1778,7 @@
 
 			Slight machining errors in every dimension will be present. Even those within their specified tolerance can endanger the system performance of the \device.
 			Deviation from the intended thermal expansion rate cannot be adjusted post-manufacture, but any constant offset, such as from extra length in the valve stem, can be.
-			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance in satisfaction of Specification \specref{A.1.2}.
+			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance.
 			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
 			See Appendix \ref{app:calcs:belle} for further calculations.
@@ -1823,7 +1823,7 @@
 
 		
 			Each material selected for the \device\ enabled its exceptional performance despite impossible design circumstances.
-			The Ashby Chart\cite{ref_ashby} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
+			The Ashby Chart\todo{cite} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
 			Materials further up and to the right will possess greater driving authority when expanding, either by a higher Coefficient of Thermal Expansion (CTE) $\alpha$ or higher stiffness $E$.
 			
 			\begin{figure}[h]
@@ -1832,6 +1832,8 @@
 				\caption{The Ashby Chart for Metals, Polymers, and Ceramics}
 				\label{fig:ashby}
 			\end{figure}
+
+			\todo{Cite Ashby, fix its tilt}
 			
 			\subsubsection{Aluminum expansion rod}
 			\label{subsubsec:design:just:mat:Al}
@@ -1846,7 +1848,7 @@
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
-				\todo{Apparently ALLVAR also has a very low thermal conductivity. Helps insulate despite direct contact wth housing}
+				\todo{Apparently ALLVAR also has a very low CTE. Helps insulate despite direct contact wth housing}
 
 				\begin{wrapfigure}{l}{.45\textwidth}
 					\centering
@@ -1899,6 +1901,8 @@
 
 				See Appendix \ref{app:datasheets:mat} for relevant material data used throughout this report.
 
+			\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
+
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
 
@@ -1930,24 +1934,24 @@
 			
 			Using $\alpha = \specActuatorCTE$, we get the expected
 			
-			$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (84.335 \text{ mm})(22.7 \times 10^{-6})(70) = 0.1339 \text{ mm}$  
+			$\delta L {(T_{\text{ref}} \to T_{max})} = L_0 \alpha \Delta T = (\SI{84.335}{\milli\meter})(\SI{22.7e-6}{\per\celsius})(\SI{70}{\celsius}) = \SI{0.1339}{\milli\meter}$  
 			
 			To find the actual change in length based on a constant change in $\alpha$, we use the formula 
 			\begin{align*}
 				\Delta L &= L_0 \int_{T_1}^{T_2} \alpha(T) \, dT \\
-				&= 84.335 \int_{10}^{80} (0.0058T + 22.6) \times 10^{-6} \, dT \\
-				&= (84.335)\left[(0.0058(80)^2 + 22.6(80)) - (0.0058(10)^2 + 22.6(10))\right] \times 10^{-6} \\
-				&= 0.1363 \text{ mm}
+				&= \SI{84.335}{\milli\meter} \int_{\SI{10}{\celsius}}^{\SI{80}{\celsius}} (0.0058T + 22.6) \times 10^{-6} \, dT \\
+				&= (\SI{84.335}{\milli\meter})\left[(0.0058(\SI{80}{\celsius})^2 + 22.6(\SI{80}{\celsius})) - (0.0058(\SI{10}{\celsius})^2 + 22.6(\SI{10}{\celsius}))\right] \times 10^{-6} \\
+				&= \SI{0.1363}{\milli\meter}
 			\end{align*}
 
 			The maximum error that will arise is at $T_{max}$ and $T_{min}$. The error is the difference between actual $\Delta L$ and expected $\Delta L$ which is
 
-			$Error = \Delta L_{actual} - \Delta L_{expected} = 0.1363 \text{ mm} - 0.1339 \text{ mm} = \SI{2.4}{\micro\meter}$
+			$\text{Error} = \Delta L_{actual} - \Delta L_{expected} = \SI{0.1363}{\milli\meter} - \SI{0.1339}{\milli\meter} = \SI{2.4}{\micro\meter}$
 
-			The 2.4 microns fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
+			The \SI{2.4}{\micro\meter} fall much below the error range of our design requirements so even added with the other errors that will occur in our system we will fall within the design requirements.
 			Using the dimensional tolerance of $\SI{5}{\micro\meter}$ for $L_0$, we can combine these values as indicated in Table \ref{tab:act_specs_disc}:
 
-			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( 84.335 * \SI{2.4}{\micro\meter} \right) ^2 + \left( 23E-6 * \SI{5}{\micro\meter} \right) ^2} = \SI{0.2}{\micro\meter} \leq \SI{0.3}{\micro\meter}$$
+			$$\sqrt{ \left( L_0 u_{\alpha} \right) ^2 + \left( \alpha u_{L_0} \right) ^2} = \sqrt{ \left( \SI{84.335}{\milli\meter} \cdot \SI{2.4}{\micro\meter} \right) ^2 + \left( \SI{23e-6}{\per\celsius} \cdot \SI{5}{\micro\meter} \right) ^2} = \SI{0.2}{\micro\meter} \leq \SI{0.3}{\micro\meter}$$
 
 
 	\section{System Transfer Function}
@@ -2028,7 +2032,7 @@
 			As described in section \ref{chap:design}, the mount $(M)$ sits atop the housing.
 			The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the Belleville washer.
 			The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
-			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top 10 mm of the whole housing assembly (parts V1, V2, and V3) as shown in Figure \ref{fig:housing_split}.
+			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure \ref{fig:housing_split}.
 			The housing body $(H)$ and "rear" $(R)$ share the lower portion shown in the figure; their expansion is coupled.
 			These represent the side walls of the housing and behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
 			The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls (part V2).
@@ -2086,14 +2090,14 @@
 			and the machined dimensions $\ell_{i_0}$ are as follows from Appendix \ref{app:drawings}:
 
 			\begin{itemize}
-				\item $\ell_{M_0} = 38.541 \text{ mm} - 0.55 \text{ mm} = 38.041 \text{ mm}$\footnote{Top of the mount, for simplicity, is assumed to be the underside of the compressed belleville washer. Since this height is dependent on the use case, we will assume a 0.05 mm compression.}
-				\item $\ell_{A_0} = 32.991 \text{ mm}$
-				\item $\ell_{S_0} = 70.72 \text{ mm} - 32.86 \text{ mm} = 37.86 \text{ mm}$
-				\item $\ell_{T_0} = 22.86 \text{ mm}$
-				\item $\ell_{B_0} = \ell_{T_0} = 22.86 \text{ mm}$
-				\item $\ell_{V_0} = 32.86 \text{ mm} - 27.86 \text{ mm} = 5 \text{ mm}$
-				\item $\ell_{H_0} = 63.72 \text{ mm}$
-				\item $\ell_{W_0} = 10 \text{ mm}$
+				\item $\ell_{M_0} = \SI{38.541}{\milli\meter} - \SI{0.55}{\milli\meter} = \SI{38.041}{\milli\meter}$\footnote{Top of the mount, for simplicity, is assumed to be the underside of the compressed belleville washer. Since this height is dependent on the use case, we will assume a \SI{0.05}{\milli\meter} compression.}
+				\item $\ell_{A_0} = \SI{32.991}{\milli\meter}$
+				\item $\ell_{S_0} = \SI{70.72}{\milli\meter} - \SI{32.86}{\milli\meter} = \SI{37.86}{\milli\meter}$
+				\item $\ell_{T_0} = \SI{22.86}{\milli\meter}$
+				\item $\ell_{B_0} = \ell_{T_0} = \SI{22.86}{\milli\meter}$
+				\item $\ell_{V_0} = \SI{32.86}{\milli\meter} - \SI{27.86}{\milli\meter} = \SI{5}{\milli\meter}$
+				\item $\ell_{H_0} = \SI{63.72}{\milli\meter}$
+				\item $\ell_{W_0} = \SI{10}{\milli\meter}$
 			\end{itemize}
 
 			This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
@@ -2290,21 +2294,21 @@
 
 				$E_M = E_{\text{ALLVAR}} = \specEALLV$\cite{ref_AllvarAlloys}
 				
-				$A_M = \frac{\pi}{4} (OD^2 - ID^2) = \frac{\pi}{4} [(25mm)^2 - (18mm)^2] = 236.4 \text{ mm}^2$
+				$A_M = \frac{\pi}{4} (OD^2 - ID^2) = \frac{\pi}{4} [(\SI{25}{\milli\meter})^2 - (\SI{18}{\milli\meter})^2] = \SI{236.4}{\milli\meter\squared}$
 
 			\subsubsection{Actuator}
 			\label{subsubsec:sat:TF:force_balance:A}
 
 				$E_A = E_{\text{Aluminum}} = \specEAl$\cite[p.~39]{ref_NASA_specs_Al}
 
-				$A_A = \frac{\pi}{4} D^2 = \frac{\pi}{4} (18mm)^2 = 254.5 \text{ mm}^2$
+				$A_A = \frac{\pi}{4} D^2 = \frac{\pi}{4} (\SI{18}{\milli\meter})^2 = \SI{254.5}{\milli\meter\squared}$
 
 			\subsubsection{Valve Stem}
 			\label{subsubsec:sat:TF:force_balance:S}
 
 				$E_S = E_{\text{Invar}} = \specEInv $\cite{ref_Carpenter_Inv}
 
-				$A_S = \frac{\pi}{4} D^2 = \frac{\pi}{4} (3.353 \text{ mm})^2 = 2.6 \text{ mm}^2$
+				$A_S = \frac{\pi}{4} D^2 = \frac{\pi}{4} (\SI{3.353}{\milli\meter})^2 = \SI{2.6}{\milli\meter\squared}$
 				
 			\subsubsection{Bellows}
 			\label{subsubsec:sat:TF:force_balance:TB}
@@ -2316,21 +2320,21 @@
 			
 			$E_V = E_{\text{Invar}} = \specEInv $
 			
-			$A_V = LW = (7 mm) (7 mm) = 49 \text{ mm}^2$
+			$A_V = LW = (\SI{7}{\milli\meter}) (\SI{7}{\milli\meter}) = \SI{49}{\milli\meter\squared}$
 			
 			\subsubsection{Housing}    
 			\label{subsubsec:sat:TF:force_balance:H}
 
 				$E_H = E_{\text{Invar}} = \specEInv $
 
-				$A_H = LW = (72 mm) (40 mm) = 2880 \text{ mm}^2$
+				$A_H = LW = (\SI{72}{\milli\meter}) (\SI{40}{\milli\meter}) = \SI{2880}{\milli\meter\squared}$
 
 			\subsubsection{Top wall}
 			\label{subsubsec:sat:TF:force_balance:W}
 
 				$E_W = E_{\text{Invar}} = \specEInv $
 
-				$A_W = A_H = 2880 \text{ mm}^2$
+				$A_W = A_H = \SI{2880}{\milli\meter\squared}$
 
 			
 		\subsection{Position calculations}
@@ -2498,8 +2502,11 @@
 		\begin{itemize}
 		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much. Could also use higher spring constant bellows, which is shorter, since deflection was so small. Can easily calculate impact with TF code.
 		\item Belleville: more washers? Change something else about assembly?
-		\item Optimize orifice dim (1mm was arbitrary)
 		\end{itemize}
+
+
+
+\todo{Rearrange citations so appear in order of appearance; test all links}
 
 \begin{thebibliography}{99}
 
@@ -2749,7 +2756,7 @@
 
 		\begin{table}[H]
 			\centering
-			\caption{Required Relationship $D = A_1 (T - T_{ref}) + A_0$ for $-60 \degC \leq T \leq 80 \degC$}
+			\caption{Required Relationship $D = A_1 (T - T_{ref}) + A_0$ for $\SI{-60}{\degreeCelsius} \leq T \leq \SI{80}{\degreeCelsius}$}
 			\label{tab:RR}
 			\begin{tabular}{ccc}
 				\toprule
@@ -2869,13 +2876,13 @@
 		From these, we obtain the expected force value
 
 		\begin{equation}
-			P(\SI{50}{\micro \meter}) = \SI{184}{N}
+			P(\SI{50}{\micro\meter}) = \SI{184}{\newton}
 		\end{equation}
 
 		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
 
 		\begin{equation}
-			T = K F d = (0.18) (\SI{184}{N}) (\SI{2}{\milli\meter})
+			T = K F d = (0.18) (\SI{184}{\newton}) (\SI{2}{\milli\meter})
 		\end{equation}
 
 		where
@@ -2943,8 +2950,7 @@
 	\todo{Double-check that BOM is up-to-date. Recheck McMaster prices}
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
-	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
-	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in section \ref{sec:sat:error} were taken from this quote.
+	The full Bill of Materials is provided on the next page, with corresponding part numbers, materials, sizes, prices, distributer's links.
 
 	\newpage
 	\begin{figure}[H]
@@ -2963,18 +2969,6 @@
 
 	\newpage
 	% \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
-
-	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{Invar_quote.pdf}
-	
-	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{ALLVAR_quote.pdf}
-	
-	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{Bellows.pdf}
-	
-	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{EDM_quote.pdf}
 
 	\newpage
 	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
@@ -3027,7 +3021,7 @@
 \textbf{\large \textcolor{warnred}{$\blacktriangle$ ~ CRITICAL SAFETY NOTICE ~ $\blacktriangle$}}
 
 \medskip
-This device operates with \textbf{high-pressure gas up to 68.95~MPa (10{,}000~psi)},
+This device operates with \textbf{high-pressure gas up to \SI{68.95}{\mega\pascal} (\num{10000}~psi)},
 including potentially \textbf{flammable gases such as hydrogen.}
 Failure to follow these instructions may result in \textbf{serious injury or death.}
 
@@ -3037,7 +3031,7 @@ Failure to follow these instructions may result in \textbf{serious injury or dea
   \item All connections and testing must comply with \textbf{ASME~B31.3} and applicable local safety regulations.
   \item Hydrogen is extremely flammable. Work in a well-ventilated area with appropriate gas detection equipment active.
   \item \textbf{Never work on a pressurised system.} Confirm the system is fully depressurised before installation, removal, or adjustment.
-  \item Wear appropriate PPE at all times: safety glasses, face shield, and flame-resistant clothing. Use insulated gloves near temperature extremes ($-60\,^{\circ}$C to $+80\,^{\circ}$C).
+  \item Wear appropriate PPE at all times: safety glasses, face shield, and flame-resistant clothing. Use insulated gloves near temperature extremes (\SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}).
 \end{itemize}
 \end{warningbox}
 
@@ -3049,7 +3043,7 @@ Failure to follow these instructions may result in \textbf{serious injury or dea
 
 \subsection{Background}
 
-The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to 68.95~MPa (10{,}000~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD mantains it's specified orifice diameter across a temperature range of $-60\,^{\circ}$C to $+80\,^{\circ}$C, and is calibrated at room temperature ($25\,^{\circ}$C) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
+The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD mantains it's specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated at room temperature (\SI{25}{\degreeCelsius}) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
 
 \subsection{Intended Users}
 
@@ -3116,18 +3110,18 @@ The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body:
 \begin{warningbox}
 \textbf{\textcolor{warnred}{WARNING --- Sealing Requirements}}
 
-Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately 20~MPa. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
+Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
 \end{warningbox}
 
 \subsection{Mounting}
 \label{sec:mounting}
 \textbf{NOTE:} The actuator responds to the temperature of the air surrounding it. Anything that heats or cools the actuator other than the ambient air will introduce error in the orifice diameter.
 
-Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \textbf{15~cm of free air clearance around the actuator on all sides}, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
+Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \textbf{\SI{15}{\centi\meter} of free air clearance around the actuator on all sides}, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
 
 \subsection{Ambient Air Conditions}
 
-The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{30 minutes} for it to equilibrate before pressurising or recording data. Temperature changes faster than approximately 5~$^{\circ}$C/min may cause a transient lag between the ambient reading and the actual orifice position.
+The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{30 minutes} for it to equilibrate before pressurising or recording data. Temperature changes faster than approximately \SI{5}{\degreeCelsius\per\minute} may cause a transient lag between the ambient reading and the actual orifice position.
 
 %-------------------------------------------------------------------
 \section{Installation}
@@ -3162,7 +3156,7 @@ The device is designed for quasi-static temperature changes. Avoid directing com
 
   \item \textbf{Connect the outlet.} Repeat the same procedure on the downstream port.
 
-  \item \textbf{Check actuator clearance.} Confirm no pipe, cable, or clamp contacts the actuator and that 15~cm of free air clearance is maintained on all sides.
+  \item \textbf{Check actuator clearance.} Confirm no pipe, cable, or clamp contacts the actuator and that \SI{15}{\centi\meter} of free air clearance is maintained on all sides.
 
 \end{enumerate}
 
@@ -3193,7 +3187,7 @@ The PTCD is calibrated at final assembly. Field recalibration is only needed if 
 \end{figure}
 
 
-Depressurise the system before calibrating. Measure the orifice diameter at $T_\mathrm{ref} = 25\,^{\circ}$C using the sponsor-provided optical procedure and calculate the required height correction. Adjust the T6 adjustment screw in minute increments to achieve the target effective diameter. 
+Depressurise the system before calibrating. Measure the orifice diameter at $T_\mathrm{ref} = \SI{25}{\degreeCelsius}$ using the sponsor-provided optical procedure and calculate the required height correction. Adjust the T6 adjustment screw in minute increments to achieve the target effective diameter. 
 \begin{warningbox}
 \textbf{\textcolor{warnred}{CAUTION:}} Do not over-tighten the calibration screw on top of the actuator. It pre-loads a Belleville washer inside the assembly.
 \end{warningbox}
@@ -3220,11 +3214,11 @@ Depressurise the system before calibrating. Measure the orifice diameter at $T_\
 
   \item \textbf{Install and leak-test} per Sections~4 and~5.
 
-  \item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{30~minutes} or until the ambient temperature has been stable to within $\pm\,1\,^{\circ}$C for 10~minutes.
+  \item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{30~minutes} or until the ambient temperature has been stable to within $\pm\,\SI{1}{\degreeCelsius}$ for 10~minutes.
 
-  \item \textbf{Check conditions.} Record the ambient temperature and confirm it is within $-60\,^{\circ}$C to $+80\,^{\circ}$C. Confirm the upstream pressure is within the rated range.
+  \item \textbf{Check conditions.} Record the ambient temperature and confirm it is within \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}. Confirm the upstream pressure is within the rated range.
 
-  \item \textbf{Pressurise.} Slowly open the upstream supply to the desired operating pressure. Do not exceed 68.95~MPa.
+  \item \textbf{Pressurise.} Slowly open the upstream supply to the desired operating pressure. Do not exceed \SI{68.95}{\mega\pascal}.
 
   \item \textbf{Operate.} No further action is required. The PTCD adjusts the orifice automatically as temperature changes.
 
@@ -3242,13 +3236,13 @@ Depressurise the system before calibrating. Measure the orifice diameter at $T_\
 \toprule
 \textbf{Parameter} & \textbf{Value} & \textbf{Notes} \\
 \midrule
-Reference temperature $T_\mathrm{ref}$ & $25\,^{\circ}$C & Calibration point \\
-Operating temperature range & $-60\,^{\circ}$C to $+80\,^{\circ}$C & Ambient at actuator \\
-Orifice diameter at $-60\,^{\circ}$C & $383.5 \pm 19.2\,\upmu$m & Maximum open \\
-Orifice diameter at $+25\,^{\circ}$C & $254.0 \pm 12.7\,\upmu$m & Reference \\
-Orifice diameter at $+80\,^{\circ}$C & $170.2 \pm 16.9\,\upmu$m & Minimum open \\
-Max.\ operating pressure & 68.95~MPa (10{,}000~psi) & \\
-Min.\ operating pressure & 689.5~kPa (100~psi) & \\
+Reference temperature $T_\mathrm{ref}$ & \SI{25}{\degreeCelsius} & Calibration point \\
+Operating temperature range & \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius} & Ambient at actuator \\
+Orifice diameter at \SI{-60}{\degreeCelsius} & $383.5 \pm 19.2\,\upmu$m & Maximum open \\
+Orifice diameter at \SI{+25}{\degreeCelsius} & $254.0 \pm 12.7\,\upmu$m & Reference \\
+Orifice diameter at \SI{+80}{\degreeCelsius} & $170.2 \pm 16.9\,\upmu$m & Minimum open \\
+Max.\ operating pressure & \SI{68.95}{\mega\pascal} (\num{10000}~psi) & \\
+Min.\ operating pressure & \SI{689.5}{\kilo\pascal} (\num{100}~psi) & \\
 Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \bottomrule
 \end{tabular}
