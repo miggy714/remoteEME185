@@ -9,11 +9,8 @@
 \contentsline {todos}{\numberline {40}Any features we changesd for machinability. Delete if we don't have anything to say here}{40}{figure.caption.30}%
 \contentsline {todos}{\numberline {40}Talk about coating to prevent galling}{40}{figure.caption.30}%
 \contentsline {todos}{\numberline {41}All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}{41}{subsection.2.2.7}%
-\contentsline {todos}{\numberline {43}cite}{43}{subsection.2.2.9}%
-\contentsline {todos}{\numberline {43}Cite Ashby, fix its tilt}{43}{figure.caption.32}%
-\contentsline {todos}{\numberline {44}Apparently ALLVAR also has a very low CTE. Helps insulate despite direct contact wth housing}{44}{figure.caption.32}%
+\contentsline {todos}{\numberline {44}Apparently ALLVAR also has a very low thermal conductivity. Helps insulate despite direct contact wth housing}{44}{figure.caption.32}%
 \contentsline {todos}{\numberline {45}Apparently Invar also has low conductivity! Helps insulate.}{45}{figure.caption.33}%
-\contentsline {todos}{\numberline {46}All other nontrivial dimensions, design choices, and other issues go in this section (\ref {sec:design:just}).}{46}{figure.caption.33}%
 \contentsline {todos}{\numberline {47}Achievable tolerances and other error calculations}{47}{section.3.1}%
 \contentsline {todos}{\numberline {47}Below if Report 2's CTE analysis. Give it a double-check.}{47}{subsection.3.1.1}%
 \contentsline {todos}{\numberline {61}Make derivation more explicit}{61}{figure.caption.39}%
@@ -22,7 +19,6 @@
 \contentsline {todos}{\numberline {66}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{66}{figure.caption.43}%
 \contentsline {todos}{\numberline {66}Bonus: propose physical tests -- the ones we were going to do with our own prototype}{66}{figure.caption.43}%
 \contentsline {todos}{\numberline {67}Strengths, weaknesses, and limitations of design}{67}{section.6.1}%
-\contentsline {todos}{\numberline {68}Rearrange citations so appear in order of appearance; test all links}{68}{section.6.2}%
 \contentsline {todos}{\numberline {74}Include any overfill from the main body of the report to keep it under 50 pages.}{74}{appendix.A}%
 \contentsline {todos}{\numberline {80}Double-check that BOM is up-to-date. Recheck McMaster prices}{80}{appendix.B}%
 \contentsline {todos}{\numberline {82}Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}{82}{figure.caption.53}%

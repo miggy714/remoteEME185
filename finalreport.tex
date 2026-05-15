@@ -1670,7 +1670,7 @@
 								width=\textwidth,
 								height=0.5\textwidth,
 								xlabel={Wall thickness (mm)},
-								ylabel={$\delta_{\text{elastic,max}}$ ($\upmu$m)},
+								ylabel={Total deflection ($\upmu$m)},
 								xmin=0, xmax=12,
 								ymin=0, ymax=1.0,
 								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
@@ -1778,7 +1778,7 @@
 
 			Slight machining errors in every dimension will be present. Even those within their specified tolerance can endanger the system performance of the \device.
 			Deviation from the intended thermal expansion rate cannot be adjusted post-manufacture, but any constant offset, such as from extra length in the valve stem, can be.
-			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance.
+			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance in satisfaction of Specification \specref{A.1.2}.
 			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
 			See Appendix \ref{app:calcs:belle} for further calculations.
@@ -1823,7 +1823,7 @@
 
 		
 			Each material selected for the \device\ enabled its exceptional performance despite impossible design circumstances.
-			The Ashby Chart\todo{cite} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
+			The Ashby Chart\cite{ref_ashby} (Figure \ref{fig:ashby}), an engineering standard for thermal stress of materials, provides a fitting guide for the relative strength and thermal expansivity of various metals, polymers, and ceramics.
 			Materials further up and to the right will possess greater driving authority when expanding, either by a higher Coefficient of Thermal Expansion (CTE) $\alpha$ or higher stiffness $E$.
 			
 			\begin{figure}[h]
@@ -1832,8 +1832,6 @@
 				\caption{The Ashby Chart for Metals, Polymers, and Ceramics}
 				\label{fig:ashby}
 			\end{figure}
-
-			\todo{Cite Ashby, fix its tilt}
 			
 			\subsubsection{Aluminum expansion rod}
 			\label{subsubsec:design:just:mat:Al}
@@ -1848,7 +1846,7 @@
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
-				\todo{Apparently ALLVAR also has a very low CTE. Helps insulate despite direct contact wth housing}
+				\todo{Apparently ALLVAR also has a very low thermal conductivity. Helps insulate despite direct contact wth housing}
 
 				\begin{wrapfigure}{l}{.45\textwidth}
 					\centering
@@ -1900,8 +1898,6 @@
 				\end{itemize}
 
 				See Appendix \ref{app:datasheets:mat} for relevant material data used throughout this report.
-
-			\todo{All other nontrivial dimensions, design choices, and other issues go in this section (\ref{sec:design:just}).}
 
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
@@ -2502,11 +2498,8 @@
 		\begin{itemize}
 		\item Scrap bottom bellows? Can easily calculate now effects of pressure force there; it might not be much. Could also use higher spring constant bellows, which is shorter, since deflection was so small. Can easily calculate impact with TF code.
 		\item Belleville: more washers? Change something else about assembly?
+		\item Optimize orifice dim (1mm was arbitrary)
 		\end{itemize}
-
-
-
-\todo{Rearrange citations so appear in order of appearance; test all links}
 
 \begin{thebibliography}{99}
 
@@ -2950,7 +2943,8 @@
 	\todo{Double-check that BOM is up-to-date. Recheck McMaster prices}
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
-	The full Bill of Materials is provided on the next page, with corresponding part numbers, materials, sizes, prices, distributer's links.
+	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
+	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in section \ref{sec:sat:error} were taken from this quote.
 
 	\newpage
 	\begin{figure}[H]
@@ -2969,6 +2963,18 @@
 
 	\newpage
 	% \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
+
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{Invar_quote.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{ALLVAR_quote.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{Bellows.pdf}
+	
+	\newpage
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{EDM_quote.pdf}
 
 	\newpage
 	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
