@@ -89,6 +89,9 @@
 \definecolor{warnbg}{RGB}{255,235,235}
 \definecolor{notebg}{RGB}{235,245,255}
 \definecolor{noteblue}{RGB}{30,80,160}
+\definecolor{ucdgold}{RGB}{207, 184, 124}
+\definecolor{ucdblue}{RGB}{0, 40, 85}
+
 
 \newmdenv[
   linecolor=warnred, backgroundcolor=warnbg,
@@ -125,9 +128,9 @@
 
 % ---------- PDF Metadata ----------
 \hypersetup{
-	pdftitle={Final Design Report -- Passive Temperature Compensation Device},
-	pdfauthor={Team 16: Noble Aggie Labs},
-	pdfsubject={EME-185A/B Senior Design, UC Davis},
+    pdftitle={Final Design Report -- Passive Temperature Compensation Device},
+    pdfauthor={Team 16: Noble Aggie Labs},
+    pdfsubject={EME-185A/B Senior Design, UC Davis}
 }
 %-----------For landscape pages----------
 \usepackage{pdflscape}
@@ -255,7 +258,8 @@
 \newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
 
 % Actuator specifications
-\newcommand{\SpecAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
 \newcommand{\SpecAB}{The actuator subsystem shall not exceed a 10 cm $\times$ 5 cm $\times$ 10 cm mechanical envelope}
 \newcommand{\SpecACA}{The actuator shall allow no more than \todo{Spec Temp} deviation in its temperature from $T_{amb}$\ within the test window}
 
@@ -427,7 +431,7 @@
 	Sandia National Laboratories conducts numerous experiments requiring the flow of precisely-controlled Hydrogen gas.
 	These experiments are sensitive to fluctuations in temperature; the flow must be adjusted to compensate for these changes.
 	However, power and space constraints prohibit the use of embedded control systems, and existing passive flow control solutions do not approach the size and precision these experiments require.
-	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a Passive Temperature Compensation Device (PTCD)
+	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
 	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its restriction according to the ambient air temperature.
 	The PTCD maintains an orifice smaller than the tip of a ballpoint pen to an average tolerance of $\pm \SI{13}{\micro\meter}$, about the thickness of a human hair. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
@@ -440,7 +444,7 @@
 \pagenumbering{arabic}
 
 \chapter{Introduction}
-\label{chap:intro}
+\label{chap:Fintro}
 
 	\section{Motivation}
 	\label{sec:intro:motive}
@@ -485,7 +489,7 @@
 		\subsection{Potential stakeholders}
 		\label{subsec:intro:motive:stakeholders}
 
-			Application of this valve is highly specialized for experiments performed Sandia Labs and would not be commercially viable without more generalized development.
+			Application of this valve is highly specialized for experiments performed by Sandia Labs and would not be commercially viable without more generalized development.
 			Thus, our primary stakeholder remains the engineers, researchers, and lab technicians at SNL.
 			Primarily, test engineers, the technicians conducting the experiments, would be able to integrate the valve into experimental apparatuses with two threaded attachments, allowing them to control their experiments with much greater precision and freedom.
 			Once installed, the device would self-maintain its controlled conditions without the need for power, monitoring, or adjustment.
@@ -590,7 +594,7 @@
 		In addition to these requirements, our sponsor supplied us with the following design conditions:
 		
 		\begin{enumerate}
-			\item The upstream gas pressure $P$ will lie within the range $689.5\ \text{kPa} \leq P \leq \specPressure$.
+			\item The upstream gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$.
 			\item The ambient temperature will vary within the range $\Tcold \leq T_{\text{ambient}} \leq \Thot$.
 			\item The provided gas will be up to 20 $\degC$ hotter than the ambient air.
 			\item The gas will be a noble gas or Hydrogen.
@@ -729,6 +733,11 @@
 				D_{ref} = A_0 = \AzeroExact
 			\end{equation}
 
+			Satisfaction of this reference setpoint will depend on drive certain nominal dimensions.
+			However, manufacturing and assembly errors, even those within the specified tolerance, will likely alter the orifice setpoint by a few micrometers,
+			causing a constant offset in the system performance.
+			Calibration of one relative dimension will allow the user to correct this error.
+
 			From these, we derive our first subsystem specifications:
 
 			\vspace{1em}
@@ -741,7 +750,8 @@
 							\end{enumerate}
 							\item Actuator subsystem
 							\begin{enumerate}
-									\item \SpecAA
+									\item \SpecAAA
+									\item \SpecAAB
 							\end{enumerate}
 					\end{itemize}
 			\end{mdframed}
@@ -838,9 +848,9 @@
 				% Row 1
 				\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
 				V.1.1 & \SpecVAA &
-				\multirow{3}{=}{\vspace{10em}A.1.1} & \multirow{3}{=}{\SpecAA} \\
+				A.1.1 & \SpecAAA \\
 
-				& & V.1.2 & \SpecVAB & & \\
+				& & V.1.2 & \SpecVAB & A.1.2 & \SpecAAB \\
 
 				\midrule
 
@@ -913,7 +923,7 @@
 			\end{minipage}
 		\end{figure}
 
-		\begin{wrapfigure}{.3\textwidth}
+		\begin{wrapfigure}{l}{.3\textwidth}
 			\centering
 			\includegraphics[height=2in]{orifice.png}
 			\caption{Orifice geometry}
@@ -1838,6 +1848,8 @@
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
+				\todo{Apparently ALLVAR also has a very low CTE. Helps insulate despite direct contact wth housing}
+
 				\begin{wrapfigure}{l}{.45\textwidth}
 					\centering
 					\includegraphics[width=.43\textwidth]{ALLVAR_CTE.png}
@@ -1855,6 +1867,8 @@
 
 			\subsubsection{Invar housing}
 			\label{subsubsec:design:just:mat:Inv}
+
+			\todo{Apparently Invar also has low conductivity! Helps insulate.}
 
 			Invar 36\textsuperscript{{\textregistered{}}}\cite{ref_Carpenter_Inv}, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
 			Swiss physicist and metrologist Charles \'{E}douard Guillaume unexpectedly discovered the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
@@ -2046,19 +2060,19 @@
 				\begin{multicols}{2}
 
 					\begin{align}
-						\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} T_{{eff}_M}) \\
-						\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} T_{{eff}_A}) \\
-						\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} T_{{eff}_S}) \\
-						\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} T_{{eff}_T})
+						\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} \left( T_{{eff}_M} - T_{ref} \right) ) \\
+						\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} \left( T_{{eff}_A} - T_{ref} \right) ) \\
+						\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} \left( T_{{eff}_S} - T_{ref} \right) ) \\
+						\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} \left( T_{{eff}_T} - T_{ref} \right) )
 					\end{align}
 					
 					\columnbreak
 					
 					\begin{align}
-						\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} T_{{eff}_B}) \\
-						\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} T_{{eff}_V}) \\
-						\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} T_{{eff}_H}) \\
-						\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} T_{{eff}_W})
+						\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} \left( T_{{eff}_B} - T_{ref} \right) ) \\
+						\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} \left( T_{{eff}_V} - T_{ref} \right) ) \\
+						\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} \left( T_{{eff}_H} - T_{ref} \right) ) \\
+						\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} \left( T_{{eff}_W} - T_{ref} \right) )
 					\end{align}
 
 				\end{multicols}
@@ -2547,6 +2561,10 @@
 		% CTE = 11.7 ppm/C
 		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
 
+	\bibitem{ref_ashby} % E vs CTE plot
+	M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
+	5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+
 	% COURSE TEXTS AND ENGINEERING PRACTICES
 
 	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
@@ -2928,6 +2946,8 @@
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
+
+	\todo{Double-check that BOM is up-to-date. Recheck McMaster prices}
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials is provided on the next page, with corresponding part numbers, materials, sizes, prices, distributer's links.
