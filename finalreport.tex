@@ -449,12 +449,12 @@
 	\section{Motivation}
 	\label{sec:intro:motive}
 
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=\textwidth]{Del_introduction_requirements.png}
-			\caption{DELETE BEFORE SUBMISSION}
-			\label{fig:del_intro_req}
-		\end{figure}
+		% \begin{figure}[H]
+		% 	\centering
+		% 	\includegraphics[width=\textwidth]{Del_introduction_requirements.png}
+		% 	\caption{DELETE BEFORE SUBMISSION}
+		% 	\label{fig:del_intro_req}
+		% \end{figure}
 
 		\subsection{Background}
 		\label{subsec:intro:motive:background}
@@ -476,7 +476,7 @@
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors of this paper, to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (PTCD) that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
+				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors of this paper, to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package presented in this report.
 				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
@@ -513,6 +513,14 @@
 			As a test engineer sets up his experimental apparatus, he inserts the valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
 			No further attention is needed until the device malfunctions at the end of its lifetime, at which point the entire device must be replaced.
 			The chief advantage of this device is its passive nature; if it works correctly, test engineers can ignore the entire control system during its lifetime until they need to change the experiment.
+			As represented in Figure \ref{fig:conceptual}, the \device\ converts high-ressure gas flow into controlled, low-pressure gas flow by responding only to changes in temperature.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[height=2in]{conceptual.png}
+				\caption{Conceptual diagram of the \device}
+				\label{fig:conceptual}
+			\end{figure}[H]
 
 				\subsubsection*{Roadmap}
 				\label{subsubsec:roadmap}
