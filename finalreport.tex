@@ -1981,7 +1981,7 @@
 
 			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
 			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix \ref{app:drawings}) are taken from \todo{Cite gen eng drawing tolerances. HAAS?}
+			The values represented in the engineering drawings (Appendix \ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}. \todo{Cite gen eng drawing tolerances. HAAS?}
 
 			\begin{wrapfigure}{l}{.4\textwidth}
 				\centering
@@ -2025,8 +2025,8 @@
 		\end{equation}
 
 		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
-
-		\includepdf[pages=1, fitpaper=true, landscape=true]{TF_import.pdf}
+		\todo{Uncomment pdf}
+		%\includepdf[pages=1, fitpaper=true, landscape=true]{TF_import.pdf}
 
 		The \device\ System Transfer Function comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system.
 		Its details will take a moment to unpack.
@@ -2643,6 +2643,9 @@
 	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
 	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
+
+	\bibitem{haas_vf2_specs}
+	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html. [Accessed: May 16, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
