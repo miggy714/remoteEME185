@@ -69,6 +69,8 @@
 \usetikzlibrary{patterns,intersections}
 \usetikzlibrary{arrows.meta, positioning}
 \usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows.meta, shapes.geometric, shapes.misc, positioning}
+\usetikzlibrary{calc}
 % ---------- Appendix Support ----------
 \usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
 %----------- Title/Chapter formatting -----------------
@@ -2242,6 +2244,7 @@
 			Two worst-case dimensional error combinations were found, one yielding too large an orifice across all temperature, and one yielding too small an orifice.
 			These errors cannot be accounted for in the design; they differ between devices. However, once manufactured, these values remain constant.
 			The calibration stack, discussed section \ref{subsec:design:just:cal} and further calculated in Appendix \ref{app:calcs:cal:sat}, can reliably correct these linear errors, shifting the whole plot linearly to within its specified tolerance.
+			\todo{List avg, std dev}
 
 			\begin{figure}[h]
 				\centering
@@ -2554,6 +2557,7 @@
 			\item Doesn't allow for 1" pipe (should have allowed for that option)
 			\item TF error assumes knowledge of all decimal points in dimensions (K only?)
 			\item Nomenclature is weak. e.g. "Valve Orifice" and "Actuator" are terrible part names
+			\item Only 50 micro meters belleville range on upper side; omits very small percentage of possible prototypes based on unlikely error assumption
 		\end{itemize}
 
 	\section{Recommended Improvements}
@@ -3036,10 +3040,17 @@
 			(429\% and 546\%, respectively, times the narrowest tolerance window.)
 
 			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \SI{69.3}{\micro\meter}.
+			The belleville washer's total compressible range is the difference between its free cone height and its thickness.
+			As shown in its specification drawing in Appendix \ref{app:datasheets:McMaster}, this results in a total deflection height of
+
+			\begin{equation}
+				\SI{0.6}{\milli\meter} - \SI{0.4}{\milli\meter} = \SI{200}{\micro\meter}
+			\end{equation}
+
 			To reliably bring the system into tolerance, the user must be able to precisely adjust the output in increments no more than the narrowest tolerance window, found at $T_{ref}$.
 
 			\begin{equation}
-				D_{eff}(T_{ref}) = 292.1 \pm \SI{12.7}{\micro\meter} = \SI{25.4}{\micro\meter} \text{ total range}
+				D_{eff}(T_{ref}) = 292.1 \pm \SI{12.7}{\micro\meter} \rightarrow 2 \cdot \SI{12.7}{\micro\meter} = \SI{25.4}{\micro\meter} \text{ total resolution}
 			\end{equation}
 
 			Calibration with a resolution no more than \SI{25.4}{\micro\meter} precision will theoretically be able to achieve some setpoint withing the tolerable range.
@@ -3484,14 +3495,8 @@ This guide is written for test engineers and laboratory technicians who operate 
 
 \begin{figure}[htbp]
   \centering
-  \fbox{\parbox{0.75\textwidth}{\centering
-    \vspace{2cm}
-    \textit{[PLACEHOLDER: Labelled isometric view of complete PTCD assembly.
-    Labels: Actuator Sub-assembly (A0), Valve Sub-assembly (V0),
-    Gas Inlet, Gas Outlet, Calibration Screw.]}
-    \vspace{2cm}
-  }}
-  \caption{Complete PTCD assembly.}
+  \includegraphics[width=.9\textwidth]{user_isometric.png}
+  \caption{Complete PTCD assembly}
   \label{fig:ug_overview}
 \end{figure}
 
@@ -3499,14 +3504,7 @@ The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body:
 
 \begin{figure}[htbp]
   \centering
-  \fbox{\parbox{0.75\textwidth}{\centering
-    \vspace{2cm}
-    \textit{[PLACEHOLDER: Annotated cross-section showing the gas flow path
-    (inlet $\rightarrow$ orifice $\rightarrow$ outlet), valve stem, bellows,
-    actuator, and shim-washer stack. Arrow indicating stem travel direction
-    with increasing temperature.]}
-    \vspace{2cm}
-  }}
+  \includegraphics[width=.75\textwidth]{user_cut.png}
   \caption{PTCD cross-section schematic.}
   \label{fig:ug_crosssection}
 \end{figure}
@@ -3562,13 +3560,84 @@ The device is designed for quasi-static temperature changes. Avoid directing com
 
 \begin{figure}[htbp]
   \centering
-  \fbox{\parbox{0.75\textwidth}{\centering
-    \vspace{2cm}
-    \textit{[PLACEHOLDER: Gas circuit diagram showing: high-pressure source,
-    upstream shut-off valve, pressure gauge, PTCD, downstream manifold or
-    unit under test, downstream vent/isolation valve. Flow direction arrow.]}
-    \vspace{2cm}
-  }}
+	\begin{tikzpicture}[
+		>=Stealth,
+		line width=0.6pt,
+		font=\small,
+		pipe/.style={draw, line width=1.2pt, color=ucdblue},
+		lbl/.style={text centered, font=\footnotesize, color=ucdblue}
+	]
+
+	\def\pipeY{0}
+	\def\xSource{0}
+	\def\xValve{3}
+	\def\xGauge{5.5}
+	\def\xPTCD{8}
+	\def\xApparatus{11}
+
+	%% 1. Gas cylinder symbol
+	\draw[pipe] (\xSource-0.4, \pipeY-0.9) rectangle (\xSource+0.4, \pipeY+0.7);
+	\draw[pipe]
+		(\xSource-0.4, \pipeY+0.7)
+		.. controls (\xSource-0.4,\pipeY+1.1) and (\xSource+0.4,\pipeY+1.1) ..
+		(\xSource+0.4, \pipeY+0.7);
+	\draw[pipe] (\xSource+0.4, \pipeY) -- (\xSource+0.8, \pipeY);
+
+	\node[lbl, text width=2cm] at (\xSource, \pipeY-1.35)
+		{Pressurised\\gas source};
+
+	%% Inlet flow arrow
+	\draw[->, line width=1.2pt, color=ucdblue] (\xSource+0.8, \pipeY) -- (\xValve-0.42, \pipeY);
+	% \node[font=\tiny, above] at (\xSource+1.55, \pipeY+0.08) {flow};
+
+	%% 2. Shut-off valve (ISO 1219: square with X and T-bar actuator)
+	\def\vs{0.4}
+	\draw[pipe] (\xValve-\vs,\pipeY-\vs) rectangle (\xValve+\vs,\pipeY+\vs);
+	\draw[pipe] (\xValve-\vs,\pipeY-\vs) -- (\xValve+\vs,\pipeY+\vs);
+	\draw[pipe] (\xValve-\vs,\pipeY+\vs) -- (\xValve+\vs,\pipeY-\vs);
+	\draw[pipe] (\xValve,\pipeY+\vs) -- (\xValve,\pipeY+\vs+0.35);
+	\draw[pipe] (\xValve-0.25,\pipeY+\vs+0.35) -- (\xValve+0.25,\pipeY+\vs+0.35);
+	\draw[pipe] (\xValve+\vs,\pipeY) -- (\xGauge-0.02,\pipeY);
+
+	\node[lbl, text width=2cm] at (\xValve, \pipeY-1.0)
+		{Shut-off\\valve};
+
+	%% 3. Pressure gauge (ISA 5.1: circle, needle, tagged PI; branch from pipe)
+	\def\gr{0.35}
+	\draw[pipe] (\xGauge,\pipeY) -- (\xGauge,\pipeY+0.3);
+	\draw[pipe] (\xGauge,\pipeY+\gr+0.3) circle (\gr);
+	% \draw[pipe] (\xGauge,\pipeY+\gr+0.3) -- ++(50:\gr*0.7);
+	\node[font=\tiny, color=ucdblue] at (\xGauge,\pipeY+\gr+0.3) {\,PI};
+	\draw[pipe] (\xGauge,\pipeY) -- (\xPTCD-0.92,\pipeY);
+
+	\node[lbl, text width=2.2cm] at (\xGauge, \pipeY-1.0)
+		{Pressure\\gauge};
+
+	%% 4. PTCD (labelled rectangle)
+	\def\pw{0.9}
+	\def\ph{0.4}
+	\draw[pipe] (\xPTCD-\pw,\pipeY-\ph) rectangle (\xPTCD+\pw,\pipeY+\ph);
+	\node[font=\small\bfseries, color=ucdblue] at (\xPTCD,\pipeY) {PTCD};
+	\draw[pipe] (\xPTCD+\pw,\pipeY) -- (\xApparatus-1.22,\pipeY);
+
+	\node[lbl, text width=2cm] at (\xPTCD, \pipeY-1.0)
+		{PTCD};
+
+	%% 5. Experimental apparatus (dashed boundary box)
+	\def\aw{1.2}
+	\def\ah{0.8}
+	\draw[pipe, dashed]
+		(\xApparatus-\aw,\pipeY-\ah) rectangle (\xApparatus+\aw,\pipeY+\ah);
+	\node[font=\footnotesize, color=ucdblue, text width=2.2cm, align=center]
+		at (\xApparatus,\pipeY-0.2)
+		{Experimental\\apparatus};
+
+	%% Outlet flow arrow
+	\draw[->, line width=1.2pt, color=ucdblue]
+		(\xApparatus+\aw,\pipeY) -- (\xApparatus+\aw+1.2,\pipeY);
+	% \node[font=\tiny, above] at (\xApparatus+\aw+0.6,\pipeY+0.08) {flow};
+
+	\end{tikzpicture}
   \caption{Typical PTCD installation in a high-pressure gas circuit.}
   \label{fig:ug_install}
 \end{figure}
@@ -3627,14 +3696,68 @@ Depressurise the system before calibrating. Measure the orifice diameter at $T_\
 
 \begin{figure}[htbp]
   \centering
-  \fbox{\parbox{0.75\textwidth}{\centering
-    \vspace{2cm}
-    \textit{[PLACEHOLDER: Concept of Operations flowchart: (1) Install and leak-test,
-    (2) Equilibrate temperature (30~min), (3) Pressurise, (4) Passive operation ---
-    ambient temperature drives actuator, actuator drives orifice,
-    (5) Depressurise and purge on shutdown.]}
-    \vspace{2cm}
-  }}
+\begin{tikzpicture}[
+		>=Stealth,
+		node distance=0.6cm,
+		font=\small,
+		color=ucdblue,
+		% Flowchart node styles
+		startstop/.style={
+			draw, rounded rectangle,
+			minimum width=3.2cm, minimum height=0.7cm,
+			align=center, color=ucdblue,
+			line width=1pt
+		},
+		process/.style={
+			draw, rectangle,
+			minimum width=3.2cm, minimum height=0.7cm,
+			align=center, color=ucdblue,
+			line width=1pt
+		},
+		passive/.style={
+			draw, rectangle,
+			minimum width=3.2cm, minimum height=1.1cm,
+			align=center, color=ucdblue,
+			line width=1pt, dashed
+		},
+		arrow/.style={->, >=Stealth, color=ucdblue, line width=0.8pt}
+	]
+
+	% Nodes (top to bottom)
+	\node[startstop] (install)
+		{(1) Install \& leak-test};
+
+	\node[process, below=of install] (equil)
+		{(2) Equilibrate temperature\\{\footnotesize(30 min)}};
+
+	\node[process, below=of equil] (press)
+		{(3) Pressurise};
+
+	\node[passive, below=of press] (passive)
+		{(4) Passive operation\\
+		 {\footnotesize Ambient $T$ $\rightarrow$ actuator $\rightarrow$ orifice}};
+
+	\node[process, below=of passive] (depress)
+		{(5) Depressurise \& purge};
+
+	\node[startstop, below=of depress] (end)
+		{Shutdown};
+
+	% Arrows
+	\draw[arrow] (install)  -- (equil);
+	\draw[arrow] (equil)    -- (press);
+	\draw[arrow] (press)    -- (passive);
+	\draw[arrow] (passive)  -- (depress);
+	\draw[arrow] (depress)  -- (end);
+
+	% Loop: Shutdown → midpoint of install→equil arrow
+	\coordinate (loop-target) at ($(install.south)!0.5!(equil.north)$);
+	\draw[arrow]
+		(end.east)
+		-- ++(1.2, 0)
+		|- (loop-target);
+
+	\end{tikzpicture}
   \caption{PTCD concept of operations.}
   \label{fig:ug_conops}
 \end{figure}
