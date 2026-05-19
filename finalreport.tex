@@ -91,7 +91,7 @@
 \definecolor{noteblue}{RGB}{30,80,160}
 \definecolor{ucdgold}{RGB}{207, 184, 124}
 \definecolor{ucdblue}{RGB}{0, 40, 85}
-\definecolor{sandialb}{RGB}{0,  174, 214}
+\definecolor{sandiablue}{RGB}{0,  174, 214}
 
 
 
@@ -248,7 +248,8 @@
 }
 
 % Req and Spec commands
-\insert{specs.tex}
+% Offloaded to another document to possibly save the specs as figures if we can't fix the page-break overlap.
+\input{specs.tex}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -758,8 +759,6 @@
 		\subsection{Mechanical Envelope rolldown}
 		\label{subsec:intro:specs:ME}
 
-			\todo{Fix the float issues with these boxes}
-
 			The Mechanical Envelope (\SI{10}{\centi\meter} in each direction) can defined along three principal axes, which will be used for reference throughout this report:
 
 			% NOTE - These are consistent with the main CAD assembly axes
@@ -1051,7 +1050,7 @@
 			\end{multicols}
 
 
-			Figures \ref{fig:cut_zoom} and \ref{fig:cut_zoom_zoom} show the orifice in full assembly. Observe the moving centerpiece pressed against the outlet face the the housing inlet.
+			Figure \ref{fig:cut_zooms} shows the orifice in full assembly. Observe the moving centerpiece pressed against the outlet face the the housing inlet.
 			The bellows are welded to its upper and lower surfaces to seal the valve stems.
 			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure \ref{fig:orifice}.
 
@@ -1062,17 +1061,22 @@
 			Because the \device\ depends on passive thermal expansion to drive its behavior, these components must expand as little as possible to ensure minimal deviation from the intended control output.
 
 			\begin{figure}[H]
-				\centering
-				\includegraphics[height=.4\textheight]{cut_zoom.png}
-				\caption{Valve Subsystem, Section View}
-				\label{fig:cut_zoom}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[height=.4\textheight]{cut_zoom_zoom.png}
-				\caption{Valve, Section View (detail)}
-				\label{fig:cut_zoom_zoom}
+					\centering
+					\begin{subfigure}{0.59\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{cut_zoom.png}
+							\caption{Valve Subsystem, Section View}
+							\label{fig:cut_zoom}
+					\end{subfigure}
+					\hfill
+					\begin{subfigure}{0.39\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{cut_zoom_zoom_crop.png}
+							\caption{Valve, Section View (detail)}
+							\label{fig:cut_zoom_zoom_crop}
+					\end{subfigure}
+					\caption{Section views}
+					\label{fig:cut_zooms}
 			\end{figure}
 
 		\subsection{Actuator Subsystem}
@@ -1372,7 +1376,7 @@
 								\midrule
 								Material &
 								&
-								1018 Cold-Rolled Steel
+								Invar 36
 								\\\addlinespace
 								$r_i$ &
 								Inner radius &
@@ -1392,7 +1396,7 @@
 								\\\addlinespace
 								$S_y$ &
 								Yield strength &
-								\SI{370}{\mega\pascal}
+								\SI{276}{\mega\pascal}
 								\\\bottomrule
 							\end{tabularx}
 						\end{table}
@@ -3617,9 +3621,10 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
 
-	\todo{Some description}
+	The following appendix presents the detailed engineering and manufacturing drawings for the PTCD assembly and its individual components. General drawing tolerances govern the design requirements to ensure
+	 reliability and precision.
 
-	%\includepdf[pages=1-??, fitpaper=true, landscape=true]{FinalDrawingPackage.pdf}
+	\includepdf[pages=1-12, fitpaper=true, landscape=true]{05182026_DrawingPackage_v31.pdf}
 
 \chapter{Data Sheets}
 \label{app:datasheets}
