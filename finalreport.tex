@@ -1910,7 +1910,6 @@
 \chapter{Requirement Satisfaction}
 \label{chap:sat}
 
-
 	\section{Error Analysis}
 	\label{sec:sat:error}
 
@@ -1938,7 +1937,7 @@
 
 			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
 			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix \ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}. \todo{Cite gen eng drawing tolerances. HAAS?}
+			The values represented in the engineering drawings (Appendix \ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
 
 			\begin{wrapfigure}{l}{.4\textwidth}
 				\centering
@@ -2093,7 +2092,7 @@
 				\end{multicols}
 			\end{mdframed}
 
-			where the material expansion coefficients are shown in Appendix \ref{app:calcs:TF:G_therm}:
+			where the material expansion coefficients and machined lengths are shown in Appendix \ref{app:calcs:TF:G_therm}.
 
 			This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
 			The CTE of Aluminum is computed as a function of temperature as defined in section \ref{subsec:sat:error:CTE} to find the impact of this error on the final output.
@@ -2212,7 +2211,7 @@
 				The area-diameter conversion is a simple geometric calculation, where $D_{eff}$ is the diameter of a circle with equivalent area. Thus,
 
 				\begin{equation}
-					D_{eff} = \sqrt{\frac{4}{\pi} A} = \sqrt{\frac{4 X^2}{2 \pi}} = \sqrt{\frac{2}{\pi}} X
+					D_{eff} = \sqrt{\frac{4}{\pi} A}
 				\end{equation}
 
 			therefore
@@ -2220,7 +2219,7 @@
 			\vspace{1em}
 			\begin{mdframed}
 				\begin{equation}
-					\hat{G}_O = \sqrt{\frac{2}{\pi}} X
+					\hat{G}_O = \sqrt{\frac{4}{\pi} \left( s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right] \right)}
 				\end{equation}
 			\end{mdframed}
 
@@ -2234,203 +2233,267 @@
 			The rest --- namely, all vertical dimensional errors ($d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, and $d \ell_W$)
 			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
 			are stochastic; their values must be iterated to find the worst-case combination.
-			Because this combination is unlikely to occur, a uniform-distribution Monte Carlo analysis\cite{ref_figliola} yields an informative probabilistic normalized distribution of net propagated error.
+			This combination is unlikely, however, and a uniform-distribution Monte Carlo analysis\cite{ref_figliola} yields a more informative expectation value from the propagated error.
 			
-			Iterating through $\Tcold \leq T_{amb} \leq \Thot$ and plotting the results, this yields Figure \ref{fig:TF_res}.
+			These stochastic combinations across the full temperature range produce the range shown in Figure \ref{TF_res},
+			whose normalized distribution is plotted in Figure \ref{fig:error_dist}.
+			
+			Iterating through $\Tcold \leq T_{amb} \leq \Thot$ and plotting the results yields Figure \ref{fig:TF_res}.
 			Two worst-case dimensional error combinations were found, one yielding too large an orifice across all temperature, and one yielding too small an orifice.
 			These errors cannot be accounted for in the design; they differ between devices. However, once manufactured, these values remain constant.
 			The calibration stack, discussed section \ref{subsec:design:just:cal} and further calculated in Appendix \ref{app:calcs:cal:sat}, can reliably correct these linear errors, shifting the whole plot linearly to within its specified tolerance.
 
 			\begin{figure}[h]
-					\centering
-					\begin{tikzpicture}
-					\begin{axis}[
-													width       = 14cm,
-													height      = 8cm,
-													xlabel      = {Ambient Temperature ($^\circ$C)},
-													ylabel      = {Actual Effective Diameter ($\upmu$m)},
-													xmin = -70, xmax = 90,
-													ymin = 130,  ymax = 450,
-													grid        = major,
-													major grid style = {line width=0.4pt, draw=gray!50},
-													minor tick num   = 0,
-													tick align  = inside,
-													legend pos  = north east,
-													legend style     = {font=\small},
-													tick label style = {font=\small},
-													label style      = {font=\small},
-					]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+								width       = 14cm,
+								height      = 8cm,
+								xlabel      = {Ambient Temperature ($^\circ$C)},
+								ylabel      = {Actual Effective Diameter ($\upmu$m)},
+								xmin = -70, xmax = 90,
+								ymin = 80,  ymax = 450,
+								grid        = major,
+								major grid style = {line width=0.4pt, draw=gray!50},
+								minor tick num   = 0,
+								tick align  = inside,
+								legend pos  = north east,
+								legend style     = {font=\small},
+								tick label style = {font=\small},
+								label style      = {font=\small},
+				]
 
-					%% ── Lower bound ───────────────────────────────────────────────────────────
-					\addplot [
-													name path   = lower,
-													color       = ucdblue,
-													line width  = 0.8pt,
-													dotted,
-													forget plot,
-					] table [
-													x expr      = \thisrow{T_amb_C},
-													y expr      = \thisrow{D_eff_lower} * 1e6,
-													col sep     = comma,
-					] {figures3/TF.csv};
+				%% ── Gold TF paths (named, no fill yet) ────────────────────────────────
+				\addplot [
+								name path   = TF_high,
+								color       = ucdgold,
+								line width  = 1.6pt,
+								dash dot,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_high} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					%% ── Upper bound ───────────────────────────────────────────────────────────
-					\addplot [
-													name path   = upper,
-													color       = ucdblue,
-													line width  = 0.8pt,
-													dotted,
-													forget plot,
-					] table [
-													x expr      = \thisrow{T_amb_C},
-													y expr      = \thisrow{D_eff_upper} * 1e6,
-													col sep     = comma,
-					] {figures3/TF.csv};
+				\addplot [
+								name path   = TF_low,
+								color       = ucdgold,
+								line width  = 1.6pt,
+								dashed,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_low} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					%% ── Shaded band ───────────────────────────────────────────────────────────
-					\addplot [
-													fill        = ucdblue!10,
-													draw        = none,
-													forget plot,
-					] fill between [of = lower and upper];
+				%% ── Gold fill ─────────────────────────────────────────────────────────
+				\addplot [
+								fill        = ucdgold!20,
+								draw        = none,
+								forget plot,
+				] fill between [of = TF_high and TF_low];
 
-					%% ── Nominal required ──────────────────────────────────────────────────────
-					\addplot [
-													color       = ucdblue,
-													line width  = 1.6pt,
-													forget plot,
-					] table [
-													x expr      = \thisrow{T_amb_C},
-													y expr      = \thisrow{D_eff_nominal} * 1e6,
-													col sep     = comma,
-					] {figures3/TF.csv};
+				%% ── Blue tolerance paths (named, no fill yet) ─────────────────────────
+				\addplot [
+								name path   = lower,
+								color       = ucdblue,
+								line width  = 0.8pt,
+								dotted,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_lower} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					%% ── Legend entries ────────────────────────────────────────────────────────
-					\addplot [color=ucdblue, line width=1.6pt]
-													coordinates {(-200,0)};
-					\addlegendentry{Required output}
+				\addplot [
+								name path   = upper,
+								color       = ucdblue,
+								line width  = 0.8pt,
+								dotted,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_upper} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					\addplot [color=ucdblue, line width=0.8pt, dotted]
-													coordinates {(-200,0)};
-					\addlegendentry{Tolerance band}
+				%% ── Blue fill (on top of gold) ────────────────────────────────────────
+				\addplot [
+								fill        = sandiablue!20,
+								draw        = none,
+								forget plot,
+				] fill between [of = lower and upper];
 
-					%% ── Transfer function high (worst-case +) ─────────────────────────────────
-					\addplot [
-													name path   = TF_high,
-													color       = ucdgold,
-													line width  = 1.6pt,
-													dash dot,
-													forget plot,
-					] table [
-													x expr      = \thisrow{T_amb_C},
-													y expr      = \thisrow{D_TF_high} * 1e6,
-													col sep     = comma,
-					] {figures3/TF.csv};
+				%% ── Nominal required line ─────────────────────────────────────────────
+				\addplot [
+								color       = ucdblue,
+								line width  = 1.6pt,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_nominal} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					%% ── Transfer function low (worst-case −) ──────────────────────────────────
-					\addplot [
-													name path   = TF_low,
-													color       = ucdgold,
-													line width  = 1.6pt,
-													dashed,
-													forget plot,
-					] table [
-													x expr      = \thisrow{T_amb_C},
-													y expr      = \thisrow{D_TF_low} * 1e6,
-													col sep     = comma,
-					] {figures3/TF.csv};
+				%% ── Monte Carlo mean output (all stochastic errors = 0, R_f applied) ──
+				\addplot [
+								color       = ucdgold,
+								line width  = 1.6pt,
+								solid,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_mean} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
 
-					%% ── Shaded band between TF bounds ─────────────────────────────────────────
-					\addplot [
-													fill        = ucdgold!20,
-													draw        = none,
-													forget plot,
-					] fill between [of = TF_high and TF_low];
+				%% ── Legend entries ────────────────────────────────────────────────────
+				\addplot [color=ucdblue, line width=1.6pt]
+								coordinates {(-200,0)};
+				\addlegendentry{Nominal output}
 
-					%% ── Legend entries for TF bounds ──────────────────────────────────────────
-					\addplot [color=ucdgold, line width=1.6pt, dash dot]
-													coordinates {(-200,0)};
-					\addlegendentry{Worst-case output (high)}
+				\addplot [color=ucdblue, line width=0.8pt, dotted]
+								coordinates {(-200,0)};
+				\addlegendentry{Tolerance band}
 
-					\addplot [color=ucdgold, line width=1.6pt, dashed]
-													coordinates {(-200,0)};
-					\addlegendentry{Worst-case output (low)}
+				\addplot [color=ucdgold, line width=1.6pt, solid]
+								coordinates {(-200,0)};
+				\addlegendentry{Mean output}
 
-					\end{axis}
-					\end{tikzpicture}%
-					\caption{Transfer Function Output}
-					\label{fig:TF_res}
+				\addplot [color=ucdgold, line width=1.6pt, dash dot]
+								coordinates {(-200,0)};
+				\addlegendentry{Stochastic boundaries}
+
+				\end{axis}
+				\end{tikzpicture}%
+				\caption{Transfer Function Output}
+				\label{fig:TF_res}
 			\end{figure}
 
-			Monte Carlo analysis produced the probability destribution of uncalibrated deviations from the nominal effective diameter as a percentage of the tolerance window at $T_{ref}$.
-
 			\begin{figure}[h]
-					\centering
-					\begin{tikzpicture}
-					\begin{axis}[
-													width       = 14cm,
-													height      = 8cm,
-													xlabel      = {Percentage Error (\%)},
-													ylabel      = {Probability Density},
-													xmin = -450, xmax = 350,
-													ymin = 0,    ymax = 0.0053,
-													grid        = major,
-													major grid style = {line width=0.4pt, draw=gray!50},
-													minor tick num   = 0,
-													tick align  = inside,
-													legend pos  = north east,
-													legend style     = {font=\small},
-													tick label style = {font=\small},
-													label style      = {font=\small},
-													yticklabel style = {
-															/pgf/number format/fixed,
-															/pgf/number format/precision=4,
-													},
-					]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+					width       = 14cm,
+					height      = 8cm,
+					xlabel      = {Error (\% tolerance window at $T_{ref}$)},
+					ylabel      = {Probability Density},
+					xmin = -450, xmax = 350,
+					ymin = 0,    ymax = 0.0053,
+					grid        = major,
+					major grid style = {line width=0.4pt, draw=gray!50},
+					minor tick num   = 0,
+					tick align  = inside,
+					tick label style = {font=\small},
+					label style      = {font=\small},
+					yticklabel style = {
+						/pgf/number format/fixed,
+						/pgf/number format/precision=4,
+					},
+					declare function = {
+						normalpdf(\x,\m,\s) =
+							1 / (\s * sqrt(2*pi)) *
+							exp(-(\x-\m)^2 / (2*\s*\s));
+					},
+				]
 
-					%% ── Histogram ─────────────────────────────────────────────────────────────
-					\addplot [
-													hist = {
-															bins      = 80,
-															density,
-															data min  = -450,
-															data max  = 350,
-													},
-													fill        = sandiablue!30,
-													draw        = sandiablue!60,
-													line width  = 0.3pt,
-													forget plot,
-					] table [
-													y           = pct_err,
-													col sep     = comma,
-					] {figures3/error_dist.csv};
+				%% ── ±100% tolerance window background ───────────────────────────────────
+				\addplot [
+					name path = tol_lo,
+					draw      = none,
+					domain    = -100:100,
+					samples   = 2,
+					forget plot,
+				] {0};
+				\addplot [
+					name path = tol_hi,
+					draw      = none,
+					domain    = -100:100,
+					samples   = 2,
+					forget plot,
+				] {0.0053};
+				\addplot [
+					fill       = ucdgold!18,
+					draw       = none,
+					forget plot,
+				] fill between [of = tol_lo and tol_hi];
 
-					%% ── Normal PDF overlay ────────────────────────────────────────────────────
-					%% mu = -46.77, sigma = 86.45  (fitted from data)
-					\addplot [
-													color       = ucdgold,
-													line width  = 1.6pt,
-													solid,
-													domain      = -450:350,
-													samples     = 300,
-					] {1/(86.45*sqrt(2*pi)) * exp(-((x-(-46.77))^2)/(2*86.45^2))};
-					\addlegendentry{$\mathcal{N}(\mu{=}{-}46.77,\;\sigma{=}86.45)$}
+				%% ── ±2σ shaded band ──────────────────────────────────────────────────────
+				\addplot [
+					name path = twosig_lo,
+					draw      = none,
+					domain    = -219.67:126.13,
+					samples   = 2,
+					forget plot,
+				] {0};
+				\addplot [
+					name path = twosig_hi,
+					draw      = none,
+					domain    = -219.67:126.13,
+					samples   = 200,
+					forget plot,
+				] {normalpdf(x, -46.77, 86.45)};
+				\addplot [
+					fill       = sandiablue!15,
+					draw       = none,
+					forget plot,
+				] fill between [of = twosig_lo and twosig_hi];
 
-					%% ── Histogram legend proxy ────────────────────────────────────────────────
-					\addplot [
-													fill        = sandiablue!30,
-													draw        = sandiablue!60,
-													line width  = 0.3pt,
-													ybar,
-													bar width   = 6pt,
-					] coordinates {(-600, 0)};
-					\addlegendentry{Empirical distribution}
+				%% ── ±1σ shaded band ──────────────────────────────────────────────────────
+				\addplot [
+					name path = onesig_lo,
+					draw      = none,
+					domain    = -133.22:39.68,
+					samples   = 2,
+					forget plot,
+				] {0};
+				\addplot [
+					name path = onesig_hi,
+					draw      = none,
+					domain    = -133.22:39.68,
+					samples   = 200,
+					forget plot,
+				] {normalpdf(x, -46.77, 86.45)};
+				\addplot [
+					fill       = sandiablue!30,
+					draw       = none,
+					forget plot,
+				] fill between [of = onesig_lo and onesig_hi];
 
-					\end{axis}
-					\end{tikzpicture}%
-					\caption{Percentage error distribution with fitted normal curve
-									($\mu = -46.77$\%, $\sigma = 86.45$\%, $n = 10^6$).}
-					\label{fig:error_dist}
+				%% ── Normal PDF ───────────────────────────────────────────────────────────
+				\addplot [
+					color      = ucdgold,
+					line width = 1.6pt,
+					solid,
+					domain     = -450:350,
+					samples    = 300,
+					forget plot,
+				] {normalpdf(x, -46.77, 86.45)};
+
+				%% ── σ callout labels ─────────────────────────────────────────────────────
+				\node[font=\small, align=center]
+					at (axis cs: -46.77, 0.0025)
+					{$\pm1\sigma$};
+
+				\node[font=\small, align=center]
+					at (axis cs: -173, 0.0005)
+					{$\pm2\sigma$};
+				\node[font=\small, align=center]
+					at (axis cs: 80, 0.0005)
+					{$\pm2\sigma$};
+
+				%% --- Tolerance band --------------------------------
+				\node[font=\small, align=center]
+					at (axis cs: 0, 0.0049)
+					{\textit{Tolerance window}};
+
+				\end{axis}
+				\end{tikzpicture}
+				\caption{Stochastic Error Distribution}
+				\label{fig:error_dist}
 			\end{figure}
 
 \chapter{Risk Assessment}
@@ -3297,7 +3360,6 @@
 				A = s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right]
 			\end{equation}
 
-
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
@@ -3323,22 +3385,20 @@
 	\end{figure}
 
 	\newpage
+	\todo{Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}
 	% \includepdf[pages=1, fitpaper=true, landscape=true]{BOM.pdf}
 
 	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{Invar_quote.pdf}
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{quote_Invar.pdf}
 	
 	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{ALLVAR_quote.pdf}
+	% \includepdf[pages=?, fitpaper=true, landscape=true]{quote_ALLVAR.pdf}
 	
 	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{Bellows.pdf}
+	% \includepdf[pages=1-2, fitpaper=true, landscape=true]{quote_bellows.pdf}
 	
 	\newpage
-	% \includepdf[pages=?, fitpaper=true, landscape=true]{EDM_quote.pdf}
-
-	\newpage
-	\todo{Fix TODO's in above BOM. Include EDM quote if possible. Attach MiniFlex quote. Get quotes for Invar and ALLVAR.}
+	% \includepdf[pages=1-2, fitpaper=true, landscape=true]{quote_EDM.pdf}
 
 \chapter{Manufacturing and Operation}
 
@@ -3367,6 +3427,7 @@
 			\item Apply coat to orifice
 			\item Finishing pass on critical faces; measure from those faces
 			\item Cite White 9th ed, eq. 6-102 on measuring effective diam. from pressure drop
+			\item Invar billet: cut valve orifice out of same stock. Long dimension is along z axis; is at least 79 mm: 32 for Inlet, 40 for Outlet, 7 for thickness of valve orifice
 		\end{itemize}
 	\color{black}
 

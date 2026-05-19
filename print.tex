@@ -89,7 +89,7 @@
 \definecolor{noteblue}{RGB}{30,80,160}
 \definecolor{ucdgold}{RGB}{207, 184, 124}
 \definecolor{ucdblue}{RGB}{0, 40, 85}
-\definecolor{sandialb}{RGB}{0,  174, 214}
+\definecolor{sandiablue}{RGB}{0,  174, 214}
 
 
 
@@ -291,23 +291,257 @@
 
 \begin{document}
 
-			\begin{figure}[H]
-					\centering
-					\begin{subfigure}{0.59\textwidth}
-							\centering
-							\includegraphics[width=\textwidth]{cut_zoom.png}
-							\caption{Valve Subsystem, Section View}
-							\label{fig:cut_zoom}
-					\end{subfigure}
-					\hfill
-					\begin{subfigure}{0.39\textwidth}
-							\centering
-							\includegraphics[width=\textwidth]{cut_zoom_zoom_crop.png}
-							\caption{Valve, Section View (detail)}
-							\label{fig:cut_zoom_zoom_crop}
-					\end{subfigure}
-					\caption{Section views}
-					\label{fig:cut_zooms}
-			\end{figure}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+					width       = 14cm,
+					height      = 8cm,
+					xlabel      = {Ambient Temperature ($^\circ$C)},
+					ylabel      = {Actual Effective Diameter ($\upmu$m)},
+					xmin = -70, xmax = 90,
+					ymin = 80,  ymax = 450,
+					grid        = major,
+					major grid style = {line width=0.4pt, draw=gray!50},
+					minor tick num   = 0,
+					tick align  = inside,
+					legend pos  = north east,
+					legend style     = {font=\small},
+					tick label style = {font=\small},
+					label style      = {font=\small},
+	]
+
+	%% ── Gold TF paths (named, no fill yet) ────────────────────────────────
+	\addplot [
+					name path   = TF_high,
+					color       = ucdgold,
+					line width  = 1.6pt,
+					dash dot,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_TF_high} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	\addplot [
+					name path   = TF_low,
+					color       = ucdgold,
+					line width  = 1.6pt,
+					dashed,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_TF_low} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	%% ── Gold fill ─────────────────────────────────────────────────────────
+	\addplot [
+					fill        = ucdgold!20,
+					draw        = none,
+					forget plot,
+	] fill between [of = TF_high and TF_low];
+
+	%% ── Blue tolerance paths (named, no fill yet) ─────────────────────────
+	\addplot [
+					name path   = lower,
+					color       = ucdblue,
+					line width  = 0.8pt,
+					dotted,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_eff_lower} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	\addplot [
+					name path   = upper,
+					color       = ucdblue,
+					line width  = 0.8pt,
+					dotted,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_eff_upper} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	%% ── Blue fill (on top of gold) ────────────────────────────────────────
+	\addplot [
+					fill        = sandiablue!20,
+					draw        = none,
+					forget plot,
+	] fill between [of = lower and upper];
+
+	%% ── Nominal required line ─────────────────────────────────────────────
+	\addplot [
+					color       = ucdblue,
+					line width  = 1.6pt,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_eff_nominal} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	%% ── Monte Carlo mean output (all stochastic errors = 0, R_f applied) ──
+	\addplot [
+					color       = ucdgold,
+					line width  = 1.6pt,
+					solid,
+					forget plot,
+	] table [
+					x expr      = \thisrow{T_amb_C},
+					y expr      = \thisrow{D_TF_mean} * 1e6,
+					col sep     = comma,
+	] {figures3/TF.csv};
+
+	%% ── Legend entries ────────────────────────────────────────────────────
+	\addplot [color=ucdblue, line width=1.6pt]
+					coordinates {(-200,0)};
+	\addlegendentry{Nominal output}
+
+	\addplot [color=ucdblue, line width=0.8pt, dotted]
+					coordinates {(-200,0)};
+	\addlegendentry{Tolerance band}
+
+	\addplot [color=ucdgold, line width=1.6pt, solid]
+					coordinates {(-200,0)};
+	\addlegendentry{Mean output}
+
+	\addplot [color=ucdgold, line width=1.6pt, dash dot]
+					coordinates {(-200,0)};
+	\addlegendentry{Stochastic boundaries}
+
+	\end{axis}
+	\end{tikzpicture}%
+	\caption{Transfer Function Output}
+	\label{fig:TF_res}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+		width       = 14cm,
+		height      = 8cm,
+		xlabel      = {Error (\% tolerance window at $T_{ref}$)},
+		ylabel      = {Probability Density},
+		xmin = -450, xmax = 350,
+		ymin = 0,    ymax = 0.0053,
+		grid        = major,
+		major grid style = {line width=0.4pt, draw=gray!50},
+		minor tick num   = 0,
+		tick align  = inside,
+		tick label style = {font=\small},
+		label style      = {font=\small},
+		yticklabel style = {
+			/pgf/number format/fixed,
+			/pgf/number format/precision=4,
+		},
+		declare function = {
+			normalpdf(\x,\m,\s) =
+				1 / (\s * sqrt(2*pi)) *
+				exp(-(\x-\m)^2 / (2*\s*\s));
+		},
+	]
+
+	%% ── ±100% tolerance window background ───────────────────────────────────
+	\addplot [
+		name path = tol_lo,
+		draw      = none,
+		domain    = -100:100,
+		samples   = 2,
+		forget plot,
+	] {0};
+	\addplot [
+		name path = tol_hi,
+		draw      = none,
+		domain    = -100:100,
+		samples   = 2,
+		forget plot,
+	] {0.0053};
+	\addplot [
+		fill       = ucdgold!18,
+		draw       = none,
+		forget plot,
+	] fill between [of = tol_lo and tol_hi];
+
+	%% ── ±2σ shaded band ──────────────────────────────────────────────────────
+	\addplot [
+		name path = twosig_lo,
+		draw      = none,
+		domain    = -219.67:126.13,
+		samples   = 2,
+		forget plot,
+	] {0};
+	\addplot [
+		name path = twosig_hi,
+		draw      = none,
+		domain    = -219.67:126.13,
+		samples   = 200,
+		forget plot,
+	] {normalpdf(x, -46.77, 86.45)};
+	\addplot [
+		fill       = sandiablue!15,
+		draw       = none,
+		forget plot,
+	] fill between [of = twosig_lo and twosig_hi];
+
+	%% ── ±1σ shaded band ──────────────────────────────────────────────────────
+	\addplot [
+		name path = onesig_lo,
+		draw      = none,
+		domain    = -133.22:39.68,
+		samples   = 2,
+		forget plot,
+	] {0};
+	\addplot [
+		name path = onesig_hi,
+		draw      = none,
+		domain    = -133.22:39.68,
+		samples   = 200,
+		forget plot,
+	] {normalpdf(x, -46.77, 86.45)};
+	\addplot [
+		fill       = sandiablue!30,
+		draw       = none,
+		forget plot,
+	] fill between [of = onesig_lo and onesig_hi];
+
+	%% ── Normal PDF ───────────────────────────────────────────────────────────
+	\addplot [
+		color      = ucdgold,
+		line width = 1.6pt,
+		solid,
+		domain     = -450:350,
+		samples    = 300,
+		forget plot,
+	] {normalpdf(x, -46.77, 86.45)};
+
+	%% ── σ callout labels ─────────────────────────────────────────────────────
+	\node[font=\small, align=center]
+		at (axis cs: -46.77, 0.0025)
+		{$\pm1\sigma$};
+
+	\node[font=\small, align=center]
+		at (axis cs: -173, 0.0005)
+		{$\pm2\sigma$};
+	\node[font=\small, align=center]
+		at (axis cs: 80, 0.0005)
+		{$\pm2\sigma$};
+
+	%% --- Tolerance band --------------------------------
+	\node[font=\small, align=center]
+		at (axis cs: 0, 0.0049)
+		{\textit{Tolerance window}};
+
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Stochastic Error Distribution}
+	\label{fig:error_dist}
+\end{figure}
 
 \end{document}
