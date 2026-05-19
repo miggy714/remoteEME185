@@ -176,9 +176,9 @@
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
 \newcommand{\Dcoldval}{}
-\newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm 19.2 \si{\micro\meter}}
-\newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm 16.9 \si{\micro\meter}}
-\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 292.1 \pm 12.7 \si{\micro\meter}}
+\newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm \SI{19.2}{\micro\meter}}
+\newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm \SI{16.9}{\micro\meter}}
+\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 292.1 \pm \SI{12.7}{\micro\meter}}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -247,55 +247,8 @@
 	\end{bmatrix}
 }
 
-% Transfer function specifications
-
-\newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
-\newcommand{\GV}{\num{-0.798}}
-
-% System Requirements
-% \newcommand{\ReqA}
-% 	{
-% 	The device shall passively restrict gas flow according to the Required Relationship
-% 	$D_{eff} = A_1 (T_{amb} - T_{ref}) + A_0$
-% 	where
-% 	\begin{align*}
-% 		&D_{eff} \text{ is the effective orifice diameter}
-% 		\\
-% 		&T_{amb} \text{ is the external ambient temperature}
-% 		\\
-% 		&T_{ref} = 25 \degC
-% 		\\
-% 		&A_1 = \Aone
-% 		\\
-% 		&A_0 = \Azero
-% 	\end{align*}
-% 	}
-\newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
-\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
-\newcommand{\RRfull}
-{
-	\begin{align*}
-		D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
-		&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D(T_{ref}) \\
-		&= A_1 \Delta T + A_0
-	\end{align*}
-}
-
-% Valve specifications
-\newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
-\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter}
-\newcommand{\SpecVABapp}{$D_{eff}(T_{ref}) = \AzeroExact$}
-\newcommand{\SpecVB}{The valve subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
-\newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
-\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
-
-% Actuator specifications
-\newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
-\newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
-\newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\SpecACA}{The actuator shall allow no more than \todo{Spec Temp} deviation in its temperature from $T_{amb}$\ within the test window}
+% Req and Spec commands
+\insert{specs.tex}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -436,13 +389,13 @@
 			CTE     & Coefficient of Thermal Expansion \\
 			DFMEA   & Design Failure Modes and Effects Analysis \\
 			DOF     & Degree of Freedom \\
+			EBW     & Electron Beam Welding \\
 			EDM     & Electrical Discharge Machining \\
 			EME     & Engineering, Mechanical (course prefix) \\
 			FS      & Factor of Safety \\
 			Inc     & Inconel 718 \\
 			Inv     & Invar 36 \\
 			ISO     & International Organization for Standardization \\
-			LBW     & Laser Beam Welding \\
 			MATLAB  & Matrix Laboratory (numerical computing software) \\
 			NASA    & National Aeronautics and Space Administration \\
 			PTCD    & Passive Temperature Compensation Device \\
@@ -666,7 +619,7 @@
 		The actuator assembly must influence the valve from the outside so it responds to the ambient air temperature.
 		Thus, it should be externally mounted to the valve and drive its motion via the piston (Figure \ref{fig:subsystems_conceptual}).
 
-		\begin{figure}[H]
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=.75\textwidth]{subsystems_conceptual.png}
 			\caption{Subsystem block diagram}
@@ -785,22 +738,22 @@
 
 			From these, we derive our first subsystem specifications:
 
-			\begin{figure}[h]
-				\begin{mdframed}
-						\begin{itemize}
-								\item Valve subsystem
-								\begin{enumerate}
-										\item \SpecVAA
-										\item \SpecVAB\\\SpecVABapp
-								\end{enumerate}
-								\item Actuator subsystem
-								\begin{enumerate}
-										\item \SpecAAA
-										\item \SpecAAB
-								\end{enumerate}
-						\end{itemize}
-				\end{mdframed}
-			\end{figure}
+			% \newpage
+			\vspace{1em}
+			\begin{mdframed}
+					\begin{itemize}
+							\item Valve subsystem
+							\begin{enumerate}
+									\item \SpecVAA
+									\item \SpecVAB\\\SpecVABapp
+							\end{enumerate}
+							\item Actuator subsystem
+							\begin{enumerate}
+									\item \SpecAAA
+									\item \SpecAAB
+							\end{enumerate}
+					\end{itemize}
+			\end{mdframed}
 
 		\subsection{Mechanical Envelope rolldown}
 		\label{subsec:intro:specs:ME}
@@ -829,22 +782,22 @@
 			As with the sub-transfer functions, the division of the vertical mechanical envelop is partially informed by the final selected design architecture.
 			The subsystem mechanical-envelope specifications are given in lateral (X), vertical (Y), an longitudinal (Z) dimensions, respectively.
 
-			% \begin{figure}[h]
-				\begin{mdframed}
-						\begin{itemize}
-								\item Valve subsystem
-								\begin{enumerate}
-										\setcounter{enumi}{1}
-										\item \SpecVB
-								\end{enumerate}
-								\item Actuator subsystem
-								\begin{enumerate}
-										\setcounter{enumi}{1}
-										\item \SpecAB
-								\end{enumerate}
-						\end{itemize}
+			\newpage
+			% \vspace{1em}
+			\begin{mdframed}
+					\begin{itemize}
+							\item Valve subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{1}
+									\item \SpecVB
+							\end{enumerate}
+							\item Actuator subsystem
+							\begin{enumerate}
+									\setcounter{enumi}{1}
+									\item \SpecAB
+							\end{enumerate}
+					\end{itemize}
 				\end{mdframed}
-			% \end{figure}
 
 		\subsection{Operational Conditions rolldown}
 		\label{subsec:Intro:specs:cond}
@@ -852,24 +805,24 @@
 			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
 			This rolls down to the following subsystem specifications:
 
-			% \begin{figure}[h]
-				\begin{mdframed}
-						\begin{itemize}
-								\item Valve subsystem
-								\begin{enumerate}
-										\setcounter{enumi}{2}
-										\item \SpecVCA
-										\item \SpecVCB
-										\item \SpecVCC
-								\end{enumerate}
-								\item Actuator subsystem
-								\begin{enumerate}
-										\setcounter{enumi}{2}
-										\item \SpecACA
-								\end{enumerate}
-						\end{itemize}
-				\end{mdframed}
-			% \end{figure}
+			\newpage
+			% \vspace{1em}
+			\begin{mdframed}
+				\begin{itemize}
+						\item Valve subsystem
+						\begin{enumerate}
+								\setcounter{enumi}{2}
+								\item \SpecVCA
+								\item \SpecVCB
+								\item \SpecVCC
+						\end{enumerate}
+						\item Actuator subsystem
+						\begin{enumerate}
+								\setcounter{enumi}{2}
+								\item \SpecACA
+						\end{enumerate}
+				\end{itemize}
+			\end{mdframed}
 		
 			\subsection{Final Subsystem Specifications}
 		\label{subsec:intro:spec:final}
@@ -1484,7 +1437,7 @@
 			The housing design ensures that \SI{10}{\milli\meter} is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than \SI{10}{\milli\meter}.
 			
 			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
-			Laser Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
+			Electron Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
 			full penetration \cite{steen2010laser}.
 			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
 			LBW's high power density enables complete fusion across the interface, and the square butt profile 
@@ -1832,7 +1785,7 @@
 			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance in satisfaction of Specification \specref{A.1.2}.
 			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
-			See Appendix \ref{app:calcs:belle} for further calculations.
+			See Appendix \ref{app:calcs:cal:force} for further calculations.
 
 			\begin{figure}[H]
 				\centering
@@ -1841,7 +1794,7 @@
 				\label{fig:cal}
 			\end{figure}
 
-		\subsection{Laser-Beam Welded Assembly}
+		\subsection{Electron-Beam Welded Assembly}
 		\label{subsec:design:just:LBW}
 
 			\todo{All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}
@@ -2025,7 +1978,9 @@
 		\end{equation}
 
 		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
+		\newpage
 		\todo{Uncomment pdf}
+		\newpage
 		%\includepdf[pages=1, fitpaper=true, landscape=true]{TF_import.pdf}
 
 		The \device\ System Transfer Function comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system.
@@ -2276,98 +2231,202 @@
 			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
 			are stochastic; their values must be iterated to find the worst-case combination.
 			Because this combination is unlikely to occur, a uniform-distribution Monte Carlo analysis\cite{ref_figliola} yields an informative probabilistic normalized distribution of net propagated error.
-
+			
 			Iterating through $\Tcold \leq T_{amb} \leq \Thot$ and plotting the results, this yields Figure \ref{fig:TF_res}.
+			Two worst-case dimensional error combinations were found, one yielding too large an orifice across all temperature, and one yielding too small an orifice.
+			These errors cannot be accounted for in the design; they differ between devices. However, once manufactured, these values remain constant.
+			The calibration stack, discussed section \ref{subsec:design:just:cal} and further calculated in Appendix \ref{app:calcs:cal:sat}, can reliably correct these linear errors, shifting the whole plot linearly to within its specified tolerance.
 
 			\begin{figure}[h]
-				\centering
-				\begin{tikzpicture}
-				\begin{axis}[
-						width       = 14cm,
-						height      = 8cm,
-						xlabel      = {Ambient Temperature ($^\circ$C)},
-						ylabel      = {Actual Effective Diameter ($\upmu$m)},
-						xmin = -70, xmax = 90,
-						ymin = 130,  ymax = 420,
-						grid        = major,
-						major grid style = {line width=0.4pt, draw=gray!50},
-						minor tick num   = 0,
-						tick align  = inside,
-						legend pos  = north east,
-						legend style     = {font=\small},
-						tick label style = {font=\small},
-						label style      = {font=\small},
-				]
+					\centering
+					\begin{tikzpicture}
+					\begin{axis}[
+													width       = 14cm,
+													height      = 8cm,
+													xlabel      = {Ambient Temperature ($^\circ$C)},
+													ylabel      = {Actual Effective Diameter ($\upmu$m)},
+													xmin = -70, xmax = 90,
+													ymin = 130,  ymax = 450,
+													grid        = major,
+													major grid style = {line width=0.4pt, draw=gray!50},
+													minor tick num   = 0,
+													tick align  = inside,
+													legend pos  = north east,
+													legend style     = {font=\small},
+													tick label style = {font=\small},
+													label style      = {font=\small},
+					]
 
-				%% ── Lower bound ───────────────────────────────────────────────────────────
-				\addplot [
-						name path   = lower,
-						color       = ucdblue,
-						line width  = 0.8pt,
-						dotted,
-						forget plot,
-				] table [
-						x expr      = \thisrow{T_amb_C},
-						y expr      = \thisrow{D_eff_lower}  * 1e6,
-						col sep     = comma,
-				] {figures3/TF.csv};
+					%% ── Lower bound ───────────────────────────────────────────────────────────
+					\addplot [
+													name path   = lower,
+													color       = ucdblue,
+													line width  = 0.8pt,
+													dotted,
+													forget plot,
+					] table [
+													x expr      = \thisrow{T_amb_C},
+													y expr      = \thisrow{D_eff_lower} * 1e6,
+													col sep     = comma,
+					] {figures3/TF.csv};
 
-				%% ── Upper bound ───────────────────────────────────────────────────────────
-				\addplot [
-						name path   = upper,
-						color       = ucdblue,
-						line width  = 0.8pt,
-						dotted,
-						forget plot,
-				] table [
-						x expr      = \thisrow{T_amb_C},
-						y expr      = \thisrow{D_eff_upper}  * 1e6,
-						col sep     = comma,
-				] {figures3/TF.csv};
+					%% ── Upper bound ───────────────────────────────────────────────────────────
+					\addplot [
+													name path   = upper,
+													color       = ucdblue,
+													line width  = 0.8pt,
+													dotted,
+													forget plot,
+					] table [
+													x expr      = \thisrow{T_amb_C},
+													y expr      = \thisrow{D_eff_upper} * 1e6,
+													col sep     = comma,
+					] {figures3/TF.csv};
 
-				%% ── Shaded band ───────────────────────────────────────────────────────────
-				\addplot [
-						fill        = sandialb!10,
-						draw        = none,
-						forget plot,
-				] fill between [of = lower and upper];
+					%% ── Shaded band ───────────────────────────────────────────────────────────
+					\addplot [
+													fill        = ucdblue!10,
+													draw        = none,
+													forget plot,
+					] fill between [of = lower and upper];
 
-				%% ── Nominal required ──────────────────────────────────────────────────────
-				\addplot [
-						color       = ucdblue,
-						line width  = 1.6pt,
-						forget plot,
-				] table [
-						x expr      = \thisrow{T_amb_C},
-						y expr      = \thisrow{D_eff_nominal} * 1e6,
-						col sep     = comma,
-				] {figures3/TF.csv};
+					%% ── Nominal required ──────────────────────────────────────────────────────
+					\addplot [
+													color       = ucdblue,
+													line width  = 1.6pt,
+													forget plot,
+					] table [
+													x expr      = \thisrow{T_amb_C},
+													y expr      = \thisrow{D_eff_nominal} * 1e6,
+													col sep     = comma,
+					] {figures3/TF.csv};
 
-				%% ── Legend entries ────────────────────────────────────────────────────────
-				\addplot [color=ucdblue, line width=1.6pt]
-						coordinates {(-200,0)};
-				\addlegendentry{Required output}
+					%% ── Legend entries ────────────────────────────────────────────────────────
+					\addplot [color=ucdblue, line width=1.6pt]
+													coordinates {(-200,0)};
+					\addlegendentry{Required output}
 
-				\addplot [color=ucdblue, line width=0.8pt, dotted]
-						coordinates {(-200,0)};
-				\addlegendentry{Tolerance band}
+					\addplot [color=ucdblue, line width=0.8pt, dotted]
+													coordinates {(-200,0)};
+					\addlegendentry{Tolerance band}
 
-				%% ── Transfer function ─────────────────────────────────────────────────────
-				\addplot [
-						color       = ucdgold,
-						line width  = 1.6pt,
-						dash dot,
-				] table [
-						x expr      = \thisrow{T_amb_C},
-						y expr      = \thisrow{D_TF}          * 1e6,
-						col sep     = comma,
-				] {figures3/TF.csv};
-				\addlegendentry{Expected output with error}
+					%% ── Transfer function high (worst-case +) ─────────────────────────────────
+					\addplot [
+													name path   = TF_high,
+													color       = ucdgold,
+													line width  = 1.6pt,
+													dash dot,
+													forget plot,
+					] table [
+													x expr      = \thisrow{T_amb_C},
+													y expr      = \thisrow{D_TF_high} * 1e6,
+													col sep     = comma,
+					] {figures3/TF.csv};
 
-				\end{axis}
-				\end{tikzpicture}%
-				\caption{Transfer Function Output}
-				\label{fig:TF_res}
+					%% ── Transfer function low (worst-case −) ──────────────────────────────────
+					\addplot [
+													name path   = TF_low,
+													color       = ucdgold,
+													line width  = 1.6pt,
+													dashed,
+													forget plot,
+					] table [
+													x expr      = \thisrow{T_amb_C},
+													y expr      = \thisrow{D_TF_low} * 1e6,
+													col sep     = comma,
+					] {figures3/TF.csv};
+
+					%% ── Shaded band between TF bounds ─────────────────────────────────────────
+					\addplot [
+													fill        = ucdgold!20,
+													draw        = none,
+													forget plot,
+					] fill between [of = TF_high and TF_low];
+
+					%% ── Legend entries for TF bounds ──────────────────────────────────────────
+					\addplot [color=ucdgold, line width=1.6pt, dash dot]
+													coordinates {(-200,0)};
+					\addlegendentry{Worst-case output (high)}
+
+					\addplot [color=ucdgold, line width=1.6pt, dashed]
+													coordinates {(-200,0)};
+					\addlegendentry{Worst-case output (low)}
+
+					\end{axis}
+					\end{tikzpicture}%
+					\caption{Transfer Function Output}
+					\label{fig:TF_res}
+			\end{figure}
+
+			Monte Carlo analysis produced the probability destribution of uncalibrated deviations from the nominal effective diameter as a percentage of the tolerance window at $T_{ref}$.
+
+			\begin{figure}[h]
+					\centering
+					\begin{tikzpicture}
+					\begin{axis}[
+													width       = 14cm,
+													height      = 8cm,
+													xlabel      = {Percentage Error (\%)},
+													ylabel      = {Probability Density},
+													xmin = -450, xmax = 350,
+													ymin = 0,    ymax = 0.0053,
+													grid        = major,
+													major grid style = {line width=0.4pt, draw=gray!50},
+													minor tick num   = 0,
+													tick align  = inside,
+													legend pos  = north east,
+													legend style     = {font=\small},
+													tick label style = {font=\small},
+													label style      = {font=\small},
+													yticklabel style = {
+															/pgf/number format/fixed,
+															/pgf/number format/precision=4,
+													},
+					]
+
+					%% ── Histogram ─────────────────────────────────────────────────────────────
+					\addplot [
+													hist = {
+															bins      = 80,
+															density,
+															data min  = -450,
+															data max  = 350,
+													},
+													fill        = sandiablue!30,
+													draw        = sandiablue!60,
+													line width  = 0.3pt,
+													forget plot,
+					] table [
+													y           = pct_err,
+													col sep     = comma,
+					] {figures3/error_dist.csv};
+
+					%% ── Normal PDF overlay ────────────────────────────────────────────────────
+					%% mu = -46.77, sigma = 86.45  (fitted from data)
+					\addplot [
+													color       = ucdgold,
+													line width  = 1.6pt,
+													solid,
+													domain      = -450:350,
+													samples     = 300,
+					] {1/(86.45*sqrt(2*pi)) * exp(-((x-(-46.77))^2)/(2*86.45^2))};
+					\addlegendentry{$\mathcal{N}(\mu{=}{-}46.77,\;\sigma{=}86.45)$}
+
+					%% ── Histogram legend proxy ────────────────────────────────────────────────
+					\addplot [
+													fill        = sandiablue!30,
+													draw        = sandiablue!60,
+													line width  = 0.3pt,
+													ybar,
+													bar width   = 6pt,
+					] coordinates {(-600, 0)};
+					\addlegendentry{Empirical distribution}
+
+					\end{axis}
+					\end{tikzpicture}%
+					\caption{Percentage error distribution with fitted normal curve
+									($\mu = -46.77$\%, $\sigma = 86.45$\%, $n = 10^6$).}
+					\label{fig:error_dist}
 			\end{figure}
 
 \chapter{Risk Assessment}
@@ -2555,6 +2614,18 @@
 	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
 	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
 
+	\bibitem{ref_jones1992}
+	L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
+	``Differential thresholds for limb movement measured using adaptive techniques,''
+	\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
+	\url{https://doi.org/10.3758/BF03206714}
+
+	\bibitem{ref_desrosieres2015}
+	P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
+	``Robot-aided assessment of wrist proprioception,''
+	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
+	\url{https://doi.org/10.3389/fnhum.2015.00198}
+
 	% PRODUCT INFORMATION
 
 	\bibitem{ref_miniflex_design} % Bellows catalog design guide
@@ -2580,6 +2651,10 @@
 	\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
 	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
+
+	\bibitem{haas_vf2_specs} % HAAS tolerance for drawings
+	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
+	[Accessed: May 16, 2026].
 
 	% BACKGROUND INFORMATION
 
@@ -2643,9 +2718,6 @@
 	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
 	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
-
-	\bibitem{haas_vf2_specs}
-	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html. [Accessed: May 16, 2026].
 
 	% Add more \bibitem entries as needed.
 	% In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2735,7 +2807,6 @@
 
 		Observe that the error boundary is thinnest about $T_{ref}$; thus, performance is best served if the \device\ is manufactured, assembled, and calibrated near this temperature.
 
-
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
 
@@ -2787,106 +2858,143 @@
 			\hat{G}_{V_0} = \frac{dD}{dL} = \sqrt{\frac{2}{\pi}}
 		\end{equation*}
 
-	\section{Belleville Washer Reaction Force}
-	\label{app:calcs:belle}
+	\section{System Calibration}
+	\label{app:calcs:cal}
+	
+		\subsection{Belleville Washer Reaction Force}
+		\label{app:calcs:cal:force}
 
-		The belleville washer that separates the two cylinders of the actuator (A1 and A2), purchased from McMaster Carr\cite{ref_McMaster_belle}, applies a spring force as it is clamped by the screw during the calibration process.
-		According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the Deutsches Institut für Normung (DIN, German Institute for Standardization), standard 6796\cite{ref_din6796},
-		which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
-		This paper assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
-		However, the washer can deflect up to \SI{200}{\micro\meter} if necessary.
-		The following force is required to apply a deflection within this range during calibration:
+			The belleville washer that separates the two cylinders of the actuator (A1 and A2), purchased from McMaster Carr\cite{ref_McMaster_belle}, applies a spring force as it is clamped by the screw during the calibration process.
+			According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the Deutsches Institut für Normung (DIN, German Institute for Standardization), standard 6796\cite{ref_din6796},
+			which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
+			This paper assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
+			However, the washer can deflect up to \SI{200}{\micro\meter} if necessary.
+			The following force is required to apply a deflection within this range during calibration:
 
-		\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}
+			\textbf{Belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}
 
-		\begin{itemize}
-			\item Outer Diameter $OD = \SI{5}{\milli\meter}$
-			\item Inner Diameter $ID = \SI{2.2}{\milli\meter}$
-			\item Young's Modulus $E = \SI{207.8}{\giga\pascal}$
-			\item Poisson's Ratio $\nu = 0.282$
-			\item Free height $H = \SI{0.6}{\milli\meter}$
-			\item Thickness $t = \SI{0.4}{\milli\meter}$
-			\item Cone height $h = H - t = \SI{0.2}{\milli\meter}$
-			\item Deflection $0 \leq \delta \leq \SI{0.2}{\milli\meter}$
-		\end{itemize}
+			\begin{itemize}
+				\item Outer Diameter $OD = \SI{5}{\milli\meter}$
+				\item Inner Diameter $ID = \SI{2.2}{\milli\meter}$
+				\item Young's Modulus $E = \SI{207.8}{\giga\pascal}$
+				\item Poisson's Ratio $\nu = 0.282$
+				\item Free height $H = \SI{0.6}{\milli\meter}$
+				\item Thickness $t = \SI{0.4}{\milli\meter}$
+				\item Cone height $h = H - t = \SI{0.2}{\milli\meter}$
+				\item Deflection $0 \leq \delta \leq \SI{0.2}{\milli\meter}$
+			\end{itemize}
 
-		\begin{equation}
-			\begin{aligned}
-				\text{Diameter Ratio } \alpha &= \frac{OD}{ID} \\
-				\text{Load Constant } M &= \frac{6}{\pi \ln(\alpha)} \left( \frac{\alpha - 1}{\alpha} \right)^2 \\
-				\text{Load } P &= \frac{E \delta}{(1 - \nu^2) M \frac{OD^2}{4}} \left[ \left( h - \delta \right) \left( h - \frac{\delta}{2} \right) t + t^3 \right]			\end{aligned}
-		\end{equation}
+			\begin{equation}
+				\begin{aligned}
+					\text{Diameter Ratio } \alpha &= \frac{OD}{ID} \\
+					\text{Load Constant } M &= \frac{6}{\pi \ln(\alpha)} \left( \frac{\alpha - 1}{\alpha} \right)^2 \\
+					\text{Load } P &= \frac{E \delta}{(1 - \nu^2) M \frac{OD^2}{4}} \left[ \left( h - \delta \right) \left( h - \frac{\delta}{2} \right) t + t^3 \right]			\end{aligned}
+			\end{equation}
 
-		From these, we obtain the expected force value
+			From these, we obtain the expected force value
 
-		\begin{equation}
-			P(\SI{50}{\micro\meter}) = \SI{184}{\newton}
-		\end{equation}
+			\begin{equation}
+				P(\SI{50}{\micro\meter}) = \SI{184}{\newton}
+			\end{equation}
 
-		The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
+			The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
 
-		\begin{equation}
-			T = K F d = (0.18) (\SI{184}{\newton}) (\SI{2}{\milli\meter})
-		\end{equation}
+			\begin{equation}
+				T = K F d = (0.18) (\SI{184}{\newton}) (\SI{2}{\milli\meter})
+			\end{equation}
 
-		where
+			where
 
-		\begin{align*}
-			K \text{ is the nut factor (assuming Loctite is applied,} \\
-			\text{which is recommended in the Manufacturing Guide - Appendix \ref{app:mfg})} \\
-			F \text{ is the reaction load} \\
-			d \text{ is the diameter of the M2 screw}
-		\end{align*}
-		
-		yielding an expected torque of \SI{1.7e-3}{\newton\meter} at the \SI{50}{\micro\meter} compression, a very reasonable value for an M2 screw.
+			\begin{align*}
+				K \text{ is the nut factor (assuming Loctite is applied,} \\
+				\text{which is recommended in the Manufacturing Guide - Appendix \ref{app:mfg})} \\
+				F \text{ is the reaction load} \\
+				d \text{ is the diameter of the M2 screw}
+			\end{align*}
+			
+			yielding an expected torque of \SI{1.7e-3}{\newton\meter} at the \SI{50}{\micro\meter} compression, a very reasonable value for an M2 screw.
 
-		Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
+			Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
 
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}
-				\begin{axis}[
-					width=12cm,
-					height=7cm,
-					xlabel={Deflection $\delta$ ($\mu$m)},
-					ylabel={Load $P$ (N)},
-					title={Belleville Washer Load--Deflection Curve},
-					xmin=0, xmax=201,
-					ymin=0,
-					grid=major,
-					grid style={dashed, gray!40},
-					tick align=outside,
-				]
-					\addplot[blue, thick, no marks]
-						table[col sep=comma, x index=0, y index=1] {figures3/F.csv};
-				\end{axis}
-			\end{tikzpicture}
-			\caption{Reaction force of the belleville washer as it is compressed by the screw}
-			\label{fig:belle_force}
-		\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						width=12cm,
+						height=7cm,
+						xlabel={Deflection $\delta$ ($\mu$m)},
+						ylabel={Load $P$ (N)},
+						title={Belleville Washer Load--Deflection Curve},
+						xmin=0, xmax=201,
+						ymin=0,
+						grid=major,
+						grid style={dashed, gray!40},
+						tick align=outside,
+					]
+						\addplot[blue, thick, no marks]
+							table[col sep=comma, x index=0, y index=1] {figures3/F.csv};
+					\end{axis}
+				\end{tikzpicture}
+				\caption{Reaction force of the belleville washer as it is compressed by the screw}
+				\label{fig:belle_force}
+			\end{figure}
 
-		\begin{figure}[H]
-			\centering
-			\begin{tikzpicture}
-				\begin{axis}[
-					width=12cm,
-					height=7cm,
-					xlabel={Deflection $\delta$ ($\mu$m)},
-					ylabel={Torque $T$ (N$\cdot$m)},
-					title={Required Tightening Torque vs.\ Deflection},
-					xmin=0, xmax=201,
-					ymin=0,
-					grid=major,
-					grid style={dashed, gray!40},
-					tick align=outside,
-				]
-					\addplot[red, thick, no marks]
-						table[col sep=comma, x index=0, y index=2] {figures3/F.csv};
-				\end{axis}
-			\end{tikzpicture}
-			\caption{Torque required to tighten the screw as it compresses the belleville washer}
-			\label{fig:belle_torque}
-		\end{figure}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\begin{axis}[
+						width=12cm,
+						height=7cm,
+						xlabel={Deflection $\delta$ ($\mu$m)},
+						ylabel={Torque $T$ (N$\cdot$m)},
+						title={Required Tightening Torque vs.\ Deflection},
+						xmin=0, xmax=201,
+						ymin=0,
+						grid=major,
+						grid style={dashed, gray!40},
+						tick align=outside,
+					]
+						\addplot[red, thick, no marks]
+							table[col sep=comma, x index=0, y index=2] {figures3/F.csv};
+					\end{axis}
+				\end{tikzpicture}
+				\caption{Torque required to tighten the screw as it compresses the belleville washer}
+				\label{fig:belle_torque}
+			\end{figure}
+
+		\subsection{Achievable Error Correction}
+		\label{app:calcs:cal:sat}
+
+			As discussed in section \ref{sec:sat:TF:results}, this calibration stack will likely be necessary to correct static machine dimension errors, whose expected range falls a maximum of \SI{54.5}{\micro\meter} above and \SI{69.3}{\micro\meter} below the nominal value
+			(429\% and 546\%, respectively, times the narrowest tolerance window.)
+
+			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \SI{69.3}{\micro\meter}.
+			To reliably bring the system into tolerance, the user must be able to precisely adjust the output in increments no more than the narrowest tolerance window, found at $T_{ref}$.
+
+			\begin{equation}
+				D_{eff}(T_{ref}) = 292.1 \pm \SI{12.7}{\micro\meter} = \SI{25.4}{\micro\meter} \text{ total range}
+			\end{equation}
+
+			Calibration with a resolution no more than \SI{25.4}{\micro\meter} precision will theoretically be able to achieve some setpoint withing the tolerable range.
+			Let us assume half this value is necessary to be safe and determine whether the assembly can reasonably perform a repeatable \SI{12.7}{\micro\meter} adjustment.
+
+			Calibration adjustment directly translates to changes in the orifice height $X$. We will assume that the orifice height-diameter relation derived in Appendix \ref{app:calcs:orifice_geometry} hold true,
+			as fillet-radius and horizontal-position errors do not conistently affect the diameter across the full temperature range and thus cannot be reliably eliminated by calibration:
+
+			\begin{equation}
+				X = \sqrt{\frac{\pi}{2}} D_{eff}
+			\end{equation}
+
+			therefore a \SI{12.7}{\micro\meter} change in $D_{eff}$ translates to a \SI{15.9}{\micro\meter} vertical movement.
+			Calibration is performed with the M2 screw 90362A141 from McMaster (specification drawing givin in Appendix \ref{app:datasheets:McMaster}),
+			whose thread pitch equals \SI{0.4}{\frac{threads}{\milli\meter}}. Thus, a \SI{360}{\degree} turn of the screw corresponds to a \SI{0.4}{\milli\meter} change in the orifice height, meaning
+
+			\begin{equation}
+				\left( \SI{12.7}{\micro\meter} \right) \sqrt{\frac{\pi}{2}} \frac{\SI{360}{\degree}}{\SI{400}{\micro\meter}} = \SI{14.3}{\degree}
+			\end{equation}
+
+			A \SI{14}{\degree} rotation is a very reasonable demand for  manual screwdriver\cite{ref_jones1992, ref_desrosieres2015}. As discussed in section \ref{app:calcs:cal:force}, this can be performed by hand with little effort,
+			allowing for even greater precision.
 
 	\section{Transfer Function Derivation}
 	\label{app:calcs:TF}
@@ -3254,6 +3362,7 @@
 			\item Finishing pass on HI after internals have been inserted
 			\item Apply coat to orifice
 			\item Finishing pass on critical faces; measure from those faces
+			\item Cite White 9th ed, eq. 6-102 on measuring effective diam. from pressure drop
 		\end{itemize}
 	\color{black}
 

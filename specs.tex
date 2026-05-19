@@ -1,0 +1,49 @@
+% Transfer function specifications
+
+\newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
+\newcommand{\GV}{\num{-0.798}}
+
+% System Requirements
+% \newcommand{\ReqA}
+% 	{
+% 	The device shall passively restrict gas flow according to the Required Relationship
+% 	$D_{eff} = A_1 (T_{amb} - T_{ref}) + A_0$
+% 	where
+% 	\begin{align*}
+% 		&D_{eff} \text{ is the effective orifice diameter}
+% 		\\
+% 		&T_{amb} \text{ is the external ambient temperature}
+% 		\\
+% 		&T_{ref} = 25 \degC
+% 		\\
+% 		&A_1 = \Aone
+% 		\\
+% 		&A_0 = \Azero
+% 	\end{align*}
+% 	}
+\newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
+\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
+\newcommand{\RRfull}
+{
+	\begin{align*}
+		D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
+		&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D(T_{ref}) \\
+		&= A_1 \Delta T + A_0
+	\end{align*}
+}
+
+% Valve specifications
+\newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter}
+\newcommand{\SpecVABapp}{$D_{eff}(T_{ref}) = \AzeroExact$}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
+\newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at an internal pressure of \specPressure}
+\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
+
+% Actuator specifications
+\newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\SpecACA}{The actuator shall allow no more than \todo{Spec Temp} deviation in its temperature from $T_{amb}$\ within the test window}
