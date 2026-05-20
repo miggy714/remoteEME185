@@ -1367,134 +1367,135 @@
 			\todo{Sub invar for steel}
 
 			\begin{table}[H]
-							\centering
-							\caption{Valve Housing Parameter Values}
-							\label{tab:housing_parameters}
-							\begin{tabularx}{\textwidth}{l X l}
-								\toprule
-								\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-								\midrule
-								Material &
-								&
-								Invar 36
-								\\\addlinespace
-								$r_i$ &
-								Inner radius &
-								\SI{9.53}{\milli\meter}
-								\\\addlinespace
-								$t$ &
-								Wall thickness (minimum) &
-								\SI{10}{\milli\meter}
-								\\\addlinespace
-								$r_o$ &
-								Outer radius (minimum) &
-								\SI{19.53}{\milli\meter}
-								\\\addlinespace
-								$P$ &
-								Internal pressure &
-								$\specPressure$
-								\\\addlinespace
-								$S_y$ &
-								Yield strength &
-								\SI{276}{\mega\pascal}
-								\\\bottomrule
-							\end{tabularx}
-						\end{table}
+		\centering
+		\caption{Valve Housing Parameter Values}
+		\label{tab:housing_parameters}
+		\begin{tabularx}{\textwidth}{l X l}
+			\toprule
+			\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+			\midrule
+			Material &
+			&
+			Invar 36
+			\\\addlinespace
+			$r_i$ &
+			Inner radius &
+			\SI{12.194}{\milli\meter}
+			\\\addlinespace
+			$t$ &
+			Wall thickness (minimum) &
+			\SI{7.806}{\milli\meter}
+			\\\addlinespace
+			$r_o$ &
+			Outer radius (minimum) &
+			\SI{20}{\milli\meter}
+			\\\addlinespace
+			$P$ &
+			Internal pressure &
+			$\specPressure$
+			\\\addlinespace
+			$S_y$ &
+			Yield strength &
+			\SI{276}{\mega\pascal}
+			\\\bottomrule
+		\end{tabularx}
+	\end{table}
 
-			Principal Stresses:
-			\begin{equation}
-			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = \SI{68.95}{\mega\pascal} \left( \frac{(\SI{19.53}{\milli\meter})^2 + (\SI{9.53}{\milli\meter})^2}{(\SI{19.53}{\milli\meter})^2 - (\SI{9.53}{\milli\meter})^2} \right) \approx \SI{112.05}{\mega\pascal} \quad (\text{Hoop Stress})
-			\label{hoop}    
-			\end{equation}
+	Principal Stresses:
+	\begin{equation}
+	\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{20^2 + 12.194^2}{20^2 - 12.194^2} \right) \approx \SI{150.54}{\mega\pascal} \quad (\text{Hoop Stress})
+	\label{hoop}
+	\end{equation}
 
-			\begin{equation}
-			\sigma_{r} = -P \approx \SI{-68.95}{\mega\pascal} \quad (\text{Radial Stress})
-			\label{radial}  
-		\end{equation}
+	\begin{equation}
+	\sigma_{r} = -P \approx \SI{-68.95}{\mega\pascal} \quad (\text{Radial Stress})
+	\label{radial}
+	\end{equation}
 
-			\begin{equation}
-			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = \SI{68.95}{\mega\pascal} \left( \frac{(\SI{9.53}{\milli\meter})^2}{(\SI{19.53}{\milli\meter})^2 - (\SI{9.53}{\milli\meter})^2} \right) \approx \SI{21.55}{\mega\pascal} \quad (\text{Longitudinal Stress})
-			\label{longitudinal}
-			\end{equation}
-			\\~\\
-			Von Mises Equivalent Stress:
-			
-			\begin{equation}
-			\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}
-			\label{vonmises}  
-			\end{equation}
+	\begin{equation}
+	\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{12.194^2}{20^2 - 12.194^2} \right) \approx \SI{40.80}{\mega\pascal} \quad (\text{Longitudinal Stress})
+	\label{longitudinal}
+	\end{equation}
+	\\~\\
+	Von Mises Equivalent Stress:
 
-			\begin{equation}
-			\sigma_{vm} = \sqrt{\frac{(\SI{112.05}{\mega\pascal} - (\SI{-68.95}{\mega\pascal}))^2 + (\SI{-68.95}{\mega\pascal} - \SI{21.55}{\mega\pascal})^2 + (\SI{21.55}{\mega\pascal} - \SI{112.05}{\mega\pascal})^2}{2}} 
-			\approx \SI{156.75}{\mega\pascal}
-			\label{vonmises2}     
-			\end{equation}
+	\begin{equation}
+	\sigma_{vm} = \sqrt{\frac{(\sigma_\theta - \sigma_r)^2 + (\sigma_r - \sigma_z)^2 + (\sigma_z - \sigma_\theta)^2}{2}}
+	\label{vonmises}
+	\end{equation}
 
-			The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
-			
-			\begin{equation}
-			FS = \frac{S_y}{\sigma_{vm}} = \frac{\SI{370}{\mega\pascal}}{\SI{156.75}{\mega\pascal}} \approx 2.36
-			\label{fs}
-			\end{equation}
+	\begin{equation}
+	\sigma_{vm} = \sqrt{\frac{(150.54 - (-68.95))^2 + (-68.95 - 40.80)^2 + (40.80 - 150.54)^2}{2}}
+	\approx \SI{190.08}{\mega\pascal}
+	\label{vonmises2}
+	\end{equation}
 
-			The wall thickness of \SI{10}{\milli\meter} produces a Von Mises stress of \SI{156.75}{\mega\pascal}, yielding a factor of safety of $FS \approx 2.36$.
-			The housing design ensures that \SI{10}{\milli\meter} is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than \SI{10}{\milli\meter}.
-			
-			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
-			Electron Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
-			full penetration \cite{steen2010laser}.
-			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
-			LBW's high power density enables complete fusion across the interface, and the square butt profile 
-			is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured 
-			\cite{ref_steen2010laser}.
-			Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
-			Table 302.3.4 \cite{ref_asme_b313}.
-			The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
-			and cracking, all of which could significantly reduce joint strength \cite{ref_steen2010laser}.
-			\\~\\
-			The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
-			(Equation 3a or Equation \eqref{tmin_weld}, below) \cite{ref_asme_b313}, which governs the required minimum wall thickness as a function 
-			of the weld joint quality factor $E$:
-			
-			\begin{equation}
-			t_{min} = \frac{P D_o}{2(SEW + PY)}
-			\label{tmin_weld}
-			\end{equation}
+	The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
 
-			\begin{table}[H]
-				\centering
-				\caption{Weld Analysis Parameter Values}
-				\label{tab:weld_parameters}
-				\begin{tabularx}{\textwidth}{l X l}
-					\toprule
-					\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-					\midrule
-					$P$ &
-					Internal pressure &
-					$\specPressure$
-					\\\addlinespace
-					$D_o$ &
-					Outer diameter &
-					\SI{39.06}{\milli\meter}
-					\\\addlinespace
-					$S$ &
-					ASME allowable stress, $S_y$ / 1.5 &
-					\SI{246.7}{\mega\pascal}
-					\\\addlinespace
-					$W$ &
-					Weld strength reduction factor &
-					1.0
-					\\\addlinespace
-					$Y$ &
-					Coefficient for austenitic steels &
-					0.4
-					\\\addlinespace
-					$E$ &
-					Weld joint quality factor &
-					1.0
-					\\\bottomrule
-				\end{tabularx}
-			\end{table}
+	\begin{equation}
+	FS = \frac{S_y}{\sigma_{vm}} = \frac{276}{190.08} \approx 1.45
+	\label{fs}
+	\end{equation}
+
+				The wall thickness of \SI{7.806}{\milli\meter} produces a Von Mises stress of \SI{190.08}{\mega\pascal}, yielding a factor of safety of $FS \approx 1.45$.
+				The housing design ensures that \SI{7.806}{\milli\meter} is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than \SI{7.806}{\milli\meter}.
+				Because the housing design is rectangular, not cylindrical, the calculation above is a conservative estimate of the stress, as realistic stress concentrations at the corners of the housing will be mitigated by the increased thickness at those points.
+				
+				The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
+				Electron Beam Welding (LBW) is used for joint construction with a square butt joint geometry to ensure 
+				full penetration \cite{steen2010laser}.
+				Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
+				LBW's high power density enables complete fusion across the interface, and the square butt profile 
+				is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured 
+				\cite{ref_steen2010laser}.
+				Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
+				Table 302.3.4 \cite{ref_asme_b313}.
+				The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
+				and cracking, all of which could significantly reduce joint strength \cite{ref_steen2010laser}.
+				\\~\\
+				The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
+				(Equation 3a or Equation \eqref{tmin_weld}, below) \cite{ref_asme_b313}, which governs the required minimum wall thickness as a function 
+				of the weld joint quality factor $E$:
+				
+				\begin{equation}
+				t_{min} = \frac{P D_o}{2(SEW + PY)}
+				\label{tmin_weld}
+				\end{equation}
+
+				\begin{table}[H]
+					\centering
+					\caption{Weld Analysis Parameter Values}
+					\label{tab:weld_parameters}
+					\begin{tabularx}{\textwidth}{l X l}
+						\toprule
+						\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+						\midrule
+						$P$ &
+						Internal pressure &
+						$\specPressure$
+						\\\addlinespace
+						$D_o$ &
+						Outer diameter &
+						\SI{39.06}{\milli\meter}
+						\\\addlinespace
+						$S$ &
+						ASME allowable stress, $S_y$ / 1.5 &
+						\SI{246.7}{\mega\pascal}
+						\\\addlinespace
+						$W$ &
+						Weld strength reduction factor &
+						1.0
+						\\\addlinespace
+						$Y$ &
+						Coefficient for austenitic steels &
+						0.4
+						\\\addlinespace
+						$E$ &
+						Weld joint quality factor &
+						1.0
+						\\\bottomrule
+					\end{tabularx}
+				\end{table}
 
 			The ASME allowable stress is derived directly from the housing yield strength using the standard 
 			code factor of $S = S_y / 1.5 = \SI{370}{\mega\pascal} / 1.5 = \SI{246.7}{\mega\pascal}$.
@@ -3434,6 +3435,7 @@
 \chapter*{User Guide}
 \label{app:op}
 \addcontentsline{toc}{chapter}{User Guide}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}  % ← ADD THIS
 \setcounter{section}{0}
 \renewcommand{\thesection}{\arabic{section}}
 
@@ -3678,6 +3680,7 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 \end{center}
 
 \renewcommand{\thesection}{\thechapter.\arabic{section}}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
 
 \chapter{Engineering Drawing Package}
 \label{app:drawings}
