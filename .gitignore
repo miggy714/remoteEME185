@@ -18,6 +18,9 @@
 *.tdo
 *.tod
 
+# File too large and unnecessary
+figures3/error_dist.csv
+
 # Output (ignore PDFs)
 *.pdf
 

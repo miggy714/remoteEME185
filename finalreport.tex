@@ -141,6 +141,9 @@
 \usepackage{pgfplots}
 	\pgfplotsset{compat=1.18}
 	\usepgfplotslibrary{fillbetween}
+	\pgfmathdeclarefunction{normalpdf}{3}{%
+    \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-(#1-#2)^2/(2*#3^2))}%
+	}
 \usepackage{multirow}
 \usepackage{array}      % for >{\raggedright\arraybackslash}
 \usepackage{makecell}   % for \makecell
@@ -377,7 +380,7 @@
 
 \newpage
 
-\section*{\large{List of Acronyms}}
+\chapter*{\large{List of Acronyms}}
 
 	\begin{tabularx}{\textwidth}{@{} l X @{}}
 			\toprule
@@ -1705,7 +1708,8 @@
 			The calibration stack, pictured in Figure \ref{fig:cal}, allows the user to set the output of the device at a single temperature, shifting the whole system output closer to the center of its tolerance in satisfaction of Specification \specref{A.1.2}.
 			The actuator subsystem is assembed and fastened using an M2 screw, which passes through the mount, supported by a flat washer, and threads into the central expansion rod.
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
-			See Appendix \ref{app:calcs:cal:force} for further calculations.
+			See Appendix \ref{app:calcs:cal:force} for further calculations and Appendix \ref{app:mfg} for calibration instructions.
+			Calibration ought to be performed at room temperature (approximately $T_{ref}$), where the required tolerance window is narrowest (c.f. Appendix \ref{app:calcs:orifice_geometry}).
 
 			\begin{figure}[H]
 				\centering
@@ -2263,270 +2267,17 @@
 			Error was then input into the function. Some errors are deterministic or demonstrate an objective worst-case values: variations in Aluminum's CTE, spring force deflections, the fillet radius, and effective temperatures.
 			The rest --- namely, all vertical dimensional errors ($d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, and $d \ell_W$)
 			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
-			are stochastic; their values must be iterated to find the worst-case combination.
-			This combination is unlikely, however, and a uniform-distribution Monte Carlo analysis\cite{ref_figliola} yields a more informative expectation value from the propagated error.
-			
-			These stochastic combinations across the full temperature range produce the range shown in Figure \ref{TF_res},
-			whose normalized distribution is plotted in Figure \ref{fig:error_dist}.
-			
-			Iterating through $\Tcold \leq T_{amb} \leq \Thot$ and plotting the results yields Figure \ref{fig:TF_res}.
-			Two worst-case dimensional error combinations were found, one yielding too large an orifice across all temperature, and one yielding too small an orifice.
-			These errors cannot be accounted for in the design; they differ between devices. However, once manufactured, these values remain constant.
-			The calibration stack, discussed section \ref{subsec:design:just:cal} and further calculated in Appendix \ref{app:calcs:cal:sat}, can reliably correct these linear errors, shifting the whole plot linearly to within its specified tolerance.
-			\todo{List avg, std dev}
+			are stochastic. Producing a normalized distrbution expectation plot via Monte Carlo analysis\cite{ref_figliola},
+			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
+			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
+			Those that do fall outside of tolerance do not exceed their boundary by more than 252\%.
+			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
-			\begin{figure}[h]
-				\centering
-				\begin{tikzpicture}
-				\begin{axis}[
-								width       = 14cm,
-								height      = 8cm,
-								xlabel      = {Ambient Temperature ($^\circ$C)},
-								ylabel      = {Actual Effective Diameter ($\upmu$m)},
-								xmin = -70, xmax = 90,
-								ymin = 80,  ymax = 450,
-								grid        = major,
-								major grid style = {line width=0.4pt, draw=gray!50},
-								minor tick num   = 0,
-								tick align  = inside,
-								legend pos  = north east,
-								legend style     = {font=\small},
-								tick label style = {font=\small},
-								label style      = {font=\small},
-				]
-
-				%% ── Gold TF paths (named, no fill yet) ────────────────────────────────
-				\addplot [
-								name path   = TF_high,
-								color       = ucdgold,
-								line width  = 1.6pt,
-								dash dot,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_TF_high} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				\addplot [
-								name path   = TF_low,
-								color       = ucdgold,
-								line width  = 1.6pt,
-								dashed,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_TF_low} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				%% ── Gold fill ─────────────────────────────────────────────────────────
-				\addplot [
-								fill        = ucdgold!20,
-								draw        = none,
-								forget plot,
-				] fill between [of = TF_high and TF_low];
-
-				%% ── Blue tolerance paths (named, no fill yet) ─────────────────────────
-				\addplot [
-								name path   = lower,
-								color       = ucdblue,
-								line width  = 0.8pt,
-								dotted,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_eff_lower} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				\addplot [
-								name path   = upper,
-								color       = ucdblue,
-								line width  = 0.8pt,
-								dotted,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_eff_upper} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				%% ── Blue fill (on top of gold) ────────────────────────────────────────
-				\addplot [
-								fill        = sandiablue!20,
-								draw        = none,
-								forget plot,
-				] fill between [of = lower and upper];
-
-				%% ── Nominal required line ─────────────────────────────────────────────
-				\addplot [
-								color       = ucdblue,
-								line width  = 1.6pt,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_eff_nominal} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				%% ── Monte Carlo mean output (all stochastic errors = 0, R_f applied) ──
-				\addplot [
-								color       = ucdgold,
-								line width  = 1.6pt,
-								solid,
-								forget plot,
-				] table [
-								x expr      = \thisrow{T_amb_C},
-								y expr      = \thisrow{D_TF_mean} * 1e6,
-								col sep     = comma,
-				] {figures3/TF.csv};
-
-				%% ── Legend entries ────────────────────────────────────────────────────
-				\addplot [color=ucdblue, line width=1.6pt]
-								coordinates {(-200,0)};
-				\addlegendentry{Nominal output}
-
-				\addplot [color=ucdblue, line width=0.8pt, dotted]
-								coordinates {(-200,0)};
-				\addlegendentry{Tolerance band}
-
-				\addplot [color=ucdgold, line width=1.6pt, solid]
-								coordinates {(-200,0)};
-				\addlegendentry{Mean output}
-
-				\addplot [color=ucdgold, line width=1.6pt, dash dot]
-								coordinates {(-200,0)};
-				\addlegendentry{Stochastic boundaries}
-
-				\end{axis}
-				\end{tikzpicture}%
-				\caption{Transfer Function Output}
-				\label{fig:TF_res}
-			\end{figure}
-
-			\begin{figure}[h]
-				\centering
-				\begin{tikzpicture}
-				\begin{axis}[
-					width       = 14cm,
-					height      = 8cm,
-					xlabel      = {Error (\% tolerance window at $T_{ref}$)},
-					ylabel      = {Probability Density},
-					xmin = -450, xmax = 350,
-					ymin = 0,    ymax = 0.0053,
-					grid        = major,
-					major grid style = {line width=0.4pt, draw=gray!50},
-					minor tick num   = 0,
-					tick align  = inside,
-					tick label style = {font=\small},
-					label style      = {font=\small},
-					yticklabel style = {
-						/pgf/number format/fixed,
-						/pgf/number format/precision=4,
-					},
-					declare function = {
-						normalpdf(\x,\m,\s) =
-							1 / (\s * sqrt(2*pi)) *
-							exp(-(\x-\m)^2 / (2*\s*\s));
-					},
-				]
-
-				%% ── ±100% tolerance window background ───────────────────────────────────
-				\addplot [
-					name path = tol_lo,
-					draw      = none,
-					domain    = -100:100,
-					samples   = 2,
-					forget plot,
-				] {0};
-				\addplot [
-					name path = tol_hi,
-					draw      = none,
-					domain    = -100:100,
-					samples   = 2,
-					forget plot,
-				] {0.0053};
-				\addplot [
-					fill       = ucdgold!18,
-					draw       = none,
-					forget plot,
-				] fill between [of = tol_lo and tol_hi];
-
-				%% ── ±2σ shaded band ──────────────────────────────────────────────────────
-				\addplot [
-					name path = twosig_lo,
-					draw      = none,
-					domain    = -219.67:126.13,
-					samples   = 2,
-					forget plot,
-				] {0};
-				\addplot [
-					name path = twosig_hi,
-					draw      = none,
-					domain    = -219.67:126.13,
-					samples   = 200,
-					forget plot,
-				] {normalpdf(x, -46.77, 86.45)};
-				\addplot [
-					fill       = sandiablue!15,
-					draw       = none,
-					forget plot,
-				] fill between [of = twosig_lo and twosig_hi];
-
-				%% ── ±1σ shaded band ──────────────────────────────────────────────────────
-				\addplot [
-					name path = onesig_lo,
-					draw      = none,
-					domain    = -133.22:39.68,
-					samples   = 2,
-					forget plot,
-				] {0};
-				\addplot [
-					name path = onesig_hi,
-					draw      = none,
-					domain    = -133.22:39.68,
-					samples   = 200,
-					forget plot,
-				] {normalpdf(x, -46.77, 86.45)};
-				\addplot [
-					fill       = sandiablue!30,
-					draw       = none,
-					forget plot,
-				] fill between [of = onesig_lo and onesig_hi];
-
-				%% ── Normal PDF ───────────────────────────────────────────────────────────
-				\addplot [
-					color      = ucdgold,
-					line width = 1.6pt,
-					solid,
-					domain     = -450:350,
-					samples    = 300,
-					forget plot,
-				] {normalpdf(x, -46.77, 86.45)};
-
-				%% ── σ callout labels ─────────────────────────────────────────────────────
-				\node[font=\small, align=center]
-					at (axis cs: -46.77, 0.0025)
-					{$\pm1\sigma$};
-
-				\node[font=\small, align=center]
-					at (axis cs: -173, 0.0005)
-					{$\pm2\sigma$};
-				\node[font=\small, align=center]
-					at (axis cs: 80, 0.0005)
-					{$\pm2\sigma$};
-
-				%% --- Tolerance band --------------------------------
-				\node[font=\small, align=center]
-					at (axis cs: 0, 0.0049)
-					{\textit{Tolerance window}};
-
-				\end{axis}
-				\end{tikzpicture}
-				\caption{Stochastic Error Distribution}
-				\label{fig:error_dist}
-			\end{figure}
+			All these results are demonstrated in detail in Appendix \ref{app:calcs:TF:results}. They must, however, be taken with skepticism.
+			This System Transfer Function does not proport to reliably simulate the full performance of the \device.
+			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
+			The function does, however, provide an inexpensive tool to wholistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
+			It also serves to validate the results produced by the computational prototype that will be introduced in section \ref{chap:comp}.
 
 \chapter{Risk Assessment}
 \label{chap:risk}
@@ -2546,7 +2297,7 @@
 	\end{figure}
 
 \chapter{Model Verification}
-\label{chap:test}
+\label{chap:comp}
 
 	\begin{figure}[H]
 		\centering
@@ -2598,231 +2349,238 @@
 		\item Optimize orifice dim (1mm was arbitrary)
 		\end{itemize}
 
+\chapter*{} % Bibliography without extra header
+\addcontentsline{toc}{chapter}{Bibliography}
 
-\begin{thebibliography}{99}
+	\begin{thebibliography}{99}
 
-	% PROJECT REQUIREMENTS
+		% PROJECT REQUIREMENTS
 
-	\bibitem{ref_sandiaprompt} % SNL Project Prompt
-	B.\ Bon,
-	``Passive Temperature Compensation Device --- Project Prompt,''
-	Sandia National Laboratories, SAND2025-15446O, 2025.
+		\bibitem{ref_sandiaprompt} % SNL Project Prompt
+		B.\ Bon,
+		``Passive Temperature Compensation Device --- Project Prompt,''
+		Sandia National Laboratories, SAND2025-15446O, 2025.
 
-	% MATERIAL DATA
+		% MATERIAL DATA
 
-	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
-		% CTE at room temp = 23.85 ppm/C
-		% E = 68.95 MPa
-	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
-	Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
+			% CTE at room temp = 23.85 ppm/C
+			% E = 68.95 MPa
+		R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
+		Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
-		% CTE = -30 ppm/C
-		% E = 55 GPa
-	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
+			% CTE = -30 ppm/C
+			% E = 55 GPa
+		ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
-		% CTE = 1.3 ppm/C
-		% E = 141 GPa
-	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
+			% CTE = 1.3 ppm/C
+			% E = 141 GPa
+		Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
-		% CTE = 13.2 ppm/C
-		% E = 200 GPa
-	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007, p. . [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-	[Accessed: Apr. 17, 2026].
+		\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
+			% CTE = 13.2 ppm/C
+			% E = 200 GPa
+		Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007, p. . [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+		[Accessed: Apr. 17, 2026].
 
-	\bibitem{ref_NASA_Inc} % Inconel advantages
-	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
-	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
+		\bibitem{ref_NASA_Inc} % Inconel advantages
+		J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+		NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
-	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
-		% 18-8 304 SS:
-			% E = 210.1 GPa
-			% ν = 0.279
-		% 316 SS:
-			% E = 207.8 GPa
-			% E = 0.282
-	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+		\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
+			% 18-8 304 SS:
+				% E = 210.1 GPa
+				% ν = 0.279
+			% 316 SS:
+				% E = 207.8 GPa
+				% E = 0.282
+		Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
-	\bibitem{ref_ASM_Steel} % Used for CTE comparison
-		% CTE = 11.7 ppm/C
-		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
+		\bibitem{ref_ASM_Steel} % Used for CTE comparison
+			% CTE = 11.7 ppm/C
+			F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
 
-	\bibitem{ref_ashby} % E vs CTE plot
-	M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
-	5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+		\bibitem{ref_ashby} % E vs CTE plot
+		M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
+		5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
 
-	% COURSE TEXTS AND ENGINEERING PRACTICES
+		% COURSE TEXTS AND ENGINEERING PRACTICES
 
-	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
-	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
-	Washington, DC: NASA, 2016, Sec.~4.2.
+		\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
+		National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+		Washington, DC: NASA, 2016, Sec.~4.2.
 
-	\bibitem{ref_Nise} % Controls and Transfer Functions
-	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+		\bibitem{ref_Nise} % Controls and Transfer Functions
+		N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
 
-	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
-	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
-	[Unpublished]
+		\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
+		N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
+		[Unpublished]
 
-	\bibitem{ref_Stewart} % Calculus and Taylor Series
-	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+		\bibitem{ref_Stewart} % Calculus and Taylor Series
+		J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
 
-	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
-	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-	Hoboken, NJ: Wiley, 2019, p. 228.
+		\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
+		H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
+		Hoboken, NJ: Wiley, 2019, p. 228.
 
-	\bibitem{ref_steen2010laser} % Laser weld guide
-	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-	Springer, London, UK, 2010.
+		\bibitem{ref_steen2010laser} % Laser weld guide
+		W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+		Springer, London, UK, 2010.
 
-	\bibitem{ref_asme_b313}
-	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
-	ASME, New York, NY, 2022.
+		\bibitem{ref_asme_b313}
+		American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+		ASME, New York, NY, 2022.
 
-	\bibitem{ref_figliola}
-	R.\ S.\ Figliola and D.\ E.\ Beasley,
-	\textit{Theory and Design for Mechanical Measurements},
-	5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.You said: Can you use the double-S symbol for sec?
+		\bibitem{ref_figliola}
+		R.\ S.\ Figliola and D.\ E.\ Beasley,
+		\textit{Theory and Design for Mechanical Measurements},
+		5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.You said: Can you use the double-S symbol for sec?
 
-	% ENGINEERING CALCULATIONS
+		% ENGINEERING CALCULATIONS
 
-	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
-	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-	8th~ed., McGraw-Hill, New York, 2006, Eq.~8-27, Table~8-15.
+		\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
+		J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
+		8th~ed., McGraw-Hill, New York, 2006, Eq.~8-27, Table~8-15.
 
-	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
-	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+		\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
+		R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
 
-	\bibitem{ref_Young_Freedman} % Hooke's Law
-	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
-	
-	\bibitem{ref_din6796} % Standard for belleville washer
-	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+		\bibitem{ref_Young_Freedman} % Hooke's Law
+		H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+		
+		\bibitem{ref_din6796} % Standard for belleville washer
+		Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
 
-	\bibitem{ref_dinen16984} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+		\bibitem{ref_dinen16984} % Referenced by DIN 6796
+		Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
 
-	\bibitem{ref_dinen16983} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+		\bibitem{ref_dinen16983} % Referenced by DIN 6796
+		Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
 
-	\bibitem{ref_almen1936} % Referenced by DIN 16983
-	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
-	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+		\bibitem{ref_almen1936} % Referenced by DIN 16983
+		Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
+		\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
 
-	\bibitem{ref_jones1992}
-	L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
-	``Differential thresholds for limb movement measured using adaptive techniques,''
-	\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
-	\url{https://doi.org/10.3758/BF03206714}
+		\bibitem{ref_jones1992}
+		L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
+		``Differential thresholds for limb movement measured using adaptive techniques,''
+		\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
+		\url{https://doi.org/10.3758/BF03206714}
 
-	\bibitem{ref_desrosieres2015}
-	P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
-	``Robot-aided assessment of wrist proprioception,''
-	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
-	\url{https://doi.org/10.3389/fnhum.2015.00198}
+		\bibitem{ref_desrosieres2015}
+		P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
+		``Robot-aided assessment of wrist proprioception,''
+		\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
+		\url{https://doi.org/10.3389/fnhum.2015.00198}
 
-	% PRODUCT INFORMATION
+		\bibitem{ref_AIAG2005}
+		Automotive Industry Action Group (AIAG),
+		\textit{Statistical Process Control (SPC) Reference Manual},
+		2nd~ed., AIAG, Southfield, MI, 2005, p.~104,132.
 
-	\bibitem{ref_miniflex_design} % Bellows catalog design guide
-	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Feb. 23, 2026].
+		% PRODUCT INFORMATION
 
-	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
-	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
-	[Accessed: Feb. 23, 2026]
+		\bibitem{ref_miniflex_design} % Bellows catalog design guide
+		Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+		[Accessed: Feb. 23, 2026].
 
-	\bibitem{ref_McMaster_Al} % 6061 Aluminum stock specificaitons
-	McMaster-Carr, \textit{[Multipurpose 6061 Aluminum Rod], Part No. 8974K289}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/8974K48-8974K289/}
-	[Accessed: May 9, 2026].
+		\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
+		Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+		[Accessed: Feb. 23, 2026]
 
-	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_McMaster_Al} % 6061 Aluminum stock specificaitons
+		McMaster-Carr, \textit{[Multipurpose 6061 Aluminum Rod], Part No. 8974K289}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/8974K48-8974K289/}
+		[Accessed: May 9, 2026].
 
-	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
+		McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
-	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_McMaster_std} % Standard washer part specificaitons
+		McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+		[Accessed: May 8, 2026].
 
-	\bibitem{haas_vf2_specs} % HAAS tolerance for drawings
-	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
-	[Accessed: May 16, 2026].
+		\bibitem{ref_McMaster_belle} % Belleville washer part specificaitons
+		McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+		[Accessed: May 8, 2026].
 
-	% BACKGROUND INFORMATION
+		\bibitem{haas_vf2_specs} % HAAS tolerance for drawings
+		Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
+		[Accessed: May 16, 2026].
 
-	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
-	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
-	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
-	Sec.~1.2.
+		% BACKGROUND INFORMATION
 
-	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
-	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
-	Available: \url{https://patents.google.com/patent/US2115501}
-	[Accessed: May 11, 2026].
+		\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+		R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
+		American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
+		Sec.~1.2.
 
-	\bibitem{ref_Bugby_2021} % ALLVAR-Aluminum thermal switch
-	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
-	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
-	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
+		\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+		S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
+		Available: \url{https://patents.google.com/patent/US2115501}
+		[Accessed: May 11, 2026].
 
-	\bibitem{ref_Ralphs_2024} % ALLVAR-Aluminum thermal switch
-	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
-	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
-	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+		\bibitem{ref_Bugby_2021} % ALLVAR-Aluminum thermal switch
+		D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
+		``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
+		\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
 
-	\bibitem{ref_Ralphs_2026} % ALLVAR-Aluminum thermal switch
-	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
-	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
-	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+		\bibitem{ref_Ralphs_2024} % ALLVAR-Aluminum thermal switch
+		M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
+		``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
+		\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
 
-	% TRIVIAL INFORMATION
+		\bibitem{ref_Ralphs_2026} % ALLVAR-Aluminum thermal switch
+		M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
+		``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
+		\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
 
-	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
-	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
-	[Accessed: May 4, 2026].
+		% TRIVIAL INFORMATION
 
-	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
-	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
-	Available: \url{https://gallica.bnf.fr/ark:/12148/bpt6k3080s/f239.item}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
+		F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
+		[Accessed: May 4, 2026].
 
-	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
-	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
-	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
+		C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
+		Available: \url{https://gallica.bnf.fr/ark:/12148/bpt6k3080s/f239.item}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
-	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
-	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+		\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
+		C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+		Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
+		[Accessed: May 8, 2026].
 
-	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
-	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
-	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+		\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
+		H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+		ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
 
-	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
-	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
-	[Accessed: May 9, 2026] 
+		\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
+		H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
+		E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
 
-	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
-	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
+		ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+		[Accessed: May 9, 2026] 
 
-	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
-	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
-	[Accessed: May 8, 2026].
+		\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
+		Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+		[Accessed: May 8, 2026].
 
-	% Add more \bibitem entries as needed.
-	% In the body text, cite as: \cite{ref_sandiaprompt}
+		\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
+		Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+		[Accessed: May 8, 2026].
 
-\end{thebibliography}
+		% Add more \bibitem entries as needed.
+		% In the body text, cite as: \cite{ref_sandiaprompt}
+
+	\end{thebibliography}
 
 
 \newpage
@@ -2906,6 +2664,7 @@
 		\end{figure}
 
 		Observe that the error boundary is thinnest about $T_{ref}$; thus, performance is best served if the \device\ is manufactured, assembled, and calibrated near this temperature.
+		See Appendix \ref{app:mfg} for more detials.
 
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
@@ -3400,6 +3159,423 @@
 				A = s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right]
 			\end{equation}
 
+		\subsection{Function Output}
+		\label{app:calcs:TF:results}
+
+			Figure \ref{fig:TF_res} demonstrates the ouput of the System Transfer Function given two worst-case combinations of the stochastic error values:
+			$d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, $d \ell_W$, $d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$.
+			These serve as the expected boundaries for any system output across prototypes.
+			If many identical devices are manufactured, most will achieve their required tolerance without calibration, but some will reach these boundaries and fall outside of tolerance.
+			The lower boundary represents the combination of errors where the effective diameter is the smallest --- the valve stem is positioned lower than it should be.
+			The upper boundary represents the opposite.
+
+			\begin{figure}[h]
+				\centering
+				\begin{tikzpicture}
+				\begin{axis}[
+								width       = 14cm,
+								height      = 8cm,
+								xlabel      = {Ambient Temperature ($^\circ$C)},
+								ylabel      = {Actual Effective Diameter ($\upmu$m)},
+								xmin = -70, xmax = 90,
+								ymin = 80,  ymax = 450,
+								grid        = major,
+								major grid style = {line width=0.4pt, draw=gray!50},
+								minor tick num   = 0,
+								tick align  = inside,
+								legend pos  = north east,
+								legend style     = {font=\small},
+								tick label style = {font=\small},
+								label style      = {font=\small},
+				]
+
+				%% ── Gold TF paths (named, no fill yet) ────────────────────────────────
+				\addplot [
+								name path   = TF_high,
+								color       = ucdgold,
+								line width  = 1.6pt,
+								dash dot,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_high} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				\addplot [
+								name path   = TF_low,
+								color       = ucdgold,
+								line width  = 1.6pt,
+								dashed,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_low} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				%% ── Gold fill ─────────────────────────────────────────────────────────
+				\addplot [
+								fill        = ucdgold!20,
+								draw        = none,
+								forget plot,
+				] fill between [of = TF_high and TF_low];
+
+				%% ── Blue tolerance paths (named, no fill yet) ─────────────────────────
+				\addplot [
+								name path   = lower,
+								color       = ucdblue,
+								line width  = 0.8pt,
+								dotted,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_lower} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				\addplot [
+								name path   = upper,
+								color       = ucdblue,
+								line width  = 0.8pt,
+								dotted,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_upper} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				%% ── Blue fill (on top of gold) ────────────────────────────────────────
+				\addplot [
+								fill        = sandiablue!20,
+								draw        = none,
+								forget plot,
+				] fill between [of = lower and upper];
+
+				%% ── Nominal required line ─────────────────────────────────────────────
+				\addplot [
+								color       = ucdblue,
+								line width  = 1.6pt,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_eff_nominal} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				%% ── Monte Carlo mean output (all stochastic errors = 0, R_f applied) ──
+				\addplot [
+								color       = ucdgold,
+								line width  = 1.6pt,
+								solid,
+								forget plot,
+				] table [
+								x expr      = \thisrow{T_amb_C},
+								y expr      = \thisrow{D_TF_mean} * 1e6,
+								col sep     = comma,
+				] {figures3/TF.csv};
+
+				%% ── Legend entries ────────────────────────────────────────────────────
+				\addplot [color=ucdblue, line width=1.6pt]
+								coordinates {(-200,0)};
+				\addlegendentry{Nominal output}
+
+				\addplot [color=ucdblue, line width=0.8pt, dotted]
+								coordinates {(-200,0)};
+				\addlegendentry{Tolerance band}
+
+				\addplot [color=ucdgold, line width=1.6pt, solid]
+								coordinates {(-200,0)};
+				\addlegendentry{Mean output}
+
+				\addplot [color=ucdgold, line width=1.6pt, dash dot]
+								coordinates {(-200,0)};
+				\addlegendentry{Stochastic boundaries}
+
+				\end{axis}
+				\end{tikzpicture}%
+				\caption{Transfer Function Output}
+				\label{fig:TF_res}
+			\end{figure}
+
+			Each stochastic machining error follows a normal distribution, where its tolerable range holds approximately six standard deviations $(6 \sigma)$ for a typical Computer-Numeric Control (CNC) machine\ref{ref_AIAG2005}.
+			The Transfer Function was calculated $10^6$ times with these stochastic inputs randomly selected according to this distribution, yielding the normalized distribution in Figure \ref{fig:error_dist}
+			with a mean of -45.1\% and a standard deviation of 41.6\%. These are given as percentages of \SI{25.4}{\micro\meter}, the narrowest required tolerance found at $T_{ref}$.
+
+			\begin{figure}[h]
+					\centering
+					\begin{tikzpicture}
+					\begin{axis}[
+							width       = 14cm,
+							height      = 8cm,
+							xlabel      = {Error (\% tolerance window at $T_{ref}$)},
+							ylabel      = {Probability Density},
+							xmin = -250, xmax = 150,
+							ymin = 0,    ymax = 0.011,
+							grid        = major,
+							major grid style = {line width=0.4pt, draw=gray!50},
+							minor tick num   = 0,
+							tick align  = inside,
+							tick label style = {font=\small},
+							label style      = {font=\small},
+							yticklabel style = {
+									/pgf/number format/precision=4,
+							},
+					]
+
+					%% ── ±100% tolerance window background ───────────────────────────────────
+					\addplot [
+							name path = tol_lo,
+							draw      = none,
+							domain    = -100:100,
+							samples   = 2,
+							forget plot,
+					] {0};
+					\addplot [
+							name path = tol_hi,
+							draw      = none,
+							domain    = -100:100,
+							samples   = 2,
+							forget plot,
+					] {0.011};
+					\addplot [
+							fill       = ucdgold!18,
+							draw       = none,
+							forget plot,
+					] fill between [of = tol_lo and tol_hi];
+
+					%% ── ±2σ shaded band ──────────────────────────────────────────────────────
+					% ±2σ bounds: μ ± 2σ = -45.1746 ± 83.0826 → [-128.257, 37.908]
+					\addplot [
+							name path = twosig_lo,
+							draw      = none,
+							domain    = -128.257:37.908,
+							samples   = 2,
+							forget plot,
+					] {0};
+					\addplot [
+							name path = twosig_hi,
+							draw      = none,
+							domain    = -128.257:37.908,
+							samples   = 200,
+							forget plot,
+					] {normalpdf(x, -45.1746, 41.5413)};
+					\addplot [
+							fill       = sandiablue!15,
+							draw       = none,
+							forget plot,
+					] fill between [of = twosig_lo and twosig_hi];
+
+					%% ── ±1σ shaded band ──────────────────────────────────────────────────────
+					% ±1σ bounds: μ ± σ = -45.1746 ± 41.5413 → [-86.716, -3.633]
+					\addplot [
+							name path = onesig_lo,
+							draw      = none,
+							domain    = -86.716:-3.633,
+							samples   = 2,
+							forget plot,
+					] {0};
+					\addplot [
+							name path = onesig_hi,
+							draw      = none,
+							domain    = -86.716:-3.633,
+							samples   = 200,
+							forget plot,
+					] {normalpdf(x, -45.1746, 41.5413)};
+					\addplot [
+							fill       = sandiablue!30,
+							draw       = none,
+							forget plot,
+					] fill between [of = onesig_lo and onesig_hi];
+
+					%% ── Normal PDF ───────────────────────────────────────────────────────────
+					\addplot [
+							color      = ucdgold,
+							line width = 1.6pt,
+							solid,
+							domain     = -250:150,
+							samples    = 300,
+							forget plot,
+					] {normalpdf(x, -45.1746, 41.5413)};
+
+					%% ── σ callout labels ─────────────────────────────────────────────────────
+					\node[font=\small, align=center]
+							at (axis cs: -45.1746, 0.005)
+							{$\pm1\sigma$};
+
+					\node[font=\small, align=center]
+							at (axis cs: -105, 0.001)
+							{$\pm2\sigma$};
+					\node[font=\small, align=center]
+							at (axis cs: 15, 0.001)
+							{$\pm2\sigma$};
+
+					%% --- Tolerance band --------------------------------
+					\node[font=\small, align=center]
+							at (axis cs: 0, 0.0102)
+							{\textit{Tolerance window}};
+
+					%% --- Percentage compliance ----------------------------
+					\node[font=\small, align=center]
+							at (axis cs: -45.1746, 0.003)
+							{\textit{90.6\%\\compliance}};
+
+					\end{axis}
+					\end{tikzpicture}
+					\caption{Stochastic Error Distribution}
+					\label{fig:error_dist}
+			\end{figure}
+
+			Those devices that fall outside of tolerance will need to be calibrated. As detailed in Appendix \ref{app:mfg}, calibration will be performed at approximately $T_{ref}$.
+			The maximum expected error at this temperature, as calculated by the Transfer Function, is \SI{30.7}{\micro\meter} and \SI{44.6}{\micro\meter} above and below the nominal reference diameter of
+
+			\begin{equation}
+				\Dref
+			\end{equation}
+
+			At a minimum, the calibration assembly must be able to correct the error at the extrema by the largest deviation value to the specified tolerance. Thus,
+
+			\begin{equation}
+				\Delta D_{cal} \geq \SI{45 \pm 12.7}{\micro\meter}
+			\end{equation}
+
+			Assuming exactly these calibration capabilities, the Transfer Function evaluated the new system output boundaries.
+			As shown in Figure \ref{fig:TF_cal}, these now fall just within the required tolerance window despite several persistent sources of error.
+			As discussed in section \ref{app:calcs:cal:sat}, the user will likely be able to exceed this tolerance, resulting in a system output well within the required tolerance across the whole temperature range.
+
+			Although calibration corrects the static offset introduced by the vertical dimension errors that affect the orifice height, several errors persist after calibration that change the temperature-diameter slope or introduce nonlinearity.
+
+			\begin{enumerate}
+				\item Deviation from the assumed \SI{50}{\micro\meter} compression of the belleville washer will effectively change the mount's machined length, allowing the mount to expand or contract slightly more or less than designed.
+					This cannot be avoided. The function accounted for this change when producing Figure \ref{fig:TF_cal}; it accounts for the erroneous initial slopes.
+					At colder temperatures, where the diameter is larger and nonlinear errors (discussed below) take less effect, one can see that the upper bound slopes away from the nominal output.
+					This represents devices whose diameter has been reduced by calibration, decompressing the belleville washer and shrinking the mount's expandible length.
+					The effective diameter decreases slightly less than required because the mount provides slightly less actuation.
+					One would expect the lower bound to exhibit the opposite effect, its mount having been increased by washer compression.
+					However, it follows a similar, though subtler, shallow initial slope before being pull downwards by the orifice machining errors.
+					The source of this discrepancy is not certain.
+				\item The fillet radius and horizontal position error cannot be corrected. These subtract a constant area, disproportionately reducing the effective diameter towards the hotter temperatures, where the diameter is smallest.
+					One can see its effect on the right side of Figure \ref{fig:TF_cal}, where the expected output diameter drops off at an increasing rate.
+					Those devices that produce too large a diameter will conveniently approach the setpoint.
+					Those that produce too small a diameter will show greater error on that end, but are expected to remain within tolerance as the window widens toward the extrema.
+					The effect is negligible, but if future iterations require compensation for higher temperatures with a smaller diameter, better methods will need to be developed to correct or reduce this error mode.
+			\end{enumerate}
+
+			\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}
+					\begin{axis}[
+							width       = 14cm,
+							height      = 8cm,
+							xlabel      = {Ambient Temperature ($^\circ$C)},
+							ylabel      = {Actual Effective Diameter ($\upmu$m)},
+							xmin = -70, xmax = 90,
+							ymin = 80,  ymax = 450,
+							grid        = major,
+							major grid style = {line width=0.4pt, draw=gray!50},
+							minor tick num   = 0,
+							tick align  = inside,
+							legend pos  = north east,
+							legend style     = {font=\small},
+							tick label style = {font=\small},
+							label style      = {font=\small},
+					]
+
+					%% ── Gold TF calibrated paths (named, no fill yet) ─────────────────────
+					\addplot [
+							name path   = TF_high_cal,
+							color       = ucdgold,
+							line width  = 1.6pt,
+							dash dot,
+							forget plot,
+					] table [
+							x expr      = \thisrow{T_amb_C},
+							y expr      = \thisrow{D_TF_high_cal} * 1e6,
+							col sep     = comma,
+					] {figures3/TF_cal.csv};
+
+					\addplot [
+							name path   = TF_low_cal,
+							color       = ucdgold,
+							line width  = 1.6pt,
+							dashed,
+							forget plot,
+					] table [
+							x expr      = \thisrow{T_amb_C},
+							y expr      = \thisrow{D_TF_low_cal} * 1e6,
+							col sep     = comma,
+					] {figures3/TF_cal.csv};
+
+					%% ── Gold fill ─────────────────────────────────────────────────────────
+					\addplot [
+							fill        = ucdgold!20,
+							draw        = none,
+							forget plot,
+					] fill between [of = TF_high_cal and TF_low_cal];
+
+					%% ── Blue tolerance paths (named, no fill yet) ─────────────────────────
+					\addplot [
+							name path   = lower_cal,
+							color       = ucdblue,
+							line width  = 0pt,
+							dotted,
+							forget plot,
+					] table [
+							x expr      = \thisrow{T_amb_C},
+							y expr      = \thisrow{D_eff_lower} * 1e6,
+							col sep     = comma,
+					] {figures3/TF_cal.csv};
+
+					\addplot [
+							name path   = upper_cal,
+							color       = ucdblue,
+							line width  = 0pt,
+							dotted,
+							forget plot,
+					] table [
+							x expr      = \thisrow{T_amb_C},
+							y expr      = \thisrow{D_eff_upper} * 1e6,
+							col sep     = comma,
+					] {figures3/TF_cal.csv};
+
+					%% ── Blue fill ─────────────────────────────────────────────────────────
+					\addplot [
+							fill        = sandiablue!20,
+							draw        = none,
+							forget plot,
+					] fill between [of = lower_cal and upper_cal];
+
+					%% ── Nominal required line ─────────────────────────────────────────────
+					\addplot [
+							color       = ucdblue,
+							line width  = 1.6pt,
+							forget plot,
+					] table [
+							x expr      = \thisrow{T_amb_C},
+							y expr      = \thisrow{D_eff_nominal} * 1e6,
+							col sep     = comma,
+					] {figures3/TF_cal.csv};
+
+					%% ── Legend entries ────────────────────────────────────────────────────
+					\addplot [color=ucdblue, line width=1.6pt]
+							coordinates {(-200,0)};
+					\addlegendentry{Nominal output}
+
+					\addplot [color=ucdblue, line width=0.8pt, dotted]
+							coordinates {(-200,0)};
+					\addlegendentry{Tolerance band}
+
+					\addplot [color=ucdgold, line width=1.6pt, dash dot]
+							coordinates {(-200,0)};
+					\addlegendentry{Calibrated boundaries}
+
+					\end{axis}
+					\end{tikzpicture}%
+					\caption{Transfer Function Output After Calibration}
+					\label{fig:TF_cal}
+			\end{figure}
+
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
@@ -3468,6 +3644,7 @@
 			\item Finishing pass on critical faces; measure from those faces
 			\item Cite White 9th ed, eq. 6-102 on measuring effective diam. from pressure drop
 			\item Invar billet: cut valve orifice out of same stock. Long dimension is along z axis; is at least 79 mm: 32 for Inlet, 40 for Outlet, 7 for thickness of valve orifice
+			\item Calibrate at room temp, approximately Tref
 		\end{itemize}
 	\color{black}
 
