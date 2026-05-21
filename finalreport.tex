@@ -1656,8 +1656,20 @@
 			\subsubsection{Machinability Considerations}
 			\label{subsubsec:design:just:gen_dim:machine}
 
-				\todo{Any features we changesd for machinability. Delete if we don't have anything to say here}
+				\todo{Any features we changesd for machinability. Delete if we don't have anything to say here. Maybe change order in report so that welding is introduced before this.}
 
+			The \device\ is designed to be manufactured using mostly conventional machining techniques, such as milling and turning, with the critical welds performed using Electron Beam Welding (EBW) and the orifice apertures cut using Electrical Discharge Machining (EDM).
+        One of the primary concerns during the design process was ensuring that the device could be assembled given the constraints of the manufacturing processes. The entire manufacturing and assembly process is detailed in Appendix \ref{app:mfg}, but the following design features were motivated by manufacturability:
+        \begin{itemize}
+            \item The housing center is split into two pieces to allow for line-of-sight welding of the bellows and valve orifice.
+            \todo{add more as needed}
+        \end{itemize}
+
+        Due to the small scale of the device, there is little room to accommodate the welding process. For each welding operation, the weld joint must be continuously accessible by the welding beam, requiring an unobstructed line of sight throughout the full rotation of the workpiece.
+        
+        A key breakthrough in the design was the decision to split the housing center into two discrete pieces. In a single-piece housing configuration, the internal geometry of the housing would obstruct both the welding beam and any assembly tooling, making it impossible to reliably weld the bellows or seat the valve components without risking damage to adjacent parts. By separating the center into two pieces, each sub-assembly can be accessed and worked on independently before final integration.
+        
+        This modular approach enables the critical bellows welds to be performed outside of the housing entirely, with a full 360$^\circ$ line of sight, before the center pieces are joined to the inlet. Similarly, internal components that would otherwise be unreachable in a fully enclosed housing can be installed, inspected, and verified at each intermediate stage of assembly. The final closure welds, which join the two center pieces together and seal the assembly, are the last operations performed, ensuring that all internal work is completed and confirmed before the device is permanently closed. 
 			\subsubsection{Assemblability Considerations}
 			\label{subsubsec:design:just:gen_dim:assem}
 
@@ -3476,7 +3488,7 @@
 \bigskip
 
 \begin{warningbox}
-\textbf{\large \textcolor{warnred}{$\blacktriangle$ ~ CRITICAL SAFETY NOTICE ~ $\blacktriangle$}}
+\textbf{\large \textcolor{warnred}{CRITICAL SAFETY NOTICE}}
 
 \medskip
 This device operates with \textbf{high-pressure gas up to \SI{68.95}{\mega\pascal} (\num{10000}~psi)},
@@ -3566,7 +3578,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilt
 
 \subsection{Ambient Air Conditions}
 
-The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{30 minutes} for it to equilibrate before pressurising or recording data. Temperature changes faster than approximately \SI{5}{\degreeCelsius\per\minute} may cause a transient lag between the ambient reading and the actual orifice position.
+The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{60 minutes} for it to equilibrate before pressurising or recording data. Fast temperature changes may cause a transient lag between the ambient reading and the actual orifice position.
 
 %-------------------------------------------------------------------
 \section{Installation}
@@ -3784,7 +3796,7 @@ Depressurise the system before calibrating. Measure the orifice diameter at $T_\
 
   \item \textbf{Install and leak-test} per Sections~4 and~5.
 
-  \item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{30~minutes} or until the ambient temperature has been stable to within $\pm\,\SI{1}{\degreeCelsius}$ for 10~minutes.
+  \item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{60~minutes} or until the ambient temperature has been stable.
 
   \item \textbf{Check conditions.} Record the ambient temperature and confirm it is within \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}. Confirm the upstream pressure is within the rated range.
 
