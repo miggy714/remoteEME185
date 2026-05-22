@@ -1,13 +1,11 @@
-%Use this as a blank place to print whatever characters you need to put in figures
-
-\documentclass[12pt]{report}% "letterpaper" matches US standard paper size.
+\documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
 \setcounter{tocdepth}{3}
 % --- PACKAGES: Each one adds a capability to LaTeX ---
 % Think of packages like Python imports or C #includes.
 
 
 % ---------- Page Layout ----------
-\usepackage[margin=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
 % ---------- Encoding & Fonts ----------
 \usepackage[utf8]{inputenc}% Allows special characters (é, ü, °) to be typed directly.
 \usepackage[T1]{fontenc} % Ensures proper font encoding in the output PDF. Without this, copy-pasting from the PDF can produce garbled characters.
@@ -53,8 +51,12 @@
 ]{caption}% Makes figure/table captions look more professional.
 % ---------- Headers & Footers ----------
 \usepackage{fancyhdr}% Customizable headers and footers.
-\pagestyle{plain}% Activate the fancy header/footer style.
-\renewcommand{\headrulewidth}{0pt}% Thin line under the header. Set to 0pt to remove.
+\pagestyle{fancy}% Activate the fancy header/footer style.
+\fancyhf{}% Clear all default header/footer content.
+\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}% Left header: team name.
+\fancyhead[R]{\small EME 185}% Right header: course number.
+\fancyfoot[C]{\thepage}% Center footer: page number.
+\renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
 % ---------- Paragraph Formatting ----------
 \usepackage{parskip}% Adds space between paragraphs instead of indenting the first line. This is more common in engineering reports than academic papers.
 \setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
@@ -67,6 +69,8 @@
 \usetikzlibrary{patterns,intersections}
 \usetikzlibrary{arrows.meta, positioning}
 \usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows.meta, shapes.geometric, shapes.misc, positioning}
+\usetikzlibrary{calc}
 % ---------- Appendix Support ----------
 \usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
 %----------- Title/Chapter formatting -----------------
@@ -249,6 +253,7 @@
 }
 
 % Req and Spec commands
+% Offloaded to another document to possibly save the specs as figures if we can't fix the page-break overlap.
 \input{specs.tex}
 
 % --- Figure insertion helper ---
@@ -284,15 +289,1090 @@
 \newcommand{\specref}[1]{\hyperref[tab:specs]{#1}}
 
 
-
 % ============================================================================
 % BEGIN DOCUMENT
 % ============================================================================
 
-
-
-
 \begin{document}
+\tableofcontents
+\newpage
+\ref{app:Atest}
 
+\ref{app:Atest1}
+
+\ref{app:Btest}
+
+\ref{app:Btest1}
+
+\ref{app:mfg}
+
+\ref{app:op}
+
+\ref{app:Dtest}
+
+\ref{app:Dtest1}
+
+\begin{appendices}
+\appendix
+
+\chapter{Atest}
+\label{app:Atest}
+
+	\section{Atest1}
+	\label{app:Atest1}
+
+\chapter{Btest}
+\label{app:Btest}
+
+	\section{Btest1}
+	\label{app:Btest1}
+
+
+\chapter{Manufacturing and Operation}
+
+
+	\chapter*{Manufacturing Guide}
+	\refstepcounter{section}
+	\label{app:mfg}
+	\addcontentsline{toc}{section}{Manufacturing Guide}
+	\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+	\setcounter{section}{0}
+	\renewcommand{\thesection}{\arabic{section}}
+
+	\begin{center}
+		{\Large \textbf{Passive Temperature Compensation Device (PTCD)}} \\[4pt]
+		Noble Aggie Labs \\
+		Revision 1.0 \\
+		June 2026
+	\end{center}
+
+	\bigskip
+
+	% ──────────────────────────────────────────────────────────────
+	%  SAFETY NOTICES
+	% ──────────────────────────────────────────────────────────────
+
+	\begin{warningbox}
+		\textbf{\large \textcolor{warnred}{CRITICAL SAFETY NOTICE}}
+
+		\medskip
+		Manufacture of this device involves \textbf{sharp tools}, \textbf{high temperatures},
+		and dangerous assembly processes such as \textbf{electron-beam welding}.
+		Failure to follow these instructions may result in \textbf{serious injury or death.}
+
+		\medskip
+		\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+			\item All personnel must be trained in their shop's applicable safety protocols before
+						beginning any operation in this guide.
+			\item \textbf{Machining:} Sharp cutting tools cause severe lacerations. Never reach into
+						a spinning workpiece or move your hands near an unguarded cutter. Wear safety
+						glasses at all times on the shop floor. Flying chips are a serious eye hazard.
+			\item \textbf{Band saw:} Keep fingers clear of the blade at all times. Use a "chicken finger"
+						to manipulate small stock. Do not force any cut.
+			\item \textbf{Heat treatment:} The annealing furnace operates at temperatures up to
+						\SI{1040}{\degreeCelsius}. Wear heat-resistant gloves and a face shield when
+						loading, unloading, or working near an open furnace.
+						Allow parts to cool for at least three hours before handling.
+			\item \textbf{Electron-Beam Welding (EBW):} EBW generates high-voltage X-rays and an
+						intense electron beam. Only trained and certified EBW operators may perform
+						welding operations. The operator must confirm the vacuum chamber is sealed and
+						all radiation interlocks are engaged before initiating any weld.
+		\end{itemize}
+	\end{warningbox}
+	\newpage
+	\begin{warningbox}
+		\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+			\item \textbf{Electrical Discharge Machining (EDM):} Dielectric fluid is a skin and
+						eye irritant and a fire hazard. Wear chemical-resistant gloves. Ensure the machine
+						is fully de-energised before accessing the work zone. Properly dispose of spent
+						dielectric fluid.
+			\item \textbf{General:} Do not work alone on any operation. Wear
+						appropriate personal protective equipment (PPE) at all times, including safety glasses, closed-toe shoes, 
+						and long pants.
+						Do not wear loose clothing or jewellery while in the shop.
+		\end{itemize}
+	\end{warningbox}
+
+	\bigskip
+
+	% ──────────────────────────────────────────────────────────────
+	%  SECTION 1  –  INTRODUCTION AND SCOPE
+	% ──────────────────────────────────────────────────────────────
+	\section{Introduction and Scope}
+
+	This guide details the complete manufacture, assembly, and calibration of the
+	Passive Temperature Compensation Device (PTCD), a thermomechanical valve that
+	passively adjusts a microscopic orifice in response to ambient air temperature.
+
+
+	\subsection{Required Tools}
+
+	\begin{notebox}
+		\textbf{The following tools and machines are required:}
+		\begin{itemize}[itemsep=2pt]
+			\item Computer-Numeric Control (CNC) mill and lathe that can meet or exceed the dimensional
+						tolerancees in Appendix \ref{app:drawings}
+			\item Band saw
+			\item Annealing/heat-treatment furnace capable of reaching \SI{1040}{\degreeCelsius}
+			\item Sinker EDM (Electrical Discharge Machining) capability
+			\item Electron-Beam Welding (EBW) capability
+			\item Two perpendicular granite surfaces. One surface must have a drilled hole whose center
+						is \SI{20}{\milli\meter} from the intersection between the two surfaces. The
+						hole must measure at least \SI{3.4}{\milli\meter} in diameter and \SI{5.1}{\milli\meter}
+						depth.
+			\item New, carbide-steel tools. Note: this is important to properly machine the parts
+						made of Invar 36, which work-hardens as it is cut.
+			\item T6 hand screwdriver
+		\end{itemize}
+	\end{notebox}
+	\newpage
+	\begin{notebox}
+		\begin{itemize}
+			\item Loctite 243 or similar permanent thread sealant
+			\item Cutting fluid for all operations
+		\end{itemize}
+	\end{notebox}
+
+	\subsection{Coordinate System}
+
+	\begin{notebox}
+		\textbf{Coordinate convention used throughout this guide:}
+		\begin{itemize}[itemsep=2pt]
+			\item \textbf{X~(lateral):} points to the right as one looks downstream along the gas flow.
+			\item \textbf{Y~(vertical):} points directly upward.
+			\item \textbf{Z~(longitudinal):} points upstream along the direction of gas flow.
+		\end{itemize}
+	\end{notebox}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.5\textwidth]{Axes_mfg.png}
+		\caption{Reference axes}
+		\label{fig:mfg:axes}
+	\end{figure}
+
+	% ──────────────────────────────────────────────────────────────
+	%  SECTION 2  –  PART IDENTIFICATION
+	% ──────────────────────────────────────────────────────────────
+	\section{Part Identification}
+
+	Before beginning, familiarise yourself with every part using the figures below
+	and the Bill of Materials in Appendix~\ref{app:BOM}.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.5\textwidth]{Valve_ID.png}
+		\caption{Valve subsystem part identification}
+		\label{fig:valve_ID}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=.4\textheight]{Act_ID.png}
+		\caption{Actuator subsystem part identification}
+		\label{fig:act_ID}
+	\end{figure}
+
+	Table~\ref{tab:mfg_parts} summarises all parts manufactured or purchased for this device.
+
+	\begin{table}[H]
+		\centering
+		\caption{PTCD Bill of Materials summary.}
+		\label{tab:mfg_parts}
+		\small
+		\begin{tabularx}{\textwidth}{llllX}
+			\toprule
+			\textbf{Part No.} & \textbf{Name} & \textbf{Qty} & \textbf{Material} & \textbf{Source} \\
+			\midrule
+			V1 & Housing Center   & 2 & Invar 36    & Machined from billet stock \\
+			V2 & Housing Inlet    & 1 & Invar 36    & Machined from billet stock \\
+			V3 & Housing Outlet   & 1 & Invar 36    & Machined from billet stock \\
+			V4 & Valve Orifice    & 1 & Invar 36    & Machined from billet stock \\
+			I718-159-72-430 & Bellows & 2 & Inconel 718 & Purchased (Mini-Flex) \\
+			A1 & Actuator         & 1 & Al 6061-T6  & Machined from rod stock \\
+			A2 & Mount            & 1 & ALLVAR 30   & Machined from rod stock \\
+			93237A101 & Belleville Washer & 1 & 316 SS & Purchased (McMaster-Carr) \\
+			93475A195 & Standard Washer   & 1 & 18-8 SS & Purchased (McMaster-Carr) \\
+			90362A141 & Screw M2$\times$0.4$\times$12 & 1 & 18-8 SS & Purchased (McMaster-Carr) \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	% ──────────────────────────────────────────────────────────────
+	%  SECTION 3  –  MANUFACTURING
+	% ──────────────────────────────────────────────────────────────
+	\section{Manufacturing}
+	\label{sec:mfg}
+
+	\subsection{General Machining Notes}
+	\label{sec:mfg:general}
+
+	\begin{notebox}
+	\textbf{Invar 36 work-hardens during machining.} Use \textbf{new carbide tooling}
+	throughout. Replace tooling at the first sign of wear; worn tools exacerbate work
+	hardening and degrade surface finish on critical faces.
+	\end{notebox}
+
+	\textbf{Annealing schedule for all Invar 36 parts:}
+	\begin{enumerate}[itemsep=2pt]
+		\item \textbf{Before machining}: anneal at
+					\SI{1040}{\degreeCelsius} (\SI{1900}{\degree F}) for 60~minutes to
+					reduce as-received hardness and improve machinability~\cite[p.~6]{ref_Carpenter_Inv}.
+		\item \textbf{After all machining is complete}: anneal at
+					\SI{93}{\degreeCelsius} (\SI{200}{\degree F}) for 48~hours to relieve
+					residual stress and improve long-term dimensional
+					stability~\cite[p.~6]{ref_Carpenter_Inv}.
+	\end{enumerate}
+	Allow parts to air-cool to room temperature before measuring or proceeding to the
+	next operation.
+
+	\textbf{Referencing convention:}
+	Before beginning each machining operation, identify which face will serve as the
+	primary datum. As indicated in the drawings, each of these faces must be carefully
+	finished to minimize dimensional errors for critical features.
+
+	% ----------------------------------------------------------
+	\subsection{Invar 36 Billet Stock: V1, V2, V3, V4}
+	\label{sec:mfg:invar}
+	% ----------------------------------------------------------
+
+	\textbf{Starting stock:}
+	44.45~mm $\times$ 76.2~mm $\times$ 82.55~mm
+	(1\,3/4$''$ $\times$ 3$''$ $\times$ 3\,1/4$''$) Invar 36 billet.
+	These dimensions will be oriented along the \textbf{lateral (X), vertical (Y), and
+	longitudinal (Z)} dimensions, respectively.
+
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{WARNING --- Band Saw Hazard}}
+	Keep fingers and hands clear of the band saw blade at all times. Use the fence or a
+	chicken finger to guide stock. Never reach over or behind the blade during a cut. Allow the
+	blade to come to a complete stop before adjusting the workpiece.
+	\end{warningbox}
+
+	\subsubsection{Step 1 --- Cross-cut longitudinal axis into blanks}
+
+	Using a metal-cutting band saw, cross-cut the longitudinal axis (Z) to produce blanks
+	of the following \textit{minimum} lengths, leaving additional length for subsequent
+	facing operations:
+
+	\begin{itemize}[itemsep=2pt]
+		\item Housing Inlet (V2): \SI{32}{\milli\meter} 
+		\item Housing Outlet (V3): \SI{40}{\milli\meter}
+		\item Housing Center (V1) / Valve Orifice (V4): \SI{7}{\milli\meter}
+	\end{itemize}
+
+	\begin{notebox}
+	Account for the band saw blade kerf thickness when planning cut locations.
+	Typical metal band saw kerfs are \SIrange{1}{2}{\milli\meter} wide. Ensure adequate
+	additional material remains on each blank after accounting for kerf and facing stock.
+	\end{notebox}
+
+	\subsubsection{Step 2 --- Cross-cut lateral axis to separate V1 and V4 slugs}
+
+	Cross-cut the 7~mm slug along the \textbf{lateral axis (X)} to produce:
+
+	\begin{itemize}[itemsep=2pt]
+		\item Housing Center $\times$2 (V1): \SI{10}{\milli\meter} lateral length each
+		\item Valve Orifice (V4): \SI{7}{\milli\meter} lateral length
+	\end{itemize}
+
+	You now have five rough blanks: V2, V3, two pieces of V1, and V4.
+
+	\subsubsection{Step 3 --- Anneal blanks}
+
+	To soften the material before machining the part features,
+	place all five blanks in the annealing furnace. Anneal at \SI{1040}{\degreeCelsius} for
+	60~minutes. Allow to air-cool to room temperature before proceeding.
+
+	% ------ V1: Housing Center ------
+	\subsubsection{Housing Center (V1) --- $\times$2}
+	\label{sec:mfg:V1}
+
+	Refer to drawing V1. Produce both Housing Centers identically.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Mill all six faces} to bring the part to nominal rectangular dimensions.
+		\item \textbf{Mill two T-slots on the lateral sides} ($+$X and $-$X faces) for the
+					valve orifice sliding interface.
+		\item \textbf{Drill through-hole} for the valve stem passage.
+					Use a reamer to bring to final H7 tolerance.
+	\end{enumerate}
+
+	% ------ V2: Housing Inlet ------
+	\subsubsection{Housing Inlet (V2)}
+	\label{sec:mfg:V2}
+
+	Refer to drawing V2.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Mill all six faces} to nominal rectangular dimensions.
+		\item \textbf{Finishing pass on critical faces}
+					(the $+$X and $+$Y faces).
+					\begin{notebox}
+					\textbf{The +X face} is the primary reference for the Housing Inlet.
+					Machine this face last among the milled faces, with a dedicated finishing pass
+					using a sharp tool at a slow feed rate and light depth of cut.
+					The resulting surface must be mirror-smooth; verify with a surface-finish
+					gauge or profilometer. This face will be used for critical dimension measurements
+					and will be held flush with the corresponding face on the Housing Outlet
+					during EBW assembly.
+					\end{notebox}
+		\item \textbf{Mill top T-groove} on the $+$Y face for the upper valve stem channel.
+		\item \textbf{Mill bottom T-groove} on the $-$Y face for the lower valve stem channel.
+		\item \textbf{Mill central channel} through the +Z face to form the sliding pocket
+					for the Valve Orifice.
+		\item \textbf{Drill large central hole}
+					through the inlet channel. This is the main gas passage.
+		\item \textbf{Drill small inlet hole}
+					for the upstream pipe connection.
+		\item \textbf{Tap large hole} with G\,3/4-14\,A (in) thread (BSP pipe thread) for
+					the upstream pipe fitting. Use a pipe tap and cutting fluid.
+	\end{enumerate}
+
+	% ------ V3: Housing Outlet ------
+	\subsubsection{Housing Outlet (V3)}
+	\label{sec:mfg:V3}
+
+	Refer to drawing V3.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Mill all six faces} to nominal dimensions.
+		\item \textbf{Finishing pass on Critical Faces A, B, and C}
+					(the $+$X, $+$Y, and $+$Z faces respectively).
+					\begin{notebox}
+					\textbf{The +X and +Y faces} are the primary references for the Housing Outlet.
+					Machine these faces last among the milled faces, with a dedicated finishing pass
+					using a sharp tool at a slow feed rate and light depth of cut.
+					The resulting surfaces must be mirror-smooth; verify with a surface-finish
+					gauge or profilometer. These faces will be used for critical dimension measurements
+					and will be held flush with the corresponding faces on the Housing Inlet
+					during EBW assembly. \\
+					\textbf{The +Z face} must be similarly finished to ensure even abuttment against the Housing Inlet.
+					\end{notebox}
+		\item \textbf{Drill large central hole} as in the Housing Inlet.
+		\item \textbf{Plunge small orifice hole} with an end mill.
+		\item \textbf{Tap large hole} with G\,3/4-14\,A (in) thread for the downstream
+					pipe fitting.
+		\item \textbf{Sinker EDM --- square through-orifice:}
+					\begin{warningbox}
+					\textbf{\textcolor{warnred}{WARNING --- EDM Hazard}}
+					The dielectric fluid used in EDM is a fire hazard and a skin/eye irritant.
+					Wear chemical-resistant gloves and eye protection. Ensure the EDM machine is
+					fully de-energised before accessing the work zone. Dispose of spent fluid per
+					facility hazardous-waste procedures.
+					\end{warningbox}
+					Machine the square through-orifice using sinker EDM.
+					Critical requirements:
+					\begin{itemize}[itemsep=2pt]
+						\item The \textbf{upper interior corner} of the square orifice must have as
+									small a fillet radius as possible.
+									This is the mission-critical corner; a larger fillet directly degrades
+									the effective diameter accuracy.
+						\item Minimise EDM recast (white) layer on all orifice edges; no
+									micro-cracking is permitted.
+						\item Thoroughly clean the part after EDM to remove all dielectric fluid
+									and microscopic debris before proceeding.
+						\item The horizontal and vertical position of the critical
+									upper corner must be held as exactly as possible.
+									Verify with optical metrology after EDM.
+					\end{itemize}
+	\end{enumerate}
+
+	\begin{notebox}
+	\textbf{EDM Integrity Verification} \\
+	Confirmation of the above requirements requires a destructive test.
+	Perform an identical operation to the one specified on a sample workpiece. Carefully cut
+	the piece in two along its central axis and optically verify that no EDM recast or
+	micro-cracking is present.
+	\end{notebox}
+
+	% ------ V4: Valve Orifice ------
+	\subsubsection{Valve Orifice (V4)}
+	\label{sec:mfg:V4}
+
+	Refer to drawing V4.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Mill $\pm$Z and $\pm$X faces} to bring part to nominal rectangular
+					dimensions.
+		\item \textbf{Finish all faces} except for the -Y face, paying especial attention
+					to the +X face.
+		\item \textbf{Plunge small hole} with an end mill.
+		\item \textbf{Sinker EDM --- square through-orifice (leading orifice):}
+					Machine the square through-orifice using sinker EDM as per the above EDM operation.
+		\item \textbf{TiN PVD coating:} Apply a TiN (titanium nitride) Physical Vapor
+					Deposition coating to the four contact surfaces per drawing V4, Note~5.
+					Confirm the coating thickness does not exceed \SI{0.004}{\milli\meter};
+					re-measure the g6 dimensions after coating and verify the fit is maintained
+					before proceeding to assembly.
+	\end{enumerate}
+
+	% ----------------------------------------------------------
+	\subsection{6061 Aluminum Rod Stock: A1 (Actuator)}
+	\label{sec:mfg:A1}
+	% ----------------------------------------------------------
+
+	\textbf{Starting stock:}
+	\O\,\SI{19.05}{\milli\meter} $\times$ \SI{76.2}{\milli\meter}
+	(\O\,3/4$''$ $\times$ 6$''$) 6061-T6 Aluminum rod.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Band saw --- cut to length:} Cross-cut the rod to a length slightly
+					above nominal; leave material for facing.
+		\item \textbf{Mill to length:} Face both $+$Y and $-$Y ends on the milling
+					machine to remove band saw marks and bring the part close to nominal length.
+		\item \textbf{Finishing pass on $+$Y face (top):}
+					\begin{notebox}
+					The length of the actuator is a
+					\textbf{critical dimension}: it directly sets the actuator expansion rate.
+					\end{notebox}
+		\item \textbf{Lathe --- turn outside diameter:} Turn the outer diameter.
+		\item \textbf{Drill central hole:} Drill the axial hole
+					through the top of the part, centred on the axis.
+		\item \textbf{Tap:} Tap M2$\times$0.4 6H thread in the central hole for the
+					calibration screw.
+	\end{enumerate}
+
+	% ----------------------------------------------------------
+	\subsection{ALLVAR 30 Rod Stock: A2 (Mount)}
+	\label{sec:mfg:A2}
+	% ----------------------------------------------------------
+
+	\textbf{Starting stock:}
+	\O\,\SI{25.4}{\milli\meter} $\times$ \SI{45.72}{\milli\meter}
+	(\O\,1$''$ $\times$ 1.8$''$) ALLVAR Alloy 30 rod.
+
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Band saw --- cut to length:} Cross-cut the rod slightly above
+					nominal.
+		\item \textbf{Mill to length:} Face both ends to remove saw marks and bring to
+					near-nominal height.
+		\item \textbf{Finishing pass on $-$Y face (bottom):}
+					\begin{notebox}
+					The $-$Y face is electron-beam welded to the top of the housing. A flat,
+					clean surface is essential for the intimate joint
+					required by EBW. Machine this face last with a
+					light finishing pass. Verify flatness with a surface plate and feeler gauge
+					before proceeding.
+					\end{notebox}
+		\item \textbf{Drill small clearance hole:} Drill
+					the center through hole to a minimum depth of \SI{5}{\milli\meter}.
+		\item \textbf{Drill large inner hole:}
+					Drill the bulk of the large hole. Leave ample diametral and axial clearance for
+					precise dimensions.
+		\item \textbf{Bore large inner hole:}
+					Carefully bore the hole's inner diameter to tolerance.
+					Do not bore the entire hole; leave axial clearance at the end to avoid
+					damaging the end face.
+		\item \textbf{Plunge large inner hole:}
+					Plunge the hole with a long end mill. Perform a finishing pass to bring the
+					hole's length to tolerance and to square the circumference of its inner face.
+		\item \textbf{Turn outer diameter:} turn the outer diameter with a lathe.
+	\end{enumerate}
+
+	% ──────────────────────────────────────────────────────────────
+	%  SECTION 4  –  ASSEMBLY
+	% ──────────────────────────────────────────────────────────────
+	\section{Assembly}
+	\label{sec:assy}
+
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{WARNING --- Electron-Beam Welding (EBW) Hazard}}
+
+	EBW generates high-voltage X-ray radiation and a focused electron beam.
+	\textbf{Only trained, certified EBW operators} may perform these operations.
+	Confirm all radiation interlocks are active and the vacuum chamber is sealed
+	before initiating any weld. No EBW operation may be performed by untrained
+	personnel under any circumstances.
+	\end{warningbox}
+
+	\subsection{General Assembly Notes}
+
+	All permanent joints in the PTCD, except the actuator-mount connection
+	secured by the calibration screw,
+	are made by Electron-Beam Welding (EBW).
+	EBW requirements (drawing W1, W2 notes) apply to all weld operations:
+
+	\begin{enumerate}[itemsep=3pt]
+		\item Welding process: EBW (autogenous; no filler metal).
+		\item Mating surfaces must be intimate; maximum gap $\leq$\,\SI{0.01}{\milli\meter}.
+		\item All surfaces to be welded must be thoroughly cleaned and free of oil, grease,
+					and oxidation prior to welding. Use appropriate solvent (e.g.\ isopropyl
+					alcohol) and clean-room wipes.
+		\item Purge internal cavities with inert gas (e.g.\ argon) during welding to
+					prevent oxidation and spatter.
+		\item All wetted EBW joints must be subjected to 100\% X-ray radiographic
+					examination (RT) to confirm a weld joint efficiency $E = 1.0$ per
+					ASME~B31.3~\cite{ref_asme_b313}.
+	\end{enumerate}
+
+	EBW requires an unobstructed line of sight to the weld joint throughout the
+	full rotation of the workpiece. Plan each setup carefully. The sub-assembly
+	sequence in Sections~\ref{sec:valve_assy} and~\ref{sec:act_assy} is designed
+	to maintain 360$^{\circ}$ weld access at every stage.
+
+	% ----------------------------------------------------------
+	\subsection{Valve Sub-Assembly}
+	\label{sec:valve_assy}
+	% ----------------------------------------------------------
+
+	\begin{notebox}
+	\textbf{Required tooling for valve assembly:}
+	\begin{itemize}[itemsep=2pt]
+		\item Two perpendicular granite surface plates. One plate must contain a clearance
+					hole at least \SI{3.4}{\milli\meter} in diameter and at least \SI{5}{\milli\meter}
+					deep at precisely \SI{20}{\milli\meter} from the intersection between the plates
+					(to accept the lower valve stem during
+					step~\ref{step:lay_granite}).
+		\item Clean lint-free gloves and wipes.
+		\item Optical comparator or profilometer for verifying face flush and orifice position.
+	\end{itemize}
+	\end{notebox}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=.5\textwidth]{Valve_exploded.png}
+		\caption{Valve subsystem exploded view}
+		\label{fig:valve_exploded}
+	\end{figure}
+
+	\subsubsection{Step 1 --- Weld bellows to Valve Orifice (V4)}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Orient the first (upper) bellows with its \textbf{small neck (Neck~1) toward
+					the center} of the Valve Orifice. Seat it on the upper valve stem stub of V4.
+		\item Orient the second (lower) bellows identically: small neck toward center, seated
+					on the lower valve stem stub.
+		\item EBW both bellows to V4 with circumferential welds.
+	\end{enumerate}
+
+	\subsubsection{Step 2 --- Add Housing Centers (V1) to valve stems}
+	\label{step:add_V1}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Slide one Housing Center (V1) onto the upper valve stem of the
+					V4--bellows sub-assembly through its bore.
+					The V1 piece should slide freely without binding.
+		\item Slide the second Housing Center onto the lower valve stem.
+	\end{enumerate}
+
+	\subsubsection{Step 3 --- Lay sub-assembly on granite surface and tack-weld}
+	\label{step:lay_granite}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Set the sub-assembly on the
+					granite surface plate, with the -Z face against the surface.
+		\item Apply \textbf{two spot welds} at each bellows--Housing Center connection 
+					to fix their position.
+	\end{enumerate}
+
+	\subsubsection{Step 4 --- Full weld of Housing Centers to bellows}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Remove the sub-assembly from the granite surface.
+		\item Fully EBW each Housing Center to its bellows with a circumferential weld.
+	\end{enumerate}
+
+	\subsubsection{Step 5 --- Insert valve sub-assembly into Housing Inlet (V2)}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Verify that the V4 coated surfaces are clean and the housing channel in V2 is
+					free of debris.
+		\item Slide the sub-assembly (V4 + bellows + V1~$\times$2) into the central
+					channel of the Housing Inlet (V2).
+	\end{enumerate}
+
+	\subsubsection{Step 6 --- EBW Housing Centers to Housing Inlet; verify face flush}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item With the sub-assembly fully seated in V2, EBW the Housing Centers (V1) to
+					the Housing Inlet (V2).
+	\end{enumerate}
+
+	\subsubsection{Step 7 --- Finish the Housing Inlet face}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Make a finishing pass across the whole -Z face of the subassembly to
+					ensure flush abuttment against the Housing Oulet.
+					Be careful not to damage the bellows while cutting.
+	\end{enumerate}
+
+	\subsubsection{Step 8 --- Connect the Housing Outlet}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Invert the assembly and set its +Y and +X faces flush against the two granite surfaces.
+					Use the provided hole to make room for the protruding valve stem.
+		\item Set the Housing Inlet in like manner against the granite surfaces.
+					Butt its +Z face against the assembly's -Z face.
+		\item Weld the assembly along its exposed edges enough to secure the parts in place.
+					Remove from the granite surfaces; fully weld the connection.
+	\end{enumerate}
+
+	\subsubsection{Step 9 --- Finish the Upper Surface}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Perform a finishing pass on the +Y surface of the assembly.
+		Maintain clearance around the valve stem at a minimum of \SI{1}{\milli\meter}
+		to avoid damage and a maximum of \SI{7}{\milli\meter} to ensure the full mount-housing
+		contact surface is finished.
+	\end{enumerate}
+
+	% ----------------------------------------------------------
+	\subsection{Actuator Sub-Assembly}
+	\label{sec:act_assy}
+	% ----------------------------------------------------------
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=3in]{Act_exploded.png}
+		\caption{Actuator subsystem exploded view}
+		\label{fig:act_exploded}
+	\end{figure}
+
+	\subsubsection{Step 1 --- EBW Actuator (A1) to upper valve stem}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item EBW the actuator to the valve stem.
+					Confirm the actuator and valve stem are axially
+					aligned; any tilt introduces an off-axis load on the orifice.
+	\end{enumerate}
+
+	\begin{notebox}
+	\textbf{Thermal equilibration}\\
+	Before proceeding, allow all parts to thermally equilibriate with their environment for a full
+	60 minutes. This ensures that the device can be calibrated before the thread lubricant sets.
+	\end{notebox}
+
+	\subsubsection{Step 2 --- Add Mount and Calibration Assembly}
+
+	\begin{enumerate}[itemsep=4pt]
+		\item Apply Loctite 243 or a similar lubricant-sealant to the screw.
+		\item Invert the mount (A2). Insert the screw (90362A141) through the
+					standard flat washer (93475A195) and mount.
+					Slide the Belleville washer (93237A101) onto the screw,
+					conical side facing toward the mount top when righted.
+		\item Invert the housing-actuator assembly. Carefully insert the actuator into the
+					the mount until it hits the screw. Thread the screw into the actuator untilthe mount
+					can sit flush against the housing and the Belleville washer is slightly compressed.
+		\item Right the assembly and EBW the mount to the housing.
+	\end{enumerate}
+
+	\begin{notebox}
+	\textbf{Time-sensitive calibration}
+	Perform the calibration steps detailed in Section \ref{sec:calibration} immediately
+	to ensure the thread sealant does not set.
+	\end{notebox}
+
+	% ──────────────────────────────────────────────────────────────
+	%  SECTION 5  –  CALIBRATION
+	% ──────────────────────────────────────────────────────────────
+	\section{Calibration}
+	\label{sec:calibration}
+
+	Calibrate the \device\ at approximately $T_{ref} = \Tref$ (room temperature).
+
+	\subsubsection{Calibration Procedure}
+
+	\begin{enumerate}[itemsep=5pt]
+		\item \textbf{Thread the gas supply.} Connect the PTCD to a controlled gas flow
+					supply via its threaded interfaces. Precisely measure the ambient temperature
+					and the pressure differential across the device.
+		\item \textbf{Calculate required pressure drop.} Use the following equations to determine
+					the required pressure differential for the current temperature:
+					\begin{align}
+						D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0 \\
+						A_1 = \Aone \\
+						T_{\text{reference}} = \SI{25}{\degreeCelsius} \\
+						A_0 = \Azero \\
+						A = \frac{\pi}{4} D_{\text{effective}} \\
+						Q = C_d A \sqrt{\frac{2 \Delta P}{\rho (1 - \beta^4)}} \label{eq:white}
+					\end{align}
+					Refer to White's Fluid Mechanics\cite[eq.~6-102]{ref_white} for interpretation of
+					equation \eqref{eq:white}.
+		\item \textbf{Adjust the orifice.} Using a T6 Torx driver, turn the calibration
+					screw in small increments. Turn it clockwise to increase the effective
+					diameter and decrease the pressure differential.
+		\item \textbf{Depressurise and disconnect.} Let the system run at steady-state for six hours
+					to allow the sealant to fully set under these conditions. Then close the supply valve and vent
+					the downstream line before disconnecting any fittings.
+	\end{enumerate}
+
+	\setcounter{section}{1}
+
+	\renewcommand{\thesection}{\thechapter.\arabic{section}}
+
+	\chapter*{User Guide}
+	\refstepcounter{section}
+	\label{app:op}
+	\addcontentsline{toc}{section}{User Guide}
+	\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}}
+	\setcounter{section}{0}
+	\renewcommand{\thesection}{\arabic{section}}
+
+
+	\begin{center}
+		{\Large \textbf{Passive Temperature Compensation Device (PTCD)}} \\[4pt]
+		Noble Aggie Labs \\
+		Revision 1.0 \\
+		June 2026
+	\end{center}
+
+	\bigskip
+
+	\begin{warningbox}
+	\textbf{\large \textcolor{warnred}{CRITICAL SAFETY NOTICE}}
+
+	\medskip
+	This device operates with \textbf{high-pressure gas up to \SI{68.95}{\mega\pascal} (\num{10000}~psi)},
+	including potentially \textbf{flammable gases such as hydrogen.}
+	Failure to follow these instructions may result in \textbf{serious injury or death.}
+
+	\medskip
+	\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+		\item All personnel must be trained in high-pressure gas handling before working with this device.
+		\item All connections and testing must comply with \textbf{ASME~B31.3} and applicable local safety regulations.
+		\item Hydrogen is extremely flammable. Work in a well-ventilated area with appropriate gas detection equipment active.
+		\item \textbf{Never work on a pressurised system.} Confirm the system is fully depressurised before installation, removal, or adjustment.
+		\item Wear appropriate PPE at all times: safety glasses, face shield, and flame-resistant clothing. Use insulated gloves near temperature extremes (\SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}).
+	\end{itemize}
+	\end{warningbox}
+
+	\bigskip
+
+	%-------------------------------------------------------------------
+	\section{Product Overview}
+	%-------------------------------------------------------------------
+
+	\subsection{Background}
+
+	The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD mantains it's specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated at room temperature (\SI{25}{\degreeCelsius}) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
+
+	\subsection{Intended Users}
+
+	This guide is written for test engineers and laboratory technicians who operate high-pressure gas experiments. Users are assumed to have familiarity with pressurised gas systems and applicable codes. 
+
+	%-------------------------------------------------------------------
+	\section{System Description}
+	%-------------------------------------------------------------------
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=.9\textwidth]{user_isometric.png}
+		\caption{Complete PTCD assembly}
+		\label{fig:ug_overview}
+	\end{figure}
+
+	The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminium on the inside and Allvar on the outside. Because aluminium expands and Allvar contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurised gas inside the valve.
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=.75\textwidth]{user_cut.png}
+		\caption{PTCD cross-section schematic.}
+		\label{fig:ug_crosssection}
+	\end{figure}
+
+
+	\textbf{How it works:} Rising ambient temperature causes the actuator to push the valve stem downward, reducing the orifice overlap and restricting flow. Falling temperature pulls the stem back up, opening the orifice. The device requires no power and makes no adjustments on its own --- it simply follows temperature.
+
+
+	%-------------------------------------------------------------------
+	\section{Before You Begin}
+	%-------------------------------------------------------------------
+
+	\subsection{What You Will Need}
+
+	\begin{itemize}[itemsep=3pt]
+		\item High-pressure gas supply with upstream shut-off valve and regulator
+		\item Compatible pipe with appropriate thread to match the PTCD ports
+		\item Pipe sealant approved for the gas and pressure in use (see Section~\ref{sec:sealing})
+		\item Two wrenches sized for the pipe fittings
+		\item Calibrated pressure gauge (upstream of PTCD)
+		\item Hydrogen-rated leak detector or electronic gas sensor
+		\item Downstream isolation valve
+		\item Rigid, level mounting surface (see Section~\ref{sec:mounting})
+		\item PPE: safety glasses, face shield, flame-resistant clothing, insulated gloves
+	\end{itemize}
+
+	\subsection{Pipe Sealing}
+	\label{sec:sealing}
+
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{WARNING --- Sealing Requirements}}
+
+	Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
+	\end{warningbox}
+
+	\subsection{Mounting}
+	\label{sec:mounting}
+	\textbf{NOTE:} The actuator responds to the temperature of the air surrounding it. Anything that heats or cools the actuator other than the ambient air will introduce error in the orifice diameter.
+
+	Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \textbf{\SI{15}{\centi\meter} of free air clearance around the actuator on all sides}, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
+
+	\subsection{Ambient Air Conditions}
+
+	The device is designed for quasi-static temperature changes. Avoid directing compressed air, fans, or HVAC flow at the actuator, as localised forced convection will cause uneven heating and introduce measurement error. Keep the actuator clear of heat lamps and radiant sources. After placing the device in a new temperature environment, allow at least \textbf{60 minutes} for it to equilibrate before pressurising or recording data. Fast temperature changes may cause a transient lag between the ambient reading and the actual orifice position.
+
+	%-------------------------------------------------------------------
+	\section{Installation}
+	%-------------------------------------------------------------------
+
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{WARNING}} \quad Confirm the upstream supply is \textbf{fully shut off and depressurised} before beginning. Never connect or disconnect the PTCD under pressure.
+	\end{warningbox}
+
+	\begin{figure}[htbp]
+		\centering
+		\begin{tikzpicture}[
+			>=Stealth,
+			line width=0.6pt,
+			font=\small,
+			pipe/.style={draw, line width=1.2pt, color=ucdblue},
+			lbl/.style={text centered, font=\footnotesize, color=ucdblue}
+		]
+
+		\def\pipeY{0}
+		\def\xSource{0}
+		\def\xValve{3}
+		\def\xGauge{5.5}
+		\def\xPTCD{8}
+		\def\xApparatus{11}
+
+		%% 1. Gas cylinder symbol
+		\draw[pipe] (\xSource-0.4, \pipeY-0.9) rectangle (\xSource+0.4, \pipeY+0.7);
+		\draw[pipe]
+			(\xSource-0.4, \pipeY+0.7)
+			.. controls (\xSource-0.4,\pipeY+1.1) and (\xSource+0.4,\pipeY+1.1) ..
+			(\xSource+0.4, \pipeY+0.7);
+		\draw[pipe] (\xSource+0.4, \pipeY) -- (\xSource+0.8, \pipeY);
+
+		\node[lbl, text width=2cm] at (\xSource, \pipeY-1.35)
+			{Pressurised\\gas source};
+
+		%% Inlet flow arrow
+		\draw[->, line width=1.2pt, color=ucdblue] (\xSource+0.8, \pipeY) -- (\xValve-0.42, \pipeY);
+		% \node[font=\tiny, above] at (\xSource+1.55, \pipeY+0.08) {flow};
+
+		%% 2. Shut-off valve (ISO 1219: square with X and T-bar actuator)
+		\def\vs{0.4}
+		\draw[pipe] (\xValve-\vs,\pipeY-\vs) rectangle (\xValve+\vs,\pipeY+\vs);
+		\draw[pipe] (\xValve-\vs,\pipeY-\vs) -- (\xValve+\vs,\pipeY+\vs);
+		\draw[pipe] (\xValve-\vs,\pipeY+\vs) -- (\xValve+\vs,\pipeY-\vs);
+		\draw[pipe] (\xValve,\pipeY+\vs) -- (\xValve,\pipeY+\vs+0.35);
+		\draw[pipe] (\xValve-0.25,\pipeY+\vs+0.35) -- (\xValve+0.25,\pipeY+\vs+0.35);
+		\draw[pipe] (\xValve+\vs,\pipeY) -- (\xGauge-0.02,\pipeY);
+
+		\node[lbl, text width=2cm] at (\xValve, \pipeY-1.0)
+			{Shut-off\\valve};
+
+		%% 3. Pressure gauge (ISA 5.1: circle, needle, tagged PI; branch from pipe)
+		\def\gr{0.35}
+		\draw[pipe] (\xGauge,\pipeY) -- (\xGauge,\pipeY+0.3);
+		\draw[pipe] (\xGauge,\pipeY+\gr+0.3) circle (\gr);
+		% \draw[pipe] (\xGauge,\pipeY+\gr+0.3) -- ++(50:\gr*0.7);
+		\node[font=\tiny, color=ucdblue] at (\xGauge,\pipeY+\gr+0.3) {\,PI};
+		\draw[pipe] (\xGauge,\pipeY) -- (\xPTCD-0.92,\pipeY);
+
+		\node[lbl, text width=2.2cm] at (\xGauge, \pipeY-1.0)
+			{Pressure\\gauge};
+
+		%% 4. PTCD (labelled rectangle)
+		\def\pw{0.9}
+		\def\ph{0.4}
+		\draw[pipe] (\xPTCD-\pw,\pipeY-\ph) rectangle (\xPTCD+\pw,\pipeY+\ph);
+		\node[font=\small\bfseries, color=ucdblue] at (\xPTCD,\pipeY) {PTCD};
+		\draw[pipe] (\xPTCD+\pw,\pipeY) -- (\xApparatus-1.22,\pipeY);
+
+		\node[lbl, text width=2cm] at (\xPTCD, \pipeY-1.0)
+			{PTCD};
+
+		%% 5. Experimental apparatus (dashed boundary box)
+		\def\aw{1.2}
+		\def\ah{0.8}
+		\draw[pipe, dashed]
+			(\xApparatus-\aw,\pipeY-\ah) rectangle (\xApparatus+\aw,\pipeY+\ah);
+		\node[font=\footnotesize, color=ucdblue, text width=2.2cm, align=center]
+			at (\xApparatus,\pipeY-0.2)
+			{Experimental\\apparatus};
+
+		%% Outlet flow arrow
+		\draw[->, line width=1.2pt, color=ucdblue]
+			(\xApparatus+\aw,\pipeY) -- (\xApparatus+\aw+1.2,\pipeY);
+		% \node[font=\tiny, above] at (\xApparatus+\aw+0.6,\pipeY+0.08) {flow};
+
+		\end{tikzpicture}
+		\caption{Typical PTCD installation in a high-pressure gas circuit.}
+		\label{fig:ug_install}
+	\end{figure}
+
+	\begin{enumerate}[leftmargin=1.8em, itemsep=6pt]
+
+		\item \textbf{Inspect the device.} Check for shipping damage. Confirm the actuator is seated on the housing and the calibration screw is present and undamaged. Do not install a damaged unit.
+
+		\item \textbf{Identify inlet and outlet.} The inlet is the upstream port; the outlet connects to the downstream load. Refer to Figure~\ref{fig:ug_crosssection} and the flow-direction marking on the housing. \textbf{Installing the device backwards may result in damage to internal components.}
+
+		\item \textbf{Mount the device first.} Secure the PTCD to the bench or fixture before connecting any pipe. Tightening pipe fittings against an unsecured device transmits torque directly to the actuator and can shift the calibration.
+
+		\item \textbf{Prepare and connect the inlet.} Clean the threads, apply approved sealant, and thread the upstream fitting in by hand. Use two wrenches to tighten (one on the housing, one on the pipe fitting) to tighten to the specified torque per the chosen sealing method. \textbf{Do not bear against the actuator sub-assembly.}
+
+		\item \textbf{Connect the outlet.} Repeat the same procedure on the downstream port.
+
+		\item \textbf{Check actuator clearance.} Confirm no pipe, cable, or clamp contacts the actuator and that \SI{15}{\centi\meter} of free air clearance is maintained on all sides.
+
+	\end{enumerate}
+
+	%-------------------------------------------------------------------
+	\section{Leak Testing}
+	\label{sec:leaktest}
+	%-------------------------------------------------------------------
+
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{WARNING --- Hydrogen Service}} \quad Hydrogen is odourless and colourless. You cannot see or smell a hydrogen leak. Use \textbf{electronic hydrogen-specific gas detectors} or a certified hydrogen-compatible liquid leak solution. Never use an open flame.
+	\end{warningbox}
+
+	With the downstream valve closed, slowly bring the system to \textbf{10\% of the intended operating pressure}. Apply leak detector around every threaded joint and the bellows area and wait at least 60~seconds at each location. If a leak is found, shut off the supply, depressurise completely, re-make the connection, and repeat. \textbf{Never tighten a fitting under pressure.} Once the system is leak-free at 10\%, step up in increments of no more than 25\% of the final pressure, checking for leaks at each step. Log the test pressure, gas type, date, and operator name.
+
+	%-------------------------------------------------------------------
+	\section{Calibration}
+	%-------------------------------------------------------------------
+
+	The PTCD is calibrated at final assembly. Field recalibration is only needed if the device has been damaged, if the measured orifice diameter at $T_\mathrm{ref}$ falls outside tolerance, or if the device is being set up for a different target relationship.\textbf{The PTCD is not designed for disassembly.} Any attempt at disassembly may damgage components resulting in unsafe operating conditions. Any modifactions are to be done at the user's own risk.
+
+
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=.75\textwidth]{cal.png}
+		\caption{System Calibration with a Belleville Washer, repeated}
+		\label{fig:ug_calib}
+	\end{figure}
+
+
+	Depressurise the system before calibrating. Measure the orifice diameter at $T_\mathrm{ref} = \SI{25}{\degreeCelsius}$ using the sponsor-provided optical procedure and calculate the required height correction. Adjust the T6 adjustment screw in minute increments to achieve the target effective diameter. 
+	\begin{warningbox}
+	\textbf{\textcolor{warnred}{CAUTION:}} Do not over-tighten the calibration screw on top of the actuator. It pre-loads a Belleville washer inside the assembly.
+	\end{warningbox}
+
+	%-------------------------------------------------------------------
+	\section{Operation}
+	%-------------------------------------------------------------------
+
+	\begin{figure}[htbp]
+		\centering
+	\begin{tikzpicture}[
+			>=Stealth,
+			node distance=0.6cm,
+			font=\small,
+			color=ucdblue,
+			% Flowchart node styles
+			startstop/.style={
+				draw, rounded rectangle,
+				minimum width=3.2cm, minimum height=0.7cm,
+				align=center, color=ucdblue,
+				line width=1pt
+			},
+			process/.style={
+				draw, rectangle,
+				minimum width=3.2cm, minimum height=0.7cm,
+				align=center, color=ucdblue,
+				line width=1pt
+			},
+			passive/.style={
+				draw, rectangle,
+				minimum width=3.2cm, minimum height=1.1cm,
+				align=center, color=ucdblue,
+				line width=1pt, dashed
+			},
+			arrow/.style={->, >=Stealth, color=ucdblue, line width=0.8pt}
+		]
+
+		% Nodes (top to bottom)
+		\node[startstop] (install)
+			{(1) Install \& leak-test};
+
+		\node[process, below=of install] (equil)
+			{(2) Equilibrate temperature\\{\footnotesize(30 min)}};
+
+		\node[process, below=of equil] (press)
+			{(3) Pressurise};
+
+		\node[passive, below=of press] (passive)
+			{(4) Passive operation\\
+			{\footnotesize Ambient $T$ $\rightarrow$ actuator $\rightarrow$ orifice}};
+
+		\node[process, below=of passive] (depress)
+			{(5) Depressurise \& purge};
+
+		\node[startstop, below=of depress] (end)
+			{Shutdown};
+
+		% Arrows
+		\draw[arrow] (install)  -- (equil);
+		\draw[arrow] (equil)    -- (press);
+		\draw[arrow] (press)    -- (passive);
+		\draw[arrow] (passive)  -- (depress);
+		\draw[arrow] (depress)  -- (end);
+
+		% Loop: Shutdown → midpoint of install→equil arrow
+		\coordinate (loop-target) at ($(install.south)!0.5!(equil.north)$);
+		\draw[arrow]
+			(end.east)
+			-- ++(1.2, 0)
+			|- (loop-target);
+
+		\end{tikzpicture}
+		\caption{PTCD concept of operations.}
+		\label{fig:ug_conops}
+	\end{figure}
+
+	\begin{enumerate}[leftmargin=1.8em, itemsep=6pt]
+
+		\item \textbf{Install and leak-test} per Sections~4 and~5.
+
+		\item \textbf{Equilibrate.} With the system at low pressure and the downstream valve closed, wait at least \textbf{60~minutes} or until the ambient temperature has been stable.
+
+		\item \textbf{Check conditions.} Record the ambient temperature and confirm it is within \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}. Confirm the upstream pressure is within the rated range.
+
+		\item \textbf{Pressurise.} Slowly open the upstream supply to the desired operating pressure. Do not exceed \SI{68.95}{\mega\pascal}.
+
+		\item \textbf{Operate.} No further action is required. The PTCD adjusts the orifice automatically as temperature changes.
+
+		\item \textbf{Shutdown.} Close the upstream supply valve and open the downstream vent to relieve pressure. Verify depressurisation with a gauge. If hydrogen was used, purge the lines before disconnecting any fittings.
+
+	\end{enumerate}
+
+
+	%-------------------------------------------------------------------
+	\section{Quick-Reference Parameters}
+	%-------------------------------------------------------------------
+
+	\begin{center}
+	\begin{tabular}{lll}
+	\toprule
+	\textbf{Parameter} & \textbf{Value} & \textbf{Notes} \\
+	\midrule
+	Reference temperature $T_\mathrm{ref}$ & \SI{25}{\degreeCelsius} & Calibration point \\
+	Operating temperature range & \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius} & Ambient at actuator \\
+	Orifice diameter at \SI{-60}{\degreeCelsius} & $383.5 \pm 19.2\,\upmu$m & Maximum open \\
+	Orifice diameter at \SI{+25}{\degreeCelsius} & $254.0 \pm 12.7\,\upmu$m & Reference \\
+	Orifice diameter at \SI{+80}{\degreeCelsius} & $170.2 \pm 16.9\,\upmu$m & Minimum open \\
+	Max.\ operating pressure & \SI{68.95}{\mega\pascal} (\num{10000}~psi) & \\
+	Min.\ operating pressure & \SI{689.5}{\kilo\pascal} (\num{100}~psi) & \\
+	Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
+	\bottomrule
+	\end{tabular}
+	\end{center}
+
+	\renewcommand{\thesection}{\thechapter.\arabic{section}}
+	\addtocontents{toc}{\protect\setcounter{tocdepth}{2}}
+
+
+\chapter{Dtest}
+\label{app:Dtest}
+
+	\section{Dtest1}
+	\label{app:Dtest1}
+
+	
+\end{appendices}
 
 \end{document}
