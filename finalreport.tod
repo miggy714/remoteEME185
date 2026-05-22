@@ -1,22 +1,21 @@
 \contentsline {todos}{\numberline {29}All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole). Mention valve's lateral mechanical envelope here; was driven by pressure-vessel dimensions.}{29}{subsection.2.2.3}%
 \contentsline {todos}{\numberline {31}Add comsol results for rectangular center section}{31}{equation.2.19}%
 \contentsline {todos}{\numberline {35}Any features we changesd for machinability. Delete if we don't have anything to say here. Maybe change order in report so that welding is introduced before this.}{35}{figure.caption.28}%
-\contentsline {todos}{\numberline {35}add more as needed}{35}{figure.caption.28}%
-\contentsline {todos}{\numberline {36}Talk about coating to prevent galling}{36}{figure.caption.28}%
 \contentsline {todos}{\numberline {37}All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}{37}{subsection.2.2.7}%
-\contentsline {todos}{\numberline {46}Update with Xometry quote once obtained}{46}{figure.caption.34}%
+\contentsline {todos}{\numberline {46}Update with Xometry quote once obtained}{46}{figure.caption.35}%
 \contentsline {todos}{\numberline {46}Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}{46}{subsection.3.1.3}%
 \contentsline {todos}{\numberline {48}Uncomment pdf}{48}{equation.3.1}%
 \contentsline {todos}{\numberline {51}Briefly explain new effective temperatures}{51}{subsection.3.2.1}%
-\contentsline {todos}{\numberline {59}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{59}{figure.caption.42}%
-\contentsline {todos}{\numberline {59}Bonus - propose physical tests -- the ones we were going to do with our own prototype}{59}{figure.caption.42}%
+\contentsline {todos}{\numberline {59}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{59}{figure.caption.43}%
+\contentsline {todos}{\numberline {59}Bonus - propose physical tests -- the ones we were going to do with our own prototype}{59}{figure.caption.43}%
 \contentsline {todos}{\numberline {60}Strengths, weaknesses, and limitations of design}{60}{section.6.1}%
 \contentsline {todos}{\numberline {69}Include any overfill from the main body of the report to keep it under 50 pages.}{69}{appendix.A}%
 \contentsline {todos}{\numberline {89}Double-check that BOM is up-to-date. Recheck McMaster prices}{89}{appendix.B}%
-\contentsline {todos}{\numberline {91}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{91}{figure.caption.60}%
-\contentsline {todos}{\numberline {93}Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}{93}{appendix*.62}%
-\contentsline {todos}{\numberline {93}Notes:}{93}{appendix*.62}%
-\contentsline {todos}{\numberline {117}Uncomment below pdfs}{117}{section.E.1}%
-\contentsline {todos}{\numberline {117}Uncomment below pdf}{117}{section.E.2}%
-\contentsline {todos}{\numberline {119}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{119}{appendix.F}%
-\contentsline {todos}{\numberline {124}Add detail that we iteratively developed our specs in close communication with our sponsor (client) in accordance with NASA p. 54 note?}{124}{figure.caption.71}%
+\contentsline {todos}{\numberline {91}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{91}{figure.caption.61}%
+\contentsline {todos}{\numberline {93}Instructions for how to cut stock parts, how to machine every feature (high-level), and most especially how to EBW-assemble and calibrate}{93}{appendix*.63}%
+\contentsline {todos}{\numberline {93}Notes:}{93}{appendix*.63}%
+\contentsline {todos}{\numberline {103}Uncomment below pdf}{103}{appendix.D}%
+\contentsline {todos}{\numberline {105}Uncomment below pdfs}{105}{section.E.1}%
+\contentsline {todos}{\numberline {105}Uncomment below pdf}{105}{section.E.2}%
+\contentsline {todos}{\numberline {107}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{107}{appendix.F}%
+\contentsline {todos}{\numberline {110}Add detail that we iteratively developed our specs in close communication with our sponsor (client) in accordance with NASA p. 54 note?}{110}{figure.caption.72}%

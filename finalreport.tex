@@ -1661,18 +1661,6 @@
 
 				\todo{Any features we changesd for machinability. Delete if we don't have anything to say here. Maybe change order in report so that welding is introduced before this.}
 
-			The \device\ is designed to be manufactured using mostly conventional machining techniques, such as milling and turning, with the critical welds performed using Electron Beam Welding (EBW) and the orifice apertures cut using Electrical Discharge Machining (EDM).
-        One of the primary concerns during the design process was ensuring that the device could be assembled given the constraints of the manufacturing processes. The entire manufacturing and assembly process is detailed in Appendix \ref{app:mfg}, but the following design features were motivated by manufacturability:
-        \begin{itemize}
-            \item The housing center is split into two pieces to allow for line-of-sight welding of the bellows and valve orifice.
-            \todo{add more as needed}
-        \end{itemize}
-
-        Due to the small scale of the device, there is little room to accommodate the welding process. For each welding operation, the weld joint must be continuously accessible by the welding beam, requiring an unobstructed line of sight throughout the full rotation of the workpiece.
-        
-        A key breakthrough in the design was the decision to split the housing center into two discrete pieces. In a single-piece housing configuration, the internal geometry of the housing would obstruct both the welding beam and any assembly tooling, making it impossible to reliably weld the bellows or seat the valve components without risking damage to adjacent parts. By separating the center into two pieces, each sub-assembly can be accessed and worked on independently before final integration.
-        
-        This modular approach enables the critical bellows welds to be performed outside of the housing entirely, with a full 360$^\circ$ line of sight, before the center pieces are joined to the inlet. Similarly, internal components that would otherwise be unreachable in a fully enclosed housing can be installed, inspected, and verified at each intermediate stage of assembly. The final closure welds, which join the two center pieces together and seal the assembly, are the last operations performed, ensuring that all internal work is completed and confirmed before the device is permanently closed. 
 			\subsubsection{Assemblability Considerations}
 			\label{subsubsec:design:just:gen_dim:assem}
 
@@ -1687,7 +1675,22 @@
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
 
-				\todo{Talk about coating to prevent galling}
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling, which could degrade the system performance over time.
+			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
+			Compared to uncoated Invar, the TiCN coating provides a 5.6 times increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
+			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film (about 2-4 microns thick) of material onto the surface of the substrate.
+			
+			\begin{figure}[H]
+				\centering
+				\framebox[0.85\textwidth]{\vbox{\vspace{1.5cm}
+					\hbox{\centering \textbf{[ PLACEHOLDER: COATED VALVE SURFACES ]}}
+					\vspace{0.3cm}
+					\hbox{\centering \small This figure will show the specific internal mechanical boundaries}
+					\hbox{\centering \small and sealing interfaces where the TiCN coating is applied to the Invar substrate.}
+				\vspace{1.5cm}}}
+				\caption{Target internal valve geometries selected for TiCN coating}
+				\label{fig:coated_surfaces}
+			\end{figure}
 
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
@@ -2408,6 +2411,11 @@
 		\bibitem{ref_ashby} % E vs CTE plot
 		M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
 		5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+
+		\bibitem{ref_TiCN_Coating} % TiCN coating properties
+		T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
+  		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
+  		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
 
 		% COURSE TEXTS AND ENGINEERING PRACTICES
 
@@ -3643,7 +3651,7 @@
 			\item Heat-treat/anneal Invar parts before machining (to reduce hardness) and after (to ensure dimensional stability). See \cite[p. 6]{ref_Carpenter_Inv}
 			\item Recommend applying Loctite for lubrication and firm seal when calibrating
 			\item Finishing pass on HI after internals have been inserted
-			\item Apply coat to orifice
+			\item Apply coat to orifice (TiCN)
 			\item Finishing pass on critical faces; measure from those faces
 			\item Cite White 9th ed, eq. 6-102 on measuring effective diam. from pressure drop
 			\item Invar billet: cut valve orifice out of same stock. Long dimension is along z axis; is at least 79 mm: 32 for Inlet, 40 for Outlet, 7 for thickness of valve orifice
@@ -3754,7 +3762,7 @@ Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above a
 \label{sec:mounting}
 \textbf{NOTE:} The actuator responds to the temperature of the air surrounding it. Anything that heats or cools the actuator other than the ambient air will introduce error in the orifice diameter.
 
-Mount the PTCD on a rigid, level surface. The actuator must be vertical --- tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \textbf{\SI{15}{\centi\meter} of free air clearance around the actuator on all sides}, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
+Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \SI{15}{\centi\meter} of free air clearance around the actuator on all sides, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurised.
 
 \subsection{Ambient Air Conditions}
 
@@ -3874,7 +3882,7 @@ The device is designed for quasi-static temperature changes. Avoid directing com
 %-------------------------------------------------------------------
 
 \begin{warningbox}
-\textbf{\textcolor{warnred}{WARNING --- Hydrogen Service}} \quad Hydrogen is odourless and colourless. You cannot see or smell a hydrogen leak. Use \textbf{electronic hydrogen-specific gas detectors} or a certified hydrogen-compatible liquid leak solution. Never use an open flame.
+\textbf{\textcolor{warnred}{WARNING --- Hydrogen Service}} \quad Hydrogen is odorless and colorless. You cannot see or smell a hydrogen leak. Use \textbf{electronic hydrogen-specific gas detectors} or a certified hydrogen-compatible liquid leak solution. Never use an open flame.
 \end{warningbox}
 
 With the downstream valve closed, slowly bring the system to \textbf{10\% of the intended operating pressure}. Apply leak detector around every threaded joint and the bellows area and wait at least 60~seconds at each location. If a leak is found, shut off the supply, depressurise completely, re-make the connection, and repeat. \textbf{Never tighten a fitting under pressure.} Once the system is leak-free at 10\%, step up in increments of no more than 25\% of the final pressure, checking for leaks at each step. Log the test pressure, gas type, date, and operator name.
@@ -4019,7 +4027,8 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 	The following appendix presents the detailed engineering and manufacturing drawings for the PTCD assembly and its individual components. General drawing tolerances govern the design requirements to ensure
 	 reliability and precision.
 
-	\includepdf[pages=1-12, fitpaper=true, landscape=true]{05182026_DrawingPackage_v31.pdf}
+	\todo{Uncomment below pdf}
+	%\includepdf[pages=1-12, fitpaper=true, landscape=true]{05182026_DrawingPackage_v31.pdf}
 
 \chapter{Data Sheets}
 \label{app:datasheets}
@@ -4176,7 +4185,7 @@ Compatible gases & Noble gases, H$_2$ & All wetted parts H$_2$-rated \\
 
 % \includepdf[pages=1, fitpaper=true, landscape=true]{TaskList.pdf}
 
-\includepdf[pages=1, fitpaper=true, landscape=true]{FinalGanttChart.pdf}
+%\includepdf[pages=1, fitpaper=true, landscape=true]{FinalGanttChart.pdf}
 
 	Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spand a year to develop.
 	We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
