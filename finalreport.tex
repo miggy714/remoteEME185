@@ -1003,9 +1003,9 @@
 				\end{minipage}
 			\end{figure}
 
-			The Valve Orifice (V4) comprises the leading orifice hole near its center.
+			The Valve Orifice (4) comprises the leading orifice hole near its center.
 			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
-			It lies flush against the Housing Outlet (V3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
+			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
 			Together, these comprise the \device's orifice, shown in Figure \ref{fig:orif_assem}.
 
 			\begin{figure}[H]
@@ -1015,7 +1015,7 @@
 				\label{fig:orif_assem}
 			\end{figure}
 
-			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (V2), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
+			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
 			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls as in Figure \ref{fig:V2}
 
 			\begin{figure}[H]
@@ -1050,7 +1050,7 @@
 				Two Housing Center pieces (V1) plug the remaining gaps.
 				They contain holes for the valve stems to slide through, guiding their motion.
 
-				To hermetically seal these holes, a bellows (I718\_159\_72\_430) is welded between the Valve Orifice and each Housing Center.
+				To hermetically seal these holes, a bellows (5) is welded between the Valve Orifice and each Housing Center (2).
 				As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for a sealed pentration of the housing.
 				The housing center and bellows are inserted in Figure \ref{fig:V1_bellows}.
 			\end{multicols}
@@ -1114,7 +1114,7 @@
 				\label{fig:act_ID}
 			\end{figure}
 
-			The central Aluminum expansion rod (A1) nests inside an ALLVAR mount (A2), suspended by the screw-washer assembly (93237A101, 93475A195, 90362A141).
+			The central Aluminum expansion rod (6) nests inside an ALLVAR mount (7), suspended by the screw-washer assembly (8, 9, 10).
 			The base of the mount is electron-beam welded to the top of the valve housing
 			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure \ref{fig:Act_cut}.
@@ -1148,6 +1148,41 @@
 
 			The complete Bill of Materials, with accompanying part diagrams, is given in Appendix \ref{app:BOM}.
 			Complete machine architecture drawings are given in Appendix \ref{app:drawings}.
+
+			Table \ref{tab:part_num} summarizes the part numbers for each component of the \device, which will be used for reference in the following sections.
+
+\begin{table}[H]
+    \centering
+    \caption{Component Part Numbers}
+    \label{tab:part_num}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{
+        >{\centering\arraybackslash}p{0.08\textwidth}
+        >{\raggedright\arraybackslash}X
+        >{\centering\arraybackslash}p{0.22\textwidth}
+        >{\raggedright\arraybackslash}p{0.20\textwidth}
+    }
+    \toprule
+    \textbf{Item} & \textbf{Part Name} & \textbf{Part Number} & \textbf{Material} \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Valve Sub-Assembly (V0)}} \\
+    \midrule
+    1 & Housing Inlet  & V2              & Invar 36     \\
+    2 & Housing Center & V1              & Invar 36     \\
+    3 & Housing Outlet & V3              & Invar 36     \\
+    4 & Valve Orifice  & V4              & Invar 36     \\
+    5 & Bellows        & I718-159-72-430 & Inconel 718  \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Actuator Sub-Assembly (A0)}} \\
+    \midrule
+    6  & Actuator          & A1        & Aluminum 6061        \\
+    7  & Mount             & A2        & Allvar               \\
+    8  & Belleville Washer & 93237A101 & Stainless Steel 316L \\
+    9  & Standard Washer   & 93475A195 & 18-8 Stainless Steel \\
+    10 & Screw             & 90362A141 & 18-8 Stainless Steel \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
 
 	\section{Design Justification}
 	\label{sec:design:just}
