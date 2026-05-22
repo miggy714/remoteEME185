@@ -1149,6 +1149,41 @@
 			The complete Bill of Materials, with accompanying part diagrams, is given in Appendix \ref{app:BOM}.
 			Complete machine architecture drawings are given in Appendix \ref{app:drawings}.
 
+			Table \ref{tab:part_num} summarizes the part numbers for each component of the \device, which will be used for reference in the following sections.
+
+\begin{table}[H]
+    \centering
+    \caption{Component Part Numbers}
+    \label{tab:part_num}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{
+        >{\centering\arraybackslash}p{0.08\textwidth}
+        >{\raggedright\arraybackslash}X
+        >{\centering\arraybackslash}p{0.22\textwidth}
+        >{\raggedright\arraybackslash}p{0.20\textwidth}
+    }
+    \toprule
+    \textbf{Item} & \textbf{Part Name} & \textbf{Part Number} & \textbf{Material} \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Valve Sub-Assembly (V0)}} \\
+    \midrule
+    1 & Housing Inlet  & V2              & Invar 36     \\
+    2 & Housing Center & V1              & Invar 36     \\
+    3 & Housing Outlet & V3              & Invar 36     \\
+    4 & Valve Orifice  & V4              & Invar 36     \\
+    5 & Bellows        & I718-159-72-430 & Inconel 718  \\
+    \midrule
+    \multicolumn{4}{l}{\textit{Actuator Sub-Assembly (A0)}} \\
+    \midrule
+    6  & Actuator          & A1        & Aluminum 6061        \\
+    7  & Mount             & A2        & Allvar               \\
+    8  & Belleville Washer & 93237A101 & Stainless Steel 316L \\
+    9  & Standard Washer   & 93475A195 & 18-8 Stainless Steel \\
+    10 & Screw             & 90362A141 & 18-8 Stainless Steel \\
+    \bottomrule
+    \end{tabularx}
+\end{table}
+
 	\section{Design Justification}
 	\label{sec:design:just}
 
