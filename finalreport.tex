@@ -151,6 +151,7 @@
 \usepackage{multicol}
 \usepackage{mdframed}
 \usepackage{wrapfig}
+\usepackage{nicefrac}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -1396,8 +1397,6 @@
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
 
-			\todo{All pressure calcs, including COMSOL? The below calculations are from Report 2; they only cover the cylindrical-interior components. Add justification of 10 mm thickness on housing center (top and bottom), inlet (sides), and outlet (thick wall between its square orifice and threaded hole). Mention valve's lateral mechanical envelope here; was driven by pressure-vessel dimensions.}
-
 			The housing consists of the inlet, the outlet, and two center pieces, all of which are constructed from Invar 36 and analyzed for the device's ability to withstand the internal pressure. 
 			The adjoined housing components provide the pressure boundary for the valve. The inlet and outlet sections have cylindrical internal geometries with threaded ends that connect to the pipe. The center of the valve sub-assembly (where the housing components meet) creates a void in the form of a rectangular prism that contains the orifice plate and bellows assembly.
 			
@@ -1470,26 +1469,28 @@
 	\label{vonmises2}
 	\end{equation}
 
-	The design is verified if $\sigma_{vm} \leq S_y / FS$; the factor of safety is calculated as follows:
+	This yields a safety factor of
 
 	\begin{equation}
-	FS = \frac{S_y}{\sigma_{vm}} = \frac{276}{190.08} \approx 1.45
+	FS = \frac{S_y}{\sigma_{vm}} = \frac{276}{190.08} \approx 1.45 > 1
 	\label{fs}
 	\end{equation}
 
-				The wall thickness of \SI{7.806}{\milli\meter} produces a Von Mises stress of \SI{190.08}{\mega\pascal}, yielding a factor of safety of $FS \approx 1.45$.
-				The housing inlet/outlet design ensures that \SI{7.806}{\milli\meter} is the shortest distance from the inner wall to the outer wall therefore the thickness at some points of the housing is greater than \SI{7.806}{\milli\meter}.
-				Because the housing design is rectangular, not cylindrical, the calculation above is a conservative estimate of the stress, as realistic stress concentrations at the corners of the housing will be mitigated by the increased thickness at those points.
-				
-				Note that inlet and outlet wall thickness defines the lateral mechanical envelope of the valve. This design choice was driven by the need to maintain a pressure boundary while minimizing the overall size of the valve. Any increase in the wall thickness would directly increase the factor of safety, but also increase the overall lateral size.
+	verifying that the Housing Inlet and Outlet carry sufficient structural material to hold the maximum specified internal pressure.
+	System pressure capacity drove the valve subsystem's lateral mechanical envelope of \SI{40}{\milli\meter},
+	which is sufficiently thick to satisfy its pressure requirements and well within its size constraints.
 
+				The above estimate is concervative and assumes a cylindrical exterior with a wall thickness equal to the thinnest dimension of the actual design.
+				Because the valve assembly is rectangular, the additional material provides extra strength.
+				
 				The housing center pieces are also designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
 				Because the center pieces form a rectangular prism, the stress distribution is more complex than in a cylindrical geometry, and was difficult to model analytically. However, the increased thickness of \SI{10}{\milli\meter} provides a significant safety margin to ensure that the housing center can withstand the internal pressure without failure.
 				Stress concentrations at the corners of the prism were a primary concern and were modeled using COMSOL to verify this specific region did not experience excessive stress
 				The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
 
-				\todo{Add comsol results for rectangular center section}       
+				\todo{Add comsol results for rectangular center section. The above paragraph can address it.}       
 
+		\newpage % Delete if necessary
 		\subsection{Hermetic Seal}
 		\label{subsec:design:just:bellows}
 
@@ -1692,12 +1693,7 @@
 				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length for an airtight seal.
 				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
 
-			\subsubsection{Machinability Considerations}
-			\label{subsubsec:design:just:gen_dim:machine}
-
-				\todo{Any features we changesd for machinability. Delete if we don't have anything to say here. Maybe change order in report so that welding is introduced before this.}
-
-			\subsubsection{Assemblability Considerations}
+				\subsubsection{Assemblability Considerations}
 			\label{subsubsec:design:just:gen_dim:assem}
 
 				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix \ref{app:mfg}.
@@ -1714,7 +1710,7 @@
 			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling, which could degrade the system performance over time.
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a 5.6 times increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
-			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film (about 2-4 microns thick) of material onto the surface of the substrate.
+			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film (~ 2--4 \si{\micro\meter}) of material onto the surface of the substrate.
 			
 			\begin{figure}[H]
 				\centering
@@ -1760,10 +1756,8 @@
 		\subsection{Electron-Beam Welded Assembly}
 		\label{subsec:design:just:LBW}
 
-			\todo{All weld information here. Talk about its justification -- minimizes dof, ensures structural integrity}
-
 			The device is assembled using Electron Beam Welding (EBW), a high-precision welding technique that uses a focused beam of electrons to join materials together\cite{ref_steen2010laser}.
-			The \device requires three different types of welds:
+			The \device\ requires three different types of welds:
 			\begin{itemize}
 				\item Welds joining bellows to the housing inlet and the valve orifice.
 				\item Welds joining the housing center pieces to the housing inlet.
@@ -1773,109 +1767,112 @@
 			\end{itemize}
 
 			Of these processes, the welds that joing the housing inlet, outlet, and center pieces are the most critical, as they form the pressure boundary of the valve and are subject to the highest stresses.
-			The geomtry of the welds is a square butt joint, which is a widely used type of weld joint in pressure vessel construction allowing for full penetration of EBW.
+			The geomtry of the welds is a square butt joint, which is a widely used in pressure vessel construction, allowing for full penetration of EBW.
 	
 			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
 			EBW's high power density enables complete fusion across the interface, and the square butt profile 
 			is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured\cite{ref_steen2010laser}.
 			Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
-			Table 302.3.4\cite{ref_asme_b313}.
+			\cite[Table 302.3.4]{ref_asme_b313}.
 			The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
 			and cracking, all of which could significantly reduce joint strength\cite{ref_steen2010laser}.
 			\\~\\
 			The viability of the weld joint is evaluated using the ASME B31.3 Pressure Piping Code 
-			(Equation 3a or Equation \eqref{tmin_weld}, below)\cite{ref_asme_b313}, which governs the required minimum wall thickness as a function 
-			of the weld joint quality factor $E$. Note that the calculation below are using a cylindrocal pipe geometry as a conservative approximation of the rectangular housing geometry, as the welds are located at the inner wall of the housing where the stress is highest and the wall thickness is lowest.
+			(Equation \eqref{tmin_weld}, below)\cite[eq.~3a]{ref_asme_b313}, which governs the required minimum wall thickness as a function 
+			of the weld joint quality factor $E$. Note that the calculations below use a cylindrical pipe geometry as a conservative approximation of the rectangular housing geometry, as the welds are located at the inner wall of the housing where the stress is highest and the wall thickness is lowest.
 				
 			\begin{equation}
 			t_{min} = \frac{P D_o}{2(SEW + PY)}
 			\label{tmin_weld}
 			\end{equation}
 
-		\begin{table}[H]
-			\centering
-			\caption{Weld Analysis Parameter Values}
-			\label{tab:weld_parameters}
-			\begin{tabularx}{\textwidth}{l X l}
-				\toprule
-				\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
-				\midrule
-				$P$ &
-				Internal pressure &
-				$\specPressure$
-				\\\addlinespace
-				$D_o$ &
-				Outer diameter &
-				\SI{40}{\milli\meter}
-				\\\addlinespace
-				$S$ &
-				ASME allowable stress, $S_y$ / 1.5 &
-				\SI{184}{\mega\pascal}
-				\\\addlinespace
-				$W$ &
-				Weld strength reduction factor &
-				1.0
-				\\\addlinespace
-				$Y$ &
-				Coefficient for nickel alloys ($T < \SI{482}{\degreeCelsius}$) &
-				0.4
-				\\\addlinespace
-				$E$ &
-				Weld joint quality factor &
-				1.0
-				\\\bottomrule
-			\end{tabularx}
-		\end{table}
+			\begin{table}[H]
+				\centering
+				\caption{Weld Analysis Parameter Values}
+				\label{tab:weld_parameters}
+				\begin{tabularx}{\textwidth}{l X l}
+					\toprule
+					\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+					\midrule
+					$P$ &
+					Internal pressure &
+					$\specPressure$
+					\\\addlinespace
+					$D_o$ &
+					Outer diameter &
+					\SI{40}{\milli\meter}
+					\\\addlinespace
+					$S$ &
+					ASME allowable stress, $S_y$ / 1.5 &
+					\SI{184}{\mega\pascal}
+					\\\addlinespace
+					$W$ &
+					Weld strength reduction factor &
+					1.0
+					\\\addlinespace
+					$Y$ &
+					Coefficient for nickel alloys ($T < \SI{482}{\degreeCelsius}$) &
+					0.4
+					\\\addlinespace
+					$E$ &
+					Weld joint quality factor &
+					1.0
+					\\\bottomrule
+				\end{tabularx}
+			\end{table}
 
-		The ASME allowable stress is derived directly from the housing yield strength using the standard 
-		code factor of $S = S_y / 1.5 = \SI{276}{\mega\pascal} / 1.5 = \SI{184}{\mega\pascal}$.
-		Per ASME B31.3 Table 302.3.4\cite{ref_asme_b313}, the weld joint quality factor $E$ depends entirely 
-		on the level of examination applied:
+			The ASME allowable stress is derived directly from the housing yield strength using the standard 
+			code factor of $S = S_y / 1.5 = \SI{276}{\mega\pascal} / 1.5 = \SI{184}{\mega\pascal}$.
+			Per ASME B31.3 \cite[Table 302.3.4]{ref_asme_b313}, the weld joint quality factor $E$ depends entirely 
+			on the level of examination applied:
 
-		\begin{itemize}
-			\item $E = 0.80$: Single butt weld with visual inspection only.
-			\item $E = 0.85$: Double butt weld or spot radiography.
-			\item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
-		\end{itemize}
+			\begin{itemize}
+				\item $E = 0.80$: Single butt weld with visual inspection only.
+				\item $E = 0.85$: Double butt weld or spot radiography.
+				\item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
+			\end{itemize}
 
-		With full radiography ($E = 1.00$), the minimum required wall thickness is:
+			With full radiography ($E = 1.00$), the minimum required wall thickness is:
 
-		\begin{equation}
-		t_{min} = \frac{\SI{68.95}{\mega\pascal} \times \SI{40}{\milli\meter}}{2\left(\SI{184}{\mega\pascal} \times 1.00 \times 1.0 + \SI{68.95}{\mega\pascal} \times 0.4\right)} 
-		\approx \SI{6.52}{\milli\meter}
-		\label{t_num}
-		\end{equation}
+			\begin{equation}
+			t_{min} = \frac{\SI{68.95}{\mega\pascal} \times \SI{40}{\milli\meter}}{2\left(\SI{184}{\mega\pascal} \times 1.00 \times 1.0 + \SI{68.95}{\mega\pascal} \times 0.4\right)} 
+			\approx \SI{6.52}{\milli\meter}
+			\label{t_num}
+			\end{equation}
 
-		Since $t_{min} = \SI{6.52}{\milli\meter} < t_{actual} = \SI{7.806}{\milli\meter}$, the design is verified.
-		The thickness safety factor at the weld joint is:
+			The design wall thickness, $t_{actual} = \SI{7.806}{\milli\meter} > t_{min} = \SI{6.52}{\milli\meter}$,
+			is sufficiently contains the maximum internal pressure with a safety factor of
 
-		\begin{equation}
-		SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{\SI{7.806}{\milli\meter}}{\SI{6.52}{\milli\meter}} \approx 1.20
-		\label{sf_weld}
-		\end{equation}
-		\\~\\
-		As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
-		($\sigma_\theta = \SI{150.54}{\mega\pascal}$) is compared directly against the weld joint allowable stress\cite{ref_asme_b313}:
+			\begin{equation}
+			SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{\SI{7.806}{\milli\meter}}{\SI{6.52}{\milli\meter}} \approx 1.20
+			\label{sf_weld}
+			\end{equation}
+			\\~\\
+			As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
+			($\sigma_\theta = \SI{150.54}{\mega\pascal}$) is compared directly against the weld joint allowable stress\cite{ref_asme_b313}:
 
-		\begin{equation}
-		\sigma_{allow} = S \cdot E \cdot W = \SI{184}{\mega\pascal} \times 1.00 \times 1.0 = \SI{184}{\mega\pascal}
-		\label{stress_allow}
-		\end{equation}
+			\begin{equation}
+			\sigma_{allow} = S \cdot E \cdot W = \SI{184}{\mega\pascal} \times 1.00 \times 1.0 = \SI{184}{\mega\pascal}
+			\label{stress_allow}
+			\end{equation}
 
-		\begin{equation}
-		\sigma_\theta = \SI{150.54}{\mega\pascal} < \sigma_{allow} = \SI{184}{\mega\pascal}
-		\label{ineq_hoop}
-		\end{equation}
+			\begin{equation}
+			\sigma_\theta = \SI{150.54}{\mega\pascal} < \sigma_{allow} = \SI{184}{\mega\pascal}
+			\label{ineq_hoop}
+			\end{equation}
 
-		The weld joint stress safety factor is:
-		\begin{equation}
-		SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{\SI{184}{\mega\pascal}}{\SI{150.54}{\mega\pascal}} \approx 1.22
-		\label{sf_stress}
-		\end{equation}
+			The weld joint stress safety factor is:
+			\begin{equation}
+			SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{\SI{184}{\mega\pascal}}{\SI{150.54}{\mega\pascal}} \approx 1.22 > 1
+			\label{sf_stress}
+			\end{equation}
 
-		These results confirm that with 100\% X-ray radiographic inspection ($E = 1.00$)\cite{ref_asme_b313}, 
-		the weld joint introduces no strength penalty relative to the base material.
-		The joint is viable with a thickness margin of \SI{1.29}{\milli\meter} and a stress safety factor of $1.22$.     
+			These results confirm that, if all welds pass 100\% X-ray radiographic inspection ($E = 1.00$)\cite{ref_asme_b313}, 
+			the weld joint introduces no strength penalty relative to the base material.
+			The joint is viable with a thickness margin of \SI{1.29}{\milli\meter} and a stress safety factor of $1.22$.    
+			Electron-beam welding the entire assembly allows for high-strength pressure-vessel assembly;
+			it also enables an assembly with minimal degrees of freedom and a direct interface between the two subsystems,
+			improving the system-level precision by preventing backlash allowed by alternative assembly methods.
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -3637,6 +3634,8 @@
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
 	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in section \ref{sec:sat:error} were taken from this quote.
+	
+	\todo{EDM tols not included in quote yet; waiting for Xometry to respond}
 
 	\newpage
 	\begin{figure}[H]
@@ -3762,9 +3761,11 @@
 						is \SI{20}{\milli\meter} from the intersection between the two surfaces. The
 						hole must measure at least \SI{3.4}{\milli\meter} in diameter and \SI{5.1}{\milli\meter}
 						depth.
-			\item New, carbide-steel tools. Note: this is important to properly machine the parts
-						made of Invar 36, which work-hardens as it is cut.
 			\item T6 hand screwdriver
+			\item New, sharp, carbide steel tools of the following types and sizes:
+						\begin{itemize}
+							\item \todo{Add tools}
+						\end{itemize}
 		\end{itemize}
 	\end{notebox}
 	\newpage
@@ -3932,12 +3933,22 @@
 
 	Refer to drawing V1. Produce both Housing Centers identically.
 
+	\begin{notebox}
+	\textbf{Invar 36 tooling} \\
+	Use new, sharp, carbide steel tools to machine all features on the Invar 36 parts.
+	Invar hardens as it is machined. Cut with slow, shall passes and ample cutting fluid.
+	Replace tools when necessary to ensure precise, consistent dimensions.
+	\end{notebox}
+
 	\begin{enumerate}[itemsep=4pt]
-		\item \textbf{Mill all six faces} to bring the part to nominal rectangular dimensions.
-		\item \textbf{Mill two T-slots on the lateral sides} ($+$X and $-$X faces) for the
-					valve orifice sliding interface.
-		\item \textbf{Drill through-hole} for the valve stem passage.
-					Use a reamer to bring to final H7 tolerance.
+		\item \textbf{Mill all six faces} to bring the part to nominal rectangular dimensions
+					with a 12 mm end mill.
+		\item \textbf{Mill two T-slots on the lateral sides} for the
+					valve orifice sliding interface
+					with a 12 mm end mill facing from the +X and -X directions, respectively.
+		\item \textbf{Drill through-hole} for the valve stem passage
+					with a \#30 drill bit from the -Y direction.
+					Use a \#29 reamer to bring to final H7 tolerance.
 	\end{enumerate}
 
 	% ------ V2: Housing Inlet ------
@@ -3947,9 +3958,9 @@
 	Refer to drawing V2.
 
 	\begin{enumerate}[itemsep=4pt]
-		\item \textbf{Mill all six faces} to nominal rectangular dimensions.
+		\item \textbf{Mill all six faces} to nominal rectangular dimensions with a 12 mm end mill.
 		\item \textbf{Finishing pass on critical faces}
-					(the $+$X and $+$Y faces).
+					(the $+$X and $+$Y faces) with a 12 mm end mill.
 					\begin{notebox}
 					\textbf{The +X face} is the primary reference for the Housing Inlet.
 					Machine this face last among the milled faces, with a dedicated finishing pass
@@ -3959,16 +3970,13 @@
 					and will be held flush with the corresponding face on the Housing Outlet
 					during EBW assembly.
 					\end{notebox}
-		\item \textbf{Mill top T-groove} on the $+$Y face for the upper valve stem channel.
-		\item \textbf{Mill bottom T-groove} on the $-$Y face for the lower valve stem channel.
-		\item \textbf{Mill central channel} through the +Z face to form the sliding pocket
-					for the Valve Orifice.
-		\item \textbf{Drill large central hole}
-					through the inlet channel. This is the main gas passage.
+		\item \textbf{Mill top T-groove} with a 6 mm end mill from the +Y direction.
+		\item \textbf{Mill bottom T-groove} with a 6 mm end mill from the -Y direction.
+		\item \textbf{Mill central channel} through the -Z face with a 6 mm end mill.
+		\item \textbf{Drill large central hole} with a \nicefrac{59/64}" drill bit.
 		\item \textbf{Drill small inlet hole}
-					for the upstream pipe connection.
-		\item \textbf{Tap large hole} with G\,3/4-14\,A (in) thread (BSP pipe thread) for
-					the upstream pipe fitting. Use a pipe tap and cutting fluid.
+					from the -Z direction with an \nicefrac{1}{8}" drill bit.
+		\item \textbf{Tap large hole} with a \nicefrac{3}{4}-14\,NPT pipe thread tap. Use cutting fluid.
 	\end{enumerate}
 
 	% ------ V3: Housing Outlet ------
@@ -3978,9 +3986,9 @@
 	Refer to drawing V3.
 
 	\begin{enumerate}[itemsep=4pt]
-		\item \textbf{Mill all six faces} to nominal dimensions.
+		\item \textbf{Mill all six faces} to nominal dimensions with a 12 mm end mill.
 		\item \textbf{Finishing pass on Critical Faces A, B, and C}
-					(the $+$X, $+$Y, and $+$Z faces respectively).
+					(the $+$X, $+$Y, and $+$Z faces respectively) with a 12 mm end mill.
 					\begin{notebox}
 					\textbf{The +X and +Y faces} are the primary references for the Housing Outlet.
 					Machine these faces last among the milled faces, with a dedicated finishing pass
@@ -3991,10 +3999,11 @@
 					during EBW assembly. \\
 					\textbf{The +Z face} must be similarly finished to ensure even abuttment against the Housing Inlet.
 					\end{notebox}
-		\item \textbf{Drill large central hole} as in the Housing Inlet.
-		\item \textbf{Plunge small orifice hole} with an end mill.
-		\item \textbf{Tap large hole} with G\,3/4-14\,A (in) thread for the downstream
-					pipe fitting.
+		\item \textbf{Drill large central hole} with a \nicefrac{59/64}" drill bit.
+		\item \textbf{Pre-drill small orifice hole} with a 3.5 mm drill bit. Leave at least 1 mm clearance between the bit tip and the bottom of the cut.
+		\item \textbf{Plunge small orifice hole} with a 3 mm end mill. Cut slowly at a shallow angle to avoid breaking the small bit.
+					Keep in mind that the workpiece will have hardened after the previous operation.
+		\item \textbf{Tap large hole} with a \nicefrac{3}{4}-14\,NPT pipe thread tap. Use cutting fluid.
 		\item \textbf{Sinker EDM --- square through-orifice:}
 					\begin{warningbox}
 					\textbf{\textcolor{warnred}{WARNING --- EDM Hazard}}
@@ -4035,10 +4044,17 @@
 	Refer to drawing V4.
 
 	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Mill $\pm$Y faces} to bring part to nominal height.
 		\item \textbf{Mill $\pm$Z and $\pm$X faces} to bring part to nominal rectangular
 					dimensions.
 		\item \textbf{Finish all faces} except for the -Y face, paying especial attention
 					to the +X face.
+		\item \textbf{Mill valve stem}. From several direction perpendicular to the vertical axis,
+					cut the corners of the workpiece along the valve stem dimension with a 25 mm end mill
+					to bring its shape to a rough cylinder.
+					Leave a few mm clearance above and below the rectantular section.
+		\item \textbf{Lathe valve stem}. Turn the two shafts to nominal diameter with a CNMG lathe tool.
+					Bring to tolerance with a finishing pass using a CCMT lathe tool.
 		\item \textbf{Plunge small hole} with an end mill.
 		\item \textbf{Sinker EDM --- square through-orifice (leading orifice):}
 					Machine the square through-orifice using sinker EDM as per the above EDM operation.
@@ -4056,23 +4072,29 @@
 
 	\textbf{Starting stock:}
 	\O\,\SI{19.05}{\milli\meter} $\times$ \SI{76.2}{\milli\meter}
-	(\O\,3/4$''$ $\times$ 6$''$) 6061-T6 Aluminum rod.
+	(\O\,3/4$''$ $\times$ 3$''$) 6061-T6 Aluminum rod.
 
 	\begin{enumerate}[itemsep=4pt]
 		\item \textbf{Band saw --- cut to length:} Cross-cut the rod to a length slightly
-					above nominal; leave material for facing.
-		\item \textbf{Mill to length:} Face both $+$Y and $-$Y ends on the milling
-					machine to remove band saw marks and bring the part close to nominal length.
+					above nominal with a band saw; leave material for facing.
+		\item \textbf{Mill to length:} Face both $+$Y and $-$Y ends with a 12 mm to bring the part close to nominal length.
 		\item \textbf{Finishing pass on $+$Y face (top):}
 					\begin{notebox}
 					The length of the actuator is a
 					\textbf{critical dimension}: it directly sets the actuator expansion rate.
+					Dimension with care.
 					\end{notebox}
-		\item \textbf{Lathe --- turn outside diameter:} Turn the outer diameter.
+		\item \textbf{Lathe --- turn outside diameter:} Turn the outer diameter with a CNMG lathe tool.
+					Finish to tolerance with a CCMT lathe tool.
 		\item \textbf{Drill central hole:} Drill the axial hole
-					through the top of the part, centred on the axis.
-		\item \textbf{Tap:} Tap M2$\times$0.4 6H thread in the central hole for the
-					calibration screw.
+					through the top of the part with a 1.6 mm drill bit, centred on the axis.
+					\begin{notebox}
+					\textbf{Drill with care}\\
+					The 1.6 mm drill bit is small and delicate.
+					Apply ample cutting fluid. Peck periodically to remove chips.
+					Avoid excessive force to minimize the risk of bit-walking or breakage.
+					\end{notebox}
+		\item \textbf{Tap:} the hole with an M2$\times$0.4 tap.
 	\end{enumerate}
 
 	% ----------------------------------------------------------
@@ -4082,14 +4104,15 @@
 
 	\textbf{Starting stock:}
 	\O\,\SI{25.4}{\milli\meter} $\times$ \SI{45.72}{\milli\meter}
-	(\O\,1$''$ $\times$ 1.8$''$) ALLVAR Alloy 30 rod.
+	(\O\,1$''$ $\times$ 1.85$''$) ALLVAR Alloy 30 rod.
 
 	\begin{enumerate}[itemsep=4pt]
 		\item \textbf{Band saw --- cut to length:} Cross-cut the rod slightly above
-					nominal.
+					nominal with a band saw.
 		\item \textbf{Mill to length:} Face both ends to remove saw marks and bring to
-					near-nominal height.
-		\item \textbf{Finishing pass on $-$Y face (bottom):}
+					near-nominal height with a 12 mm end mill.
+		\item \textbf{Turn outer diameter:} turn the outer diameter with a finishing pass with a CCMT lathe tool.
+		\item \textbf{Finishing pass on $-$Y face (bottom):} Finish the -Y face with a 12 mm end mill.
 					\begin{notebox}
 					The $-$Y face is electron-beam welded to the top of the housing. A flat,
 					clean surface is essential for the intimate joint
@@ -4098,18 +4121,16 @@
 					before proceeding.
 					\end{notebox}
 		\item \textbf{Drill small clearance hole:} Drill
-					the center through hole to a minimum depth of \SI{5}{\milli\meter}.
+					the center through hole to a minimum depth of \SI{7}{\milli\meter}
+					with a 2.2 mm drill bit.
 		\item \textbf{Drill large inner hole:}
-					Drill the bulk of the large hole. Leave ample diametral and axial clearance for
-					precise dimensions.
-		\item \textbf{Bore large inner hole:}
-					Carefully bore the hole's inner diameter to tolerance.
-					Do not bore the entire hole; leave axial clearance at the end to avoid
-					damaging the end face.
+					Drill with a 16 mm drill bit. Leave 2--3 mm axial clearance to avoid exceeding the nominal cut depth.
+		\item \textbf{Ream large inner hole:}
+					Ream the hole to nominal diameter. Leave axial clearance as before.
 		\item \textbf{Plunge large inner hole:}
-					Plunge the hole with a long end mill. Perform a finishing pass to bring the
+					Plunge the hole with an end mill at least 45 mm long.
+					Perform a finishing pass to bring the
 					hole's length to tolerance and to square the circumference of its inner face.
-		\item \textbf{Turn outer diameter:} turn the outer diameter with a lathe.
 	\end{enumerate}
 
 	% ──────────────────────────────────────────────────────────────
