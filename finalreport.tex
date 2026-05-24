@@ -720,7 +720,7 @@
 			\end{equation}
 
 			into its specificied subcomponents allows for an unconstrained enumeration of values so long as each architecture supports a linear, precise output.
-			This process was iterative and depended in part on the architecture selected and described in section \ref{chap:design}.
+			This process was iterative and depended in part on the architecture selected and described in chapter \ref{chap:design}.
 			Thus, the following rolldown will seem arbitrary at first until the full design architecture is revealed. The selected valve architecture best supports a transfer function of
 
 			\begin{equation}
@@ -903,7 +903,7 @@
 	% \end{figure}
 
 	\section{System Architecture Overview}
-	\label{chap:design:overview}
+	\label{sec:design:overview}
 
 		The \device\ contains and seals the high-pressure Hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
@@ -1999,7 +1999,7 @@
 			\end{figure}
 			
 			Though no numerical data was provided, the temperature-dependent Aluminum CTE values can be approximated from this graph, shown in Table \ref{tab:CTE_Al} in the Appendix.
-			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in section \ref{chap:design},
+			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in chapter \ref{chap:design},
 			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
 			These introduce nonlinear behavior, resulting in quantifiable error.
 
@@ -2109,7 +2109,7 @@
 			\columnbreak
 			
 			Figure \ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
-			As described in section \ref{chap:design}, the mount $(M)$ sits atop the housing.
+			As described in chapter \ref{chap:design}, the mount $(M)$ sits atop the housing.
 			The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the Belleville washer.
 			The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
 			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure \ref{fig:housing_split}.
@@ -2313,7 +2313,7 @@
 			This System Transfer Function does not proport to reliably simulate the full performance of the \device.
 			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
 			The function does, however, provide an inexpensive tool to wholistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
-			It also serves to validate the results produced by the computational prototype that will be introduced in section \ref{chap:comp}.
+			It also serves to validate the results produced by the computational prototype that will be introduced in chapter \ref{chap:comp}.
 
 \chapter{Risk Assessment}
 \label{chap:risk}
@@ -2332,6 +2332,26 @@
 		\label{fig:del_DFMEAE_2}
 	\end{figure}
 
+	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
+	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
+	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
+	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
+	and are verified or challenged by theoretical modeling in chapter \ref{chap:comp}.
+
+		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}
+
+	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
+	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
+	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
+	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
+	
+
+
+	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in chapter \ref{chap:comp}}
+	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
+	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
+	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in capter \ref{chap:comp}.
+
 \chapter{Model Verification}
 \label{chap:comp}
 
@@ -2342,7 +2362,7 @@
 		\label{fig:del_test}
 	\end{figure}
 
-	\todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with section \ref{chap:risk}. Follow steps 1-6 above \textit{verbatim}.}
+	\todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with chapter \ref{chap:risk}. Follow steps 1-6 above \textit{verbatim}.}
 
 	\todo{Bonus - propose physical tests -- the ones we were going to do with our own prototype}
 
@@ -2716,7 +2736,7 @@
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
 
-		The orifice, as defined in Section \ref{chap:design:overview} and depicted in Figure \ref{fig:orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
+		The orifice, as defined in Section \ref{sec:design:overview} and depicted in Figure \ref{fig:orifice} (shown again in Figure \ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
 
 		\begin{figure}[H]
 			\centering
@@ -3668,9 +3688,7 @@
 	\newpage
 	% \includepdf[pages=1-2, fitpaper=true, landscape=true]{quote_EDM.pdf}
 
-
 \chapter{Manufacturing and Operation}
-
 
 	\chapter*{Manufacturing Guide}
 	\refstepcounter{section}
