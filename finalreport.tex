@@ -435,6 +435,8 @@
 	This Design Report motivates the design objectives, illustrates and justifies the final selected architecture,
 	analytically and numerically verifies system requirement satisfaction, and provides a full design package required for further iteration.
 
+	\todo{Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}
+
 \end{abstract}
 
 \pagenumbering{arabic}
@@ -914,6 +916,7 @@
 		\begin{figure}[H]
 			\centering
 			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
+			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{PTCD.png}
 			\caption{Complete assembly}
 			\label{fig:mainIsometric}
 		\end{figure}
@@ -922,6 +925,7 @@
 			\begin{minipage}{.49\textwidth}
 				\centering
 				\includegraphics[width=.85\textwidth]{CompleteAssemblyExploded.png}
+				% \includegraphics[width=.85\textwidth]{exp_qual.png}
 				\caption{Complete assembly exploded view}
 				\label{fig:mainExploded}
 			\end{minipage}
@@ -985,6 +989,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[height=.4\textheight]{Valve_full.png}
+				% \includegraphics[height=.4\textheight]{Valve_full_qual.png}
 				\caption{Valve subsystem}
 				\label{fig:valve_full}
 			\end{figure}
@@ -1013,6 +1018,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.8\textwidth]{orif_assem.png}
+				% \includegraphics[width=.8\textwidth]{orif_assem_qual.png}
 				\caption{Orifice Assembly}
 				\label{fig:orif_assem}
 			\end{figure}
@@ -1044,6 +1050,7 @@
 					\begin{figure}[H]
 						\centering
 						\includegraphics[height=4in]{V1_bellows.png}
+						% \includegraphics[height=4in]{V1_bellows_qual.png}
 						\caption{V1: Housing Center}
 						\label{fig:V1_bellows}
 					\end{figure}
@@ -1073,6 +1080,7 @@
 					\begin{subfigure}{0.59\textwidth}
 							\centering
 							\includegraphics[width=\textwidth]{cut_zoom.png}
+							% \includegraphics[width=\textwidth]{cut_zoom_qual.png}
 							\caption{Valve Subsystem, Section View}
 							\label{fig:cut_zoom}
 					\end{subfigure}
@@ -1097,6 +1105,7 @@
 				\begin{minipage}{.5\textwidth}
 					\centering
 					\includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_full.png}
+					% \includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_full_qual.png}
 					\caption{Actuator subsystem}
 					\label{fig:act_full}
 				\end{minipage}
@@ -1104,6 +1113,7 @@
 				\begin{minipage}{.5\textwidth}
 					\centering
 					\includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_exploded.png}
+					% \includegraphics[height=.4\textheight, width=\textwidth, keepaspectratio]{Act_exploded_qual.png}
 					\caption{Actuator subsystem exploded view}
 					\label{fig:act_exploded}
 				\end{minipage}
@@ -1124,6 +1134,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=\textwidth]{Act_cut.png}
+				% \includegraphics[width=\textwidth]{Act_cut_qual.png}
 				\caption{Actuator-Valve Interface}
 				\label{fig:Act_cut}
 			\end{figure}
@@ -2376,6 +2387,22 @@
 		\caption{DELETE BEFORE SUBMISSION}
 		\label{fig:del_concl}
 	\end{figure}
+
+	\begin{wrapfigure}{l}{1.5748in}
+		\centering
+		\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale. Delete if necessary.
+		\caption{\device\ Actual Size}
+		\label{fig:act_size}
+	\end{wrapfigure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[height=3in]{reveal.png}
+		% \includegraphics[height=3in]{reveal_qual.png}
+		\caption{\device\ Full Assembly}
+		\label{fig:reveal}
+	\end{figure}
+
 
 	\section{Final Analysis}
 	\label{sec:conc:fin_anal}
@@ -4224,6 +4251,7 @@
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=.5\textwidth]{Valve_exploded.png}
+		% \includegraphics[width=.5\textwidth]{Valve_exploded_qual.png}
 		\caption{Valve subsystem exploded view}
 		\label{fig:mfg_valve_exploded}
 	\end{figure}
@@ -4979,6 +5007,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\begin{minipage}[t]{0.45\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
+		% \includegraphics[width=\textwidth]{PTCD.png}
 		\captionof{figure}{Cylindrical Allvar Mount}
 		\label{fig:Complete_Assembly_Render}
 	\end{minipage}    
