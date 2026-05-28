@@ -151,6 +151,7 @@
 \usepackage{multicol}
 \usepackage{mdframed}
 \usepackage{wrapfig}
+\usepackage{nicefrac}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -294,5 +295,47 @@
 % ============================================================================
 
 \begin{document}
-		
+
+	\section{Supplemental Images}
+	\label{app:calcs:sup}
+
+		\subsection{The \device's role in National Security}
+		\label{app:calcs:sup:sec}
+
+			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia's defense-technology projects.
+			Figure \ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, United States National Security.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.75\textwidth]{SNL_role.png}
+				\caption{Downstream Customer Diagram}
+				\label{fig:app_SNL}
+			\end{figure}
+
+		\subsection{The \device\ in full assembly}
+		\label{app:calcs:sup:assem}
+
+			Figure \ref{fig:act_size} shows the actual size of the \device\ when printed $8 \nicefrac{1}{2}" \times 11"$ paper.
+			Figure \ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
+
+			\begin{minipage}{1.5748in}
+				\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
+				\caption{\device\\Actual Size}
+				\label{fig:act_size}
+				\end{figure}
+			\end{minipage}
+			\hfill
+			\begin{minipage}{6in}
+				\begin{figure}[H]
+					\centering
+					% \includegraphics[width=\textwidth]{reveal.png}
+					\includegraphics[width=.75\textwidth]{reveal_qual.png}
+					\caption{\device\ Full Assembly}
+					\label{fig:app_reveal}
+				\end{figure}
+			\end{minipage}
+
+
 \end{document}

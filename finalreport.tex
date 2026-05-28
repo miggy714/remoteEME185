@@ -170,7 +170,7 @@
 \newcommand{\sponsor}{Dr.\ Bradley Bon}
 \newcommand{\organization}{Sandia National Laboratories}
 \newcommand{\coursename}{EME 185}
-\newcommand{\instructor}{Professor Jonathan Schofield}
+\newcommand{\instructor}{Professor Jonathon Schofield}
 \newcommand{\university}{University of California, Davis}
 \newcommand{\ta}{Teaching Assistant Xiangpu Wang}
 \newcommand{\duedate}{5 June 2026}
@@ -424,12 +424,15 @@
 
 \begin{abstract}
 
-	Sandia National Laboratories conducts numerous experiments requiring the flow of precisely-controlled Hydrogen gas.
-	These experiments are sensitive to fluctuations in temperature; the flow must be adjusted to compensate for these changes.
+	Modern defense technology research requires ever-increasing experimental fidelity.
+	Sandia National Laboratories, a United States security research facility, conducts many experiments that depend on submillimeter-precision flow control of high-pressure Hydrogen gas.
+	Their test articles are sensitive to temperature fluctuations; the flow must be adjusted to compensate for these changes.
 	However, power and space constraints prohibit the use of embedded control systems, and existing passive flow control solutions do not approach the size and precision these experiments require.
+	
 	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
-	that controls high-pressure Hydrogen gas flow and thermomechanically adjusts its restriction according to the ambient air temperature.
-	The PTCD maintains an orifice smaller than the tip of a ballpoint pen to an average tolerance of $\pm \SI{13}{\micro\meter}$, about the thickness of a human hair. 
+	that thermomechanically adjusts gas flow according to the ambient air temperature.
+	Engineered to contain and restrict Hydrogen or a Noble Gas up to 700 times atmospheric pressure,
+	the PTCD maintains a pin-size orifice with medical precision. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
 	This Design Report motivates the design objectives, illustrates and justifies the final selected architecture,
@@ -457,29 +460,39 @@
 		\subsection{Background}
 		\label{subsec:intro:motive:background}
 
-			Sandia National Laboratories, a United States security research facility in Livermore, CA, performs mayriad experiments that require precision flow control of high-pressure $\text{H}_{\text{2}}$ gas.
-			These experiments are sensitive to environmental temperature fluctuations and must be tightly controlled.
-			Gas flow in one or two independent channels must be restricted by an orifice a few dozen micrometers across at most that closes as the ambient air temperature rises to protect sensitive equipment or carefully control conditions downstream.
-			Typically, an active-control feedback loop, coupled with a close-tolerance, solenoid-powered valve, would easily compensate for these temperature variations.
-			However, the lab technicians often cannot actively monitor or control the flow due to power, personnel, or space constraints.
-			They would require a fully passive thermomechanical valve, one that could tightly control the flow of high-pressure gas across a wide temperature range.
+			National security presents ceaseless challenges.
+			Engineers must deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
+			Sandia National Laboratories, a United States security research facility in Livermore, CA, prosecutes this mission.
+			Their development of cutting-edge defense technology and pioneering scientific research protects American citizens and sojourners alike against myriad foreign and domestic threats.
+			Resolving the nation's most challenging security issues, Sandia must employ every means necessary to maintain a competetive edge in the international theater.
+			Even a small improvement in the capacity or reliability of a larger integrated system can deliver a key advantage.
+
+			Sandia's Gas Transfer Systems team develops specialized gas flow control components and assemblies that help design, certify, and calibrate any of myriad projects undertaken at the Lab.
+			Many of their developmental experiments require precision flow control of high-pressure $\text{H}_{\text{2}}$ gas.
+			Downstream conditions are sensitive to environmental temperature fluctuations and must be tightly controlled or extensively post-processed.
+			Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
+			Electrically-powered valves accomplish this well.
+			However, lab technicians often cannot actively control flow in these experiments due to power, personnel, or space constraints.
+			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with medical precision.
 			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
 			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
 			and are designed for low-pressure, light-tolerance applications.
-			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satelite equipment at the size and precision Sandia requires, but switch on and off to compensate for the binary thermal extremes of space rather than operating continuously over their temperature range.
+			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satelite equipment at the size and precision Sandia requires,
+			but switch on and off to compensate for the binary thermal extremes of space rather than operating continuously over their temperature range.
 			Therefore, despite this design foundation, a continuous, high-precision, passive valve that manipulates fluid flow without responding to its conditions would prove a novel and highly challenging exercise.
 
-			
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a student engineering design team at the University of California in Davis and the authors of this paper, to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a microscopic orifice in response to a wide ambient temperature range while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
-				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package presented in this report.
-				Our task remained to develop a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
+				Thus it is that Sandia National Labs (SNL, aka the "sponsor" or the "client") employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
+				to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
+				while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
+				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
+				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
 				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to \SI{70}{\mega\pascal} (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
+					\item Restrict the provided flow of gas, at a pressure of up to \SI{68}{\mega\pascal} (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
 					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}}.
 					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
 				\end{itemize}
@@ -487,18 +500,19 @@
 		\subsection{Potential stakeholders}
 		\label{subsec:intro:motive:stakeholders}
 
-			Application of this valve is highly specialized for experiments performed by Sandia Labs and would not be commercially viable without more generalized development.
-			Thus, our primary stakeholder remains the engineers, researchers, and lab technicians at SNL.
-			Primarily, test engineers, the technicians conducting the experiments, would be able to integrate the valve into experimental apparatuses with two threaded attachments, allowing them to control their experiments with much greater precision and freedom.
-			Once installed, the device would self-maintain its controlled conditions without the need for power, monitoring, or adjustment.
-			If designed properly, it could perform its function unnoticed for years before needing to be replaced, taking a significant source of headache out of the experimental control process.
-			Secondarily, research engineers, those developing the experimental concept and using its results, would be able to put greater trust in the precision of their experimental conditions despite changing environmental factors.
-			Thus, their findings would come with greater parametric reliability due to the tighter control their technicians had over the conditions of the gas being tested.
+			\todo{Replace with schematic; mention fix-and-forget}
+
+			The \device\ provides robust fix-and-forget control of experimental parameters.
+			These experiments are run by the Gas Transfer Systems team to develop flow control components an assemblies,
+			which are in turn used by Sandia in the development, certification, and calibration of various defense technologies they produce.
+			The \device\ would primarily ease the job of test engineers and technicians, who, after one-time assembly, could leave the control system unattended indefinitely.
+			Secondarily, the \device\ eliminates the need for post-process data adjustment by research engineers due to changing experimental conditions.
+
 			This proof-of-concept design would also pave the way for similar devices with equally precise control outputs but slightly different output values, tuned as necessary to the given experiment.
 			Research engineers at SNL with access to such capabilities could quickly design a new configuration of the device more suitable for the particulars of their research.
 
 			The valve could similarly be custom-ordered by external organizations once the reconfiguration process is streamlined.
-			Companies in the aerospace, military, or gas handling or processing industry may have a use for a high-capacity, high-precision, no-input valve such as this one.
+			Companies in the aerospace, military, or gas handling or processing industry may have a use for a high-capacity, high-precision, input-free valve.
 			Because Sandia requires an excessively small, precise orifice within a handheld device, development for commercial application would be equivalent at worst and comparably easy at best. 
 
 		\subsection{Concept of Operations}
@@ -2400,13 +2414,6 @@
 	\section{Final Analysis}
 	\label{sec:conc:fin_anal}
 
-		\begin{wrapfigure}{l}{1.5748in}
-			\centering
-			\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale. Delete if necessary.
-			\caption{\device\ Actual Size}
-			\label{fig:act_size}
-		\end{wrapfigure}
-
 		Modern defense technology research requires ever-increasing experimental fidelity.
 		Gas flow experiments conducted by Sandia National Labs depend on submillimeter-precision Hydrogen flow control without the luxury of electronics or controls,
 		handicapping the United States' competetive edge in the international theater.
@@ -2704,7 +2711,7 @@
 \begin{appendices}
 \appendix
 
-\chapter{Calculations}
+\chapter{Calculations and Supplemental Information}
 \label{app:calcs}
 
 	\todo{Include any overfill from the main body of the report to keep it under 50 pages.}
@@ -3695,6 +3702,45 @@
 					\caption{Transfer Function Output After Calibration}
 					\label{fig:TF_cal}
 			\end{figure}
+
+	\section{Supplemental Images}
+	\label{app:calcs:sup}
+
+		\subsection{The \device's role in National Security}
+		\label{app:calcs:sup:sec}
+
+			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia's defense-technology projects.
+			Figure \ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, United States National Security.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[height=4in]{SNL_role.png}
+				\caption{Downstream Customer Diagram}
+				\label{fig:app_SNL}
+			\end{figure}
+
+		\subsection{The \device\ in full assembly}
+		\label{app:calcs:sup:assem}
+
+			Figure \ref{fig:act_size} shows the actual size of the \device\ when printed $8 \nicefrac{1}{2}" \times 11"$ paper.
+			Figure \ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
+
+			\begin{minipage}{1.5748in}
+				\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
+				\caption{\device\ Actual Size}
+				\label{fig:act_size}
+				\end{figure}
+			\end{minipage}
+			\hfill
+			\begin{minipage}{6in}
+				\centering
+				% \includegraphics[width=\textwidth]{reveal.png}
+				\includegraphics[width=\textwidth]{reveal_qual.png}
+				\caption{\device\ Full Assembly}
+				\label{fig:app_reveal}
+			\end{minipage}
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
@@ -5028,8 +5074,9 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\begin{center}
 
 		The authors would like to extend their sincere gratitude to
-		Dr. Bradley Bon,\\distinguished member of
-		Sandia National Laboratories in Livermore, CA\\
+		Dr. Bradley Bon,\\
+		distinguished member of the Gas Transfer Systems team\\
+		at Sandia National Laboratories in Livermore, CA\\
 		for his invaluable assistance in the development of this design\\[6pt]
 		and to Professor Jon Schofield and Teaching Assistant Xiangpu Wang\\
 		of UC Davis
