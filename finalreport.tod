@@ -1,21 +1,22 @@
 \contentsline {todos}{\numberline {i}Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}{i}{chapter*.1}%
-\contentsline {todos}{\numberline {2}Replace with schematic; mention fix-and-forget}{2}{subsection.1.1.3}%
-\contentsline {todos}{\numberline {32}Add comsol results for rectangular center section. The above paragraph can address it.}{32}{equation.2.19}%
-\contentsline {todos}{\numberline {47}Update with Xometry quote once obtained}{47}{figure.caption.37}%
-\contentsline {todos}{\numberline {47}Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}{47}{subsection.3.1.3}%
-\contentsline {todos}{\numberline {51}Briefly explain new effective temperatures}{51}{subsection.3.2.1}%
-\contentsline {todos}{\numberline {58}critical RPN}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {58}Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {58}critical RPN}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {58}if we have time/if possible, see what worst case deformation in critical components can be via transfer function}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {58}number}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {58}finish weld calculations, insert calcs in chapter \ref {chap:comp}}{58}{figure.caption.44}%
-\contentsline {todos}{\numberline {59}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with chapter \ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{59}{figure.caption.45}%
-\contentsline {todos}{\numberline {59}Bonus - propose physical tests -- the ones we were going to do with our own prototype}{59}{figure.caption.45}%
-\contentsline {todos}{\numberline {70}Include any overfill from the main body of the report to keep it under 50 pages.}{70}{appendix.A}%
-\contentsline {todos}{\numberline {92}Double-check that BOM is up-to-date. Recheck McMaster prices}{92}{appendix.B}%
-\contentsline {todos}{\numberline {92}EDM tols not included in quote yet; waiting for Xometry to respond}{92}{appendix.B}%
-\contentsline {todos}{\numberline {94}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{94}{figure.caption.65}%
-\contentsline {todos}{\numberline {125}Uncomment below pdfs}{125}{section.E.1}%
-\contentsline {todos}{\numberline {125}Uncomment below pdf}{125}{section.E.2}%
-\contentsline {todos}{\numberline {127}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{127}{appendix.F}%
+\contentsline {todos}{\numberline {12}Spec Temp}{12}{Item.23}%
+\contentsline {todos}{\numberline {29}Add citations}{29}{table.caption.24}%
+\contentsline {todos}{\numberline {31}Add comsol results for rectangular center section. The above paragraph can address it.}{31}{equation.2.21}%
+\contentsline {todos}{\numberline {45}Update with Xometry quote once obtained}{45}{figure.caption.34}%
+\contentsline {todos}{\numberline {45}Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}{45}{subsection.3.1.3}%
+\contentsline {todos}{\numberline {49}Briefly explain new effective temperatures}{49}{subsection.3.2.1}%
+\contentsline {todos}{\numberline {56}critical RPN}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {56}Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {56}critical RPN}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {56}if we have time/if possible, see what worst case deformation in critical components can be via transfer function}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {56}number}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {56}finish weld calculations, insert calcs in Chapter~\ref {chap:comp}}{56}{figure.caption.41}%
+\contentsline {todos}{\numberline {57}Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with Chapter~\ref {chap:risk}. Follow steps 1-6 above \textit {verbatim}.}{57}{figure.caption.42}%
+\contentsline {todos}{\numberline {57}Bonus - propose physical tests -- the ones we were going to do with our own prototype}{57}{figure.caption.42}%
+\contentsline {todos}{\numberline {68}Include any overfill from the main body of the report to keep it under 50 pages.}{68}{appendix.A}%
+\contentsline {todos}{\numberline {88}Double-check that BOM is up-to-date. Recheck McMaster prices}{88}{appendix.B}%
+\contentsline {todos}{\numberline {88}EDM tols not included in quote yet; waiting for Xometry to respond}{88}{appendix.B}%
+\contentsline {todos}{\numberline {90}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{90}{figure.caption.62}%
+\contentsline {todos}{\numberline {120}Uncomment below pdfs}{120}{section.E.1}%
+\contentsline {todos}{\numberline {120}Uncomment below pdf}{120}{section.E.2}%
+\contentsline {todos}{\numberline {122}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{122}{appendix.F}%
