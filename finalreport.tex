@@ -2381,6 +2381,7 @@
 		\label{fig:del_DFMEAE_2}
 	\end{figure}
 
+		\subsection{Failure Mode and Effect Analysis Process}
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
@@ -2393,13 +2394,17 @@
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
 	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-	
 
+		\subsection{Weld Analysis}
 
-	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
+	Of the critical failure mod
+	es \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
+	In addition to stresses applied by the internal pressure, there is also stress on the actuator mount and its' radial weld due to thermal expansion and contraction.
+	The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient of thermal expansion that is 2 $\nu$m/m greater than the magnitude of the negative axial expansion 30 $\nu$m/m
+
 
 \chapter{Model Verification}
 \label{chap:comp}
