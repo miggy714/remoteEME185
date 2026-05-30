@@ -1809,12 +1809,14 @@
 			The geometry of the welds is a square butt joint, which is a widely used in pressure vessel construction, allowing for full penetration of EBW.
 	
 			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
-			EBW's high power density enables complete fusion across the interface, and the square butt profile 
-			is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured\cite{ref_steen2010laser}.
+			EBW's high power density enables complete fusion across the interface.
 			Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
-			\cite[Table 302.3.4]{ref_asme_b313}.
-			The perimeter welds are certified to be free of defects such as porosity, lack of fusion, 
+			\cite[Table 302.3.4]{ref_asme_b313}. If all welds pass inspection ($E = 1.00$)\cite{ref_asme_b313}, 
+			the weld joint introduces no strength penalty relative to the base material. 
+			The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
 			and cracking, all of which could significantly reduce joint strength\cite{ref_steen2010laser}.
+			Electron-beam welding the entire assembly allows for an assembly with minimal degrees of freedom and a direct interface between the two subsystems,
+			improving the system-level precision by preventing backlash allowed by alternative assembly methods.
 			\\~\\
 			The viability of the weld joint is evaluated for both axial and bending stresses due to the internal pressure.
 
@@ -1849,7 +1851,7 @@
 				\end{tabularx}
 			\end{table}
 
-			The axial stress on the weld is calculated as the force from the internal pressure distributed across the weld area.
+			The axial stress on the weld is calculated as the force from the internal pressure distributed across the weld area \cite{ref_shigley}.
 
 			\begin{equation}
 			\sigma_{axial} = \frac{F}{A} = \frac{P A_{wetted}}{A_{weld}} 
@@ -1863,8 +1865,10 @@
 			\label{sf_axial}
 			\end{equation}
 
-			The bending stress is calculated using the formula for bending stress in a beam, where $M_{max}$ is the maximum bending moment (Equation \ref{moment_bending}, at $L/2$), $W$ is the distributed load from the internal pressure, $L$ is the length of the weld, $b$ is the width of the weld, $t$ is the thickness of the weld, $c$ is the distance from the neutral axis to the outer fiber, and $I$ is the moment of inertia of the weld cross-section.
-
+			Since the axial stress is well below the yield strength, the weld joint can withstand the internal pressure without failure in tension.
+			
+			The bending stress is modeled  using the formula for bending stress in a beam fixed at both ends where $M_{max}$ is the maximum bending moment (Equation \ref{moment_bending}, at $L/2$), $W$ is the distributed load from the internal pressure, $L$ is the length of the weld, $b$ is the width of the weld, $t$ is the thickness of the weld, $c$ is the distance from the neutral axis to the outer fiber, and $I$ is the moment of inertia of the weld cross-section.
+			The beam approach is a simplification that assumes the weld behaves like a beam under bending loads \cite{ref_beam}. In this case, the valve geometries are too complex to model the bending stress accurately, yet Equation \ref{stress_bending} shows that the bending stress can be minimized by decreasing $L$ and/or increasing $t$.
 			\begin{equation}
 			M_{max} = \frac{W L^2}{24} = \frac{(P b) L^2}{24}
 			 \label{moment_bending}
@@ -1875,17 +1879,9 @@
 			\label{stress_bending}
 			\end{equation}
 
-			\todo{Replace bending stress with Roark formulas}
+			Further modeling of this joint was performed using COMSOL Multiphysics to verify that the bending stress does not exceed the yield strength of the material, and to account for the complex geometry of the weld joint.
 
-			The design wall thickness, $t_{actual} = \SI{7.806}{\milli\meter} > t_{min} = \SI{6.52}{\milli\meter}$,
-			sufficiently contains the maximum internal pressure with a safety factor of
-
-			These results confirm that, if all welds pass 100\% X-ray radiographic inspection ($E = 1.00$)\cite{ref_asme_b313}, 
-			the weld joint introduces no strength penalty relative to the base material.
-			The joint is viable with a thickness margin of \SI{1.29}{\milli\meter} and a stress safety factor of $1.22$.    
-			Electron-beam welding the entire assembly allows for a high-strength pressure-vessel assembly;
-			it also enables an assembly with minimal degrees of freedom and a direct interface between the two subsystems,
-			improving the system-level precision by preventing backlash allowed by alternative assembly methods.
+			\todo{ADD COMSOL MODELING  and/or Replace bending stress with Roark formulas}
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -2591,6 +2587,8 @@
 			\textit{Fluid Mechanics}, 9th~ed.,
 			McGraw-Hill Education, New York, NY, 2021.
 
+		\bibitem{ref_beam}
+		A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{www.padtinc.com}. [Accessed: May 29, 2026].
 
 		% PRODUCT INFORMATION
 
