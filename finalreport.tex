@@ -1307,7 +1307,7 @@
 			A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures \SI{0.6}{\milli\meter} tall;
 			we will assume a compressed height of \SI{0.55}{\milli\meter}\footnote{
 				The exact compression height of the belleville washer is, by nature, an unknown and varies between each device.
-				Deviations will be accounted for in Chapter~\ref{chap:risk}.}
+				Deviations will be accounted for in Chapter~\ref{chap:DFMEA}.}
 			A \SI{5}{\milli\meter} gap, spanned by the valve stem, separates the free end of the actuator from the housing, thermally insulating the actuator from direct heat transfer with the hot internal gas.
 
 			\begin{wrapfigure}{l}{0.49\textwidth}
@@ -1423,7 +1423,7 @@
 			Many flexible membranes required to construct a circular orifice permit Hydrogen embrittlement and diffusion, disqualifying a circular geometry.
 			Complex-polygon architectures, such as hexagonal camera-style aperature, comprise more degrees of freedom than the precise relationship allows.
 			The diamond orifice, on the other hand, performs linearly with two interfacing components and a single degree of freedom.
-			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in Chapter~\ref{chap:risk}, ultimately satisfies the Required Relationship.
+			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in Chapter~\ref{chap:DFMEA}, ultimately satisfies the Required Relationship.
 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
@@ -1978,8 +1978,8 @@
 
 				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report.
 
-\chapter{Risk Assessment}
-\label{chap:risk}
+\chapter{Model Verification}
+\label{chap:DFMEA}
 
 	\begin{figure}[H]
 		\centering
@@ -1995,6 +1995,71 @@
 		\label{fig:del_DFMEAE_2}
 	\end{figure}
 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Del_test_reqs.png}
+		\caption{DELETE BEFORE SUBMISSION}
+		\label{fig:del_test}
+	\end{figure}
+
+	\section{Error Analysis IMPORTED DIRECTLY FROM TRANSFER FUNCTION CHAPTER; INTEGRATE AS IS FITTING}
+	\label{sec:DFMEA:error}
+
+		\subsection{Variations in Aluminum's Coefficient of Thermal Expansion}
+		\label{subsec:DFMEA:error:CTE}
+
+			Typical material specifications list a single coefficient of thermal expansion (CTE).
+			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
+			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
+		
+			\begin{figure}[H]
+				\centering
+				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+				\label{fig:al_alpha}
+			\end{figure}
+			
+			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
+			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
+			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
+			These introduce nonlinear behavior, resulting in quantifiable error.
+
+		\subsection{Machine Tolerances}
+		\label{subsec:DFMEA:error:mach}
+
+			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
+			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
+			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
+
+			\begin{wrapfigure}{l}{.4\textwidth}
+				\centering
+				\includegraphics[width=.39\textwidth]{orif_error.png}
+				\caption{Orifice error modes}
+				\label{fig:orif_error}
+			\end{wrapfigure}
+
+			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
+			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
+			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
+			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
+			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
+			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
+			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
+
+		\subsection{Heat Transfer}
+		\label{subsec:DFMEA:error:dT}
+
+			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
+
+		\subsection{Bellows Spring Reactions}
+		\label{subsec:DFMEA:error:bellows}
+
+			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
+			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
+
+		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
+		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
+
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
@@ -2007,27 +2072,11 @@
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
 	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-	
-
 
 	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
-
-\chapter{Model Verification}
-\label{chap:comp}
-
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=\textwidth]{Del_test_reqs.png}
-		\caption{DELETE BEFORE SUBMISSION}
-		\label{fig:del_test}
-	\end{figure}
-
-	\todo{Computational Model: all of our numerical tests and their results go here. Must include details about how we went about setting up the virtual prototype. This will likely be spliced with Chapter~\ref{chap:risk}. Follow steps 1-6 above \textit{verbatim}.}
-
-	\todo{Bonus - propose physical tests -- the ones we were going to do with our own prototype}
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -2052,7 +2101,7 @@
 		producing a sharp, linear temperature-diameter output.
 		This proof-of-concept model provides Sandia with the necessary foundation for development of a working prototype.
 
-		Risk analysis in Chapter~\ref{chap:comp} demonstrated that certain issues will need to be researched and certain revisions made before the \device\ can accomplish its objectives without failure.
+		Risk analysis in Chapter~\ref{chap:DFMEA} demonstrated that certain issues will need to be researched and certain revisions made before the \device\ can accomplish its objectives without failure.
 		However, these adjustments are minor and will likely not require fundamental revision of the design architecture.
 		While this report does not provide a finished product, it develops, demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
 		The exact output relationship of the \device\ holds little value for any particular experiment, but the selected architecture allows for easy reparameterization on a case-by-case basis
@@ -2074,7 +2123,7 @@
 			\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
 				These should be revised before further development.
 			\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
-				The verification tools developed in Chapter~\ref{chap:comp} provide a convenient method to quantify the impact of these changes on system output precision.
+				The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
 				\begin{itemize}
 					\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
 						withstand this force.
@@ -2097,7 +2146,7 @@
 				This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
 		\end{itemize}
 
-\chapter*{} % Bibliography without extra header
+% \chapter*{} % Bibliography without extra header
 \addcontentsline{toc}{chapter}{Bibliography}
 
 	\begin{thebibliography}{99}
@@ -2603,10 +2652,6 @@
 				\SI{200}{\micro\meter} - \SI{50}{\micro\meter}
 			\end{equation}
 
-			\begin{align}
-				&\text{}
-			\end{align}
-
 			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \todo{larger range}.
 			The belleville washer's total compressible range is the difference between its free cone height and its thickness.
 			As shown in its specification drawing in Appendix~\ref{app:datasheets:McMaster}, this results in a total deflection height of
@@ -2698,67 +2743,10 @@
 \chapter{Required Relationship Failure Analysis}
 \label{app:sat}
 
-	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:risk} about its ability to meet the subsidiary specifications.
+	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:DFMEA} about its ability to meet the subsidiary specifications.
 	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:calcs:TF:results}, the \device\ can be expected to meet its required tolerance
 	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:calcs:error}.
 
-	\section{Error Analysis}
-	\label{app:calcs:error}
-
-		\subsection{Variations in Aluminum's Coefficient of Thermal Expansion}
-		\label{app:calcs:error:CTE}
-
-			Typical material specifications list a single coefficient of thermal expansion (CTE).
-			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
-			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
-		
-			\begin{figure}[H]
-				\centering
-				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-				\label{fig:al_alpha}
-			\end{figure}
-			
-			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
-			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
-			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
-			These introduce nonlinear behavior, resulting in quantifiable error.
-
-		\subsection{Machine Tolerances}
-		\label{app:calcs:error:mach}
-
-			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
-			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
-
-			\begin{wrapfigure}{l}{.4\textwidth}
-				\centering
-				\includegraphics[width=.39\textwidth]{orif_error.png}
-				\caption{Orifice error modes}
-				\label{fig:orif_error}
-			\end{wrapfigure}
-
-			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
-			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
-			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
-			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
-			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
-			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
-			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
-
-		\subsection{Heat Transfer}
-		\label{app:calcs:error:dT}
-
-			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
-
-		\subsection{Bellows Spring Reactions}
-		\label{app:calcs:error:bellows}
-
-			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
-			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
-
-		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
-		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
 
 	\section{Transfer Function Derivation}
 	\label{app:calcs:TF}
@@ -3680,7 +3668,7 @@
 			This System Transfer Function does not proport to reliably simulate the full performance of the \device.
 			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
 			The function does, however, provide an inexpensive tool to wholistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
-			It also serves to validate the results produced by the computational prototype that will be introduced in Chapter~\ref{chap:comp}. \todo{update this conclusion}
+			It also serves to validate the results produced by the computational prototype that will be introduced in Chapter~\ref{chap:DFMEA}. \todo{update this conclusion}
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
