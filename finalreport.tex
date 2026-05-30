@@ -398,15 +398,20 @@
 			AWS     & American Welding Society \\
 			BOM     & Bill of Materials \\
 			CAD     & Computer-Aided Design \\
-			c.f.		& Compare \\
+			c.f.		& confer (compare) \\
 			COMSOL	& Computer Solution (numerical computing software) \\
 			CTE     & Coefficient of Thermal Expansion \\
 			DFMEA   & Design Failure Modes and Effects Analysis \\
+			DIN			& Deutsches Institut für Normung (German Institute for Standardization) \\
 			DOF     & Degree of Freedom \\
 			EBW     & Electron Beam Welding \\
 			EDM     & Electrical Discharge Machining \\
+			EN			& English \\
+			e.g.		& exempli gratia (for example) \\
 			EME     & Engineering, Mechanical (course prefix) \\
 			FS      & Factor of Safety \\
+			GTS			& Gas Transfer Systems (department at SNL) \\
+			i.e.		& id est (that is) \\
 			Inc     & Inconel 718 \\
 			Inv     & Invar 36 \\
 			ISO     & International Organization for Standardization \\
@@ -420,6 +425,7 @@
 			SS			& Stainless Steel \\
 			TF      & Transfer Function \\
 			UC Davis & University of California, Davis \\
+			USA			& United States of America \\
 			\bottomrule
 	\end{tabularx}
 
@@ -439,7 +445,7 @@
 	
 	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
 	that thermomechanically adjusts gas flow according to the ambient air temperature.
-	Engineered to contain and restrict Hydrogen or a Noble Gas up to 700 times atmospheric pressure,
+	Engineered to contain and restrict Hydrogen or a noble gas up to 700 times atmospheric pressure,
 	the PTCD maintains a pin-size orifice with medical precision. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
@@ -1832,7 +1838,7 @@
 				\end{tabularx}
 			\end{table}
 
-			The axial stress on the weld is calculated as the force from the internal pressure distributed across the weld area \cite{ref_shigley}.
+			The axial stress on the weld is calculated as the force from the internal pressure distributed across the weld area \cite[eq.~1-6]{ref_Hibbeler}.
 
 			\begin{equation}
 			\sigma_{axial} = \frac{F}{A} = \frac{P A_{wetted}}{A_{weld}} 
@@ -2034,7 +2040,7 @@
 		The Passive Temperature Compensation Device fills the niche of its active-control counterparts with precision and reliability,
 		providing Sandia National Laboratories with a consistent, independent means of experimental conditioning
 		and eliminating that parametric uncertainty from their defense technology development process.
-		Without the PTCD, Sandia must either depend on active-control mechanisms, introducing an unnecessary variable in their regulation of experimental parameters,
+		Without the \device, Sandia must either depend on active-control mechanisms, introducing an unnecessary variable in their regulation of experimental parameters,
 		or perform extensive post-processing when strict power and computation constraints prohibit such intervention.
 
 		Several key design innovations enabled the \device\ to accomplish a previously impossible mission: precise, continuous, high-pressure, thermomechanical flow control.
@@ -2194,7 +2200,7 @@
 
 		\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
 		J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-		8th~ed., McGraw-Hill, New York, 2006, Eq.~8-27, Table~8-15.
+		8th~ed., McGraw-Hill, New York, 2006.
 
 		\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
 		R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
@@ -2323,7 +2329,7 @@
 
 		\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
 		ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
-		[Accessed: May 9, 2026] 
+		[Accessed: May 9, 2026].
 
 		\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
 		Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
@@ -2332,6 +2338,10 @@
 		\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
 		Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
 		[Accessed: May 8, 2026].
+
+		\bibitem{ref_SNL} % Sandia About Page
+		Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https:www.sandia.gov/about/}
+		[Accessed: May 30, 2026].
 
 		% Add more \bibitem entries as needed.
 		% In the body text, cite as: \cite{ref_sandiaprompt}
@@ -2446,63 +2456,66 @@
 			\label{eq:d_eff}
 		\end{equation}
 
-		Thus, the height of the orifice X as defined in Figures \ref{fig:orifice} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
+		Thus, the height of the orifice X as defined in Figures \ref{fig:orifice_rep} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
 		can be related to the effective diameter as follows:
 
-			$$ A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 $$
-			$$ s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} $$
-			$$ X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem} $$
+		\begin{align}
+			A = \frac{\pi}{4}D_{\text{eff}}^2 = s^2 \\
+			s = \sqrt{\frac{\pi}{4}}D_{\text{eff}} \\
+			X = \sqrt{s^2 + s^2} = \sqrt{2}s \text{ by the Pythagorean Theorem}
+		\end{align}
 
 		Therefore,
 
-			$$ X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}} $$
+			\begin{equation}
+				X = \sqrt{2}\sqrt{\frac{\pi}{4}}D_{\text{eff}} = \sqrt{\frac{\pi}{2}}D_{\text{eff}}
+			\end{equation}
 
 		Finally, we can rearrange this relation to obtain the effective diameter as a function of X:
 
-		\begin{mdframed}
-			\begin{equation*}
+			\begin{equation}
 				D_{eff} = \sqrt{\frac{2}{\pi}} X
-			\end{equation*}
-		\end{mdframed}
-
-		Therefore, we can find the ideal Valve Subsystem Transfer Function as described in Sections \ref{subsec:intro:specs:RR} and \ref{subsubsec:design:just:TF:valve}:
-
-		\begin{equation*}
-			\hat{G}_{V_0} = \frac{dD}{dL} = \sqrt{\frac{2}{\pi}}
-		\end{equation*}
+			\end{equation}
 
 	\section{System Calibration}
 	\label{app:calcs:cal}
 	
-		\subsection{belleville Washer Reaction Force}
+		\subsection{Belleville Washer Reaction Force}
 		\label{app:calcs:cal:force}
 
 			The belleville washer that separates the two cylinders of the actuator (A1 and A2), purchased from McMaster Carr\cite{ref_McMaster_belle}, applies a spring force as it is clamped by the screw during the calibration process.
-			According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the Deutsches Institut für Normung (DIN, German Institute for Standardization), standard 6796\cite{ref_din6796},
-			which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
-			This paper assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
+			According to the material data listed by McMaster, characteristic properties of the belleville washer are defined by the \textit{Deutsches Institut für Normung} (DIN; German Institute for Standardization), standard 6796\cite{ref_din6796},
+			which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN\footnote{i.e. English} 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
+			This design report assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
 			However, the washer can deflect up to \SI{200}{\micro\meter} if necessary.
 			The following force is required to apply a deflection within this range during calibration:
 
-			\textbf{belleville washer (part 93237A101) specifications}\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}
+			\vspace{1em}
+			\begin{table}[H]
+				\centering
+				\caption{Belleville Washer (part 93237A101) Specifications\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}}
+				\label{tab:belle}
+				\begin{tabular}{lll}
+					\toprule
+					Parameter & Variable & Value \\
+					\midrule
+					Outer Diameter    & $OD$          & \SI{5}{\milli\meter} \\
+					Inner Diameter    & $ID$          & \SI{2.2}{\milli\meter} \\
+					Young's Modulus   & $E$           & \SI{207.8}{\giga\pascal} \\
+					Poisson's Ratio   & $\nu$         & $0.282$ \\
+					Free Height       & $H$           & \SI{0.6}{\milli\meter} \\
+					Thickness         & $t$           & \SI{0.4}{\milli\meter} \\
+					Cone Height       & $h = H - t$   & \SI{0.2}{\milli\meter} \\
+					Deflection        & $\delta$      & $0 \leq \delta \leq \SI{0.2}{\milli\meter}$ \\
+					\bottomrule
+				\end{tabular}
+			\end{table}
 
-			\begin{itemize}
-				\item Outer Diameter $OD = \SI{5}{\milli\meter}$
-				\item Inner Diameter $ID = \SI{2.2}{\milli\meter}$
-				\item Young's Modulus $E = \SI{207.8}{\giga\pascal}$
-				\item Poisson's Ratio $\nu = 0.282$
-				\item Free height $H = \SI{0.6}{\milli\meter}$
-				\item Thickness $t = \SI{0.4}{\milli\meter}$
-				\item Cone height $h = H - t = \SI{0.2}{\milli\meter}$
-				\item Deflection $0 \leq \delta \leq \SI{0.2}{\milli\meter}$
-			\end{itemize}
-
-			\begin{equation}
-				\begin{aligned}
+			\begin{align}
 					\text{Diameter Ratio } \alpha &= \frac{OD}{ID} \\
 					\text{Load Constant } M &= \frac{6}{\pi \ln(\alpha)} \left( \frac{\alpha - 1}{\alpha} \right)^2 \\
-					\text{Load } P &= \frac{E \delta}{(1 - \nu^2) M \frac{OD^2}{4}} \left[ \left( h - \delta \right) \left( h - \frac{\delta}{2} \right) t + t^3 \right]			\end{aligned}
-			\end{equation}
+					\text{Load } P &= \frac{E \delta}{(1 - \nu^2) M \frac{OD^2}{4}} \left[ \left( h - \delta \right) \left( h - \frac{\delta}{2} \right) t + t^3 \right]
+			\end{align}
 
 			From these, we obtain the expected force value
 
@@ -2510,7 +2523,7 @@
 				P(\SI{50}{\micro\meter}) = \SI{184}{\newton}
 			\end{equation}
 
-			The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite{ref_shigley}:
+			The required torque to apply this load is defined in Shigley's Mechanical Engineering Design\cite[Eq.~8-27, Table~8-15]{ref_shigley}:
 
 			\begin{equation}
 				T = K F d = (0.18) (\SI{184}{\newton}) (\SI{2}{\milli\meter})
@@ -2519,10 +2532,10 @@
 			where
 
 			\begin{align*}
-				K \text{ is the nut factor (assuming Loctite is applied,} \\
-				\text{which is recommended in the Manufacturing Guide - Appendix~\ref{app:mfg})} \\
-				F \text{ is the reaction load} \\
-				d \text{ is the diameter of the M2 screw}
+				&K \text{ is the nut factor (assuming Loctite is applied,} \\
+				&\text{which is recommended in the Manufacturing Guide - Appendix~\ref{app:mfg})} \\
+				&F \text{ is the reaction load} \\
+				&d \text{ is the diameter of the M2 screw}
 			\end{align*}
 			
 			yielding an expected torque of \SI{1.7e-3}{\newton\meter} at the \SI{50}{\micro\meter} compression, a very reasonable value for an M2 screw.
@@ -2537,7 +2550,6 @@
 						height=7cm,
 						xlabel={Deflection $\delta$ ($\mu$m)},
 						ylabel={Load $P$ (N)},
-						title={belleville Washer Load--Deflection Curve},
 						xmin=0, xmax=201,
 						ymin=0,
 						grid=major,
@@ -2548,10 +2560,11 @@
 							table[col sep=comma, x index=0, y index=1] {figures3/F.csv};
 					\end{axis}
 				\end{tikzpicture}
-				\caption{Reaction force of the belleville washer as it is compressed by the screw}
+				\caption{Belleville washer reaction force}
 				\label{fig:belle_force}
 			\end{figure}
 
+			\vspace{1em}
 			\begin{figure}[H]
 				\centering
 				\begin{tikzpicture}
@@ -2560,7 +2573,6 @@
 						height=7cm,
 						xlabel={Deflection $\delta$ ($\mu$m)},
 						ylabel={Torque $T$ (N$\cdot$m)},
-						title={Required Tightening Torque vs.\ Deflection},
 						xmin=0, xmax=201,
 						ymin=0,
 						grid=major,
@@ -2578,10 +2590,25 @@
 		\subsection{Achievable Error Correction}
 		\label{app:calcs:cal:sat}
 
-			As discussed in Section~\ref{sec:sat:TF:results}, this calibration stack will likely be necessary to correct static machine dimension errors, whose expected range falls a maximum of \SI{54.5}{\micro\meter} above and \SI{69.3}{\micro\meter} below the nominal value
-			(429\% and 546\%, respectively, times the narrowest tolerance window.)
+			As discussed in Section~\ref{sec:sat:TF:results}, this calibration stack will occasionally be necessary to correct static machine dimension errors,
+			whose expected range falls a maximum of \todo{upper range} above and \todo{lower range} below the nominal value.
+			The belleville washer's maximum deflection is equal to its free cone height
 
-			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \SI{69.3}{\micro\meter}.
+			\begin{equation}
+				h = H - t = \SI{200}{\micro\meter}
+			\end{equation}
+
+			From the assumed compression of \SI{50}{\micro\meter}, the \device\ can be calibrated to an effective diameter decrease of \SI{50}{\micro\meter} and an increase of
+
+			\begin{equation}
+				\SI{200}{\micro\meter} - \SI{50}{\micro\meter}
+			\end{equation}
+
+			\begin{align}
+				&\text{}
+			\end{align}
+
+			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \todo{larger range}.
 			The belleville washer's total compressible range is the difference between its free cone height and its thickness.
 			As shown in its specification drawing in Appendix~\ref{app:datasheets:McMaster}, this results in a total deflection height of
 
@@ -2595,11 +2622,12 @@
 				D_{eff}(T_{ref}) = 292.1 \pm \SI{12.7}{\micro\meter} \rightarrow 2 \cdot \SI{12.7}{\micro\meter} = \SI{25.4}{\micro\meter} \text{ total resolution}
 			\end{equation}
 
-			Calibration with a resolution no more than \SI{25.4}{\micro\meter} precision will theoretically be able to achieve some setpoint withing the tolerable range.
+			Calibration with a resolution no more than \SI{25.4}{\micro\meter} precision will theoretically be able to achieve some setpoint within the tolerable range.
 			Let us assume half this value is necessary to be safe and determine whether the assembly can reasonably perform a repeatable \SI{12.7}{\micro\meter} adjustment.
 
-			Calibration adjustment directly translates to changes in the orifice height $X$. We will assume that the orifice height-diameter relation derived in Appendix~\ref{app:calcs:orifice_geometry} hold true,
-			as fillet-radius and horizontal-position errors do not conistently affect the diameter across the full temperature range and thus cannot be reliably eliminated by calibration:
+			Calibration adjustment directly translates to changes in the orifice height $X$. We will assume that the orifice height-diameter relation derived in Appendix~\ref{app:calcs:orifice_geometry} holds true,
+			as fillet-radius and horizontal-position errors do not conistently affect the diameter across the full temperature range and thus cannot be reliably eliminated by calibration;
+			therefore the compression value $X$ translates to changes in the effective diameter according to the relation
 
 			\begin{equation}
 				X = \sqrt{\frac{\pi}{2}} D_{eff}
@@ -2616,26 +2644,37 @@
 			A \SI{14}{\degree} rotation is a very reasonable demand for  manual screwdriver\cite{ref_jones1992, ref_desrosieres2015}. As discussed in Section~\ref{app:calcs:cal:force}, this can be performed by hand with little effort,
 			allowing for even greater precision.
 
+	\newpage
 	\section{Supplemental Images}
 	\label{app:calcs:sup}
 
 		\subsection{The \device's role in National Security}
 		\label{app:calcs:sup:sec}
 
-			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia's defense-technology projects.
-			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, United States National Security.
+			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia National Laboratories' defense-technology projects.
+			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, National Security in the United States of America (USA).
 
-			\begin{figure}[H]
+			\vspace{1em}
+			\begin{figure}[h]
 				\centering
 				\includegraphics[width=.75\textwidth]{SNL_role.png}
 				\caption{Downstream Customer Diagram}
 				\label{fig:app_SNL}
 			\end{figure}
 
+			As described in Section~\ref{subsec:intro:motive:background}, Sandia National Labs (SNL) develops "science and technology to resolve the nation's most challenging security issues"\cite{ref_SNL}.
+			This consist of various individual projects across a wide range of disciplines, any of which may be impacted by the \device\ and many of which are classified.
+			Sandia's Gas Transfer Systems (GTS) team, whose scope is pictured in the lower nested rectangle, develops flow control components and assemblies
+			that Sandia then uses for the concept development, design qualification, certification, and calibration of some of their projects.
+			GTS develops and validates these components through a series of tightly controlled experiments, often involving the flow of Hydrogen or a noble gas, whose sensitive environmental conditions and experimental parameters must be delicately regulated.
+			This regulation includes temperature compensation; the \device\ fills this niche. As discussed elsewhere, the effects of temperature fluctuations on the test article must either be mitigated by flow control or dealt with in post-processing by the research engineer.
+			The \device\ provides this necessary control without dependence on power or computation, improving the reliability of these experiments, the precision of the flow control components and assemblies, the reliability of Sandia's projects,
+			the capabilities of their research and technology, and, ultimately, the resilience of American National Security against ever-more-sophisticated foreign and domestic threats.
+
 		\subsection{The \device\ in full assembly}
 		\label{app:calcs:sup:assem}
 
-			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed $8 \nicefrac{1}{2}" \times 11"$ paper.
+			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}" \times 11"$ paper.
 			Figure~\ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
 
 			\begin{minipage}{1.5748in}
