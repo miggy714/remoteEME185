@@ -1466,8 +1466,7 @@
 				\end{tabularx}
 			\end{table}
 
-			\todo{Add citations}
-			Principal Stresses:
+			Principal Stresses\cite{ref_shigley}:
 			\begin{equation}
 			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{20^2 + 12.194^2}{20^2 - 12.194^2} \right) \approx \SI{150.54}{\mega\pascal} \quad (\text{Hoop Stress})
 			\end{equation}
@@ -1765,7 +1764,7 @@
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer' range.
 			See Appendix~\ref{app:calcs:cal:force} for further calculations and Appendix~\ref{app:mfg} for calibration instructions.
 			Calibration ought to be performed at room temperature (approximately $T_{ref}$), where the required tolerance window is narrowest (c.f. Appendix~\ref{app:calcs:orifice_geometry}).
-
+			\\~\\
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.5\textwidth]{cal.png}
@@ -2048,13 +2047,13 @@
 		Specialized materials allow for a compact, thermally stable housing and consistent, thermomechanical actuation.
 		Minimizing the system's degrees of freedom to a single moving part eliminates critical error;
 		belleville calibration corrects much of what remains.
-		Finally, eletron-discharge machining enables the manufacture of the variable-diamond orifice at the heart of the \device,
+		Finally, electrical-discharge machining enables the manufacture of the variable-diamond orifice at the heart of the \device,
 		producing a sharp, linear temperature-diameter output.
 		This proof-of-concept model provides Sandia with the necessary foundation for development of a working prototype.
 
 		Risk analysis in Chapter~\ref{chap:comp} demonstrated that certain issues will need to be researched and certain revisions made before the \device\ can accomplish its objectives without failure.
 		However, these adjustments are minor and will likely not require fundamental revision of the design architecture.
-		While this report does not provide a finished product, it develops , demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
+		While this report does not provide a finished product, it develops, demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
 		The exact output relationship of the \device\ holds little value for any particular experiment, but the selected architecture allows for easy reparameterization on a case-by-case basis
 		to accommodate individual experiments. Fine adjustment of the actuator, mount, and valve stem lengths allows for a fully customizeable Required Relationship for further iterations. 
 
