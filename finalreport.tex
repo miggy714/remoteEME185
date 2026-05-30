@@ -153,6 +153,7 @@
 \usepackage{multicol}
 \usepackage{wrapfig}
 \usepackage{nicefrac}
+\usepackage[bottom]{footmisc}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -224,36 +225,6 @@
 \newcommand{\specActDefTotal}{\SI{267}{\micro \meter}}
 \newcommand{\specActDefHot}{\SI{152.8}{\micro \meter}}
 
-% TF Force Balance Matrix (given as an escaped command because it is given twice in the report)
-
-\newcommand{\forceMatrix}
-{
-	\begin{bmatrix}
-		k_M & k_A  & 0    & 0     & 0     & 0     & 0     & 0     \\
-		0   & k_A  & -k_S & 0     & 0     & 0     & 0     & 0     \\
-		k_M & 0    & 0    & 0     & 0     & 0     & 0     & -k_W  \\
-		0   & 0    & 0    & -k_T  & 0     & 0     & -k_H  & k_W   \\
-		0   & 0    & 0    & 0     & -k_B  & k_V   & 0     & 0     \\
-		0   & 0    & 0    & 0     & k_B   & 0     & k_H   & 0     \\
-		1   & -1   & -1   & 1     & 0     & 0     & 0     & 1    \\
-		0   & 0    & 0    & 1     & 1     & 1     & -1    & 0
-	\end{bmatrix}
-	\begin{bmatrix}
-		L_M \\ L_A \\ L_S \\ L_T \\ L_B \\ L_V \\ L_H \\ L_W
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		k_M \ell_M + k_A \ell_A \\
-		k_A \ell_A - k_S \ell_S \\
-		k_M \ell_M - k_W \ell_W \\
-		k_W \ell_W - k_T \ell_T - k_H \ell_H \\
-		k_V \ell_V - k_B \ell_B \\
-		k_H \ell_H + k_B \ell_B \\
-		0 \\
-		0
-	\end{bmatrix}
-}
-
 % Transfer function specifications
 
 \newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
@@ -319,6 +290,8 @@
 
 % For links to spec table
 \newcommand{\specref}[1]{\hyperref[tab:specs]{#1}}
+
+\usepackage{lmodern} % DELETE BEFORE SUBMISSION; this is to help the pdf render more easily.
 
 
 % ============================================================================
@@ -515,7 +488,7 @@
 			and are designed for low-pressure, light-tolerance applications.
 			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satelite equipment at the size and precision Sandia requires
 			but switch on and off to compensate for the binary thermal extremes of space rather than delivering a continuous output.
-			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to its conditions would prove a novel and highly challenging exercise.
+			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to its conditions would prove a novel and challenging exercise.
 
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
@@ -615,7 +588,7 @@
 				\begin{array}{@{} l @{\qquad} l @{}}
 					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref
 						& A_1 = \Aone \\[4pt]
-					T_{\text{ambient}}\ \in\ [\Tcold,\Thot]\ \degC
+					T_{\text{ambient}}\ \in\ [\Tcold,\Thot]\
 						& A_0 = \Azero
 				\end{array}
 				\]
@@ -646,7 +619,7 @@
 			\item \label{cond:dP} 	The gas pressure differential $\Delta P$ will lie within the range $\SI{68.95}{\kilo\pascal} \leq \Delta P \leq \specPressure$.
 			\item \label{cond:dT} 	The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
 			\item \label{cond:gas} 	The gas will be a noble gas or Hydrogen.
-			\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
+			\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe of diameter \SIrange{1.524}{25.4}{\milli\meter}.
 			\item \label{cond:fix} 	The ambient temperature will remain fixed during operation.
 			\item \label{cond:test} The device will be tested by Sandia to validate required compliance, both without gas flow and for up to 60 seconds with gas flow.
 		\end{enumerate}
@@ -697,6 +670,8 @@
 				\label{fig:TF_gen}
 			\end{figure}
 
+			\newpage
+
 			\begin{multicols}{2}
 				\begin{figure}[H]
 					\centering
@@ -704,10 +679,11 @@
 					\caption{Required Relationship Transfer Function}
 					\label{fig:TF_RR}
 				\end{figure}
+				\vfill
 				\begin{figure}[H]
 					\centering
 					\includegraphics[height=.3\textheight]{TF_sub.png}
-					\caption{Subsystem Control}
+					\caption{Subsystem components of $\hat{G}_{RR}$}
 					\label{fig:TF_sub}
 				\end{figure}
 				\newcolumn
@@ -809,28 +785,29 @@
 		\subsection{Mechanical Envelope rolldown}
 		\label{subsec:intro:specs:ME}
 
-			The Mechanical Envelope (\SI{10}{\centi\meter} in each direction) can be defined along three principal axes in a right-hand coordinate system,
-			which will be used for reference throughout this report:
-
-			% NOTE - These are consistent with the main CAD assembly axes
-			\begin{itemize}
-				\item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-				\item The "Vertical" axis (y-axis) points directly upwards
-				\item The "Lateral" axis (x-axis) points right as one looks downstream
-			\end{itemize}
-
-			These are depicted in Figure~\ref{fig:axes}.
-
-			\begin{figure}[h]
+			\setlength{\intextsep}{0pt}
+			\begin{wrapfigure}{l}{2.6in}
 				\centering
 				\includegraphics[height=3.5in]{Axes.png}
 				\caption{Reference axes}
 				\label{fig:axes}
-			\end{figure}
+			\end{wrapfigure}
+
+			The Mechanical Envelope (\SI{10}{\centi\meter} in each direction) can be defined along three principal axes in a right-hand coordinate system,
+			depicted in Figure~\ref{fig:axes}:
+
+			% NOTE - These are consistent with the main CAD assembly axes
+			\begin{itemize}
+				\item The "Longitudinal" (Z) axis runs upstream along the direction of gas flow
+				\item The "Vertical" (Y) axis points directly upwards
+				\item The "Lateral" (X) axis points right as one looks downstream
+			\end{itemize}
+
 
 			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full \SI{10}{\centi\meter} along the other axes.
-			As with the sub-transfer functions, the division of the vertical mechanical envelop is partially informed by the final selected design architecture.
-			The subsystem mechanical-envelope specifications are given in lateral (X), vertical (Y), and longitudinal (Z) dimensions, respectively.
+			As with the sub-transfer functions, the division of the vertical mechanical envelope is partially informed by the final design architecture.
+			These specifications are given in lateral (X), vertical (Y), and longitudinal (Z) dimensions, respectively.
+			\color{white}Easter egg text, included to avoid a wrapfigure error below. "How good and pleasant it is when brothers live as one, in unity!"\color{black}
 
 			\newpage
 			% \vspace{1em}
@@ -857,8 +834,7 @@
 			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
 			This rolls down to the following subsystem specifications:
 
-			\newpage
-			% \vspace{1em}
+			\vspace{1em}
 			\begin{mdframed}
 				\begin{itemize}
 					\setcounter{enumi}{2}
@@ -877,8 +853,6 @@
 						\end{enumerate}
 				\end{itemize}
 			\end{mdframed}
-
-			\todo{Spec Temp}
 		
 			\subsection{Final Subsystem Specifications}
 		\label{subsec:intro:spec:final}
@@ -1025,19 +999,19 @@
 		\subsection{Valve Subsystem}
 		\label{subsec:design:overview:valve}
 
-			The valve subsystem (Figures \ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, only allowing gas to exit through its small internal orifice.
-			Its housing is coupled to stainless steel pipes by a test engineer and provides the structural support necessary to hold the internal pressure.
-			The central moving component, which contains the leading orifice hole, nests between four walls and slides vertically within the assembly.
-			This is attached to a valve stem, which extends upwards through the housing to the actuator, which drives its motion.
-			This housing pentration is hermetically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
-
-			\begin{figure}[H]
+			\begin{wrapfigure}{l}{.32\textheight} % .32\textheight is the width, but the image is roughly square
 				\centering
 				% \includegraphics[height=.4\textheight]{Valve_full.png}
-				\includegraphics[height=.4\textheight]{Valve_full_qual.png}
+				\includegraphics[height=.3\textheight]{Valve_full_qual.png}
 				\caption{Valve subsystem}
 				\label{fig:valve_full}
-			\end{figure}
+			\end{wrapfigure}
+
+			The valve subsystem (Figures \ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, only allowing gas to exit through its small internal orifice.
+			Its housing is coupled to stainless steel pipes by a test engineer and provides the structural support necessary to hold the internal pressure.
+			The leading-orifice component, nests between four walls and slides vertically within the assembly.
+			Attached is the valve stem, welded to and driven by the actuator.
+			This housing pentration is hermetically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
 
 			\begin{figure}[H]
 				\begin{minipage}{.49\textwidth}
@@ -1056,12 +1030,10 @@
 				\end{minipage}
 			\end{figure}
 
-			\newpage
-
-			\begin{wrapfigure}{l}{2in}
+			\begin{wrapfigure}{l}{2.5in}
 				\centering
 				% \includegraphics[width=.8\textwidth]{orif_assem.png}
-				\includegraphics[width=2in]{orif_assem_right_qual.png}
+				\includegraphics[width=2.5in]{orif_assem_right_qual.png}
 				\caption{Orifice assembly}
 				\label{fig:orif_assem}
 			\end{wrapfigure}
@@ -1074,28 +1046,37 @@
 			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
 			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
 
-			\begin{wrapfigure}{l}{3in}
-				\centering
-				% \includegraphics[height=4in]{V1_bellows.png}
-				\includegraphics[height=3in]{V1_bellows_qual.png}
-				\caption{V1: Housing Center}
-				\label{fig:V1_bellows}
-			\end{wrapfigure}
-
 			Two Housing Center pieces (2) plug the remaining gaps.
 			They contain holes for the valve stems to slide through, guiding their motion.
 			To hermetically seal these holes, a bellows (5) is welded between the Valve Orifice and each Housing Center.
 			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for flexible, sealed pentration of the housing.
 			The housing center and bellows are inserted as in Figure~\ref{fig:V1_bellows}.
 
+			\newpage
+
+			\begin{figure}[H]
+				\begin{minipage}{4.5in}
 			Figure~\ref{fig:cut_zooms} shows the orifice in full assembly.
 			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure~\ref{fig:orifice}.
 
-			All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
+					\medskip
+					All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 
-			All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
-			ensuring high thermal stability under the expected temperature fluctuations.
+					\medskip
+					All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
+					ensuring high thermal stability under the expected temperature fluctuations.
+				\end{minipage}
+			\hfill
+				\begin{minipage}{1.9in}
+				\centering
+				% \includegraphics[height=4in]{V1_bellows.png}
+				\includegraphics[height=3in]{V1_bellows_qual.png}
+				\caption{Housing Center and bellows}
+				\label{fig:V1_bellows}
+				\end{minipage}
+			\end{figure}
 
+			\vspace{-1em}
 			\begin{figure}[H]
 					\centering
 					\begin{subfigure}{0.45\textwidth}
@@ -1320,7 +1301,7 @@
 			A belleville washer is compressed between the upper interior of the mount and the top surface of the actuator, held in place by the screw. Uncompressed, it measures \SI{0.6}{\milli\meter} tall;
 			we will assume a compressed height of \SI{0.55}{\milli\meter}\footnote{
 				The exact compression height of the belleville washer is, by nature, an unknown and varies between each device.
-				Deviations will be accounted for in Chapter~\ref{chap:sat}.}
+				Deviations will be accounted for in Chapter~\ref{chap:risk}.}
 			A \SI{5}{\milli\meter} gap, spanned by the valve stem, separates the free end of the actuator from the housing, thermally insulating the actuator from direct heat transfer with the hot internal gas.
 
 			\begin{wrapfigure}{l}{0.49\textwidth}
@@ -1436,7 +1417,7 @@
 			Many flexible membranes required to construct a circular orifice permit Hydrogen embrittlement and diffusion, disqualifying a circular geometry.
 			Complex-polygon architectures, such as hexagonal camera-style aperature, comprise more degrees of freedom than the precise relationship allows.
 			The diamond orifice, on the other hand, performs linearly with two interfacing components and a single degree of freedom.
-			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in Chapter~\ref{chap:sat}, ultimately satisfies the Required Relationship.
+			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in Chapter~\ref{chap:risk}, ultimately satisfies the Required Relationship.
 
 		\subsection{Pressure Capacity}
 		\label{subsec:design:just:P}
@@ -1530,9 +1511,9 @@
 			Stress concentrations at the corners of the prism were a primary concern and were modeled using COMSOL to verify this specific region did not experience excessive stress
 			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
 
-			\todo{Add comsol results for rectangular center section. The above paragraph can address it.}       
+			\todo{Add comsol results for rectangular section in above paragraph}       
 
-		\newpage % Delete if necessary
+		% \newpage % Delete if necessary
 		\subsection{Hermetic Seal}
 		\label{subsec:design:just:bellows}
 
@@ -1809,21 +1790,16 @@
 			The geometry of the welds is a square butt joint, which is a widely used in pressure vessel construction, allowing for full penetration of EBW.
 	
 			Full penetration is considered achieved when the weld fuses through the entire wall thickness $t$.
-			EBW's high power density enables complete fusion across the interface, and the square butt profile 
-			is the optimal geometry for radiographic interpretation, as it ensures defects cannot be obscured\cite{ref_steen2010laser}.
+			EBW's high power density enables complete fusion across the interface.
 			Weld penetration quality is verified using 100\% X-ray radiographic inspection per ASME B31.3 
-			\cite[Table 302.3.4]{ref_asme_b313}.
+			\cite[Table 302.3.4]{ref_asme_b313}. If all welds pass inspection ($E = 1.00$)\cite{ref_asme_b313}, 
+			the weld joint introduces no strength penalty relative to the base material. 
 			The circumferential welds are certified to be free of defects such as porosity, lack of fusion, 
 			and cracking, all of which could significantly reduce joint strength\cite{ref_steen2010laser}.
+			Electron-beam welding the entire assembly allows for an assembly with minimal degrees of freedom and a direct interface between the two subsystems,
+			improving the system-level precision by preventing backlash allowed by alternative assembly methods.
 			\\~\\
-			The viability of the weld joint is evaluated using the ASME B31.3 Process Piping Code 
-			(equation~\eqref{tmin_weld}, below)\cite[eq.~3a]{ref_asme_b313}, which governs the required minimum wall thickness as a function 
-			of the weld joint quality factor $E$. Note that the calculations below use a cylindrical pipe geometry as a conservative approximation of the rectangular housing geometry, as the welds are located at the inner wall of the housing where the stress is highest and the wall thickness is lowest.
-				
-			\begin{equation}
-			t_{min} = \frac{P D_o}{2(SEW + PY)}
-			\label{tmin_weld}
-			\end{equation}
+			The viability of the weld joint is evaluated for both axial and bending stresses due to the internal pressure.
 
 			\begin{table}[H]
 				\centering
@@ -1837,86 +1813,56 @@
 					Internal pressure &
 					$\specPressure$
 					\\\addlinespace
-					$D_o$ &
-					Outer diameter &
-					\SI{40}{\milli\meter}
+					$A_{wetted}$ &
+					Wetted area (From gas flow)&
+					\SI{3.5504e-4}{\square\meter}
 					\\\addlinespace
-					$S$ &
-					ASME allowable stress, $S_y$ / 1.5 &
-					\SI{184}{\mega\pascal}
+					$A_{weld}$ &
+					Weld area &
+					\SI{1.3508e-3}{\square\meter}
 					\\\addlinespace
-					$W$ &
-					Weld strength reduction factor &
-					1.0
+					$S_y$ &
+					 Yield strength &
+					\SI{276}{\mega\pascal}
 					\\\addlinespace
-					$Y$ &
-					Coefficient for nickel alloys ($T < \SI{482}{\degreeCelsius}$) &
-					0.4
-					\\\addlinespace
-					$E$ &
-					Weld joint quality factor &
-					1.0
+					$t$ &
+					Weld thickness (Full penetration) &
+					\SI{7.0}{\milli\meter}
 					\\\bottomrule
 				\end{tabularx}
 			\end{table}
 
-			The ASME allowable stress is derived directly from the housing yield strength using the standard 
-			code factor of
+			The axial stress on the weld is calculated as the force from the internal pressure distributed across the weld area \cite{ref_shigley}.
+
+			\begin{equation}
+			\sigma_{axial} = \frac{F}{A} = \frac{P A_{wetted}}{A_{weld}} 
+			= \frac{(68.95 \times 10^6)(3.5504 \times 10^{-4})}{1.3508 \times 10^{-3}} 
+			\approx \SI{18.08}{\mega\pascal}
+			\label{stress_axial}
+			\end{equation}
+
+			\begin{equation}
+			FS_{axial} = \frac{S_y}{\sigma_{axial}} = \frac{276}{18.08} \approx 15.27 > 1
+			\label{sf_axial}
+			\end{equation}
+
+			Since the axial stress is well below the yield strength, the weld joint can withstand the internal pressure without failure in tension.
 			
+			The bending stress is modeled  using the formula for bending stress in a beam fixed at both ends where $M_{max}$ is the maximum bending moment (Equation \ref{moment_bending}, at $L/2$), $W$ is the distributed load from the internal pressure, $L$ is the length of the weld, $b$ is the width of the weld, $t$ is the thickness of the weld, $c$ is the distance from the neutral axis to the outer fiber, and $I$ is the moment of inertia of the weld cross-section.
+			The beam approach is a simplification that assumes the weld behaves like a beam under bending loads \cite{ref_beam}. In this case, the valve geometries are too complex to model the bending stress accurately, yet Equation \ref{stress_bending} shows that the bending stress can be minimized by decreasing $L$ and/or increasing $t$.
 			\begin{equation}
-				S = S_y / 1.5 = \SI{276}{\mega\pascal} / 1.5 = \SI{184}{\mega\pascal}
-			\end{equation}
-
-			Per ASME B31.3 \cite[Table 302.3.4]{ref_asme_b313}, the weld joint quality factor $E$ depends entirely 
-			on the level of examination applied:
-
-			\begin{itemize}
-				\item $E = 0.80$: Single butt weld with visual inspection only.
-				\item $E = 0.85$: Double butt weld or spot radiography.
-				\item $E = 1.00$: Full radiography (100\% X-ray) of all butt welds.
-			\end{itemize}
-
-			With full radiography ($E = 1.00$), the minimum required wall thickness is:
-
-			\begin{equation}
-			t_{min} = \frac{\SI{68.95}{\mega\pascal} \times \SI{40}{\milli\meter}}{2\left(\SI{184}{\mega\pascal} \times 1.00 \times 1.0 + \SI{68.95}{\mega\pascal} \times 0.4\right)} 
-			\approx \SI{6.52}{\milli\meter}
-			\label{t_num}
-			\end{equation}
-
-			The design wall thickness, $t_{actual} = \SI{7.806}{\milli\meter} > t_{min} = \SI{6.52}{\milli\meter}$,
-			sufficiently contains the maximum internal pressure with a safety factor of
-
-			\begin{equation}
-			SF_{weld} = \frac{t_{actual}}{t_{min}} = \frac{\SI{7.806}{\milli\meter}}{\SI{6.52}{\milli\meter}} \approx 1.20
-			\label{sf_weld}
-			\end{equation}
-			\\~\\
-			As a secondary check, the peak hoop stress at the inner wall from the thick-wall analysis 
-			($\sigma_\theta = \SI{150.54}{\mega\pascal}$) can be compared directly against the weld joint allowable stress\cite{ref_asme_b313}:
-
-			\begin{equation}
-			\sigma_{allow} = S \cdot E \cdot W = \SI{184}{\mega\pascal} \times 1.00 \times 1.0 = \SI{184}{\mega\pascal}
-			\label{stress_allow}
+			M_{max} = \frac{W L^2}{24} = \frac{(P b) L^2}{24}
+			 \label{moment_bending}
 			\end{equation}
 
 			\begin{equation}
-			\sigma_\theta = \SI{150.54}{\mega\pascal} < \sigma_{allow} = \SI{184}{\mega\pascal}
-			\label{ineq_hoop}
+			\sigma_{bending} = \frac{M_{max} c}{I} = \frac{M_{max} (t/2)}{(1/12) b t^3} = \frac{6 M_{max}}{b t^2} = \frac{6 (P b) L^2}{24 b t^2} = \frac{P L^2}{4 t^2}
+			\label{stress_bending}
 			\end{equation}
 
-			The weld joint stress safety factor is:
-			\begin{equation}
-			SF_{stress} = \frac{\sigma_{allow}}{\sigma_\theta} = \frac{\SI{184}{\mega\pascal}}{\SI{150.54}{\mega\pascal}} \approx 1.22 > 1
-			\label{sf_stress}
-			\end{equation}
+			Further modeling of this joint was performed using COMSOL Multiphysics to verify that the bending stress does not exceed the yield strength of the material, and to account for the complex geometry of the weld joint.
 
-			These results confirm that, if all welds pass 100\% X-ray radiographic inspection ($E = 1.00$)\cite{ref_asme_b313}, 
-			the weld joint introduces no strength penalty relative to the base material.
-			The joint is viable with a thickness margin of \SI{1.29}{\milli\meter} and a stress safety factor of $1.22$.    
-			Electron-beam welding the entire assembly allows for a high-strength pressure-vessel assembly;
-			it also enables an assembly with minimal degrees of freedom and a direct interface between the two subsystems,
-			improving the system-level precision by preventing backlash allowed by alternative assembly methods.
+			\todo{ADD COMSOL MODELING  and/or Replace bending stress with Roark formulas}
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -1968,7 +1914,7 @@
 					Its selection process was expidited due to time constraints. Further research may reveal an alloy with a consistent CTE higher than that of aluminum, allowing for a shorter bimetallic actuator.} 
 				as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
 
-			\newpage
+			% \newpage
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
@@ -2026,343 +1972,6 @@
 				\end{itemize}
 
 				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report.
-
-\chapter{Requirement Satisfaction}
-\label{chap:sat}
-
-	\section{Error Analysis}
-	\label{sec:sat:error}
-
-		\subsection{Variations in the Actuator's Coefficient of Thermal Expansion}
-		\label{subsec:sat:error:CTE}
-
-			Typical material specifications list a single coefficient of thermal expansion (CTE).
-			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
-			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
-		
-			\begin{figure}[H]
-				\centering
-				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-				\label{fig:al_alpha}
-			\end{figure}
-			
-			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
-			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
-			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
-			These introduce nonlinear behavior, resulting in quantifiable error.
-
-		\subsection{Machine Tolerances}
-		\label{subsec:sat:error:mach}
-
-			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
-			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
-
-			\begin{wrapfigure}{l}{.4\textwidth}
-				\centering
-				\includegraphics[width=.39\textwidth]{orif_error.png}
-				\caption{Orifice error modes}
-				\label{fig:orif_error}
-			\end{wrapfigure}
-
-			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
-			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
-			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
-			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
-			This horizontal error compounds if, the leading orifice is machined too far left and the trailing orifice is machined too far right;
-			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
-			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
-
-
-		\subsection{Heat Transfer}
-		\label{subsec:sat:error:dT}
-
-			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
-
-		\subsection{Bellows Spring Reactions}
-		\label{subsec:sat:error:bellows}
-
-			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
-			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
-
-		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
-		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
-
-	\section{System Transfer Function}
-	\label{sec:sat:TF}
-
-		The required transfer function from Section~\ref{subsec:intro:specs:RR} describes the system under ideal conditions and cannot properly account for systematic errors.
-		To fully analyze the expected performance, of the \device, we must derive a new, comprehensive system Transfer Function that we can then compare the the required output: 
-
-		\begin{equation}
-			\hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
-			\label{eq:req_TF}
-		\end{equation}
-
-		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
-		% \newpage
-		% \todo{Uncomment pdf. It may throw some errors.}
-		% \newpage
-		% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/TF_import.pdf}
-
-		The \device\ System Transfer Function comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system.
-		Its details will take a moment to unpack.
-
-		First, notice the general structure: the transfer function receives $T_{ambient}$ and returns $D_{effective}$ as prescribed.
-		The smaller, top $(\hat{T})$ row of sub-transfer functions adjusts $T_{amb}$ for each part in the assembly to account for heat transfer from the hot internal gas.
-		The larger, second $(\hat{G})$ row represents the thermal expansion of each dimensionally critical component; each function takes the given adjusted temperature and outputs the thermally expanded length $\ell$ of its respective part.
-		However, because the bellows apply a spring force against the actuation motion, these parts will deform slightly. A Force Balance processes these undeformed length values through a system of linear equations, yielding the final length $L$ of each component.
-		These final values are summed to obtain the position $y$ of each of the two square holes. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is finally converted to $D_{effective}$ by the orifice transfer function $\hat{G}_O$.
-		
-		To understand the origin of the transfer function structure, we must decompose the functional structure of each component of the \device.
-		Figure~\ref{fig:positional_block_diagram} illustrates the relative position of each component in simplified fashion.
-		Each part's temperature adjustment function $\hat{T}$, thermal transfer function $\hat{G}$, undeformed length $\ell$, and final length $L$ is labeled with its respective subscript as shown in the figure:
-		
-		\begin{multicols}{2}
-			\begin{itemize}
-				\item Mount (M)
-				\item Actuator (A)
-				\item Upper valve stem (S)
-				\item Upper "top" bellows (T)
-				\item Lower "bottom" bellows (B)
-				\item Valve orifice (V)
-				\item Housing side walls (H)
-				\item Housing top face or "wall" (W)
-			\end{itemize}
-		\end{multicols}
-				
-		\begin{figure}[H]
-			\centering
-			\includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
-			\caption{Positional block diagram}
-			\label{fig:positional_block_diagram}
-		\end{figure}
-		
-		
-		\begin{multicols}{2}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.45\textwidth]{positional_block_diagram_zoom.png}
-				\caption{Positional block diagram, detail view}
-				\label{fig:positional_block_diagram_zoom}
-			\end{figure}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.45\textwidth]{Housing_split.png}
-				\caption{Separation between Housing Wall (W) and Housing Body (H)}
-				\label{fig:housing_split}
-			\end{figure}
-
-			\columnbreak
-			
-			Figure~\ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
-			As described in Chapter~\ref{chap:design}, the mount $(M)$ sits atop the housing.
-			The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the belleville washer.
-			The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
-			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure~\ref{fig:housing_split}.
-			The housing body $(H)$ and "rear" $(R)$ share the lower portion shown in the figure; their expansion is coupled.
-			These represent the side walls of the housing and behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
-			The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls (part V2).
-			
-			Figure~\ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (i.e. equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
-			Thus, $y_M$ is positive, whereas $y_T$ is negative.
-		\end{multicols}
-
-		\subsection{Heat Transfer}
-		\label{subsec:sat:TF:dT}
-
-			\todo{Briefly explain new effective temperatures}
-
-		\subsection{Thermal Expansion}
-		\label{subsec:sat:TF:top_row}
-		Let us forgo the top row of temperature-adjusting functions for now and assume we know the temperature of each part. A full thermal analysis will provide these values later in this report.
-		Each of the nine sub-transfer functions along the second row computes the thermal espansion of each part shown in Figure~\ref{fig:positional_block_diagram}.
-		Its value can be approximated as a first-order Taylor Expansion\cite{ref_Jensen}\cite{ref_Stewart} with very little error due to the linear behavior of thermal expansion. This yields
-
-				\begin{equation}
-					\ell_i = \hat{G}_{thermal} = \ell_0(1 + \frac{d \ell}{dT} \Delta T)
-				\end{equation}
-
-			where $\hat{G}_{thermal}$ outputs the expanded dimension $\ell_i$ of part $i$, $\ell_0$ is its machined dimension, and $\Delta T = (T_{amb} - T_{ref})$.
-			According to the general principle of thermal expansion\cite[Eq.~4-4]{ref_Hibbeler}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material coefficient of thermal expansion (CTE).
-			Thus, the thermal-expansion transfer functions are defined as follows:
-
-			\vspace{1em}
-			\begin{mdframed}[userdefinedwidth=\dimexpr\textwidth+1cm\relax, leftmargin=-0.5cm]
-				\begin{multicols}{2}
-
-					\begin{align}
-						\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} \left( T_{{eff}_M} - T_{ref} \right) ) \label{eq:G_therm_1}\\
-						\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} \left( T_{{eff}_A} - T_{ref} \right) ) \\
-						\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} \left( T_{{eff}_S} - T_{ref} \right) ) \\
-						\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} \left( T_{{eff}_T} - T_{ref} \right) )
-					\end{align}
-					
-					\columnbreak
-					
-					\begin{align}
-						\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} \left( T_{{eff}_B} - T_{ref} \right) ) \\
-						\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} \left( T_{{eff}_V} - T_{ref} \right) ) \\
-						\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} \left( T_{{eff}_H} - T_{ref} \right) ) \\
-						\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} \left( T_{{eff}_W} - T_{ref} \right) ) \label{eq:G_therm_last}
-					\end{align}
-
-				\end{multicols}
-			\end{mdframed}
-
-			where the material expansion coefficients and machined lengths are shown in Appendix~\ref{app:calcs:TF:G_therm}.
-
-			This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
-			The CTE of aluminum is computed as a function of temperature as defined in Section~\ref{subsec:sat:error:CTE} to find the impact of this error on the final output.
-			Dimensional errors are stochastically added or subtracted to each machined part length $\ell_0$. This process is discussed in more detail in Section~\ref{sec:sat:TF:results}. 
-			Before this can be calculated, however, the spring reaction of bellows must be reconciled.
-
-		\subsection{Force Balance}
-		\label{subsec:sat:TF:force_balance}
-
-			Assuming the \device\ is assembled at $T_{ref}$, which is room temperature, each component is undeformed at that temperature. Thus, $L_i(T_{ref}) = \ell_i(T_{ref})$.
-			As the temperature changes, the system behaves as a spring mechanism. The arrangement is shown in Figure~\ref{fig:springs}.
-
-			\begin{figure}[H]
-				\centering
-				\begin{minipage}{.45\textwidth}
-					\centering
-					\includegraphics[height=.5\textheight]{springs.png}
-					\subcaption{\device\ spring mechanism}
-					\label{fig:springs_full}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.45\textwidth}
-					\centering
-					\includegraphics[height=.5\textheight]{springs_simp.png}
-					\subcaption{\device\ spring mechanism, simplified}
-					\label{fig:springs_simp}
-				\end{minipage}
-				\caption{Spring deflection}
-				\label{fig:springs}
-			\end{figure}
-
-			Application of a sum of forces at each node yields a system of eight equations that can be numerically solved to obtain the final deformed length of each part in terms of their spring constants $k$:
-
-			\vspace{1em}
-			\begin{mdframed}
-				\begin{equation}
-					\forceMatrix
-					\label{eq:matrix}
-				\end{equation}
-			\end{mdframed}
-
-			Derivation of this matrix and of its spring constants can be found in Appendix~\ref{app:calcs:TF:force_balance}.
-						
-		\subsection{Position calculations}
-		\label{subsec:sat:TF:pos}
-
-			Finally, we can use these lengths to calculate the values $y_F$ and $y_R$ of the two orifice components shown in Figure~\ref{fig:positional_block_diagram_zoom}.
-			Using the scheme depicted in Figure~\ref{fig:positional_block_diagram}, these are as follows:
-
-			\vspace{1em}
-			\begin{mdframed}
-				\begin{align}
-					y_F &= L_M - L_A - L_S - K_V L_V \label{eq:yF}\\
-					y_R &= - K_H (2 L_W + L_H) \label{eq:yR}
-				\end{align}
-			\end{mdframed}
-
-			To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
-			one must travel up the mount, down the actuator, down the valve stem, and partway down the valve orifice.
-			To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
-			one must travel straight down the housing wall.
-			Because $L_V$ and $L_H$ represent the total height of the valve orifice and housing outlet, a multiplier is required to find the position of each square cut, derived in Appendix~\ref{app:calcs:TF:K}:
-
-			\begin{align}
-				K_V &= \frac{1}{2} - \frac{X_{ref}}{2 \ell_{V_0}} \\[6pt]
-				K_H &= \frac{1}{2} + \frac{X_{ref}}{4 \ell_{W_0} + 2 \ell_{H_0}}
-			\end{align}
-
-			We find the height of the orifice $X$ by taking the difference between the position of the upper and lower corners of the orifice:
-
-			\vspace{1em}
-			\begin{mdframed}
-				\begin{equation}
-					X = y_F - y_R
-				\end{equation}
-			\end{mdframed}
-
-		\newpage
-
-    \subsection{Orifice Geometry}
-    \label{subsec:sat:TF:orif}
-
-			\begin{wrapfigure}{l}{0.35\textwidth}
-					\centering
-					\includegraphics[width=0.2\textwidth]{G_O.png}
-					\caption{Orifice transfer function}
-					\label{fig:G_O}
-			\end{wrapfigure}
-
-			Finally, with the height of the orifice, we can calculate its effective diameter.
-			This is the most critical part of the System Transfer Function because the square orifice bears the most potential for machining errors.
-			Such errors will be kept symbolic for now.
-
-			The orifice transfer function $\hat{G}_O$ is best divided into two sub-transfer functions, as in Figure~\ref{fig:G_O}:
-			one to convert the orifice this into the orifice area $A$, and one to convert area into effective diameter $D_{eff}$.
-
-			\subsubsection{$\hat{G}_A$: Height to Area}
-			\label{subsubsec:sat:TF:orif:G_A}
-
-				Under ideal machining conditions, the orifice area is calculated as follows:
-
-				\begin{equation}
-					A = s^2 = \left( \frac{X}{\sqrt{2}} \right)^2 = \frac{X^2}{2}
-				\end{equation}
-
-				As derived in Appendix~\ref{app:calcs:TF:dA}, the introduction of the fillet radius and horizontal offset yield the new area
-
-				\begin{equation}
-					A = s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right]
-					\label{eq:GA}
-				\end{equation}
-
-			\subsubsection{$\hat{G}_D$: Area to Effective Diameter}
-			\label{subsubsec:sat:TF:orif:G_D}
-				
-				The area-diameter conversion is a simple geometric calculation, where $D_{eff}$ is the diameter of a circle with equivalent area. Thus,
-
-				\begin{equation}
-					D_{eff} = \sqrt{\frac{4}{\pi} A}
-				\end{equation}
-
-			therefore
-
-			\vspace{1em}
-			\begin{mdframed}
-				\begin{equation}
-					\hat{G}_O = \sqrt{\frac{4}{\pi} \left( s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right] \right)}
-				\end{equation}
-			\end{mdframed}
-
-		\subsection{Transfer Function Results}
-		\label{sec:sat:TF:results}
-
-			The System Transfer Function can be computed using a simple script, which calculates each sub-transfer function as derived above and the force balance using a matrix solver.
-			The script was tested with ideal conditions; its output matched the Required Relationship exactly at every temperature.
-
-			Error was then input into the function. Some errors are deterministic or demonstrate an objective worst-case values: variations in aluminum's CTE, spring force deflections, the fillet radius, and effective temperatures.
-			The rest --- namely, all vertical dimensional errors ($d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, and $d \ell_W$)
-			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
-			are stochastic. Producing a normalized distrbution expectation plot via Monte Carlo analysis\cite{ref_figliola},
-			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
-			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
-			Those that do fall outside of tolerance do not exceed their boundary by more than 252\%.
-			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
-
-			All these results are demonstrated in detail in Appendix~\ref{app:calcs:TF:results}. They must, however, be taken with skepticism.
-			This System Transfer Function does not proport to reliably simulate the full performance of the \device.
-			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
-			The function does, however, provide an inexpensive tool to wholistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
-			It also serves to validate the results produced by the computational prototype that will be introduced in Chapter~\ref{chap:comp}.
 
 \chapter{Risk Assessment}
 \label{chap:risk}
@@ -2426,20 +2035,26 @@
 	\section{Final Analysis}
 	\label{sec:conc:fin_anal}
 
-		Modern defense technology research requires ever-increasing experimental fidelity.
-		Gas flow experiments conducted by Sandia National Labs depend on submillimeter-precision Hydrogen flow control without the luxury of electronics or controls,
-		handicapping the United States' competetive edge in the international theater.
-		Existing technology provides a foundation for thermomechanical flow control but fails to approach the range, precision, or pressure capacity these experiments require.
-		Without the \device, Sandia depends on costly active-control mechanisms and must conduct numerous experiments with substantial post-processing.
-		Completion of the \device\ will allow them to significantly simplify the data collection and interpretation process, eliminating uncertain variables and improving the reliability of their results.
+		National Security demands ceaseless advances in high-performance technology to maintain a competitive edge in the international theater.
+		The Passive Temperature Compensation Device fills the niche of its active-control counterparts with precision and reliability,
+		providing Sandia National Laboratories with a consistent, independent means of experimental conditioning
+		and eliminating that parametric uncertainty from their defense technology development process.
+		Without the PTCD, Sandia must either depend on active-control mechanisms, introducing an unnecessary variable in their regulation of experimental parameters,
+		or perform extensive post-processing when strict power and computation constraints prohibit such intervention.
 
-		The proof-of-concept Passive Temperature Compensation Device presented in this Final Design Report provides Sandia with the necessary foundation for development of a working prototype.
-		The combination of proven, aerospace-grade components (the ALLVAR-aluminum actuator, flexible metal bellows, belleville calibration, and electron-beam welding)
-		with the novel diamond-orifice valve accomplishes previously impossible thermomechanical gas flow control.
-		In the time provided for development of this device, only the first iteration could be produced.
+		Several key design innovations enabled the \device\ to accomplish a previously impossible mission: precise, continuous, high-pressure, thermomechanical flow control.
+		Proven, aerospace-grade technology combined with a novel diamond-orifice valve constitute a simple, linear architecture capable of maintaining a pin-size orifice with medical precision. 
+		Precise electron-beam welding and two flexible metal bellows maintain a hermetic seal under extreme pressures.
+		Specialized materials allow for a compact, thermally stable housing and consistent, thermomechanical actuation.
+		Minimizing the system's degrees of freedom to a single moving part eliminates critical error;
+		belleville calibration corrects much of what remains.
+		Finally, eletron-discharge machining enables the manufacture of the variable-diamond orifice at the heart of the \device,
+		producing a sharp, linear temperature-diameter output.
+		This proof-of-concept model provides Sandia with the necessary foundation for development of a working prototype.
+
 		Risk analysis in Chapter~\ref{chap:comp} demonstrated that certain issues will need to be researched and certain revisions made before the \device\ can accomplish its objectives without failure.
-		However, these adjustments are minor will likely not require fundamental revision of the design architecture.
-		While this report does not provide a finished product, it lays a complete design architecture foundation, demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
+		However, these adjustments are minor and will likely not require fundamental revision of the design architecture.
+		While this report does not provide a finished product, it develops , demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
 		The exact output relationship of the \device\ holds little value for any particular experiment, but the selected architecture allows for easy reparameterization on a case-by-case basis
 		to accommodate individual experiments. Fine adjustment of the actuator, mount, and valve stem lengths allows for a fully customizeable Required Relationship for further iterations. 
 
@@ -2459,7 +2074,7 @@
 			\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
 				These should be revised before further development.
 			\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
-				The verification tools developed in Chapters \ref{chap:sat} and \ref{chap:comp} provide a convenient method to quantify the impact of these changes on system output precision.
+				The verification tools developed in Chapter~\ref{chap:comp} provide a convenient method to quantify the impact of these changes on system output precision.
 				\begin{itemize}
 					\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
 						withstand this force.
@@ -2627,6 +2242,8 @@
 			\textit{Fluid Mechanics}, 9th~ed.,
 			McGraw-Hill Education, New York, NY, 2021.
 
+		\bibitem{ref_beam}
+		A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{www.padtinc.com}. [Accessed: May 29, 2026].
 
 		% PRODUCT INFORMATION
 
@@ -2733,8 +2350,6 @@
 
 \chapter{Calculations and Supplemental Information}
 \label{app:calcs}
-
-	\todo{Include any overfill from the main body of the report to keep it under 50 pages.}
 
 	\section{Required Relationship: Tolerable Error}
 	\label{app:calcs:errorProp}
@@ -3006,15 +2621,230 @@
 			A \SI{14}{\degree} rotation is a very reasonable demand for  manual screwdriver\cite{ref_jones1992, ref_desrosieres2015}. As discussed in Section~\ref{app:calcs:cal:force}, this can be performed by hand with little effort,
 			allowing for even greater precision.
 
+	\section{Supplemental Images}
+	\label{app:calcs:sup}
+
+		\subsection{The \device's role in National Security}
+		\label{app:calcs:sup:sec}
+
+			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia's defense-technology projects.
+			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, United States National Security.
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.75\textwidth]{SNL_role.png}
+				\caption{Downstream Customer Diagram}
+				\label{fig:app_SNL}
+			\end{figure}
+
+		\subsection{The \device\ in full assembly}
+		\label{app:calcs:sup:assem}
+
+			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed $8 \nicefrac{1}{2}" \times 11"$ paper.
+			Figure~\ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
+
+			\begin{minipage}{1.5748in}
+				\begin{figure}[H]
+				\centering
+				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
+				\caption{\device\\Actual Size}
+				\label{fig:act_size}
+				\end{figure}
+			\end{minipage}
+			\hfill
+			\begin{minipage}{6in}
+				\begin{figure}[H]
+					\centering
+					% \includegraphics[width=\textwidth]{reveal.png}
+					\includegraphics[width=.75\textwidth]{reveal_qual.png}
+					\caption{\device\ Full Assembly}
+					\label{fig:app_reveal}
+				\end{figure}
+			\end{minipage}
+
+\chapter{Required Relationship Failure Analysis}
+\label{app:sat}
+
+	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:risk} about its ability to meet the subsidiary specifications.
+	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:calcs:TF:results}, the \device\ can be expected to meet its required tolerance
+	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:calcs:error}.
+
+	\section{Error Analysis}
+	\label{app:calcs:error}
+
+		\subsection{Variations in Aluminum's Coefficient of Thermal Expansion}
+		\label{app:calcs:error:CTE}
+
+			Typical material specifications list a single coefficient of thermal expansion (CTE).
+			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
+			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
+		
+			\begin{figure}[H]
+				\centering
+				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+				\label{fig:al_alpha}
+			\end{figure}
+			
+			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
+			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
+			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
+			These introduce nonlinear behavior, resulting in quantifiable error.
+
+		\subsection{Machine Tolerances}
+		\label{app:calcs:error:mach}
+
+			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
+			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
+			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
+
+			\begin{wrapfigure}{l}{.4\textwidth}
+				\centering
+				\includegraphics[width=.39\textwidth]{orif_error.png}
+				\caption{Orifice error modes}
+				\label{fig:orif_error}
+			\end{wrapfigure}
+
+			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
+			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
+			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
+			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
+			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
+			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
+			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
+
+		\subsection{Heat Transfer}
+		\label{app:calcs:error:dT}
+
+			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
+
+		\subsection{Bellows Spring Reactions}
+		\label{app:calcs:error:bellows}
+
+			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
+			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
+
+		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
+		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
+
 	\section{Transfer Function Derivation}
 	\label{app:calcs:TF}
 
-		Derivation of the System Transfer Function in Section~\ref{sec:sat:TF} passed over certain calculations for brevity. They are given here.
+		The required transfer function from Section~\ref{subsec:intro:specs:RR} describes the system under ideal conditions and cannot properly account for systematic errors.
+		To fully analyze the expected performance of the \device, a new, comprehensive system Transfer Function must be derived that can be compared to the required output: 
 
+		\begin{equation}
+			\hat{G}_{sys} = A_1 (T-T_{ref}) + A_0 = (\Aone)(T-T_{ref}) + (\Azero)
+			\label{eq:req_TF}
+		\end{equation}
+
+		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
+		% \newpage
+		% \todo{Uncomment pdf. It may throw some errors.}
+		% \newpage
+		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/TF_import.pdf}
+
+		The \device\ System Transfer Function comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system.
+		Its details will take a moment to unpack.
+
+		First, notice the general structure: the transfer function receives $T_{ambient}$ and returns $D_{effective}$ as prescribed.
+		The smaller, top $(\hat{T})$ row of sub-transfer functions adjusts $T_{amb}$ for each part in the assembly to account for heat transfer from the hot internal gas.
+		The larger, second $(\hat{G})$ row represents the thermal expansion of each dimensionally critical component; each function takes the given adjusted temperature and outputs the thermally expanded length $\ell$ of its respective part.
+		However, because the bellows apply a spring force against the actuation motion, these parts will deform slightly. A Force Balance processes these undeformed length values through a system of linear equations, yielding the final length $L$ of each component.
+		These final values are summed to obtain the position $y$ of each of the two square holes. Taking the difference between these positions, we obtain the height $X$ of the square orifice, which is finally converted to $D_{effective}$ by the orifice transfer function $\hat{G}_O$.
+		
+		To understand the origin of the transfer function structure, we must decompose the functional structure of each component of the \device.
+		Figure~\ref{fig:positional_block_diagram} illustrates the relative position of each component in simplified fashion.
+		Each part's temperature adjustment function $\hat{T}$, thermal transfer function $\hat{G}$, undeformed length $\ell$, and final length $L$ is labeled with its respective subscript as shown in the figure:
+		
+		\begin{multicols}{2}
+			\begin{itemize}
+				\item Mount (M)
+				\item Actuator (A)
+				\item Upper valve stem (S)
+				\item Upper "top" bellows (T)
+				\item Lower "bottom" bellows (B)
+				\item Valve orifice (V)
+				\item Housing side walls (H)
+				\item Housing top face or "wall" (W)
+			\end{itemize}
+		\end{multicols}
+				
+		\begin{figure}[H]
+			\centering
+			\includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
+			\caption{Positional block diagram}
+			\label{fig:positional_block_diagram}
+		\end{figure}
+		
+		
+		\begin{multicols}{2}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.45\textwidth]{positional_block_diagram_zoom.png}
+				\caption{Positional block diagram, detail view}
+				\label{fig:positional_block_diagram_zoom}
+			\end{figure}
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.45\textwidth]{Housing_split.png}
+				\caption{Separation between Housing Wall (W) and Housing Body (H)}
+				\label{fig:housing_split}
+			\end{figure}
+
+			\columnbreak
+			
+			Figure~\ref{fig:positional_block_diagram_zoom} shows a detail view of certain dimensions around the orifice that will be used later.
+			As described in Chapter~\ref{chap:design}, the mount $(M)$ sits atop the housing.
+			The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the belleville washer.
+			The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
+			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure~\ref{fig:housing_split}.
+			The housing body $(H)$ and "rear" $(R)$ share the lower portion shown in the figure; their expansion is coupled.
+			These represent the side walls of the housing and behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
+			The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls (part V2).
+			
+			Figure~\ref{fig:positional_block_diagram} also defines several useful positions according to a vertical coordinate frame. The position variable $y$ originates (i.e. equals $0$) at the top surface of the housing, which is considered fixed, and increases vertically.
+			Thus, $y_M$ is positive, whereas $y_T$ is negative.
+		\end{multicols}
+
+		\subsection{Heat Transfer}
+		\label{app:calcs:TF:dT}
+
+			\todo{Heat transfer analysis from COMSOL testing}
+		
 		\subsection{Thermal Expansion}
 		\label{app:calcs:TF:G_therm}
 
-			Constants used in equations \eqref{eq:G_therm_1 -- eq:G_therm_last} are as follows.
+			Let us forgo the top row of temperature-adjusting functions for now and assume we know the temperature of each part. A full thermal analysis will provide these values later in this report.
+			Each of the nine sub-transfer functions along the second row computes the thermal espansion of each part shown in Figure~\ref{fig:positional_block_diagram}.
+			Its value can be approximated as a first-order Taylor Expansion\cite{ref_Jensen}\cite{ref_Stewart} with very little error due to the linear behavior of thermal expansion. This yields
+
+				\begin{equation}
+					\ell_i = \hat{G}_{thermal} = \ell_0(1 + \frac{d \ell}{dT} \Delta T)
+				\end{equation}
+
+			where $\hat{G}_{thermal}$ outputs the expanded dimension $\ell_i$ of part $i$, $\ell_0$ is its machined dimension, and $\Delta T = (T_{amb} - T_{ref})$.
+			According to the general principle of thermal expansion\cite[Eq.~4-4]{ref_Hibbeler}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material coefficient of thermal expansion (CTE).
+			Thus, the thermal-expansion transfer functions are defined as follows:
+
+			\begin{multicols}{2}
+				\begin{align}
+					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} \left( T_{{eff}_M} - T_{ref} \right) ) \label{eq:G_therm_1}\\
+					\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} \left( T_{{eff}_A} - T_{ref} \right) ) \\
+					\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} \left( T_{{eff}_S} - T_{ref} \right) ) \\
+					\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} \left( T_{{eff}_T} - T_{ref} \right) )
+				\end{align}
+				\columnbreak
+				\begin{align}
+					\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} \left( T_{{eff}_B} - T_{ref} \right) ) \\
+					\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} \left( T_{{eff}_V} - T_{ref} \right) ) \\
+					\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} \left( T_{{eff}_H} - T_{ref} \right) ) \\
+					\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} \left( T_{{eff}_W} - T_{ref} \right) ) \label{eq:G_therm_last}
+				\end{align}
+			\end{multicols}
+
+			where the material expansion coefficients and machined lengths are as follows.
 
 			Material coefficients of thermal expansion:
 
@@ -3038,10 +2868,16 @@
 				\item $\ell_{W_0} = \SI{10}{\milli\meter}$
 			\end{itemize}
 
+			This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
+			The CTE of aluminum is computed as a function of temperature as defined in Section~\ref{app:calcs:error:CTE} to find the impact of this error on the final output.
+			Dimensional errors are stochastically added or subtracted to each machined part length $\ell_0$. This process is discussed in more detail in Section~\ref{sec:sat:TF:results}. 
+			Before this can be calculated, however, the spring reaction of bellows must be reconciled.
+
 		\subsection{Force Balance}
 		\label{app:calcs:TF:force_balance}
 
-			The spring-assembly model of the \device, introcuded in Section~\ref{subsec:sat:TF:force_balance}, is shown again in Figure~\ref{fig:app_springs}.
+			Each component is undeformed at the machining and assembly temperature, $T_{ref}$. Thus, $L_i(T_{ref}) = \ell_i(T_{ref})$.
+			As the temperature changes and the connected parts expand at different rates, the system behaves as a static coupled spring mechanism. The arrangement is shown in Figure~\ref{fig:springs}.
 
 			\begin{figure}[H]
 				\centering
@@ -3049,18 +2885,19 @@
 					\centering
 					\includegraphics[height=.5\textheight]{springs.png}
 					\subcaption{\device\ spring mechanism}
-					\label{fig:app_springs_full}
+					\label{fig:springs_full}
 				\end{minipage}
 				\hfill
 				\begin{minipage}{.45\textwidth}
 					\centering
 					\includegraphics[height=.5\textheight]{springs_simp.png}
 					\subcaption{\device\ spring mechanism, simplified}
-					\label{fig:app_springs_simp}
+					\label{fig:springs_simp}
 				\end{minipage}
 				\caption{Spring deflection}
-				\label{fig:app_springs}
+				\label{fig:springs}
 			\end{figure}
+
 
 			Solution of the final lengths of these springs requires a system of equations, derived using static force analysis.
 			We will use Figure~\ref{fig:springs_simp}, which accurately depicts the contact between parts, as our guide.
@@ -3162,8 +2999,31 @@
 			\end{equation}
 
 			\begin{equation}
-				\forceMatrix
-			\label{eq:app_matrix}
+				\begin{bmatrix}
+					k_M & k_A  & 0    & 0     & 0     & 0     & 0     & 0     \\
+					0   & k_A  & -k_S & 0     & 0     & 0     & 0     & 0     \\
+					k_M & 0    & 0    & 0     & 0     & 0     & 0     & -k_W  \\
+					0   & 0    & 0    & -k_T  & 0     & 0     & -k_H  & k_W   \\
+					0   & 0    & 0    & 0     & -k_B  & k_V   & 0     & 0     \\
+					0   & 0    & 0    & 0     & k_B   & 0     & k_H   & 0     \\
+					1   & -1   & -1   & 1     & 0     & 0     & 0     & 1    \\
+					0   & 0    & 0    & 1     & 1     & 1     & -1    & 0
+				\end{bmatrix}
+				\begin{bmatrix}
+					L_M \\ L_A \\ L_S \\ L_T \\ L_B \\ L_V \\ L_H \\ L_W
+				\end{bmatrix}
+				=
+				\begin{bmatrix}
+					k_M \ell_M + k_A \ell_A \\
+					k_A \ell_A - k_S \ell_S \\
+					k_M \ell_M - k_W \ell_W \\
+					k_W \ell_W - k_T \ell_T - k_H \ell_H \\
+					k_V \ell_V - k_B \ell_B \\
+					k_H \ell_H + k_B \ell_B \\
+					0 \\
+					0
+				\end{bmatrix}
+				\label{eq:app_matrix}
 			\end{equation}
 
 			Each undeformed length $\ell$ is provided by the thermal transfer functions. With the exception of the two bellows, whose spring constants are given, each spring constant $k$ is calculated by material properties and part geometry\cite[Eq.~4-2]{ref_Hibbeler}:
@@ -3223,16 +3083,22 @@
 
 			These spring constants are input into equation~\eqref{eq:app_matrix} to solve for the deformed length of each part.
 
-		\subsection{Orifice Coefficients}
-		\label{app:calcs:TF:K}
+		\subsection{Position calculations}
+		\label{app:calcs:TF:pos}
 
-			Equations \eqref{eq:yF} and \eqref{eq:yR} provide the final position of the lower and upper orifice vertices, restated here:
+			Finally, we can use these lengths to calculate the values $y_F$ and $y_R$ of the two orifice components shown in Figure~\ref{fig:positional_block_diagram_zoom}.
+			Using the scheme depicted in Figure~\ref{fig:positional_block_diagram}, these are as follows:
 
-			\begin{align}
-				y_F &= L_M - L_A - L_S - K_V L_V \\
-				y_R &= - K_H (2 L_W + L_H) 
-			\end{align}
+				\begin{align}
+					y_F &= L_M - L_A - L_S - K_V L_V \label{eq:yF}\\
+					y_R &= - K_H (2 L_W + L_H) \label{eq:yR}
+				\end{align}
 
+			To reach the upper corner of the leading orifice, which is cut into the Valve Orifice part, from the top surface of the housing (our reference location, where $y=0$),
+			one must travel up the mount, down the actuator, down the valve stem, and partway down the valve orifice.
+			To reach the lower corner of the trailing orifice, which is cut into the Housing Outlet, from the same reference position,
+			one must travel straight down the housing wall.
+			Because $L_V$ and $L_H$ represent the total height of the valve orifice and housing outlet, a multiplier is required to find the position of each square cut.
 			The scaling constant $K_V$ defines the position of the upper vertex of the leading orifice, and $K_H$ the lower vertex of the trailing orifice, determined by its machined dimensions as shown in Figure~\ref{fig:K_pos}.
 
 			\begin{wrapfigure}{l}{0.5\textwidth}
@@ -3265,46 +3131,100 @@
 
 			Note that the machined-length values are exact values as the position of the EDM cut is independent of any dimensional error in the valve orifice or housing outlet.
 
-		\subsection{Orifice Machining Errors}
-		\label{app:calcs:TF:dA}
+			Using these constants in equations \eqref{eq:yF} and \eqref{eq:yR}, we find the height of the orifice $X$ by taking the difference between the position of the upper and lower corners of the orifice:
 
-			The error introduced directly into the area calculation in Section \ref{subsec:sat:error:mach} and \ref{subsubsec:sat:TF:orif:G_A} depends on the fillet radius $R_f$ and horizontal position error $d \ell_h$.
+				\begin{equation}
+					X = y_F - y_R
+				\end{equation}
 
-			Each fillet radius $R_f$ subtracts the following area from the orifice, depicted in Figure~\ref{fig:Rf}:
+    \subsection{Orifice Geometry}
+    \label{subsec:sat:TF:orif}
 
-			\begin{equation}
-				dA = (\textit{Orange area}) = (\textit{Square area}) - (\textit{Gray quarter circle}) = R_f^2 - \frac{1}{4} \pi R_f^2 = \frac{1}{4} (4 - \pi) R_f^2
-			\end{equation}
+			\begin{wrapfigure}{l}{0.35\textwidth}
+					\centering
+					\includegraphics[width=0.2\textwidth]{G_O.png}
+					\caption{Orifice transfer function}
+					\label{fig:G_O}
+			\end{wrapfigure}
 
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.3\textwidth]{Rf.png}
-				\caption{Fillet Radius Dimensions}
-				\label{fig:Rf}
-			\end{figure}
+			Finally, with the height of the orifice, we can calculate its effective diameter.
+			This is the most critical part of the System Transfer Function because the square orifice bears the most potential for machining errors.
+			Such errors will be kept symbolic for now.
 
-			Horizontal shift $d \ell_h$ changes the area as shown in Figure~\ref{fig:dl_h}, adding the green area and subtracting the orange.
-			Ignoring the fillet radii, this results in the new area
+			The orifice transfer function $\hat{G}_O$ is best divided into two sub-transfer functions, as in Figure~\ref{fig:G_O}:
+			one to convert the orifice this into the orifice area $A$, and one to convert area into effective diameter $D_{eff}$.
 
-			\begin{equation}
-				A = (s + \frac{d \ell}{2}) (s - \frac{d \ell}{2}) = s^2 - \frac{d \ell^2}{2}
-			\end{equation}
+			\subsubsection{$\hat{G}_A$: Height to Area}
+			\label{subsubsec:sat:TF:orif:G_A}
 
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.3\textwidth]{dl_h.png}
-				\caption{Horizontal Offset Dimensions}
-				\label{fig:dl_h}
-			\end{figure}
+				Under ideal machining conditions, the orifice area is calculated as follows:
 
-			yielding the final orifice area as reflected in equation~\eqref{eq:GA}:
+				\begin{equation}
+					A = s^2 = \left( \frac{X}{\sqrt{2}} \right)^2 = \frac{X^2}{2}
+				\end{equation}
 
-			\begin{equation}
-				A = s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right]
-			\end{equation}
+				Each fillet radius $R_f$ subtracts the following area from the orifice, depicted in Figure~\ref{fig:Rf}:
 
-		\subsection{Function Output}
-		\label{app:calcs:TF:results}
+				\begin{equation}
+					dA = (\textit{Orange area}) = (\textit{Square area}) - (\textit{Gray quarter circle}) = R_f^2 - \frac{1}{4} \pi R_f^2 = \frac{1}{4} (4 - \pi) R_f^2
+				\end{equation}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=.3\textwidth]{Rf.png}
+					\caption{Fillet Radius Dimensions}
+					\label{fig:Rf}
+				\end{figure}
+
+				Horizontal shift $d \ell_h$ changes the area as shown in Figure~\ref{fig:dl_h}, adding the green area and subtracting the orange.
+				Ignoring the fillet radii, this results in the new area
+
+				\begin{equation}
+					A = (s + \frac{d \ell}{2}) (s - \frac{d \ell}{2}) = s^2 - \frac{d \ell^2}{2}
+				\end{equation}
+
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=.3\textwidth]{dl_h.png}
+					\caption{Horizontal Offset Dimensions}
+					\label{fig:dl_h}
+				\end{figure}
+
+				yielding the final orifice area:
+
+				\begin{equation}
+					A = s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right]
+					\label{eq:GA}
+				\end{equation}
+
+			\subsubsection{$\hat{G}_D$: Area to Effective Diameter}
+			\label{subsubsec:sat:TF:orif:G_D}
+				
+				The area-diameter conversion is a simple geometric calculation, where $D_{eff}$ is the diameter of a circle with equivalent area. Thus,
+
+				\begin{equation}
+					D_{eff} = \sqrt{\frac{4}{\pi} A}
+				\end{equation}
+
+			therefore
+
+				\begin{equation}
+					\hat{G}_O = \sqrt{\frac{4}{\pi} \left( s^2 - \frac{1}{2} \left[ (4 - \pi) R_f^2 - d \ell^2 \right] \right)}
+				\end{equation}
+
+		\subsection{Transfer Function Results}
+		\label{sec:sat:TF:results}
+
+			The System Transfer Function can be computed using a simple script, which calculates each sub-transfer function as derived above and the force balance using a matrix solver.
+			The script was tested with ideal conditions; its output matched the Required Relationship exactly at every temperature.
+			Error was then input into the function. Some errors are deterministic or demonstrate an objective worst-case values: variations in aluminum's CTE, spring force deflections, the fillet radius, and effective temperatures.
+			The rest --- namely, all vertical dimensional errors ($d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, and $d \ell_W$)
+			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
+			are stochastic. Producing a normalized distrbution expectation plot via Monte Carlo analysis\cite{ref_figliola},
+			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
+			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
+			Those that do fall outside of tolerance do not exceed their boundary by more than 252\%.
+			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
 			Figure~\ref{fig:TF_res} demonstrates the ouput of the System Transfer Function given two worst-case combinations of the stochastic error values:
 			$d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, $d \ell_W$, $d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$.
@@ -3723,51 +3643,11 @@
 					\label{fig:TF_cal}
 			\end{figure}
 
-	\section{Supplemental Images}
-	\label{app:calcs:sup}
-
-		\subsection{The \device's role in National Security}
-		\label{app:calcs:sup:sec}
-
-			The \device\ plays a very niche role. It controls parameters for experiments used in the development of devices that aid in the development of Sandia's defense-technology projects.
-			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, United States National Security.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.75\textwidth]{SNL_role.png}
-				\caption{Downstream Customer Diagram}
-				\label{fig:app_SNL}
-			\end{figure}
-
-		\subsection{The \device\ in full assembly}
-		\label{app:calcs:sup:assem}
-
-			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed $8 \nicefrac{1}{2}" \times 11"$ paper.
-			Figure~\ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
-
-			\begin{minipage}{1.5748in}
-				\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
-				\caption{\device\\Actual Size}
-				\label{fig:act_size}
-				\end{figure}
-			\end{minipage}
-			\hfill
-			\begin{minipage}{6in}
-				\begin{figure}[H]
-					\centering
-					% \includegraphics[width=\textwidth]{reveal.png}
-					\includegraphics[width=.75\textwidth]{reveal_qual.png}
-					\caption{\device\ Full Assembly}
-					\label{fig:app_reveal}
-				\end{figure}
-			\end{minipage}
-
-	\section{Additional Design Justifications}
-	\label{app:calcs:just}
-
-		
+			These results must be taken with skepticism.
+			This System Transfer Function does not proport to reliably simulate the full performance of the \device.
+			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
+			The function does, however, provide an inexpensive tool to wholistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
+			It also serves to validate the results produced by the computational prototype that will be introduced in Chapter~\ref{chap:comp}. \todo{update this conclusion}
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
@@ -3776,7 +3656,7 @@
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
-	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in Section~\ref{sec:sat:error} were taken from this quote.
+	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in Section~\ref{app:calcs:error} were taken from this quote.
 	
 	\todo{EDM tols not included in quote yet; waiting for Xometry to respond}
 

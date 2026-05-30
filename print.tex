@@ -153,6 +153,7 @@
 \usepackage{multicol}
 \usepackage{wrapfig}
 \usepackage{nicefrac}
+\usepackage[bottom]{footmisc}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -224,36 +225,6 @@
 \newcommand{\specActDefTotal}{\SI{267}{\micro \meter}}
 \newcommand{\specActDefHot}{\SI{152.8}{\micro \meter}}
 
-% TF Force Balance Matrix (given as an escaped command because it is given twice in the report)
-
-\newcommand{\forceMatrix}
-{
-	\begin{bmatrix}
-		k_M & k_A  & 0    & 0     & 0     & 0     & 0     & 0     \\
-		0   & k_A  & -k_S & 0     & 0     & 0     & 0     & 0     \\
-		k_M & 0    & 0    & 0     & 0     & 0     & 0     & -k_W  \\
-		0   & 0    & 0    & -k_T  & 0     & 0     & -k_H  & k_W   \\
-		0   & 0    & 0    & 0     & -k_B  & k_V   & 0     & 0     \\
-		0   & 0    & 0    & 0     & k_B   & 0     & k_H   & 0     \\
-		1   & -1   & -1   & 1     & 0     & 0     & 0     & 1    \\
-		0   & 0    & 0    & 1     & 1     & 1     & -1    & 0
-	\end{bmatrix}
-	\begin{bmatrix}
-		L_M \\ L_A \\ L_S \\ L_T \\ L_B \\ L_V \\ L_H \\ L_W
-	\end{bmatrix}
-	=
-	\begin{bmatrix}
-		k_M \ell_M + k_A \ell_A \\
-		k_A \ell_A - k_S \ell_S \\
-		k_M \ell_M - k_W \ell_W \\
-		k_W \ell_W - k_T \ell_T - k_H \ell_H \\
-		k_V \ell_V - k_B \ell_B \\
-		k_H \ell_H + k_B \ell_B \\
-		0 \\
-		0
-	\end{bmatrix}
-}
-
 % Transfer function specifications
 
 \newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
@@ -320,618 +291,153 @@
 % For links to spec table
 \newcommand{\specref}[1]{\hyperref[tab:specs]{#1}}
 
+\usepackage{lmodern} % DELETE BEFORE SUBMISSION; this is to help the pdf render more easily.
+
 
 % ============================================================================
 % BEGIN DOCUMENT
 % ============================================================================
 
 \begin{document}
-\pagenumbering{roman}
-\begin{titlepage}
-	\thispagestyle{empty}   % No header/footer on the title page
-
-	% --- Cover Photo: Sandia National Laboratories Aerial View ---
-	\begin{center}
-		\includegraphics[width=\textwidth]{SNL4.jpg}
-	\end{center}
-	\vspace{0.4in}
-	% --- UC Davis College of Engineering Logo ---
-	\begin{center}
-			\includegraphics[width=3in]{COE.png}
-	\end{center}
-	\vspace{0.6in}
-	% --- Project Title ---
-	\begin{center}
-		{\LARGE\bfseries\color{blue!70!black} \projecttitle}\\[12pt]
-		{\large By the}\\[12pt]
-		{\Large\bfseries \teamname}\\[24pt]
-	\end{center}
-
-	\vspace{0.4in}
-
-	% --- Report Type ---
-	\begin{center}
-		{\large\bfseries FINAL DESIGN REPORT}
-	\end{center}
-
-	\vspace{0.4in}
-	
-	\begin{center}
-		{\large SPONSORED BY \MakeUppercase{\sponsor},}\\
-		{\large \MakeUppercase{\organization}}
-	\end{center}
-
-	\vfill
-
-	% --- Submission Deadline ---
-	\begin{center}
-		{\large\bfseries \MakeUppercase{\duedate}}
-	\end{center}
-
-	\vspace{0.5in}
-\end{titlepage}
-
-\newpage
-\thispagestyle{empty}
-\vspace*{\fill}
-
-% copyright page
-\begin{center}
-
-	{\large\bfseries Passive Temperature Compensation Device}\\[6pt]
-	{\large Final Design Report}\\[24pt]
-
-	\textcopyright\ 2026 by\\[6pt]
-	Miguel Cuaycong, Jon Pizarro, Nicholas Metta,\\
-	Isaiah Mathew, John Bodine, and Sam van der Veen\\[24pt]
-
-	{\small
-	
-	EME 185: Mechanical Systems Design Project\\
-	University of California, Davis\\[12pt]
-
-	Advised by \instructor\ and\\
-	\ta\\[24pt]
-
-	\textit{All rights reserved. No part of this report may be reproduced}\\
-	\textit{without consent from the authors, UC Davis,}\\
-	\textit{or Sandia National Laboratories.}\\[24pt]
-
-	}
-
-\end{center}
-
-\vspace*{\fill}
-
-\newpage
-\tableofcontents
-\newpage
-\listoffigures
-\newpage
-\listoftables
-
-\newpage
-
-\chapter*{\large{List of Acronyms}}
-
-	\begin{tabularx}{\textwidth}{@{} l X @{}}
-			\toprule
-			\textbf{Acronym} & \textbf{Definition} \\
-			\midrule
-			aka			& Also known as \\
-			Al      & Aluminum \\
-			ALLV    & ALLVAR (negative-CTE alloy) \\
-			ASME    & American Society of Mechanical Engineers \\
-			AWS     & American Welding Society \\
-			BOM     & Bill of Materials \\
-			CAD     & Computer-Aided Design \\
-			c.f.		& Compare \\
-			COMSOL	& Computer Solution (numerical computing software) \\
-			CTE     & Coefficient of Thermal Expansion \\
-			DFMEA   & Design Failure Modes and Effects Analysis \\
-			DOF     & Degree of Freedom \\
-			EBW     & Electron Beam Welding \\
-			EDM     & Electrical Discharge Machining \\
-			EME     & Engineering, Mechanical (course prefix) \\
-			FS      & Factor of Safety \\
-			Inc     & Inconel 718 \\
-			Inv     & Invar 36 \\
-			ISO     & International Organization for Standardization \\
-			MATLAB  & Matrix Laboratory (numerical computing software) \\
-			NASA    & National Aeronautics and Space Administration \\
-			PTCD    & Passive Temperature Compensation Device \\
-			RR      & Required Relationship \\
-			SF      & Safety Factor \\
-			SI      & Syst\`{e}me International (International System of Units) \\
-			SNL     & Sandia National Laboratories \\
-			SS			& Stainless Steel \\
-			TF      & Transfer Function \\
-			UC Davis & University of California, Davis \\
-			\bottomrule
-	\end{tabularx}
-
-\newpage
-\listoftodos
-
-\newpage  % Start the body of the report on a fresh page
-
-\setstretch{1.15}
-
-\begin{abstract}
-
-	Modern defense technology research requires ever-increasing experimental fidelity.
-	Sandia National Laboratories, a United States security research facility, conducts many experiments that depend on submillimeter-precision flow control of high-pressure Hydrogen gas.
-	Their test articles are sensitive to temperature fluctuations; the flow must be adjusted to compensate for these changes.
-	However, power and space constraints prohibit the use of embedded control systems, and existing passive flow control solutions do not approach the size and precision these experiments require.
-	
-	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
-	that thermomechanically adjusts gas flow according to the ambient air temperature.
-	Engineered to contain and restrict Hydrogen or a Noble Gas up to 700 times atmospheric pressure,
-	the PTCD maintains a pin-size orifice with medical precision. 
-	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
-
-	This Design Report motivates the design objectives, illustrates and justifies the final selected architecture,
-	analytically and numerically verifies system requirement satisfaction, and provides a full design package required for further iteration.
-
-	\todo{Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}
-
-\end{abstract}
-
-\pagenumbering{arabic}
-
-\chapter{Introduction}
-\label{chap:Fintro}
-
-	\section{Motivation}
-	\label{sec:intro:motive}
-
-		% \begin{figure}[H]
-		% 	\centering
-		% 	\includegraphics[width=\textwidth]{Del_introduction_requirements.png}
-		% 	\caption{DELETE BEFORE SUBMISSION}
-		% 	\label{fig:del_intro_req}
-		% \end{figure}
-
-		\subsection{Background}
-		\label{subsec:intro:motive:background}
-
-			National security presents ceaseless challenges.
-			Engineers must deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
-			Sandia National Laboratories, a United States security research facility in Livermore, CA, prosecutes this mission.
-			Their development of cutting-edge defense technology and pioneering scientific research protects American citizens and sojourners alike against sophisticated foreign and domestic threats.
-			Resolving the nation's most challenging security issues, Sandia must employ every means to maintain a competetive edge in the international theater.
-			Even a small improvement in the capacity or reliability of a larger integrated system can deliver a key advantage.
-
-			Sandia's Gas Transfer Systems team develops specialized gas flow control components and assemblies that help design, certify, and calibrate any of myriad projects undertaken at the Lab.
-			Many of their developmental experiments require precision flow control of high-pressure $\text{H}_{\text{2}}$ gas.
-			Downstream conditions are sensitive to environmental temperature fluctuations and must either be tightly controlled or extensively post-processed.
-			Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
-			Electrically-powered valves accomplish this well.
-			However, lab technicians often cannot actively control flow in these experiments due to power, personnel, or space constraints.
-			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with medical precision.
-			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
-			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
-			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
-			and are designed for low-pressure, light-tolerance applications.
-			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satelite equipment at the size and precision Sandia requires
-			but switch on and off to compensate for the binary thermal extremes of space rather than delivering a continuous output.
-			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to its conditions would prove a novel and challenging exercise.
-
-			\subsection{Objectives}
-			\label{subsec:intro:motive:objectives}
-
-				Thus it is that Sandia National Labs (SNL, aka the "sponsor") employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
-				to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
-				while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
-				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
-				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
-
-				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to \SI{68}{\mega\pascal} (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
-					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}}.
-					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
-				\end{itemize}
-			
-		\subsection{Potential stakeholders}
-		\label{subsec:intro:motive:stakeholders}
-
-			The \device\ provides robust fix-and-forget control of experimental parameters.
-			These experiments are run by the Gas Transfer Systems team to develop flow control components and assemblies,
-			which are in turn used by Sandia in the development, certification, and calibration of various defense technologies they produce
-			(depicted in Figure~\ref{fig:app_SNL} in the Appendx)
-			The \device\ would primarily ease the job of test engineers and technicians, who, after one-time assembly, could leave the control system unattended indefinitely.
-			Secondarily, the \device\ eliminates the need for post-process data adjustment by research engineers due to changing experimental conditions.
-
-			This proof-of-concept design would also pave the way for similar devices with equally precise control outputs but slightly different output values, tuned as necessary to the given experiment.
-			Research engineers at SNL with access to such capabilities could quickly design a new configuration of the device more suitable for the particulars of their research.
-
-			The valve could similarly be custom-ordered by external organizations once the reconfiguration process is streamlined.
-			Companies in the aerospace, military, or gas handling or processing industry may have a use for a high-capacity, high-precision, input-free valve.
-			The radical nature of the \device\ makes development of similar devices easy by comparison. 
-
-		\subsection{Concept of Operations}
-		\label{subsec:intro:motive:Ops}
-
-			Operation of this valve consists primarily of assembly and installation. After the device is assembled at Sandia's machine shop, the manufacturers thread the valve into a stream of low-pressure, room-temperature air.
-			Precisely measuring the upstream and downstream gas pressure and external air pressure, they adjust a calibration screw that holds two pieces of the valve at a precise distance until it reaches its expected pressure drop,
-			indicating that the room-temperature orifice size has been reached.
-
-			As a test engineer sets up his experimental apparatus, he inserts the valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
-			No further attention is needed until the device malfunctions at the end of its lifetime, at which point the entire device must be replaced.
-			The chief advantage of this device is its passive nature; if it works correctly, test engineers can ignore the entire control system during its lifetime or until they need to change the experiment.
-			As represented in Figure~\ref{fig:conceptual}, the \device\ converts high-ressure gas flow into controlled, low-pressure gas flow by responding only to changes in temperature.
 
 			\begin{figure}[H]
-				\centering
-				\includegraphics[height=1.8in]{conceptual.png}
-				\caption{Conceptual diagram of the \device}
-				\label{fig:conceptual}
-			\end{figure}
-
-				\subsubsection*{Roadmap}
-				\label{subsubsec:roadmap}
-
-					This Design Report presents the first complete iteration of the PTCD and provides a full design package required for further development.
-					The following sections outline the system requirements and specifications, illustrates and justifies the final system architecture, and provides two parallel verifications of system requirement satisfaction.
-					Useful calculations, images, and data sheets, manufacturing and operation guides, and the complete engineering drawing package and bill of materials are appended.
-
-	\section{System Requirements}
-	\label{sec:intro:req}
-
-		% \begin{figure}[H]
-		% 	\centering
-		% 	\includegraphics[width=\textwidth]{Del_requirements_requirements.png}
-		% 	\caption{DELETE BEFORE SUBMISSION}
-		% 	\label{fig:del_req_req}
-		% \end{figure}
-
-		\begin{multicols}{2}
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.49\textwidth]{NASA_req.png}
-				\caption{System requirement definition flowdown}
-				\label{fig:NASA_req}
-			\end{figure}
-
-			\newcolumn
-
-			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition \cite{ref_NASA_specs_guide}.
-			Typically, a techical systems design project involves two preliminary tasks: definition of functional and performance system requirements that satisfy the client's stated objectives,
-			and rolldown of those system-level requirements into subsystem specifications. This is shown in Figure~\ref{fig:NASA_req}.
-		\end{multicols}
-
-		Sandia completed this first task prior to commission, defining two system requirements precisely as follows:
-
-		\begin{enumerate}
-			\item The device shall passively restrict the provided flow of gas by maintaining the following relationship between its effective orifice diameter and the ambient air temperature:
-			
-				\begin{equation}
-					\requiredRelationship
-					\label{eq:required_relationship}
-				\end{equation}
-
-				Where:
-				\[
-				\begin{array}{@{} l @{\qquad} l @{}}
-					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref
-						& A_1 = \Aone \\[4pt]
-					T_{\text{ambient}}\ \in\ [\Tcold,\Thot]\ \degC
-						& A_0 = \Azero
-				\end{array}
-				\]
-
-			\item The device should remain within a mechanical envelope of \SI{10}{\centi\meter} x \SI{10}{\centi\meter} x \SI{10}{\centi\meter}
-		\end{enumerate}
-		
-		These will be referred to as the "Required Relationship" and the "Mechanical Envelope" throughout the remainder of the report.
-		Note the difference between the obligation keywords, "shall" and "should", of the two requirements.
-		As laid out by NASA's handbook, the former indicates a strict requirement, whereas the latter gives a goal while allowing for violation in favor of a higher-priority trade-off.
-		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
-
-		The Required Relationship in equation~\eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extreme precision.
-		As derived in Appendix~\ref{app:calcs:errorProp}, $D_{\text{effective}}$ must linearly follow $T_{\text{ambient}}$ with the following reference values:
-
-		\begin{align}
-			\Dcold \label{eq:coldBoundary} \\
-			\Dref \label{eq:DTref} \\
-			\Dhot \label{eq:hotBoundary}
-		\end{align}
-
-		These tolerance values are derived in Appendix~\ref{app:calcs:errorProp}. 
-		
-		In addition to these requirements, Sandia supplied the following Design Conditions:
-		
-		\begin{enumerate}
-			\item \label{cond:P} 		The operating gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$
-			\item \label{cond:dP} 	The gas pressure differential $\Delta P$ will lie within the range $\SI{68.95}{\kilo\pascal} \leq \Delta P \leq \specPressure$.
-			\item \label{cond:dT} 	The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
-			\item \label{cond:gas} 	The gas will be a noble gas or Hydrogen.
-			\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
-			\item \label{cond:fix} 	The ambient temperature will remain fixed during operation.
-			\item \label{cond:test} The device will be tested by Sandia to validate required compliance, both without gas flow and for up to 60 seconds with gas flow.
-		\end{enumerate}
-
-		In summary, although the \device's mission is simple, it is incredibly difficult. This small valve must thermomechanically control a pin-size orifice with medical precision under extreme operating conditions.
-		Its design specifications must be carefully chosen to support a passive, linear output with micron-level tolerance.
-
-	\section{Subsystem Specifications}
-	\label{sec:intro:specs}
-		
-		Passive, temperature-responsive gas flow control requires two coupled subsystems:
-
-		\begin{itemize}
-			\item A valve to restrict the flow
-			\item An actuator to drive the valve's movement as driven by temperature
-		\end{itemize}
-
-		The valve assembly must contain and restrict the gas flow.
-		This requires a housing that can be threaded to two gas pipes, an internal variable-size orifice, and a hermetically-sealed valve stem to connect to the actuator.
-		
-		The actuator assembly must influence the valve from the outside so it responds to the ambient air temperature.
-		Thus, it should be externally mounted to the valve and drive its motion via the valve stem (Figure~\ref{fig:subsystems_conceptual}).
-
-		\vspace{-1em}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=.5\textwidth]{subsystems_conceptual.png}
-			\caption{Subsystem conceptal diagram}
-			\label{fig:subsystems_conceptual}
-		\end{figure}
-
-		The Required Relationship, Mechanical Envelope, and Design Conditions motivated the following design specifications.
-		
-		\subsection{Required Relationship rolldown}
-		\label{subsec:intro:specs:RR}
-
-			The Required Relationship is best understood as a passive system transfer function, commonly used in the field of control theory\cite{ref_Nise},
-			represented by a simple open-loop diagram as in Figure~\ref{fig:TF_gen}.
-			Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
-			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system.
-			Notice the absense of a feedback loop.
-			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.5\textwidth]{TF_gen.png}
-				\caption{General Passive Open-Loop Controls Diagram}
-				\label{fig:TF_gen}
-			\end{figure}
-
-			\begin{multicols}{2}
-				\begin{figure}[H]
+				\begin{minipage}{.49\textwidth}
 					\centering
-					\includegraphics[height=.4\textheight]{TF_RR.png}
-					\caption{Required Relationship Transfer Function}
-					\label{fig:TF_RR}
-				\end{figure}
-				\begin{figure}[H]
+					% \includegraphics[width=\textwidth]{Valve_exploded.png}
+					\includegraphics[width=\textwidth]{Valve_exploded_qual.png}
+					\caption{Valve subsystem exploded view}
+					\label{fig:valve_exploded}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.49\textwidth}
 					\centering
-					\includegraphics[height=.3\textheight]{TF_sub.png}
-					\caption{Subsystem Control}
-					\label{fig:TF_sub}
-				\end{figure}
-				\newcolumn
-
-				{
-					\setlength{\abovedisplayskip}{3pt}
-					\setlength{\belowdisplayskip}{3pt}
-					\setlength{\abovedisplayshortskip}{2pt}
-					\setlength{\belowdisplayshortskip}{2pt}
-
-					The complete transfer function in Figure~\ref{fig:TF_RR} converts the relationship
-					\begin{equation}
-						D = A_1 \Delta T + A_0
-					\end{equation}
-					
-					to the system-representative form
-					
-					\begin{equation}
-						D = \frac{dD}{dT} \Delta T + D_{ref}
-					\end{equation}
-
-					The reference value $D_{ref}$ represents the diameter size when $T_{amb} = T_{ref}$; its value must equal $A_0$, precisely determined by the machined dimension of certain critical parts.
-					The control derivative term $\frac{dD}{dT}$ increases the diameter by $\Delta D$ as $T_{amb}$ changes; its value must equal $A_1$, determined by part dimensions and material properties.
-					This derivative can be expanded as a series of sub-transfer functions (Figure~\ref{fig:TF_sub});
-					the upper system represents the actuator subsystem's conversion of temperature to deflection,
-					whereas the lower system represents the valve's translation to diameter changes as driven by the actuator.
-					These will drive the core subsystem specifications.
-
-					The required system transfer function can now be represented in its complete form:
-					\RRfull
-
-					where
-
-					\setlength{\jot}{2pt}
-
-					\begin{align*}
-						\frac{dL}{dT} &\text{ is determined by the actuator} \\[6pt]
-						\frac{dD}{dL} &\text{ is determined by the valve, and} \\[6pt]
-						D_{ref} &\text{ is set the valve's initial position.}
-					\end{align*}
-				}
-
-			\end{multicols}
-
-			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro\meter}$.
-			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
-			First, to be precise, each subsystem must be designed with a simple architecture. Every degree of freedom compounds the potential for intolerable error.
-			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
-			Finally, to correct stochastic machining error, the system must support calibration upon assembly.
-
-			Rolldown of the governing equation
-
-			\begin{equation}
-				\hat{G}_{RR} = \hat{G}_{A_0} \hat{G}_{V_0} = \frac{dL}{dT} \frac{dD}{dL} = A_1
-			\end{equation}
-
-			into its specificied subcomponents allows for an unconstrained enumeration of values so long as each architecture supports a linear, precise output.
-			These were iteratively selected and partially informed by the architecture selected and described in Chapter~\ref{chap:design}.
-			Thus, the following rolldown will seem arbitrary at first until the full design architecture is revealed. The selected valve architecture best supports a transfer function of
-
-			\begin{equation}
-				\hat{G}_{V_0} = - \sqrt{\frac{2}{\pi}} = \GV
-			\end{equation}
-
-			necessitating an actuator transfer function of
-
-			\begin{equation}
-				\hat{G}_{A_0} = \frac{A_1}{- \sqrt{\frac{2}{\pi}}} = - \sqrt{\frac{\pi}{2}} (\AoneExact) = \GA
-			\end{equation}
-
-			Finally, the valve must govern the reference value $D_{ref}$ such that 
-			
-			\begin{equation}
-				D_{ref} = A_0 = \AzeroExact
-			\end{equation}
-
-			From these, we derive our first subsystem specifications:
-
-			\newpage
-
-			% \newpage
-			\vspace{1em}
-			\begin{mdframed}
-				\begin{enumerate}
-					\item Valve subsystem
-						\begin{enumerate}
-							\item \SpecVAA.
-							\item \SpecVAB\\\SpecVABapp.
-						\end{enumerate}
-					\setcounter{enumi}{0}
-					\item Actuator subsystem
-						\begin{enumerate}
-							\item \SpecAAA.
-							\item \SpecAAB.
-						\end{enumerate}
-				\end{enumerate}
-			\end{mdframed}
-
-		\subsection{Mechanical Envelope rolldown}
-		\label{subsec:intro:specs:ME}
-
-			The Mechanical Envelope (\SI{10}{\centi\meter} in each direction) can be defined along three principal axes in a right-hand coordinate system,
-			which will be used for reference throughout this report:
-
-			% NOTE - These are consistent with the main CAD assembly axes
-			\begin{itemize}
-				\item The "Longitudinal" axis (z-axis) runs upstream along the direction of gas flow
-				\item The "Vertical" axis (y-axis) points directly upwards
-				\item The "Lateral" axis (x-axis) points right as one looks downstream
-			\end{itemize}
-
-			These are depicted in Figure~\ref{fig:axes}.
-
-			\begin{figure}[h]
-				\centering
-				\includegraphics[height=3.5in]{Axes.png}
-				\caption{Reference axes}
-				\label{fig:axes}
+					\includegraphics[width=\textwidth]{Valve_ID.png}
+					\caption{Valve subsystem part identification}
+					\label{fig:valve_ID}
+				\end{minipage}
 			\end{figure}
 
-			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full \SI{10}{\centi\meter} along the other axes.
-			As with the sub-transfer functions, the division of the vertical mechanical envelop is partially informed by the final selected design architecture.
-			The subsystem mechanical-envelope specifications are given in lateral (X), vertical (Y), and longitudinal (Z) dimensions, respectively.
-
-			\newpage
-			% \vspace{1em}
-			\begin{mdframed}
-				\begin{enumerate}
-					\setcounter{enumi}{1}
-					\item Valve subsystem
-						\begin{enumerate}
-							\setcounter{enumi}{1}
-							\item \SpecVB.
-						\end{enumerate}
-					\setcounter{enumi}{2}
-					\item Actuator subsystem
-						\begin{enumerate}
-							\setcounter{enumi}{1}
-							\item \SpecAB.
-						\end{enumerate}
-				\end{enumerate}
-			\end{mdframed}
-
-		\subsection{Operational Conditions rolldown}
-		\label{subsec:Intro:specs:cond}
-
-			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
-			This rolls down to the following subsystem specifications:
-
-			\newpage
-			% \vspace{1em}
-			\begin{mdframed}
-				\begin{itemize}
-					\setcounter{enumi}{2}
-					\item Valve subsystem
-						\begin{enumerate}
-							\setcounter{enumi}{2}
-							\item \SpecVCA.
-							\item \SpecVCB.
-							\item \SpecVCC.
-						\end{enumerate}
-					\setcounter{enumi}{2}
-					\item Actuator subsystem
-						\begin{enumerate}
-							\setcounter{enumi}{2}
-							\item \SpecACA.
-						\end{enumerate}
-				\end{itemize}
-			\end{mdframed}
-
-			\todo{Spec Temp}
-		
-			\subsection{Final Subsystem Specifications}
-		\label{subsec:intro:spec:final}
-
-			The final system requirements and subsystem specifications are presented in Table~\ref{tab:specs}.
-
-			\begin{table}[h]
+			\begin{wrapfigure}{l}{2.5in}
 				\centering
-				\caption{System Requirements and Subsystem Specification Rolldown}
-				\renewcommand{\arraystretch}{1.3}
-				\begin{tabularx}{\textwidth}{
-						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
-						>{\raggedright\arraybackslash}X                  % Requirement
-						>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
-						>{\raggedright\arraybackslash}X                  % Valve spec
-						>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
-						>{\raggedright\arraybackslash}X                  % Actuator spec
-				}
-				\toprule
-				\textbf{} & \textbf{System Requirements} &
-				\textbf{} & \textbf{Valve Specifications} &
-				\textbf{} & \textbf{Actuator Specifications} \\
-				\midrule
+				% \includegraphics[width=.8\textwidth]{orif_assem.png}
+				\includegraphics[width=2.5in]{orif_assem_right_qual.png}
+				\caption{Orifice assembly}
+				\label{fig:orif_assem}
+			\end{wrapfigure}
 
-				% Row 1
-				\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
-				V.1.1 & \SpecVAA &
-				A.1.1 & \SpecAAA \\
+			The Valve Orifice (4) comprises the leading orifice hole near its center.
+			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
+			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
+			Together, these comprise the \device's orifice, shown in Figure~\ref{fig:orif_assem}.
 
-				& & V.1.2 & \SpecVAB \SpecVABapp & A.1.2 & \SpecAAB \\
+			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
+			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
 
-				\midrule
+			Two Housing Center pieces (2) plug the remaining gaps.
+			They contain holes for the valve stems to slide through, guiding their motion.
+			To hermetically seal these holes, a bellows (5) is welded between the Valve Orifice and each Housing Center.
+			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for flexible, sealed pentration of the housing.
+			The housing center and bellows are inserted as in Figure~\ref{fig:V1_bellows}.
 
-				% Row 2
-				R.2 & \ReqB &
-				V.2.1 & \SpecVB &
-				A.2.1 & \SpecAB \\
-				
-				\midrule
+			\newpage
 
-				% Row 3
-				\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
-				V.3.1 & \SpecVCA &
-				\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
+			\begin{figure}[H]
+				\begin{minipage}{4.5in}
+					Figure~\ref{fig:cut_zooms} shows the orifice in full assembly.
+					The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure~\ref{fig:orifice}.
 
-				& & V.3.2 & \SpecVCB & & \\
+					\medskip
+					All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 
-				& & V.3.3 & \SpecVCC & & \\
+					\medskip
+					All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
+					ensuring high thermal stability under the expected temperature fluctuations.
+				\end{minipage}
+			\hfill
+				\begin{minipage}{1.9in}
+				\centering
+				% \includegraphics[height=4in]{V1_bellows.png}
+				\includegraphics[height=3in]{V1_bellows_qual.png}
+				\caption{Housing Center and bellows}
+				\label{fig:V1_bellows}
+				\end{minipage}
+			\end{figure}
 
-				\bottomrule
-				\end{tabularx}
-				\label{tab:specs}
-			\end{table}
+			\vspace{-1em}
+			\begin{figure}[H]
+					\centering
+					\begin{subfigure}{0.45\textwidth}
+							\centering
+							% \includegraphics[width=\textwidth]{cut_zoom.png}
+							\includegraphics[width=\textwidth]{cut_zoom_qual.png}
+							\caption{Valve Subsystem, Section View}
+							\label{fig:cut_zoom}
+					\end{subfigure}
+					\hfill
+					\begin{subfigure}{0.39\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{cut_zoom_zoom_crop.png}
+							\caption{Valve, Section View (detail)}
+							\label{fig:cut_zoom_zoom_crop}
+					\end{subfigure}
+					\caption{Section views}
+					\label{fig:cut_zooms}
+			\end{figure}
 
-			The final design architecture was strictly screened to meet these specifications to ensure that the \device\ exhibits a passive, linear, precise output with simple, compact, high-strength components.
+		\subsection{Actuator Subsystem}
+		\label{subsec:design:overview:act}
+
+			The actuator subsystem (Figures \ref{fig:act_full}, \ref{fig:act_exploded}, \ref{fig:act_ID}) sits atop the valve housing, where it maintains equilibrium with the surrounding ambient air temperature.
+			It comprises an internal expansion rod to drive the valve stem, an external mount to suspend it from above, a screw and washer to secure them together, and a belleville washer to enable precise calibration.
+
+			\begin{figure}[H]
+				\centering
+				\begin{minipage}{.4\textwidth}
+					\centering
+					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_full_qual.png}
+					\caption{Actuator subsystem}
+					\label{fig:act_full}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.29\textwidth}
+					\centering
+					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_exploded_qual.png}
+					\caption{Actuator subsystem exploded view}
+					\label{fig:act_exploded}
+				\end{minipage}
+				\hfill
+				\begin{minipage}{.29\textwidth}
+					\centering
+					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_ID.png}
+					\caption{Actuator subsystem part identification}
+					\label{fig:act_ID}
+				\end{minipage}
+			\end{figure}
+
+
+			The central aluminum expansion rod (6, aka the "actuator"\footnote{
+				Note that the actuator (A1 in the drawings in Appendix~\ref{app:drawings}) would best be named distinctly from its corresponding subsystem.
+				This is a legacy convention from earlier stages in the design process when the mount was a distinct subsystem.
+			}) nests inside an ALLVAR mount (7), suspended by the screw-washer assembly (8, 9, 10).
+			The base of the mount is electron-beam welded to the top of the valve housing.
+			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
+			This connection is shown in Figure~\ref{fig:Act_cut}.
+
+			\begin{figure}[H]
+				\centering
+				% \includegraphics[width=\textwidth]{Act_cut.png}
+				\includegraphics[width=.6\textwidth]{Act_cut_qual.png}
+				\caption{Actuator-valve interface}
+				\label{fig:Act_cut}
+			\end{figure}
+
+			The actuator drives the valve stem motion.
+			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, causing the expansion rod to expand relative to the rest of the assembly when heated.
+			ALLVAR, a proprietary alloy manufactured by ALLVAR Alloys, shrinks when heated even faster than the aluminum expands.
+			Because the actuator is mounted from the top, this bimetallic actuator produces more compound displacement than either metal would on its own.
+			As the ambient temperature rises, the ALLVAR mount shrinks, lowering the expansion rod from above;
+			this, in turn, expands downwards, driving the valve stem and closing the orifice.
+			As the temperature decreases, the components reverse direction:
+			the mount expands, lifting the expansion rod, which shrinks and lifts the valve stem to open the orifice.
+
 \end{document}
