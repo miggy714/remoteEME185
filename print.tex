@@ -93,7 +93,7 @@
 \definecolor{warnbg}{RGB}{255,235,235}
 \definecolor{notebg}{RGB}{235,245,255}
 \definecolor{noteblue}{RGB}{30,80,160}
-\definecolor{ucdgold}{RGB}{207, 184, 124}
+\definecolor{ucdgold}{RGB}{187, 146, 7}
 \definecolor{ucdblue}{RGB}{0, 40, 85}
 \definecolor{sandiablue}{RGB}{0,  174, 214}
 
@@ -300,144 +300,12 @@
 
 \begin{document}
 
-			\begin{figure}[H]
-				\begin{minipage}{.49\textwidth}
-					\centering
-					% \includegraphics[width=\textwidth]{Valve_exploded.png}
-					\includegraphics[width=\textwidth]{Valve_exploded_qual.png}
-					\caption{Valve subsystem exploded view}
-					\label{fig:valve_exploded}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.49\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{Valve_ID.png}
-					\caption{Valve subsystem part identification}
-					\label{fig:valve_ID}
-				\end{minipage}
-			\end{figure}
+\color{ucdgold}
 
-			\begin{wrapfigure}{l}{2.5in}
-				\centering
-				% \includegraphics[width=.8\textwidth]{orif_assem.png}
-				\includegraphics[width=2.5in]{orif_assem_right_qual.png}
-				\caption{Orifice assembly}
-				\label{fig:orif_assem}
-			\end{wrapfigure}
+(USA)
 
-			The Valve Orifice (4) comprises the leading orifice hole near its center.
-			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
-			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
-			Together, these comprise the \device's orifice, shown in Figure~\ref{fig:orif_assem}.
+(SNL)
 
-			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
-			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
-
-			Two Housing Center pieces (2) plug the remaining gaps.
-			They contain holes for the valve stems to slide through, guiding their motion.
-			To hermetically seal these holes, a bellows (5) is welded between the Valve Orifice and each Housing Center.
-			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for flexible, sealed pentration of the housing.
-			The housing center and bellows are inserted as in Figure~\ref{fig:V1_bellows}.
-
-			\newpage
-
-			\begin{figure}[H]
-				\begin{minipage}{4.5in}
-					Figure~\ref{fig:cut_zooms} shows the orifice in full assembly.
-					The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure~\ref{fig:orifice}.
-
-					\medskip
-					All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
-
-					\medskip
-					All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
-					ensuring high thermal stability under the expected temperature fluctuations.
-				\end{minipage}
-			\hfill
-				\begin{minipage}{1.9in}
-				\centering
-				% \includegraphics[height=4in]{V1_bellows.png}
-				\includegraphics[height=3in]{V1_bellows_qual.png}
-				\caption{Housing Center and bellows}
-				\label{fig:V1_bellows}
-				\end{minipage}
-			\end{figure}
-
-			\vspace{-1em}
-			\begin{figure}[H]
-					\centering
-					\begin{subfigure}{0.45\textwidth}
-							\centering
-							% \includegraphics[width=\textwidth]{cut_zoom.png}
-							\includegraphics[width=\textwidth]{cut_zoom_qual.png}
-							\caption{Valve Subsystem, Section View}
-							\label{fig:cut_zoom}
-					\end{subfigure}
-					\hfill
-					\begin{subfigure}{0.39\textwidth}
-							\centering
-							\includegraphics[width=\textwidth]{cut_zoom_zoom_crop.png}
-							\caption{Valve, Section View (detail)}
-							\label{fig:cut_zoom_zoom_crop}
-					\end{subfigure}
-					\caption{Section views}
-					\label{fig:cut_zooms}
-			\end{figure}
-
-		\subsection{Actuator Subsystem}
-		\label{subsec:design:overview:act}
-
-			The actuator subsystem (Figures \ref{fig:act_full}, \ref{fig:act_exploded}, \ref{fig:act_ID}) sits atop the valve housing, where it maintains equilibrium with the surrounding ambient air temperature.
-			It comprises an internal expansion rod to drive the valve stem, an external mount to suspend it from above, a screw and washer to secure them together, and a belleville washer to enable precise calibration.
-
-			\begin{figure}[H]
-				\centering
-				\begin{minipage}{.4\textwidth}
-					\centering
-					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_full_qual.png}
-					\caption{Actuator subsystem}
-					\label{fig:act_full}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.29\textwidth}
-					\centering
-					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_exploded_qual.png}
-					\caption{Actuator subsystem exploded view}
-					\label{fig:act_exploded}
-				\end{minipage}
-				\hfill
-				\begin{minipage}{.29\textwidth}
-					\centering
-					\includegraphics[height=.3\textheight, width=\textwidth, keepaspectratio]{Act_ID.png}
-					\caption{Actuator subsystem part identification}
-					\label{fig:act_ID}
-				\end{minipage}
-			\end{figure}
-
-
-			The central aluminum expansion rod (6, aka the "actuator"\footnote{
-				Note that the actuator (A1 in the drawings in Appendix~\ref{app:drawings}) would best be named distinctly from its corresponding subsystem.
-				This is a legacy convention from earlier stages in the design process when the mount was a distinct subsystem.
-			}) nests inside an ALLVAR mount (7), suspended by the screw-washer assembly (8, 9, 10).
-			The base of the mount is electron-beam welded to the top of the valve housing.
-			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
-			This connection is shown in Figure~\ref{fig:Act_cut}.
-
-			\begin{figure}[H]
-				\centering
-				% \includegraphics[width=\textwidth]{Act_cut.png}
-				\includegraphics[width=.6\textwidth]{Act_cut_qual.png}
-				\caption{Actuator-valve interface}
-				\label{fig:Act_cut}
-			\end{figure}
-
-			The actuator drives the valve stem motion.
-			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, causing the expansion rod to expand relative to the rest of the assembly when heated.
-			ALLVAR, a proprietary alloy manufactured by ALLVAR Alloys, shrinks when heated even faster than the aluminum expands.
-			Because the actuator is mounted from the top, this bimetallic actuator produces more compound displacement than either metal would on its own.
-			As the ambient temperature rises, the ALLVAR mount shrinks, lowering the expansion rod from above;
-			this, in turn, expands downwards, driving the valve stem and closing the orifice.
-			As the temperature decreases, the components reverse direction:
-			the mount expands, lifting the expansion rod, which shrinks and lifts the valve stem to open the orifice.
+(GTS)
 
 \end{document}
