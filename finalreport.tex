@@ -1995,6 +1995,7 @@
 		\label{fig:del_DFMEAE_2}
 	\end{figure}
 
+\subsection{Introduction to Failure Mode Effect Analysis and Methods}
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
@@ -2007,15 +2008,24 @@
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
 	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-	
+	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
+	inform suggestions for redesign and modification. The results of computational modeling is discussed in \ref{chap:test}	
 
-
+	\subsection{Weld Failure Analysis}
 	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
+	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
+	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
+	\todo{Nick can write about the hand calcs done here for the welds and how if the welds are safe then the "square pressure vessel" that is created.}
+
+
 	In addition to stresses applied by the internal pressure, there is also stress on the actuator mount and its' radial weld due to thermal expansion and contraction.
-	The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient of thermal expansion that is 2 $\nu$m/m greater than the magnitude of the negative axial expansion 30 $\nu$m/m
+	The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial expansion 30 $\mu$m/m
+
+\chapter{Testing}
+\label{chap:test}
 
 
 \chapter{Conclusion}
