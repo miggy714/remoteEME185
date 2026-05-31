@@ -1995,75 +1995,6 @@
 		\label{fig:del_DFMEAE_2}
 	\end{figure}
 
-<<<<<<< HEAD
-		\subsection{Failure Mode and Effect Analysis Process}
-=======
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=\textwidth]{Del_test_reqs.png}
-		\caption{DELETE BEFORE SUBMISSION}
-		\label{fig:del_test}
-	\end{figure}
-
-	\section{Error Analysis IMPORTED DIRECTLY FROM TRANSFER FUNCTION CHAPTER; INTEGRATE AS IS FITTING}
-	\label{sec:DFMEA:error}
-
-		\subsection{Variations in Aluminum's Coefficient of Thermal Expansion}
-		\label{subsec:DFMEA:error:CTE}
-
-			Typical material specifications list a single coefficient of thermal expansion (CTE).
-			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
-			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
-		
-			\begin{figure}[H]
-				\centering
-				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-				\label{fig:al_alpha}
-			\end{figure}
-			
-			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
-			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
-			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
-			These introduce nonlinear behavior, resulting in quantifiable error.
-
-		\subsection{Machine Tolerances}
-		\label{subsec:DFMEA:error:mach}
-
-			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
-			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{haas_vf2_specs}.
-
-			\begin{wrapfigure}{l}{.4\textwidth}
-				\centering
-				\includegraphics[width=.39\textwidth]{orif_error.png}
-				\caption{Orifice error modes}
-				\label{fig:orif_error}
-			\end{wrapfigure}
-
-			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
-			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
-			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
-			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
-			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
-			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
-			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
-
-		\subsection{Heat Transfer}
-		\label{subsec:DFMEA:error:dT}
-
-			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
-
-		\subsection{Bellows Spring Reactions}
-		\label{subsec:DFMEA:error:bellows}
-
-			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
-			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
-
-		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
-		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
-
->>>>>>> 61df482e562a58551f65aee78357c51c907471e7
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
@@ -2076,14 +2007,10 @@
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
 	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-<<<<<<< HEAD
+	
 
-		\subsection{Weld Analysis}
-=======
->>>>>>> 61df482e562a58551f65aee78357c51c907471e7
 
-	Of the critical failure mod
-	es \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
+	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
