@@ -17,6 +17,7 @@
 *.vrb
 *.tdo
 *.tod
+*.svg
 
 # File too large and unnecessary
 figures3/error_dist.csv

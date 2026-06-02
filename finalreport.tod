@@ -1,20 +1,20 @@
-\contentsline {todos}{\numberline {i}Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}{i}{chapter*.1}%
+\contentsline {todos}{\numberline {i}Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}{i}{table.0.1}%
 \contentsline {todos}{\numberline {26}Add comsol results for rectangular section in above paragraph}{26}{equation.2.21}%
-\contentsline {todos}{\numberline {33}ADD COMSOL MODELING and/or Replace bending stress with Roark formulas}{33}{equation.2.27}%
-\contentsline {todos}{\numberline {39}critical RPN}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {39}Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {39}critical RPN}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {39}if we have time/if possible, see what worst case deformation in critical components can be via transfer function}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {39}number}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {39}finish weld calculations, insert calcs in Chapter~\ref {chap:comp}}{39}{figure.caption.34}%
-\contentsline {todos}{\numberline {54}upper range}{54}{subsection.A.3.2}%
-\contentsline {todos}{\numberline {54}lower range}{54}{subsection.A.3.2}%
-\contentsline {todos}{\numberline {55}larger range}{55}{equation.A.15}%
-\contentsline {todos}{\numberline {64}Heat transfer analysis from COMSOL testing}{64}{subsection.B.1.1}%
-\contentsline {todos}{\numberline {78}update this conclusion}{78}{figure.caption.56}%
-\contentsline {todos}{\numberline {79}Double-check that BOM is up-to-date. Recheck McMaster prices}{79}{appendix.C}%
-\contentsline {todos}{\numberline {79}EDM tols not included in quote yet; waiting for Xometry to respond}{79}{appendix.C}%
-\contentsline {todos}{\numberline {81}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{81}{figure.caption.58}%
-\contentsline {todos}{\numberline {111}Uncomment below pdfs}{111}{section.F.1}%
-\contentsline {todos}{\numberline {111}Uncomment below pdf}{111}{section.F.2}%
-\contentsline {todos}{\numberline {113}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{113}{appendix.G}%
+\contentsline {todos}{\numberline {34}ADD COMSOL MODELING and/or Replace bending stress with Roark formulas}{34}{equation.2.27}%
+\contentsline {todos}{\numberline {40}critical RPN}{40}{subsection.3.0.1}%
+\contentsline {todos}{\numberline {40}Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}{40}{subsection.3.0.1}%
+\contentsline {todos}{\numberline {40}critical RPN}{40}{subsection.3.0.1}%
+\contentsline {todos}{\numberline {40}if we have time/if possible, see what worst case deformation in critical components can be via transfer function}{40}{subsection.3.0.1}%
+\contentsline {todos}{\numberline {40}number}{40}{subsection.3.0.2}%
+\contentsline {todos}{\numberline {40}finish weld calculations, insert calcs in Chapter~\ref {chap:comp}}{40}{subsection.3.0.2}%
+\contentsline {todos}{\numberline {41}Nick can write about the hand calcs done here for the welds and how if the welds are safe then the "square pressure vessel" that is created.}{41}{subsection.3.0.2}%
+\contentsline {todos}{\numberline {57}upper range}{57}{subsection.A.3.2}%
+\contentsline {todos}{\numberline {57}lower range}{57}{subsection.A.3.2}%
+\contentsline {todos}{\numberline {58}larger range}{58}{equation.A.15}%
+\contentsline {todos}{\numberline {66}Heat transfer analysis from COMSOL testing}{66}{subsection.B.1.1}%
+\contentsline {todos}{\numberline {80}update this conclusion}{80}{figure.caption.56}%
+\contentsline {todos}{\numberline {81}EDM tols not included in quote yet; waiting for Xometry to respond}{81}{appendix.C}%
+\contentsline {todos}{\numberline {83}Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}{83}{figure.caption.58}%
+\contentsline {todos}{\numberline {112}Uncomment below pdfs}{112}{section.F.1}%
+\contentsline {todos}{\numberline {112}Uncomment below pdf}{112}{section.F.2}%
+\contentsline {todos}{\numberline {114}Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}{114}{appendix.G}%
