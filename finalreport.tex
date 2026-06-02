@@ -388,21 +388,21 @@
 \chapter*{\large{List of Acronyms}}
 
 	\begin{longtable}{@{} l p{.75\textwidth} @{}}
-    \toprule
-    \textbf{Acronym} & \textbf{Definition} \\
-    \midrule
+		\toprule
+		\textbf{Acronym} & \textbf{Definition} \\
+		\midrule
+		\endfirsthead
+
+		\toprule
+		\textbf{Acronym} & \textbf{Definition} \\
+		\midrule
+		\endhead
+
 		\bottomrule
-    \endfirsthead
+		\endfoot
 
-    \toprule
-    \textbf{Acronym} & \textbf{Definition} \\
-    \midrule
-    \endhead
-
-    \endfoot
-
-    \bottomrule
-    \endlastfoot
+		\bottomrule
+		\endlastfoot
 
 		aka			& also known as \\
 		Al      & Aluminum \\
@@ -445,6 +445,7 @@
 		UC Davis & University of California, Davis \\
 		USA			& United States of America \\
 	\end{longtable}
+	% Don't worry about the error that appears here; the code should still compile
 
 \newpage
 \listoftodos
@@ -516,15 +517,15 @@
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the "sponsor") employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
+				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
 				to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
-				while remaining agnostic to its internal flow conditions and can be easily integrated into existing experiments.
+				while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
 				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
 				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to \SI{68}{\mega\pascal} (680 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
-					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}}.
+					\item Restrict the provided flow of gas, at a pressure of up to \SI{69}{\mega\pascal} (690 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
+					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}.}.
 					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
 				\end{itemize}
 			
@@ -534,7 +535,7 @@
 			The \device\ provides robust fix-and-forget control of experimental parameters.
 			These experiments are run by the Gas Transfer Systems team to develop flow control components and assemblies,
 			which are in turn used by Sandia in the development, certification, and calibration of various defense technologies they produce
-			(depicted in Figure~\ref{fig:app_SNL} in the Appendx)
+			(depicted in Figure~\ref{fig:app_SNL} in the Appendx).
 			The \device\ would primarily ease the job of test engineers and technicians, who, after one-time assembly, could leave the control system unattended indefinitely.
 			Secondarily, the \device\ eliminates the need for post-process data adjustment by research engineers due to changing experimental conditions.
 
@@ -542,17 +543,16 @@
 			Research engineers at SNL with access to such capabilities could quickly design a new configuration of the device more suitable for the particulars of their research.
 
 			The valve could similarly be custom-ordered by external organizations once the reconfiguration process is streamlined.
-			Companies in the aerospace, military, or gas handling or processing industry may have a use for a high-capacity, high-precision, input-free valve.
+			Companies in the aerospace, military, or gas handling and processing industry may have a use for a high-pressure, high-precision, input-free valve.
 			The radical nature of the \device\ makes development of similar devices easy by comparison. 
 
 		\subsection{Concept of Operations}
 		\label{subsec:intro:motive:Ops}
 
 			Operation of this valve consists primarily of assembly and installation. After the device is assembled at Sandia's machine shop, the manufacturers thread the valve into a stream of low-pressure, room-temperature air.
-			Precisely measuring the upstream and downstream gas pressure and external air pressure, they adjust a calibration screw that holds two pieces of the valve at a precise distance until it reaches its expected pressure drop,
-			indicating that the room-temperature orifice size has been reached.
+			Precisely measuring the upstream and downstream gas pressure and external air temperature, they adjust a calibration screw until it reaches its reference setpoint.
 
-			As a test engineer sets up his experimental apparatus, he inserts the valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
+			As a test engineer sets up his experimental apparatus, he inserts the calibrated valve at any orientation into gas flow upstream of the experiment by threading the existing pipe into corresponding holes in the valve.
 			No further attention is needed until the device malfunctions at the end of its lifetime, at which point the entire device must be replaced.
 			The chief advantage of this device is its passive nature; if it works correctly, test engineers can ignore the entire control system during its lifetime or until they need to change the experiment.
 			As represented in Figure~\ref{fig:conceptual}, the \device\ converts high-ressure gas flow into controlled, low-pressure gas flow by responding only to changes in temperature.
@@ -568,7 +568,7 @@
 				\label{subsubsec:roadmap}
 
 					This Design Report presents the first complete iteration of the PTCD and provides a full design package required for further development.
-					The following sections outline the system requirements and specifications, illustrates and justifies the final system architecture, and provides two parallel verifications of system requirement satisfaction.
+					The following sections outline the system requirements and specifications, illustrates and justifies the final system architecture, and provides several parallel verifications of system requirement satisfaction.
 					Useful calculations, images, and data sheets, manufacturing and operation guides, and the complete engineering drawing package and bill of materials are appended.
 
 	\section{System Requirements}
@@ -619,8 +619,8 @@
 			\item The device should remain within a mechanical envelope of \SI{10}{\centi\meter} x \SI{10}{\centi\meter} x \SI{10}{\centi\meter}
 		\end{enumerate}
 		
-		These will be referred to as the "Required Relationship" and the "Mechanical Envelope" throughout the remainder of the report.
-		Note the difference between the obligation keywords, "shall" and "should", of the two requirements.
+		These will be referred to as the ``Required Relationship'' and the ``Mechanical Envelope'' throughout the remainder of the report.
+		Note the difference between the obligation keywords, ``shall'' and ``should'', of the two requirements.
 		As laid out by NASA's handbook, the former indicates a strict requirement, whereas the latter gives a goal while allowing for violation in favor of a higher-priority trade-off.
 		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
 
@@ -681,7 +681,7 @@
 
 			The Required Relationship is best understood as a passive system transfer function, commonly used in the field of control theory\cite{ref_Nise},
 			represented by a simple open-loop diagram as in Figure~\ref{fig:TF_gen}.
-			Systems are represented by blocks, while "signals", or input and output values, are represented by arrows.
+			Systems are represented by blocks, while ``signals'', or input and output values, are represented by arrows.
 			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system.
 			Notice the absense of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
@@ -822,16 +822,16 @@
 
 			% NOTE - These are consistent with the main CAD assembly axes
 			\begin{itemize}
-				\item The "Longitudinal" (Z) axis runs upstream along the direction of gas flow
-				\item The "Vertical" (Y) axis points directly upwards
-				\item The "Lateral" (X) axis points right as one looks downstream
+				\item The ``Longitudinal'' (Z) axis runs upstream along the direction of gas flow
+				\item The ``Vertical'' (Y) axis points directly upwards
+				\item The ``Lateral'' (X) axis points right as one looks downstream
 			\end{itemize}
 
 
 			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full \SI{10}{\centi\meter} along the other axes.
 			As with the sub-transfer functions, the division of the vertical mechanical envelope is partially informed by the final design architecture.
 			These specifications are given in lateral (X), vertical (Y), and longitudinal (Z) dimensions, respectively.
-			\color{white}Easter egg text, included to avoid a wrapfigure error below. "How good and pleasant it is when brothers live as one, in unity!"\color{black}
+			\color{white}Easter egg text, included to avoid a wrapfigure error below. ``How good and pleasant it is when brothers live as one, in unity!''\color{black}
 
 			\newpage
 			% \vspace{1em}
@@ -1152,7 +1152,7 @@
 			\end{figure}
 
 
-			The central aluminum expansion rod (6, aka the "actuator"\footnote{
+			The central aluminum expansion rod (6, aka the ``actuator''\footnote{
 				Note that the actuator (A1 in the drawings in Appendix~\ref{app:drawings}) would best be named distinctly from its corresponding subsystem.
 				This is a legacy convention from earlier stages in the design process when the mount was a distinct subsystem.
 			}) nests inside an ALLVAR mount (7), suspended by the screw-washer assembly (8, 9, 10).
@@ -1529,14 +1529,12 @@
 			The above estimate is concervative and assumes a cylindrical exterior with a wall thickness equal to the thinnest dimension of the actual design.
 			The rectangular housing exterior circumscribes this cylinder, providing extra strength.
 			
-			The housing center pieces are also designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
+			The housing center pieces are joined using welded connections and designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
 			Because the center pieces form a rectangular prism, the stress distribution is more complex than in a cylindrical geometry, and was difficult to model analytically. However, the increased thickness of \SI{10}{\milli\meter} provides a significant safety margin to ensure that the housing center can withstand the internal pressure without failure.
-			Stress concentrations at the corners of the prism were a primary concern and were modeled using COMSOL to verify this specific region did not experience excessive stress
-			The three sections of the valve housing are joined using welded connections which are designed to withstand the internal pressure without failure.
+			Flat-walled pressure vessel behavior and stress concentrations at the corners may, however, produce more than the critical stress;
+			this risk is evaluated in more detail in Section~\todo{COMSOL Pressure Section}
 
-			\todo{Add comsol results for rectangular section in above paragraph}       
-
-		% \newpage % Delete if necessary
+		\newpage % Delete if necessary
 		\subsection{Hermetic Seal}
 		\label{subsec:design:just:bellows}
 
@@ -1570,9 +1568,9 @@
 				& = (\specPressure) \left( \frac{\pi}{4} (\SI{4.09}{\milli\meter})^2 \right) = \SI{906}{\newton}
 			\end{aligned}
 		\end{equation}
-		\footnotetext{The bellows' two necks have different diameters; the smaller of those ("Neck 1" in the bellows catalog\cite{ref_miniflex_catalog}) connects to the Valve Orifice}
+		\footnotetext{The bellows' two necks have different diameters; the smaller of those (``Neck 1'' in the bellows catalog\cite{ref_miniflex_catalog}) connects to the Valve Orifice}
 
-		The second bellows solves this, adding up to \SI{23}{\newton} from its spring reaction to remove a constant \SI{906}{\newton}.
+		The second bellows adds \SI{23}{\newton} to remove \SI{906}{\newton}.
 
 		The bellows drove many of the surrounding dimensions and design features.
 		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''~\cite{ref_miniflex_design}.
@@ -1735,7 +1733,7 @@
 			\label{subsubsec:design:just:gen_dim:thread}
 
 				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
-				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}") threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
+				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}'') threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
 
 				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length, respectively, for an airtight seal.
 				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
@@ -1844,7 +1842,7 @@
 		\label{subsec:design:just:fits}
 
 			The \device\ features several components that will slide closely against one another, either once during assembly or repeatedly during operation.
-			The tolerances of the inner and outer component, which are referred to as the "shaft" and "hole" (though not always circular), can be optimized according to the application's precision-friction trade-off. 
+			The tolerances of the inner and outer component, which are referred to as the ``shaft'' and ``hole'' (though not always circular), can be optimized according to the application's precision-friction trade-off. 
 			Shigley's Mechanical Engineering Design\cite[Tables 7-9, A-11, A-12]{ref_shigley} establishes best practice for fit tolerances by fine-tuning the maximum and minimum tolerances of each hole and shaft dimension.
 			For each of the following fits, the necessary balance between locational precision and frictionless movement yielded a particular fit type, which corresponds to a given code (e.g. H7/g6) for use in the engineering drawings.
 
@@ -1915,7 +1913,7 @@
 			\label{subsubsec:design:just:mat:Inv}
 
 				Invar 36\textsuperscript{{\textregistered{}}}\cite{ref_Carpenter_Inv}, used for all machined parts in the valve subsystem, exhibits an exceptionally low coefficient of thermal expansion.
-				Swiss physicist and metrologist Charles \'{E}douard Guillaume unexpectedly discovered the exotic metal Invar, short for "\textit{invariable}", in 1897\cite{ref_Invar_1897}.
+				Swiss physicist and metrologist Charles \'{E}douard Guillaume unexpectedly discovered the exotic metal Invar, short for ``\textit{invariable}'', in 1897\cite{ref_Invar_1897}.
 				He won a Nobel Prize for this discovery in 1920\footnote{
 					The curious individual may find Guillaume's 1920 Nobel Prize lecture\cite{ref_Invar_1920} particularly fascinating.
 				}\cite{ref_Invar_1920}.
@@ -1939,11 +1937,11 @@
 				Nevertheless, such conventional metals fail several criteria required to meet and maintain Specifications \specref{V.3.2} and \specref{V.3.3}:
 
 				\begin{itemize}
-					\item Strength at temperature. All metals soften when heated and embrittle when chilled. Inconel, according to its developer, is "suitable for temperatures from [\SI{-250}{\celsius}] up to [\SI{700}{\celsius}]"%
+					\item Strength at temperature. All metals soften when heated and embrittle when chilled. Inconel, according to its developer, is ``suitable for temperatures from [\SI{-250}{\celsius}] up to [\SI{700}{\celsius}]''%
 						\footnote{Converted from \textdegree F}\cite[p.~62, 74--76]{ref_Inconel_1965}.
-					\item Fatigue resistance. Metals wear under repeated cyclic loads typical of a bellows. Inconel outlasts most metals under such conditions, reported to have "Good tensile, fatigue, creep, and rupture strength" by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
+					\item Fatigue resistance. Metals wear under repeated cyclic loads typical of a bellows. Inconel outlasts most metals under such conditions, reported to have ``Good tensile, fatigue, creep, and rupture strength'' by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
 					\item Hydrogen compatibility. All gases diffuse (penetrate) through all metals imperceptibly. Hydrogen does this particularly aggressively, leading to Hydrogen embrittlement, the loss of a metal's ductility as its material reacts with the seeping gas.
-						Inconel, though an imperfect barrier, is especially immune to this phenomenon. Jonathan Lee, writing for NASA in 2016\cite[Table~4]{ref_NASA_Inc}, rated Inconel 718 as "Extreme" on the Hydrogen Environmental Embrittlement (HEE) scale at conditions up to \SI{68.9}{\mega\pascal}.
+						Inconel, though an imperfect barrier, is especially immune to this phenomenon. Jonathan Lee, writing for NASA in 2016\cite[Table~4]{ref_NASA_Inc}, rated Inconel 718 as ``Extreme'' on the Hydrogen Environmental Embrittlement (HEE) scale at conditions up to \SI{68.9}{\mega\pascal}.
 					\item Weldability. Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for electron-beam welds, drove the alloy's industry dominance.
 				\end{itemize}
 
@@ -1990,7 +1988,7 @@
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
 	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
-	\todo{Nick can write about the hand calcs done here for the welds and how if the welds are safe then the "square pressure vessel" that is created.}
+	\todo{Nick can write about the hand calcs done here for the welds and how if the welds are safe then the ``square pressure vessel'' that is created.}
 
 	\begin{enumerate}[label=\roman*.]
 		\item \textbf{Purpose.}
@@ -2522,7 +2520,7 @@
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
 
-		The orifice, as defined in Section~\ref{sec:design:overview} and depicted in Figure~\ref{fig:orifice} (shown again in Figure~\ref{fig:orifice_rep}), is the "Venn"-style overlap between two angled squares.
+		The orifice, as defined in Section~\ref{sec:design:overview} and depicted in Figure~\ref{fig:orifice} (shown again in Figure~\ref{fig:orifice_rep}), is the ``Venn''-style overlap between two angled squares.
 
 		\begin{figure}[H]
 			\centering
@@ -2747,7 +2745,7 @@
 				\label{fig:app_SNL}
 			\end{figure}
 
-			As described in Section~\ref{subsec:intro:motive:background}, Sandia National Labs (SNL) develops "science and technology to resolve the nation's most challenging security issues"\cite{ref_SNL}.
+			As described in Section~\ref{subsec:intro:motive:background}, Sandia National Labs (SNL) develops ``science and technology to resolve the nation's most challenging security issues''\cite{ref_SNL}.
 			This consist of various individual projects across a wide range of disciplines, any of which may be impacted by the \device\ and many of which are classified.
 			Sandia's Gas Transfer Systems (GTS) team, whose scope is pictured in the lower nested rectangle, develops flow control components and assemblies
 			that Sandia then uses for the concept development, design qualification, certification, and calibration of some of their projects.
@@ -2759,7 +2757,7 @@
 		\subsection{The \device\ in full assembly}
 		\label{app:calcs:sup:assem}
 
-			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}" \times 11"$ paper.
+			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}'' \times 11''$ paper.
 			Figure~\ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
 
 			\begin{minipage}{1.5748in}
@@ -2824,11 +2822,11 @@
 				\item Mount (M)
 				\item Actuator (A)
 				\item Upper valve stem (S)
-				\item Upper "top" bellows (T)
-				\item Lower "bottom" bellows (B)
+				\item Upper ``top'' bellows (T)
+				\item Lower ``bottom'' bellows (B)
 				\item Valve orifice (V)
 				\item Housing side walls (H)
-				\item Housing top face or "wall" (W)
+				\item Housing top face or ``wall'' (W)
 			\end{itemize}
 		\end{multicols}
 				
@@ -2861,8 +2859,8 @@
 			As described in Chapter~\ref{chap:design}, the mount $(M)$ sits atop the housing.
 			The actuator $(A)$ dangles from the upper interior surface of the housing center, which for our purposes is defined as the undersurface of the belleville washer.
 			The upper valve stem $(S)$ hangs from the bottom of the actuator, passes through the housing wall, and suspends the valve orifice $(V)$, which slides freely against the two surfaces $H$ and $R$.
-			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing "wall" $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure~\ref{fig:housing_split}.
-			The housing body $(H)$ and "rear" $(R)$ share the lower portion shown in the figure; their expansion is coupled.
+			Treating the three housing components as a single part, which is realistic because they are electron-beam welded at every seam, the housing ``wall'' $(W)$ is defined as the top \SI{10}{\milli\meter} of the whole housing assembly (parts V1, V2, and V3) as shown in Figure~\ref{fig:housing_split}.
+			The housing body $(H)$ and ``rear'' $(R)$ share the lower portion shown in the figure; their expansion is coupled.
 			These represent the side walls of the housing and behave identically; thus, their behavior is summed by the $H$ term in several calculatiosn.
 			The two bellows $(T \text{ and } B)$ span the distance between the valve orifice and the upper and lower housing walls (part V2).
 			
@@ -3262,7 +3260,7 @@
 				\end{equation}
 
 				The minimum achievable fillet radius and positional tolerance are \SI{76.2}{\micro\meter} and \SI{12.7}{\micro\meter},
-				as quoted by Milco Wire EDM, Inc (Appendix~\re)
+				as quoted by Milco Wire EDM, Inc (Appendix~\ref{app:BOM}). These are input into the Transfer Function when numerically evaluated.
 
 			\subsubsection{$\hat{G}_D$: Area to Effective Diameter}
 			\label{subsubsec:sat:TF:orif:G_D}
@@ -3741,19 +3739,19 @@
 
 	\newpage
 	\todo{Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}
-	% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/BOM.pdf}
+	\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/BOM.pdf}
 
 	\newpage
-	% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/quote_Invar.pdf}
+	\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/quote_Invar.pdf}
 	
 	\newpage
-	% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/quote_ALLVAR.pdf}
+	\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/quote_ALLVAR.pdf}
 	
 	\newpage
-	% \includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/quote_bellows.pdf}
+	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/quote_bellows.pdf}
 	
 	\newpage
-	% \includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/quote_EDM.pdf}
+	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/quote_EDM.pdf}
 
 \chapter{Manufacturing and Operation}
 
@@ -3793,7 +3791,7 @@
 			\item \textbf{Machining:} Sharp cutting tools cause severe lacerations. Never reach into
 						a spinning workpiece or move your hands near an unguarded cutter. Wear safety
 						glasses at all times on the shop floor. Flying chips are a serious eye hazard.
-			\item \textbf{Band saw:} Keep fingers clear of the blade at all times. Use a "chicken finger"
+			\item \textbf{Band saw:} Keep fingers clear of the blade at all times. Use a ``chicken finger''
 						to manipulate small stock. Do not force any cut.
 			\item \textbf{Heat treatment:} The annealing furnace operates at temperatures up to
 						\SI{1040}{\degreeCelsius}. Wear heat-resistant gloves and a face shield when
@@ -3856,7 +3854,7 @@
 						\begin{itemize}
 							\item End mills: 3~mm, 6~mm, 12~mm, and 25~mm
 							\item End mill $\geq$\,45~mm length (any diameter)
-							\item Drill bits: \nicefrac{1}{8}", \nicefrac{59}{64}", \#30, 1.6~mm,
+							\item Drill bits: \nicefrac{1}{8}'', \nicefrac{59}{64}'', \#30, 1.6~mm,
 										2.2~mm, 3.5~mm, 16~mm
 							\item Reamers: \#29, 18~mm
 							\item Lathe inserts: CNMG (roughing) and CCMT (finishing)
@@ -4065,9 +4063,9 @@
 		\item \textbf{Mill top T-groove} with a 6 mm end mill from the +Y direction.
 		\item \textbf{Mill bottom T-groove} with a 6 mm end mill from the -Y direction.
 		\item \textbf{Mill central channel} through the -Z face with a 6 mm end mill.
-		\item \textbf{Drill large central hole} with a \nicefrac{59/64}" drill bit.
+		\item \textbf{Drill large central hole} with a \nicefrac{59/64}'' drill bit.
 		\item \textbf{Drill small inlet hole}
-					from the -Z direction with an \nicefrac{1}{8}" drill bit.
+					from the -Z direction with an \nicefrac{1}{8}'' drill bit.
 		\item \textbf{Tap large hole} with a \nicefrac{3}{4}-14\,NPT (National Pipe Taper) tap. Use cutting fluid.
 	\end{enumerate}
 
@@ -4091,7 +4089,7 @@
 					during EBW assembly. \\
 					\textbf{The +Z face} must be similarly finished to ensure even abuttment against the Housing Inlet.
 					\end{notebox}
-		\item \textbf{Drill large central hole} with a \nicefrac{59/64}" drill bit.
+		\item \textbf{Drill large central hole} with a \nicefrac{59/64}'' drill bit.
 		\item \textbf{Pre-drill small orifice hole} with a 3.5 mm drill bit. Leave at least 1 mm clearance between the bit tip and the bottom of the cut.
 		\item \textbf{Plunge small orifice hole} with a 3 mm end mill. Cut slowly at a shallow angle to avoid breaking the small bit.
 					Keep in mind that the workpiece will have hardened after the previous operation.
@@ -4180,6 +4178,7 @@
 					Finish to tolerance with a CCMT lathe tool.
 		\item \textbf{Drill central hole:} Drill the axial hole
 					through the top of the part with a 1.6 mm drill bit, centred on the axis.
+					\newpage
 					\begin{notebox}
 					\textbf{Drill with care}\\
 					The 1.6 mm drill bit is small and delicate.
@@ -4205,7 +4204,7 @@
 					near-nominal height with a 12 mm end mill.
 		\item \textbf{Turn outer diameter:} turn the outer diameter with a finishing pass with a CCMT lathe tool.
 		\item \textbf{Finishing pass on $-$Y face (bottom):} Finish the -Y face with a 12 mm end mill.
-					\newpage
+					% \newpage
 					\begin{notebox}
 					The $-$Y face is electron-beam welded to the top of the housing. A flat,
 					clean surface is essential for the intimate joint
@@ -4253,9 +4252,8 @@
 		\item Welding process: EBW (autogenous; no filler metal).
 		\item Mating surfaces must be intimate; maximum gap $\leq$\,\SI{0.01}{\milli\meter}.
 		\item All surfaces to be welded must be thoroughly cleaned and free of oil, grease,
-					and oxidation prior to welding. Use appropriate solvent (e.g.\ isopropyl
-					alcohol) and clean-room wipes.
-		\item Purge internal cavities with inert gas (e.g.\ argon) during welding to
+					and oxidation prior to welding. Use appropriate solvent and clean-room wipes.
+		\item Purge internal cavities with inert gas during welding to
 					prevent oxidation and spatter.
 		\item All wetted EBW joints must be subjected to 100\% X-ray radiographic
 					examination (RT) to confirm a weld joint efficiency $E = 1.0$ per
@@ -4395,7 +4393,7 @@
 					aligned; any tilt introduces an off-axis load on the orifice.
 	\end{enumerate}
 
-	\newpage
+	% \newpage
 	\begin{notebox}
 	\textbf{Thermal equilibration}\\
 	Before proceeding, allow all parts to thermally equilibriate with their environment for a full
@@ -4830,7 +4828,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	 reliability and precision.
 
 	% \todo{Uncomment below pdf}
-	% \includepdf[pages=1-12, fitpaper=true, landscape=true]{pdf/05182026_DrawingPackage_v31.pdf}
+	\includepdf[pages=1-12, fitpaper=true, landscape=true]{pdf/05182026_DrawingPackage_v31.pdf}
 
 \chapter{Data Sheets}
 \label{app:datasheets}
@@ -4850,22 +4848,22 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		Source: McMaster Carr\cite{ref_McMaster_screw, ref_McMaster_std, ref_McMaster_belle}.
 	
 		\todo{Uncomment below pdfs}
-		% \includepdf[fitpaper=true, landscape=true]{pdf/90362A141_drawing.pdf}
-		% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/90362A141_specs.pdf}
-		% \includepdf[fitpaper=true, landscape=true]{pdf/93475A195_drawing.pdf}
-		% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/93475A195_specs.pdf}
-		% \includepdf[fitpaper=true, landscape=true]{pdf/93237A101_drawing.pdf}
-		% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/93237A101_specs.pdf}
+		\includepdf[fitpaper=true, landscape=true]{pdf/90362A141_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/90362A141_specs.pdf}
+		\includepdf[fitpaper=true, landscape=true]{pdf/93475A195_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/93475A195_specs.pdf}
+		\includepdf[fitpaper=true, landscape=true]{pdf/93237A101_drawing.pdf}
+		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/93237A101_specs.pdf}
 
 	\section{Bellows Specifications}
 	\label{app:datasheets:Bellows}
 
 		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
-		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that "Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore" \cite[p.~5]{ref_miniflex_design}.
+		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that ``Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore'' \cite[p.~5]{ref_miniflex_design}.
 		The valve stem provides such support, dimensioned to provide a sliding-fit interface (see Section~\ref{subsec:design:just:fits}).
 
 		\todo{Uncomment below pdf}
-		% \includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/I718-159-72-430.pdf}
+		\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/I718-159-72-430.pdf}
 
 	\section{Material Properties}
 	\label{app:datasheets:mat}
@@ -4878,59 +4876,66 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
     316 Stainless Steel~\cite{ref_Ledbetter_Stainless}.
 		Properties listed are the Coefficient of Thermal Expansion $\alpha$, Thermal Conductivity $k$, Young's Modulus $E$, and Poisson's Ratio $\nu$.
 
-    \begin{table}[H]
-        \centering
-        \caption{Material Properties}
-        \renewcommand{\arraystretch}{1.3}
-        \begin{tabularx}{\textwidth}{
-            >{\raggedright\arraybackslash}p{0.22\textwidth}
-            >{\centering\arraybackslash}X
-            >{\centering\arraybackslash}X
-            >{\centering\arraybackslash}X
-            >{\centering\arraybackslash}X
-        }
-        \toprule
-        \textbf{Material} &
-        \textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
-				\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
-        \textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
-        \textbf{$\nu$} \\
-        \midrule
+\begin{table}[H]
+	\centering
+	\caption{Material Properties}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabularx}{\textwidth}{
+		>{\raggedright\arraybackslash}p{0.22\textwidth}
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+	}
+	\toprule
+	\textbf{Material} &
+	\textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
+	\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
+	\textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
+	\textbf{$\nu$} &
+	\textbf{$c_p$} $\left(\si{\joule\per\kilogram\per\degreeCelsius}\right)$ \\
+	\midrule
 
-        Aluminum 6061
-            & \num{22.85}
-						& \num{167}
-            & \num{68.95}
-            & --- \\
+	Aluminum 6061
+		& \num{22.85}
+		& \num{167}
+		& \num{68.95}
+		& ---
+		& \num{962} \\
 
-        ALLVAR
-            & \num{-30}
-						& \num{8.88}
-            & \num{55}
-            & --- \\
+	ALLVAR
+		& \num{-30}
+		& \num{8.88}
+		& \num{55}
+		& ---
+		& --- \\
 
-        Invar 36
-            & \num{1.3}
-						& \num{10.5}
-            & \num{141}
-            & --- \\
+	Invar 36
+		& \num{1.3}
+		& \num{10.5}
+		& \num{141}
+		& ---
+		& \num{515} \\
 
-        Inconel 718
-            & \num{13.2}
-						& ---
-            & \num{200}
-            & --- \\
+	Inconel 718
+		& \num{13.2}
+		& ---
+		& \num{200}
+		& ---
+		& \num{435} \\
 
-        316 Stainless Steel
-            & ---
-						& ---
-            & \num{207.8}
-            & \num{0.282} \\
+	316 Stainless Steel
+		& ---
+		& ---
+		& \num{207.8}
+		& \num{0.282}
+		& --- \\
 
-        \bottomrule
-        \end{tabularx}
-        \label{tab:mat_props}
-    \end{table}
+	\bottomrule
+	\end{tabularx}
+	\label{tab:mat_props}
+\end{table}
 
 		\begin{table}[H]
 			\centering
@@ -4972,7 +4977,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 
 \todo{Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}
 
-% \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/FinalGanttChart.pdf}
+\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/FinalGanttChart.pdf}
 
 	Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spend a year to develop.
 	We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.

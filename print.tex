@@ -300,12 +300,66 @@
 
 \begin{document}
 
-\color{ucdgold}
+\begin{table}[H]
+	\centering
+	\caption{Material Properties}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabularx}{\textwidth}{
+		>{\raggedright\arraybackslash}p{0.22\textwidth}
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+		>{\centering\arraybackslash}X
+	}
+	\toprule
+	\textbf{Material} &
+	\textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
+	\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
+	\textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
+	\textbf{$\nu$} &
+	\textbf{$c_p$} $\left(\si{\joule\per\kilogram\per\degreeCelsius}\right)$ \\
+	\midrule
 
-\textit{Bimetallic Actuator}
+	Aluminum 6061
+		& \num{22.85}
+		& \num{167}
+		& \num{68.95}
+		& ---
+		& \num{962} \\
 
-\color{ucdblue}
+	ALLVAR
+		& \num{-30}
+		& \num{8.88}
+		& \num{55}
+		& ---
+		& --- \\
 
-\textit{Diamond-Orifice Valve}
+	Invar 36
+		& \num{1.3}
+		& \num{10.5}
+		& \num{141}
+		& ---
+		& \num{515} \\
+
+	Inconel 718
+		& \num{13.2}
+		& ---
+		& \num{200}
+		& ---
+		& \num{435} \\
+
+	316 Stainless Steel
+		& ---
+		& ---
+		& \num{207.8}
+		& \num{0.282}
+		& --- \\
+
+	\bottomrule
+	\end{tabularx}
+	\label{tab:mat_props}
+\end{table}
+
 
 \end{document}
