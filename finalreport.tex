@@ -2117,7 +2117,40 @@
 
 \chapter{Testing}
 \label{chap:test}
+\todo{Outline for Testing chapter}
+\section{Objective}
+Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
 
+\section{Test Design}
+
+\subsection{Set-up: Boundary Condition Decisions}
+\begin{itemize}
+    \item Surface pairs and contact constraints.
+    \item Fluid-solid boundaries (incorporating union nodes where a single continuous boundary is required for FSI).
+    \item Accurate boundary representations for complex orifice shapes, ensuring internal flow geometries are not oversimplified as standard cylinders.
+\end{itemize}
+
+\subsection{Deformation and Dimensional Tolerance Flow Chart}
+Mapping the transfer function dependencies: CFD $\rightarrow$ MBD $\rightarrow$ Deformation $\leftarrow$ Heat Transfer.
+
+\subsection{Mesh Decisions}
+Strategies and refinements to improve computational accuracy and validity across domains.
+
+\section{Data Collection}
+
+\subsection{Design Space Matrix}
+\begin{itemize}
+    \item Turbulent flow $\Delta P$ range.
+    \item Heat transfer: $T_{amb}$ range and $T_{gas}$ range.
+\end{itemize}
+
+\section{Data Analysis}
+
+\subsection{Dimensional Failure}
+Focusing on heat transfer impacts and thermal expansion.
+
+\subsection{Stress and Material Failure}
+Evaluating structural integrity, yielding, and mechanical limits.
 
 \chapter{Conclusion}
 \label{chap:concl}
