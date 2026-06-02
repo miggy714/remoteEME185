@@ -1,0 +1,311 @@
+\documentclass[12pt, letterpaper]{report}% "letterpaper" matches US standard paper size.
+\setcounter{tocdepth}{3}
+% --- PACKAGES: Each one adds a capability to LaTeX ---
+% Think of packages like Python imports or C #includes.
+
+
+% ---------- Page Layout ----------
+\usepackage[top=1in,bottom=1in,left=1in,right=1in]{geometry} % geometry lets you set margins. 1-inch all around is standard for reports.
+% ---------- Encoding & Fonts ----------
+\usepackage[utf8]{inputenc}% Allows special characters (é, ü, °) to be typed directly.
+\usepackage[T1]{fontenc} % Ensures proper font encoding in the output PDF. Without this, copy-pasting from the PDF can produce garbled characters.
+% ---------- Graphics & Figures ----------
+\usepackage{graphicx}% THE core package for inserting images.
+% Usage: \includegraphics[width=0.8\textwidth]{filename.png}
+\graphicspath{{figures3/}}
+\usepackage{float}% Gives you the [H] placement option for figures/tables. [H] means "put it HERE, not where LaTeX thinks is best." Very useful when you need a figure right after the text that references it.
+\usepackage{subcaption}% Lets you put multiple images side-by-side in a single figure environment. Example: Figure 3(a) and Figure 3(b) next to each other.
+% ---------- Tables ----------
+\usepackage{booktabs} % Provides \toprule, \midrule, \bottomrule for professional-looking tables.
+% Rule of thumb: NEVER use vertical lines in tables. Use booktabs rules instead.
+\usepackage{tabularx}% Adds the tabularx environment, which lets columns auto-expand to fill width. Great for tables that need to span the full page width.
+\usepackage{multirow}% Allows cells that span multiple rows in tables.
+\usepackage{longtable}% For tables that are too long to fit on one page (like a Bill of Materials).
+% ---------- Math ----------
+\usepackage{amsmath}% The standard package for equations. Adds align, equation*, etc.
+\usepackage{amssymb}% Extra math symbols (e.g., \therefore, \because, \pm).
+\usepackage{siunitx}% Proper formatting for SI units.
+\sisetup{per-mode=fraction}
+\sisetup{exponent-product=\cdot}
+\DeclareSIUnit{\fahrenheit}{\degree F}
+% Usage: \SI{100}{\celsius}, \SI{10000}{psi}, \SI{10}{\centi\meter}
+% This ensures consistent unit formatting throughout the document.
+% ---------- Bibliography ----------
+\usepackage[numbers, sort&compress]{natbib}
+% IEEE-style numeric citations: [1], [2,3], [4-7]
+% "sort&compress" turns [3,1,2] into [1-3]
+% ---------- Cross-Referencing & Links ----------
+\usepackage[
+	colorlinks=true,
+	linkcolor=blue,      % Internal links (sections, figures)
+	citecolor=blue,      % Citation links
+	urlcolor=blue         % URL links
+]{hyperref}
+% Makes all references, citations, and URLs clickable in the PDF.
+% Set colorlinks=false if you want boxes instead of colored text.
+% ---------- Captions ----------
+\usepackage[
+	font=small,           % Caption text slightly smaller than body
+	labelfont=bf,         % "Figure 1:" is bold
+	textfont=it            % The caption description is italic
+]{caption}% Makes figure/table captions look more professional.
+% ---------- Headers & Footers ----------
+\usepackage{fancyhdr}% Customizable headers and footers.
+\pagestyle{fancy}% Activate the fancy header/footer style.
+\fancyhf{}% Clear all default header/footer content.
+\fancyhead[L]{\small Team 16 --- Noble Aggie Labs}% Left header: team name.
+\fancyhead[R]{\small EME 185}% Right header: course number.
+\fancyfoot[C]{\thepage}% Center footer: page number.
+\renewcommand{\headrulewidth}{0.4pt}% Thin line under the header. Set to 0pt to remove.
+% ---------- Paragraph Formatting ----------
+\usepackage{parskip}% Adds space between paragraphs instead of indenting the first line. This is more common in engineering reports than academic papers.
+\setlength{\parindent}{0pt}% Explicitly remove paragraph indentation (parskip should handle this, but belt-and-suspenders doesn't hurt for readability).
+% ---------- Line Spacing ----------
+\usepackage{setspace}
+% \onehalfspacing% 1.5 line spacing is easier to read and mark up than single spacing. Change to \doublespacing if required.
+\onehalfspacing
+%-------- For Box diagrams
+\usepackage{tikz}
+\usetikzlibrary{patterns}
+\usetikzlibrary{patterns,intersections}
+\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{arrows.meta, shapes.geometric, shapes.misc, positioning}
+\usetikzlibrary{calc}
+% ---------- Appendix Support ----------
+\usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
+%----------- Title/Chapter formatting -----------------
+\usepackage{titlesec}
+% Format \chapter to look simple (no giant text, no separate page)
+\usepackage{pdfpages}
+% Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
+\usepackage{geometry}
+%allows you to set margins and page size. 
+\usepackage{mdframed}     % warning/note boxes, important equations
+	\mdfsetup{linewidth=1pt}
+\usepackage{enumitem}     % list formatting
+\usepackage{booktabs}     % tables
+\usepackage{xcolor}       % color support
+\usepackage{upgreek}
+
+
+\definecolor{warnred}{RGB}{180,30,30}
+\definecolor{warnbg}{RGB}{255,235,235}
+\definecolor{notebg}{RGB}{235,245,255}
+\definecolor{noteblue}{RGB}{30,80,160}
+\definecolor{ucdgold}{RGB}{187, 146, 7}
+\definecolor{ucdblue}{RGB}{0, 75, 133}
+\definecolor{sandiablue}{RGB}{0,  172, 217}
+
+
+
+\newmdenv[
+  linecolor=warnred, backgroundcolor=warnbg,
+  linewidth=1.5pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{warningbox}
+
+\newmdenv[
+  linecolor=noteblue, backgroundcolor=notebg,
+  linewidth=1pt, innerleftmargin=10pt,
+  innerrightmargin=10pt, innertopmargin=8pt,
+  innerbottommargin=8pt, skipabove=10pt, skipbelow=6pt
+]{notebox}
+
+
+\titleformat{\chapter}
+ {\LARGE\bfseries}  % format
+ {}                % label
+ {0em}                         % sep between label and title
+ {}                            % before-code
+\titlespacing*{\chapter}{0pt}{20pt}{10pt}  % left, before, after
+
+
+\makeatletter
+\g@addto@macro\appendix{%
+ \titleformat{\chapter}[block]
+	{\huge\bfseries\centering}
+	{\appendixname\ \thechapter}
+	{0em}
+	{\vspace{0.5em}\\}%
+}
+\makeatother
+
+% ---------- PDF Metadata ----------
+\hypersetup{
+    pdftitle={Final Design Report -- Passive Temperature Compensation Device},
+    pdfauthor={Team 16: Noble Aggie Labs},
+    pdfsubject={EME-185A/B Senior Design, UC Davis}
+}
+%-----------For landscape pages----------
+\usepackage{pdflscape}
+\usepackage{pgfplots}
+	\pgfplotsset{compat=1.18}
+	\usepgfplotslibrary{fillbetween}
+	\pgfmathdeclarefunction{normalpdf}{3}{%
+    \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-(#1-#2)^2/(2*#3^2))}%
+	}
+\usepackage{multirow}
+\usepackage{array}      % for >{\raggedright\arraybackslash}
+\usepackage{makecell}   % for \makecell
+\usepackage{calc}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{nicefrac}
+\usepackage[bottom]{footmisc}
+
+% In your preamble
+\newcounter{mycounter}           % creates a counter, initialized to 0
+\newcounter{sub}[mycounter]      % resets 'sub' when 'mycounter' increments
+% ============================================================================
+% SECTION 0.5: CUSTOM COMMANDS (Modular Helpers)
+% ============================================================================
+% These are reusable shortcuts. Define them once, use them everywhere.
+% If a name or term changes, you only edit it in ONE place.
+
+
+% --- Project-specific shortcuts ---
+\newcommand{\projecttitle}{Passive Temperature Compensation Device}
+\newcommand{\teamname}{Noble Aggie Labs}
+\newcommand{\teamnumber}{16}
+\newcommand{\sponsor}{Dr.\ Bradley Bon}
+\newcommand{\organization}{Sandia National Laboratories}
+\newcommand{\coursename}{EME 185}
+\newcommand{\instructor}{Professor Jonathon Schofield}
+\newcommand{\university}{University of California, Davis}
+\newcommand{\ta}{Teaching Assistant Xiangpu Wang}
+\newcommand{\duedate}{5 June 2026}
+% --- Convenience commands for common terms ---
+% Using these ensures consistent terminology throughout the report.
+\newcommand{\device}{PTCD}
+\newcommand{\degC}{^{\circ}\text{C}}    % Degree Celsius symbol, properly formatted
+\newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
+\newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
+
+\newcommand{\Dcoldval}{}
+\newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm \SI{19.2}{\micro\meter}}
+\newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm \SI{16.9}{\micro\meter}}
+\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 292.1 \pm \SI{12.7}{\micro\meter}}
+
+\newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
+\newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
+\newcommand{\Tref}{\SI{25}{\degreeCelsius}} %Celcius
+\newcommand{\specTempChange}{\SI{140}{\degreeCelsius}}
+
+\newcommand{\specEAl}{\SI{68.95}{\giga \pascal}}
+\newcommand{\specEALLV}{\SI{55}{\giga \pascal}}
+\newcommand{\specEInv}{\SI{141}{\giga \pascal}}
+\newcommand{\specEInc}{\SI{200}{\giga \pascal}}
+\newcommand{\specActuatorCTE}{\SI{22.85}{\micro\meter\per\meter\per\celsius}} %Evaluated at 25C
+\newcommand{\specMountCTE}{\SI{-30}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInvarCTE}{\SI{1.3}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specInconelCTE}{\SI{13.2}{\micro\meter\per\meter\per\celsius}}
+\newcommand{\specBellowsK}{\SI{75.3}{\kilo \newton \per \meter}} % 430 lb/in
+\newcommand{\specBellowsHeight}{\SI{22.86}{\milli \meter}} % = Neck 1 length + Neck 2 length + Conv free diameter = 2*(0.07") + 0.76"
+\newcommand{\specBellowsOD}{\SI{6.528}{\milli \meter}} % Conv OD 0.257"
+\newcommand{\specBellowsID}{\SI{3.353}{\milli \meter}} % Conv ID 0.132"
+\newcommand{\specBellowsSquirm}{\SI{20.68}{\mega \pascal}} % 3000 psi
+\newcommand{\specBellowsBurst}{\SI{74.12}{\mega \pascal}} % 10750 psi
+
+\newcommand{\Xhot}{\SI{480.696}{\micro \meter}}
+\newcommand{\Xcold}{\SI{213.289}{\micro \meter}}
+\newcommand{\specLengthChange}{\SI{267.407}{\micro \meter}}
+\newcommand{\govErrorProp}{u_x = \sqrt{\frac{\pi(\sigma_x^2+\sigma_y^2)}{2}}}
+\newcommand{\govActuator}{\Delta L = L_0 \Delta T \alpha}
+\newcommand{\govValve}{D_{\text{eff}} = \sqrt{\frac{2}{\pi}}}
+\newcommand{\specPressure}{\SI{68.95}{\mega \pascal}}%  68.94757 MPa
+\newcommand{\AoneExact}{\SI{-1.524e-3}{\milli\meter\per\celsius}}
+\newcommand{\Aone}{\AoneExact \pm 5\%}
+\newcommand{\AzeroExact}{\SI{0.254}{\milli\meter}}
+\newcommand{\Azero}{\AzeroExact \pm 5\%}
+\newcommand{\imageHeight}{4in} % Default image height for figures. Adjust as needed.
+\newcommand{\specCrossSectArea}{\SI{6.3e-5}{\meter \squared}}
+\newcommand{\specOrigActuatorLength}{\SI{32.991}{\milli \meter}}
+\newcommand{\specActDefTotal}{\SI{267}{\micro \meter}}
+\newcommand{\specActDefHot}{\SI{152.8}{\micro \meter}}
+
+% Transfer function specifications
+
+\newcommand{\GA}{\SI{1.91}{\micro\meter\per\celsius}}
+\newcommand{\GV}{\num{-0.798}}
+
+\newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
+\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
+\newcommand{\RRfull}
+{
+	\begin{equation}
+		\begin{aligned}
+			D_{eff} &= \hat{G}_{V_0} \hat{G}_{A_0} \Delta T + D_{ref} \\
+			&= \frac{dD}{dL} \frac{dL}{dT} (T_{amb} - T_{ref}) + D(T_{ref}) \\
+			&= A_1 \Delta T + A_0
+		\end{aligned}
+	\end{equation}
+}
+
+% Valve specifications
+\newcommand{\SpecVAA}{The valve subsystem shall passively control the effective orifice diameter as directly driven by the actuator at a conversion rate of $\frac{dD}{dL} = \GV$}
+\newcommand{\SpecVAB}{The valve subsystem shall define the reference effective orifice diameter}
+\newcommand{\SpecVABapp}{$D_{eff}(T_{ref}) = \AzeroExact$}
+\newcommand{\SpecVB}{The valve subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
+\newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at this pressure}
+\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
+
+% Actuator specifications
+\newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
+\newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
+\newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
+\newcommand{\SpecACA}{The actuator shall allow no more than \textbf{\textcolor{red}{[TODO: Spec Temp]}} deviation in its temperature from $T_{amb}$\ within the test window}
+
+% --- Figure insertion helper ---
+% This command simplifies inserting a figure with a caption and label.
+% Usage: \insertfigure{width}{filename}{caption text}{fig:label}
+%
+% Parameters:
+%   #1 = width relative to text width (e.g., 0.8 for 80%)
+%   #2 = filename (without path if images are in the same directory)
+%   #3 = caption text
+%   #4 = label for cross-referencing (use fig:prefix by convention)
+\newcommand{\insertfigure}[4]{%
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=#1\textwidth]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{figure}
+}
+
+% --- TODO marker for draft mode ---
+% Prints a bold red "TODO" so you can easily spot incomplete sections.
+\usepackage{xcolor}
+\usepackage{tocloft} % For listoftodos
+% --- TODO marker ---
+\newlistof{todos}{tod}{List of TODO's}
+\newcommand{\todo}[1]{%
+    \textbf{\textcolor{red}{[TODO: #1]}}%
+    \addcontentsline{tod}{todos}{\protect\numberline{\thepage}#1}%
+}
+
+% For links to spec table
+\newcommand{\specref}[1]{\hyperref[tab:specs]{#1}}
+
+\usepackage{lmodern} % DELETE BEFORE SUBMISSION; this is to help the pdf render more easily.
+
+
+% ============================================================================
+% BEGIN DOCUMENT
+% ============================================================================
+
+\begin{document}
+
+\color{ucdgold}
+
+\textit{Bimetallic Actuator}
+
+\color{ucdblue}
+
+\textit{Diamond-Orifice Valve}
+
+\end{document}
