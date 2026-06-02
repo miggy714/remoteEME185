@@ -415,7 +415,7 @@
 		COMSOL	& Computer Solution (numerical computing software) \\
 		CTE     & Coefficient of Thermal Expansion \\
 		DFMEA   & Design Failure Modes and Effects Analysis \\
-		DIN			& Deutsches Institut für Normung (German Institute for Standardization) \\
+		DIN			& Deutsches Institut für Normung (German Standardization Institute) \\
 		DOF     & Degree of Freedom \\
 		EBW     & Electron Beam Welding \\
 		EDM     & Electrical Discharge Machining \\
@@ -1550,13 +1550,13 @@
 		Any mechanical penetration of a pressure vessel requires a flexible, sealed interface. Polymer-based gaskets and O-rings are often used, but most such materials permit Hydrogen diffusion and embrittlement in violation of specification \specref{V.3.3}.
 		Flexible metal bellows provide a high-pressure, Hydrogen-compatible alternative. The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
 		The I718-15-72-430, pictured in Figure~\ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst\ with minimal stiffness.
-		At the maximum deflection from the reference point (see eq. \eqref{eq:act_def_hot}), the reaction force from the two bellows is only
+		At the maximum deflection from the reference point (see eq. \eqref{eq:act_def_hot}), a maximum
 
 		\begin{equation}
 			F = 2 k \Delta L = 2 \cdot \specBellowsK \specActDefHot = \SI{23}{\newton}
 		\end{equation}
 
-		from both bellows using Hooke's Law\cite{ref_Young_Freedman} and the manufacturer's specifications\cite{ref_miniflex_catalog}.
+		reaction force is exerted from both bellows\cite{ref_Young_Freedman}\cite{ref_miniflex_catalog}.
 
 		The lower valve stem connects to nothing. It and the second bellows could easily be discarded.
 		However, because the whole Valve Orifice (the moving component) is surrounded by high-pressure gas, doing so would create a force imbalance.
@@ -1572,7 +1572,7 @@
 		\end{equation}
 		\footnotetext{The bellows' two necks have different diameters; the smaller of those ("Neck 1" in the bellows catalog\cite{ref_miniflex_catalog}) connects to the Valve Orifice}
 
-		The second bellows solves this, adding a maximum of \SI{23}{\newton} from its spring reaction to remove a constant \SI{906}{\newton}.
+		The second bellows solves this, adding up to \SI{23}{\newton} from its spring reaction to remove a constant \SI{906}{\newton}.
 
 		The bellows drove many of the surrounding dimensions and design features.
 		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''~\cite{ref_miniflex_design}.
@@ -3189,6 +3189,9 @@
 					\label{eq:GA}
 				\end{equation}
 
+				The minimum achievable fillet radius and positional tolerance are \SI{76.2}{\micro\meter} and \SI{12.7}{\micro\meter},
+				as quoted by Milco Wire EDM, Inc (Appendix~\re)
+
 			\subsubsection{$\hat{G}_D$: Area to Effective Diameter}
 			\label{subsubsec:sat:TF:orif:G_D}
 				
@@ -3646,9 +3649,8 @@
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributer's links.
-	A quote for the Sinder EDM operation required to cut each square hole is also included; achievable tolerance values given in Section~\ref{app:calcs:error} were taken from this quote.
-	
-	\todo{EDM tols not included in quote yet; waiting for Xometry to respond}
+	A quote for the Wire Electric-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:calcs:error} were taken from this quote.
+	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	\newpage
 	\begin{figure}[H]
@@ -3766,7 +3768,7 @@
 						tolerancees in Appendix~\ref{app:drawings}
 			\item Band saw
 			\item Annealing/heat-treatment furnace capable of reaching \SI{1040}{\degreeCelsius}
-			\item Sinker EDM (Electrical Discharge Machining) capability
+			\item Wire EDM (Electrical Discharge Machining) capability
 			\item Electron-Beam Welding (EBW) capability
 			\item Two perpendicular granite surfaces. One surface must have a drilled hole whose center
 						is \SI{20}{\milli\meter} from the intersection between the two surfaces. The
@@ -3950,7 +3952,7 @@
 
 	Refer to drawing V1. Produce both Housing Centers identically.
 
-	\newpage
+	% \newpage
 	\begin{notebox}
 	\textbf{Invar 36 tooling} \\
 	Use new, sharp, carbide steel tools to machine all features on the Invar 36 parts.
@@ -4022,7 +4024,7 @@
 		\item \textbf{Plunge small orifice hole} with a 3 mm end mill. Cut slowly at a shallow angle to avoid breaking the small bit.
 					Keep in mind that the workpiece will have hardened after the previous operation.
 		\item \textbf{Tap large hole} with a \nicefrac{3}{4}-14\,NPT tap. Use cutting fluid.
-		\item \textbf{Sinker EDM --- square through-orifice:}
+		\item \textbf{Wire EDM --- square through-orifice:}
 					\begin{warningbox}
 					\textbf{\textcolor{warnred}{WARNING --- EDM Hazard}}
 					The dielectric fluid used in EDM is a fire hazard and a skin/eye irritant.
@@ -4030,7 +4032,7 @@
 					fully de-energised before accessing the work zone. Dispose of spent fluid per
 					facility hazardous-waste procedures.
 					\end{warningbox}
-					Machine the square through-orifice using sinker EDM.
+					Machine the square through-orifice using wire EDM.
 					Critical requirements:
 					\begin{itemize}[itemsep=2pt]
 						\item The \textbf{upper interior corner} of the square orifice must have as
@@ -4074,8 +4076,8 @@
 		\item \textbf{Lathe valve stem}. Turn the two shafts to nominal diameter with a CNMG lathe tool.
 					Bring to tolerance with a finishing pass using a CCMT lathe tool.
 		\item \textbf{Plunge small hole} with an end mill.
-		\item \textbf{Sinker EDM --- square through-orifice (leading orifice):}
-					Machine the square through-orifice using sinker EDM as per the above EDM operation.
+		\item \textbf{Wire EDM --- square through-orifice (leading orifice):}
+					Machine the square through-orifice using wire EDM as per the above EDM operation.
 		\item \textbf{TiCN PVD coating:} Apply a TiCN (titanium carbonitride) Physical Vapor
 					Deposition coating to the four contact surfaces per drawing V4, Note~5.
 					Confirm the coating thickness does not exceed \SI{0.004}{\milli\meter};
