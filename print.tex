@@ -93,9 +93,9 @@
 \definecolor{warnbg}{RGB}{255,235,235}
 \definecolor{notebg}{RGB}{235,245,255}
 \definecolor{noteblue}{RGB}{30,80,160}
-\definecolor{ucdgold}{RGB}{187, 146, 7}
-\definecolor{ucdblue}{RGB}{0, 75, 133}
-\definecolor{sandiablue}{RGB}{0,  172, 217}
+\definecolor{ucdgold}{RGB}{207, 184, 124}
+\definecolor{ucdblue}{RGB}{0, 40, 85}
+\definecolor{sandiablue}{RGB}{0,  174, 214}
 
 
 
@@ -186,7 +186,7 @@
 \newcommand{\Dcoldval}{}
 \newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm \SI{19.2}{\micro\meter}}
 \newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm \SI{16.9}{\micro\meter}}
-\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 292.1 \pm \SI{12.7}{\micro\meter}}
+\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 254.0 \pm \SI{12.7}{\micro\meter}}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -300,66 +300,12 @@
 
 \begin{document}
 
-\begin{table}[H]
-	\centering
-	\caption{Material Properties}
-	\renewcommand{\arraystretch}{1.3}
-	\begin{tabularx}{\textwidth}{
-		>{\raggedright\arraybackslash}p{0.22\textwidth}
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-	}
-	\toprule
-	\textbf{Material} &
-	\textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
-	\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
-	\textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
-	\textbf{$\nu$} &
-	\textbf{$c_p$} $\left(\si{\joule\per\kilogram\per\degreeCelsius}\right)$ \\
-	\midrule
+	\begin{enumerate}[itemsep=4pt]
+		\item \textbf{Drill large central hole} with a \nicefrac{59/64}'' drill bit.
+		\item \textbf{Drill small inlet hole}
+					from the -Z direction with an \nicefrac{1}{8}'' drill bit.
+	\end{enumerate}
 
-	Aluminum 6061
-		& \num{22.85}
-		& \num{167}
-		& \num{68.95}
-		& ---
-		& \num{962} \\
-
-	ALLVAR
-		& \num{-30}
-		& \num{8.88}
-		& \num{55}
-		& ---
-		& --- \\
-
-	Invar 36
-		& \num{1.3}
-		& \num{10.5}
-		& \num{141}
-		& ---
-		& \num{515} \\
-
-	Inconel 718
-		& \num{13.2}
-		& ---
-		& \num{200}
-		& ---
-		& \num{435} \\
-
-	316 Stainless Steel
-		& ---
-		& ---
-		& \num{207.8}
-		& \num{0.282}
-		& --- \\
-
-	\bottomrule
-	\end{tabularx}
-	\label{tab:mat_props}
-\end{table}
 
 
 \end{document}
