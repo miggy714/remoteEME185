@@ -2185,6 +2185,53 @@ Focusing on heat transfer impacts and thermal expansion.
 \subsection{Stress and Material Failure}
 Evaluating structural integrity, yielding, and mechanical limits.
 
+\chapter{Testing}
+\label{chap:test}
+
+\todo{Outline for Testing chapter}
+\section{Objective}
+Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing is purely simulation-based in COMSOL Multiphysics and includes conducting Heat Transfer (thermal-stress) and transient thermal studies, both for the actuator in isolation and for the full core assembly.
+
+\section{Test Design}
+
+\subsection{Set-up: Boundary Condition Decisions}
+\begin{itemize}
+    \item Surface pairs and contact constraints (Form Assembly with Identity Pairs for the multi-body assembly; Rigid Connector face bonding for the simplified actuator–mount model).
+    \item Bellows represented as an equivalent cylinder with softened effective modulus to match axial spring stiffness, avoiding intractable bellows-geometry meshing.
+    \item Thermal environment applied through the $T_{env}$ parameter, with a fixed constraint at the mount base providing a stable reference for actuator displacement.
+\end{itemize}
+
+\subsection{Stroke and Dimensional Tolerance Flow Chart}
+Mapping the transfer function dependencies: $T_{env} \rightarrow$ Heat Transfer $\rightarrow$ Thermal Expansion $\rightarrow$ Actuator Stroke $\rightarrow$ Dimensional Tolerance, with elastic deformation of the mount and actuator as a parallel contribution.
+
+\subsection{Mesh Decisions}
+Strategies and refinements to improve computational accuracy and validity (physics-controlled meshing, refinement at flexures and junctions, isolation of sharp-corner singularities from bulk results).
+
+\section{Data Collection}
+
+\subsection{Design Space Matrix}
+\begin{itemize}
+    \item Heat transfer: $T_{amb}$ range ($-60\,^{\circ}\mathrm{C}$ to $+80\,^{\circ}\mathrm{C}$) swept about the $25\,^{\circ}\mathrm{C}$ reference.
+    \item Mount material candidates: Invar 36 and Allvar Alloy 30 (differential-CTE comparison).
+    \item Transient response: settling time to steady state for a representative $\Delta T$.
+\end{itemize}
+
+\subsection{Validation Against Analytical Model}
+\begin{itemize}
+    \item Simulated actuator displacement (point evaluation on the actuator bottom face) overlaid against the analytical linear model.
+    \item Percent error between FEA and analytical stroke across the operating range.
+\end{itemize}
+
+\section{Data Analysis}
+
+\subsection{Dimensional Failure}
+Focusing on heat transfer impacts and thermal expansion, including verification of the linear stroke relationship and the behavior of wetted surfaces and core-assembly components across the operating range.
+
+\subsection{Stress and Material Failure}
+Evaluating structural integrity, yielding, and mechanical limits of the actuator, mount, valve, and bellows under thermal load.
+
+
+
 
 
 \chapter{Conclusion}
