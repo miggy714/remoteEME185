@@ -297,9 +297,12 @@
 \chapter{Testing}
 \label{chap:test}
 
-\todo{Outline for Testing chapter}
+\todo{Outline for Testing chapter. Combine isolated Heat Transfer section with Miguel's. Obejective = SAME, Test Design = SAME, Boundary Conditions = SAME, Defomation and Dimensional Tolerance Flow Chart = SAME, 
+Mesh Decisions = DIFFERENT, DATA COLLECTION = DIFFERENT. The "DIFFERENT" sections can still be married and ideas synthesized. We need to include limitations and a disucssion for results. Can reference appendix if needed for space. 
+We need to split limitations in subsections, for each test CFD, MBD, and HT. For heat transfer limitation, contact resistance was omitted in these tests. Limitation in MBD where geometry was not decoupled at the orifice, assumes parts are welded 
+together, MBD different in that inlet and outlet were omitted, but pressure left in from CFD. Discuss but do not synthesize for all limitations!}
 \section{Objective}
-Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
+The testing plan validated and expanded/iterated on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
 
 \section{Test Design}
 
@@ -326,15 +329,9 @@ Strategies and refinements to improve computational accuracy and validity across
     \item Heat transfer: $T_{amb}$ range and $T_{gas}$ range.
 \end{itemize}
 
-\section{Data Analysis}
+\section{Results}
 
-\subsection{Dimensional Failure}
-Focusing on heat transfer impacts and thermal expansion.
-
-\todo{Show images }
-
-\subsection{Stress and Material Failure}
-Evaluating structural integrity, yielding, and mechanical limits.
+\section{Limitations}
 
 \chapter{Testing}
 \label{chap:test}
@@ -379,6 +376,8 @@ Strategies and refinements to improve computational accuracy and validity (physi
 Focusing on heat transfer impacts and thermal expansion, including verification of the linear stroke relationship and the behavior of wetted surfaces and core-assembly components across the operating range.
 
 \subsection{Stress and Material Failure}
+\todo{Show images of the failure modes reflected on the model. An optional suggestion to have some sort of validation reference via a figure from a study, etc.}
+
 Evaluating structural integrity, yielding, and mechanical limits of the actuator, mount, valve, and bellows under thermal load.
 
 \end{document}
