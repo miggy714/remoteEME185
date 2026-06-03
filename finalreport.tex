@@ -232,7 +232,7 @@
 
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
 \newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\ReqC}{The device shall restrict Hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
+\newcommand{\ReqC}{The device shall restrict hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
 \newcommand{\RRfull}
 {
 	\begin{equation}
@@ -251,7 +251,7 @@
 \newcommand{\SpecVB}{The valve subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
 \newcommand{\SpecVCA}{The housing shall withstand an internal pressure of \specPressure}
 \newcommand{\SpecVCB}{Wetted components shall maintain a hermetic seal at this pressure}
-\newcommand{\SpecVCC}{Wetted components shall not permit Hydrogen diffusion or embrittlement}
+\newcommand{\SpecVCC}{Wetted components shall not permit hydrogen diffusion or embrittlement}
 
 % Actuator specifications
 \newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
@@ -453,19 +453,19 @@
 
 \begin{abstract}
 
-	Modern defense technology research requires ever-increasing experimental fidelity.
-	Sandia National Laboratories, a United States security research facility, conducts many experiments that depend on submillimeter-precision flow control of high-pressure Hydrogen gas.
+	Modern engineering constantly requires advances in technological precision and reliability.
+	Sandia National Laboratories, a United States security and energy research facility, conducts many experiments that depend on submillimeter-precision flow control of high-pressure hydrogen gas.
 	Their test articles are sensitive to temperature fluctuations; the flow must be adjusted to compensate for these changes.
 	However, power and space constraints prohibit the use of embedded control systems, and existing passive flow control solutions do not approach the size and precision these experiments require.
 	
 	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
 	that thermomechanically adjusts gas flow according to the ambient air temperature.
-	Engineered to contain and restrict Hydrogen or a noble gas up to 700 times atmospheric pressure,
-	the PTCD maintains a pin-size orifice with medical precision. 
+	Engineered to contain and restrict hydrogen or a noble gas up to 700 times atmospheric pressure,
+	the PTCD maintains a pin-size orifice with microscopic precision. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
-	This Design Report motivates the design objectives, illustrates and justifies the final selected architecture,
-	analytically and numerically verifies system requirement satisfaction, and provides a full design package required for further iteration.
+	This report details the design objectives, the final selected architecture, the analytical and numerical verification of system requirement satisfaction,
+	and a full design package required for further iteration.
 
 \end{abstract}
 
@@ -489,8 +489,9 @@
 
 			National security presents ceaseless challenges.
 			Engineers must deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
-			Sandia National Laboratories, a United States security research facility in Livermore, CA, prosecutes this mission.
-			Their development of cutting-edge defense technology and pioneering scientific research protects American citizens and sojourners alike against sophisticated foreign and domestic threats.
+			Sandia National Laboratories, a United States security and energy research facility in Livermore, CA, executes this mission.
+			Their development of cutting-edge defense technology and scientific research protects American citizens and sojourners alike against sophisticated threats
+			and pioneers advancements in energy efficiency and sustainability.
 			Resolving the nation's most challenging security issues, Sandia must employ every means to maintain a competitive edge in the international theater.
 			Even a small improvement in the capacity or reliability of a larger integrated system can deliver a key advantage.
 
@@ -500,7 +501,7 @@
 			Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
 			Electrically-powered valves accomplish this well.
 			However, lab technicians often cannot actively control flow in these experiments due to power, personnel, or space constraints.
-			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with medical precision.
+			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with surgical precision.
 			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
 			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
@@ -513,7 +514,7 @@
 			\label{subsec:intro:motive:objectives}
 
 				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
-				to develop a high-pressure, Hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
+				to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
 				while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
 				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
@@ -641,18 +642,18 @@
 			\item \label{cond:P} 		The operating gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$
 			\item \label{cond:dP} 	The gas pressure differential $\Delta P$ will lie within the range $\SI{68.95}{\kilo\pascal} \leq \Delta P \leq \specPressure$.
 			\item \label{cond:dT} 	The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
-			\item \label{cond:gas} 	The gas will be a noble gas or Hydrogen.
+			\item \label{cond:gas} 	The gas will be a noble gas or hydrogen.
 			\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe of diameter \SIrange{1.524}{25.4}{\milli\meter}.
 			\item \label{cond:fix} 	The ambient temperature will remain fixed during operation.
 			\item \label{cond:test} The device will be tested by Sandia to validate required compliance, both without gas flow and for up to 60 seconds with gas flow.
 		\end{enumerate}
 
-		In summary, although the \device's mission is simple, it is incredibly difficult. This small valve must thermomechanically control a pin-size orifice with medical precision under extreme operating conditions.
+		In summary, although the \device's mission is simple, it is incredibly difficult. This small valve must thermomechanically control a pin-size orifice with micron-level precision under extreme operating conditions.
 		The linear nature of the Required Relationship presents particular difficulty. The \device\ must maintain strictly first-order behavior\footnote{
 			First-order (i.e. linear) system behavior requires exclusively first-order subsystems, where the output is directly proportional to the output.
 			These are exceptionally rare. Mathematician Stanis\l{}aw Ulam famously remarked that the study of nonlinear science is ``like defining the bulk of zoology by calling it the study of `non-elephant animals'.”\cite{ref_nonlinear}.
 		} between temperature extremes equivalent to a winter day on Antarctica and a running engine block.
-		The following design specifications were carefully selected to support a passive, linear output with micron-scale tolerance.
+		The following design specifications were carefully selected to support a passive, linear output.
 		
 	\section{Subsystem Specifications}
 	\label{sec:intro:specs}
@@ -869,7 +870,7 @@
 		\subsection{Operational Conditions rolldown}
 		\label{subsec:Intro:specs:cond}
 
-			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with Hydrogen, and minimize heat transfer from the hot internal gas.
+			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with hydrogen, and minimize heat transfer from the hot internal gas.
 			This rolls down to the following subsystem specifications:
 
 			\vspace{1em}
@@ -967,7 +968,7 @@
 	\section{System Architecture Overview}
 	\label{sec:design:overview}
 
-		The \device\ contains and seals high-pressure Hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
+		The \device\ contains and seals high-pressure hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
 		The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
@@ -1098,7 +1099,7 @@
 			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure~\ref{fig:orifice}.
 
 					\medskip
-					All components of the valve assembly are fastened by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
+					All components of the valve assembly are joined by Electron-Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
 
 					\medskip
 					All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
@@ -1196,8 +1197,7 @@
 			but the thick housing wall, minimal contact between subsystems, and continual free convection with the atmosphere will minimize this error.
 
 			Small machining and assembly errors may introduce a constant offset. For instance, if the valve stem is over-dimensioned by \SI{10}{\micro\meter},
-			the orifice height will be \SI{10}{\micro\meter} too high at all times, adding a constant \SI{8}{\micro\meter}\footnote{as calculated in Appendix~\ref{app:calcs:orifice_geometry}}
-			to the effective diameter.
+			the orifice height will be \SI{10}{\micro\meter} too high at all times, adding a constant \SI{8}{\micro\meter} to the effective diameter\footnote{as calculated in Appendix~\ref{app:calcs:orifice_geometry}}.
 			Even this deviation is significant relative to its \SIrange{10}{20}{\micro\meter} tolerance window,
 			illustrating the necessity to minimize independent components.
 			To counter this potential constant error, the actuator subsystem includes a calibration stack.
@@ -1452,7 +1452,7 @@
 
 			as established in Appendix~\ref{app:calcs:orifice_geometry}, the effective diameter follows a second-order output.
 			A linear relationship requires a regular orifice geometry (such as a circle, a square, or a hexagon) that maintains its shape, all sides changing at the same rate.
-			Many flexible membranes required to construct a circular orifice permit Hydrogen embrittlement and diffusion, disqualifying a circular geometry.
+			Many flexible membranes required to construct a circular orifice permit hydrogen embrittlement and diffusion, disqualifying a circular geometry.
 			Complex-polygon architectures, such as hexagonal camera-style aperture, comprise more degrees of freedom than the precise relationship allows.
 			The diamond orifice, on the other hand, performs linearly with two interfacing components and a single degree of freedom.
 			Although it was an entirely novel approach to this problem, the design fit all three selection criteria and, as demonstrated in Chapter~\ref{chap:DFMEA}, ultimately satisfies the Required Relationship.
@@ -1564,7 +1564,7 @@
 			Named after the Greek God Hermes\cite{ref_wilton_hermetic}, a hermetic seal prevents the penetration of any gas above a given leakage rate.
 			It originates from the alchemetic practice of fusing glass vessels together such that air cannot escape\cite{ref_gesner_1559}.
 		} to prevent leakage through this interface.
-		Typical polymer gaskets permit Hydrogen diffusion and are subsequently embrittled, significantly limiting the lifetime of the seal.
+		Typical polymer gaskets permit hydrogen diffusion and are subsequently embrittled, significantly limiting the lifetime of the seal.
 		Hydrogen gas molecules, the smallest in existence, seep through the long polymer chains structures with ease, spurred by an enormous back pressure, and react with the polymer material.
 		Flexible metal bellows bypass this concern with a hermetic seal that is directly fused between the valve stem and the housing structure.
 		The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
@@ -1922,7 +1922,7 @@
 				\end{wrapfigure}
 
 				ALLVAR Alloy 30\cite{ref_AllvarAlloys}, used for the mount as the second actuator metal, 
-				rietary, Titanium-based alloy patented by ALLVAR Alloys\cite{ref_AllvarAlloys_gen}.
+				is a proprietary, Titanium-based alloy patented by ALLVAR Alloys\cite{ref_AllvarAlloys_gen}.
 				Unlike any other metal, it shrinks along one axis when heated, allowing for the compact bimetallic actuator design.
 				Its CTE magnitude is even higher than that of aluminum and just as consistent\footnote{Although ALLVAR Alloys does not provide temperature-dependent thermal expansion data for their products, and although their thermal expansion data presented in Figure~\ref{fig:ALLVAR_CTE} is imprecise, they claim a mostly linear expansion rate across our whole design temperature range.}
 				(Figure~\ref{fig:ALLVAR_CTE}\cite{ref_AllvarAlloys}).
@@ -1960,12 +1960,12 @@
 				Nevertheless, such conventional metals fail several criteria required to meet and maintain Specifications \specref{V.3.2} and \specref{V.3.3}:
 
 				\begin{itemize}
-					\item Strength at temperature. All metals soften when heated and embrittle when chilled. Inconel, according to its developer, is ``suitable for temperatures from [\SI{-250}{\celsius}] up to [\SI{700}{\celsius}]''%
+					\item \textbf{Strength at temperature.} All metals soften when heated and embrittle when chilled. Inconel, according to its developer, is ``suitable for temperatures from [\SI{-250}{\celsius}] up to [\SI{700}{\celsius}]''%
 						\footnote{Converted from \textdegree F}\cite[p.~62, 74--76]{ref_Inconel_1965}.
-					\item Fatigue resistance. Metals wear under repeated cyclic loads typical of a bellows. Inconel outlasts most metals under such conditions, reported to have ``Good tensile, fatigue, creep, and rupture strength'' by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
-					\item Hydrogen compatibility. All gases diffuse (penetrate) through all metals imperceptibly. Hydrogen does this particularly aggressively, leading to Hydrogen embrittlement, the loss of a metal's ductility as its material reacts with the seeping gas.
+					\item \textbf{Fatigue resistance.} Metals wear under repeated cyclic loads typical of a bellows. Inconel outlasts most metals under such conditions, reported to have ``Good tensile, fatigue, creep, and rupture strength'' by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
+					\item \textbf{Hydrogen compatibility.} All gases diffuse (penetrate) through all metals imperceptibly. Hydrogen does this particularly aggressively, leading to embrittlement, the loss of a metal's ductility as its material reacts with the seeping gas.
 						Inconel, though an imperfect barrier, is especially immune to this phenomenon. Jonathan Lee, writing for NASA in 2016\cite[Table~4]{ref_NASA_Inc}, rated Inconel 718 as ``Extreme'' on the Hydrogen Environmental Embrittlement (HEE) scale at conditions up to \SI{68.9}{\mega\pascal}.
-					\item Weldability. Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for electron-beam welds, drove the alloy's industry dominance.
+					\item \textbf{Weldability.} Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for electron-beam welds, drove the alloy's industry dominance.
 				\end{itemize}
 
 				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report.
@@ -2145,70 +2145,65 @@
 
 
 	
-textbf{Actuator-Housing Weldament}
+\textbf{Actuator-Housing Weldament}
 \begin{enumerate}[label=\roman*.]
 
-	In addition to stresses applied by the internal pressure, there is also stress on the 
-	actuator mount and its' radial weld due to thermal expansion and contraction. This was
-	 identified as a potential failure mode for this weld specifically as the other welds 
-	 are invar-invar and have relatively low expansion rate constant across all members in
+	\item In addition to stresses applied by the internal pressure, there is also stress on the 
+		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+	 	identified as a potential failure mode for this weld specifically as the other welds 
+	 	are invar-invar and have relatively low expansion rate constant across all members in
 	  the weldment.
- 	
-        \item \textbf{Purpose.}
-        The purpose of this analysis is to verify that welding is a viable method for joining 
+  \item \textbf{Purpose.}
+    The purpose of this analysis is to verify that welding is a viable method for joining 
 		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
 		with potential weld embrittlement could cause failure. Further analysis is needed to inform
-		 weld reliability or alternate suggestions 
-
-        \item \textbf{Assumptions, Principles, and Methods.}
-        The weld joints are treated as full penetration fillet welds, and the same assumptions made 
+		weld reliability or alternate suggestions 
+  \item \textbf{Assumptions, Principles, and Methods.}
+    The weld joints are treated as full penetration fillet welds, and the same assumptions made 
 		for the housing weld analysis hold for the material properties and radiographic inspection 
 		of the actuator mount to housing weld.
-        \item \textbf{Calculations.}
- The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
-  of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
-  expansion 30 $\mu$m/m. The largest magnitude of $\Delta R$ occurs over the cold side of the 
-  temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
-\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}} + 2\times10^{-6}\right)\right) \Delta T_{\text{cold}}
-This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
-the weld due to the thermal expansion can be  calculated by finding the stress necessary to
- deform the Allvar mount by that amount:
-\sigma_{\text{weld}} = \frac{E_{\text{alvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
+  \item \textbf{Calculations.}
+ 		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
+  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
+  	expansion 30 $\mu$m/m. The largest magnitude of $\Delta R$ occurs over the cold side of the 
+  	temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}} + 2\times10^{-6}\right)\right) \Delta T_{\text{cold}}$
+		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
+		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
+		deform the Allvar mount by that amount:
+		$\sigma_{\text{weld}} = \frac{E_{\text{alvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}$
+  \item \textbf{Results.}
+		The area of the weld and the area of the mount in contact with it are the same, and thus the
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of Alvar 
+ 		and of the weld metal we find a sufficient safety factor:
+		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+  \item \textbf{Discussion.}
+		While this FOS is acceptable, this is assuming the weld has the same material properties as
+ 		the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
+ 		detrimental changes in material properties around the weld area which could cause a variety
+  	of failures. Because Allvar alloy 30 is a experimental alloy with a proprietary composition we 
+  	cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
+  	welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
+   	the iron to create brittle intermetallic compounds making the weld brittle. 
+		Methods to counter this include using a ductile interface layer that can aid in mitigating 
+		creation of brittle compounds, but this could be highly involved and experimental. A recommended
+ 		path would be to use fasteners with a slight mount redesign that allows for bolting into the
+  	housing. This would require some additional research into sealing but is the simplest and most 
+  	reliable solution.
+\end{enumerate}
 
-        \item \textbf{Results.}
-The area of the weld and the area of the mount in contact with it are the same, and thus the
- stresses are the same. Given that this stress is much smaller than the yield stress of Alvar 
- and of the weld metal we find a sufficient safety factor:
-\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}
-        \item \textbf{Discussion.}
-While this FOS is acceptable, this is assuming the weld has the same material properties as
- the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
- detrimental changes in material properties around the weld area which could cause a variety
-  of failures. Because Allvar alloy 30 is a experimental alloy with a proprietary composition we 
-  cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
-  welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
-   the iron to create brittle intermetallic compounds making the weld brittle. 
-Methods to counter this include using a ductile interface layer that can aid in mitigating 
-creation of brittle compounds, but this could be highly involved and experimental. A recommended
- path would be to use fasteners with a slight mount redesign that allows for bolting into the
-  housing. This would require some additional research into sealing but is the simplest and most 
-  reliable solution.
+\todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
+housing thin wall, orifice, outlet channel)}
 
-  /todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
-   housing thin wall, orifice, outlet channel)}
-
-textbf{Actuator-Housing Weldament}
+\textbf{Actuator-Housing Weldament}
 \begin{enumerate}[label=\roman*.]
-        \item \textbf{Purpose.}
-
-        \item \textbf{Assumptions, Principles, and Methods.}
-        \item \textbf{Calculations.}
-
-        \item \textbf{Results.}
-\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}
-        \item \textbf{Discussion.}
-		
-	\end{enumerate}
+	\item \textbf{Purpose.}
+	\item \textbf{Assumptions, Principles, and Methods.}
+	\item \textbf{Calculations.}
+	\item \textbf{Results.}
+		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+	\item \textbf{Discussion.}
+\end{enumerate}
 
 
 	
@@ -2296,10 +2291,6 @@ Focusing on heat transfer impacts and thermal expansion, including verification 
 \subsection{Stress and Material Failure}
 Evaluating structural integrity, yielding, and mechanical limits of the actuator, mount, valve, and bellows under thermal load.
 
-
-
-
-
 \chapter{Conclusion}
 \label{chap:concl}
 
@@ -2314,7 +2305,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		or perform extensive post-processing when strict power and computation constraints prohibit such intervention.
 
 		Several key design innovations enabled the \device\ to accomplish a previously impossible mission: precise, continuous, high-pressure, thermomechanical flow control.
-		Proven, aerospace-grade technology combined with a novel diamond-orifice valve constitute a simple, linear architecture capable of maintaining a pin-size orifice with medical precision. 
+		Proven, aerospace-grade technology combined with a novel diamond-orifice valve constitute a simple, linear architecture capable of maintaining a pin-size orifice with surgical precision. 
 		Precise Electron-Beam Welding and two flexible metal bellows maintain a hermetic seal under extreme pressures.
 		Specialized materials allow for a compact, thermally stable housing and consistent, thermomechanical actuation.
 		Minimizing the system's degrees of freedom to a single moving part eliminates critical error;
@@ -2947,7 +2938,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			This consists of various individual projects across a wide range of disciplines, any of which may be impacted by the \device\ and many of which are classified.
 			Sandia's Gas Transfer Systems (GTS) team, whose scope is pictured in the lower nested rectangle, develops flow control components and assemblies
 			that Sandia then uses for the concept development, design qualification, certification, and calibration of some of their projects.
-			GTS develops and validates these components through a series of tightly controlled experiments, often involving the flow of Hydrogen or a noble gas, whose sensitive environmental conditions and experimental parameters must be delicately regulated.
+			GTS develops and validates these components through a series of tightly controlled experiments, often involving the flow of hydrogen or a noble gas, whose sensitive environmental conditions and experimental parameters must be delicately regulated.
 			This regulation includes temperature compensation; the \device\ fills this niche. As discussed elsewhere, the effects of temperature fluctuations on the test article must either be mitigated by flow control or dealt with in post-processing by the research engineer.
 			The \device\ provides this necessary control without dependence on power or computation, improving the reliability of these experiments, the precision of the flow control components and assemblies, the reliability of Sandia's projects,
 			the capabilities of their research and technology, and, ultimately, the resilience of American National Security against ever-more-sophisticated foreign and domestic threats.
