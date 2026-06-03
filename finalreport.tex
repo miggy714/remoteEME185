@@ -594,7 +594,11 @@
 		Sandia completed this first task prior to commission, defining two system requirements precisely as follows:
 
 		\begin{enumerate}
-			\item The device shall passively restrict the provided flow of gas by maintaining the following relationship between its effective orifice diameter and the ambient air temperature:
+			\item The device shall passively restrict the provided flow of gas by maintaining the following relationship between its effective orifice diameter\footnote{
+				Defined as the diameter of a circle with equivalent area; denoted $D_{eff}$.
+			} and the ambient air temperature\footnote{
+				The external temperature, not that of the internal gas; denoted $T_{amb}$.
+			}:
 			
 				\begin{equation}
 					\requiredRelationship
@@ -604,12 +608,13 @@
 				Where:
 				\[
 				\begin{array}{@{} l @{\qquad} l @{}}
-					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref
+					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref^{\footnotemark}
 						& A_1 = \Aone \\[4pt]
 					T_{\text{ambient}}\ \in\ [\Tcold,\Thot]\
 						& A_0 = \Azero
 				\end{array}
 				\]
+				\footnotetext{Room temperature}
 
 			\item The device should remain within a mechanical envelope of $\SI{10}{\centi\meter} \times \SI{10}{\centi\meter} \times \SI{10}{\centi\meter}$
 		\end{enumerate}
@@ -643,8 +648,12 @@
 		\end{enumerate}
 
 		In summary, although the \device's mission is simple, it is incredibly difficult. This small valve must thermomechanically control a pin-size orifice with medical precision under extreme operating conditions.
-		Its design specifications must be carefully chosen to support a passive, linear output with micron-level tolerance.
-
+		The linear nature of the Required Relationship presents particular difficulty. The \device\ must maintain strictly first-order behavior\footnote{
+			First-order (i.e. linear) system behavior requires exclusively first-order subsystems, where the output is directly proportional to the output.
+			These are exceptionally rare. Mathematician Stanis\l{}aw Ulam famously remarked that the study of nonlinear science is ``like defining the bulk of zoology by calling it the study of `non-elephant animals'.”\cite{ref_nonlinear}.
+		} between temperature extremes equivalent to a winter day on Antarctica and a running engine block.
+		The following design specifications were carefully selected to support a passive, linear output with micron-scale tolerance.
+		
 	\section{Subsystem Specifications}
 	\label{sec:intro:specs}
 		
@@ -669,7 +678,14 @@
 			\label{fig:subsystems_conceptual}
 		\end{figure}
 
-		The Required Relationship, Mechanical Envelope, and Design Conditions motivated the following design specifications.
+		As depicted in Figure~\ref{fig:NASA_req}, the provided system requirements ``roll down'' into several subsystem-level design specifications that,
+		if met, functionally\footnote{
+			As defined by NASA's Systems Engineering Handbook, function specifications define the role of each subsystem,
+			whereas performance specifications define the precision of that function. As the performance of these subsystems are coupled and cannot be separated,
+			performance requirements must be kept at a system level. Thus, if the functional subsystem specifications listed in Section~\ref{sec:intro:specs} are nominally satisfied,
+			the functional system requirements will also be satisfied. Performance satisfaction of the Required Relationship will be evaluated in Chapter~\ref{chap:DFMEA}. 
+		} guarantee system requirement satisfaction.
+		The Required Relationship, Mechanical Envelope, and Design Conditions motivated the following specifications.
 		
 		\subsection{Required Relationship rolldown}
 		\label{subsec:intro:specs:RR}
@@ -677,7 +693,8 @@
 			The Required Relationship is best understood as a passive system transfer function, commonly used in the field of control theory\cite{ref_Nise},
 			represented by a simple open-loop diagram as in Figure~\ref{fig:TF_gen}.
 			Systems are represented by blocks, while ``signals'', or input and output values, are represented by arrows.
-			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system.
+			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system,
+			indicating the effective diameter produced by a particular system for any given input temperature. 
 			Notice the absense of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
 
@@ -750,7 +767,7 @@
 			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro\meter}$.
 			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
 			First, to be precise, each subsystem must be designed with a simple architecture. Every degree of freedom compounds the potential for intolerable error.
-			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot reparameterize the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
+			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot correct the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
 			Finally, to correct stochastic machining error, the system must support calibration upon assembly.
 
 			Rolldown of the governing equation
@@ -759,7 +776,9 @@
 				\hat{G}_{RR} = \hat{G}_{A_0} \hat{G}_{V_0} = \frac{dL}{dT} \frac{dD}{dL} = A_1
 			\end{equation}
 
-			into its specified subcomponents allows for an unconstrained enumeration of values so long as each architecture supports a linear, precise output.
+			into its specified subcomponents allows for an unconstrained enumeration of values\footnote{
+				Any combination of $\hat{G}_{A_0}$ and $\hat{G}_{V_0}$ whose product equals $A_1$ is acceptable.
+			} so long as each architecture supports a linear, precise output.
 			These were iteratively selected and partially informed by the architecture selected and described in Chapter~\ref{chap:design}.
 			Thus, the following rolldown will seem arbitrary at first until the full design architecture is revealed. The selected valve architecture best supports a transfer function of
 
@@ -1417,7 +1436,7 @@
 				\hat{G}_{RR} = \hat{G}_{V_0} \hat{G}_{A_0} = A_1
 			\end{equation*}
 
-			in Section~\ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlinear behavior in one subsystem must be either reparameterized in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated as error.
+			in Section~\ref{subsec:intro:specs:RR}. $A_1$ is expressly first-order. Any nonlinear behavior in one subsystem must be either reparameterized\footnote{i.e. corrected.} in the other subsystem, an imprecise process involving a complex mechanical interface, or tolerated as error.
 			$\hat{G}_{RR}$'s tolerable error is limited to 5\% of $A_1$, or \SI{76.2}{\nano\meter\per\celsius}, a razor-thin margin.
 			To best reach this target, the selection process only permitted subsystem architectures that exhibit first-order behavior with minimal degrees of freedom and a direct subsystem interface.
 			
@@ -1485,7 +1504,7 @@
 				\end{tabularx}
 			\end{table}
 
-			Principal Stresses\cite{ref_shigley}:
+			The principal stresses, those along the three orthogonal axes, are as follows\cite{ref_shigley}:
 			\begin{equation}
 			\sigma_{\theta} = P \left( \frac{r_o^2 + r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{20^2 + 12.194^2}{20^2 - 12.194^2} \right) \approx \SI{150.54}{\mega\pascal} \quad (\text{Hoop Stress})
 			\end{equation}
@@ -1497,8 +1516,9 @@
 			\begin{equation}
 			\sigma_{z} = P \left( \frac{r_i^2}{r_o^2 - r_i^2} \right) = 68.95 \left( \frac{12.194^2}{20^2 - 12.194^2} \right) \approx \SI{40.80}{\mega\pascal} \quad (\text{Longitudinal Stress})
 			\end{equation}
-			\\~\\
-			Von Mises Equivalent Stress:
+			
+			The housing must be designed against yield, or plastic\footnote{Irreversible.} deformation.
+			Its yield strength can be readily compared against the Von Mises stress, which measures the distortion energy as a combination of the principle stresses.
 
 			\begin{equation}
 				\begin{aligned}
@@ -1540,8 +1560,14 @@
 				\label{fig:bellows}
 		\end{wrapfigure}
 
-		Any mechanical penetration of a pressure vessel requires a flexible, sealed interface. Polymer-based gaskets and O-rings are often used, but most such materials permit Hydrogen diffusion and embrittlement in violation of specification \specref{V.3.3}.
-		Flexible metal bellows provide a high-pressure, Hydrogen-compatible alternative. The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
+		The \device\ requires mechanical penetration of a pressure vessel. Specifications \specref{V.3.2} and \specref{V.3.3} require a hermetic seal\footnote{
+			Named after the Greek God Hermes\cite{ref_wilton_hermetic}, a hermetic seal prevents the penetration of any gas above a given leakage rate.
+			It originates from the alchemetic practice of fusing glass vessels together such that air cannot escape\cite{ref_gesner_1559}.
+		} to prevent leakage through this interface.
+		Typical polymer gaskets permit Hydrogen diffusion and are subsequently embrittled, significantly limiting the lifetime of the seal.
+		Hydrogen gas molecules, the smallest in existence, seep through the long polymer chains structures with ease, spurred by an enormous back pressure, and react with the polymer material.
+		Flexible metal bellows bypass this concern with a hermetic seal that is directly fused between the valve stem and the housing structure.
+		The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
 		The I718-159-72-430, pictured in Figure~\ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst\ with minimal stiffness.
 		At the maximum deflection from the reference point (see eq. \eqref{eq:act_def_hot}), a maximum
 
@@ -1568,7 +1594,9 @@
 		The second bellows adds \SI{24}{\newton} to remove \SI{906}{\newton}.
 
 		The bellows drove many of the surrounding dimensions and design features.
-		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''~\cite{ref_miniflex_design}.
+		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm\footnote{
+			Lateral buckling.
+		} or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''~\cite{ref_miniflex_design}.
 		The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
 		The housing inlet allows just enough internal space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
@@ -2472,6 +2500,21 @@ Evaluating structural integrity, yielding, and mechanical limits.
 		Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https://www.sandia.gov/about/}
 		[Accessed: May 30, 2026].
 
+		\bibitem{ref_gesner_1559}	% Hermetic Seal primary source
+		K.\ Gesner, \textit{The Treasure of Euonymus Conteyninge the Wonderfull Hid
+		Secretes of Nature}, P.\ Morwyng, trans., London: John Daie, 1559, p.~66.
+
+		\bibitem{ref_wilton_hermetic}	% Hermetic Seal secondary source
+		D.\ Wilton, ``Hermetic seal,'' \textit{Wordorigins.org}, Dec.\ 29, 2020.
+		[Online]. Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
+		[Accessed: Jun.\ 2, 2026].
+
+		\bibitem{ref_nonlinear}	% Non-elephant animals
+		D.~K.\ Campbell,
+		``Nonlinear science --- from paradigms to practicalities,''
+		\textit{Los Alamos Science}, vol.~15, Special Issue: Stanis\l{}aw Ulam
+		1909--1984, pp.~218--262, 1987.
+
 		% Add more \bibitem entries as needed.
 		% In the body text, cite as: \cite{ref_sandiaprompt}
 
@@ -2871,6 +2914,9 @@ Evaluating structural integrity, yielding, and mechanical limits.
 				\item Housing top face or ``wall'' (W)
 			\end{itemize}
 		\end{multicols}
+
+		The positional block diagram defines how each part is coupled to the others, enabling the force balance required to find the spring deflection of each flexible part.
+		The labeled heights move as each part expands or contracts, yielding the final position of each orifice as the net sum of the stretched and compressed parts.
 				
 		\begin{figure}[H]
 			\centering
@@ -3132,9 +3178,12 @@ Evaluating structural integrity, yielding, and mechanical limits.
 			
 			\begin{equation}
 				k = \frac{EA}{\ell}
+				\label{eq:k}
 			\end{equation}
 			
-			where $E$ is the elastic modulus, $A$ is the cross-sectional area, and $\ell$ is defined as before. Below are the values required to find the spring constant of each part.
+			where $E$ is the elastic modulus, $A$ is the cross-sectional area, and $\ell$ is defined as before.
+			Each piece, though nearly rigid, is slightly flexible and can be modeled as a spring under axial load.
+			Equation~\eqref{eq:k} provides the equivalent spring constant for each part, calculated below:
 			
 			\subsubsection{Mount}
 			\label{app:calcs:TF:force_balance:M}
@@ -3160,7 +3209,7 @@ Evaluating structural integrity, yielding, and mechanical limits.
 			\subsubsection{Bellows}
 			\label{app:calcs:TF:force_balance:TB}
 
-				$k_T = \specBellowsK $\cite{ref_miniflex_design}
+				$k_T = k_B = \specBellowsK $\cite{ref_miniflex_design}
 
 			\subsubsection{Valve Orifice}    
 			\label{app:calcs:TF:force_balance:V}
@@ -3331,7 +3380,8 @@ Evaluating structural integrity, yielding, and mechanical limits.
 			are stochastic. Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
 			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
 			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
-			Those that do fall outside of tolerance do not exceed their boundary by more than 252\%.
+			On average, a freshly-assembled device will produce an orifice that is smaller than nominal by half its tolerance window.
+			Those that fall outside of tolerance do not exceed their boundary by more than 252\%.
 			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
 			Figure~\ref{fig:TF_res} demonstrates the output of the System Transfer Function given two worst-case combinations of the stochastic error values:
@@ -3475,6 +3525,7 @@ Evaluating structural integrity, yielding, and mechanical limits.
 			The Transfer Function was calculated $10^6$ times with these stochastic inputs randomly selected according to this distribution, yielding the normalized distribution in Figure~\ref{fig:error_dist}
 			with a mean of -45.1\% and a standard deviation of 41.6\%. These are given as percentages of \SI{25.4}{\micro\meter}, the narrowest required tolerance found at $T_{ref}$.
 
+			\vspace{1em}
 			\begin{figure}[h]
 					\centering
 					\begin{tikzpicture}
