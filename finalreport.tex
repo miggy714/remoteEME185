@@ -1921,7 +1921,8 @@
 					\label{fig:ALLVAR_CTE}
 				\end{wrapfigure}
 
-				ALLVAR Alloy 30\cite{ref_AllvarAlloys}, used for the mount as the second actuator metal, is a proprietary, Titanium-based alloy patented by ALLVAR Alloys\cite{ref_AllvarAlloys_gen}.
+				ALLVAR Alloy 30\cite{ref_AllvarAlloys}, used for the mount as the second actuator metal, 
+				rietary, Titanium-based alloy patented by ALLVAR Alloys\cite{ref_AllvarAlloys_gen}.
 				Unlike any other metal, it shrinks along one axis when heated, allowing for the compact bimetallic actuator design.
 				Its CTE magnitude is even higher than that of aluminum and just as consistent\footnote{Although ALLVAR Alloys does not provide temperature-dependent thermal expansion data for their products, and although their thermal expansion data presented in Figure~\ref{fig:ALLVAR_CTE} is imprecise, they claim a mostly linear expansion rate across our whole design temperature range.}
 				(Figure~\ref{fig:ALLVAR_CTE}\cite{ref_AllvarAlloys}).
@@ -1993,7 +1994,7 @@
 	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
 	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
 
-		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}
+		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
 
 	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
@@ -2010,8 +2011,10 @@
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
 	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
-	\todo{Nick can write about the hand calcs done here for the welds and how if the welds are safe then the ``square pressure vessel'' that is created.}
+	
+	The analytical process and results for the above mentioned weld failure methods are documented below
 
+	textbf{Housing Center Weld}
 	\begin{enumerate}[label=\roman*.]
 		\item \textbf{Purpose.}
 		The purpose of this analysis is to verify that the critical housing weld joints 
@@ -2131,19 +2134,82 @@
 	factor once simulation is complete.}
 
 	\end{enumerate}
+\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{ Static_FEA_StressMagnitude1.png}
+                \caption{Static FEA Results on simplified Single Body Model}
+                \label{fig:FEAdisp}
+            \end{figure}
 
 
 
 
-	In addition to stresses applied by the internal pressure, there is also stress on the actuator mount and its' radial weld due to thermal expansion and contraction.
-	The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial expansion 30 $\mu$m/m.
-	The largest magnitude of $\Delta R$ occurs over the cold side of the temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
+	
+textbf{Actuator-Housing Weldament}
+\begin{enumerate}[label=\roman*.]
 
-	Is the dR too much
-	is welding this part possible
+	In addition to stresses applied by the internal pressure, there is also stress on the 
+	actuator mount and its' radial weld due to thermal expansion and contraction. This was
+	 identified as a potential failure mode for this weld specifically as the other welds 
+	 are invar-invar and have relatively low expansion rate constant across all members in
+	  the weldment.
+ 	
+        \item \textbf{Purpose.}
+        The purpose of this analysis is to verify that welding is a viable method for joining 
+		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
+		with potential weld embrittlement could cause failure. Further analysis is needed to inform
+		 weld reliability or alternate suggestions 
 
-	quick thin wall hand calc
-	move on to testing section?
+        \item \textbf{Assumptions, Principles, and Methods.}
+        The weld joints are treated as full penetration fillet welds, and the same assumptions made 
+		for the housing weld analysis hold for the material properties and radiographic inspection 
+		of the actuator mount to housing weld.
+        \item \textbf{Calculations.}
+ The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
+  of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
+  expansion 30 $\mu$m/m. The largest magnitude of $\Delta R$ occurs over the cold side of the 
+  temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
+\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}} + 2\times10^{-6}\right)\right) \Delta T_{\text{cold}}
+This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
+the weld due to the thermal expansion can be  calculated by finding the stress necessary to
+ deform the Allvar mount by that amount:
+\sigma_{\text{weld}} = \frac{E_{\text{alvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
+
+        \item \textbf{Results.}
+The area of the weld and the area of the mount in contact with it are the same, and thus the
+ stresses are the same. Given that this stress is much smaller than the yield stress of Alvar 
+ and of the weld metal we find a sufficient safety factor:
+\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}
+        \item \textbf{Discussion.}
+While this FOS is acceptable, this is assuming the weld has the same material properties as
+ the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
+ detrimental changes in material properties around the weld area which could cause a variety
+  of failures. Because Allvar alloy 30 is a experimental alloy with a proprietary composition we 
+  cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
+  welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
+   the iron to create brittle intermetallic compounds making the weld brittle. 
+Methods to counter this include using a ductile interface layer that can aid in mitigating 
+creation of brittle compounds, but this could be highly involved and experimental. A recommended
+ path would be to use fasteners with a slight mount redesign that allows for bolting into the
+  housing. This would require some additional research into sealing but is the simplest and most 
+  reliable solution.
+
+  /todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
+   housing thin wall, orifice, outlet channel)}
+
+textbf{Actuator-Housing Weldament}
+\begin{enumerate}[label=\roman*.]
+        \item \textbf{Purpose.}
+
+        \item \textbf{Assumptions, Principles, and Methods.}
+        \item \textbf{Calculations.}
+
+        \item \textbf{Results.}
+\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}
+        \item \textbf{Discussion.}
+		
+	\end{enumerate}
+
 
 	
 
