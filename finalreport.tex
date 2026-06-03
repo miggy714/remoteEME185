@@ -467,8 +467,6 @@
 	This Design Report motivates the design objectives, illustrates and justifies the final selected architecture,
 	analytically and numerically verifies system requirement satisfaction, and provides a full design package required for further iteration.
 
-	\todo{Uncomment all includepdf and includegraphics commands; the extra pdfs and high-quality images are omitted to speed up render time. Comment out the low-quality images next to the includegraphics commands.}
-
 \end{abstract}
 
 \pagenumbering{arabic}
@@ -683,10 +681,11 @@
 			Notice the absense of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
 
+			\vspace{1em}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.4\textwidth]{TF_gen.png}
-				\caption{General Passive Open-Loop Controls Diagram}
+				\caption{General passive open-loop controls diagram}
 				\label{fig:TF_gen}
 			\end{figure}
 
@@ -696,7 +695,7 @@
 				\begin{figure}[H]
 					\centering
 					\includegraphics[height=.3\textheight]{TF_RR.png}
-					\caption{Required Relationship Transfer Function}
+					\caption{Required Relationship\\Transfer Function}
 					\label{fig:TF_RR}
 				\end{figure}
 				\vfill
@@ -1932,7 +1931,7 @@
 					Its selection process was expedited due to time constraints. Further research may reveal an alloy with a consistent CTE higher than that of aluminum, allowing for a shorter bimetallic actuator.} 
 				as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
 
-			% \newpage
+			\newpage
 			\subsubsection{Allvar mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
@@ -2660,7 +2659,7 @@
 			A \SI{14}{\degree} rotation is a very reasonable demand for  manual screwdriver\cite{ref_jones1992, ref_desrosieres2015}. As discussed in Section~\ref{app:calcs:cal:force}, this can be performed by hand with little effort,
 			allowing for even greater precision.
 
-	\newpage
+	% \newpage
 	\section{Supplemental Images}
 	\label{app:calcs:sup}
 
@@ -3101,6 +3100,7 @@
 				\label{fig:K_pos}
 			\end{wrapfigure}
 
+			\newpage
 			As manufactured, $K_V \ell_{V_0}$ is defined as the distance from the top surface of the Valve Orifice $(y_T)$, whose machined height equals $\ell_{V_0}$, such that
 
 			\begin{equation}
@@ -3129,6 +3129,8 @@
 				\begin{equation}
 					X = y_F - y_R
 				\end{equation}
+
+		\newpage
 
     \subsection{Orifice Geometry}
     \label{app:calcs:sat:TF:orif}
@@ -3648,8 +3650,6 @@
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
-	\todo{Double-check that BOM is up-to-date. Recheck McMaster prices}
-
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
 	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:calcs:error} were taken from this quote.
@@ -3780,6 +3780,11 @@
 						hole must measure at least \SI{3.4}{\milli\meter} in diameter and \SI{5.1}{\milli\meter}
 						depth.
 			\item T6 hand screwdriver
+		\end{itemize}
+	\end{notebox}
+	\newpage
+	\begin{notebox}
+		\begin{itemize}
 			\item New, sharp, carbide steel tools of the following types and sizes:
 						\begin{itemize}
 							\item End mills: 3~mm, 6~mm, 12~mm, and 25~mm
@@ -3790,11 +3795,6 @@
 							\item Lathe inserts: CNMG (roughing) and CCMT (finishing)
 							\item Taps: \nicefrac{3}{4}-14~NPT and M2$\times$0.4
 						\end{itemize}
-		\end{itemize}
-	\end{notebox}
-	\newpage
-	\begin{notebox}
-		\begin{itemize}
 			\item Loctite 243 or similar permanent thread sealant
 			\item Cutting fluid for all operations
 		\end{itemize}
@@ -3904,8 +3904,8 @@
 	% ----------------------------------------------------------
 
 	\textbf{Starting stock:}
-	44.45~mm $\times$ 76.2~mm $\times$ 82.55~mm
-	(1\,3/4$''$ $\times$ 3$''$ $\times$ 3\,1/4$''$) Invar 36 billet.
+	\SI{44.45}{mm} $\times$ \SI{76.2}{mm} $\times$ \SI{88.9}{mm}
+	(1\,\nicefrac{3}{4}$''$ $\times$ 3$''$ $\times$ 3\,\nicefrac{1}{2}$''$) Invar 36 billet.
 	These dimensions will be oriented along the \textbf{lateral (X), vertical (Y), and
 	longitudinal (Z)} dimensions, respectively.
 
@@ -4200,7 +4200,7 @@
 	sequence in Sections~\ref{sec:valve_assy} and~\ref{sec:act_assy} is designed
 	to maintain 360$^{\circ}$ weld access at every stage.
 
-	\newpage
+	% \newpage
 	% ----------------------------------------------------------
 	\subsection{Valve Sub-Assembly}
 	\label{sec:valve_assy}
@@ -4458,7 +4458,7 @@
 
 	The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminum on the inside and Allvar on the outside. Because aluminum expands and Allvar contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurised gas inside the valve.
 
-	\begin{figure}[htbp]
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=.75\textwidth]{user_cut.png}
 		\caption{PTCD cross-section schematic.}
@@ -4487,6 +4487,7 @@
 		\item PPE: safety glasses, face shield, flame-resistant clothing, insulated gloves
 	\end{itemize}
 
+	\newpage
 	\subsection{Pipe Sealing}
 	\label{sec:sealing}
 
