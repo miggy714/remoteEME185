@@ -183,10 +183,9 @@
 \newcommand{\requiredRelationship}{D_{\text{effective}} = A_1 (T_{\text{ambient}} - T_{\text{reference}}) + A_0}
 \newcommand{\transferFunction}{D_{\text{eff}}=\frac{dD_{\text{eff}}}{dX} \left[\frac{dL}{dT}\frac{dX}{dL}(T-T_{\text{ref}})+X\left(T_{\text{ref}} \right) \right]}
 
-\newcommand{\Dcoldval}{}
-\newcommand{\Dcold}{D_{\text{effective}}(\SI{-60}{\celsius}) = 383.5 \pm \SI{19.2}{\micro\meter}}
-\newcommand{\Dhot}{D_{\text{effective}}(\SI{80}{\celsius}) = 170.2 \pm \SI{16.9}{\micro\meter}}
-\newcommand{\Dref}{D_{\text{effective}}(\SI{25}{\celsius}) = 254.0 \pm \SI{12.7}{\micro\meter}}
+\newcommand{\Dcold}{D_{eff}(\SI{-60}{\celsius}) = 383.5 \pm \SI{19.2}{\micro\meter}}
+\newcommand{\Dhot}{D_{eff}(\SI{80}{\celsius}) = 170.2 \pm \SI{16.9}{\micro\meter}}
+\newcommand{\Dref}{D_{eff}(\SI{25}{\celsius}) = 254.0 \pm \SI{12.7}{\micro\meter}}
 
 \newcommand{\Thot}{\SI{80}{\degreeCelsius}} %Celcius
 \newcommand{\Tcold}{\SI{-60}{\degreeCelsius}} %Celcius
@@ -231,8 +230,8 @@
 \newcommand{\GV}{\num{-0.798}}
 
 \newcommand{\ReqA}{The device shall passively restrict gas flow according to the Required Relationship $D = A_1 \Delta T + A_0$}
-\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\ReqC}{The device shall restrict hydrogen at \specPressure\ and $T_{amb} + 20 \degC$ for 60 seconds in compliance with requirement R.1}
+\newcommand{\ReqB}{The device should remain within a \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} $\times$ \SI{10}{\centi\meter} Mechanical Envelope}
+\newcommand{\ReqC}{The design must account for the Operational Conditions as specified.}
 \newcommand{\RRfull}
 {
 	\begin{equation}
@@ -411,6 +410,7 @@
 		BOM     & Bill of Materials \\
 		CAD     & Computer-Aided Design \\
 		c.f.		& confer (compare) \\
+		CFD			& Computational Fluid Dynamics \\
 		CNC			& Computer-Numeric Control \\
 		COMSOL	& Computer Solution (numerical computing software) \\
 		CTE     & Coefficient of Thermal Expansion \\
@@ -429,9 +429,11 @@
 		i.e.		& id est (that is) \\
 		Inc     & Inconel 718 \\
 		Inv     & Invar 36 \\
+		MBD			& Multi-Body Dynamics \\
 		NASA    & National Aeronautics and Space Administration \\
 		NPT			& National Pipe Taper \\
 		OD			& Outer Diameter \\
+		PI			& Pressure Indicator \\
 		PPE			& Personal Protective Equipment \\
 		PTCD    & Passive Temperature Compensation Device \\
 		PVD			& Physical Vapor Deposition \\
@@ -522,7 +524,7 @@
 				\begin{itemize}
 					\item Restrict the provided flow of gas, at a pressure of up to \SI{69}{\mega\pascal} (690 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
 					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}.}.
-					\item Do so without depending on external power, using active control, or exceeding a volume of \SI{10}{\centi\meter\cubed}.
+					\item Do so without depending on external power, using active control, or exceeding a volume of $(\SI{10}{\centi\meter})^3$.
 				\end{itemize}
 			
 		\subsection{Potential stakeholders}
@@ -535,7 +537,7 @@
 			The \device\ would primarily ease the job of test engineers and technicians, who, after one-time assembly, could leave the control system unattended indefinitely.
 			Secondarily, the \device\ eliminates the need for post-process data adjustment by research engineers due to changing experimental conditions.
 
-			This proof-of-concept design would also pave the way for similar devices with equally precise control outputs but slightly different output values, tuned as necessary to the given experiment.
+			This proof-of-concept design would also pave the way for similar devices with equally precise control outputs but slightly different output values, tuned as necessary for the given experiment.
 			Research engineers at SNL with access to such capabilities could quickly design a new configuration of the device more suitable for the particulars of their research.
 
 			The valve could similarly be custom-ordered by external organizations once the reconfiguration process is streamlined.
@@ -564,7 +566,7 @@
 				\label{subsubsec:roadmap}
 
 					This Design Report presents the first complete iteration of the PTCD and provides a full design package required for further development.
-					The following sections outline the system requirements and specifications, illustrates and justifies the final system architecture, and provides several parallel verifications of system requirement satisfaction.
+					The following sections outline the system requirements and specifications, illustrate and justify the final system architecture, and provide several parallel verifications of system requirement satisfaction.
 					Useful calculations, images, and data sheets, manufacturing and operation guides, and the complete engineering drawing package and bill of materials are appended.
 
 	\section{System Requirements}
@@ -587,19 +589,15 @@
 
 			\newcolumn
 
-			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition \cite{ref_NASA_specs_guide}.
-			Typically, a technical systems design project involves two preliminary tasks: definition of functional and performance system requirements that satisfy the client's stated objectives,
+			NASA's Systems Engineering Handbook lays out guidelines for system requirement definition\cite{ref_NASA_specs_guide}.
+			Typically, a technical systems design project involves two preliminary tasks: definition of functional and performance system requirements that satisfy the client's stated objectives
 			and rolldown of those system-level requirements into subsystem specifications. This is shown in Figure~\ref{fig:NASA_req}.
 		\end{multicols}
 
-		Sandia completed this first task prior to commission, defining two system requirements precisely as follows:
+		Sandia defined three system requirements prior to commission:
 
 		\begin{enumerate}
-			\item The device shall passively restrict the provided flow of gas by maintaining the following relationship between its effective orifice diameter\footnote{
-				Defined as the diameter of a circle with equivalent area; denoted $D_{eff}$.
-			} and the ambient air temperature\footnote{
-				The external temperature, not that of the internal gas; denoted $T_{amb}$.
-			}:
+			\item The device shall passively restrict gas flow according to the following Required Relationship between its effective orifice diameter and the ambient air temperature:
 			
 				\begin{equation}
 					\requiredRelationship
@@ -609,24 +607,37 @@
 				Where:
 				\[
 				\begin{array}{@{} l @{\qquad} l @{}}
-					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref^{\footnotemark}
+					T_{\text{reference}} \text{ (aka } T_{ref}\text{)} = \Tref
 						& A_1 = \Aone \\[4pt]
 					T_{\text{ambient}}\ \in\ [\Tcold,\Thot]\
 						& A_0 = \Azero
 				\end{array}
 				\]
-				\footnotetext{Room temperature}
 
-			\item The device should remain within a mechanical envelope of $\SI{10}{\centi\meter} \times \SI{10}{\centi\meter} \times \SI{10}{\centi\meter}$
+			\item The device should remain within a Mechanical Envelope of $\SI{10}{\centi\meter} \times \SI{10}{\centi\meter} \times \SI{10}{\centi\meter}$
+			
+			\item The device will do so under the following Operational Conditions:
+			
+				\begin{enumerate}
+					\item \label{cond:P} 		The operating gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$
+					\item \label{cond:dP} 	The gas pressure differential $\Delta P$ will lie within the range $\SI{68.95}{\kilo\pascal} \leq \Delta P \leq \specPressure$.
+					\item \label{cond:dT} 	The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
+					\item \label{cond:gas} 	The gas will be a noble gas or hydrogen.
+					\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe of diameter \SIrange{1.524}{25.4}{\milli\meter}.
+					\item \label{cond:fix} 	The ambient temperature will remain fixed during operation.
+					\item \label{cond:test} The device will be tested by Sandia to validate required compliance, both without gas flow and for up to 60 seconds with gas flow.
+				\end{enumerate}
+
 		\end{enumerate}
 		
-		These will be referred to as the ``Required Relationship'' and the ``Mechanical Envelope'' throughout the remainder of the report.
-		Note the difference between the obligation keywords, ``shall'' and ``should'', of the two requirements.
+		Note the difference between the obligation keywords, ``shall'' and ``should'', of the first two requirements.
 		As laid out by NASA's handbook, the former indicates a strict requirement, whereas the latter gives a goal while allowing for violation in favor of a higher-priority trade-off.
 		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
+		The Operational Conditions, denoted with the keyword ``will'', simply define the environmental parameters that must be designed for.
 
 		The Required Relationship in equation~\eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extreme precision.
-		As derived in Appendix~\ref{app:calcs:errorProp}, $D_{\text{effective}}$ must linearly follow $T_{\text{ambient}}$ with the following reference values:
+		As derived in Appendix~\ref{app:calcs:errorProp}, the effective orifice diameter ($D_{eff}$, the diameter of a circle of equivalent area)
+		must linearly follow the ambient external air temperature ($T_{amb}$) and intersect the following points at each temperature boundary and at $T_{ref}$:
 
 		\begin{align}
 			\Dcold \label{eq:coldBoundary} \\
@@ -634,27 +645,10 @@
 			\Dhot \label{eq:hotBoundary}
 		\end{align}
 
-		These tolerance values are derived in Appendix~\ref{app:calcs:errorProp}. 
+		These are equivalent to the surface temperature of Antarctica in winter, room temperature, and the temperature of a running engine, respectively.
+		This small valve must thermomechanically control a sub-millimeter orifice to a micron-scale tolerance, maintaining a linear output across a wide temperature range under extreme pressures.
 		
-		In addition to these requirements, Sandia supplied the following Design Conditions:
-		
-		\begin{enumerate}
-			\item \label{cond:P} 		The operating gas pressure $P$ will lie within the range $\SI{689.5}{\kilo\pascal} \leq P \leq \specPressure$
-			\item \label{cond:dP} 	The gas pressure differential $\Delta P$ will lie within the range $\SI{68.95}{\kilo\pascal} \leq \Delta P \leq \specPressure$.
-			\item \label{cond:dT} 	The provided gas will be up to \SI{20}{\degreeCelsius} hotter than the ambient air.
-			\item \label{cond:gas} 	The gas will be a noble gas or hydrogen.
-			\item \label{cond:pipe} The gas will be supplied by a stainless steel pipe of diameter \SIrange{1.524}{25.4}{\milli\meter}.
-			\item \label{cond:fix} 	The ambient temperature will remain fixed during operation.
-			\item \label{cond:test} The device will be tested by Sandia to validate required compliance, both without gas flow and for up to 60 seconds with gas flow.
-		\end{enumerate}
 
-		In summary, although the \device's mission is simple, it is incredibly difficult. This small valve must thermomechanically control a pin-size orifice with micron-level precision under extreme operating conditions.
-		The linear nature of the Required Relationship presents particular difficulty. The \device\ must maintain strictly first-order behavior\footnote{
-			First-order (i.e. linear) system behavior requires exclusively first-order subsystems, where the output is directly proportional to the output.
-			These are exceptionally rare. Mathematician Stanis\l{}aw Ulam famously remarked that the study of nonlinear science is ``like defining the bulk of zoology by calling it the study of `non-elephant animals'.”\cite{ref_nonlinear}.
-		} between temperature extremes equivalent to a winter day on Antarctica and a running engine block.
-		The following design specifications were carefully selected to support a passive, linear output.
-		
 	\section{Subsystem Specifications}
 	\label{sec:intro:specs}
 		
@@ -679,15 +673,13 @@
 			\label{fig:subsystems_conceptual}
 		\end{figure}
 
-		As depicted in Figure~\ref{fig:NASA_req}, the provided system requirements ``roll down'' into several subsystem-level design specifications that,
-		if met, functionally\footnote{
-			As defined by NASA's Systems Engineering Handbook, function specifications define the role of each subsystem,
-			whereas performance specifications define the precision of that function. As the performance of these subsystems are coupled and cannot be separated,
-			performance requirements must be kept at a system level. Thus, if the functional subsystem specifications listed in Section~\ref{sec:intro:specs} are nominally satisfied,
-			the functional system requirements will also be satisfied. Performance satisfaction of the Required Relationship will be evaluated in Chapter~\ref{chap:DFMEA}. 
-		} guarantee system requirement satisfaction.
-		The Required Relationship, Mechanical Envelope, and Design Conditions motivated the following specifications.
-		
+		As depicted in Figure~\ref{fig:NASA_req}, this division of subsystems allows for an informative rolldown of the above system requirements
+		into several funcitonal subsystem specifications that, if met, guarantee system requirement satisfaction.
+		Because subsystem errors are not cumulative, the required tolerance cannot be properly divided between the subsystems;
+		this will remain quantified at a 
+		Due to the coupled nature of these subsystems, useful tolerances cannot be divided by subsystem;
+		thus, these specifications will remain nominal, and quantitative performance specifications will remain at a system level.
+
 		\subsection{Required Relationship rolldown}
 		\label{subsec:intro:specs:RR}
 
@@ -695,32 +687,30 @@
 			represented by a simple open-loop diagram as in Figure~\ref{fig:TF_gen}.
 			Systems are represented by blocks, while ``signals'', or input and output values, are represented by arrows.
 			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system,
-			indicating the effective diameter produced by a particular system for any given input temperature. 
+			indicating the effective diameter produced for any given input temperature. 
 			Notice the absense of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
 
-			\vspace{1em}
+			% \vspace{1em}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.4\textwidth]{TF_gen.png}
 				\caption{General passive open-loop controls diagram}
 				\label{fig:TF_gen}
 			\end{figure}
-
 			\newpage
-
 			\begin{multicols}{2}
 				\begin{figure}[H]
 					\centering
 					\includegraphics[height=.3\textheight]{TF_RR.png}
-					\caption{Required Relationship Transfer Function. Represents the effective diameter produced by the system $(\hat{G}_{RR})$ for any temperature, evaluated relative to their reference values}
+					\caption{Required Relationship Transfer Function. Represents the effective diameter produced by the system $(\hat{G}_{RR})$ for any temperature, evaluated relative to their reference values.}
 					\label{fig:TF_RR}
 				\end{figure}
 				\vfill
 				\begin{figure}[H]
 					\centering
 					\includegraphics[height=.3\textheight]{TF_sub.png}
-					\caption{Subsystem components of $\hat{G}_{RR}$. $\hat{G}_A$ (Actuator sub-transfer function) converts thermal fluctuations to axial displacement. $\hat{G}_V$ (Valve sub-transfer function) change the effective orifice diameter when it is axially displaced by the Actuator.}
+					\caption{Subsystem components of $\hat{G}_{RR}$. $\hat{G}_A$ (Actuator sub-transfer function) converts thermal fluctuations to axial displacement. $\hat{G}_V$ (Valve sub-transfer function) changes the effective orifice diameter when it is axially displaced by the Actuator.}
 					\label{fig:TF_sub}
 				\end{figure}
 				\newcolumn
@@ -752,12 +742,12 @@
 					The required system transfer function can now be represented in its complete form:
 					\RRfull
 
-					where
+					\quad where
 
 					\setlength{\jot}{2pt}
 
 					\begin{align*}
-						\frac{dL}{dT} &\text{ is determined by the actuator} \\[6pt]
+						\frac{dL}{dT} &\text{ is determined by the actuator,} \\[6pt]
 						\frac{dD}{dL} &\text{ is determined by the valve, and} \\[6pt]
 						D_{ref} &\text{ is set the valve's initial position.}
 					\end{align*}
@@ -765,11 +755,9 @@
 
 			\end{multicols}
 
-			Beyond its general form, the Required Relationship stipulates an extremely precise linear output, to the order of $\pm \SI{15}{\micro\meter}$.
-			These properties --- its precision and first-order nature --- drive the specifications needed to achieve the proper transfer function output.
-			First, to be precise, each subsystem must be designed with a simple architecture. Every degree of freedom compounds the potential for intolerable error.
-			Second, to maintain a first-order control output, each part must exhibit linear behavior. One subsystem cannot correct the nonlinear behavior of another, so any deviation from this rule will contribute to the total system error.
-			Finally, to correct stochastic machining error, the system must support calibration upon assembly.
+			Though these values only specify the functional output of each subsystem, the selected design must exhibit a simple architecture with minimal degrees of freedom and stricty first-order behavior
+			to produce a precise, linear system output. Nevertheless, certain errors cannot be avoided, so specifying calibration capabilities allows unpredictable errors to be corrected when
+			the device is manufactured.
 
 			Rolldown of the governing equation
 
@@ -871,7 +859,8 @@
 		\label{subsec:Intro:specs:cond}
 
 			Many design decisions were driven by the properties of the gas flow being controlled. The device must withstand the high gas pressure, be compatible with hydrogen, and minimize heat transfer from the hot internal gas.
-			This rolls down to the following subsystem specifications:
+			This rolls down to the following subsystem specifications.
+			Note that ``wetted'' components are those in contact with the internal gas.
 
 			\vspace{1em}
 			\begin{mdframed}
@@ -1518,7 +1507,7 @@
 			\end{equation}
 			
 			The housing must be designed against yield, or plastic\footnote{Irreversible.} deformation.
-			Its yield strength can be readily compared against the Von Mises stress, which measures the distortion energy as a combination of the principle stresses.
+			Its yield strength can be readily compared against the Von Mises stress, which measures the distortion energy as a combination of the principal stresses.
 
 			\begin{equation}
 				\begin{aligned}
@@ -1561,14 +1550,14 @@
 		\end{wrapfigure}
 
 		The \device\ requires mechanical penetration of a pressure vessel. Specifications \specref{V.3.2} and \specref{V.3.3} require a hermetic seal\footnote{
-			Named after the Greek God Hermes\cite{ref_wilton_hermetic}, a hermetic seal prevents the penetration of any gas above a given leakage rate.
+			Named after the Greek God Hermes\cite{ref_wilton_hermetic}, a hermetic seal prevents the diffusion of any gas above a given leakage rate.
 			It originates from the alchemetic practice of fusing glass vessels together such that air cannot escape\cite{ref_gesner_1559}.
 		} to prevent leakage through this interface.
 		Typical polymer gaskets permit hydrogen diffusion and are subsequently embrittled, significantly limiting the lifetime of the seal.
-		Hydrogen gas molecules, the smallest in existence, seep through the long polymer chains structures with ease, spurred by an enormous back pressure, and react with the polymer material.
+		Hydrogen gas molecules, the smallest in existence, seep through the long polymer chain structures with ease, spurred by an enormous back pressure, and react with the polymer material.
 		Flexible metal bellows bypass this concern with a hermetic seal that is directly fused between the valve stem and the housing structure.
 		The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
-		The I718-159-72-430, pictured in Figure~\ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst\ with minimal stiffness.
+		The I718-159-72-430, pictured in Figure~\ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst.
 		At the maximum deflection from the reference point (see eq. \eqref{eq:act_def_hot}), a maximum
 
 		\begin{equation}
@@ -1589,7 +1578,7 @@
 				& = (\specPressure) \left( \frac{\pi}{4} (\SI{4.09}{\milli\meter})^2 \right) = \SI{906}{\newton}
 			\end{aligned}
 		\end{equation}
-		\footnotetext{The bellows' two necks have different diameters; the smaller of those (``Neck 1'' in the bellows catalog\cite{ref_miniflex_catalog}) connects to the Valve Orifice}
+		\footnotetext{The smaller of the bellows' two necks\cite{ref_miniflex_catalog}, which is connected to the Valve Orifice.}
 
 		The second bellows adds \SI{24}{\newton} to remove \SI{906}{\newton}.
 
@@ -1775,7 +1764,7 @@
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
 
-			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling, which could degrade the system performance over time.
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degredation of materials as their surfaces slide against one another), which could damage the system performance over time.
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
 			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
@@ -2012,9 +2001,10 @@
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
 	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
 	
-	The analytical process and results for the above mentioned weld failure methods are documented below
+	The analytical process and results for the above mentioned weld failure methods are documented below:
+	\\
 
-	textbf{Housing Center Weld}
+	\textbf{Housing Center Weld}
 	\begin{enumerate}[label=\roman*.]
 		\item \textbf{Purpose.}
 		The purpose of this analysis is to verify that the critical housing weld joints 
@@ -2145,14 +2135,14 @@
 
 
 	
-\textbf{Actuator-Housing Weldament}
+\textbf{Actuator-Housing Weldment}
 \begin{enumerate}[label=\roman*.]
 
-	\item In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its' radial weld due to thermal expansion and contraction. This was
-	 	identified as a potential failure mode for this weld specifically as the other welds 
-	 	are invar-invar and have relatively low expansion rate constant across all members in
-	  the weldment.
+	In addition to stresses applied by the internal pressure, there is also stress on the 
+	actuator mount and its' radial weld due to thermal expansion and contraction. This was
+	identified as a potential failure mode for this weld specifically as the other welds 
+	are invar-invar and have predictable mechanical properties and a relatively low expansion
+	 rate constant across all members in the weldment.
   \item \textbf{Purpose.}
     The purpose of this analysis is to verify that welding is a viable method for joining 
 		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
@@ -2165,9 +2155,9 @@
   \item \textbf{Calculations.}
  		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
-  	expansion 30 $\mu$m/m. The largest magnitude of $\Delta R$ occurs over the cold side of the 
-  	temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}} + 2\times10^{-6}\right)\right) \Delta T_{\text{cold}}$
+  	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
+  	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}})\right) \Delta T_{\text{cold}}$
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
@@ -2273,6 +2263,8 @@ Validate and expand/iterate on analytical methods by simulating the entire PTCD.
 
 \section{Test Design}
 
+\todo{Add corresponding UI screenshots of COMSOL that reflect the boundary condition decisions. Include the COMSOL tree and the actual corresponding part of the model.}
+
 \subsection{Set-up: Boundary Condition Decisions}
 \begin{itemize}
     \item Surface pairs and contact constraints.
@@ -2299,7 +2291,12 @@ Strategies and refinements to improve computational accuracy and validity across
 \subsection{Dimensional Failure}
 Focusing on heat transfer impacts and thermal expansion.
 
+\todo{Show images of the failure modes reflected on the model}
+
 \subsection{Stress and Material Failure}
+
+\todo{Show images of the failure modes reflected on the model. An optional suggestion to have some sort of validation reference via a figure from a study, etc.}
+
 Evaluating structural integrity, yielding, and mechanical limits.
 
 \chapter{Testing}
@@ -2410,7 +2407,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		Other general weaknesses of the \device\ include the following:
 
 		\begin{itemize}
-			\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Design Condition~\ref{cond:pipe}, but the design does not readily allow
+			\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
 				for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
 				This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
 		\end{itemize}
@@ -3537,7 +3534,10 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			Error was then input into the function. Some errors are deterministic or demonstrate an objective worst-case values: variations in aluminum's CTE, spring force deflections, the fillet radius, and effective temperatures.
 			The rest --- namely, all vertical dimensional errors ($d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, and $d \ell_W$)
 			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
-			are stochastic. Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
+			are stochastic. In other words, the value of each will vary each time the part is produced due to slight imprecisions in the machining process
+			and cannot be exactly predicted.
+			Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
+			which evaluates a large number (e.g. $10^6$) samples, each with a different random combination of stochastic inputs and finds the resulting error distribution,
 			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
 			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
 			On average, a freshly-assembled device will produce an orifice that is smaller than nominal by half its tolerance window.
@@ -5119,7 +5119,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\label{app:datasheets:Bellows}
 
 		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
-		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that ``Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore'' \cite[p.~5]{ref_miniflex_design}.
+		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that ``Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore''\cite[p.~5]{ref_miniflex_design}.
 		The valve stem provides such support, dimensioned to provide a sliding-fit interface (see Section~\ref{subsec:design:just:fits}).
 
 		\todo{Uncomment below pdf}
