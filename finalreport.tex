@@ -1570,8 +1570,8 @@
 		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm\footnote{
 			Lateral buckling due to high external pressures.
 		} or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''\cite{ref_miniflex_design}.
-		The valve stem, which passes through the bellows, measures just smaller than the bellows convolution inner diameter (\specBellowsID) to provide squirm supporta.
-		The housing inlet allows just enough internal space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
+		The valve stem, which passes through the bellows, measures just smaller than the bellows convolution inner diameter (\specBellowsID) to provide support against squirm (i.e. pressure-drive lateral buckling).
+		The housing inlet allows just enough space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
 
 		\subsection{Noncritical dimensions and features}
@@ -2342,28 +2342,19 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 	\section{Final Analysis}
 	\label{sec:conc:fin_anal}
 
-		National Security demands ceaseless advances in high-performance technology to maintain a competitive edge in the international theater.
-		The Passive Temperature Compensation Device fills the niche of its active-control counterparts with precision and reliability,
-		providing Sandia National Laboratories with a consistent, independent means of experimental conditioning
-		and eliminating that parametric uncertainty from their defense technology development process.
-		Without the \device, Sandia must either depend on active-control mechanisms, introducing an unnecessary variable in their regulation of experimental parameters,
-		or perform extensive post-processing when strict power and computation constraints prohibit such intervention.
+		The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel architecture
+		to accomplish thermomechanical flow control with greater precision than has been achieved before.
+		By only allowing through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
+		the \device\ can produce first-order variations in its effective orifice diameter as the mobile square is lowered while only introducing a single moving part.
+		These square holes can be manufactured with very sharp corners using wire EDM (Electronic-Discharge Machining).
+		An external bimetallic thermal actuator provides compound mechanical displacement to drive these changes.
+		Its interface is hermetically sealed with minimal mechanical or fluid resistance using two flexible metal bellows.
+		Specialized materials and precise electron-beam welding maximize thermal stability and enable a compact design.
+		This proof-of-concept model provides Sandia National Laboratories with the necessary design foundation for development of a working physical prototype
+		and customization of the design for particular experiments.
 
-		Several key design innovations enabled the \device\ to accomplish a previously impossible mission: precise, continuous, high-pressure, thermomechanical flow control.
-		Proven, aerospace-grade technology combined with a novel diamond-orifice valve constitute a simple, linear architecture capable of maintaining a pin-size orifice with surgical precision. 
-		Precise Electron-Beam Welding and two flexible metal bellows maintain a hermetic seal under extreme pressures.
-		Specialized materials allow for a compact, thermally stable housing and consistent, thermomechanical actuation.
-		Minimizing the system's degrees of freedom to a single moving part eliminates critical error;
-		belleville calibration corrects much of what remains.
-		Finally, Electrical-Discharge Machining enables the manufacture of the variable-diamond orifice at the heart of the \device,
-		producing a sharp, linear temperature-diameter output.
-		This proof-of-concept model provides Sandia with the necessary foundation for development of a working prototype.
-
-		Risk analysis in Chapter~\ref{chap:DFMEA} demonstrated that certain issues will need to be researched and certain revisions made before the \device\ can accomplish its objectives without failure.
-		However, these adjustments are minor and will likely not require fundamental revision of the design architecture.
-		While this report does not provide a finished product, it develops the design, demonstrates its viability as a functional device, and provides convenient tools for iterative improvement and verification.
-		The exact output relationship of the \device\ holds little value for any particular experiment, but the selected architecture allows for easy reparameterization on a case-by-case basis
-		to accommodate individual experiments. Fine adjustment of the actuator, mount, and valve stem lengths allows for a fully customizable Required Relationship for further iterations. 
+		The design process is incomplete. As intended, only the first iteration was fully developed.
+		Computational testing revealed several flaws of the current design but developed helpful tools that will enable more efficient iteration of design changes.
 
 	\section{Open Questions and Recommended Improvements}
 	\label{sec:conc:rec}
