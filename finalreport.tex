@@ -1578,14 +1578,14 @@
 				& = (\specPressure) \left( \frac{\pi}{4} (\SI{4.09}{\milli\meter})^2 \right) = \SI{906}{\newton}
 			\end{aligned}
 		\end{equation}
-		\footnotetext{The smaller of the bellows' two necks\cite{ref_miniflex_catalog}, which is connected to the Valve Orifice.}
+		\footnotetext{The smaller of the bellows' two necks\cite{ref_miniflex_cataloga}, which is connected to the Valve Orifice.}
 
 		The second bellows adds \SI{24}{\newton} to remove \SI{906}{\newton}.
 
 		The bellows drove many of the surrounding dimensions and design features.
 		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm\footnote{
 			Lateral buckling.
-		} or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''~\cite{ref_miniflex_design}.
+		} or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''\cite{ref_miniflex_design}.
 		The valve stem, which passes through the bellows, measures just smaller than the convolution inner diameter (\specBellowsID) of the bellows to provide support against the strong external pressure.
 		The housing inlet allows just enough internal space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
@@ -1605,7 +1605,7 @@
 				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
 				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
 				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
-				It should be no surprise that, as calculated in Sections \ref{app:calcs:TF:force_balance:M} and \ref{app:calcs:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
+				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
 				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
 
 				\begin{figure}[H]
@@ -1787,7 +1787,7 @@
 
 				A few design changes, discussed in Section~\ref{sec:conc:rec}, may allow the \device\ to fit within the Mechanical Envelope.
 				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
-				but the tools since developed and presented in Section~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
+				but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -1812,7 +1812,7 @@
 
 		The \device\ is assembled using Electron Beam Welding (EBW), a high-precision welding 
 		technique that uses a focused beam of electrons to join materials 
-		together~\cite{ref_steen2010laser}. EBW was selected for several reasons critical to 
+		together\cite{ref_steen2010laser}. EBW was selected for several reasons critical to 
 		the \device's performance requirements. First, welding the entire assembly eliminates 
 		mechanical fasteners and threaded interfaces, minimizing the degrees of freedom in the 
 		final assembly and preventing the backlash and compliance introduced by alternative 
@@ -1842,10 +1842,10 @@
 		achieved when the weld fuses through the entire wall thickness $t$.
 
 		Weld quality is verified using 100\% X-ray radiographic inspection per ASME 
-		B31.3~\cite[Table~302.3.4]{ref_asme_b313}. With all welds passing inspection 
+		B31.3\cite[Table~302.3.4]{ref_asme_b313}. With all welds passing inspection 
 		($E = 1.00$), no strength penalty relative to the base material is introduced, and the 
 		joints are certified free of defects such as porosity, lack of fusion, and cracking, 
-		all of which could significantly reduce joint strength~\cite{ref_steen2010laser}. The 
+		all of which could significantly reduce joint strength\cite{ref_steen2010laser}. The 
 		structural adequacy of the critical pressure-boundary welds is evaluated in 
 		Section~\ref{subsec:design:just:weld_analysis}.
 
@@ -2017,17 +2017,17 @@
 		the weld cross-section has the same material properties as the base metal 
 		(Invar~36, $S_y = \SI{276}{\mega\pascal}$). Because all welds pass 100\% 
 		radiographic inspection ($E = 1.00$), no weld efficiency penalty is 
-		applied~\cite[Table~302.3.4]{ref_asme_b313}.
+		applied\cite[Table~302.3.4]{ref_asme_b313}.
 
 		Two load cases are evaluated:
 		\begin{enumerate}[label=\alph*.]
 			\item \textbf{Axial stress}: The net axial force from internal pressure acting 
 				on the wetted area is distributed uniformly across the weld cross-sectional 
-				area~\cite[eq.~1-6]{ref_Hibbeler}.
+				area\cite[eq.~1-6]{ref_Hibbeler}.
 			\item \textbf{Bending stress}: The weld is modeled as a beam fixed at both 
 				ends, loaded by a uniformly distributed pressure load. While the true 
 				geometry is more complex, this conservative beam approximation bounds the 
-				bending stress and identifies the key geometric drivers~\cite{ref_beam}. 
+				bending stress and identifies the key geometric drivers\cite{ref_beam}. 
 				Additional validation using COMSOL Multiphysics is ongoing to account for 
 				the complex three-dimensional weld geometry.
 		\end{enumerate}
@@ -2057,7 +2057,7 @@
 
 		\textit{Axial Stress.}
 		The axial stress is the internal pressure force distributed over the weld 
-		area~\cite[eq.~1-6]{ref_Hibbeler}:
+		area\cite[eq.~1-6]{ref_Hibbeler}:
 
 		\begin{equation}
 			\sigma_\text{axial} = \frac{P\, A_\text{wetted}}{A_\text{weld}}
@@ -2138,11 +2138,11 @@
 \textbf{Actuator-Housing Weldment}
 \begin{enumerate}[label=\roman*.]
 
-	In addition to stresses applied by the internal pressure, there is also stress on the 
-	actuator mount and its' radial weld due to thermal expansion and contraction. This was
-	identified as a potential failure mode for this weld specifically as the other welds 
-	are invar-invar and have predictable mechanical properties and a relatively low expansion
-	 rate constant across all members in the weldment.
+	\item In addition to stresses applied by the internal pressure, there is also stress on the 
+		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+		identified as a potential failure mode for this weld specifically as the other welds 
+		are invar-invar and have predictable mechanical properties and a relatively low expansion
+		rate constant across all members in the weldment.
   \item \textbf{Purpose.}
     The purpose of this analysis is to verify that welding is a viable method for joining 
 		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
@@ -2157,7 +2157,7 @@
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
   	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
   	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}})\right) \Delta T_{\text{cold}}$
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}$
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
@@ -2710,7 +2710,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 		\begin{figure}[H]
 			\centering
-			\includegraphics[height=2in]{orifice.png}
+			\includegraphics[height=2in]{orifice_app.png}
 			\caption{Orifice geometry, repeated}
 			\label{fig:orifice_rep}
 		\end{figure}
@@ -2863,7 +2863,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		\subsection{Achievable Error Correction}
 		\label{app:calcs:cal:sat}
 
-			As discussed in Section~\ref{app:calcs:sat:TF:results}, this calibration stack will occasionally be necessary to correct static machine dimension errors,
+			As discussed in Section~\ref{app:sat:TF:results}, this calibration stack will occasionally be necessary to correct static machine dimension errors,
 			whose expected range falls a maximum of \todo{upper range} above and \todo{lower range} below the nominal value.
 			The belleville washer's maximum deflection is equal to its free cone height
 
@@ -2969,12 +2969,12 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 \label{app:sat}
 
 	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:DFMEA} about its ability to meet the subsidiary specifications.
-	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:calcs:TF:results}, the \device\ can be expected to meet its required tolerance
-	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:calcs:error}.
+	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:sat:TF:results}, the \device\ can be expected to meet its required tolerance
+	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:sat:error}.
 
 
 	\section{Transfer Function Derivation}
-	\label{app:calcs:TF}
+	\label{app:sat:TF}
 
 		The required transfer function from Section~\ref{subsec:intro:specs:RR} describes the system under ideal conditions and cannot properly account for systematic errors.
 		To fully analyze the expected performance of the \device, a new, comprehensive system Transfer Function must be derived that can be compared to the required output: 
@@ -3058,12 +3058,12 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		\end{multicols}
 
 		\subsection{Heat Transfer}
-		\label{app:calcs:TF:dT}
+		\label{app:sat:TF:dT}
 
 			\todo{Heat transfer analysis from COMSOL testing}
 		
 		\subsection{Thermal Expansion}
-		\label{app:calcs:TF:G_therm}
+		\label{app:sat:TF:G_therm}
 
 			Let us forgo the top row of temperature-adjusting functions for now and assume we know the temperature of each part. A full thermal analysis will provide these values later in this report.
 			Each of the nine sub-transfer functions along the second row computes the thermal expansion of each part shown in Figure~\ref{fig:positional_block_diagram}.
@@ -3118,12 +3118,12 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			\end{itemize}
 
 			This yields nine undeformed lengths, helping us to define the positions of each part of the orifice.
-			The CTE of aluminum is computed as a function of temperature as defined in Section~\ref{app:calcs:error:CTE} to find the impact of this error on the final output.
-			Dimensional errors are stochastically added or subtracted to each machined part length $\ell_0$. This process is discussed in more detail in Section~\ref{app:calcs:sat:TF:results}. 
+			The CTE of aluminum is computed as a function of temperature as defined in Section~\ref{app:sat:error:CTE} to find the impact of this error on the final output.
+			Dimensional errors are stochastically added or subtracted to each machined part length $\ell_0$. This process is discussed in more detail in Section~\ref{app:sat:TF:results}. 
 			Before this can be calculated, however, the spring reaction of bellows must be reconciled.
 
 		\subsection{Force Balance}
-		\label{app:calcs:TF:force_balance}
+		\label{app:sat:TF:force_balance}
 
 			Each component is undeformed at the machining and assembly temperature, $T_{ref}$. Thus, $L_i(T_{ref}) = \ell_i(T_{ref})$.
 			As the temperature changes and the connected parts expand at different rates, the system behaves as a static coupled spring mechanism. The arrangement is shown in Figure~\ref{fig:springs}.
@@ -3287,47 +3287,47 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			Equation~\eqref{eq:k} provides the equivalent spring constant for each part, calculated below:
 			
 			\subsubsection{Mount}
-			\label{app:calcs:TF:force_balance:M}
+			\label{app:sat:TF:force_balance:M}
 
 				$E_M = E_{\text{ALLVAR}} = \specEALLV$\cite{ref_AllvarAlloys}
 				
 				$A_M = \frac{\pi}{4} (OD^2 - ID^2) = \frac{\pi}{4} [(\SI{25}{\milli\meter})^2 - (\SI{18}{\milli\meter})^2] = \SI{236.4}{\milli\meter\squared}$
 
 			\subsubsection{Actuator}
-			\label{app:calcs:TF:force_balance:A}
+			\label{app:sat:TF:force_balance:A}
 
 				$E_A = E_{\text{Aluminum}} = \specEAl$\cite[p.~39]{ref_NASA_specs_Al}
 
 				$A_A = \frac{\pi}{4} D^2 = \frac{\pi}{4} (\SI{18}{\milli\meter})^2 = \SI{254.5}{\milli\meter\squared}$
 
 			\subsubsection{Valve Stem}
-			\label{app:calcs:TF:force_balance:S}
+			\label{app:sat:TF:force_balance:S}
 
 				$E_S = E_{\text{Invar}} = \specEInv $\cite{ref_Carpenter_Inv}
 
 				$A_S = \frac{\pi}{4} D^2 = \frac{\pi}{4} (\SI{3.353}{\milli\meter})^2 = \SI{2.6}{\milli\meter\squared}$
 				
 			\subsubsection{Bellows}
-			\label{app:calcs:TF:force_balance:TB}
+			\label{app:sat:TF:force_balance:TB}
 
 				$k_T = k_B = \specBellowsK $\cite{ref_miniflex_design}
 
 			\subsubsection{Valve Orifice}    
-			\label{app:calcs:TF:force_balance:V}
+			\label{app:sat:TF:force_balance:V}
 			
 			$E_V = E_{\text{Invar}} = \specEInv $
 			
 			$A_V = LW = (\SI{7}{\milli\meter}) (\SI{7}{\milli\meter}) = \SI{49}{\milli\meter\squared}$
 			
 			\subsubsection{Housing}    
-			\label{app:calcs:TF:force_balance:H}
+			\label{app:sat:TF:force_balance:H}
 
 				$E_H = E_{\text{Invar}} = \specEInv $
 
 				$A_H = LW = (\SI{72}{\milli\meter}) (\SI{40}{\milli\meter}) = \SI{2880}{\milli\meter\squared}$
 
 			\subsubsection{Top wall}
-			\label{app:calcs:TF:force_balance:W}
+			\label{app:sat:TF:force_balance:W}
 
 				$E_W = E_{\text{Invar}} = \specEInv $
 
@@ -3336,7 +3336,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			These spring constants are input into equation~\eqref{eq:app_matrix} to solve for the deformed length of each part.
 
 		\subsection{Position calculations}
-		\label{app:calcs:TF:pos}
+		\label{app:sat:TF:pos}
 
 			Finally, we can use these lengths to calculate the values $y_F$ and $y_R$ of the two orifice components shown in Figure~\ref{fig:positional_block_diagram_zoom}.
 			Using the scheme depicted in Figure~\ref{fig:positional_block_diagram}, these are as follows:
@@ -3393,11 +3393,11 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		\newpage
 
     \subsection{Orifice Geometry}
-    \label{app:calcs:sat:TF:orif}
+    \label{app:sat:TF:orif}
 
 			\begin{wrapfigure}{l}{0.35\textwidth}
 					\centering
-					\includegraphics[width=0.2\textwidth]{G_O.png}
+					\includegraphics[width=0.15\textwidth]{G_O.png}
 					\caption{Orifice transfer function}
 					\label{fig:G_O}
 			\end{wrapfigure}
@@ -3410,7 +3410,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			one to convert the orifice into the orifice area $A$, and one to convert area into effective diameter $D_{eff}$.
 
 			\subsubsection{$\hat{G}_A$: Height to Area}
-			\label{app:calcs:sat:TF:orif:G_A}
+			\label{app:sat:TF:orif:G_A}
 
 				Under ideal machining conditions, the orifice area is calculated as follows:
 
@@ -3456,7 +3456,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 				as quoted by Milco Wire EDM, Inc (Appendix~\ref{app:BOM}). These are input into the Transfer Function when numerically evaluated.
 
 			\subsubsection{$\hat{G}_D$: Area to Effective Diameter}
-			\label{app:calcs:sat:TF:orif:G_D}
+			\label{app:sat:TF:orif:G_D}
 				
 				The area-diameter conversion is a simple geometric calculation, where $D_{eff}$ is the diameter of a circle with equivalent area. Thus,
 
@@ -3471,7 +3471,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 				\end{equation}
 
 		\subsection{Transfer Function Results}
-		\label{app:calcs:sat:TF:results}
+		\label{app:sat:TF:results}
 
 			The System Transfer Function can be computed using a simple script, which calculates each sub-transfer function as derived above and the force balance using a matrix solver.
 			The script was tested with ideal conditions; its output matched the Required Relationship exactly at every temperature.
@@ -3917,7 +3917,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:calcs:error} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:sat:error} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
@@ -3937,8 +3937,6 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		\label{fig:act_ID_app}
 	\end{figure}
 
-	\newpage
-	\todo{Uncomment below PDFs: BOM, Invar quote, ALLVAR quote, Bellows quote, EDM quote}
 	\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/BOM.pdf}
 
 	\newpage
@@ -4149,11 +4147,11 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 	\begin{enumerate}[itemsep=2pt]
 		\item \textbf{Before machining}: anneal at
 					\SI{1040}{\degreeCelsius} (\SI{1900}{\degree F}) for 60~minutes to
-					reduce as-received hardness and improve machinability~\cite[p.~6]{ref_Carpenter_Inv}.
+					reduce as-received hardness and improve machinability\cite[p.~6]{ref_Carpenter_Inv}.
 		\item \textbf{After all machining is complete}: anneal at
 					\SI{93}{\degreeCelsius} (\SI{200}{\degree F}) for 48~hours to relieve
 					residual stress and improve long-term dimensional
-					stability~\cite[p.~6]{ref_Carpenter_Inv}.
+					stability\cite[p.~6]{ref_Carpenter_Inv}.
 	\end{enumerate}
 	Allow parts to air-cool to room temperature before measuring or proceeding to the
 	next operation.
@@ -4457,7 +4455,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 					prevent oxidation and spatter.
 		\item All wetted EBW joints must be subjected to 100\% X-ray radiographic
 					examination to confirm a weld joint efficiency $E = 1.0$ per
-					ASME~B31.3~\cite{ref_asme_b313}.
+					ASME~B31.3\cite{ref_asme_b313}.
 	\end{enumerate}
 
 	EBW requires an unobstructed line of sight to the weld joint throughout the
@@ -5031,7 +5029,6 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	The following appendix presents the detailed engineering and manufacturing drawings for the PTCD assembly and its individual components. General drawing tolerances govern the design requirements to ensure
 	 reliability and precision.
 
-	% \todo{Uncomment below pdf}
 	\includepdf[pages=1-12, fitpaper=true, landscape=true]{pdf/05182026_DrawingPackage_v31.pdf}
 
 \chapter{Data Sheets}
@@ -5051,7 +5048,6 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 
 		Source: McMaster Carr\cite{ref_McMaster_screw, ref_McMaster_std, ref_McMaster_belle}.
 	
-		\todo{Uncomment below pdfs}
 		\includepdf[fitpaper=true, landscape=true]{pdf/90362A141_drawing.pdf}
 		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/90362A141_specs.pdf}
 		\includepdf[fitpaper=true, landscape=true]{pdf/93475A195_drawing.pdf}
@@ -5063,84 +5059,84 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\label{app:datasheets:Bellows}
 
 		Source: Mini-Flex Corporation\cite{ref_miniflex_catalog}. See also the Design Guide\cite{ref_miniflex_design}.
-		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that ``Squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore''\cite[p.~5]{ref_miniflex_design}.
+		Note that although the squirm pressure rating, \specBellowsSquirm, is less than the pressure capacity stipulated by Specification \specref{V.3.2} (\specPressure), the Design Guide states that ``squirm will not occur if the bellows is guided internally or externally by a rod stem or in a close fitting bore''\cite[p.~5]{ref_miniflex_design}.
 		The valve stem provides such support, dimensioned to provide a sliding-fit interface (see Section~\ref{subsec:design:just:fits}).
 
-		\todo{Uncomment below pdf}
 		\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/I718-159-72-430.pdf}
 
 	\section{Material Properties}
 	\label{app:datasheets:mat}
 
     Below are the material properties used throughout this report:
-    Aluminum 6061~\cite{ref_NASA_specs_Al},
-    ALLVAR~\cite{ref_AllvarAlloys},
-    Invar 36~\cite{ref_Carpenter_Inv},
-    Inconel 718~\cite{ref_SpecialMetals_Inc}, and
-    316 Stainless Steel~\cite{ref_Ledbetter_Stainless}.
+    Aluminum 6061\cite{ref_NASA_specs_Al},
+    ALLVAR\cite{ref_AllvarAlloys},
+    Invar 36\cite{ref_Carpenter_Inv},
+    Inconel 718\cite{ref_SpecialMetals_Inc}, and
+    316 Stainless Steel\cite{ref_Ledbetter_Stainless}.
 		Properties listed are the Coefficient of Thermal Expansion $\alpha$, Thermal Conductivity $k$, Young's Modulus $E$, and Poisson's Ratio $\nu$.
+		
+		\begin{table}[H]
+			\centering
+			\caption{Material Properties}
+			\renewcommand{\arraystretch}{1.3}
+			\begin{tabularx}{\textwidth}{
+				>{\raggedright\arraybackslash}p{0.22\textwidth}
+				>{\centering\arraybackslash}X
+				>{\centering\arraybackslash}X
+				>{\centering\arraybackslash}X
+				>{\centering\arraybackslash}X
+				>{\centering\arraybackslash}X
+			}
+			\toprule
+			\textbf{Material} &
+			\textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
+			\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
+			\textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
+			\textbf{$\nu$} &
+			\textbf{$c_p$} $\left(\si{\joule\per\kilogram\per\degreeCelsius}\right)$ \\
+			\midrule
 
-\begin{table}[H]
-	\centering
-	\caption{Material Properties}
-	\renewcommand{\arraystretch}{1.3}
-	\begin{tabularx}{\textwidth}{
-		>{\raggedright\arraybackslash}p{0.22\textwidth}
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-		>{\centering\arraybackslash}X
-	}
-	\toprule
-	\textbf{Material} &
-	\textbf{$\alpha$} $\left(\si{\micro\meter\per\meter\per\degreeCelsius}\right)$ &
-	\textbf{$k$} $\left(\si{\watt\per\meter\per\degreeCelsius}\right)$ &
-	\textbf{$E$} $\left(\si{\giga\pascal}\right)$ &
-	\textbf{$\nu$} &
-	\textbf{$c_p$} $\left(\si{\joule\per\kilogram\per\degreeCelsius}\right)$ \\
-	\midrule
+			Aluminum 6061
+				& \num{22.85}
+				& \num{167}
+				& \num{68.95}
+				& ---
+				& \num{962} \\
 
-	Aluminum 6061
-		& \num{22.85}
-		& \num{167}
-		& \num{68.95}
-		& ---
-		& \num{962} \\
+			ALLVAR
+				& \num{-30}
+				& \num{8.88}
+				& \num{55}
+				& ---
+				& --- \\
 
-	ALLVAR
-		& \num{-30}
-		& \num{8.88}
-		& \num{55}
-		& ---
-		& --- \\
+			Invar 36
+				& \num{1.3}
+				& \num{10.5}
+				& \num{141}
+				& ---
+				& \num{515} \\
 
-	Invar 36
-		& \num{1.3}
-		& \num{10.5}
-		& \num{141}
-		& ---
-		& \num{515} \\
+			Inconel 718
+				& \num{13.2}
+				& ---
+				& \num{200}
+				& ---
+				& \num{435} \\
 
-	Inconel 718
-		& \num{13.2}
-		& ---
-		& \num{200}
-		& ---
-		& \num{435} \\
+			316 Stainless Steel
+				& ---
+				& ---
+				& \num{207.8}
+				& \num{0.282}
+				& --- \\
 
-	316 Stainless Steel
-		& ---
-		& ---
-		& \num{207.8}
-		& \num{0.282}
-		& --- \\
+			\bottomrule
+			\end{tabularx}
+			\label{tab:mat_props}
+		\end{table}
 
-	\bottomrule
-	\end{tabularx}
-	\label{tab:mat_props}
-\end{table}
-
+		\vspace{1em}
 		\begin{table}[H]
 			\centering
 			\caption{Aluminum CTE as a Function of Temperature\cite{ref_NASA_specs_Al}}
@@ -5178,8 +5174,6 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 %     \caption{DELETE BEFORE SUBMITTING}
 %     \label{fig:del_app_reqs_2}
 % \end{figure}    
-
-\todo{Update and reprint Gantt chart on the day of submission. Note that task list isnt required.}
 
 \includepdf[pages=1, fitpaper=true, landscape=true]{pdf/FinalGanttChart.pdf}
 

@@ -300,9 +300,288 @@
 
 \begin{document}
 
-\color{blue}
-\begin{center}
-\textbf{\textit{Energy Efficiency\\and Sustainability\\National\\Security}}
-\end{center}
+\chapter{Model Verification}
+\label{chap:DFMEA}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Del_DFMEA_reqs_1.png}
+		\caption{DELETE BEFORE SUBMISSION}
+		\label{fig:del_DFMEA_1}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\textwidth]{Del_DFMEA_reqs_2.png}
+		\caption{DELETE BEFORE SUBMISSION}
+		\label{fig:del_DFMEAE_2}
+	\end{figure}
+
+\subsection{Introduction to Failure Mode Effect Analysis and Methods}
+	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
+	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
+	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
+	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
+	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
+
+		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
+
+	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
+	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
+	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
+	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
+	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
+	inform suggestions for redesign and modification. The results of computational modeling are discussed in \ref{chap:test}	
+
+	\subsection{Weld Failure Analysis}
+	\label{subsec:design:just:weld_analysis}
+	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
+	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
+	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
+	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
+	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
+	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
+	
+	The analytical process and results for the above mentioned weld failure methods are documented below:
+	\\
+
+	\textbf{Housing Center Weld}
+	\begin{enumerate}[label=\roman*.]
+		\item \textbf{Purpose.}
+		The purpose of this analysis is to verify that the critical housing weld joints 
+		maintain structural integrity under the maximum internal operating pressure of 
+		$P = \specPressure$, with adequate margin against yielding in both axial tension 
+		and bending.
+
+		\item \textbf{Assumptions, Principles, and Methods.}
+		The weld joints are treated as square butt joints with full penetration, such that 
+		the weld cross-section has the same material properties as the base metal 
+		(Invar~36, $S_y = \SI{276}{\mega\pascal}$). Because all welds pass 100\% 
+		radiographic inspection ($E = 1.00$), no weld efficiency penalty is 
+		applied~\cite[Table~302.3.4]{ref_asme_b313}.
+
+		Two load cases are evaluated:
+		\begin{enumerate}[label=\alph*.]
+			\item \textbf{Axial stress}: The net axial force from internal pressure acting 
+				on the wetted area is distributed uniformly across the weld cross-sectional 
+				area~\cite[eq.~1-6]{ref_Hibbeler}.
+			\item \textbf{Bending stress}: The weld is modeled as a beam fixed at both 
+				ends, loaded by a uniformly distributed pressure load. While the true 
+				geometry is more complex, this conservative beam approximation bounds the 
+				bending stress and identifies the key geometric drivers~\cite{ref_beam}. 
+				Additional validation using COMSOL Multiphysics is ongoing to account for 
+				the complex three-dimensional weld geometry.
+		\end{enumerate}
+
+		The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
+
+		\begin{table}[H]
+			\centering
+			\caption{Weld Analysis Parameter Values}
+			\label{tab:weld_parameters}
+			\begin{tabularx}{\textwidth}{l X l}
+				\toprule
+				\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+				\midrule
+				$P$ & Internal pressure & $\specPressure$ \\\addlinespace
+				$A_\text{wetted}$ & Wetted area (from gas flow analysis) & 
+					\SI{3.5504e-4}{\square\meter} \\\addlinespace
+				$A_\text{weld}$ & Weld cross-sectional area & 
+					\SI{1.3508e-3}{\square\meter} \\\addlinespace
+				$S_y$ & Yield strength (Invar~36) & \SI{276}{\mega\pascal} \\\addlinespace
+				$t$ & Weld thickness (full penetration) & \SI{7.0}{\milli\meter} \\
+				\bottomrule
+			\end{tabularx}
+		\end{table}
+
+		\item \textbf{Calculations.}
+
+		\textit{Axial Stress.}
+		The axial stress is the internal pressure force distributed over the weld 
+		area~\cite[eq.~1-6]{ref_Hibbeler}:
+
+		\begin{equation}
+			\sigma_\text{axial} = \frac{P\, A_\text{wetted}}{A_\text{weld}}
+			= \frac{(68.95 \times 10^{6})(3.5504 \times 10^{-4})}{1.3508 \times 10^{-3}}
+			\approx \SI{18.08}{\mega\pascal}
+			\label{eq:stress_axial}
+		\end{equation}
+
+		\textit{Bending Stress.}
+		For a beam of width $b$ and thickness $t$ fixed at both ends under a uniformly 
+		distributed pressure load, the maximum bending moment occurs at the fixed ends and 
+		at midspan:
+
+		\begin{equation}
+			M_\text{max} = \frac{W L^2}{24} = \frac{(Pb)\,L^2}{24}
+			\label{eq:moment_bending}
+		\end{equation}
+
+		Applying the flexure formula with $c = t/2$ and $I = \tfrac{1}{12}bt^3$:
+
+		\begin{equation}
+			\sigma_\text{bending}
+			= \frac{M_\text{max}\,c}{I}
+			= \frac{M_\text{max}\,(t/2)}{\tfrac{1}{12}b t^3}
+			= \frac{6\,M_\text{max}}{b t^2}
+			= \frac{P L^2}{4 t^2}
+			\label{eq:stress_bending}
+		\end{equation}
+
+		Equation~\ref{eq:stress_bending} shows that bending stress is minimized by reducing 
+		the unsupported span $L$ and/or increasing the weld thickness $t$, providing clear 
+		geometric design guidance independent of weld width $b$.
+
+		\item \textbf{Results.}
+
+		The axial factor of safety is:
+		\begin{equation}
+			FS_\text{axial} = \frac{S_y}{\sigma_\text{axial}} 
+			= \frac{276}{18.08} \approx 15.27
+			\label{eq:sf_axial}
+		\end{equation}
+
+		The bending factor of safety is:
+
+		\todo{Add data from COMSOL to support or cite where its located in the report}
+
+		\item \textbf{Discussion.}
+		The axial factor of safety of $15.27$ confirms that the weld cross-section carries 
+		the pressure-induced axial load with substantial margin, and that axial tension is 
+		not a limiting failure mode for this joint. The large safety factor is consistent 
+		with the design intent: the weld thickness $t = \SI{7.0}{\milli\meter}$ was sized 
+		to match the housing wall rather than to minimize material, so the full weld area 
+		is available to resist the relatively modest net axial force.
+
+		Bending stress is the more complex and potentially more critical load case. 
+		Equation~\ref{eq:stress_bending} confirms that bending is controlled by the 
+		geometric ratio $L^2/t^2$; keeping spans short and walls thick is therefore the 
+		primary mitigation strategy already embedded in the design. However, the beam model 
+		assumes a simplified planar geometry that cannot capture the three-dimensional 
+		stress distribution at the curved housing interfaces. COMSOL Multiphysics modeling 
+		of the full weld joint geometry verifies that the design maintains an adequate factor of safety against bending failure.
+		
+	\todo{Replace bending stress placeholder with COMSOL results and updated safety 	
+	factor once simulation is complete.}
+
+	\end{enumerate}
+\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{ Static_FEA_StressMagnitude1.png}
+                \caption{Static FEA Results on simplified Single Body Model}
+                \label{fig:FEAdisp}
+            \end{figure}
+
+
+
+
+	
+\textbf{Actuator-Housing Weldment}
+\begin{enumerate}[label=\roman*.]
+
+	\item In addition to stresses applied by the internal pressure, there is also stress on the 
+		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+		identified as a potential failure mode for this weld specifically as the other welds 
+		are invar-invar and have predictable mechanical properties and a relatively low expansion
+		rate constant across all members in the weldment.
+  \item \textbf{Purpose.}
+    The purpose of this analysis is to verify that welding is a viable method for joining 
+		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
+		with potential weld embrittlement could cause failure. Further analysis is needed to inform
+		weld reliability or alternate suggestions 
+  \item \textbf{Assumptions, Principles, and Methods.}
+    The weld joints are treated as full penetration fillet welds, and the same assumptions made 
+		for the housing weld analysis hold for the material properties and radiographic inspection 
+		of the actuator mount to housing weld.
+  \item \textbf{Calculations.}
+ 		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
+  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
+  	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
+  	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right) \Delta T_{\text{cold}}$
+		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
+		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
+		deform the Allvar mount by that amount:
+		$\sigma_{\text{weld}} = \frac{E_{\text{alvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}$
+  \item \textbf{Results.}
+		The area of the weld and the area of the mount in contact with it are the same, and thus the
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of Alvar 
+ 		and of the weld metal we find a sufficient safety factor:
+		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+  \item \textbf{Discussion.}
+		While this FOS is acceptable, this is assuming the weld has the same material properties as
+ 		the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
+ 		detrimental changes in material properties around the weld area which could cause a variety
+  	of failures. Because Allvar alloy 30 is a experimental alloy with a proprietary composition we 
+  	cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
+  	welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
+   	the iron to create brittle intermetallic compounds making the weld brittle. 
+		Methods to counter this include using a ductile interface layer that can aid in mitigating 
+		creation of brittle compounds, but this could be highly involved and experimental. A recommended
+ 		path would be to use fasteners with a slight mount redesign that allows for bolting into the
+  	housing. This would require some additional research into sealing but is the simplest and most 
+  	reliable solution.
+\end{enumerate}
+
+\todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
+housing thin wall, orifice, outlet channel)}
+
+\textbf{Actuator-Housing Weldament}
+\begin{enumerate}[label=\roman*.]
+	\item \textbf{Purpose.}
+	\item \textbf{Assumptions, Principles, and Methods.}
+	\item \textbf{Calculations.}
+	\item \textbf{Results.}
+		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+	\item \textbf{Discussion.}
+\end{enumerate}
+
+
+	
+
+\chapter{Testing}
+\label{chap:test}
+
+\todo{Outline for Testing chapter}
+\section{Objective}
+Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
+
+\section{Test Design}
+
+\todo{Add corresponding UI screenshots of COMSOL that reflect the boundary condition decisions. Include the COMSOL tree and the actual corresponding part of the model.}
+
+\subsection{Set-up: Boundary Condition Decisions}
+\begin{itemize}
+    \item Surface pairs and contact constraints.
+    \item Fluid-solid boundaries (incorporating union nodes where a single continuous boundary is required for FSI).
+    \item Accurate boundary representations for complex orifice shapes, ensuring internal flow geometries are not oversimplified as standard cylinders.
+\end{itemize}
+
+\subsection{Deformation and Dimensional Tolerance Flow Chart}
+Mapping the transfer function dependencies: CFD $\rightarrow$ MBD $\rightarrow$ Deformation $\leftarrow$ Heat Transfer.
+
+\subsection{Mesh Decisions}
+Strategies and refinements to improve computational accuracy and validity across domains.
+
+\section{Data Collection}
+
+\subsection{Design Space Matrix}
+\begin{itemize}
+    \item Turbulent flow $\Delta P$ range.
+    \item Heat transfer: $T_{amb}$ range and $T_{gas}$ range.
+\end{itemize}
+
+\section{Data Analysis}
+
+\subsection{Dimensional Failure}
+Focusing on heat transfer impacts and thermal expansion.
+
+\todo{Show images of the failure modes reflected on the model}
+
+\subsection{Stress and Material Failure}
+
+\todo{Show images of the failure modes reflected on the model. An optional suggestion to have some sort of validation reference via a figure from a study, etc.}
+
+Evaluating structural integrity, yielding, and mechanical limits.
 
 \end{document}
