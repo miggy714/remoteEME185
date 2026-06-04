@@ -2001,9 +2001,10 @@
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
 	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
 	
-	The analytical process and results for the above mentioned weld failure methods are documented below
+	The analytical process and results for the above mentioned weld failure methods are documented below:
+	\\
 
-	textbf{Housing Center Weld}
+	\textbf{Housing Center Weld}
 	\begin{enumerate}[label=\roman*.]
 		\item \textbf{Purpose.}
 		The purpose of this analysis is to verify that the critical housing weld joints 
@@ -2134,14 +2135,14 @@
 
 
 	
-\textbf{Actuator-Housing Weldament}
+\textbf{Actuator-Housing Weldment}
 \begin{enumerate}[label=\roman*.]
 
-	\item In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its' radial weld due to thermal expansion and contraction. This was
-	 	identified as a potential failure mode for this weld specifically as the other welds 
-	 	are invar-invar and have relatively low expansion rate constant across all members in
-	  the weldment.
+	In addition to stresses applied by the internal pressure, there is also stress on the 
+	actuator mount and its' radial weld due to thermal expansion and contraction. This was
+	identified as a potential failure mode for this weld specifically as the other welds 
+	are invar-invar and have predictable mechanical properties and a relatively low expansion
+	 rate constant across all members in the weldment.
   \item \textbf{Purpose.}
     The purpose of this analysis is to verify that welding is a viable method for joining 
 		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
@@ -2154,9 +2155,9 @@
   \item \textbf{Calculations.}
  		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
-  	expansion 30 $\mu$m/m. The largest magnitude of $\Delta R$ occurs over the cold side of the 
-  	temperature gradient with $\Delta R=(D_0(1-a_alv)*dT_cold/2$
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}} + 2\times10^{-6}\right)\right) \Delta T_{\text{cold}}$
+  	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
+  	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}})\right) \Delta T_{\text{cold}}$
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
@@ -2206,6 +2207,8 @@ Validate and expand/iterate on analytical methods by simulating the entire PTCD.
 
 \section{Test Design}
 
+\todo{Add corresponding UI screenshots of COMSOL that reflect the boundary condition decisions. Include the COMSOL tree and the actual corresponding part of the model.}
+
 \subsection{Set-up: Boundary Condition Decisions}
 \begin{itemize}
     \item Surface pairs and contact constraints.
@@ -2232,7 +2235,12 @@ Strategies and refinements to improve computational accuracy and validity across
 \subsection{Dimensional Failure}
 Focusing on heat transfer impacts and thermal expansion.
 
+\todo{Show images of the failure modes reflected on the model}
+
 \subsection{Stress and Material Failure}
+
+\todo{Show images of the failure modes reflected on the model. An optional suggestion to have some sort of validation reference via a figure from a study, etc.}
+
 Evaluating structural integrity, yielding, and mechanical limits.
 
 \chapter{Testing}
