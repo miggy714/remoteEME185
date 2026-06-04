@@ -299,10 +299,65 @@
 % ============================================================================
 
 \begin{document}
+\setstretch{1.15}
 
-\color{blue}
-\begin{center}
-\textbf{\textit{Energy Efficiency\\and Sustainability\\National\\Security}}
-\end{center}
 
+\chapter{Conclusion}
+\label{chap:concl}
+
+	\section{Final Analysis}
+	\label{sec:conc:fin_anal}
+
+		The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel architecture
+		to accomplish thermomechanical flow control with greater precision than has been achieved before.
+		By only allowing through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
+		the \device\ can produce first-order variations in its effective orifice diameter as the mobile square is lowered while only introducing a single moving part.
+		These square holes can be manufactured with very sharp corners using wire EDM (Electronic-Discharge Machining).
+		An external bimetallic thermal actuator provides compound mechanical displacement to drive these changes.
+		Its interface is hermetically sealed with minimal mechanical or fluid resistance using two flexible metal bellows.
+		Specialized materials and precise electron-beam welding maximize thermal stability and enable a compact design.
+		This proof-of-concept model provides Sandia National Laboratories with the necessary design foundation for development of a working physical prototype
+		and customization of the design for particular experiments.
+
+		The design process is incomplete. As intended, only the first iteration was fully developed.
+		Computational testing revealed several flaws of the current design but developed helpful tools that will enable more efficient iteration of design changes.
+
+	\section{Open Questions and Recommended Improvements}
+	\label{sec:conc:rec}
+
+		Certain assumptions remain unaddressed that could not be sufficiently covered in the DFMEA analysis. The following provides a starting point for iterative improvement of the current design.
+
+		\begin{itemize}
+			\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
+				In reality, the screw, washer, and mount material along the washer's vertical dimension will interfere with this expansion in slight ways that have not been modeled.
+			\item Rotational precision of each diamond hole was assumed to be exact. In reality, the EDM cut may include a slight unquantified tilt, whose error is too involved for calculation in this report.
+			\item The Valve Orifice is assumed to be flush against the Housing Outlet, held by its sliding fit and upstream pressure. Any gas that leaks through the orifice by passing around the sides of the moving plate
+				will nullify the device's precision control. This failure mode could not be sufficiently analyzed, but measures may need to be taken to prevent flow around the Valve Orifice.
+				A flexible metal bellows could be attached between the Housing Inlet and the Valve Orifice that moves sideways as the valve stem oscillates; this would complicate the design but ensure all gas enters the Valve Orifice;
+				additional measures would be required to ensure gas does not leak from the interface between the leading and trailing orifice.
+			\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
+				These should be revised before further development.
+			\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
+				The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
+				\begin{itemize}
+					\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
+						withstand this force.
+					\item Similarly, the bellows could be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length of the I718-159-72-430
+						but five times the spring constant. The bellows was selected primarily for its low spring constant, but the spring force was eventually found to be negligible.
+					\item The thread-contact length can be shortened. These values were not optimized due to their large margin along the longitudinal mechanical envelope.
+					\item The top of the mount can be made thinner to shorten the actuator. So can the noncritical housing walls, to create a uniform safety factor of just above 1.
+				\end{itemize}
+			\item Orifice dimensions can also be optimized. The side lengths of each square and, more importantly, the \SI{1}{\milli\meter} thickness of each orifice wall, were arbitrarily chosen to provide easy-to-cut features.
+				The manufacturer may be able to cut through a thicker material without difficulty.
+			\item To save cost, the ALLVAR and aluminum materials can be swapped, allowing for a significantly smaller ALLVAR core than the current mount.
+				The assembly would lift the valve stem when heated, but placing the leading orifice above the trailing orifice would accommodate this change. 
+		\end{itemize}
+
+		Other general weaknesses of the \device\ include the following:
+
+		\begin{itemize}
+			\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
+				for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
+				This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
+		\end{itemize}
 \end{document}
