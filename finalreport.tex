@@ -2003,25 +2003,7 @@
 		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
 		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
 
-	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
-	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
-	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
-	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
-
-		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}
-
-	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
-	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
-	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
-	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-
-	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
-	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
-	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
-	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
-
-\section{} % to separate the above subsections from those below
+\section{Risk Assesment and Analysis} % to separate the above subsections from those below
 
 \subsection{Introduction to Failure Mode Effect Analysis and Methods}
 \label{subsec}
@@ -2032,6 +2014,13 @@
 	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
 
 		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
+
+\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{ DFMEA_table_priority_modes.png}
+                \caption{Prioritized Failure Modes with RPN>120}
+                \label{fig:RPN_priority}
+            \end{figure}
 
 	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
@@ -2236,13 +2225,48 @@
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
 	by the internal gas flow. This wall could be a problem due to how thin it is and how much pressure will be exerted on it. Using the pressure
 	hand calculations, the Factor of Safety (FOS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
+	
+		\begin{figure}[H]
+                \centering
+                \includegraphics[width=.55\textwidth]{figures3/Housing Outlet Wall pic.png}
+                \caption{Housing Outlet Wall Dimensions.}
+                \label{fig:FEAdisp}
+            \end{figure}
+
 	\item \textbf{Assumptions, Principles, and Methods.}
-	The wall is treated as a flat plate with fixed edges under uniform distributed loading. The maximum stress is calculated using the formula for
-	a flat plate with fixed edges under uniform distributed loading. The parameters used in this analysis are summarized in ...
+	The wall is treated as a circular plate with fixed edges under uniform distributed pressure of 10,000 psi. The maximum stress is calculated using the formula for
+	a flat plate with fixed edges under uniform distributed loading. The parameters used in this analysis are diameter of the plate is 3.5 mm and the thickness is 1 mm.
 	\item \textbf{Calculations.}
+	The total force acting on the outlet wall is first found from the applied pressure and plate area:
+	 \begin{equation}
+        F = P \cdot A = P \cdot \pi r^2
+        = (68.95 \times 10^6~\text{Pa})\,(\pi)(0.00175~\text{m})^2
+        = 663~\text{N}
+    \end{equation}
+	The maximum bending stress in a circular plate with fixed edges under uniform pressure (occurring at the outer edge) is given by:
+	    \begin{equation}
+        \sigma_{\max} = \frac{3\,P\,r^2\,}{4\,t^2}
+    \end{equation}
+    Substituting values:
+    \begin{equation}
+        \sigma_{\max}
+        = \frac{3\,(68.95 \times 10^6)\,(0.00175)^2\,}
+               {4\,(0.001)^2}
+        = 158.4~\text{MPa}
+    \end{equation}
+	where P is the pressure, r is the radius of the plate, and t is the thickness of the plate.
+
 	\item \textbf{Results.}
-		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+	    \begin{equation}
+        \text{FOS} = \frac{S_{y,\,\text{Invar}}}{\sigma_{\max}}
+                   = \frac{240~\text{MPa}}{158.4~\text{MPa}}
+                   = 1.51
+    \end{equation}
+
 	\item \textbf{Discussion.}
+	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
+	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. 
+
 \end{enumerate}
 
 \textbf{Orifice Channel Opening}
@@ -2252,7 +2276,8 @@
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
 	the stress exerted on that corner, the Factor of Safety (FOS) can then be calculated using the yield strength of Invar.
 	\item \textbf{Assumptions, Principles, and Methods.}
-	
+	The assumpptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
+	Reference the following chapter, Testing, for the complete priciples and metthods used for testing and FEA.
 	\item \textbf{Calculations.}
 	Using the data from the FEA testing, the factor of safety at the corner can be found. 
 
@@ -2270,11 +2295,9 @@
 	\item \textbf{Results.}
 	
 	Using the maximum von Mises stress:
-
 	FOS = 240 MPa / 300 MPa = 0.8
 
 	Using the average von Mises stress:
-
 	FOS = 240 MPa / 178 MPa = 1.35
 	
 	The FOS less than 1 at the maximum stress is an issue and something that needs to be addressed, however because the average stress is greater than 1, it is likely that the corner will not fail under most operating conditions.
