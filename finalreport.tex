@@ -2003,25 +2003,7 @@
 		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
 		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
 
-	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
-	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
-	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurence, and ease of detection. A critical RPN
-	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
-
-		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. It is not finalized yet.}
-
-	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
-	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
-	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
-	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
-
-	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
-	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
-	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
-	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
-
-\section{} % to separate the above subsections from those below
+\section{Risk Assesment and Analysis} % to separate the above subsections from those below
 
 \subsection{Introduction to Failure Mode Effect Analysis and Methods}
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
@@ -2031,6 +2013,13 @@
 	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
 
 		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
+
+\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{ DFMEA_table_priority_modes.png}
+                \caption{Prioritized Failure Modes with RPN>120}
+                \label{fig:RPN_priority}
+            \end{figure}
 
 	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
