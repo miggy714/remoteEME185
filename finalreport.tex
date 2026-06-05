@@ -1948,7 +1948,7 @@
 	\section{Error Analysis IMPORTED DIRECTLY FROM TRANSFER FUNCTION CHAPTER; INTEGRATE AS IS FITTING}
 	\label{sec:DFMEA:error}
 
-		\subsection{Variations in Aluminum's Coefficient of Thermal Expansion}
+		\subsection{Variations in the Actuator's Coefficient of Thermal Expansion}
 		\label{subsec:DFMEA:error:CTE}
 
 			Typical material specifications list a single coefficient of thermal expansion (CTE).
@@ -2024,6 +2024,7 @@
 \section{} % to separate the above subsections from those below
 
 \subsection{Introduction to Failure Mode Effect Analysis and Methods}
+\label{subsec}
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
@@ -2298,10 +2299,37 @@ housing thin wall, orifice, outlet channel)}
 	\item \textbf{Discussion.}
 \end{enumerate}
 
+	\subsection{Tolerance Failure Analysis}
+	\label{subsec:DFMEA::tol}
 
-	
+		The final failure mode --- namely, failure to meet the Required Relationship in equation~\eqref{eq:required_relationship} --- encapsulates several sources off error that affect the input-output relationship of the \device.
+		Nominal satisfaction of the Required Relationship was demonstrated in Section~\ref{sec:design:just}, but system precision must be evaluated holistically and numerically.
 
-\chapter{Testing}
+		\textbf{System Output Fidelity}
+		\begin{enumerate}[label=\roman*.]
+			\item \textbf{Purpose.}
+				To quantitatively evaluate the effect of various errors on the system performance, the open-loop passive system transfer function in Figure~\ref{fig:TF_RR} must be revised to account for the impact of these errors.
+				This provides a comprehensive estimation of the system's ability to meet the Required Relationship across its full temperature range.
+			\item \textbf{Assumptions, Principles, and Methods.}
+				The Transfer Function analysis accounts for four sources of error: heat transfer from the hot internal gas, dimensional errors, variations in the actuator's thermal expansion, thermal expansion of the valve subcomponents, the spring reaction force of the bellows, and the orifice fillet radius produced by the wire EDM cut.
+				Other unquantifiable errors will be present that cannot be properly accounted for without construction of a physical prototype; these will be addressed in Chapter~\ref{chap:concl}.
+			\item \textbf{Calculations.}
+				Derivation and calculation of the full System Output Transfer Function is presented in Appendix~\ref{app:sat}. The derived values were encoded with a script to enable efficient parameter variation.
+				The function evaluates the adjusted temperature of each part, varies the machined length of all critical dimensions according to a normalized tolerance distribution, computes the thermal expansion of each part,
+				resolves the resulting spring force balance driven by the bellows, sums the resulting part lengths to obtain the position of each orifice square, and converts their difference to the final output diameter. 
+			\item \textbf{Results.}
+				The results are plotted and interpreted in detail in Appendix~\ref{app:sat:TF:results}. To account for variable sources of error, the Transfer Function takes a large number of samples and
+				produces a normalized distribution. It estimates that 90.6\% of all devices machined will produce an output within tolerance across the full temperature range.
+				It calculates the effect of calibration, which will only be needed for the remaining 9.4\%, and confirms that these will also meet their requirement if the calibration precision
+				specified in Appendix~\ref{app:calcs:cal:sat} (a \SI{14.3}{\degree} rotation of the calibration screw) are met or exceeded.
+			\item \textbf{Discussion.}
+				The \device, despite several significant sources of error, meets and exceeds a strict passive output requirement across a wide temperature range. This estimation is optimistic and cannot account for
+				some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
+				evaluated as the design is further iterated.
+		\end{enumerate}
+
+
+\chapter{Prototype Testing}
 \label{chap:test}
 
 \todo{Outline for Testing chapter}
