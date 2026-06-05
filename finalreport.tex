@@ -2428,59 +2428,80 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 \chapter{Conclusion}
 \label{chap:concl}
 
-	The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel architecture
+	The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel valve-orifice architecture
 	to accomplish thermomechanical flow control with greater precision than has been achieved before.
-	By only allowing through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
-	the \device\ can produce first-order variations in its effective orifice diameter as the mobile square is lowered while only introducing a single moving part.
-	These square holes can be manufactured with very sharp corners using wire EDM (Electronic-Discharge Machining).
-	An external bimetallic thermal actuator provides compound mechanical displacement to drive these changes.
+	By only allowing flow through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
+	the \device\ can produce first-order variations in its effective orifice diameter with a single moving part.
+	These square holes can be manufactured with very sharp corners using wire EDM (Electric-Discharge Machining).
+	An external bimetallic thermal actuator drives these changes with compound mechanical displacement.
 	Its interface is hermetically sealed with minimal mechanical or fluid resistance using two flexible metal bellows.
-	Specialized materials and precise electron-beam welding maximize thermal stability and enable a compact design.
+	Specialized materials and precise electron-beam welding maximize thermal stability, strength, and compactness.
 	This proof-of-concept model provides Sandia National Laboratories with the necessary design foundation for development of a working physical prototype
-	and customization of the design for particular experiments.
+	and customization of the design for specific experiments.
 
-	The design process is incomplete. As intended, only the first iteration was fully developed.
-	Computational testing revealed several flaws of the current design but developed helpful tools that will enable more efficient iteration of design changes.
+	The design process is unfinished. As intended, only the first iteration was fully developed.
+	The computational prototype presented in this report demonstrates the feasibility of the \device\ and provides convenient tools for further iteration.
+	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses and unaddressed assmumptions. In summary, not all error modes could be accounted for in Appendix~\ref{sec:DFMEA:error},
+	leading to an optimistic estimation of the device's performance. Full verification will not be complete until Sandia revises this design, builds a physical prototype, and tests it.
+	Appendix~\ref{app:iter:customize} provides them with guidance on how to use these computational tools for this revision.
+
+	To assist with this process, the below recommendations identify changes the authors would implement in the second design iteration:
 
 	\begin{enumerate}
-		\item Certain dimensions can be 
+		\item Certain dimensions were chosen arbitrarily and over-engineered, leading to excessive safety factors in some places. These values can now be amended to minimize the device's structural margin
+			to an industry-standard value, typically 1.5\cite{ref_sf}. These include the thickness of the Mount's upper surface, the height of the Valve Orifice, the contact length of each housing thread,
+			the size and thickness of each orifice square, and wall thicknesses around the housing.
+		\item The I718-159-72-430 bellows can be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length with only five times the spring constant.
+			The lower bellows can also be eliminated. These would each significantly reduce the height of the \device, by far its longest dimension.
+		\item Measures can be taken to eliminate heat transfer. Though the actuator is thermally insulated and separated from the hot internal gas by a thick wall of Invar, this wall should be made thicker to improve its indifference to internal flow conditions.
+			Furthermore, the actuator can be reshaped to improve external heat transfer by cutting holes in the mount to expose the internal actuator, weakening its axial strength to increase fidelity to the ambient air temperature.
+			This can be taken further, cutting fins into the actuator structure (typically done with wire EDM as with the orifice holes) to maximize convection.
+		\item The mount would be better attached to the housing using fasteners due to the difficulty of welding dissimilar metals.
+		\item The mount and actuator core can trade materials, using an Aluminum mount and an ALLVAR core. This would require repositioning of the leading orifice, which can be easily done such that it is positioned above the fixed orifice;
+			it would significantly reduce the cost of the actuator subsystem (Aluminum is far cheaper than ALLVAR and would be better suited for the larger-diameter part) and would more readily enable manipulation of its geometry as described in the previous two items.
+		\item Finally, the screw may interfere with the thermal expansion of the actuator. This can be solved by using a shorter screw or one made of Aluminum to match the actuator's expansion rate.
+			An ALLVAR screw may be harder to procure if the actuator materials are reversed.
 	\end{enumerate}
 
-	Certain assumptions remain unaddressed that could not be sufficiently covered in the DFMEA analysis. The following provides a starting point for iterative improvement of the current design.
+	Many of these design changes would degrade system performance, risking failure to meet the Required Relationship in equation~\ref{eq:required_relationship}.
+	Many other priorities, such as size and cost considerations, were sacrificed to maximize the \device's ability to reach this narrow tolerance window.
+	However, using the computational tools presented in Chapter~\ref{chap:test}, a more informed trade-off analysis can determine the real impact of these changes, as is further detailed in Appendix~\ref{app:iter:customize}.
 
-	\begin{itemize}
-		\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
-			In reality, the screw, washer, and mount material along the washer's vertical dimension will interfere with this expansion in slight ways that have not been modeled.
-		\item Rotational precision of each diamond hole was assumed to be exact. In reality, the EDM cut may include a slight unquantified tilt, whose error is too involved for calculation in this report.
-		\item The Valve Orifice is assumed to be flush against the Housing Outlet, held by its sliding fit and upstream pressure. Any gas that leaks through the orifice by passing around the sides of the moving plate
-			will nullify the device's precision control. This failure mode could not be sufficiently analyzed, but measures may need to be taken to prevent flow around the Valve Orifice.
-			A flexible metal bellows could be attached between the Housing Inlet and the Valve Orifice that moves sideways as the valve stem oscillates; this would complicate the design but ensure all gas enters the Valve Orifice;
-			additional measures would be required to ensure gas does not leak from the interface between the leading and trailing orifice.
-		\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
-			These should be revised before further development.
-		\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
-			The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
-			\begin{itemize}
-				\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
-					withstand this force.
-				\item Similarly, the bellows could be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length of the I718-159-72-430
-					but five times the spring constant. The bellows was selected primarily for its low spring constant, but the spring force was eventually found to be negligible.
-				\item The thread-contact length can be shortened. These values were not optimized due to their large margin along the longitudinal mechanical envelope.
-				\item The top of the mount can be made thinner to shorten the actuator. So can the noncritical housing walls, to create a uniform safety factor of just above 1.
-			\end{itemize}
-		\item Orifice dimensions can also be optimized. The side lengths of each square and, more importantly, the \SI{1}{\milli\meter} thickness of each orifice wall, were arbitrarily chosen to provide easy-to-cut features.
-			The manufacturer may be able to cut through a thicker material without difficulty.
-		\item To save cost, the ALLVAR and aluminum materials can be swapped, allowing for a significantly smaller ALLVAR core than the current mount.
-			The assembly would lift the valve stem when heated, but placing the leading orifice above the trailing orifice would accommodate this change. 
-	\end{itemize}
+	\todo{Nice short wrap-up paragraph}
 
-	Other general weaknesses of the \device\ include the following:
+	% \begin{itemize}
+	% 	\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
+	% 		In reality, the screw, washer, and mount material along the washer's vertical dimension will interfere with this expansion in slight ways that have not been modeled.
+	% 	\item Rotational precision of each diamond hole was assumed to be exact. In reality, the EDM cut may include a slight unquantified tilt, whose error is too involved for calculation in this report.
+	% 	\item The Valve Orifice is assumed to be flush against the Housing Outlet, held by its sliding fit and upstream pressure. Any gas that leaks through the orifice by passing around the sides of the moving plate
+	% 		will nullify the device's precision control. This failure mode could not be sufficiently analyzed, but measures may need to be taken to prevent flow around the Valve Orifice.
+	% 		A flexible metal bellows could be attached between the Housing Inlet and the Valve Orifice that moves sideways as the valve stem oscillates; this would complicate the design but ensure all gas enters the Valve Orifice;
+	% 		additional measures would be required to ensure gas does not leak from the interface between the leading and trailing orifice.
+	% 	\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
+	% 		These should be revised before further development.
+	% 	\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
+	% 		The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
+	% 		\begin{itemize}
+	% 			\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
+	% 				withstand this force.
+	% 			\item Similarly, the bellows could be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length of the I718-159-72-430
+	% 				but five times the spring constant. The bellows was selected primarily for its low spring constant, but the spring force was eventually found to be negligible.
+	% 			\item The thread-contact length can be shortened. These values were not optimized due to their large margin along the longitudinal mechanical envelope.
+	% 			\item The top of the mount can be made thinner to shorten the actuator. So can the noncritical housing walls, to create a uniform safety factor of just above 1.
+	% 		\end{itemize}
+	% 	\item Orifice dimensions can also be optimized. The side lengths of each square and, more importantly, the \SI{1}{\milli\meter} thickness of each orifice wall, were arbitrarily chosen to provide easy-to-cut features.
+	% 		The manufacturer may be able to cut through a thicker material without difficulty.
+	% 	\item To save cost, the ALLVAR and aluminum materials can be swapped, allowing for a significantly smaller ALLVAR core than the current mount.
+	% 		The assembly would lift the valve stem when heated, but placing the leading orifice above the trailing orifice would accommodate this change. 
+	% \end{itemize}
 
-	\begin{itemize}
-		\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
-			for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
-			This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
-	\end{itemize}
+	% Other general weaknesses of the \device\ include the following:
+
+	% \begin{itemize}
+	% 	\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
+	% 		for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
+	% 		This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
+	% \end{itemize}
 
 % \chapter*{} % Bibliography without extra header
 \addcontentsline{toc}{chapter}{Bibliography}
