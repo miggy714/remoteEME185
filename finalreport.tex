@@ -1548,6 +1548,7 @@
 
 		\begin{equation}
 			F = 2 k \Delta L = 2 \cdot \specBellowsK \specActDefHot = \SI{24}{\newton}
+			\label{eq:bellow_F}
 		\end{equation}
 
 		The lower valve stem connects to nothing. It and the second bellows could easily be discarded.
@@ -1567,10 +1568,8 @@
 		The second bellows adds \SI{24}{\newton} to remove \SI{906}{\newton}.
 
 		The bellows drove many of the surrounding dimensions and features.
-		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm\footnote{
-			Lateral buckling due to high external pressures.
-		} or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''\cite{ref_miniflex_design}.
-		The valve stem, which passes through the bellows, measures just smaller than the bellows convolution inner diameter (\specBellowsID) to provide support against squirm (i.e. pressure-drive lateral buckling).
+		According to the manufacturer's Design Guide, the burst pressure assumes that the bellows is ``restrained from squirm or sideways movement'' such that ``squirm will not occur if the bellows is guided internally\ldots\ by a rod or stem''\cite{ref_miniflex_design}.
+		The valve stem, which passes through the bellows, measures just smaller than the bellows convolution inner diameter (\specBellowsID) to provide support against squirm (i.e. pressure-driven lateral buckling).
 		The housing inlet allows just enough space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
 
@@ -1583,9 +1582,9 @@
 			\subsubsection{Actuator Diameter}
 			\label{subsubsec:design:just:gen_dim:act_diam}
 
-				The bellows act as springs.
-				Applying a slight resistance force as the valve orifice moves, they compress or stretch the long, thin metal of the two actuator rods, which themselves act as springs in series and compound one another's error as they are stretched from their natural length.
-				Though imperceptible, the actuator deflection can be easily minimized and optimized by increasing the cross-sectional area of each component properly.
+				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
+				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
+				Increasing this area minimizes deflection, a source of error.
 				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
 				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
 				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
@@ -2429,299 +2428,301 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 \chapter{Conclusion}
 \label{chap:concl}
 
-	\section{Final Analysis}
-	\label{sec:conc:fin_anal}
+	The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel architecture
+	to accomplish thermomechanical flow control with greater precision than has been achieved before.
+	By only allowing through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
+	the \device\ can produce first-order variations in its effective orifice diameter as the mobile square is lowered while only introducing a single moving part.
+	These square holes can be manufactured with very sharp corners using wire EDM (Electronic-Discharge Machining).
+	An external bimetallic thermal actuator provides compound mechanical displacement to drive these changes.
+	Its interface is hermetically sealed with minimal mechanical or fluid resistance using two flexible metal bellows.
+	Specialized materials and precise electron-beam welding maximize thermal stability and enable a compact design.
+	This proof-of-concept model provides Sandia National Laboratories with the necessary design foundation for development of a working physical prototype
+	and customization of the design for particular experiments.
 
-		The Passive Temperature Compensation Device presented in this design report combines proven, robust technology with a novel architecture
-		to accomplish thermomechanical flow control with greater precision than has been achieved before.
-		By only allowing through the overlap between two diamond holes pressed flush against one another, one mobile and one fixed,
-		the \device\ can produce first-order variations in its effective orifice diameter as the mobile square is lowered while only introducing a single moving part.
-		These square holes can be manufactured with very sharp corners using wire EDM (Electronic-Discharge Machining).
-		An external bimetallic thermal actuator provides compound mechanical displacement to drive these changes.
-		Its interface is hermetically sealed with minimal mechanical or fluid resistance using two flexible metal bellows.
-		Specialized materials and precise electron-beam welding maximize thermal stability and enable a compact design.
-		This proof-of-concept model provides Sandia National Laboratories with the necessary design foundation for development of a working physical prototype
-		and customization of the design for particular experiments.
+	The design process is incomplete. As intended, only the first iteration was fully developed.
+	Computational testing revealed several flaws of the current design but developed helpful tools that will enable more efficient iteration of design changes.
 
-		The design process is incomplete. As intended, only the first iteration was fully developed.
-		Computational testing revealed several flaws of the current design but developed helpful tools that will enable more efficient iteration of design changes.
+	\begin{enumerate}
+		\item Certain dimensions can be 
+	\end{enumerate}
 
-	\section{Open Questions and Recommended Improvements}
-	\label{sec:conc:rec}
+	Certain assumptions remain unaddressed that could not be sufficiently covered in the DFMEA analysis. The following provides a starting point for iterative improvement of the current design.
 
-		Certain assumptions remain unaddressed that could not be sufficiently covered in the DFMEA analysis. The following provides a starting point for iterative improvement of the current design.
+	\begin{itemize}
+		\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
+			In reality, the screw, washer, and mount material along the washer's vertical dimension will interfere with this expansion in slight ways that have not been modeled.
+		\item Rotational precision of each diamond hole was assumed to be exact. In reality, the EDM cut may include a slight unquantified tilt, whose error is too involved for calculation in this report.
+		\item The Valve Orifice is assumed to be flush against the Housing Outlet, held by its sliding fit and upstream pressure. Any gas that leaks through the orifice by passing around the sides of the moving plate
+			will nullify the device's precision control. This failure mode could not be sufficiently analyzed, but measures may need to be taken to prevent flow around the Valve Orifice.
+			A flexible metal bellows could be attached between the Housing Inlet and the Valve Orifice that moves sideways as the valve stem oscillates; this would complicate the design but ensure all gas enters the Valve Orifice;
+			additional measures would be required to ensure gas does not leak from the interface between the leading and trailing orifice.
+		\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
+			These should be revised before further development.
+		\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
+			The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
+			\begin{itemize}
+				\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
+					withstand this force.
+				\item Similarly, the bellows could be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length of the I718-159-72-430
+					but five times the spring constant. The bellows was selected primarily for its low spring constant, but the spring force was eventually found to be negligible.
+				\item The thread-contact length can be shortened. These values were not optimized due to their large margin along the longitudinal mechanical envelope.
+				\item The top of the mount can be made thinner to shorten the actuator. So can the noncritical housing walls, to create a uniform safety factor of just above 1.
+			\end{itemize}
+		\item Orifice dimensions can also be optimized. The side lengths of each square and, more importantly, the \SI{1}{\milli\meter} thickness of each orifice wall, were arbitrarily chosen to provide easy-to-cut features.
+			The manufacturer may be able to cut through a thicker material without difficulty.
+		\item To save cost, the ALLVAR and aluminum materials can be swapped, allowing for a significantly smaller ALLVAR core than the current mount.
+			The assembly would lift the valve stem when heated, but placing the leading orifice above the trailing orifice would accommodate this change. 
+	\end{itemize}
 
-		\begin{itemize}
-			\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
-				In reality, the screw, washer, and mount material along the washer's vertical dimension will interfere with this expansion in slight ways that have not been modeled.
-			\item Rotational precision of each diamond hole was assumed to be exact. In reality, the EDM cut may include a slight unquantified tilt, whose error is too involved for calculation in this report.
-			\item The Valve Orifice is assumed to be flush against the Housing Outlet, held by its sliding fit and upstream pressure. Any gas that leaks through the orifice by passing around the sides of the moving plate
-				will nullify the device's precision control. This failure mode could not be sufficiently analyzed, but measures may need to be taken to prevent flow around the Valve Orifice.
-				A flexible metal bellows could be attached between the Housing Inlet and the Valve Orifice that moves sideways as the valve stem oscillates; this would complicate the design but ensure all gas enters the Valve Orifice;
-				additional measures would be required to ensure gas does not leak from the interface between the leading and trailing orifice.
-			\item The \device's design nomenclature is ambiguous. Certain part names --- namely, the Valve Orifice and Actuator --- are easily confused with the actual diamond-overlap orifice and the actuator assembly, respectively.
-				These should be revised before further development.
-			\item As mentioned in Section~\ref{subsubsec:design:just:gen_dim:ME}, certain dimensions can be optimized to decrease the Mechanical Envelope if necessary.
-				The verification tools developed in Chapter~\ref{chap:DFMEA} provide a convenient method to quantify the impact of these changes on system output precision.
-				\begin{itemize}
-					\item The lower bellows may not be necessary. It guards against unbalanced pressure force on the underside of the Valve Orifice, being transferred to the actuator, which may be stiff enough to
-						withstand this force.
-					\item Similarly, the bellows could be replaced with the I718-159-72-2300\cite{ref_miniflex_catalog}, which has a higher squirm and burst rating and \nicefrac{1}{3} the free length of the I718-159-72-430
-						but five times the spring constant. The bellows was selected primarily for its low spring constant, but the spring force was eventually found to be negligible.
-					\item The thread-contact length can be shortened. These values were not optimized due to their large margin along the longitudinal mechanical envelope.
-					\item The top of the mount can be made thinner to shorten the actuator. So can the noncritical housing walls, to create a uniform safety factor of just above 1.
-				\end{itemize}
-			\item Orifice dimensions can also be optimized. The side lengths of each square and, more importantly, the \SI{1}{\milli\meter} thickness of each orifice wall, were arbitrarily chosen to provide easy-to-cut features.
-				The manufacturer may be able to cut through a thicker material without difficulty.
-			\item To save cost, the ALLVAR and aluminum materials can be swapped, allowing for a significantly smaller ALLVAR core than the current mount.
-				The assembly would lift the valve stem when heated, but placing the leading orifice above the trailing orifice would accommodate this change. 
-		\end{itemize}
+	Other general weaknesses of the \device\ include the following:
 
-		Other general weaknesses of the \device\ include the following:
-
-		\begin{itemize}
-			\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
-				for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
-				This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
-		\end{itemize}
+	\begin{itemize}
+		\item The current design assumes connection to a \SI{19.05}{\milli\meter} pipe, which falls within the range provided in Operational Condition~\ref{cond:pipe}, but the design does not readily allow
+			for all pipe diameters up to the maximum stipulated limit of \SI{25.4}{\milli\meter}.
+			This was an oversight and should be remedied if necessary by adding sufficient material to the housing structure to support the large inner bore.
+	\end{itemize}
 
 % \chapter*{} % Bibliography without extra header
 \addcontentsline{toc}{chapter}{Bibliography}
 
-	\begin{thebibliography}{99}
+\begin{thebibliography}{99}
 
-		\bibitem{ref_sandiaprompt} % SNL Project Prompt
-		B.\ Bon,
-		``Passive Temperature Compensation Device --- Project Prompt,''
-		Sandia National Laboratories, SAND2025-15446O, 2025.
+	\bibitem{ref_sandiaprompt} % SNL Project Prompt
+	B.\ Bon,
+	``Passive Temperature Compensation Device --- Project Prompt,''
+	Sandia National Laboratories, SAND2025-15446O, 2025. [Unpublished].
 
-		\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
-		R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
-		American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
-		Sec.~1.2.
+	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
+	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
+	Sec.~1.2.
 
-		\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
-		S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
-		Available: \url{https://patents.google.com/patent/US2115501}
-		[Accessed: May 11, 2026].
+	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
+	Available: \url{https://patents.google.com/patent/US2115501}
+	[Accessed: May 11, 2026].
 
-		\bibitem{ref_Bugby_2021} % ALLVAR-aluminum thermal switch
-		D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
-		``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
-		\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
+	\bibitem{ref_Bugby_2021} % ALLVAR-aluminum thermal switch
+	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
+	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
+	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
 
-		\bibitem{ref_Ralphs_2024} % ALLVAR-aluminum thermal switch
-		M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
-		``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
-		\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+	\bibitem{ref_Ralphs_2024} % ALLVAR-aluminum thermal switch
+	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
+	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
+	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
 
-		\bibitem{ref_Ralphs_2026} % ALLVAR-aluminum thermal switch
-		M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
-		``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
-		\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+	\bibitem{ref_Ralphs_2026} % ALLVAR-aluminum thermal switch
+	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
+	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
+	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
 
-		\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
-		F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619. [Online]. Available: \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4201279/}
-		[Accessed: May 4, 2026].
+	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619.
 
-		\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
-		National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
-		Washington, DC: NASA, 2016, Sec.~4.2.
+	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
+	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+	Washington, DC: NASA, 2016, Sec.~4.2.
 
-		\bibitem{ref_Nise} % Controls and Transfer Functions
-		N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+	\bibitem{ref_Nise} % Controls and Transfer Functions
+	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
 
-		\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
-		C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
-		Available: \url{https://gallica.bnf.fr/ark:/12148/bpt6k3080s/f239.item}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
+	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
 
-		\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
-		C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
-		Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
+	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
-		J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-		8th~ed., McGraw-Hill, New York, 2006.
+	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
+	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
+	8th~ed., McGraw-Hill, New York, 2006.
 
-		\bibitem{ref_wilton_hermetic}	% Hermetic Seal secondary source
-		D.\ Wilton, ``Hermetic seal,'' \textit{Wordorigins.org}, Dec.\ 29, 2020.
-		[Online]. Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
-		[Accessed: Jun.\ 2, 2026].
+	\bibitem{ref_wilton_hermetic}	% Hermetic Seal secondary source
+	D.\ Wilton, ``Hermetic seal,'' \textit{Wordorigins.org}, Dec.\ 29, 2020.
+	[Online]. 
+	Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
+	[Accessed: Jun.\ 2, 2026].
 
-		\bibitem{ref_gesner_1559}	% Hermetic Seal primary source
-		K.\ Gesner, \textit{The Treasure of Euonymus Conteyninge the Wonderfull Hid
-		Secretes of Nature}, P.\ Morwyng, trans., London: John Daie, 1559, p.~66.
+	\bibitem{ref_gesner_1559}	% Hermetic Seal primary source
+	K.\ Gesner, \textit{The Treasure of Euonymus Conteyninge the Wonderfull Hid
+	Secretes of Nature}, P.\ Morwyng, trans., London: John Daie, 1559, p.~66.
 
-		\bibitem{ref_Young_Freedman} % Hooke's Law
-		H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+	\bibitem{ref_Young_Freedman} % Hooke's Law
+	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
 
-		\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
-		Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
-		[Accessed: Feb. 23, 2026]
+	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
+	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+	[Accessed: Feb. 23, 2026]
 
-		\bibitem{ref_miniflex_design} % Bellows catalog design guide
-		Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-		[Accessed: Feb. 23, 2026].
+	\bibitem{ref_miniflex_design} % Bellows catalog design guide
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb. 23, 2026].
 
-		\bibitem{ref_TiCN_Coating} % TiCN coating properties
-		T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
-  		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
-  		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
+	\bibitem{ref_TiCN_Coating} % TiCN coating properties
+	T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
+		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
+		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
 
-		\bibitem{ref_steen2010laser} % Laser weld guide
-		W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-		Springer, London, UK, 2010.
+	\bibitem{ref_steen2010laser} % Laser weld guide
+	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
+	Springer, London, UK, 2010.
 
-		\bibitem{ref_asme_b313}
-		American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
-		ASME, New York, NY, 2022.
+	\bibitem{ref_asme_b313}
+	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+	ASME, New York, NY, 2022.
 
-		\bibitem{ref_ashby} % E vs CTE plot
-		M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
-		5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+	\bibitem{ref_ashby} % E vs CTE plot
+	M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
+	5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
 
-		\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
-			% CTE at room temp = 23.85 ppm/C
-			% E = 68.95 MPa
-		R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
-		Available: \url{https://ntrs.nasa.gov/api/citations/19720022808/downloads/19720022808.pdf}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
+		% CTE at room temp = 23.85 ppm/C
+		% E = 68.95 MPa
+	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 
-		\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
-			% CTE = -30 ppm/C
-			% E = 55 GPa
-		ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
+		% CTE = -30 ppm/C
+		% E = 55 GPa
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
-		ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
-		[Accessed: May 9, 2026].
+	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
+	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+	[Accessed: May 9, 2026].
 
-		\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
-			% CTE = 1.3 ppm/C
-			% E = 141 GPa
-		Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
+		% CTE = 1.3 ppm/C
+		% E = 141 GPa
+	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
-		Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
+	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_ASM_Steel} % Used for CTE comparison
-			% CTE = 11.7 ppm/C
-			F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002.
+	\bibitem{ref_ASM_Steel} % Used for CTE comparison
+		% CTE = 11.7 ppm/C
+		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002, Table~2.2.
 
-		\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
-			% CTE = 13.2 ppm/C
-			% E = 200 GPa
-		Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-		[Accessed: Apr. 17, 2026].
+	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
+		% CTE = 13.2 ppm/C
+		% E = 200 GPa
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+	[Accessed: Apr. 17, 2026].
 
-		\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
-		Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
+	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
-		H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
-		ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
+	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
 
-		\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
-		H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
-		E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
+	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
+	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
 
-		\bibitem{ref_NASA_Inc} % Inconel advantages
-		J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
-		NASA Marshall Space Flight Center, Huntsville, AL, 2016.
+	\bibitem{ref_NASA_Inc} % Inconel advantages
+	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
-		\bibitem{ref_McMaster_belle} % belleville washer part specificaitons
-		McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_McMaster_belle} % belleville washer part specificaitons
+	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	[Accessed: May 8, 2026].
 
-		\bibitem{ref_din6796} % Standard for belleville washer
-		Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+	\bibitem{ref_din6796} % Standard for belleville washer
+	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
 
-		\bibitem{ref_dinen16983} % Referenced by DIN 6796
-		Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16983} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
 
-		\bibitem{ref_dinen16984} % Referenced by DIN 6796
-		Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16984} % Referenced by DIN 6796
+	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
 
-		\bibitem{ref_almen1936} % Referenced by DIN 16983
-		Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
-		\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+	\bibitem{ref_almen1936} % Referenced by DIN 16983
+	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
 
-		\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
-			% 18-8 304 SS:
-				% E = 210.1 GPa
-				% ν = 0.279
-			% 316 SS:
-				% E = 207.8 GPa
-				% E = 0.282
-		Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
+		% 18-8 304 SS:
+			% E = 210.1 GPa
+			% ν = 0.279
+		% 316 SS:
+			% E = 207.8 GPa
+			% E = 0.282
+	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
-		\bibitem{ref_jones1992}
-		L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
-		``Differential thresholds for limb movement measured using adaptive techniques,''
-		\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
-		\url{https://doi.org/10.3758/BF03206714}
+	\bibitem{ref_jones1992}
+	L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
+	``Differential thresholds for limb movement measured using adaptive techniques,''
+	\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
 
-		\bibitem{ref_desrosieres2015}
-		P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
-		``Robot-aided assessment of wrist proprioception,''
-		\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
-		\url{https://doi.org/10.3389/fnhum.2015.00198}
+	\bibitem{ref_desrosieres2015}
+	P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
+	``Robot-aided assessment of wrist proprioception,''
+	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
 
-		\bibitem{ref_SNL} % Sandia About Page
-		Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https://www.sandia.gov/about/}
-		[Accessed: May 30, 2026].
+	\bibitem{ref_SNL} % Sandia About Page
+	Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https://www.sandia.gov/about/}
+	[Accessed: May 30, 2026].
 
-		\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
-		N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
-		[Unpublished]
+	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
+	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
+	[Unpublished]
 
-		\bibitem{ref_Stewart} % Calculus and Taylor Series
-		J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+	\bibitem{ref_Stewart} % Calculus and Taylor Series
+	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
 
-		\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
-		R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
+	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
 
-		\bibitem{ref_beam}
-		A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{www.padtinc.com}. [Accessed: May 29, 2026].
+	\bibitem{ref_beam}
+	A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}. [Accessed: May 29, 2026].
 
-		\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
-		H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-		Hoboken, NJ: Wiley, 2019, p. 228.
+	\bibitem{ref_sf}
+	U.S.\ Department of Defense,
+	\textit{MIL-STD-1522A: Standard General Requirements for Safe Design and
+	Operation of Pressurized Missile and Space Systems},
+	Department of Defense, Washington, DC, 1984, Table~III.
 
-		\bibitem{ref_figliola}
-		R.\ S.\ Figliola and D.\ E.\ Beasley,
-		\textit{Theory and Design for Mechanical Measurements},
-		5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.
+	\bibitem{ref_COMSOL} % COMSOL Multiphysics simulation software
+	COMSOL~AB, \textit{COMSOL Multiphysics\textregistered{} Reference Manual},
+	v.~5.3a, COMSOL~AB, Stockholm, Sweden, 2017.
 
-		\bibitem{ref_AIAG2005}
-		Automotive Industry Action Group (AIAG),
-		\textit{Statistical Process Control (SPC) Reference Manual},
-		2nd~ed., AIAG, Southfield, MI, 2005, p.~104,132.
+	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
+	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
+	Hoboken, NJ: Wiley, 2019, p. 228.
 
-		\bibitem{ref_white}
-			F.\ M.\ White and H.\ Xue,
-			\textit{Fluid Mechanics}, 9th~ed.,
-			McGraw-Hill Education, New York, NY, 2021.
+	\bibitem{ref_figliola}
+	R.\ S.\ Figliola and D.\ E.\ Beasley,
+	\textit{Theory and Design for Mechanical Measurements},
+	5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.
 
-		\bibitem{ref_haas} % HAAS tolerance for drawings
-		Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
-		[Accessed: May 16, 2026].
+	\bibitem{ref_AIAG2005}
+	Automotive Industry Action Group (AIAG),
+	\textit{Statistical Process Control (SPC) Reference Manual},
+	2nd~ed., AIAG, Southfield, MI, 2005, p.~104,132.
 
-		\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
-		McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_white}
+		F.\ M.\ White and H.\ Xue,
+		\textit{Fluid Mechanics}, 9th~ed.,
+		McGraw-Hill Education, New York, NY, 2021.
 
-		\bibitem{ref_McMaster_std} % Standard washer part specificaitons
-		McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
-		[Accessed: May 8, 2026].
+	\bibitem{ref_haas} % HAAS tolerance for drawings
+	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
+	[Accessed: May 16, 2026].
 
-	\end{thebibliography}
+	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+	[Accessed: May 8, 2026].
+
+	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
+	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+	[Accessed: May 8, 2026].
+
+\end{thebibliography}
 
 
 \newpage
@@ -5137,7 +5138,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	Tolerances listed in the following drawings are taken from HAAS VF-2 series specifications \cite{ref_haas}.
 	Refer to Appendices~\ref{app:mfg} and \ref{app:op} for manufacturing and operation guides.
 
-	\includepdf[pages=1-12, fitpaper=true, landscape=true]{pdf/05182026_DrawingPackage_v31.pdf}
+	\includepdf[pages=1-12, fitpaper=true, landscape=true]{06052026_FinalDrawingPackage.pdf}
 
 \chapter{Data Sheets}
 \label{app:datasheets}
@@ -5283,7 +5284,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 %     \label{fig:del_app_reqs_2}
 % \end{figure}    
 
-\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/FinalGanttChart.pdf}
+\includepdf[pages=1, fitpaper=true, landscape=true]{FinalGanttChart.pdf}
 
 	Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spend a year to develop.
 	We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
