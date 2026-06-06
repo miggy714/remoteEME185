@@ -1296,6 +1296,7 @@
 
 				\begin{equation}
 					D_{ref} = \sqrt{\frac{2}{\pi}} X_{ref} = \sqrt{\frac{2}{\pi}} (\SI{35.519}{\milli\meter} - \SI{35.201}{\milli\meter}) = \AzeroExact
+					\label{eq:Dref}
 				\end{equation}
 
 				as specified.
@@ -1354,8 +1355,8 @@
 
 			\begin{align}
 				L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
-				&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
-				L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter}
+				&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \label{eq:L_act}\\[12pt]
+				L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter} \label{eq:L_mount}
 			\end{align}
 
 			These critical dimensions ensure that the actuator subsystem maintains the specified output
@@ -2300,7 +2301,6 @@ housing thin wall, orifice, outlet channel)}
 				evaluated as the design is further iterated.
 		\end{enumerate}
 
-
 \chapter{Conclusion}
 \label{chap:concl}
 
@@ -2332,7 +2332,8 @@ housing thin wall, orifice, outlet channel)}
 		\item Measures can be taken to eliminate heat transfer. Though the actuator is thermally insulated and separated from the hot internal gas by a thick wall of Invar, this wall should be made thicker to improve its indifference to internal flow conditions.
 			Furthermore, the actuator can be reshaped to improve external heat transfer by cutting holes in the mount to expose the internal actuator, weakening its axial strength to increase fidelity to the ambient air temperature.
 			This can be taken further, cutting fins into the actuator structure (typically done with wire EDM as with the orifice holes) to maximize convection.
-		\item The mount would be better attached to the housing using fasteners due to the difficulty of welding dissimilar metals.
+		\item The mount would be better attached to the housing using fasteners due to the difficulty of welding dissimilar metals. If sealed properly, fasteners would provide a reliable permanent attachment
+			and could afford alternate calibration architectures, such as the use of precision shims.
 		\item The mount and actuator core can trade materials, using an Aluminum mount and an ALLVAR core. This would require repositioning of the leading orifice, which can be easily done such that it is positioned above the fixed orifice;
 			it would significantly reduce the cost of the actuator subsystem (Aluminum is far cheaper than ALLVAR and would be better suited for the larger-diameter part) and would more readily enable manipulation of its geometry as described in the previous two items.
 		\item Finally, the screw may interfere with the thermal expansion of the actuator. This can be solved by using a shorter screw or one made of Aluminum to match the actuator's expansion rate.
@@ -2343,8 +2344,8 @@ housing thin wall, orifice, outlet channel)}
 	Many other priorities, such as size and cost considerations, were sacrificed to maximize the \device's ability to reach this narrow tolerance window.
 	However, using the computational tools presented in Chapter~\ref{chap:test}, a more informed trade-off analysis can determine the real impact of these changes, as is further detailed in Appendix~\ref{app:iter:customize}.
 
-	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation
-	, streamlining experimental control and improving the accuracy and repeatability of their research.
+	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation,
+	streamlining experimental control and improving the accuracy and repeatability of their research.
 
 	% \begin{itemize}
 	% 	\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
@@ -3120,7 +3121,9 @@ housing thin wall, orifice, outlet channel)}
 		\label{app:sat:TF:dT}
 
 			The very top row evaluates the final effective temperature of each part assuming a worst-case thermal gradient driven by a \SI{20}{\degreeCelsius} temperature difference between the internal gas
-			and the 
+			and the ambient temperature. The temperature of every wetted part is set to the gas temperature. The actuator and mount temperatures are assumed to follow $T_{amb}$ exactly, but the tools for a more complex
+			heat transfer analysis between the subsystems were developed in Chapter~\ref{chap:test}, providing a starting ground to determine the final steady-state temperature of the actuator.
+			The results presented in this Appendix, however, do not properly reflect this heat transfer and simply show the output of the \device\ for gas that follows the ambient temperature.
 		
 		\subsection{Thermal Expansion}
 		\label{app:sat:TF:G_therm}
@@ -5332,7 +5335,110 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		and \textit{Sam van der Veen}
 
 	\end{center}
-	
+
+\chapter{}
+
+	\section{Design Weaknesses and Recommendations}
+	\label{app:iter:weak}
+
+		To aid in further iteration of the \device\ design, below is an exhaustive list of the weaknesses, unaddressed assumptions, and open questions
+		identified by the authors and certain corresponding design changes they would implement given more time, excluding those identified in Chapter~\ref{chap:concl}.
+
+		\begin{itemize}
+			\item The Valve Orifice and Housing Outlet, which each contain one component of the diamond orifice, are pressed flush against one another by a precision fit.
+				This flush contact is assumed to only allow flow through the hole cut into the Valve Orifice without allowing leakage around its sides, but this was never verified.
+				The tolerance of the fit may need to be adjusted, or addional sealing applied to ensure gas is not allowed to escape into the rectangular cavity of the housing.
+			\item The calibration screw may interfere with the expansion of the aluminum actuator due to a difference in expansion rates. This can be solved by shortening the screw, using an aluminum screw, or both.
+			\item The strength of the electron-beam welds used for assembly is assumed to be ideal, an assumption defended in Section~\ref{subsec:design:just:weld_analysis}. Though EBW is the most precise weld available, the weld will likely
+				be slightly weaker than the original material and may affect thermal expansion and dimensioning around its area, changing the positions and expansion rates of certain parts.
+			\item The weldability of dissimilar metals, most especially that of ALLVAR to Invar, should be investigated. The use of fasteners to attach the mount would eliminate the need to weld these metals together
+				without sacrificing the precision of their fusion.
+			\item As listed in Chapter~\ref{chap:concl}, steps can be taken to improve the thermal isolation and convection of the actuator subsystem. The housing material between the actuator and the internal components
+				can be increased, insulating the actuator against conduction. Holes can be cut into the mount to expose the interior, or more complex features cut with wire electric-discharge machining to maximize its convective contact with the ambient air.
+			\item Each of the two above items would be better served if the materials of the actuator components were reversed, using an aluminum mount and an ALLVAR core. By positioning the leading orifice above the trailing orifice, the same relationship
+				could be achieved with reversed actuation, allowing for a much cheaper actuator and easier machining of the mount to enable the use of fasteners or convection-increasing features.
+			\item Choked flow separation at the sharp corners of the orifice may cause undesirable effects. Flow characteristics should be investigated to determine whether the sharp edges should be filleted, which would
+				improve flow behavior without degrading the performance of the orifice.
+			\item The achievable precision of machined dimensions on Invar should be evaluated to ensure the required tolerances are achievable despite the material's work-hardening property while being machined.
+				Extra measures may be required to anneal the part between cuts.
+		\end{itemize}
+
+	\section{Iteration Tools}
+	\label{app:iter:customize}
+
+		As Sandia implements changes for the second iteration design, the effects of these changes can readily be analyzed using the tools provided in Appendix~\ref{app:sat} and Chapter~\ref{chap:test}.
+		Below is a guide for the use of these tools. The computational software will be provided separately to Sandia.
+		
+		\subsection{COMSOL simulations}
+		\label{app:iter:customize:COMSOL}
+
+			The full computational prototype lives in a single file titled "Prototype.mph". Each of the below simulations can be found as denominated within this file.
+
+			\begin{itemize}
+				\item \textbf{Pressure Capacity.} To iterate dimensions for optimal internal pressure capacity, use the finite-element stress analysis titled "MBD Study".
+				\item \textbf{Flow Characteristics.} To evaluate the effect of the orifice on the gas flow, such as choking, normal shock, and separation, use the fluid-dynamic simulation titled "Flow Study".
+				\item \textbf{Heat Transfer.} To analyze the effects of thermal isolation and convection features, use the thermal analysis titled "Heat Transfer Study".
+			\end{itemize}
+
+			For each of the above, follow these steps to iterate the design:
+
+			\begin{itemize}
+				\item Revise the CAD assembly, provided separately, to reflect the new design dimensions.
+				\item Insert into the simulation and set appropriate surface pairs (i.e. identity or contact pairs) to represent physical relations between parts.
+				\item Set boundary conditions, such as surface temperatures, pressure parameters, or initial flow conditions. These can be identical to those used for this report or varied as desired.
+			\end{itemize}
+
+		\subsection{Transfer Function}
+		\label{app:iter:customize:TF}
+
+			The analytical system-performance analysis presented in Appendix~\ref{app:sat:TF} is computed using a single C++ software package titled "TF.cpp". The script is fully documented to provide guidance
+			on the use of each part. Follow the derivation given in Appendix~\ref{app:sat:TF} to understand the source of the constants used.
+			Directly manipulate variable values to adjust dimensions, errors, and other parameters. The following items can be readily manipulated.
+			
+			\begin{itemize}
+				\item To change the selected bellows as recommended above, manipulate the initial lengths and spring constants given.
+				\item To introduce estimated fiction or pressure forces, a constant load can be applied to the force balance in Section~\ref{app:sat:TF:force_balance} with little change to the derivation.
+				\item To evaluate the effect of the welds on critical dimensions, the machined lengths can be adjusted to change the thermal-expansion and orifice-position calculations.
+					Values can be added in parallel with the machine-tolerance estimations.
+			\end{itemize}
+
+		\subsection{Required Relationship Adjustment}
+		\label{app:iter:customize:RR}
+
+			Most importantly, the Required Relationship itself can be readily adjusted to adapt the \device\ for particular experiments.
+			The architecture is designed to produce a linear relationship between the ambient air temperature and effective orifice diameter,
+			depicted visually in Figure~\ref{fig:RR},
+			but the slope and intercept of the relation can be adjusted with little effort.
+
+			\subsubsection{Temperature-Diameter Control Derivative}
+			\label{app:iter:customize:RR:slope}
+
+				The slope of system ouput, set to the constant $A_1$ in this design, is defined by the critical actuator dimensions as derived in Section~\ref{subsec:design:just:TF:act}.
+				Assuming a given gap between the base of the actuator and the upper surface of the housing and a given belleville washer compression
+				(\SI{5}{\milli\meter} and \SI{50}{\micro\meter} in this design, respectively), the necessary lengths of the Actuator and Mount can be calculated as in equations~\eqref{eq:L_act} and \eqref{eq:L_mount},
+				where $\frac{\Delta L}{\Delta T}$ (\SI{1.91}{\micro\meter\per\degreeCelsius} in this report) is set as desired:
+
+				\begin{align*}
+					L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \\[12pt]
+					&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+					L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter} 
+				\end{align*}
+
+				If a positive slope is desired, such that the orifice grows with a temperature increase, this can be easily achieved by shrinking the valve stem such that the leading orifice rests above the trailing orifice.
+
+			\subsubsection{Reference Diameter}
+			\label{app:iter:customize:RR:intercept}
+
+				The intercept of the system output, set to the constant $A_0$ in this design, is defined by the distance between the upper and lower vertices of the orifice as machined (at $T_{ref}$)
+				as shown in equation~\eqref{eq:Dref}. The fixed orifice is centered relative to the housing for ease of machining, but the leading orifice can be tuned to obtain a desired reference diameter
+				according to the relation
+
+				\begin{equation}
+					H_{\ell} = H_t - \sqrt{\frac{\pi}{2}} D_{ref}
+				\end{equation}
+
+				where $H_{\ell}$ and $H_t$ are the height of the leading and trailing orifice, respectively, as denoted in the Engineering Drawings in Appendix~\ref{app:drawings}.
+
 \end{appendices}
 
 \end{document}
