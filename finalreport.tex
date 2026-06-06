@@ -674,7 +674,7 @@
 		\end{figure}
 
 		As depicted in Figure~\ref{fig:NASA_req}, this division of subsystems allows for an informative rolldown of the above system requirements
-		into several funcitonal subsystem specifications that, if met, guarantee system requirement satisfaction.
+		into several functional subsystem specifications that, if met, guarantee system requirement satisfaction.
 		Because subsystem errors are not cumulative, the required tolerance cannot be properly divided between the subsystems;
 		this will remain quantified at a 
 		Due to the coupled nature of these subsystems, useful tolerances cannot be divided by subsystem;
@@ -688,7 +688,7 @@
 			Systems are represented by blocks, while ``signals'', or input and output values, are represented by arrows.
 			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system,
 			indicating the effective diameter produced for any given input temperature. 
-			Notice the absense of a feedback loop.
+			Notice the absence of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
 
 			% \vspace{1em}
@@ -755,7 +755,7 @@
 
 			\end{multicols}
 
-			Though these values only specify the functional output of each subsystem, the selected design must exhibit a simple architecture with minimal degrees of freedom and stricty first-order behavior
+			Though these values only specify the functional output of each subsystem, the selected design must exhibit a simple architecture with minimal degrees of freedom and strictly first-order behavior
 			to produce a precise, linear system output. Nevertheless, certain errors cannot be avoided, so specifying calibration capabilities allows unpredictable errors to be corrected when
 			the device is manufactured.
 
@@ -1522,7 +1522,7 @@
 			The housing center pieces are joined using welded connections and designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
 			Because the center pieces form a rectangular prism, the stress distribution is more complex than in a cylindrical geometry, and was difficult to model analytically. However, the increased thickness of \SI{10}{\milli\meter} provides a significant safety margin to ensure that the housing center can withstand the internal pressure without failure.
 			Flat-walled pressure vessel behavior and stress concentrations at the corners may, however, produce more than the critical stress;
-			this risk is evaluated in more detail in Section~\ref{sec:DFMEA:P}.
+			this risk is evaluated in more detail in Section~\ref{subsec:design:just:weld_analysis}.
 
 		\newpage % Delete if necessary
 		\subsection{Hermetic Seal}
@@ -1747,7 +1747,7 @@
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
 
-			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degredation of materials as their surfaces slide against one another), which could damage the system performance over time.
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
 			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
@@ -1768,7 +1768,7 @@
 				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
 				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
 
-				A few design changes, discussed in Section~\ref{sec:conc:rec}, may allow the \device\ to fit within the Mechanical Envelope.
+				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
 				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
 				but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
 
@@ -1945,73 +1945,13 @@
 \chapter{Model Verification}
 \label{chap:DFMEA}
 
-	\section{Error Analysis IMPORTED DIRECTLY FROM TRANSFER FUNCTION CHAPTER; INTEGRATE AS IS FITTING}
-	\label{sec:DFMEA:error}
-
-		\subsection{Variations in the Actuator's Coefficient of Thermal Expansion}
-		\label{subsec:DFMEA:error:CTE}
-
-			Typical material specifications list a single coefficient of thermal expansion (CTE).
-			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
-			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
-		
-			\begin{figure}[H]
-				\centering
-				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
-				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
-				\label{fig:al_alpha}
-			\end{figure}
-			
-			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
-			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
-			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
-			These introduce nonlinear behavior, resulting in quantifiable error.
-
-		\subsection{Machine Tolerances}
-		\label{subsec:DFMEA:error:mach}
-
-			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
-			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{ref_haas}.
-
-			\begin{wrapfigure}{l}{.4\textwidth}
-				\centering
-				\includegraphics[width=.39\textwidth]{orif_error.png}
-				\caption{Orifice error modes}
-				\label{fig:orif_error}
-			\end{wrapfigure}
-
-			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
-			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
-			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc \todo{Update with Xometry quote once obtained} quoted the operation (attached in Appendix~\ref{app:datasheets}).
-			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
-			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
-			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
-			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
-
-		\subsection{Heat Transfer}
-		\label{subsec:DFMEA:error:dT}
-
-			\todo{Thermal analysis from COMSOL to find final temperature of actuator and mount after 60s and at SS}
-
-		\subsection{Bellows Spring Reactions}
-		\label{subsec:DFMEA:error:bellows}
-
-			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
-			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
-
-		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
-		The transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
-
-\section{Risk Assesment and Analysis} % to separate the above subsections from those below
-
 \subsection{Introduction to Failure Mode Effect Analysis and Methods}
 \label{subsec}
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
 	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
+	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}. \todo{fix this ref}
 
 		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
 
@@ -2031,7 +1971,7 @@
 
 	\subsection{Weld Failure Analysis}
 	\label{subsec:design:just:weld_analysis}
-	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
+	Of the critical failure modes, two of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
@@ -2265,7 +2205,8 @@
 
 	\item \textbf{Discussion.}
 	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
-	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. 
+	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. This shows that this failure mode will
+	not a be major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
 
 \end{enumerate}
 
@@ -2313,9 +2254,17 @@
 \todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
 housing thin wall, orifice, outlet channel)}
 
-\textbf{Actuator-Housing Weldament}
+\textbf{Valve Orifice}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
+	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
+	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
+		\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
+                \caption{Image showing the stress concentration at the edges of the orifice.}
+                \label{fig:FEAdisp}
+            \end{figure}
 	\item \textbf{Assumptions, Principles, and Methods.}
 	\item \textbf{Calculations.}
 	\item \textbf{Results.}
@@ -2352,96 +2301,6 @@ housing thin wall, orifice, outlet channel)}
 				evaluated as the design is further iterated.
 		\end{enumerate}
 
-
-\chapter{Prototype Testing}
-\label{chap:test}
-
-\todo{Outline for Testing chapter}
-\section{Objective}
-Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
-
-\section{Test Design}
-
-\todo{Add corresponding UI screenshots of COMSOL that reflect the boundary condition decisions. Include the COMSOL tree and the actual corresponding part of the model.}
-
-\subsection{Set-up: Boundary Condition Decisions}
-\begin{itemize}
-    \item Surface pairs and contact constraints.
-    \item Fluid-solid boundaries (incorporating union nodes where a single continuous boundary is required for FSI).
-    \item Accurate boundary representations for complex orifice shapes, ensuring internal flow geometries are not oversimplified as standard cylinders.
-\end{itemize}
-
-\subsection{Deformation and Dimensional Tolerance Flow Chart}
-Mapping the transfer function dependencies: CFD $\rightarrow$ MBD $\rightarrow$ Deformation $\leftarrow$ Heat Transfer.
-
-\subsection{Mesh Decisions}
-Strategies and refinements to improve computational accuracy and validity across domains.
-
-\section{Data Collection}
-
-\subsection{Design Space Matrix}
-\begin{itemize}
-    \item Turbulent flow $\Delta P$ range.
-    \item Heat transfer: $T_{amb}$ range and $T_{gas}$ range.
-\end{itemize}
-
-\section{Data Analysis}
-
-\subsection{Dimensional Failure}
-Focusing on heat transfer impacts and thermal expansion.
-
-\todo{Show images of the failure modes reflected on the model}
-
-\subsection{Stress and Material Failure}
-
-\todo{Show images of the failure modes reflected on the model. An optional suggestion to have some sort of validation reference via a figure from a study, etc.}
-
-Evaluating structural integrity, yielding, and mechanical limits.
-
-\chapter{Testing}
-\label{chap:test}
-
-\todo{Outline for Testing chapter}
-\section{Objective}
-Validate and expand/iterate on analytical methods by simulating the entire PTCD. Testing is purely simulation-based in COMSOL Multiphysics and includes conducting Heat Transfer (thermal-stress) and transient thermal studies, both for the actuator in isolation and for the full core assembly.
-
-\section{Test Design}
-
-\subsection{Set-up: Boundary Condition Decisions}
-\begin{itemize}
-    \item Surface pairs and contact constraints (Form Assembly with Identity Pairs for the multi-body assembly; Rigid Connector face bonding for the simplified actuator–mount model).
-    \item Bellows represented as an equivalent cylinder with softened effective modulus to match axial spring stiffness, avoiding intractable bellows-geometry meshing.
-    \item Thermal environment applied through the $T_{env}$ parameter, with a fixed constraint at the mount base providing a stable reference for actuator displacement.
-\end{itemize}
-
-\subsection{Stroke and Dimensional Tolerance Flow Chart}
-Mapping the transfer function dependencies: $T_{env} \rightarrow$ Heat Transfer $\rightarrow$ Thermal Expansion $\rightarrow$ Actuator Stroke $\rightarrow$ Dimensional Tolerance, with elastic deformation of the mount and actuator as a parallel contribution.
-
-\subsection{Mesh Decisions}
-Strategies and refinements to improve computational accuracy and validity (physics-controlled meshing, refinement at flexures and junctions, isolation of sharp-corner singularities from bulk results).
-
-\section{Data Collection}
-
-\subsection{Design Space Matrix}
-\begin{itemize}
-    \item Heat transfer: $T_{amb}$ range ($-60\,^{\circ}\mathrm{C}$ to $+80\,^{\circ}\mathrm{C}$) swept about the $25\,^{\circ}\mathrm{C}$ reference.
-    \item Mount material candidates: Invar 36 and Allvar Alloy 30 (differential-CTE comparison).
-    \item Transient response: settling time to steady state for a representative $\Delta T$.
-\end{itemize}
-
-\subsection{Validation Against Analytical Model}
-\begin{itemize}
-    \item Simulated actuator displacement (point evaluation on the actuator bottom face) overlaid against the analytical linear model.
-    \item Percent error between FEA and analytical stroke across the operating range.
-\end{itemize}
-
-\section{Data Analysis}
-
-\subsection{Dimensional Failure}
-Focusing on heat transfer impacts and thermal expansion, including verification of the linear stroke relationship and the behavior of wetted surfaces and core-assembly components across the operating range.
-
-\subsection{Stress and Material Failure}
-Evaluating structural integrity, yielding, and mechanical limits of the actuator, mount, valve, and bellows under thermal load.
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -2485,7 +2344,8 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 	Many other priorities, such as size and cost considerations, were sacrificed to maximize the \device's ability to reach this narrow tolerance window.
 	However, using the computational tools presented in Chapter~\ref{chap:test}, a more informed trade-off analysis can determine the real impact of these changes, as is further detailed in Appendix~\ref{app:iter:customize}.
 
-	\todo{Nice short wrap-up paragraph}
+	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation
+	, streamlining experimental control and improving the accuracy and repeatability of their research.
 
 	% \begin{itemize}
 	% 	\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
@@ -3111,10 +2971,67 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 \chapter{Required Relationship Failure Analysis}
 \label{app:sat}
 
-	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:DFMEA} about its ability to meet the subsidiary specifications.
-	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:sat:TF:results}, the \device\ can be expected to meet its required tolerance
-	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:sat:error}.
+	Section~\ref{sec:DFMEA::tol} introduces the most important failure consideration: satisfaction of the Required Relationship to the required tolerance as stipulated by equation~\eqref{eq:required_relationship}:
 
+	\begin{equation}
+		\requiredRelationship
+	\end{equation}
+
+	The below analysis provides a thorough analysis of the effect of several key sources of error and analytically evaluates the final expected output of the \device.
+
+	\section{Error Analysis}
+	\label{app:sat:error}
+
+		\subsection{Actuator Coefficient of Thermal Expansion}
+		\label{app:sat:error:CTE}
+
+			Typical material specifications list a single coefficient of thermal expansion (CTE).
+			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
+			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
+		
+			\begin{figure}[H]
+				\centering
+				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
+				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
+				\label{fig:al_alpha}
+			\end{figure}
+			
+			Though no numerical data was provided, the temperature-dependent aluminum CTE values can be approximated from this graph, shown in Table~\ref{tab:CTE_Al} in the Appendix.
+			From this, we obtain the reference-temperature CTE (\specActuatorCTE) used in Chapter~\ref{chap:design},
+			but the true value varies between \SI{21.8}{\micro\meter\per\meter\per\degreeCelsius} and \SI{23.5}{\micro\meter\per\meter\per\degreeCelsius} as $\Tcold \leq T \leq \Thot$.
+			These introduce nonlinear behavior, resulting in quantifiable error.
+
+		\subsection{Machine Tolerances}
+		\label{app:sat:error:mach}
+
+			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
+			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
+			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{ref_haas}.
+
+			\begin{wrapfigure}{l}{.4\textwidth}
+				\centering
+				\includegraphics[width=.39\textwidth]{orif_error.png}
+				\caption{Orifice error modes}
+				\label{fig:orif_error}
+			\end{wrapfigure}
+
+			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
+			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
+			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc quoted the operation (attached in Appendix~\ref{app:datasheets}).
+			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
+			This horizontal error compounds if the leading orifice is machined too far left and the trailing orifice is machined too far right;
+			the maximum error is twice this value. Thus, $d \ell_h = \SI{25.4}{\micro\meter}$.
+			Vertical error can be more readily dealt with individually; thus, the noncompounding vertical error is defined as $d \ell_v = \SI{12.7}{\micro\meter}$.
+
+		\subsection{Bellows Spring Reactions}
+		\label{app:sat:error:bellows}
+
+			As the actuator deflects and drives the valve stem downwards or pulls it upwards, the two bellows act as springs and provide a slight reaction force, possibly compressing or stretching the valve stem and actuator.
+			Since each part behaves as a spring, the resulting coupled spring assembly is complex and requires a comprehensive force balance analysis to reconcile the final deflections.
+
+		Other sources of error include unwanted thermal expansion of the housing and valve subcomponents and potential heat transfer from the hot internal gas.
+		Each of these sources of error impacts the entire system. Since the behavior of each subsystem is coupled, the effect of these errors on the final output of the \device\ can only be analyzed by a rigorous static system analysis.
+		As discussed in Section~\ref{subsec:DFMEA::tol}, the transfer function derived in the following section provides a tool for analysis of deterministic and stochastic error propagation across the full temperature range.
 
 	\section{Transfer Function Derivation}
 	\label{app:sat:TF}
@@ -3203,7 +3120,8 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 		\subsection{Heat Transfer}
 		\label{app:sat:TF:dT}
 
-			\todo{Heat transfer analysis from COMSOL testing}
+			The very top row evaluates the final effective temperature of each part assuming a worst-case thermal gradient driven by a \SI{20}{\degreeCelsius} temperature difference between the internal gas
+			and the 
 		
 		\subsection{Thermal Expansion}
 		\label{app:sat:TF:G_therm}
@@ -3222,7 +3140,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 			\begin{multicols}{2}
 				\begin{align}
-					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} \left( T_{{eff}_M} - T_{ref} \right) ) \label{eq:G_therm_1}\\
+					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{\tiny{ALLV}} \left( T_{{eff}_M} - T_{ref} \right) ) \label{eq:G_therm_1}\\
 					\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} \left( T_{{eff}_A} - T_{ref} \right) ) \\
 					\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} \left( T_{{eff}_S} - T_{ref} \right) ) \\
 					\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} \left( T_{{eff}_T} - T_{ref} \right) )
@@ -3623,13 +3541,6 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			and the vertical and horizontal positions of each orifice ($d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$) ---
 			are stochastic. In other words, the value of each will vary each time the part is produced due to slight imprecisions in the machining process
 			and cannot be exactly predicted.
-			Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
-			which evaluates a large number (e.g. $10^6$) samples, each with a different random combination of stochastic inputs and finds the resulting error distribution,
-			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
-			It output a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$, where the tolerance is narrowest.
-			On average, a freshly-assembled device will produce an orifice that is smaller than nominal by half its tolerance window.
-			Those that fall outside of tolerance do not exceed their boundary by more than 252\%.
-			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
 			Figure~\ref{fig:TF_res} demonstrates the output of the System Transfer Function given two worst-case combinations of the stochastic error values:
 			$d \ell_M$, $d \ell_A$, $d \ell_S$, $d \ell_V$, $d \ell_H$, $d \ell_W$, $d \ell_{V_v}$, $d \ell_{H_v}$, $d \ell_{V_h}$, and $d \ell_{H_h}$.
@@ -3637,6 +3548,15 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 			If many identical devices are manufactured, most will achieve their required tolerance without calibration, but some will reach these boundaries and fall outside of tolerance.
 			The lower boundary represents the combination of errors where the effective diameter is the smallest --- the valve stem is positioned lower than it should be.
 			The upper boundary represents the opposite.
+
+			Each stochastic machining error follows a normal distribution, where its tolerable range holds approximately six standard deviations $(6 \sigma)$ for a typical Computer-Numeric Control (CNC) machine\cite{ref_AIAG2005}.
+			Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
+			which evaluates $10^6$ samples, each with a different random combination of stochastic inputs and finds the resulting error distribution,
+			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
+			It output the normalized distribution in Figure~\ref{fig:error_dist}, with a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$ (where the tolerance is narrowest).
+			On average, a freshly-assembled device will produce an orifice that is smaller than nominal by half its tolerance window.
+			Those that fall outside of tolerance do not exceed their boundary by more than \SI{44.6}{\micro\meter}.
+			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
 			\begin{figure}[h]
 				\centering
@@ -3767,10 +3687,6 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 				\caption{Transfer Function Output}
 				\label{fig:TF_res}
 			\end{figure}
-
-			Each stochastic machining error follows a normal distribution, where its tolerable range holds approximately six standard deviations $(6 \sigma)$ for a typical Computer-Numeric Control (CNC) machine\cite{ref_AIAG2005}.
-			The Transfer Function was calculated $10^6$ times with these stochastic inputs randomly selected according to this distribution, yielding the normalized distribution in Figure~\ref{fig:error_dist}
-			with a mean of -45.1\% and a standard deviation of 41.6\%. These are given as percentages of \SI{25.4}{\micro\meter}, the narrowest required tolerance found at $T_{ref}$.
 
 			\vspace{1em}
 			\begin{figure}[h]
@@ -4049,11 +3965,10 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 					\label{fig:TF_cal}
 			\end{figure}
 
-			These results must be taken with skepticism.
-			This System Transfer Function does not purport to reliably simulate the full performance of the \device.
-			Nor is it without error, assumption, or simplification. System requirement satisfaction can only be comprehensively verified with a full-fidelity physical model, which Sandia did not deem worthwhile for this first-iteration design.
-			The function does, however, provide an inexpensive tool to holistically analyze the expected behavior of various parameter adjustments, such as changes in material properties, machined dimensions, expected error values, and calibration setpoints.
-			It also serves to validate the results produced by the computational prototype that will be introduced in Chapter~\ref{chap:DFMEA}. \todo{update this conclusion}
+			The Tranfer Function accomplishes two objectives. First, it demonstrates the viability of the \device\ despite its strict output requirement. 90\% of manufactured devices are expected to meet their
+			tolerance window; those that do not can be readily calibrated. As is addressed in Section~\ref{subsec:DFMEA::tol} and Chapter~\ref{chap:concl}, this computation does not account for all sources of error and therefore presents an optimistic
+			expectation value for the system performance. However, it verifies that the major anticipated errors have been mitigated to a tolerable amount by the design strategies illustrated in Section~\ref{sec:design:just}.
+			Second, it provides a ready tool for further iteration. Appendix~\ref{app:iter:customize} provides guidance to use this Transfer Function and its associated software to more quickly evaluate the impact of design changes and improvements.
 
 \chapter{Further Failure Analysis andDesign Recommendations}
 
@@ -4070,7 +3985,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:sat:error} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{subsec:DFMEA:error:mach} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
