@@ -2258,14 +2258,12 @@
 	easy way to reduce the stress concentration without adding more material. 
 \end{enumerate}
 
-\todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
-housing thin wall, orifice, outlet channel)}
-
 \textbf{Valve Orifice}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
 	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
+	Here is image showing how the stress is concentrated at the edges of the orifice, which is where the failure is most likely to occur.
 		\begin{figure}[h]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
@@ -2273,10 +2271,29 @@ housing thin wall, orifice, outlet channel)}
                 \label{fig:FEAdisp}
             \end{figure}
 	\item \textbf{Assumptions, Principles, and Methods.}
+	The assumptions for the valve orifice are using the computer software which calculates the stress on the surface of the orifice and finds the maximum and average von Mises stress. 
+	The principles and methods for this analysis are the same as the ones used for the orifice channel opening, which are detailed in the following chapter, Testing.
 	\item \textbf{Calculations.}
+	Using the data collected from the computer software testing, the factor of safety can be found using von Mises stress and the yield strength of Invar. The average von Mises stress at the
+	edges of the orifice was found to be 126 MPa and the maximum von Mises stress was found to be 362 MPa.
 	\item \textbf{Results.}
+<<<<<<< HEAD
+	Using the maximum von Mises stress: 
+	FOS = 240 MPa / 362 MPa = 0.66
+
+	Using the average von Mises stress:
+	FOS = 240 MPa / 126 MPa = 1.90
+
+	The FOS less than 1 at the maximum stress is an issue and something that needs to
+	be addressed, however because the average stress is greater than 1, it is likely that the
+	corner will not fail under most operating conditions.
+=======
 		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+>>>>>>> b26a9d328a76a159948481ea8963222251f9b9ee
 	\item \textbf{Discussion.}
+	The FOS of less than 1 at the maximum von Mises stress indicates that the corners of the orifice could fail if the test got to the maximum stress, however because the FOS at the average von Mises stress 
+	is greater than 1, it is likely that the corners will not fail under most operating conditions. One way to increase the FOS at the corners would be to round the corners that are not the ones creating the 
+	diamond shape of the orifice. This would reduce the risk of failure at those corners and increase the FOS. 
 \end{enumerate}
 
 	\subsection{Tolerance Failure Analysis}
