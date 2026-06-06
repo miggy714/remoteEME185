@@ -2078,9 +2078,7 @@
 			\label{eq:sf_axial}
 		\end{equation}
 
-		The bending factor of safety is:
-
-		\todo{Add data from COMSOL to support or cite where its located in the report}
+		The failure due to bending is more complex to evaluate and is best described by computational modeling. The resulting stresses can be found in Figure~\ref{fig:FEAdisp2}.
 
 		\item \textbf{Discussion.}
 		The axial factor of safety of $15.27$ confirms that the weld cross-section carries 
@@ -2098,11 +2096,9 @@
 		stress distribution at the curved housing interfaces. COMSOL Multiphysics modeling 
 		of the full weld joint geometry verifies that the design maintains an adequate factor of safety against bending failure.
 		
-	\todo{Replace bending stress placeholder with COMSOL results and updated safety 	
-	factor once simulation is complete.}
-
 	\end{enumerate}
-\begin{figure}[h]
+\\~\\
+	\begin{figure}[h]
                 \centering
                 \includegraphics[width=.75\textwidth]{ Static_FEA_StressMagnitude1.png}
                 \caption{Static FEA Results on simplified Single Body Model}
@@ -2173,12 +2169,12 @@
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
 	by the internal gas flow. This wall could be a problem due to how thin it is and how much pressure will be exerted on it. Using the pressure
 	hand calculations, the Factor of Safety (FS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
-	
+	\\~\\
 		\begin{figure}[H]
                 \centering
                 \includegraphics[width=.55\textwidth]{figures3/Housing Outlet Wall pic.png}
                 \caption{Housing Outlet Wall Dimensions.}
-                \label{fig:FEAdisp}
+                \label{fig:FEAdisp1}
             \end{figure}
 
 	\item \textbf{Assumptions, Principles, and Methods.}
@@ -2232,12 +2228,12 @@
 
 	Below is the table of data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
-	
+	\\~\\
 	\begin{figure}[htbp]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
                 \caption{Table of Von Mises stresses extracted from an FEA of the orifice channel opening.}
-                \label{fig:FEAdisp}
+                \label{fig:FEAdisp2}
             \end{figure}
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
@@ -2265,11 +2261,12 @@
 	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
 	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
 	Here is image showing how the stress is concentrated at the edges of the orifice, which is where the failure is most likely to occur.
-		\begin{figure}[h]
+	\\~\\	
+	\begin{figure}[h]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
                 \caption{Image showing the stress concentration at the edges of the orifice.}
-                \label{fig:FEAdisp}
+                \label{fig:FEAdisp3}
             \end{figure}
 	\item \textbf{Assumptions, Principles, and Methods.}
 	The assumptions for the valve orifice are using the computer software which calculates the stress on the surface of the orifice and finds the maximum and average von Mises stress. 
