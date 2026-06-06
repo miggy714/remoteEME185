@@ -1974,7 +1974,7 @@
 	Of the critical failure modes, two of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
-	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
+	reflected in the RPN sheet. To ensure the welds have a sufficient FS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
 	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
 	
@@ -2138,17 +2138,24 @@
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
-		$\sigma_{\text{weld}} = \frac{E_{\text{alvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}$
+
+		\begin{equation}
+			\sigma_{\text{alv}} = \frac{E_{\text{allvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
+		\end{equation}
+		
   \item \textbf{Results.}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
- 		stresses are the same. Given that this stress is much smaller than the yield stress of Alvar 
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
  		and of the weld metal we find a sufficient safety factor:
-		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+		
+		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+		
+		
   \item \textbf{Discussion.}
-		While this FOS is acceptable, this is assuming the weld has the same material properties as
+		While this FS is acceptable, this is assuming the weld has the same material properties as
  		the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
  		detrimental changes in material properties around the weld area which could cause a variety
-  	of failures. Because Allvar alloy 30 is a experimental alloy with a proprietary composition we 
+  	of failures. Because Allvar 30 is a experimental alloy with a proprietary composition we 
   	cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
   	welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
    	the iron to create brittle intermetallic compounds making the weld brittle. 
@@ -2164,7 +2171,7 @@
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
 	by the internal gas flow. This wall could be a problem due to how thin it is and how much pressure will be exerted on it. Using the pressure
-	hand calculations, the Factor of Safety (FOS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
+	hand calculations, the Factor of Safety (FS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
 	
 		\begin{figure}[H]
                 \centering
@@ -2174,7 +2181,7 @@
             \end{figure}
 
 	\item \textbf{Assumptions, Principles, and Methods.}
-	The wall is treated as a circular plate with fixed edges under uniform distributed pressure of 10,000 psi. The maximum stress is calculated using the formula for
+	The wall is treated as a circular plate with fixed edges under uniform distributed pressure of \specPressure. The maximum stress is calculated using the formula for
 	a flat plate with fixed edges under uniform distributed loading. The parameters used in this analysis are diameter of the plate is 3.5 mm and the thickness is 1 mm.
 	\item \textbf{Calculations.}
 	The total force acting on the outlet wall is first found from the applied pressure and plate area:
@@ -2198,7 +2205,7 @@
 
 	\item \textbf{Results.}
 	    \begin{equation}
-        \text{FOS} = \frac{S_{y,\,\text{Invar}}}{\sigma_{\max}}
+        \text{FS} = \frac{S_{y,\,\text{Invar}}}{\sigma_{\max}}
                    = \frac{240~\text{MPa}}{158.4~\text{MPa}}
                    = 1.51
     \end{equation}
@@ -2215,14 +2222,14 @@
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the orifice channel opening maintains structural integrity under the pressure exerted on it by the internal 
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
-	the stress exerted on that corner, the Factor of Safety (FOS) can then be calculated using the yield strength of Invar.
+	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar.
 	\item \textbf{Assumptions, Principles, and Methods.}
 	The assumpptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
 	Reference the following chapter, Testing, for the complete priciples and metthods used for testing and FEA.
 	\item \textbf{Calculations.}
 	Using the data from the FEA testing, the factor of safety at the corner can be found. 
 
-	Below is the table of data from the FEA testing that will be used to calculate the FOS at the corner of the outlet opening.
+	Below is the table of data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
 	
 	\begin{figure}[htbp]
@@ -2233,20 +2240,20 @@
             \end{figure}
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
-	the FOS can be calculated for both the maximum and average stress values.
+	the FS can be calculated for both the maximum and average stress values.
 	\item \textbf{Results.}
 	
 	Using the maximum von Mises stress:
-	FOS = 240 MPa / 300 MPa = 0.8
+	$FS = \frac{240 \text{MPa}}{300 \text{MPa}} = 0.8$
 
 	Using the average von Mises stress:
-	FOS = 240 MPa / 178 MPa = 1.35
-	
-	The FOS less than 1 at the maximum stress is an issue and something that needs to be addressed, however because the average stress is greater than 1, it is likely that the corner will not fail under most operating conditions.
+	$FS = \frac{240 \text{MPa}}{178 \text{MPa}} = 1.35$
+
+	The FS less than 1 at the maximum stress is an issue and something that needs to be addressed, however because the average stress is greater than 1, it is likely that the corner will not fail under most operating conditions.
 	\item \textbf{Discussion.}
-	The FOS calculated using the maximum von Mises stress is less than 1, which indicates that the corner of the outlet opening could fail if the pressure is at its maximum. However, 
-	the FOS at average von Mises stress is greater than 1, which indicates that at most operating conditions, this corner will not be a problem. In order to make the corner more robust, 
-	the corner could be rounded to reduce the stress concentration. This would increase the FOS because it would lower the stress that is put on that point. Another way to increase the FOS
+	The FS calculated using the maximum von Mises stress is less than 1, which indicates that the corner of the outlet opening could fail if the pressure is at its maximum. However, 
+	the FS at average von Mises stress is greater than 1, which indicates that at most operating conditions, this corner will not be a problem. In order to make the corner more robust, 
+	the corner could be rounded to reduce the stress concentration. This would increase the FS because it would lower the stress that is put on that point. Another way to increase the FS
 	would be to increase the thickness of the wall at that point, which would also lower the stress. Ultimately, rounding the corner is probably the best solution because it is a simple and 
 	easy way to reduce the stress concentration without adding more material. 
 \end{enumerate}
@@ -2268,7 +2275,7 @@ housing thin wall, orifice, outlet channel)}
 	\item \textbf{Assumptions, Principles, and Methods.}
 	\item \textbf{Calculations.}
 	\item \textbf{Results.}
-		$\text{FOS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
 	\item \textbf{Discussion.}
 \end{enumerate}
 

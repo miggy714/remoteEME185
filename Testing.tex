@@ -302,15 +302,29 @@ Mesh Decisions = DIFFERENT, DATA COLLECTION = DIFFERENT. The "DIFFERENT" section
 We need to split limitations in subsections, for each test CFD, MBD, and HT. For heat transfer limitation, contact resistance was omitted in these tests. Limitation in MBD where geometry was not decoupled at the orifice, assumes parts are welded 
 together, MBD different in that inlet and outlet were omitted, but pressure left in from CFD. Discuss but do not synthesize for all limitations!}
 \section{Objective}
-The testing plan validated and expanded/iterated on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
+In the absence of a physical manufactured model, verification of the DFMEA is done through two methods: (1)analytical methods, (2) Finite element simulations. This section discusses the testing process and strategy of using finite element simulations to validate the analytical results and explore failure modes determined by DFMEA.  The testing plan validated and expanded/iterated on analytical methods by simulating the entire PTCD. Testing includes conducting Heat Transfer, Computational Fluid Dynamics (CFD), and Multibody Dynamics (MBD) in isolation, as well as combined.
 
 \section{Test Design}
 
 \todo{Add corresponding UI screenshots of COMSOL that reflect the boundary condition decisions. Include the COMSOL tree and the actual corresponding part of the model.}
 
+\subsection{Set-up: General Strategy}
+
+To make the simulations computationally less expensive, the following strategies have been employed
+\begin{enumerate}
+	\item The PTCD is cut in half about its vertical symmetry plane, creating new surfaces which will be referred to as "symmetry surfaces". By setting the exposed symmetry surfaces to its appropriate "symmetrical nodes" in the simulation software, the amount of meshes can be cut in half, reducing the computation time. \todo{INSERT SYMMETRY FACES PHOTOS HERE}
+	\item The physics is "decoupled". The CFD is ran on a rigid negative domain of the channel with a turbulent simulation where a "pressure map" of the wetted surface is recovered. This same pressure map is used to apply a load on the wetted surfaces of the PTCD assembly geometry to apply a load that is representative of the fluid flow during operation. The heat transfer simulation is then executed on the loaded assembly by setting all exposed surfaces to the ambient temperature, and all the wetted surfaces to the fluid temperature.
+\end{enumerate}
+
 \subsection{Set-up: Boundary Condition Decisions}
 \begin{itemize}
     \item Surface pairs and contact constraints.
+	\\
+	In multi-body simulation, the consideration for surface pairs where the multiple bodies contact is pivotal for accuracy of results. For all simulations, the welded surfaces are set as \textbf{identity pair} while surfaces that are unwelded and expected to collide are set as \textbf{contact pairs}.
+	Failure to set up these surface constraints will result in bodies phasing through each other, welded surfaces to decouple, and so on.
+	\\
+	Verification for the correctness of contact constraints are made by setting a rigid translation of the orifice in space and observing how the meshes behave. This is shown on the \todo{insert figure reference}figure below
+
     \item Fluid-solid boundaries (incorporating union nodes where a single continuous boundary is required for FSI).
     \item Accurate boundary representations for complex orifice shapes, ensuring internal flow geometries are not oversimplified as standard cylinders.
 \end{itemize}
