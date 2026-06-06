@@ -1950,29 +1950,27 @@
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
-	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}. \todo{fix this ref}
+	of 100 was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
+	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:test}.
 
-		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
 
 \begin{figure}[h]
                 \centering
-                \includegraphics[width=.75\textwidth]{ DFMEA_table_priority_modes.png}
+                \includegraphics[width=\textwidth]{ DFMEA_table_priority_modes.png}
                 \caption{Prioritized Failure Modes with RPN>120}
                 \label{fig:RPN_priority}
             \end{figure}
 
-	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
+	The threshold RPN was chosen to be 100. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
-	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
+	tolerance range.
 	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
 	inform suggestions for redesign and modification. The results of computational modeling are discussed in \ref{chap:test}	
 
 	\subsection{Weld Failure Analysis}
 	\label{subsec:design:just:weld_analysis}
-	Of the critical failure modes, two of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
-	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
+	Of the critical failure modes, two of them are on welds.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
@@ -2133,8 +2131,8 @@
  		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
   	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
-  	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}$
+  	temperature gradient with
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}=0.0254mm$
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
@@ -2148,7 +2146,7 @@
  		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
  		and of the weld metal we find a sufficient safety factor:
 		
-		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}=3.68}$
 		
 		
   \item \textbf{Discussion.}
@@ -2258,8 +2256,7 @@
 	easy way to reduce the stress concentration without adding more material. 
 \end{enumerate}
 
-\todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
-housing thin wall, orifice, outlet channel)}
+
 
 \textbf{Valve Orifice}
 \begin{enumerate}[label=\roman*.]
