@@ -2308,6 +2308,314 @@ housing thin wall, orifice, outlet channel)}
 				evaluated as the design is further iterated.
 		\end{enumerate}
 
+% ============================================================================
+% TESTING CHAPTER  (LaTeX equivalent of Testing.pdf)
+% Photos from the PDF are omitted; their intended locations are marked with
+% "% [PHOTO]" comments.
+% ============================================================================
+ 
+\chapter{Testing}
+\label{chap:test}
+ 
+\section{Objective}
+In the absence of a physical manufactured model, verification of the DFMEA is
+done through two methods: (1) Analytical methods and (2) Finite element
+simulations. This section discusses the testing process and strategy of using
+finite element simulations to validate the analytical results and explore
+failure modes determined by DFMEA. This computational prototype will be
+subjected to the following simulations: Heat Transfer (HT), Computational Fluid
+Dynamics (CFD), and Multibody Dynamics (MBD).
+ 
+\section{Test Design}
+To make the simulations computationally less expensive, the following
+strategies have been employed
+\begin{enumerate}
+    \item The PTCD is cut in half about its vertical symmetry plane, creating
+    new surfaces which will be referred to as ``symmetry surfaces''. By setting
+    the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
+    the simulation software, the amount of meshes can be cut in half, reducing
+    the computation time.
+    % [PHOTO] Symmetry faces of the half-model PTCD (highlighted symmetry surfaces).
+    \item The physics is ``decoupled''. The CFD is run on a rigid negative
+    domain of the channel with a turbulent simulation where a ``pressure map''
+    of the wetted surface is recovered. This same pressure map is used to apply
+    a load on the wetted surfaces of the PTCD assembly geometry to apply a load
+    that is representative of the fluid flow during operation. The heat transfer
+    simulation is then executed on the loaded assembly by setting all exposed
+    surfaces to the ambient temperature, and all the wetted surfaces to the
+    fluid temperature.
+    % [PHOTO] Negative (fluid) domain of the channel used for the CFD study.
+    \item As additional verification, a solid mechanics simulation was conducted
+    on single bodies like the orifice and the inlet/outlet parts, isolated from
+    the assembly. This form of isolated simulation was also conducted for HT.
+    \item A physics driven mesh is selected as a blanket parameter for the
+    entire assembly with an effective diameter smaller than the radius of the
+    smallest fillet in our geometry. On top of the blanket parameter, specific
+    parts in the assembly have modified mesh parameters; Namely the orifice,
+    mount, and the actuator have twice the mesh resolution.
+\end{enumerate}
+ 
+\section{Developing the computational prototype}
+ 
+\subsection{Fluid Dynamics Simulation}
+Fluid dynamics simulation is conducted to recover a pressure map on the
+fluid-solid interface. This pressure map will be used as the boundary load for
+the multi-body simulation.
+ 
+\subsubsection{Boundary Condition Decisions}
+\begin{enumerate}
+    \item The inlet and outlet are assumed to be in fully developed flow
+    \begin{enumerate}
+        \item Inlet pressure is swept across the design space with parameters
+        from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi. This
+        decision to have an exponential sweep was made because of the range
+        \item Outlet pressure is set as 0 psi
+    \end{enumerate}
+    \item The boundary condition is set as no slip.
+\end{enumerate}
+ 
+\subsubsection{Data Collection}
+The pressure map on the fluid-solid interface is recovered and mapped onto the
+wetted surface of the multi-body simulation.
+% [PHOTO] Pressure map / velocity field on the fluid domain (inlet_pressure(5)=10000).
+ 
+\subsubsection{Limitations}
+The computational model used is k-epsilon with the fluid set as incompressible.
+This is a very simplistic model that does not accurately compute the state of
+the fluid in the volume.
+ 
+\subsection{Heat Transfer Simulation}
+To validate the analytical calculations on the PTCD's dimensional stability
+under operating temperature conditions, a heat transfer simulation is conducted
+by a steady state and transient study.
+% [PHOTO] Steady-state surface temperature plot (gas_temp=100, ambient_temp=80).
+ 
+\subsubsection{Boundary Condition Decisions}
+The isolated heat transfer tests used two different boundary-condition setups.
+Each study type still shared common mechanical constraints. However, the
+distinctions in boundary-conditions enabled the different end results of each
+respective study.
+ 
+For the steady state heat transfer test there the operating temperature range
+was parametrically swept to the environmental temperatures. Since the sweep
+evaluates only equilibrium states, the path of how heat reaches the body is
+irrelevant. The final uniform temperature is physically correct for the steady
+state and numerically efficient across the entire boundary. This boundary
+condition produced the stroke versus temperature data that was validated
+against the analytical model.
+ 
+The time-dependent study required different thermal boundary conditions. Since
+a prescribed surface temperature forced the exterior to jump quasi-statically,
+there was no need for the temperature boundary condition to be considered as it
+was in the steady state heat transfer test. Instead, there was a heat flux
+condition on the exterior boundaries characterized by a convective coefficient
+$h$ and an external ambient temperature $T_{ext}$. The ambient temperature was
+driven by the following step function:
+\[
+    T_{ext}(t) = T_{ref} + \SI{20}{\kelvin}\times \mathrm{tstep}(t),
+\]
+The initial condition sets the entire assembly to $T_{ref}$ which is in
+equilibrium with the original ambient temperature. This setup reproduces the
+physical scenario where the body convects toward a stepped ambient temperature
+and yields a first-order thermal response used to extract the time constant.
+ 
+\subsubsection{Data Collection}
+The steady-state heat transfer data were gathered by sweeping $T_{env}$ across
+the operating range and recording the converged actuator stroke at each point.
+The primary output was the axial displacement of the orifice evaluated as a
+point quantity and taken as the device stroke. Each solve returns a single
+equilibrium displacement, and the collection of these points forms the
+stroke-versus-temperature curve compared against the analytical prediction in
+the Results section. The sweep was run in \SI{5}{\kelvin} increments with
+convergence behavior across the entire temperature range.
+ 
+The time dependent heat transfer test data was gathered from a single
+time-dependent solve for the \SI{20}{\kelvin} ambient step. the point
+temperature and corresponding displacement at fixed output intervals over a
+two-hour simulated window (\texttt{range(0, 60, 7200)}). This window was chosen
+to extend well past the expected settling time so the full approach to the new
+equilibrium was captured.
+ 
+\subsubsection{Limitations}
+The primary limitation for both heat transfer tests was the model. The model
+used was a reduced-order representation of the device's core instead of the
+entire PTCD assembly. This model included the actuator, the house, cylindrical
+equivalents for the bellows, and the center housing pieces. While smaller
+components such as the fasteners were included, the outer housing and bellows
+geometry were omitted. This was a deliberate simplification that enabled the
+stationary sweep to converge cleanly across the entire temperature range and
+for the transient study to resolve to a first-order time constant response.
+However, this simplification characterizes the orifice, actuator, and mount
+expansion mechanism in isolation rather than the entire device. The retained
+components capture the actual path that set the stroke which is why the results
+of the steady state study agree with the analytical model within
+\SI{0.2}{\percent}. This simplification, while a limitation, also preserves the
+physics that matter most for the actuation of the PTCD.
+ 
+Other limitations include the replacement of the bellows. Their cylindrical
+equivalent reproduces the correct axial spring stiffness but not the detailed
+geometry, thermal behavior, or local stiffening of the actual part. Thermal
+contact resistance at the bonded interfaces were also omitted. This assumes the
+boundaries of each mate have perfectly conducting and slow heat propagation.
+This potentially lengthens the acclimation time making the reported time
+constant smaller than that of the entire assembly.
+ 
+By and large the simplifications in the model best are valid characterizations
+of the differential-expansion stroke mechanism and its approximate transient
+behavior.
+ 
+\subsection{Multi-body Simulation}
+To gain a beginning intuition on the PTCD housing's reaction to applied pressure
+and inform higher fidelity models a simplified single body model was made. The
+single body model joins the housing components as a single solid avoiding use of
+complicated mates and relations. While this assumption does reduce accuracy to
+real performance, it allows for quick computation and as an initial method it
+avoids errors and non-convergence that can come from more complex models. The
+max pressure of \specPressure\ was applied to all wetted surfaces. This provides
+a general worst case stress result as in reality pressure will vary with fluid
+flow dynamics. Results were compared with hand calculations for simpler parts of
+the housing and verified that the simulation delivers expected results, and can
+be expected to do so for non-trivial surfaces. The results of this test are
+utilized in the DFMEA \todo{reference this chapter for the housing outlet center
+wall and the orifice channel opening}.
+ 
+To validate the analytical calculations on the PTCD's dimensional stability
+under load from the fluid pressure, a multi-body simulation is conducted by
+using the pressure map recovered from the fluid dynamics simulation and setting
+it as a boundary load in the wetted surface \todo{insert reference to figure}.
+The multi-body simulation takes into account the interaction between the
+components of the PTCD with appropriate surface relationships. Welded surfaces
+are set as identity pairs that keep the surface meshes together while other
+surfaces which are expected to collide are set as Contact pairs to simulate
+collision.
+ 
+\subsubsection{Boundary Condition Decisions}
+\begin{enumerate}
+    \item Surface pairs and contact constraints.
+    \begin{enumerate}
+        \item In multi-body simulation, the consideration for surface pairs
+        where the multiple bodies contact is pivotal for accuracy of results.
+        For all simulations, the welded surfaces are set as \textbf{identity
+        pair} while surfaces that are unwelded and expected to collide are set
+        as \textbf{contact pairs}.
+        % [PHOTO] Contact mesh (mesh skewness) at the orifice / housing interface.
+        \item Failure to set up these surface constraints will result in bodies
+        phasing through each other, welded surfaces to decouple, and so on.
+        \item Verification for the correctness of contact constraints are made
+        by setting a rigid translation of the orifice in space and observing how
+        the meshes behave. This is shown on the \todo{insert figure reference}
+        figure below
+    \end{enumerate}
+    \item Fluid-solid boundaries (incorporating union nodes where a single
+    continuous boundary is required for FSI).
+    \item Accurate boundary representations for complex orifice shapes, ensuring
+    internal flow geometries are not oversimplified as standard cylinders.
+\end{enumerate}
+ 
+\subsubsection{Data Collection}
+Surface data will be collected on weld joints and failure points identified by
+DFMEA.
+% [PHOTO] MBD result photos (stress on weld joints / failure points).
+ 
+\subsubsection{Limitations}
+Talking points:
+\begin{itemize}
+    \item Friction not modelled
+    \item Inconel bellows are modelled with an equivalent material to avoid
+    geometric complexity
+    \item Allvar is isotropically set to its textbook CTE (Allvar's CTE is
+    anisotropic)
+    \item The screw and washer are in union instead of being separate parts to
+    help with solution convergence
+\end{itemize}
+ 
+\subsection{Deformation and Dimensional Tolerance Flow Chart}
+% [PHOTO] Volumetric strain and von Mises stress plots
+% (gas_temp=45, ambient_temp=25  and  gas_temp=100, ambient_temp=80).
+Mapping the transfer function dependencies: CFD $\rightarrow$ MBD $\rightarrow$
+Deformation $\leftarrow$ Heat Transfer.
+ 
+\section{Results}
+ 
+\subsection{Design Space Matrix}
+\begin{itemize}
+    \item % [PLACEHOLDER] design space matrix entry to be added
+\end{itemize}
+ 
+\subsection{Other relevant results/Discussion}
+ 
+\subsubsection{Heat Transfer}
+The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
+\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
+The two FEA anchor points at $\Delta T = \SI{5}{\kelvin}$ and
+$\Delta T = \SI{10}{\kelvin}$ returned actuator displacements of
+\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
+\SI{1.115}{\micro\meter\per\kelvin} and matching the analytical prediction
+within \SI{0.2}{\percent}.
+ 
+The time-dependent study, run for a representative \SI{20}{\kelvin} ambient
+step, produced a clean first-order exponential response at the monitored
+actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
+approximately \SI{44.8}{\celsius} (Figure~\ref{fig:transient}). The thermal time
+constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
+the time to reach \SI{63}{\percent} of the final rise. The actuator reached
+\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
+was effectively settled by approximately \SI{50}{\minute}. The single-exponential
+character confirms the device behaves as one dominant thermal mass over this
+step, with no oscillatory or multi-rate dynamics in the relevant range.
+ 
+\subsection{Design space}
+% [PHOTO] Normalized orifice diameter across the ambient-temperature design space
+% (family of curves for P = 10^2.00, 10^2.67, 10^3.33, 10^4.00 psi).
+The design space explored by the computational prototype can be summarized by
+recovering data from the simulation software to generate a similar figure to the
+one above. The four lines in the figure are part of a family of lines in the
+design space. The vertical axis is the orifice diameter normalized with the
+orifice diameter at the maximum pressure of 10000 psi at an ambient temperature
+of 0 C.
+ 
+\begin{center}
+    \rule{0.35\textwidth}{0.4pt}\quad\textbf{END}\quad\rule{0.35\textwidth}{0.4pt}
+\end{center}
+ 
+% ============================================================================
+% APPENDIX
+% ============================================================================
+\appendix
+\chapter{Appendix}
+ 
+\begin{table}[H]
+\centering
+\caption{Actuator stroke across the operating range from the isolated thermal
+model ($\delta = 1.115\,\Delta T$). Boldface rows are the converged FEA anchor
+points that establish the slope; all rows lie on the linear law confirmed by the
+full converged sweep.}
+\label{tab:stroke_full}
+\begin{tabular}{rrr}
+\toprule
+$T_{env}$ (\si{\celsius}) & $\Delta T$ (\si{\kelvin}) & Stroke (\si{\micro\meter}) \\
+\midrule
+$-60$ & $-85$ & $94.78$ \\
+$-50$ & $-75$ & $83.62$ \\
+$-40$ & $-65$ & $72.47$ \\
+$-30$ & $-55$ & $61.33$ \\
+$-20$ & $-45$ & $50.17$ \\
+$-10$ & $-35$ & $39.02$ \\
+$0$   & $-25$ & $27.88$ \\
+$10$  & $-15$ & $16.73$ \\
+$20$  & $-5$  & $5.58$  \\
+$25$  & $0$   & $0.00$  \\
+\textbf{30} & \textbf{5}  & \textbf{5.58}  \\
+\textbf{35} & \textbf{10} & \textbf{11.14} \\
+$40$ & $15$ & $16.73$ \\
+$50$ & $25$ & $27.88$ \\
+$60$ & $35$ & $39.02$ \\
+$70$ & $45$ & $50.17$ \\
+$80$ & $55$ & $61.33$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 \chapter{Conclusion}
 \label{chap:concl}
