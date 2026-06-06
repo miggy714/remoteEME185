@@ -674,7 +674,7 @@
 		\end{figure}
 
 		As depicted in Figure~\ref{fig:NASA_req}, this division of subsystems allows for an informative rolldown of the above system requirements
-		into several funcitonal subsystem specifications that, if met, guarantee system requirement satisfaction.
+		into several functional subsystem specifications that, if met, guarantee system requirement satisfaction.
 		Because subsystem errors are not cumulative, the required tolerance cannot be properly divided between the subsystems;
 		this will remain quantified at a 
 		Due to the coupled nature of these subsystems, useful tolerances cannot be divided by subsystem;
@@ -688,7 +688,7 @@
 			Systems are represented by blocks, while ``signals'', or input and output values, are represented by arrows.
 			The System Transfer Function $\hat{G}_{sys}$ mathematically represents the physical input-output translation of the passive control system,
 			indicating the effective diameter produced for any given input temperature. 
-			Notice the absense of a feedback loop.
+			Notice the absence of a feedback loop.
 			Rather than depending on an active controller to sense and tune the system's output, this device must be precisely dimensioned to achieve the desired output without real-time adjustment.
 
 			% \vspace{1em}
@@ -755,7 +755,7 @@
 
 			\end{multicols}
 
-			Though these values only specify the functional output of each subsystem, the selected design must exhibit a simple architecture with minimal degrees of freedom and stricty first-order behavior
+			Though these values only specify the functional output of each subsystem, the selected design must exhibit a simple architecture with minimal degrees of freedom and strictly first-order behavior
 			to produce a precise, linear system output. Nevertheless, certain errors cannot be avoided, so specifying calibration capabilities allows unpredictable errors to be corrected when
 			the device is manufactured.
 
@@ -1522,7 +1522,7 @@
 			The housing center pieces are joined using welded connections and designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
 			Because the center pieces form a rectangular prism, the stress distribution is more complex than in a cylindrical geometry, and was difficult to model analytically. However, the increased thickness of \SI{10}{\milli\meter} provides a significant safety margin to ensure that the housing center can withstand the internal pressure without failure.
 			Flat-walled pressure vessel behavior and stress concentrations at the corners may, however, produce more than the critical stress;
-			this risk is evaluated in more detail in Section~\ref{sec:DFMEA:P}.
+			this risk is evaluated in more detail in Section~\ref{subsec:design:just:weld_analysis}.
 
 		\newpage % Delete if necessary
 		\subsection{Hermetic Seal}
@@ -1747,7 +1747,7 @@
 			\subsubsection{Valve Orifice Contact Friction}
 			\label{subsubsec:design:just:gen_dim:friction}
 
-			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degredation of materials as their surfaces slide against one another), which could damage the system performance over time.
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
 			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
@@ -1768,7 +1768,7 @@
 				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
 				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
 
-				A few design changes, discussed in Section~\ref{sec:conc:rec}, may allow the \device\ to fit within the Mechanical Envelope.
+				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
 				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
 				but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
 
@@ -2011,7 +2011,7 @@
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
 	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}.
+	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}. \todo{fix this ref}
 
 		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
 
@@ -3112,7 +3112,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 	The Required Relationship is the core objective of the \device. Concerns are raised in Chapter~\ref{chap:DFMEA} about its ability to meet the subsidiary specifications.
 	The tools derived in this chapter provide the means to evaluate this risk. As shown in Section~\ref{app:sat:TF:results}, the \device\ can be expected to meet its required tolerance
-	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:sat:error}.
+	across the full temperature range despite all anticipated sources of error, itemized in Section~\ref{app:sat:TF:results}.
 
 
 	\section{Transfer Function Derivation}
@@ -4059,7 +4059,7 @@ Evaluating structural integrity, yielding, and mechanical limits of the actuator
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{app:sat:error} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{subsec:DFMEA:error:mach} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
