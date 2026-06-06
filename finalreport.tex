@@ -904,29 +904,31 @@
 			\begin{minipage}{.49\textwidth}
 				\centering
 				% \includegraphics[width=.85\textwidth]{CompleteAssemblyExploded.png}
-				\includegraphics[width=.85\textwidth]{PTCD.png}
+				\includegraphics[width=.75\textwidth]{PTCD.png}
 				\caption{Complete assembly exploded view}
 				\label{fig:mainIsometric}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.49\textwidth}
 				\centering
-				\includegraphics[width=\textwidth]{exp_qual.png}
+				\includegraphics[width=.75\textwidth]{exp_qual.png}
 				\caption{Sub-assembly identification}
 				\label{fig:mainExploded}
 			\end{minipage}
 		\end{figure}
 
-		\begin{wrapfigure}{l}{.3\textwidth}
+	The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
+		One plate is fixed to the valve housing; the other is free to move vertically driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
+		The two square holes lie flush and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
+
+		\begin{wrapfigure}{l}{.2\textwidth}
 			\centering
-			\includegraphics[height=2in]{orifice.png}
+			\includegraphics[height=1.5in]{orifice.png}
 			\caption{Orifice geometry}
 			\label{fig:orifice}
 		\end{wrapfigure}
 
-		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
-		One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
-		The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
+	
 		If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure~\ref{fig:orifice}, the diamond-shaped overlap between these squares constitutes the valve orifice. 
 		The lower (blue) square is cut into the central moving plate such that as the valve stem drives the plate downwards, the orifice (the gray overlap region) constricts.
 		
@@ -939,14 +941,14 @@
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.7\textwidth]{active_cold.png}
+				\includegraphics[width=.5\textwidth]{active_cold.png}
 				\subcaption{Cooling actuation}
 				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.7\textwidth]{active_hot.png}
+				\includegraphics[width=.5\textwidth]{active_hot.png}
 				\subcaption{Heating actuation}
 				\label{fig:active_hot}
 			\end{minipage}
@@ -957,10 +959,10 @@
 		\subsection{Valve Subsystem}
 		\label{subsec:design:overview:valve}
 
-			\begin{wrapfigure}{l}{.32\textheight} % .32\textheight is the width, but the image is roughly square
+			\begin{wrapfigure}{l}{.2\textheight} % .32\textheight is the width, but the image is roughly square
 				\centering
 				% \includegraphics[height=.4\textheight]{Valve_full.png}
-				\includegraphics[height=.3\textheight]{Valve_full_qual.png}
+				\includegraphics[height=.2\textheight]{Valve_full_qual.png}
 				\caption{Valve subsystem}
 				\label{fig:valve_full}
 			\end{wrapfigure}
@@ -975,7 +977,7 @@
 				\begin{minipage}{.49\textwidth}
 					\centering
 					% \includegraphics[width=\textwidth]{Valve_exploded.png}
-					\includegraphics[width=\textwidth]{Valve_exploded_qual.png}
+					\includegraphics[width=\textwidth]{orif_assem_right_qual.png}
 					\caption{Valve subsystem exploded view}
 					\label{fig:valve_exploded}
 				\end{minipage}
@@ -987,14 +989,6 @@
 					\label{fig:valve_ID}
 				\end{minipage}
 			\end{figure}
-
-			\begin{wrapfigure}{l}{2.5in}
-				\centering
-				% \includegraphics[width=.8\textwidth]{orif_assem.png}
-				\includegraphics[width=2.5in]{orif_assem_right_qual.png}
-				\caption{Orifice assembly}
-				\label{fig:orif_assem}
-			\end{wrapfigure}
 
 			The Valve Orifice (4) comprises the leading orifice hole near its center.
 			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
@@ -1518,197 +1512,6 @@
 		The housing inlet allows just enough space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
 
-		\subsection{Noncritical dimensions and features}
-		\label{subsec:design:just:gen_dim}
-
-			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
-			Here, other important elements are justified as motivated by our design specifications.
-
-			\subsubsection{Actuator Diameter}
-			\label{subsubsec:design:just:gen_dim:act_diam}
-
-				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
-				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
-				Increasing this area minimizes deflection, a source of error.
-				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
-				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
-				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
-				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
-				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
-				\vspace{1\baselineskip}
-				\begin{figure}[H]
-					\centering
-					\begin{tikzpicture}
-						\begin{axis}[
-								ybar,
-								bar width=5pt,
-								width=\textwidth,
-								height=0.45\textwidth,
-								xlabel={Mount OD (mm)},
-								ylabel={Actuation Error (\%)},
-								xtick=data,
-								xticklabels={12.70, 15.88, 19.05, 22.22, 25.40, 28.57, 31.75, 34.92, 38.10},
-								x tick label style={rotate=45, anchor=east, font=\small},
-								legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
-								legend cell align={left},
-								ymajorgrids=true,
-								grid style={dashed, gray!40},
-								ymin=0,
-								ymax=0.45,
-								ytick={0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45},
-								yticklabel={\pgfmathprintnumber[fixed, precision=2]{\tick}},
-								enlarge x limits=0.08,
-								nodes near coords,
-								nodes near coords style={font=\tiny, rotate=90, anchor=west},
-								every node near coord/.append style={/pgf/number format/fixed, 
-																										/pgf/number format/precision=3},
-						]
-
-						%% Hot excursion bars (Design 1) — plotted first
-						\addplot[fill={rgb,255:red,230;green,89;blue,46}, draw=none] coordinates {
-								(1, 0.3837)
-								(2, 0.1628)
-								(3, 0.0972)
-								(4, 0.0677)
-								(5, 0.0515)
-								(6, 0.0413)
-								(7, 0.0344)
-								(8, 0.0294)
-								(9, 0.0257)
-						};
-
-						%% Cold excursion bars (Design 1) — plotted second
-						\addplot[fill={rgb,255:red,51;green,153;blue,219}, draw=none] coordinates {
-								(1, 0.3464)
-								(2, 0.1470)
-								(3, 0.0877)
-								(4, 0.0611)
-								(5, 0.0465)
-								(6, 0.0373)
-								(7, 0.0310)
-								(8, 0.0266)
-								(9, 0.0232)
-						};
-
-						\legend{Cold excursion ($T_\text{low}=\SI{-60}{\degreeCelsius}$),
-										Hot excursion ($T_\text{high}=\SI{80}{\degreeCelsius}$)}
-
-						\end{axis}
-					\end{tikzpicture}
-					\caption{Actuator subsystem diameter optimization}
-					\label{fig:mount_OD_opt}
-				\end{figure}
-
-				\begin{figure}[H]
-					\centering
-					\pgfplotstableread[col sep=comma]{csv/elastic_deformation.csv}\elasticdata
-					\begin{tikzpicture}
-						\begin{axis}[
-								width=\textwidth,
-								height=0.5\textwidth,
-								xlabel={Wall thickness (mm)},
-								ylabel={Total deflection ($\upmu$m)},
-								xmin=0, xmax=12,
-								ymin=0, ymax=1.0,
-								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
-								restrict y to domain=0:1.0,
-								xtick={0,1,...,12},
-								ymajorgrids=true,
-								grid style={dashed, gray!40},
-								legend style={
-										at={(0.98,0.98)},
-										anchor=north east,
-										font=\small,
-										cells={anchor=west}
-								},
-								clip=true,
-						]
-
-						%% Allvar tube (mount)
-						\addplot[
-								color={rgb,255:red,46;green,115;blue,178},
-								mark=*,
-								mark size=2.5pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
-						\addlegendentry{Allvar tube (mount)}
-
-						%% Al rod (actuator)
-						\addplot[
-								color={rgb,255:red,217;green,84;blue,26},
-								mark=square*,
-								mark size=2.5pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_al_max_um] {\elasticdata};
-						\addlegendentry{Al rod (actuator)}
-
-						%% Combined series
-						\addplot[
-								color={rgb,255:red,33;green,140;blue,33},
-								mark=diamond*,
-								mark size=3pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_ser_max_um] {\elasticdata};
-						\addlegendentry{Combined series}
-
-						%% Optimal wall thickness vertical line at 3.5 mm
-						\draw[dashed, black, line width=1.2pt] (axis cs:3.5, 0) -- (axis cs:3.5, 1.0);
-
-						%% Minimum point marker at (3.5, 0.1401)
-						\addplot[
-								only marks,
-								mark=*,
-								mark size=4pt,
-								color=black,
-						] coordinates {(3.5, 0.140052)};
-						\addlegendentry{Series min @ $t_{\text{wall}} = \SI{3.5}{\milli\meter}$}
-
-						\end{axis}
-					\end{tikzpicture}
-					\caption{Mount wall thickness optimization}
-					\label{fig:mount_thick_opt}
-				\end{figure}
-
-			\subsubsection{Threaded Interface}
-			\label{subsubsec:design:just:gen_dim:thread}
-
-				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
-				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}'') threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
-
-				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length, respectively, for an airtight seal.
-				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
-
-				\subsubsection{Assemblability Considerations}
-			\label{subsubsec:design:just:gen_dim:assem}
-
-				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix~\ref{app:mfg}.
-				Every weld operation requires an orthogonal beam at all times.
-				The housing center is broken into two pieces, allowing the bellows to be welded to the valve orifice and the housing centers separately with a full 360$^\circ$ line of sight.
-				The subassembly can then be inserted into the housing inlet and welded in place from above, then fit to the housing outlet and welded from the outside.
-				The actuator expansion rod is attached to the valve stem with a 360$^\circ$ weld.
-				This is screwed to the mount, which is then welded to the housing.
-				This modular approach allows for full line-of-sight welding and simple assembly and drove many of the structural features of the \device.
-
-			\subsubsection{Valve Orifice Contact Friction}
-			\label{subsubsec:design:just:gen_dim:friction}
-
-			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
-			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
-			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
-			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
-			The coated surface are depicted in the Drawing Package in Appendix~\ref{app:drawings}.
-
-			\subsubsection{Mechanical Envelope Specifications}
-			\label{subsubsec:design:just:gen_dim:ME}
-
-				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(\SI{45.55}{\milli\meter} + \SI{70.72}{\milli\meter}) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
-				This was necessary to allow a direct interface between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
-				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
-				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
-
-				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
-				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
-				but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -3183,7 +2986,7 @@ of 0 C.
 
 	% \newpage
 	
-	\section{Supplemental Images}
+	\section{Supplemental Information}
 	\label{app:calcs:sup}
 
 		\subsection{The \device's role in National Security}
@@ -3193,7 +2996,7 @@ of 0 C.
 			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, National Security in the United States of America (USA).
 
 			\vspace{1em}
-			\begin{figure}[h]
+			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.75\textwidth]{SNL_role.png}
 				\caption{Downstream Customer Diagram}
@@ -3208,6 +3011,8 @@ of 0 C.
 			This regulation includes temperature compensation; the \device\ fills this niche. As discussed elsewhere, the effects of temperature fluctuations on the test article must either be mitigated by flow control or dealt with in post-processing by the research engineer.
 			The \device\ provides this necessary control without dependence on power or computation, improving the reliability of these experiments, the precision of the flow control components and assemblies, the reliability of Sandia's projects,
 			the capabilities of their research and technology, and, ultimately, the resilience of American National Security against ever-more-sophisticated foreign and domestic threats.
+
+
 
 		\subsection{The \device\ in full assembly}
 		\label{app:calcs:sup:assem}
@@ -3233,6 +3038,200 @@ of 0 C.
 					\label{fig:app_reveal}
 				\end{figure}
 			\end{minipage}
+
+		\subsection{Noncritical dimensions and features}
+		\label{subsec:design:just:gen_dim}
+
+			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
+			Here, other important elements are justified as motivated by our design specifications.
+
+			\subsubsection{Actuator Diameter}
+			\label{subsubsec:design:just:gen_dim:act_diam}
+
+				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
+				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
+				Increasing this area minimizes deflection, a source of error.
+				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
+				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
+				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
+				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
+				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
+				\vspace{1\baselineskip}
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}
+						\begin{axis}[
+								ybar,
+								bar width=5pt,
+								width=\textwidth,
+								height=0.45\textwidth,
+								xlabel={Mount OD (mm)},
+								ylabel={Actuation Error (\%)},
+								xtick=data,
+								xticklabels={12.70, 15.88, 19.05, 22.22, 25.40, 28.57, 31.75, 34.92, 38.10},
+								x tick label style={rotate=45, anchor=east, font=\small},
+								legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
+								legend cell align={left},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								ymin=0,
+								ymax=0.45,
+								ytick={0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45},
+								yticklabel={\pgfmathprintnumber[fixed, precision=2]{\tick}},
+								enlarge x limits=0.08,
+								nodes near coords,
+								nodes near coords style={font=\tiny, rotate=90, anchor=west},
+								every node near coord/.append style={/pgf/number format/fixed, 
+																										/pgf/number format/precision=3},
+						]
+
+						%% Hot excursion bars (Design 1) — plotted first
+						\addplot[fill={rgb,255:red,230;green,89;blue,46}, draw=none] coordinates {
+								(1, 0.3837)
+								(2, 0.1628)
+								(3, 0.0972)
+								(4, 0.0677)
+								(5, 0.0515)
+								(6, 0.0413)
+								(7, 0.0344)
+								(8, 0.0294)
+								(9, 0.0257)
+						};
+
+						%% Cold excursion bars (Design 1) — plotted second
+						\addplot[fill={rgb,255:red,51;green,153;blue,219}, draw=none] coordinates {
+								(1, 0.3464)
+								(2, 0.1470)
+								(3, 0.0877)
+								(4, 0.0611)
+								(5, 0.0465)
+								(6, 0.0373)
+								(7, 0.0310)
+								(8, 0.0266)
+								(9, 0.0232)
+						};
+
+						\legend{Cold excursion ($T_\text{low}=\SI{-60}{\degreeCelsius}$),
+										Hot excursion ($T_\text{high}=\SI{80}{\degreeCelsius}$)}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Actuator subsystem diameter optimization}
+					\label{fig:mount_OD_opt}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\pgfplotstableread[col sep=comma]{csv/elastic_deformation.csv}\elasticdata
+					\begin{tikzpicture}
+						\begin{axis}[
+								width=\textwidth,
+								height=0.5\textwidth,
+								xlabel={Wall thickness (mm)},
+								ylabel={Total deflection ($\upmu$m)},
+								xmin=0, xmax=12,
+								ymin=0, ymax=1.0,
+								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
+								restrict y to domain=0:1.0,
+								xtick={0,1,...,12},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								legend style={
+										at={(0.98,0.98)},
+										anchor=north east,
+										font=\small,
+										cells={anchor=west}
+								},
+								clip=true,
+						]
+
+						%% Allvar tube (mount)
+						\addplot[
+								color={rgb,255:red,46;green,115;blue,178},
+								mark=*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
+						\addlegendentry{Allvar tube (mount)}
+
+						%% Al rod (actuator)
+						\addplot[
+								color={rgb,255:red,217;green,84;blue,26},
+								mark=square*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_al_max_um] {\elasticdata};
+						\addlegendentry{Al rod (actuator)}
+
+						%% Combined series
+						\addplot[
+								color={rgb,255:red,33;green,140;blue,33},
+								mark=diamond*,
+								mark size=3pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_ser_max_um] {\elasticdata};
+						\addlegendentry{Combined series}
+
+						%% Optimal wall thickness vertical line at 3.5 mm
+						\draw[dashed, black, line width=1.2pt] (axis cs:3.5, 0) -- (axis cs:3.5, 1.0);
+
+						%% Minimum point marker at (3.5, 0.1401)
+						\addplot[
+								only marks,
+								mark=*,
+								mark size=4pt,
+								color=black,
+						] coordinates {(3.5, 0.140052)};
+						\addlegendentry{Series min @ $t_{\text{wall}} = \SI{3.5}{\milli\meter}$}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Mount wall thickness optimization}
+					\label{fig:mount_thick_opt}
+				\end{figure}
+
+			\subsubsection{Threaded Interface}
+			\label{subsubsec:design:just:gen_dim:thread}
+
+				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
+				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}'') threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
+
+				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length, respectively, for an airtight seal.
+				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
+
+				\subsubsection{Assemblability Considerations}
+			\label{subsubsec:design:just:gen_dim:assem}
+
+				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix~\ref{app:mfg}.
+				Every weld operation requires an orthogonal beam at all times.
+				The housing center is broken into two pieces, allowing the bellows to be welded to the valve orifice and the housing centers separately with a full 360$^\circ$ line of sight.
+				The subassembly can then be inserted into the housing inlet and welded in place from above, then fit to the housing outlet and welded from the outside.
+				The actuator expansion rod is attached to the valve stem with a 360$^\circ$ weld.
+				This is screwed to the mount, which is then welded to the housing.
+				This modular approach allows for full line-of-sight welding and simple assembly and drove many of the structural features of the \device.
+
+			\subsubsection{Valve Orifice Contact Friction}
+			\label{subsubsec:design:just:gen_dim:friction}
+
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
+			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
+			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
+			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
+			The coated surface are depicted in the Drawing Package in Appendix~\ref{app:drawings}.
+
+			\subsubsection{Mechanical Envelope Specifications}
+			\label{subsubsec:design:just:gen_dim:ME}
+
+				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(\SI{45.55}{\milli\meter} + \SI{70.72}{\milli\meter}) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
+				This was necessary to allow a direct interface between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
+				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
+				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
+
+				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
+				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
+			but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
+
+
 
 	\section{Additional Testing Data}
 	\label{app:calcs:test}
