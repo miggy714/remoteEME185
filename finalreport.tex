@@ -1296,6 +1296,7 @@
 
 				\begin{equation}
 					D_{ref} = \sqrt{\frac{2}{\pi}} X_{ref} = \sqrt{\frac{2}{\pi}} (\SI{35.519}{\milli\meter} - \SI{35.201}{\milli\meter}) = \AzeroExact
+					\label{eq:Dref}
 				\end{equation}
 
 				as specified.
@@ -1354,8 +1355,8 @@
 
 			\begin{align}
 				L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \notag \\[12pt]
-				&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
-				L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter}
+				&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \label{eq:L_act}\\[12pt]
+				L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter} \label{eq:L_mount}
 			\end{align}
 
 			These critical dimensions ensure that the actuator subsystem maintains the specified output
@@ -1547,7 +1548,7 @@
 		At the maximum deflection (c.f. eq.~\eqref{eq:act_def_hot}), both bellows exert a maximum force\cite{ref_Young_Freedman, ref_miniflex_catalog} of
 
 		\begin{equation}
-			F = 2 k \Delta L = 2 \cdot \specBellowsK \specActDefHot = \SI{24}{\newton}
+			F = 2 k \Delta L = (2) \left(\specBellowsK \right) \left(\specActDefHot \right) = \SI{24}{\newton}
 			\label{eq:bellow_F}
 		\end{equation}
 
@@ -2140,7 +2141,7 @@
 		\begin{equation}
 			\sigma_{\text{alv}} = \frac{E_{\text{allvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
 		\end{equation}
-		
+
   \item \textbf{Results.}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
  		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
@@ -2256,13 +2257,12 @@
 	easy way to reduce the stress concentration without adding more material. 
 \end{enumerate}
 
-
-
 \textbf{Valve Orifice}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
 	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
+	Here is image showing how the stress is concentrated at the edges of the orifice, which is where the failure is most likely to occur.
 		\begin{figure}[h]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
@@ -2270,10 +2270,25 @@
                 \label{fig:FEAdisp}
             \end{figure}
 	\item \textbf{Assumptions, Principles, and Methods.}
+	The assumptions for the valve orifice are using the computer software which calculates the stress on the surface of the orifice and finds the maximum and average von Mises stress. 
+	The principles and methods for this analysis are the same as the ones used for the orifice channel opening, which are detailed in the following chapter, Testing.
 	\item \textbf{Calculations.}
+	Using the data collected from the computer software testing, the factor of safety can be found using von Mises stress and the yield strength of Invar. The average von Mises stress at the
+	edges of the orifice was found to be 126 MPa and the maximum von Mises stress was found to be 362 MPa.
 	\item \textbf{Results.}
-		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+	Using the maximum von Mises stress: 
+	FOS = 240 MPa / 362 MPa = 0.66
+
+	Using the average von Mises stress:
+	FOS = 240 MPa / 126 MPa = 1.90
+
+	The FOS less than 1 at the maximum stress is an issue and something that needs to
+	be addressed, however because the average stress is greater than 1, it is likely that the
+	corner will not fail under most operating conditions.
 	\item \textbf{Discussion.}
+	The FOS of less than 1 at the maximum von Mises stress indicates that the corners of the orifice could fail if the test got to the maximum stress, however because the FOS at the average von Mises stress 
+	is greater than 1, it is likely that the corners will not fail under most operating conditions. One way to increase the FOS at the corners would be to round the corners that are not the ones creating the 
+	diamond shape of the orifice. This would reduce the risk of failure at those corners and increase the FOS. 
 \end{enumerate}
 
 	\subsection{Tolerance Failure Analysis}
@@ -2304,6 +2319,314 @@
 				some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
 				evaluated as the design is further iterated.
 		\end{enumerate}
+
+% ============================================================================
+% TESTING CHAPTER  (LaTeX equivalent of Testing.pdf)
+% Photos from the PDF are omitted; their intended locations are marked with
+% "% [PHOTO]" comments.
+% ============================================================================
+ 
+\chapter{Testing}
+\label{chap:test}
+ 
+\section{Objective}
+In the absence of a physical manufactured model, verification of the DFMEA is
+done through two methods: (1) Analytical methods and (2) Finite element
+simulations. This section discusses the testing process and strategy of using
+finite element simulations to validate the analytical results and explore
+failure modes determined by DFMEA. This computational prototype will be
+subjected to the following simulations: Heat Transfer (HT), Computational Fluid
+Dynamics (CFD), and Multibody Dynamics (MBD).
+ 
+\section{Test Design}
+To make the simulations computationally less expensive, the following
+strategies have been employed
+\begin{enumerate}
+    \item The PTCD is cut in half about its vertical symmetry plane, creating
+    new surfaces which will be referred to as ``symmetry surfaces''. By setting
+    the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
+    the simulation software, the amount of meshes can be cut in half, reducing
+    the computation time.
+    % [PHOTO] Symmetry faces of the half-model PTCD (highlighted symmetry surfaces).
+    \item The physics is ``decoupled''. The CFD is run on a rigid negative
+    domain of the channel with a turbulent simulation where a ``pressure map''
+    of the wetted surface is recovered. This same pressure map is used to apply
+    a load on the wetted surfaces of the PTCD assembly geometry to apply a load
+    that is representative of the fluid flow during operation. The heat transfer
+    simulation is then executed on the loaded assembly by setting all exposed
+    surfaces to the ambient temperature, and all the wetted surfaces to the
+    fluid temperature.
+    % [PHOTO] Negative (fluid) domain of the channel used for the CFD study.
+    \item As additional verification, a solid mechanics simulation was conducted
+    on single bodies like the orifice and the inlet/outlet parts, isolated from
+    the assembly. This form of isolated simulation was also conducted for HT.
+    \item A physics driven mesh is selected as a blanket parameter for the
+    entire assembly with an effective diameter smaller than the radius of the
+    smallest fillet in our geometry. On top of the blanket parameter, specific
+    parts in the assembly have modified mesh parameters; Namely the orifice,
+    mount, and the actuator have twice the mesh resolution.
+\end{enumerate}
+ 
+\section{Developing the computational prototype}
+ 
+\subsection{Fluid Dynamics Simulation}
+Fluid dynamics simulation is conducted to recover a pressure map on the
+fluid-solid interface. This pressure map will be used as the boundary load for
+the multi-body simulation.
+ 
+\subsubsection{Boundary Condition Decisions}
+\begin{enumerate}
+    \item The inlet and outlet are assumed to be in fully developed flow
+    \begin{enumerate}
+        \item Inlet pressure is swept across the design space with parameters
+        from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi. This
+        decision to have an exponential sweep was made because of the range
+        \item Outlet pressure is set as 0 psi
+    \end{enumerate}
+    \item The boundary condition is set as no slip.
+\end{enumerate}
+ 
+\subsubsection{Data Collection}
+The pressure map on the fluid-solid interface is recovered and mapped onto the
+wetted surface of the multi-body simulation.
+% [PHOTO] Pressure map / velocity field on the fluid domain (inlet_pressure(5)=10000).
+ 
+\subsubsection{Limitations}
+The computational model used is k-epsilon with the fluid set as incompressible.
+This is a very simplistic model that does not accurately compute the state of
+the fluid in the volume.
+ 
+\subsection{Heat Transfer Simulation}
+To validate the analytical calculations on the PTCD's dimensional stability
+under operating temperature conditions, a heat transfer simulation is conducted
+by a steady state and transient study.
+% [PHOTO] Steady-state surface temperature plot (gas_temp=100, ambient_temp=80).
+ 
+\subsubsection{Boundary Condition Decisions}
+The isolated heat transfer tests used two different boundary-condition setups.
+Each study type still shared common mechanical constraints. However, the
+distinctions in boundary-conditions enabled the different end results of each
+respective study.
+ 
+For the steady state heat transfer test there the operating temperature range
+was parametrically swept to the environmental temperatures. Since the sweep
+evaluates only equilibrium states, the path of how heat reaches the body is
+irrelevant. The final uniform temperature is physically correct for the steady
+state and numerically efficient across the entire boundary. This boundary
+condition produced the stroke versus temperature data that was validated
+against the analytical model.
+ 
+The time-dependent study required different thermal boundary conditions. Since
+a prescribed surface temperature forced the exterior to jump quasi-statically,
+there was no need for the temperature boundary condition to be considered as it
+was in the steady state heat transfer test. Instead, there was a heat flux
+condition on the exterior boundaries characterized by a convective coefficient
+$h$ and an external ambient temperature $T_{ext}$. The ambient temperature was
+driven by the following step function:
+\[
+    T_{ext}(t) = T_{ref} + \SI{20}{\kelvin}\times \mathrm{tstep}(t),
+\]
+The initial condition sets the entire assembly to $T_{ref}$ which is in
+equilibrium with the original ambient temperature. This setup reproduces the
+physical scenario where the body convects toward a stepped ambient temperature
+and yields a first-order thermal response used to extract the time constant.
+ 
+\subsubsection{Data Collection}
+The steady-state heat transfer data were gathered by sweeping $T_{env}$ across
+the operating range and recording the converged actuator stroke at each point.
+The primary output was the axial displacement of the orifice evaluated as a
+point quantity and taken as the device stroke. Each solve returns a single
+equilibrium displacement, and the collection of these points forms the
+stroke-versus-temperature curve compared against the analytical prediction in
+the Results section. The sweep was run in \SI{5}{\kelvin} increments with
+convergence behavior across the entire temperature range.
+ 
+The time dependent heat transfer test data was gathered from a single
+time-dependent solve for the \SI{20}{\kelvin} ambient step. the point
+temperature and corresponding displacement at fixed output intervals over a
+two-hour simulated window (\texttt{range(0, 60, 7200)}). This window was chosen
+to extend well past the expected settling time so the full approach to the new
+equilibrium was captured.
+ 
+\subsubsection{Limitations}
+The primary limitation for both heat transfer tests was the model. The model
+used was a reduced-order representation of the device's core instead of the
+entire PTCD assembly. This model included the actuator, the house, cylindrical
+equivalents for the bellows, and the center housing pieces. While smaller
+components such as the fasteners were included, the outer housing and bellows
+geometry were omitted. This was a deliberate simplification that enabled the
+stationary sweep to converge cleanly across the entire temperature range and
+for the transient study to resolve to a first-order time constant response.
+However, this simplification characterizes the orifice, actuator, and mount
+expansion mechanism in isolation rather than the entire device. The retained
+components capture the actual path that set the stroke which is why the results
+of the steady state study agree with the analytical model within
+\SI{0.2}{\percent}. This simplification, while a limitation, also preserves the
+physics that matter most for the actuation of the PTCD.
+ 
+Other limitations include the replacement of the bellows. Their cylindrical
+equivalent reproduces the correct axial spring stiffness but not the detailed
+geometry, thermal behavior, or local stiffening of the actual part. Thermal
+contact resistance at the bonded interfaces were also omitted. This assumes the
+boundaries of each mate have perfectly conducting and slow heat propagation.
+This potentially lengthens the acclimation time making the reported time
+constant smaller than that of the entire assembly.
+ 
+By and large the simplifications in the model best are valid characterizations
+of the differential-expansion stroke mechanism and its approximate transient
+behavior.
+ 
+\subsection{Multi-body Simulation}
+To gain a beginning intuition on the PTCD housing's reaction to applied pressure
+and inform higher fidelity models a simplified single body model was made. The
+single body model joins the housing components as a single solid avoiding use of
+complicated mates and relations. While this assumption does reduce accuracy to
+real performance, it allows for quick computation and as an initial method it
+avoids errors and non-convergence that can come from more complex models. The
+max pressure of \specPressure\ was applied to all wetted surfaces. This provides
+a general worst case stress result as in reality pressure will vary with fluid
+flow dynamics. Results were compared with hand calculations for simpler parts of
+the housing and verified that the simulation delivers expected results, and can
+be expected to do so for non-trivial surfaces. The results of this test are
+utilized in the DFMEA \todo{reference this chapter for the housing outlet center
+wall and the orifice channel opening}.
+ 
+To validate the analytical calculations on the PTCD's dimensional stability
+under load from the fluid pressure, a multi-body simulation is conducted by
+using the pressure map recovered from the fluid dynamics simulation and setting
+it as a boundary load in the wetted surface \todo{insert reference to figure}.
+The multi-body simulation takes into account the interaction between the
+components of the PTCD with appropriate surface relationships. Welded surfaces
+are set as identity pairs that keep the surface meshes together while other
+surfaces which are expected to collide are set as Contact pairs to simulate
+collision.
+ 
+\subsubsection{Boundary Condition Decisions}
+\begin{enumerate}
+    \item Surface pairs and contact constraints.
+    \begin{enumerate}
+        \item In multi-body simulation, the consideration for surface pairs
+        where the multiple bodies contact is pivotal for accuracy of results.
+        For all simulations, the welded surfaces are set as \textbf{identity
+        pair} while surfaces that are unwelded and expected to collide are set
+        as \textbf{contact pairs}.
+        % [PHOTO] Contact mesh (mesh skewness) at the orifice / housing interface.
+        \item Failure to set up these surface constraints will result in bodies
+        phasing through each other, welded surfaces to decouple, and so on.
+        \item Verification for the correctness of contact constraints are made
+        by setting a rigid translation of the orifice in space and observing how
+        the meshes behave. This is shown on the \todo{insert figure reference}
+        figure below
+    \end{enumerate}
+    \item Fluid-solid boundaries (incorporating union nodes where a single
+    continuous boundary is required for FSI).
+    \item Accurate boundary representations for complex orifice shapes, ensuring
+    internal flow geometries are not oversimplified as standard cylinders.
+\end{enumerate}
+ 
+\subsubsection{Data Collection}
+Surface data will be collected on weld joints and failure points identified by
+DFMEA.
+% [PHOTO] MBD result photos (stress on weld joints / failure points).
+ 
+\subsubsection{Limitations}
+Talking points:
+\begin{itemize}
+    \item Friction not modelled
+    \item Inconel bellows are modelled with an equivalent material to avoid
+    geometric complexity
+    \item Allvar is isotropically set to its textbook CTE (Allvar's CTE is
+    anisotropic)
+    \item The screw and washer are in union instead of being separate parts to
+    help with solution convergence
+\end{itemize}
+ 
+\subsection{Deformation and Dimensional Tolerance Flow Chart}
+% [PHOTO] Volumetric strain and von Mises stress plots
+% (gas_temp=45, ambient_temp=25  and  gas_temp=100, ambient_temp=80).
+Mapping the transfer function dependencies: CFD $\rightarrow$ MBD $\rightarrow$
+Deformation $\leftarrow$ Heat Transfer.
+ 
+\section{Results}
+ 
+\subsection{Design Space Matrix}
+\begin{itemize}
+    \item % [PLACEHOLDER] design space matrix entry to be added
+\end{itemize}
+ 
+\subsection{Other relevant results/Discussion}
+ 
+\subsubsection{Heat Transfer}
+The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
+\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
+The two FEA anchor points at $\Delta T = \SI{5}{\kelvin}$ and
+$\Delta T = \SI{10}{\kelvin}$ returned actuator displacements of
+\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
+\SI{1.115}{\micro\meter\per\kelvin} and matching the analytical prediction
+within \SI{0.2}{\percent}.
+ 
+The time-dependent study, run for a representative \SI{20}{\kelvin} ambient
+step, produced a clean first-order exponential response at the monitored
+actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
+approximately \SI{44.8}{\celsius} (Figure~\ref{fig:transient}). The thermal time
+constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
+the time to reach \SI{63}{\percent} of the final rise. The actuator reached
+\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
+was effectively settled by approximately \SI{50}{\minute}. The single-exponential
+character confirms the device behaves as one dominant thermal mass over this
+step, with no oscillatory or multi-rate dynamics in the relevant range.
+ 
+\subsection{Design space}
+% [PHOTO] Normalized orifice diameter across the ambient-temperature design space
+% (family of curves for P = 10^2.00, 10^2.67, 10^3.33, 10^4.00 psi).
+The design space explored by the computational prototype can be summarized by
+recovering data from the simulation software to generate a similar figure to the
+one above. The four lines in the figure are part of a family of lines in the
+design space. The vertical axis is the orifice diameter normalized with the
+orifice diameter at the maximum pressure of 10000 psi at an ambient temperature
+of 0 C.
+ 
+\begin{center}
+    \rule{0.35\textwidth}{0.4pt}\quad\textbf{END}\quad\rule{0.35\textwidth}{0.4pt}
+\end{center}
+ 
+% ============================================================================
+% APPENDIX
+% ============================================================================
+\appendix
+\chapter{Appendix}
+ 
+\begin{table}[H]
+\centering
+\caption{Actuator stroke across the operating range from the isolated thermal
+model ($\delta = 1.115\,\Delta T$). Boldface rows are the converged FEA anchor
+points that establish the slope; all rows lie on the linear law confirmed by the
+full converged sweep.}
+\label{tab:stroke_full}
+\begin{tabular}{rrr}
+\toprule
+$T_{env}$ (\si{\celsius}) & $\Delta T$ (\si{\kelvin}) & Stroke (\si{\micro\meter}) \\
+\midrule
+$-60$ & $-85$ & $94.78$ \\
+$-50$ & $-75$ & $83.62$ \\
+$-40$ & $-65$ & $72.47$ \\
+$-30$ & $-55$ & $61.33$ \\
+$-20$ & $-45$ & $50.17$ \\
+$-10$ & $-35$ & $39.02$ \\
+$0$   & $-25$ & $27.88$ \\
+$10$  & $-15$ & $16.73$ \\
+$20$  & $-5$  & $5.58$  \\
+$25$  & $0$   & $0.00$  \\
+\textbf{30} & \textbf{5}  & \textbf{5.58}  \\
+\textbf{35} & \textbf{10} & \textbf{11.14} \\
+$40$ & $15$ & $16.73$ \\
+$50$ & $25$ & $27.88$ \\
+$60$ & $35$ & $39.02$ \\
+$70$ & $45$ & $50.17$ \\
+$80$ & $55$ & $61.33$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 \chapter{Conclusion}
@@ -2337,7 +2660,8 @@
 		\item Measures can be taken to eliminate heat transfer. Though the actuator is thermally insulated and separated from the hot internal gas by a thick wall of Invar, this wall should be made thicker to improve its indifference to internal flow conditions.
 			Furthermore, the actuator can be reshaped to improve external heat transfer by cutting holes in the mount to expose the internal actuator, weakening its axial strength to increase fidelity to the ambient air temperature.
 			This can be taken further, cutting fins into the actuator structure (typically done with wire EDM as with the orifice holes) to maximize convection.
-		\item The mount would be better attached to the housing using fasteners due to the difficulty of welding dissimilar metals.
+		\item The mount would be better attached to the housing using fasteners due to the difficulty of welding dissimilar metals. If sealed properly, fasteners would provide a reliable permanent attachment
+			and could afford alternate calibration architectures, such as the use of precision shims.
 		\item The mount and actuator core can trade materials, using an Aluminum mount and an ALLVAR core. This would require repositioning of the leading orifice, which can be easily done such that it is positioned above the fixed orifice;
 			it would significantly reduce the cost of the actuator subsystem (Aluminum is far cheaper than ALLVAR and would be better suited for the larger-diameter part) and would more readily enable manipulation of its geometry as described in the previous two items.
 		\item Finally, the screw may interfere with the thermal expansion of the actuator. This can be solved by using a shorter screw or one made of Aluminum to match the actuator's expansion rate.
@@ -2348,8 +2672,8 @@
 	Many other priorities, such as size and cost considerations, were sacrificed to maximize the \device's ability to reach this narrow tolerance window.
 	However, using the computational tools presented in Chapter~\ref{chap:test}, a more informed trade-off analysis can determine the real impact of these changes, as is further detailed in Appendix~\ref{app:iter:customize}.
 
-	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation
-	, streamlining experimental control and improving the accuracy and repeatability of their research.
+	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation,
+	streamlining experimental control and improving the accuracy and repeatability of their research.
 
 	% \begin{itemize}
 	% 	\item The actuator is assumed to be fused to the mount's upper interior surface, defined by the plane of the belleville washer's underside, from which it can freely expand.
@@ -3125,7 +3449,9 @@
 		\label{app:sat:TF:dT}
 
 			The very top row evaluates the final effective temperature of each part assuming a worst-case thermal gradient driven by a \SI{20}{\degreeCelsius} temperature difference between the internal gas
-			and the 
+			and the ambient temperature. The temperature of every wetted part is set to the gas temperature. The actuator and mount temperatures are assumed to follow $T_{amb}$ exactly, but the tools for a more complex
+			heat transfer analysis between the subsystems were developed in Chapter~\ref{chap:test}, providing a starting ground to determine the final steady-state temperature of the actuator.
+			The results presented in this Appendix, however, do not properly reflect this heat transfer and simply show the output of the \device\ for gas that follows the ambient temperature.
 		
 		\subsection{Thermal Expansion}
 		\label{app:sat:TF:G_therm}
@@ -5363,7 +5689,110 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		and \textit{Sam van der Veen}
 
 	\end{center}
-	
+
+\chapter{}
+
+	\section{Design Weaknesses and Recommendations}
+	\label{app:iter:weak}
+
+		To aid in further iteration of the \device\ design, below is an exhaustive list of the weaknesses, unaddressed assumptions, and open questions
+		identified by the authors and certain corresponding design changes they would implement given more time, excluding those identified in Chapter~\ref{chap:concl}.
+
+		\begin{itemize}
+			\item The Valve Orifice and Housing Outlet, which each contain one component of the diamond orifice, are pressed flush against one another by a precision fit.
+				This flush contact is assumed to only allow flow through the hole cut into the Valve Orifice without allowing leakage around its sides, but this was never verified.
+				The tolerance of the fit may need to be adjusted, or addional sealing applied to ensure gas is not allowed to escape into the rectangular cavity of the housing.
+			\item The calibration screw may interfere with the expansion of the aluminum actuator due to a difference in expansion rates. This can be solved by shortening the screw, using an aluminum screw, or both.
+			\item The strength of the electron-beam welds used for assembly is assumed to be ideal, an assumption defended in Section~\ref{subsec:design:just:weld_analysis}. Though EBW is the most precise weld available, the weld will likely
+				be slightly weaker than the original material and may affect thermal expansion and dimensioning around its area, changing the positions and expansion rates of certain parts.
+			\item The weldability of dissimilar metals, most especially that of ALLVAR to Invar, should be investigated. The use of fasteners to attach the mount would eliminate the need to weld these metals together
+				without sacrificing the precision of their fusion.
+			\item As listed in Chapter~\ref{chap:concl}, steps can be taken to improve the thermal isolation and convection of the actuator subsystem. The housing material between the actuator and the internal components
+				can be increased, insulating the actuator against conduction. Holes can be cut into the mount to expose the interior, or more complex features cut with wire electric-discharge machining to maximize its convective contact with the ambient air.
+			\item Each of the two above items would be better served if the materials of the actuator components were reversed, using an aluminum mount and an ALLVAR core. By positioning the leading orifice above the trailing orifice, the same relationship
+				could be achieved with reversed actuation, allowing for a much cheaper actuator and easier machining of the mount to enable the use of fasteners or convection-increasing features.
+			\item Choked flow separation at the sharp corners of the orifice may cause undesirable effects. Flow characteristics should be investigated to determine whether the sharp edges should be filleted, which would
+				improve flow behavior without degrading the performance of the orifice.
+			\item The achievable precision of machined dimensions on Invar should be evaluated to ensure the required tolerances are achievable despite the material's work-hardening property while being machined.
+				Extra measures may be required to anneal the part between cuts.
+		\end{itemize}
+
+	\section{Iteration Tools}
+	\label{app:iter:customize}
+
+		As Sandia implements changes for the second iteration design, the effects of these changes can readily be analyzed using the tools provided in Appendix~\ref{app:sat} and Chapter~\ref{chap:test}.
+		Below is a guide for the use of these tools. The computational software will be provided separately to Sandia.
+		
+		\subsection{COMSOL simulations}
+		\label{app:iter:customize:COMSOL}
+
+			The full computational prototype lives in a single file titled "Prototype.mph". Each of the below simulations can be found as denominated within this file.
+
+			\begin{itemize}
+				\item \textbf{Pressure Capacity.} To iterate dimensions for optimal internal pressure capacity, use the finite-element stress analysis titled "MBD Study".
+				\item \textbf{Flow Characteristics.} To evaluate the effect of the orifice on the gas flow, such as choking, normal shock, and separation, use the fluid-dynamic simulation titled "Flow Study".
+				\item \textbf{Heat Transfer.} To analyze the effects of thermal isolation and convection features, use the thermal analysis titled "Heat Transfer Study".
+			\end{itemize}
+
+			For each of the above, follow these steps to iterate the design:
+
+			\begin{itemize}
+				\item Revise the CAD assembly, provided separately, to reflect the new design dimensions.
+				\item Insert into the simulation and set appropriate surface pairs (i.e. identity or contact pairs) to represent physical relations between parts.
+				\item Set boundary conditions, such as surface temperatures, pressure parameters, or initial flow conditions. These can be identical to those used for this report or varied as desired.
+			\end{itemize}
+
+		\subsection{Transfer Function}
+		\label{app:iter:customize:TF}
+
+			The analytical system-performance analysis presented in Appendix~\ref{app:sat:TF} is computed using a single C++ software package titled "TF.cpp". The script is fully documented to provide guidance
+			on the use of each part. Follow the derivation given in Appendix~\ref{app:sat:TF} to understand the source of the constants used.
+			Directly manipulate variable values to adjust dimensions, errors, and other parameters. The following items can be readily manipulated.
+			
+			\begin{itemize}
+				\item To change the selected bellows as recommended above, manipulate the initial lengths and spring constants given.
+				\item To introduce estimated fiction or pressure forces, a constant load can be applied to the force balance in Section~\ref{app:sat:TF:force_balance} with little change to the derivation.
+				\item To evaluate the effect of the welds on critical dimensions, the machined lengths can be adjusted to change the thermal-expansion and orifice-position calculations.
+					Values can be added in parallel with the machine-tolerance estimations.
+			\end{itemize}
+
+		\subsection{Required Relationship Adjustment}
+		\label{app:iter:customize:RR}
+
+			Most importantly, the Required Relationship itself can be readily adjusted to adapt the \device\ for particular experiments.
+			The architecture is designed to produce a linear relationship between the ambient air temperature and effective orifice diameter,
+			depicted visually in Figure~\ref{fig:RR},
+			but the slope and intercept of the relation can be adjusted with little effort.
+
+			\subsubsection{Temperature-Diameter Control Derivative}
+			\label{app:iter:customize:RR:slope}
+
+				The slope of system ouput, set to the constant $A_1$ in this design, is defined by the critical actuator dimensions as derived in Section~\ref{subsec:design:just:TF:act}.
+				Assuming a given gap between the base of the actuator and the upper surface of the housing and a given belleville washer compression
+				(\SI{5}{\milli\meter} and \SI{50}{\micro\meter} in this design, respectively), the necessary lengths of the Actuator and Mount can be calculated as in equations~\eqref{eq:L_act} and \eqref{eq:L_mount},
+				where $\frac{\Delta L}{\Delta T}$ (\SI{1.91}{\micro\meter\per\degreeCelsius} in this report) is set as desired:
+
+				\begin{align*}
+					L_{act} &= \frac{\frac{\Delta L}{\Delta T} + (t_{wash} + L_{gap}) \alpha_{mount}}{\alpha_{act} - \alpha_{mount}} \\[12pt]
+					&= \frac{\GA + (\SI{5.55}{\milli\meter}) \cdot (\specMountCTE)}{\specActuatorCTE - \specMountCTE} = \specOrigActuatorLength \\[12pt]
+					L_{mount} &= L_{act} + t_{wash} + L_{gap} = \SI{38.541}{\milli\meter} 
+				\end{align*}
+
+				If a positive slope is desired, such that the orifice grows with a temperature increase, this can be easily achieved by shrinking the valve stem such that the leading orifice rests above the trailing orifice.
+
+			\subsubsection{Reference Diameter}
+			\label{app:iter:customize:RR:intercept}
+
+				The intercept of the system output, set to the constant $A_0$ in this design, is defined by the distance between the upper and lower vertices of the orifice as machined (at $T_{ref}$)
+				as shown in equation~\eqref{eq:Dref}. The fixed orifice is centered relative to the housing for ease of machining, but the leading orifice can be tuned to obtain a desired reference diameter
+				according to the relation
+
+				\begin{equation}
+					H_{\ell} = H_t - \sqrt{\frac{\pi}{2}} D_{ref}
+				\end{equation}
+
+				where $H_{\ell}$ and $H_t$ are the height of the leading and trailing orifice, respectively, as denoted in the Engineering Drawings in Appendix~\ref{app:drawings}.
+
 \end{appendices}
 
 \end{document}
