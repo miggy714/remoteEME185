@@ -256,7 +256,7 @@
 \newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
 \newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
 \newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\SpecACA}{The actuator shall allow no more than \textbf{\textcolor{red}{[TODO: Spec Temp]}} deviation in its temperature from $T_{amb}$\ within the test window}
+\newcommand{\SpecACA}{The actuator shall minimize heat transfer within the test window}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -2321,12 +2321,6 @@
 				some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
 				evaluated as the design is further iterated.
 		\end{enumerate}
-
-% ============================================================================
-% TESTING CHAPTER  (LaTeX equivalent of Testing.pdf)
-% Photos from the PDF are omitted; their intended locations are marked with
-% "% [PHOTO]" comments.
-% ============================================================================
  
 \chapter{Testing}
 \label{chap:test}
@@ -2610,12 +2604,6 @@
 	\bibitem{ref_beam}
 	A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}. [Accessed: May 29, 2026].
 
-	\bibitem{ref_sf}
-	U.S.\ Department of Defense,
-	\textit{MIL-STD-1522A: Standard General Requirements for Safe Design and
-	Operation of Pressurized Missile and Space Systems},
-	Department of Defense, Washington, DC, 1984, Table~III.
-
 	\bibitem{ref_COMSOL} % COMSOL Multiphysics simulation software
 	COMSOL~AB, \textit{COMSOL Multiphysics\textregistered{} Reference Manual},
 	v.~5.3a, COMSOL~AB, Stockholm, Sweden, 2017.
@@ -2650,6 +2638,12 @@
 	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
 	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
 	[Accessed: May 8, 2026].
+
+	\bibitem{ref_sf}
+	U.S.\ Department of Defense,
+	\textit{MIL-STD-1522A: Standard General Requirements for Safe Design and
+	Operation of Pressurized Missile and Space Systems},
+	Department of Defense, Washington, DC, 1984, Table~III.
 
 \end{thebibliography}
 
@@ -2897,7 +2891,7 @@
 		\label{app:calcs:cal:sat}
 
 			As discussed in Section~\ref{app:sat:TF:results}, this calibration stack will occasionally be necessary to correct static machine dimension errors,
-			whose expected range falls a maximum of \todo{upper range} above and \todo{lower range} below the nominal value.
+			whose expected range falls a maximum of \SI{30.7}{\micro\meter} above and \SI{44.6}{\micro\meter} below the nominal value.
 			The belleville washer's maximum deflection is equal to its free cone height
 
 			\begin{equation}
@@ -2910,7 +2904,7 @@
 				\SI{200}{\micro\meter} - \SI{50}{\micro\meter}
 			\end{equation}
 
-			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \todo{larger range}.
+			Thus, to properly account for all linear error possibilities, the calibration assembly must be able to adjust $D_{eff}$ by no less than \SI{44.6}{\micro\meter}.
 			The belleville washer's total compressible range is the difference between its free cone height and its thickness.
 			As shown in its specification drawing in Appendix~\ref{app:datasheets:McMaster}, this results in a total deflection height of
 
@@ -3058,7 +3052,7 @@
 			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
 			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
 		
-			\begin{figure}[H]
+			\begin{figure}[h]
 				\centering
 				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
 				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
@@ -3114,9 +3108,6 @@
 		\end{equation}
 
 		This section presents a full derivation of this transfer function, represented in block-diagram form on the following page:
-		% \newpage
-		% \todo{Uncomment pdf. It may throw some errors.}
-		% \newpage
 		\includepdf[pages=1, fitpaper=true, landscape=true]{pdf/TF_import.pdf}
 
 		The \device\ System Transfer Function comprises 21 smaller independent transfer functions whose respective output values are summed and equated in accordance with the physical behavior of the system.
@@ -3150,7 +3141,7 @@
 				
 		\begin{figure}[H]
 			\centering
-			\includegraphics[height=\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
+			\includegraphics[height=.98\textheight, width=\textwidth, keepaspectratio]{positional_block_diagram.png}
 			\caption{Positional block diagram}
 			\label{fig:positional_block_diagram}
 		\end{figure}
@@ -3209,21 +3200,16 @@
 			According to the general principle of thermal expansion\cite[Eq.~4-4]{ref_Hibbeler}, $\frac{d \ell}{dT} = \alpha \ell_0$ where $\alpha$ is the material Coefficient of Thermal Expansion (CTE).
 			Thus, the thermal-expansion transfer functions are defined as follows:
 
-			\begin{multicols}{2}
-				\begin{align}
-					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{\tiny{ALLV}} \left( T_{{eff}_M} - T_{ref} \right) ) \label{eq:G_therm_1}\\
-					\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} \left( T_{{eff}_A} - T_{ref} \right) ) \\
-					\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} \left( T_{{eff}_S} - T_{ref} \right) ) \\
-					\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} \left( T_{{eff}_T} - T_{ref} \right) )
-				\end{align}
-				\columnbreak
-				\begin{align}
-					\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} \left( T_{{eff}_B} - T_{ref} \right) ) \\
-					\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} \left( T_{{eff}_V} - T_{ref} \right) ) \\
-					\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} \left( T_{{eff}_H} - T_{ref} \right) ) \\
-					\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} \left( T_{{eff}_W} - T_{ref} \right) ) \label{eq:G_therm_last}
-				\end{align}
-			\end{multicols}
+			\begin{align}
+					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{\mathrm{ALLV}} ( T_{{eff}_M} - T_{ref} ) ) &
+					\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} ( T_{{eff}_B} - T_{ref} ) ) \label{eq:G_therm_1}\\
+					\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} ( T_{{eff}_A} - T_{ref} ) ) &
+					\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} ( T_{{eff}_V} - T_{ref} ) ) \\
+					\hat{G}_S &= \ell_{S_0} (1 + \alpha_{Inv} ( T_{{eff}_S} - T_{ref} ) ) &
+					\hat{G}_H &= \ell_{H_0} (1 + \alpha_{Inv} ( T_{{eff}_H} - T_{ref} ) ) \\
+					\hat{G}_T &= \ell_{T_0} (1 + \alpha_{Inc} ( T_{{eff}_T} - T_{ref} ) ) &
+					\hat{G}_W &= \ell_{W_0} (1 + \alpha_{Inv} ( T_{{eff}_W} - T_{ref} ) ) \label{eq:G_therm_last}
+			\end{align}
 
 			where the material expansion coefficients and machined lengths are as follows.
 
@@ -3887,7 +3873,7 @@
 					\label{fig:error_dist}
 			\end{figure}
 
-			Those devices that fall outside of tolerance will need to be calibrated. As detailed in Appendix~\ref{app:mfg}, calibration will be performed at approximately $T_{ref}$.
+			As detailed in Appendix~\ref{app:mfg}, calibration will be performed at approximately $T_{ref}$.
 			The maximum expected error at this temperature, as calculated by the Transfer Function, is \SI{30.7}{\micro\meter} and \SI{44.6}{\micro\meter} above and below the nominal reference diameter of
 
 			\begin{equation}
@@ -4120,7 +4106,7 @@
 			\subsubsection{Temperature-Diameter Control Derivative}
 			\label{app:iter:customize:RR:slope}
 
-				The slope of system ouput, set to the constant $A_1$ in this design, is defined by the critical actuator dimensions as derived in Section~\ref{subsec:design:just:TF:act}.
+				The slope of system ouput, set to the constant $A_1$ in this design, is defined by the critical actuator dimensions as derived in Section~\ref{subsubsec:design:just:TF:act}.
 				Assuming a given gap between the base of the actuator and the upper surface of the housing and a given belleville washer compression
 				(\SI{5}{\milli\meter} and \SI{50}{\micro\meter} in this design, respectively), the necessary lengths of the Actuator and Mount can be calculated as in equations~\eqref{eq:L_act} and \eqref{eq:L_mount},
 				where $\frac{\Delta L}{\Delta T}$ (\SI{1.91}{\micro\meter\per\degreeCelsius} in this report) is set as desired:
