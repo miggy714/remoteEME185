@@ -2098,7 +2098,7 @@
 
 	\begin{figure}[h]
                 \centering
-                \includegraphics[width=.75\textwidth]{ Static_FEA_StressMagnitude1.png}
+                \includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
                 \caption{Static FEA Results on simplified Single Body Model}
                 \label{fig:FEAdisp}
             \end{figure}
@@ -2224,15 +2224,10 @@
 	\item \textbf{Calculations.}
 	Using the data from the FEA testing, the factor of safety at the corner can be found. 
 
-	Below is the table of data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
+	See \ref{fig:FEAdisp2} in Apendix Afor data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
 	
-	\begin{figure}[htbp]
-                \centering
-                \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
-                \caption{Table of Von Mises stresses extracted from an FEA of the orifice channel opening.}
-                \label{fig:FEAdisp2}
-            \end{figure}
+
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
 	the FS can be calculated for both the maximum and average stress values.
@@ -3030,6 +3025,13 @@
 		\bottomrule
 		\end{tabular}
 		\end{table}
+
+	\begin{figure}[htbp]
+                \centering
+                \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
+                \caption{Table of Von Mises stresses extracted from the single body FEA of the orifice channel opening.}
+                \label{fig:FEAdisp2}
+            \end{figure}
 
 
 \chapter{Required Relationship Failure Analysis}
