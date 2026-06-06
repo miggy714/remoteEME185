@@ -1939,9 +1939,9 @@
 \chapter{Model Verification}
 \label{chap:DFMEA}
 
-\subsection{Introduction to Failure Mode Effect Analysis and Methods}
-\label{subsec}
-	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
+\section{Introduction to Failure Mode Effect Analysis and Methods}
+\label{sec:DFMEA:FMEA}
+	The high performance reqsecuirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
 	of 100 was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
@@ -1962,8 +1962,8 @@
 	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
 	inform suggestions for redesign and modification. The results of computational modeling are discussed in \ref{chap:test}	
 
-	\subsection{Weld Failure Analysis}
-	\label{subsec:design:just:weld_analysis}
+	\section{Weld Failure Analysis}
+	\label{sec:DFMEA:just:weld_analysis}
 	Of the critical failure modes, two of them are on welds.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
@@ -2213,18 +2213,8 @@
 
 	See \ref{fig:FEAdisp2} in Apendix Afor data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
-<<<<<<< HEAD
 	
 
-=======
-	\vspace{1\baselineskip}
-	\begin{figure}[htbp]
-                \centering
-                \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
-                \caption{Table of Von Mises stresses extracted from an FEA of the orifice channel opening.}
-                \label{fig:FEAdisp2}
-            \end{figure}
->>>>>>> 7259492a46d4dd5554b67c5b2ab162ac55badf55
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
 	the FS can be calculated for both the maximum and average stress values.
@@ -2245,7 +2235,7 @@
 	easy way to reduce the stress concentration without adding more material. 
 \end{enumerate}
 
-	\subsection{Tolerance Failure Analysis}
+	\section{Tolerance Failure Analysis}
 	\label{subsec:DFMEA::tol}
 
 		The final failure mode --- namely, failure to meet the Required Relationship in equation~\eqref{eq:required_relationship} --- encapsulates several sources off error that affect the input-output relationship of the \device.
