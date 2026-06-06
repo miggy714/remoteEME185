@@ -1971,7 +1971,7 @@
 
 	\subsection{Weld Failure Analysis}
 	\label{subsec:design:just:weld_analysis}
-	Of the critical failure modes \todo{number}? of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
+	Of the critical failure modes, two of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
 	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FOS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
@@ -2205,7 +2205,8 @@
 
 	\item \textbf{Discussion.}
 	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
-	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. 
+	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. This shows that this failure mode will
+	not a be major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
 
 \end{enumerate}
 
@@ -2252,9 +2253,17 @@
 \todo{Add in following (purpose, assumpts/principles, results, discussion for all DFMEA topics:
 housing thin wall, orifice, outlet channel)}
 
-\textbf{Actuator-Housing Weldament}
+\textbf{Valve Orifice}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
+	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
+	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
+		\begin{figure}[h]
+                \centering
+                \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
+                \caption{Image showing the stress concentration at the edges of the orifice.}
+                \label{fig:FEAdisp}
+            \end{figure}
 	\item \textbf{Assumptions, Principles, and Methods.}
 	\item \textbf{Calculations.}
 	\item \textbf{Results.}
