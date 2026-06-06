@@ -1461,7 +1461,7 @@
 			The housing center pieces are joined using welded connections and designed with a wall thickness of \SI{10}{\milli\meter}, which is greater than the minimum required thickness of \SI{7.806}{\milli\meter}, to ensure that the pressure boundary is maintained at the critical junction where the three sections of the housing meet.
 			Because the center pieces form a rectangular prism, the stress distribution is more complex than in a cylindrical geometry, and was difficult to model analytically. However, the increased thickness of \SI{10}{\milli\meter} provides a significant safety margin to ensure that the housing center can withstand the internal pressure without failure.
 			Flat-walled pressure vessel behavior and stress concentrations at the corners may, however, produce more than the critical stress;
-			this risk is evaluated in more detail in Section~\ref{subsec:design:just:weld_analysis}.
+			this risk is evaluated in more detail in Section~\ref{sec:comp_proto}.
 
 		\newpage % Delete if necessary
 		\subsection{Hermetic Seal}
@@ -1571,7 +1571,7 @@
 		joints are certified free of defects such as porosity, lack of fusion, and cracking, 
 		all of which could significantly reduce joint strength\cite{ref_steen2010laser}. The 
 		structural adequacy of the critical pressure-boundary welds is evaluated in 
-		Section~\ref{subsec:design:just:weld_analysis}.
+		Section~\ref{sec:DFMEA:just:weld_analysis}.
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -2247,7 +2247,7 @@ strategies have been employed
 \end{enumerate}
 
 \section{Developing the computational prototype}
-
+\label{sec:comp_proto}
 \subsection{Fluid Dynamics Simulation}
 Fluid dynamics simulation is conducted to recover a pressure map on the
 fluid-solid interface. This pressure map will be used as the boundary load for
@@ -2376,7 +2376,7 @@ a general worst case stress result as in reality pressure will vary with fluid
 flow dynamics. Results were compared with hand calculations for simpler parts of
 the housing and verified that the simulation delivers expected results, and can
 be expected to do so for non-trivial surfaces. The results of this test are
-utilized in the DFMEA .
+utilized in the DFMEA.
 
 To validate the analytical calculations on the PTCD's dimensional stability
 under load from the fluid pressure, a multi-body simulation is conducted by
@@ -2396,7 +2396,8 @@ collision.
         where the multiple bodies contact is pivotal for accuracy of results.
         For all simulations, the welded surfaces are set as \textbf{identity
         pair} while surfaces that are unwelded and expected to collide are set
-        as \textbf{contact pairs} as shown in fig \ref{fig:both_label}.
+        as \textbf{contact pairs} as shown in Figure~\ref{fig:both_label}.
+		\vspace{1\baselineskip}
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
@@ -2435,7 +2436,7 @@ collision.
 
 \subsubsection{Data Collection}
 Surface data will be collected on weld joints and failure points identified by
-DFMEA. These data can be recovered at any point in the PTCD as shown in fig \ref{fig:stressnstrain}.
+DFMEA. These data can be recovered at any point in the PTCD as shown in Figure~\ref{fig:stressnstrain}.
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
@@ -2582,7 +2583,7 @@ of 0 C.
 
 	The design process is unfinished. As intended, only the first iteration was fully developed.
 	The computational prototype presented in this report demonstrates the feasibility of the \device\ and provides convenient tools for further iteration.
-	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses and unaddressed assmumptions. In summary, not all error modes could be accounted for in Appendix~\ref{sec:DFMEA:error},
+	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses and unaddressed assmumptions. In summary, not all error modes could be accounted for in Chapter~\ref{chap:DFMEA},
 	leading to an optimistic estimation of the device's performance. Full verification will not be complete until Sandia revises this design, builds a physical prototype, and tests it.
 	Appendix~\ref{app:iter:customize} provides them with guidance on how to use these computational tools for this revision.
 
@@ -3531,7 +3532,7 @@ of 0 C.
 \chapter{Required Relationship Failure Analysis}
 \label{app:sat}
 
-	Section~\ref{sec:DFMEA::tol} introduces the most important failure consideration: satisfaction of the Required Relationship to the required tolerance as stipulated by equation~\eqref{eq:required_relationship}:
+	Section~\ref{subsec:DFMEA::tol} introduces the most important failure consideration: satisfaction of the Required Relationship to the required tolerance as stipulated by equation~\eqref{eq:required_relationship}:
 
 	\begin{equation}
 		\requiredRelationship
@@ -4539,7 +4540,7 @@ of 0 C.
 				This flush contact is assumed to only allow flow through the hole cut into the Valve Orifice without allowing leakage around its sides, but this was never verified.
 				The tolerance of the fit may need to be adjusted, or addional sealing applied to ensure gas is not allowed to escape into the rectangular cavity of the housing.
 			\item The calibration screw may interfere with the expansion of the aluminum actuator due to a difference in expansion rates. This can be solved by shortening the screw, using an aluminum screw, or both.
-			\item The strength of the electron-beam welds used for assembly is assumed to be ideal, an assumption defended in Section~\ref{subsec:design:just:weld_analysis}. Though EBW is the most precise weld available, the weld will likely
+			\item The strength of the electron-beam welds used for assembly is assumed to be ideal, an assumption defended in Section~\ref{subsec:design:just:weld_overview}. Though EBW is the most precise weld available, the weld will likely
 				be slightly weaker than the original material and may affect thermal expansion and dimensioning around its area, changing the positions and expansion rates of certain parts.
 			\item The weldability of dissimilar metals, most especially that of ALLVAR to Invar, should be investigated. The use of fasteners to attach the mount would eliminate the need to weld these metals together
 				without sacrificing the precision of their fusion.
@@ -4657,7 +4658,7 @@ of 0 C.
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{subsec:DFMEA:error:mach} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{sec:DFMEA:FMEA} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
