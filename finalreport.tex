@@ -885,55 +885,7 @@
 			\subsection{Final Subsystem Specifications}
 		\label{subsec:intro:spec:final}
 
-			The final system requirements and subsystem specifications are presented in Table~\ref{tab:specs}.
-
-			\begin{table}[h]
-				\centering
-				\caption{System Requirements and Subsystem Specification Rolldown}
-				\renewcommand{\arraystretch}{1.3}
-				\begin{tabularx}{\textwidth}{
-						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
-						>{\raggedright\arraybackslash}X                  % Requirement
-						>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
-						>{\raggedright\arraybackslash}X                  % Valve spec
-						>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
-						>{\raggedright\arraybackslash}X                  % Actuator spec
-				}
-				\toprule
-				\textbf{} & \textbf{System Requirements} &
-				\textbf{} & \textbf{Valve Specifications} &
-				\textbf{} & \textbf{Actuator Specifications} \\
-				\midrule
-
-				% Row 1
-				\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
-				V.1.1 & \SpecVAA &
-				A.1.1 & \SpecAAA \\
-
-				& & V.1.2 & \SpecVAB \SpecVABapp & A.1.2 & \SpecAAB \\
-
-				\midrule
-
-				% Row 2
-				R.2 & \ReqB &
-				V.2.1 & \SpecVB &
-				A.2.1 & \SpecAB \\
-				
-				\midrule
-
-				% Row 3
-				\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
-				V.3.1 & \SpecVCA &
-				\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
-
-				& & V.3.2 & \SpecVCB & & \\
-
-				& & V.3.3 & \SpecVCC & & \\
-
-				\bottomrule
-				\end{tabularx}
-				\label{tab:specs}
-			\end{table}
+			The final system requirements and subsystem specifications are presented in Table~\ref{tab:specs} in the Appendix.
 
 			The final design architecture was strictly screened to meet these specifications to ensure that the \device\ exhibits a passive, linear, precise output with simple, compact, high-strength components.
 
@@ -946,30 +898,22 @@
 		The \device\ contains and seals high-pressure hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
-		The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
-\vspace{1\baselineskip}
-		\begin{figure}[H]
-			\centering
-			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
-			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{PTCD.png}
-			\caption{Complete assembly}
-			\label{fig:mainIsometric}
-		\end{figure}
+		The full assembly is pictured in Figures \ref{fig:mainIsometric} and \ref{fig:mainExploded}.
 
 		\begin{figure}[H]
 			\begin{minipage}{.49\textwidth}
 				\centering
 				% \includegraphics[width=.85\textwidth]{CompleteAssemblyExploded.png}
-				\includegraphics[width=.85\textwidth]{exp_qual.png}
+				\includegraphics[width=.85\textwidth]{PTCD.png}
 				\caption{Complete assembly exploded view}
-				\label{fig:mainExploded}
+				\label{fig:mainIsometric}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.49\textwidth}
 				\centering
-				\includegraphics[width=\textwidth]{SubAssemblyID.png}
+				\includegraphics[width=\textwidth]{exp_qual.png}
 				\caption{Sub-assembly identification}
-				\label{fig:SubAssemblyID}
+				\label{fig:mainExploded}
 			\end{minipage}
 		\end{figure}
 
@@ -2681,6 +2625,59 @@
 
 		Observe that the error boundary is thinnest about $T_{ref}$; thus, performance is best served if the \device\ is manufactured, assembled, and calibrated near this temperature.
 		See Appendix~\ref{app:mfg} for more details.
+
+	\section{Final Design Specifications}
+	\label{app:calcs:specs}
+
+		Table~\ref{tab:specs} compiles the full set of design specifications developed in Section~\ref{sec:intro:specs}.
+
+		\begin{table}[h]
+			\centering
+			\caption{System Requirements and Subsystem Specification Rolldown}
+			\renewcommand{\arraystretch}{1.3}
+			\begin{tabularx}{\textwidth}{
+					>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
+					>{\raggedright\arraybackslash}X                  % Requirement
+					>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
+					>{\raggedright\arraybackslash}X                  % Valve spec
+					>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
+					>{\raggedright\arraybackslash}X                  % Actuator spec
+			}
+			\toprule
+			\textbf{} & \textbf{System Requirements} &
+			\textbf{} & \textbf{Valve Specifications} &
+			\textbf{} & \textbf{Actuator Specifications} \\
+			\midrule
+
+			% Row 1
+			\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
+			V.1.1 & \SpecVAA &
+			A.1.1 & \SpecAAA \\
+
+			& & V.1.2 & \SpecVAB \SpecVABapp & A.1.2 & \SpecAAB \\
+
+			\midrule
+
+			% Row 2
+			R.2 & \ReqB &
+			V.2.1 & \SpecVB &
+			A.2.1 & \SpecAB \\
+			
+			\midrule
+
+			% Row 3
+			\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
+			V.3.1 & \SpecVCA &
+			\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
+
+			& & V.3.2 & \SpecVCB & & \\
+
+			& & V.3.3 & \SpecVCC & & \\
+
+			\bottomrule
+			\end{tabularx}
+			\label{tab:specs}
+		\end{table}
 
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
