@@ -947,7 +947,7 @@
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
 		The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
-
+\vspace{1\baselineskip}
 		\begin{figure}[H]
 			\centering
 			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
@@ -1149,7 +1149,7 @@
 			The base of the mount is electron-beam welded to the top of the valve housing.
 			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure~\ref{fig:Act_cut}.
-
+			\vspace{1\baselineskip}
 			\begin{figure}[H]
 				\centering
 				% \includegraphics[width=\textwidth]{Act_cut.png}
@@ -1591,7 +1591,7 @@
 				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
 				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
 				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
-
+				\vspace{1\baselineskip}
 				\begin{figure}[H]
 					\centering
 					\begin{tikzpicture}
@@ -1752,14 +1752,7 @@
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
 			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
-			Figure~\ref{fig:coated_surfaces} depicts the coated surfaces.
-			
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.75\textwidth]{coated_surfaces.png}
-				\caption{Target internal valve geometries selected for TiCN coating}
-				\label{fig:coated_surfaces}
-			\end{figure}
+			The coated surface are depicted in the Drawing Package in Appendix~\ref{app:drawings}.
 
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
@@ -1783,7 +1776,7 @@
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer's range.
 			See Appendix~\ref{app:calcs:cal:force} for further calculations and Appendix~\ref{app:mfg} for calibration instructions.
 			Calibration ought to be performed at room temperature (approximately $T_{ref}$), where the required tolerance window is narrowest (c.f. Appendix~\ref{app:calcs:orifice_geometry}).
-			\\~\\
+			\vspace{1\baselineskip}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.5\textwidth]{cal.png}
@@ -2009,7 +2002,7 @@
 		\end{enumerate}
 
 		The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
-
+\vspace{1\baselineskip}
 		\begin{table}[H]
 			\centering
 			\caption{Weld Analysis Parameter Values}
@@ -2096,7 +2089,8 @@
 		
 	\end{enumerate}
 
-	\begin{figure}[h]
+
+\vspace{1\baselineskip}	\begin{figure}[h]
                 \centering
                 \includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
                 \caption{Static FEA Results on simplified Single Body Model}
@@ -2167,13 +2161,6 @@
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
 	by the internal gas flow. This wall could be a problem due to how thin it is and how much pressure will be exerted on it. Using the pressure
 	hand calculations, the Factor of Safety (FS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
-	\\~\\
-		\begin{figure}[H]
-                \centering
-                \includegraphics[width=.55\textwidth]{figures3/Housing Outlet Wall pic.png}
-                \caption{Housing Outlet Wall Dimensions.}
-                \label{fig:FEAdisp1}
-            \end{figure}
 
 	\item \textbf{Assumptions, Principles, and Methods.}
 	The wall is treated as a circular plate with fixed edges under uniform distributed pressure of \specPressure. The maximum stress is calculated using the formula for
@@ -2226,8 +2213,18 @@
 
 	See \ref{fig:FEAdisp2} in Apendix Afor data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
+<<<<<<< HEAD
 	
 
+=======
+	\vspace{1\baselineskip}
+	\begin{figure}[htbp]
+                \centering
+                \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
+                \caption{Table of Von Mises stresses extracted from an FEA of the orifice channel opening.}
+                \label{fig:FEAdisp2}
+            \end{figure}
+>>>>>>> 7259492a46d4dd5554b67c5b2ab162ac55badf55
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
 	the FS can be calculated for both the maximum and average stress values.
@@ -2246,41 +2243,6 @@
 	the corner could be rounded to reduce the stress concentration. This would increase the FS because it would lower the stress that is put on that point. Another way to increase the FS
 	would be to increase the thickness of the wall at that point, which would also lower the stress. Ultimately, rounding the corner is probably the best solution because it is a simple and 
 	easy way to reduce the stress concentration without adding more material. 
-\end{enumerate}
-
-\textbf{Valve Orifice}
-\begin{enumerate}[label=\roman*.]
-	\item \textbf{Purpose.}
-	The purpose of this analysis is to verify that the valve orifice maintains structural integrity with the fluid force that will be exerted on it. The orifice is a very small component of the system and also ciritical
-	to the function of the device, so it is important to make sure that it will not fail under the pressure exerted on it by the internal gas flow.
-	Here is image showing how the stress is concentrated at the edges of the orifice, which is where the failure is most likely to occur.
-	\\~\\	
-	\begin{figure}[h]
-                \centering
-                \includegraphics[width=.75\textwidth]{figures3/Orifice_edges_stress.png}
-                \caption{Image showing the stress concentration at the edges of the orifice.}
-                \label{fig:FEAdisp3}
-            \end{figure}
-	\item \textbf{Assumptions, Principles, and Methods.}
-	The assumptions for the valve orifice are using the computer software which calculates the stress on the surface of the orifice and finds the maximum and average von Mises stress. 
-	The principles and methods for this analysis are the same as the ones used for the orifice channel opening, which are detailed in the following chapter, Testing.
-	\item \textbf{Calculations.}
-	Using the data collected from the computer software testing, the factor of safety can be found using von Mises stress and the yield strength of Invar. The average von Mises stress at the
-	edges of the orifice was found to be 126 MPa and the maximum von Mises stress was found to be 362 MPa.
-	\item \textbf{Results.}
-	Using the maximum von Mises stress: 
-	FOS = 240 MPa / 362 MPa = 0.66
-
-	Using the average von Mises stress:
-	FOS = 240 MPa / 126 MPa = 1.90
-
-	The FOS less than 1 at the maximum stress is an issue and something that needs to
-	be addressed, however because the average stress is greater than 1, it is likely that the
-	corner will not fail under most operating conditions.
-	\item \textbf{Discussion.}
-	The FOS of less than 1 at the maximum von Mises stress indicates that the corners of the orifice could fail if the test got to the maximum stress, however because the FOS at the average von Mises stress 
-	is greater than 1, it is likely that the corners will not fail under most operating conditions. One way to increase the FOS at the corners would be to round the corners that are not the ones creating the 
-	diamond shape of the orifice. This would reduce the risk of failure at those corners and increase the FOS. 
 \end{enumerate}
 
 	\subsection{Tolerance Failure Analysis}
