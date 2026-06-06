@@ -676,7 +676,7 @@
 		As depicted in Figure~\ref{fig:NASA_req}, this division of subsystems allows for an informative rolldown of the above system requirements
 		into several functional subsystem specifications that, if met, guarantee system requirement satisfaction.
 		Because subsystem errors are not cumulative, the required tolerance cannot be properly divided between the subsystems;
-		this will remain quantified at a 
+		this will remain quantified at a system level.
 		Due to the coupled nature of these subsystems, useful tolerances cannot be divided by subsystem;
 		thus, these specifications will remain nominal, and quantitative performance specifications will remain at a system level.
 
@@ -993,7 +993,7 @@
 			The Valve Orifice (4) comprises the leading orifice hole near its center.
 			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
 			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
-			Together, these comprise the \device's orifice, shown in Figure~\ref{fig:orif_assem}.
+			Together, these comprise the \device's orifice.
 
 			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
 			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
@@ -1877,7 +1877,7 @@
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
  		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
  		and of the weld metal we find a sufficient safety factor:
-		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}=3.68}$$
+		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}=3.68$$
   \item \textbf{Discussion.}
 		While this FS is acceptable, this is assuming the weld has the same material properties as
  		the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
@@ -1932,7 +1932,7 @@
 
 	\item \textbf{Discussion.}
 	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
-	is not enough to significantly affect the effctive diameter or anything else that would cause the device to fail. This shows that this failure mode will
+	is not enough to significantly affect the effective diameter or anything else that would cause the device to fail. This shows that this failure mode will
 	not a be major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
 
 \end{enumerate}
@@ -1945,7 +1945,7 @@
 	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar.
 	\item \textbf{Assumptions, Principles, and Methods.}
 	The assumpptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
-	Reference the following chapter, Testing, for the complete priciples and metthods used for testing and FEA.
+	Reference the following chapter, Testing, for the complete principles and methods used for testing and FEA.
 	\item \textbf{Calculations.}
 	Using the data from the FEA testing, the factor of safety at the corner can be found. 
 
@@ -2002,199 +2002,6 @@
 				evaluated as the design is further iterated.
 		\end{enumerate}
  
-\chapter{Testing}
-\label{chap:test}
-
-	\section{Objective}
-	In the absence of a physical manufactured model, verification of the DFMEA is
-	done through two methods: (1) Analytical methods and (2) Finite element
-	simulations. This section discusses the testing process and strategy of using
-	finite element simulations to validate the analytical results and explore
-	failure modes determined by DFMEA. This computational prototype will be
-	subjected to the following simulations: Heat Transfer (HT), Computational Fluid
-	Dynamics (CFD), and Multibody Dynamics (MBD).
-
-	\section{Test Design}
-	To make the simulations computationally less expensive, the following
-	strategies have been employed
-	\begin{enumerate}
-			\item The PTCD is cut in half about its vertical symmetry plane, creating
-			new surfaces which will be referred to as ``symmetry surfaces'' shown in \ref{fig:symmetryplane}. By setting
-			the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
-			the simulation software, the amount of meshes can be cut in half, reducing
-			the computation time. 
-			\begin{figure}[H]
-									\centering
-									\includegraphics[width=.25\textwidth]{figures3/testingch_symmetry.png}
-									\caption{This figure highlights the symmetry plane}
-									\label{fig:symmetryplane}
-			\end{figure}
-			\item The physics is ``decoupled''. The CFD is run on a rigid negative
-			domain (seen in \ref{fig:fluidvolume})of the channel with a turbulent simulation where a ``pressure map''
-			of the wetted surface is recovered. This same pressure map is used to apply
-			a load on the wetted surfaces of the PTCD assembly geometry to apply a load
-			that is representative of the fluid flow during operation. The heat transfer
-			simulation is then executed on the loaded assembly by setting all exposed
-			surfaces to the ambient temperature, and all the wetted surfaces to the
-			fluid temperature.
-			\begin{figure}[H]
-									\centering
-									\includegraphics[width=.25\textwidth]{figures3/testingch_negative.png}
-									\caption{This domain represents the fluid, it conforms to the volume of the cavity}
-									\label{fig:fluidvolume}
-			\end{figure}
-			\item As additional verification, a solid mechanics simulation was conducted
-			on single bodies like the orifice and the inlet/outlet parts, isolated from
-			the assembly. This form of isolated simulation was also conducted for HT.
-			\item A physics driven mesh is selected as a blanket parameter for the
-			entire assembly with an effective diameter smaller than the radius of the
-			smallest fillet in our geometry. On top of the blanket parameter, specific
-			parts in the assembly have modified mesh parameters; Namely the orifice,
-			mount, and the actuator have twice the mesh resolution.
-	\end{enumerate}
-
-	\section{Developing the computational prototype}
-
-	\subsection{Fluid Dynamics Simulation}
-	Fluid dynamics simulation is conducted to recover a pressure map on the
-	fluid-solid interface. This pressure map will be used as the boundary load for
-	the multi-body simulation.
-
-	\subsubsection{Boundary Condition Decisions}
-	\begin{enumerate}
-			\item The inlet and outlet are assumed to be in fully developed flow
-			\begin{enumerate}
-					\item Inlet pressure is swept across the design space with parameters
-					from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi. This
-					decision to have an exponential sweep was made because of the range
-					\item Outlet pressure is set as 0 psi
-			\end{enumerate}
-			\item The boundary condition is set as no slip.
-	\end{enumerate}
-
-	\subsubsection{Data Collection}
-	The pressure map on the fluid-solid interface is recovered and mapped onto the
-	wetted surface of the multi-body simulation. The pressure map is shown to be created by the fluid dynamics as shown in \ref{fig:pressuremap}.
-	\begin{figure}[H]
-									\centering
-									\includegraphics[width=.75\textwidth]{figures3/testingch_pressuremap.png}
-									\caption{A close up of the orifice showing a massive pressure drop with isobaric surfaces}
-									\label{fig:pressuremap}
-	\end{figure}
-	\subsubsection{Limitations}
-	The computational model used is k-epsilon with the fluid set as incompressible.
-	This is a very simplistic model that does not accurately compute the state of
-	the fluid in the volume.
-
-	\subsection{Heat Transfer Simulation}
-	To validate the analytical calculations on the PTCD's dimensional stability
-	under operating temperature conditions, a heat transfer simulation is conducted
-	by a steady state(fig \ref{fig:tempgrad}) and transient study.
-	\begin{figure}[H]
-									\centering
-									\includegraphics[width=.45\textwidth]{figures3/testingch_tempgrad.png}
-									\caption{temperature gradient at the maximum temperature setting of the design space.}
-									\label{fig:tempgrad}
-	\end{figure}
-
-	\subsubsection{Boundary Condition Decisions}
-	The isolated heat transfer tests used two different boundary-condition setups.
-	Each study type still shared common mechanical constraints. However, the
-	distinctions in boundary-conditions enabled the different end results of each
-	respective study.
-
-	For the steady state heat transfer test there the operating temperature range
-	was parametrically swept to the environmental temperatures. Since the sweep
-	evaluates only equilibrium states, the path of how heat reaches the body is
-	irrelevant. The final uniform temperature is physically correct for the steady
-	state and numerically efficient across the entire boundary. This boundary
-	condition produced the stroke versus temperature data that was validated
-	against the analytical model.
-
-	The time-dependent study required different thermal boundary conditions. Since
-	a prescribed surface temperature forced the exterior to jump quasi-statically,
-	there was no need for the temperature boundary condition to be considered as it
-	was in the steady state heat transfer test. Instead, there was a heat flux
-	condition on the exterior boundaries characterized by a convective coefficient
-	$h$ and an external ambient temperature $T_{ext}$. The ambient temperature was
-	driven by the following step function:
-	\[
-			T_{ext}(t) = T_{ref} + \SI{20}{\kelvin}\times \mathrm{tstep}(t),
-	\]
-	The initial condition sets the entire assembly to $T_{ref}$ which is in
-	equilibrium with the original ambient temperature. This setup reproduces the
-	physical scenario where the body convects toward a stepped ambient temperature
-	and yields a first-order thermal response used to extract the time constant.
-
-	\subsubsection{Data Collection}
-	The steady-state heat transfer data were gathered by sweeping $T_{env}$ across
-	the operating range and recording the converged actuator stroke at each point.
-	The primary output was the axial displacement of the orifice evaluated as a
-	point quantity and taken as the device stroke. Each solve returns a single
-	equilibrium displacement, and the collection of these points forms the
-	stroke-versus-temperature curve compared against the analytical prediction in
-	the Results section. The sweep was run in \SI{5}{\kelvin} increments with
-	convergence behavior across the entire temperature range.
-
-	The time dependent heat transfer test data was gathered from a single
-	time-dependent solve for the \SI{20}{\kelvin} ambient step. the point
-	temperature and corresponding displacement at fixed output intervals over a
-	two-hour simulated window (\texttt{range(0, 60, 7200)}). This window was chosen
-	to extend well past the expected settling time so the full approach to the new
-	equilibrium was captured.
-
-	\subsubsection{Limitations}
-	The primary limitation for both heat transfer tests was the model. The model
-	used was a reduced-order representation of the device's core instead of the
-	entire PTCD assembly. This model included the actuator, the house, cylindrical
-	equivalents for the bellows, and the center housing pieces. While smaller
-	components such as the fasteners were included, the outer housing and bellows
-	geometry were omitted. This was a deliberate simplification that enabled the
-	stationary sweep to converge cleanly across the entire temperature range and
-	for the transient study to resolve to a first-order time constant response.
-	However, this simplification characterizes the orifice, actuator, and mount
-	expansion mechanism in isolation rather than the entire device. The retained
-	components capture the actual path that set the stroke which is why the results
-	of the steady state study agree with the analytical model within
-	\SI{0.2}{\percent}. This simplification, while a limitation, also preserves the
-	physics that matter most for the actuation of the PTCD.
-
-	Other limitations include the replacement of the bellows. Their cylindrical
-	equivalent reproduces the correct axial spring stiffness but not the detailed
-	geometry, thermal behavior, or local stiffening of the actual part. Thermal
-	contact resistance at the bonded interfaces were also omitted. This assumes the
-	boundaries of each mate have perfectly conducting and slow heat propagation.
-	This potentially lengthens the acclimation time making the reported time
-	constant smaller than that of the entire assembly.
-
-	By and large the simplifications in the model best are valid characterizations
-	of the differential-expansion stroke mechanism and its approximate transient
-	behavior.
-
-	\subsection{Multi-body Simulation}
-	To gain a beginning intuition on the PTCD housing's reaction to applied pressure
-	and inform higher fidelity models a simplified single body model was made. The
-	single body model joins the housing components as a single solid avoiding use of
-	complicated mates and relations. While this assumption does reduce accuracy to
-	real performance, it allows for quick computation and as an initial method it
-	avoids errors and non-convergence that can come from more complex models. The
-	max pressure of \specPressure\ was applied to all wetted surfaces. This provides
-	a general worst case stress result as in reality pressure will vary with fluid
-	flow dynamics. Results were compared with hand calculations for simpler parts of
-	the housing and verified that the simulation delivers expected results, and can
-	be expected to do so for non-trivial surfaces. The results of this test are
-	utilized in the DFMEA .
-
-	To validate the analytical calculations on the PTCD's dimensional stability
-	under load from the fluid pressure, a multi-body simulation is conducted by
-	using the pressure map recovered from the fluid dynamics simulation and setting
-	it as a boundary load in the wetted surface.
-	The multi-body simulation takes into account the interaction between the
-	components of the PTCD with appropriate surface relationships. Welded surfaces
-	are set as identity pairs that keep the surface meshes together while other
-	surfaces which are
-	 expected to collide are set as Contact pairs to simulate
-	collision.
 \chapter{Testing}
 \label{chap:test}
 
@@ -2409,7 +2216,7 @@ collision.
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{figures3/testingch_identity_pair.png}
-        \caption{Demonstrationn of how identity pairs simulate a weld.}
+        \caption{demonstration of how identity pairs simulate a weld.}
         \label{fig:identitypair}
     \end{subfigure}
     \caption{Surface pair comparison}
@@ -2424,7 +2231,7 @@ collision.
 		\begin{figure}[H]
                 \centering
                 \includegraphics[width=.90\textwidth]{figures3/AbrAkAdAbrA_teST.png}
-                \caption{temperature gradient at the maximum temperature setting of the design space.}
+                \caption{Displacement.}
                 \label{fig:displacement}
 \end{figure}
     \end{enumerate}
@@ -2478,7 +2285,7 @@ within \SI{0.2}{\percent}.
 The time-dependent study, run for a representative \SI{20}{\kelvin} ambient
 step, produced a clean first-order exponential response at the monitored
 actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
-approximately \SI{44.8}{\celsius} (Figure~\ref{fig:transient}). The thermal time
+approximately \SI{44.8}{\celsius}. The thermal time
 constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
 the time to reach \SI{63}{\percent} of the final rise. The actuator reached
 \SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
@@ -2501,72 +2308,6 @@ orifice diameter at the maximum pressure of 10000 psi at an ambient temperature
 of 0 C.
 
 
-	\subsubsection{Data Collection}
-	Surface data will be collected on weld joints and failure points identified by
-	DFMEA. These data can be recovered at any point in the PTCD as shown in fig \ref{fig:stressnstrain}.
-	\begin{figure}[h]
-			\centering
-			\begin{subfigure}[t]{0.45\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{figures3/testing_ch_volstrain.png}
-					\caption{Volumetric strain}
-					\label{fig:straindata}
-			\end{subfigure}
-			\begin{subfigure}[t]{0.45\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{figures3/testing_ch_volstress.png}
-					\caption{Von-Misses Stress}
-					\label{fig:stressdata}
-			\end{subfigure}
-			\caption{Stress and strain map}
-			\label{fig:stressnstrain}
-	\end{figure}
-	\subsubsection{Limitations}
-	Several simplifications were introduced to the multi-body simulation to prioritize numerical convergence and reduce overall geometric complexity. 
-	Contact friction between interacting surfaces was omitted from the model entirely. 
-	To bypass the heavy computational cost of meshing, the Inconel bellows were represented using an equivalent material model rather than their true physical geometry. 
-	Similarly, the screw and washer were modeled as a continuous union rather than discrete interactive components. The Allvar component was approximated with an isotropic coefficient of thermal expansion based on nominal textbook values, which inherently neglects the alloy's true anisotropic thermal behavior.
-
-	\section{Results}
-
-
-	\subsection{Other relevant results/Discussion}
-
-	\subsubsection{Heat Transfer}
-	The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
-	\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
-	The two FEA anchor points at $\Delta T = \SI{5}{\kelvin}$ and
-	$\Delta T = \SI{10}{\kelvin}$ returned actuator displacements of
-	\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
-	\SI{1.115}{\micro\meter\per\kelvin} and matching the analytical prediction
-	within \SI{0.2}{\percent}.
-
-	The time-dependent study, run for a representative \SI{20}{\kelvin} ambient
-	step, produced a clean first-order exponential response at the monitored
-	actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
-	approximately \SI{44.8}{\celsius}. The thermal time
-	constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
-	the time to reach \SI{63}{\percent} of the final rise. The actuator reached
-	\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
-	was effectively settled by approximately \SI{50}{\minute}. The single-exponential
-	character confirms the device behaves as one dominant thermal mass over this
-	step, with no oscillatory or multi-rate dynamics in the relevant range.
-
-	\subsection{Design space}
-	\begin{figure}[H]
-									\centering
-									\includegraphics[width=.90\textwidth]{figures3/testingch_designspace.png}
-									\caption{Example of a plot that encompasses the entire design space}
-									\label{fig:designspace}
-	\end{figure}
-	The design space explored by the computational prototype can be summarized by
-	recovering data from the simulation software to generate a similar figure to the
-	one above. The four lines in the figure are part of a family of lines in the
-	design space. The vertical axis is the orifice diameter normalized with the
-	orifice diameter at the maximum pressure of 10000 psi at an ambient temperature
-	of 0 C.
-
-
 \chapter{Conclusion}
 \label{chap:concl}
 
@@ -2583,7 +2324,7 @@ of 0 C.
 
 	The design process is unfinished. As intended, only the first iteration was fully developed.
 	The computational prototype presented in this report demonstrates the feasibility of the \device\ and provides convenient tools for further iteration.
-	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses and unaddressed assmumptions. In summary, not all error modes could be accounted for in Chapter~\ref{chap:DFMEA},
+	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses and unaddressed assumptions. In summary, not all error modes could be accounted for in Chapter~\ref{chap:DFMEA},
 	leading to an optimistic estimation of the device's performance. Full verification will not be complete until Sandia revises this design, builds a physical prototype, and tests it.
 	Appendix~\ref{app:iter:customize} provides them with guidance on how to use these computational tools for this revision.
 
@@ -3487,7 +3228,7 @@ of 0 C.
 	\section{Additional Testing Data}
 	\label{app:calcs:test}
 
-		\todo{Description}
+		The table below is a direct result from the steady-state test. It shows a 0.2\% agreement with the analytical results compared to the FEA results.
 
 		\begin{table}[H]
 		\centering
@@ -4527,6 +4268,24 @@ of 0 C.
 
 \chapter{Further Failure Analysis and Design Recommendations}
 
+\section{Comprehensive Failure Analysis}
+
+	Failure modes identified are displayed in the below table, both those defined as critical and other possible modes. 
+	Note that of the non-critical modes, some of them require further analysis as development continues.
+	Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
+	due to time and resource constraints. These modes were not considered priorities for the manufacturing 
+	of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
+	done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
+	deformation under pressure load were considered noncritical as other more fragile sections were analyzed
+	instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
+	stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
+	housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
+	Below is the comprehensive table of design failure modes with priority modes highlighted.
+
+\newpage
+	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
+
+
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
 
@@ -4538,7 +4297,7 @@ of 0 C.
 		\begin{itemize}
 			\item The Valve Orifice and Housing Outlet, which each contain one component of the diamond orifice, are pressed flush against one another by a precision fit.
 				This flush contact is assumed to only allow flow through the hole cut into the Valve Orifice without allowing leakage around its sides, but this was never verified.
-				The tolerance of the fit may need to be adjusted, or addional sealing applied to ensure gas is not allowed to escape into the rectangular cavity of the housing.
+				The tolerance of the fit may need to be adjusted, or additional sealing applied to ensure gas is not allowed to escape into the rectangular cavity of the housing.
 			\item The calibration screw may interfere with the expansion of the aluminum actuator due to a difference in expansion rates. This can be solved by shortening the screw, using an aluminum screw, or both.
 			\item The strength of the electron-beam welds used for assembly is assumed to be ideal, an assumption defended in Section~\ref{subsec:design:just:weld_overview}. Though EBW is the most precise weld available, the weld will likely
 				be slightly weaker than the original material and may affect thermal expansion and dimensioning around its area, changing the positions and expansion rates of certain parts.
@@ -4629,28 +4388,6 @@ of 0 C.
 				\end{equation}
 
 				where $H_{\ell}$ and $H_t$ are the height of the leading and trailing orifice, respectively, as denoted in the Engineering Drawings in Appendix~\ref{app:drawings}.
-\subsection{Comprehensive Failure Analysis}
-
-	Failure modes identified are displayed in the below table, both those defined as critical and other possible modes. 
-	Note that of the non-critical modes, some of them require further analysis as development continues.
-	Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
-	due to time and resource constraints. These modes were not considered priorities for the manufacturing 
-	of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
-	done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
-	deformation under pressure load were considered noncritical as other more fragile sections were analyzed
-	instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
-	stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
-	housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
-	Below is the comprehensive table of design failure modes with priority modes highlighted.
-
-\newpage
-	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
-
-
-\subsection{2 for sam}
-
-\subsection{3 for sam}
-
 
 
 \chapter{Complete Bill of Materials}
@@ -5445,7 +5182,7 @@ of 0 C.
 
 	\subsection{Background}
 
-	The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD mantains it's specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated at room temperature (\SI{25}{\degreeCelsius}) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
+	The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD maintains its specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated at room temperature (\SI{25}{\degreeCelsius}) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
 
 	\subsection{Intended Users}
 
@@ -5464,7 +5201,7 @@ of 0 C.
 		\label{fig:ug_overview}
 	\end{figure}
 
-	The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurised body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminum on the inside and Allvar on the outside. Because aluminum expands and Allvar contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurised gas inside the valve.
+	\vspace{3em}
 
 	\begin{figure}[h]
 		\centering
