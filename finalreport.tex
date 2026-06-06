@@ -1707,7 +1707,7 @@
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
 	tolerance range.
 	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
-	inform suggestions for redesign and modification. The results of computational modeling are discussed in \ref{chap:test}	
+	inform suggestions for redesign and modification. The results of computational modeling are discussed in Chapter~\ref{chap:test}.	
 
 	\section{Weld Failure Analysis}
 	\label{sec:DFMEA:just:weld_analysis}
@@ -2032,26 +2032,38 @@ strategies have been employed
     the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
     the simulation software, the amount of meshes can be cut in half, reducing
     the computation time. 
-    \begin{figure}[H]
-                \centering
-                \includegraphics[width=.25\textwidth]{figures3/testingch_symmetry.png}
-                \caption{This figure highlights the symmetry plane}
-                \label{fig:symmetryplane}
+\vspace{1\baselineskip}
+	\begin{figure}[H]
+        \centering
+        % First Subfigure (Symmetry Plane)
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=.55\textwidth]{figures3/testingch_symmetry.png}
+            \caption{Symmetry plane highlights.}
+            \label{fig:symmetryplane}
+        \end{subfigure}
+        \hfill % This pushing the two figures to the left and right margins
+        % Second Subfigure (Fluid Volume)
+        \begin{subfigure}[b]{0.45\textwidth}
+            \centering
+            \includegraphics[width=.55\textwidth]{figures3/testingch_negative.png}
+            \caption{Fluid domain conforming to the cavity.}
+            \label{fig:fluidvolume}
+        \end{subfigure}
+        
+        \caption{Testing channel domain mapping showing both the structural symmetry plane and the negative fluid volume.}
+        \label{fig:combined_domains}
     \end{figure}
+
     \item The physics is ``decoupled''. The CFD is run on a rigid negative
-    domain (seen in \ref{fig:fluidvolume})of the channel with a turbulent simulation where a ``pressure map''
+    domain (seen in \ref{fig:fluidvolume}) of the channel with a turbulent simulation where a ``pressure map''
     of the wetted surface is recovered. This same pressure map is used to apply
     a load on the wetted surfaces of the PTCD assembly geometry to apply a load
     that is representative of the fluid flow during operation. The heat transfer
     simulation is then executed on the loaded assembly by setting all exposed
     surfaces to the ambient temperature, and all the wetted surfaces to the
     fluid temperature.
-    \begin{figure}[H]
-                \centering
-                \includegraphics[width=.25\textwidth]{figures3/testingch_negative.png}
-                \caption{This domain represents the fluid, it conforms to the volume of the cavity}
-                \label{fig:fluidvolume}
-    \end{figure}
+
     \item As additional verification, a solid mechanics simulation was conducted
     on single bodies like the orifice and the inlet/outlet parts, isolated from
     the assembly. This form of isolated simulation was also conducted for HT.
@@ -2213,6 +2225,7 @@ collision.
         For all simulations, the welded surfaces are set as \textbf{identity
         pair} while surfaces that are unwelded and expected to collide are set
         as \textbf{contact pairs} as shown in fig \ref{fig:both_label}.
+		\vspace{1\baselineskip}
 \begin{figure}[H]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
@@ -2236,6 +2249,7 @@ collision.
         \item Verification for the correctness of contact constraints are made
         by setting a rigid translation of the orifice in space and observing how
         the meshes behave. This is shown on fig \ref{fig:displacement} below.
+		\vspace{1\baselineskip}
 		\begin{figure}[H]
                 \centering
                 \includegraphics[width=.90\textwidth]{figures3/AbrAkAdAbrA_teST.png}
