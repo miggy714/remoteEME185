@@ -947,7 +947,7 @@
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
 		The full assembly is pictured in Figures \ref{fig:mainIsometric}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
-
+\vspace{1\baselineskip}
 		\begin{figure}[H]
 			\centering
 			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
@@ -1149,7 +1149,7 @@
 			The base of the mount is electron-beam welded to the top of the valve housing.
 			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure~\ref{fig:Act_cut}.
-
+			\vspace{1\baselineskip}
 			\begin{figure}[H]
 				\centering
 				% \includegraphics[width=\textwidth]{Act_cut.png}
@@ -1591,7 +1591,7 @@
 				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
 				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
 				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
-
+				\vspace{1\baselineskip}
 				\begin{figure}[H]
 					\centering
 					\begin{tikzpicture}
@@ -1752,14 +1752,7 @@
 			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
 			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
 			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
-			Figure~\ref{fig:coated_surfaces} depicts the coated surfaces.
-			
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.75\textwidth]{coated_surfaces.png}
-				\caption{Target internal valve geometries selected for TiCN coating}
-				\label{fig:coated_surfaces}
-			\end{figure}
+			The coated surface are depicted in the Drawing Package in Appendix~\ref{app:drawings}.
 
 			\subsubsection{Mechanical Envelope Specifications}
 			\label{subsubsec:design:just:gen_dim:ME}
@@ -1783,7 +1776,7 @@
 			As the screw is tightened, a belleville washer between the two clamped faces maintains tension in the screw, letting the threads seat at any position within the belleville washer's range.
 			See Appendix~\ref{app:calcs:cal:force} for further calculations and Appendix~\ref{app:mfg} for calibration instructions.
 			Calibration ought to be performed at room temperature (approximately $T_{ref}$), where the required tolerance window is narrowest (c.f. Appendix~\ref{app:calcs:orifice_geometry}).
-			\\~\\
+			\vspace{1\baselineskip}
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.5\textwidth]{cal.png}
@@ -1951,29 +1944,27 @@
 	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Failure Mode Effect Analysis (FMEA). Possible failure modes are identified
 	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
 	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
-	of \todo{critical RPN} was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:comp}. \todo{fix this ref}
+	of 100 was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
+	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:test}.
 
-		\todo{Insert table of prioritized failure modes (RPN>threshold) from drive. Add full sheet to apendix. It is not finalized yet.}
 
 \begin{figure}[h]
                 \centering
-                \includegraphics[width=.75\textwidth]{ DFMEA_table_priority_modes.png}
+                \includegraphics[width=\textwidth]{ DFMEA_table_priority_modes.png}
                 \caption{Prioritized Failure Modes with RPN>120}
                 \label{fig:RPN_priority}
             \end{figure}
 
-	The threshold RPN was chosen to be \todo{critical RPN}. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
+	The threshold RPN was chosen to be 100. Since human operators do not come into direct contact or operate the PTCD directly, the main failure risks 
 	do not include human injury, but rather device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
 	This RPN value was deemed the critical point at which inaccuracies, loss of function, or damage would prove the device incapable of performing within an acceptable
-	tolerance range \todo{if we have time/if possible, see what worst case deformation in critical components can be via transfer function}
+	tolerance range.
 	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
 	inform suggestions for redesign and modification. The results of computational modeling are discussed in \ref{chap:test}	
 
 	\subsection{Weld Failure Analysis}
 	\label{subsec:design:just:weld_analysis}
-	Of the critical failure modes, two of them are on welds. \todo{finish weld calculations, insert calcs in Chapter~\ref{chap:comp}}
-	The electron beam welding serves to seal the bellows to the housing components, join the housing assembly, and fixture the actuator assembly to the housing.
+	Of the critical failure modes, two of them are on welds.
 	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
 	reflected in the RPN sheet. To ensure the welds have a sufficient FS, calculations fed by modeling results were utilized. This process is detailed in Chapter \ref{chap:comp}.
 	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
@@ -2011,7 +2002,7 @@
 		\end{enumerate}
 
 		The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
-
+\vspace{1\baselineskip}
 		\begin{table}[H]
 			\centering
 			\caption{Weld Analysis Parameter Values}
@@ -2098,7 +2089,8 @@
 		
 	\end{enumerate}
 
-	\begin{figure}[h]
+
+\vspace{1\baselineskip}	\begin{figure}[h]
                 \centering
                 \includegraphics[width=.75\textwidth]{ Static_FEA_StressMagnitude1.png}
                 \caption{Static FEA Results on simplified Single Body Model}
@@ -2130,8 +2122,8 @@
  		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
   	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
-  	temperature gradient with $\Delta R=D_0(1-a_(alv)*dT_cold/2$)
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}$
+  	temperature gradient with
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}=0.0254mm$
 		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the Allvar mount by that amount:
@@ -2145,7 +2137,7 @@
  		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
  		and of the weld metal we find a sufficient safety factor:
 		
-		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}$
+		$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}=3.68}$
 		
 		
   \item \textbf{Discussion.}
@@ -2221,7 +2213,7 @@
 
 	Below is the table of data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
-	
+	\vspace{1\baselineskip}
 	\begin{figure}[htbp]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
@@ -3998,13 +3990,13 @@
 
 \chapter{Further Failure Analysis and Design Recommendations}
 
-	\section{Comprehensive Failure Analysis}
-
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
 
 		To aid in further iteration of the \device\ design, below is an exhaustive list of the weaknesses, unaddressed assumptions, and open questions
 		identified by the authors and certain corresponding design changes they would implement given more time, excluding those identified in Chapter~\ref{chap:concl}.
+
+		
 
 		\begin{itemize}
 			\item The Valve Orifice and Housing Outlet, which each contain one component of the diamond orifice, are pressed flush against one another by a precision fit.
@@ -4100,6 +4092,29 @@
 				\end{equation}
 
 				where $H_{\ell}$ and $H_t$ are the height of the leading and trailing orifice, respectively, as denoted in the Engineering Drawings in Appendix~\ref{app:drawings}.
+\subsection{Comprehensive Failure Analysis}
+
+	Failure modes identified are displayed in the below table, both those defined as critical and other possible modes. 
+	Note that of the non-critical modes, some of them require further analysis as development continues.
+	Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
+	due to time and resource constraints. These modes were not considered priorities for the manufacturing 
+	of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
+	done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
+	deformation under pressure load were considered noncritical as other more fragile sections were analyzed
+	instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
+	stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
+	housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
+	Below is the comprehensive table of design failure modes with priority modes highlighted.
+
+\newpage
+	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
+
+
+\subsection{2 for sam}
+
+\subsection{3 for sam}
+
+
 
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
