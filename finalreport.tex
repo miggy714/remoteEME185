@@ -885,7 +885,55 @@
 			\subsection{Final Subsystem Specifications}
 		\label{subsec:intro:spec:final}
 
-			The final system requirements and subsystem specifications are presented in Table~\ref{tab:specs} in the Appendix.
+			The final system requirements and subsystem specifications are presented in Table~\ref{tab:specs}.
+
+			\begin{table}[h]
+				\centering
+				\caption{System Requirements and Subsystem Specification Rolldown}
+				\renewcommand{\arraystretch}{1.3}
+				\begin{tabularx}{\textwidth}{
+						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
+						>{\raggedright\arraybackslash}X                  % Requirement
+						>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
+						>{\raggedright\arraybackslash}X                  % Valve spec
+						>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
+						>{\raggedright\arraybackslash}X                  % Actuator spec
+				}
+				\toprule
+				\textbf{} & \textbf{System Requirements} &
+				\textbf{} & \textbf{Valve Specifications} &
+				\textbf{} & \textbf{Actuator Specifications} \\
+				\midrule
+
+				% Row 1
+				\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
+				V.1.1 & \SpecVAA &
+				A.1.1 & \SpecAAA \\
+
+				& & V.1.2 & \SpecVAB \SpecVABapp & A.1.2 & \SpecAAB \\
+
+				\midrule
+
+				% Row 2
+				R.2 & \ReqB &
+				V.2.1 & \SpecVB &
+				A.2.1 & \SpecAB \\
+				
+				\midrule
+
+				% Row 3
+				\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
+				V.3.1 & \SpecVCA &
+				\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
+
+				& & V.3.2 & \SpecVCB & & \\
+
+				& & V.3.3 & \SpecVCC & & \\
+
+				\bottomrule
+				\end{tabularx}
+				\label{tab:specs}
+			\end{table}
 
 			The final design architecture was strictly screened to meet these specifications to ensure that the \device\ exhibits a passive, linear, precise output with simple, compact, high-strength components.
 
@@ -898,8 +946,16 @@
 		The \device\ contains and seals high-pressure hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
-		The full assembly is pictured in Figures \ref{fig:mainIsometric} and \ref{fig:mainExploded}.
+		The full assembly is pictured in Figures \ref{fig:reveal}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
 
+		\begin{figure}[H]
+			\centering
+			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
+			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{reveal_qual.png}
+			\caption{Complete assembly}
+			\label{fig:reveal}
+		\end{figure}
+		\newpage
 		\begin{figure}[H]
 			\begin{minipage}{.49\textwidth}
 				\centering
@@ -917,18 +973,16 @@
 			\end{minipage}
 		\end{figure}
 
-	The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
-		One plate is fixed to the valve housing; the other is free to move vertically driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
-		The two square holes lie flush and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
-
-		\begin{wrapfigure}{l}{.2\textwidth}
+		\begin{wrapfigure}{l}{.3\textwidth}
 			\centering
-			\includegraphics[height=1.5in]{orifice.png}
+			\includegraphics[height=2in]{orifice.png}
 			\caption{Orifice geometry}
 			\label{fig:orifice}
 		\end{wrapfigure}
 
-	
+		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
+		One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
+		The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
 		If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure~\ref{fig:orifice}, the diamond-shaped overlap between these squares constitutes the valve orifice. 
 		The lower (blue) square is cut into the central moving plate such that as the valve stem drives the plate downwards, the orifice (the gray overlap region) constricts.
 		
@@ -941,14 +995,14 @@
 			\centering
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_cold.png}
+				\includegraphics[width=.7\textwidth]{active_cold.png}
 				\subcaption{Cooling actuation}
 				\label{fig:active_cold}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.45\textwidth}
 				\centering
-				\includegraphics[width=.5\textwidth]{active_hot.png}
+				\includegraphics[width=.7\textwidth]{active_hot.png}
 				\subcaption{Heating actuation}
 				\label{fig:active_hot}
 			\end{minipage}
@@ -959,10 +1013,10 @@
 		\subsection{Valve Subsystem}
 		\label{subsec:design:overview:valve}
 
-			\begin{wrapfigure}{l}{.2\textheight} % .32\textheight is the width, but the image is roughly square
+			\begin{wrapfigure}{l}{.32\textheight} % .32\textheight is the width, but the image is roughly square
 				\centering
 				% \includegraphics[height=.4\textheight]{Valve_full.png}
-				\includegraphics[height=.2\textheight]{Valve_full_qual.png}
+				\includegraphics[height=.3\textheight]{Valve_full_qual.png}
 				\caption{Valve subsystem}
 				\label{fig:valve_full}
 			\end{wrapfigure}
@@ -977,7 +1031,7 @@
 				\begin{minipage}{.49\textwidth}
 					\centering
 					% \includegraphics[width=\textwidth]{Valve_exploded.png}
-					\includegraphics[width=\textwidth]{orif_assem_right_qual.png}
+					\includegraphics[width=\textwidth]{Valve_exploded_qual.png}
 					\caption{Valve subsystem exploded view}
 					\label{fig:valve_exploded}
 				\end{minipage}
@@ -990,10 +1044,18 @@
 				\end{minipage}
 			\end{figure}
 
+			\begin{wrapfigure}{l}{2.5in}
+				\centering
+				% \includegraphics[width=.8\textwidth]{orif_assem.png}
+				\includegraphics[width=2.5in]{orif_assem_right_qual.png}
+				\caption{Orifice assembly}
+				\label{fig:orif_assem}
+			\end{wrapfigure}
+
 			The Valve Orifice (4) comprises the leading orifice hole near its center.
 			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
 			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
-			Together, these comprise the \device's orifice.
+			Together, these comprise the \device's orifice, shown in Figure~\ref{fig:orif_assem}.
 
 			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
 			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
@@ -1087,14 +1149,26 @@
 			The base of the mount is electron-beam welded to the top of the valve housing.
 			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure~\ref{fig:Act_cut}.
-			\vspace{1\baselineskip}
-			\begin{figure}[H]
+
+			\begin{minipage}{1.5748in}
+				\begin{figure}[H]
 				\centering
-				% \includegraphics[width=\textwidth]{Act_cut.png}
-				\includegraphics[width=.6\textwidth]{Act_cut_qual.png}
-				\caption{Actuator-valve interface}
-				\label{fig:Act_cut}
-			\end{figure}
+				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
+				\caption{\device\\Actual Size}
+				\label{fig:act_size}
+				\end{figure}
+			\end{minipage}
+			\hfill
+			\begin{minipage}{6in}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=.75\textwidth]{Act_cut_qual.png}
+					\caption{\device\ Full Assembly}
+					\label{fig:Act_cut}
+				\end{figure}
+			\end{minipage}
+
+			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}'' \times 11''$ paper.
 
 			The actuator drives the valve stem motion.
 			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, causing the expansion rod to expand relative to the rest of the assembly when heated.
@@ -1512,6 +1586,204 @@
 		The housing inlet allows just enough space to fit the bellows, minimizing waste. Regardless, the housing inlet exceeds its specified mechanical envelope to accommodate the two long bellows.
 		This violation is justified in Section~\ref{subsubsec:design:just:gen_dim:ME}.
 
+		\subsection{Noncritical dimensions and features}
+		\label{subsec:design:just:gen_dim}
+
+			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
+			Here, other important elements are justified as motivated by our design specifications.
+
+			\subsubsection{Actuator Diameter}
+			\label{subsubsec:design:just:gen_dim:act_diam}
+
+				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
+				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
+				Increasing this area minimizes deflection, a source of error.
+				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
+				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
+				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
+				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
+				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
+
+				\begin{figure}[H]
+					\centering
+					\begin{tikzpicture}
+						\begin{axis}[
+								ybar,
+								bar width=5pt,
+								width=\textwidth,
+								height=0.45\textwidth,
+								xlabel={Mount OD (mm)},
+								ylabel={Actuation Error (\%)},
+								xtick=data,
+								xticklabels={12.70, 15.88, 19.05, 22.22, 25.40, 28.57, 31.75, 34.92, 38.10},
+								x tick label style={rotate=45, anchor=east, font=\small},
+								legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
+								legend cell align={left},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								ymin=0,
+								ymax=0.45,
+								ytick={0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45},
+								yticklabel={\pgfmathprintnumber[fixed, precision=2]{\tick}},
+								enlarge x limits=0.08,
+								nodes near coords,
+								nodes near coords style={font=\tiny, rotate=90, anchor=west},
+								every node near coord/.append style={/pgf/number format/fixed, 
+																										/pgf/number format/precision=3},
+						]
+
+						%% Hot excursion bars (Design 1) — plotted first
+						\addplot[fill={rgb,255:red,230;green,89;blue,46}, draw=none] coordinates {
+								(1, 0.3837)
+								(2, 0.1628)
+								(3, 0.0972)
+								(4, 0.0677)
+								(5, 0.0515)
+								(6, 0.0413)
+								(7, 0.0344)
+								(8, 0.0294)
+								(9, 0.0257)
+						};
+
+						%% Cold excursion bars (Design 1) — plotted second
+						\addplot[fill={rgb,255:red,51;green,153;blue,219}, draw=none] coordinates {
+								(1, 0.3464)
+								(2, 0.1470)
+								(3, 0.0877)
+								(4, 0.0611)
+								(5, 0.0465)
+								(6, 0.0373)
+								(7, 0.0310)
+								(8, 0.0266)
+								(9, 0.0232)
+						};
+
+						\legend{Cold excursion ($T_\text{low}=\SI{-60}{\degreeCelsius}$),
+										Hot excursion ($T_\text{high}=\SI{80}{\degreeCelsius}$)}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Actuator subsystem diameter optimization}
+					\label{fig:mount_OD_opt}
+				\end{figure}
+
+				\begin{figure}[H]
+					\centering
+					\pgfplotstableread[col sep=comma]{csv/elastic_deformation.csv}\elasticdata
+					\begin{tikzpicture}
+						\begin{axis}[
+								width=\textwidth,
+								height=0.5\textwidth,
+								xlabel={Wall thickness (mm)},
+								ylabel={Total deflection ($\upmu$m)},
+								xmin=0, xmax=12,
+								ymin=0, ymax=1.0,
+								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
+								restrict y to domain=0:1.0,
+								xtick={0,1,...,12},
+								ymajorgrids=true,
+								grid style={dashed, gray!40},
+								legend style={
+										at={(0.98,0.98)},
+										anchor=north east,
+										font=\small,
+										cells={anchor=west}
+								},
+								clip=true,
+						]
+
+						%% Allvar tube (mount)
+						\addplot[
+								color={rgb,255:red,46;green,115;blue,178},
+								mark=*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
+						\addlegendentry{Allvar tube (mount)}
+
+						%% Al rod (actuator)
+						\addplot[
+								color={rgb,255:red,217;green,84;blue,26},
+								mark=square*,
+								mark size=2.5pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_al_max_um] {\elasticdata};
+						\addlegendentry{Al rod (actuator)}
+
+						%% Combined series
+						\addplot[
+								color={rgb,255:red,33;green,140;blue,33},
+								mark=diamond*,
+								mark size=3pt,
+								line width=1.5pt,
+						] table[x=t_wall_mm, y=d_ser_max_um] {\elasticdata};
+						\addlegendentry{Combined series}
+
+						%% Optimal wall thickness vertical line at 3.5 mm
+						\draw[dashed, black, line width=1.2pt] (axis cs:3.5, 0) -- (axis cs:3.5, 1.0);
+
+						%% Minimum point marker at (3.5, 0.1401)
+						\addplot[
+								only marks,
+								mark=*,
+								mark size=4pt,
+								color=black,
+						] coordinates {(3.5, 0.140052)};
+						\addlegendentry{Series min @ $t_{\text{wall}} = \SI{3.5}{\milli\meter}$}
+
+						\end{axis}
+					\end{tikzpicture}
+					\caption{Mount wall thickness optimization}
+					\label{fig:mount_thick_opt}
+				\end{figure}
+
+			\subsubsection{Threaded Interface}
+			\label{subsubsec:design:just:gen_dim:thread}
+
+				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
+				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}'') threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
+
+				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length, respectively, for an airtight seal.
+				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
+
+				\subsubsection{Assemblability Considerations}
+			\label{subsubsec:design:just:gen_dim:assem}
+
+				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix~\ref{app:mfg}.
+				Every weld operation requires an orthogonal beam at all times.
+				The housing center is broken into two pieces, allowing the bellows to be welded to the valve orifice and the housing centers separately with a full 360$^\circ$ line of sight.
+				The subassembly can then be inserted into the housing inlet and welded in place from above, then fit to the housing outlet and welded from the outside.
+				The actuator expansion rod is attached to the valve stem with a 360$^\circ$ weld.
+				This is screwed to the mount, which is then welded to the housing.
+				This modular approach allows for full line-of-sight welding and simple assembly and drove many of the structural features of the \device.
+
+			\subsubsection{Valve Orifice Contact Friction}
+			\label{subsubsec:design:just:gen_dim:friction}
+
+			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
+			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
+			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
+			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
+			Figure~\ref{fig:coated_surfaces} depicts the coated surfaces.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.75\textwidth]{coated_surfaces.png}
+				\caption{Target internal valve geometries selected for TiCN coating}
+				\label{fig:coated_surfaces}
+			\end{figure}
+
+			\subsubsection{Mechanical Envelope Specifications}
+			\label{subsubsec:design:just:gen_dim:ME}
+
+				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(\SI{45.55}{\milli\meter} + \SI{70.72}{\milli\meter}) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
+				This was necessary to allow a direct interface between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
+				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
+				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
+
+				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
+				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
+				but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
 
 		\subsection{Calibration}
 		\label{subsec:design:just:cal}
@@ -1571,7 +1843,7 @@
 		joints are certified free of defects such as porosity, lack of fusion, and cracking, 
 		all of which could significantly reduce joint strength\cite{ref_steen2010laser}. The 
 		structural adequacy of the critical pressure-boundary welds is evaluated in 
-		Section~\ref{sec:DFMEA:just:weld_analysis}.
+		Section~\ref{sec:DFMEA:weld}.
 
 		\subsection{Precision Fits}
 		\label{subsec:design:just:fits}
@@ -1686,165 +1958,159 @@
 \chapter{Model Verification}
 \label{chap:DFMEA}
 
-\section{Introduction to Failure Mode Effect Analysis and Methods}
-\label{sec:DFMEA:FMEA}
-	The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Design Failure Mode Effect Analysis (DFMEA). Possible failure modes are identified
-	and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
-	by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
-	of 100 was chosen to be the threshold for in-depth analysis and potential redesign. Note that these failure modes were identified and ranked through preliminary calculations
-	and are verified or challenged by theoretical modeling in Chapter~\ref{chap:test}.
+	\section{Introduction to Design Failure Mode Effect Analysis}
+	\label{sec:DFMEA:intro}
+		The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Design Failure Mode Effect Analysis (DFMEA). Possible failure modes are identified
+		and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
+		by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
+		of 100 was chosen to be the threshold for in-depth analysis and potential redesign because, after calculation for each failure mode, it readily separated those that warranted further investigation
+		from those that could not be addressed in the time available. Analytical calculations are addressed in the below sections, while
+		Chapter~\ref{chap:test} expounds the more involved computational methods used to test certain failure modes.
 
-
-\begin{figure}[h]
-                \centering
-                \includegraphics[width=\textwidth]{ DFMEA_table_priority_modes.png}
-                \caption{Prioritized Failure Modes with RPN>120}
-                \label{fig:RPN_priority}
-            \end{figure}
-
-	The threshold RPN was chosen to be 100. The main failure risks 
-	device inaccuracy, loss of function, and damage to the PTCD and nearby equipment at the worst case.
-	This RPN value was deemed the critical point at which these would prove the device incapable of performing within an acceptable
-	tolerance range.
-	Each of the critical failure modes identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design, or to 
-	inform suggestions for redesign and modification. The results of computational modeling are discussed in Chapter~\ref{chap:test}.
-
-	\section{Weld Failure Analysis}
-	\label{sec:DFMEA:just:weld_analysis}
-	Weld failure at the actuator could cause stroke error, and around the bellows or housing, leakage or critical structural failure could occur. The severity of these methods is
-	reflected in the RPN sheet. To ensure the welds have a sufficient safety factor, calculations fed by modeling results were utilized.	
-	The housing consists of the inlet and outlet components welded with two central pieces. Together they hold and seal the bellows and orifice assembly in a rectangular space 
-	that allows for the actuation movement. The change in geometry and sharp corners flagged this space for potential stress concentrations and region for failure analysis.
-	The analytical process and results for the above mentioned weld failure methods are documented below:
-	\\
-
-	\textbf{Housing Center Weld}
-	\begin{enumerate}[label=\roman*.]
-		\item \textbf{Purpose.}
-		The purpose of this analysis is to verify that the critical housing weld joints
-		maintain structural integrity under the maximum internal operating pressure of 
-		$P = \specPressure$, with adequate margin against yielding in both axial tension 
-		and bending.
-
-		\item \textbf{Assumptions, Principles, and Methods.}
-		The weld joints are treated as square butt joints with full penetration, such that 
-		the weld cross-section has the same material properties as the base metal 
-		(Invar~36, $S_y = \SI{276}{\mega\pascal}$). Because all welds pass 100\% 
-		radiographic inspection ($E = 1.00$), no weld efficiency penalty is 
-		applied\cite[Table~302.3.4]{ref_asme_b313}.
-
-		Two load cases are evaluated:
-		\begin{enumerate}[label=\alph*.]
-			\item \textbf{Axial stress}: The net axial force from internal pressure acting 
-				on the wetted area is distributed uniformly across the weld cross-sectional 
-				area\cite[eq.~1-6]{ref_Hibbeler}.
-			\item \textbf{Bending stress}: The weld is modeled as a beam fixed at both 
-				ends, loaded by a uniformly distributed pressure load. While the true 
-				geometry is more complex, this conservative beam approximation bounds the 
-				bending stress and identifies the key geometric drivers\cite{ref_beam}. 
-				Additional validation using COMSOL Multiphysics is ongoing to account for 
-				the complex three-dimensional weld geometry.
-		\end{enumerate}
-
-		The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
-\vspace{1\baselineskip}
-		\begin{table}[H]
+		\begin{table}[h]
 			\centering
-			\caption{Weld Analysis Parameter Values}
-			\label{tab:weld_parameters}
-			\begin{tabularx}{\textwidth}{l X l}
+			\caption{Prioritized Failure Modes with RPN $>$ 120}
+			\label{tab:RPN_priority}
+			\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.5cm} p{3cm} p{2.5cm} p{2.5cm} p{3cm} p{3cm}}
 				\toprule
-				\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+				\textbf{Component \#} & \textbf{Subsystem / Component Description} & \textbf{Component Function} & \textbf{Potential Failure Mode} & \textbf{Potential Effect of Failure} & \textbf{Potential Cause of Failure} \\
 				\midrule
-				$P$ & Internal pressure & $\specPressure$ \\\addlinespace
-				$A_\text{wetted}$ & Wetted area (from gas flow analysis) & 
-					\SI{3.5504e-4}{\square\meter} \\\addlinespace
-				$A_\text{weld}$ & Weld cross-sectional area & 
-					\SI{1.3508e-3}{\square\meter} \\\addlinespace
-				$S_y$ & Yield strength (Invar~36) & \SI{276}{\mega\pascal} \\\addlinespace
-				$t$ & Weld thickness (full penetration) & \SI{7.0}{\milli\meter} \\
+				2b & Housing Outlet Thin Wall & Supports valve orifice & Deformation & Loss of function, inaccurate test results & Pressure differential forces orifice into wall \\[6pt]
+				2c & Housing Outlet Channel & Restricted diam channel from orifice & Deformation & Decreased function, small damage & Large pressure differential \\[6pt]
+				2d & Housing Center Weld & Holds valve assembly & Stress failure & Damage to internals, loss of function & Stress concentrations \\[6pt]
+				4  & Actuator Radial Weld & Fixes and seals actuator & Stress failure & Decreased function, inaccurate test, small damage & Thermal cycling, induced stress at weld toe \\[6pt]
+				10 & PTCD System & Entire Device Assembly & Outside of error tolerance & Inadequate accuracy & Accumulated inaccuracy \\
 				\bottomrule
 			\end{tabularx}
 		\end{table}
 
-		\item \textbf{Calculations.}
+		Failure is defined as the inability of the device to meet its specifications.
+		For the \device, this includes plastic\footnote{i.e. Irrevocable.} deformation, fracture, rupture, or simply exceedance of the system output tolerance.
+		Each failure mode identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design
+		or to inform design modifications. All failure modes identified are listed and identified in Appendix~\ref{app:iter:DFMEA};
+		those whose RPN exceeded the threshold value of 100 are listed in Figure~\ref{tab:RPN_priority}.
 
-		\textit{Axial Stress.}
-		The axial stress is the internal pressure force distributed over the weld 
-		area\cite[eq.~1-6]{ref_Hibbeler}:
+		Each of the below analyses documents the failure mode, the assumptions, principles, and methods applied, the calculations performed, and the results of the analysis.
 
-		\begin{equation}
-			\sigma_\text{axial} = \frac{P\, A_\text{wetted}}{A_\text{weld}}
-			= \frac{(68.95 \times 10^{6})(3.5504 \times 10^{-4})}{1.3508 \times 10^{-3}}
-			\approx \SI{18.08}{\mega\pascal}
-			\label{eq:stress_axial}
-		\end{equation}
+	\section{Weld Failure Analysis}
+	\label{sec:DFMEA:weld}
 
-		\textit{Bending Stress.}
-		For a beam of width $b$ and thickness $t$ fixed at both ends under a uniformly 
-		distributed pressure load, the maximum bending moment occurs at the fixed ends and 
-		at midspan and applying $c = t/2$ and $I = \tfrac{1}{12}bt^3$:
+		\subsection{Housing Center Weld}
+		\label{subsec:DFMEA:weld:main}
 
-		\begin{equation}
-			M_\text{max} = \frac{W L^2}{24} = \frac{(Pb)\,L^2}{24}
-			\label{eq:moment_bending}
-		\end{equation}
+			The pressure capacity of the housing is verified in Section~\ref{subsec:design:just:P}. The circumferential weld between the Housing Inlet and Outlet can be reliably assumed to
+			fuse the housing material together without sacrificing yield strength, but this assumption must be further evaluated to ensure the weld can withstand the significant axial internal pressure forces applied.
 
-		\begin{equation}
-			\sigma_\text{bending}
-			= \frac{M_\text{max}\,c}{I}
-			= \frac{M_\text{max}\,(t/2)}{\tfrac{1}{12}b t^3}
-			= \frac{6\,M_\text{max}}{b t^2}
-			= \frac{P L^2}{4 t^2}
-			\label{eq:stress_bending}
-		\end{equation}
+			The weld joints are treated as square butt joints with full penetration, such that 
+			the weld cross-section has the same material properties as the base metal 
+			(Invar~36, $S_y = \SI{276}{\mega\pascal}$). Because all welds pass 100\% 
+			radiographic inspection ($E = 1.00$), no weld efficiency penalty is 
+			applied\cite[Table~302.3.4]{ref_asme_b313}.
 
-		Equation~\ref{eq:stress_bending} shows that bending stress is minimized by reducing 
-		the unsupported span $L$ and/or increasing the weld thickness $t$, providing clear 
-		geometric design guidance independent of weld width $b$.
+			Two load cases are evaluated:
+			\begin{enumerate}[label=\alph*.]
+				\item \textbf{Axial stress}: The net axial force from internal pressure acting 
+					on the wetted area is distributed uniformly across the weld cross-sectional 
+					area\cite[eq.~1-6]{ref_Hibbeler}.
+				\item \textbf{Bending stress}: The weld is modeled as a beam fixed at both 
+					ends, loaded by a uniformly distributed pressure load. While the true 
+					geometry is more complex, this conservative beam approximation bounds the 
+					bending stress and identifies the key geometric drivers\cite{ref_beam}. 
+					Additional validation using COMSOL Multiphysics is ongoing to account for 
+					the complex three-dimensional weld geometry.
+			\end{enumerate}
 
-		\item \textbf{Results.}
+			The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
+			\vspace{1\baselineskip}
+			\begin{table}[H]
+				\centering
+				\caption{Weld Analysis Parameter Values}
+				\label{tab:weld_parameters}
+				\begin{tabularx}{\textwidth}{l X l}
+					\toprule
+					\textbf{Parameter} & \textbf{Description} & \textbf{Value} \\
+					\midrule
+					$P$ & Internal pressure & $\specPressure$ \\\addlinespace
+					$A_\text{wetted}$ & Wetted area (from gas flow analysis) & 
+						\SI{3.5504e-4}{\square\meter} \\\addlinespace
+					$A_\text{weld}$ & Weld cross-sectional area & 
+						\SI{1.3508e-3}{\square\meter} \\\addlinespace
+					$S_y$ & Yield strength (Invar~36) & \SI{276}{\mega\pascal} \\\addlinespace
+					$t$ & Weld thickness (full penetration) & \SI{7.0}{\milli\meter} \\
+					\bottomrule
+				\end{tabularx}
+			\end{table}
 
-		The axial factor of safety is:
-		\begin{equation}
-			FS_\text{axial} = \frac{S_y}{\sigma_\text{axial}} 
-			= \frac{276}{18.08} \approx 15.27
-			\label{eq:sf_axial}
-		\end{equation}
+			\textit{Axial Stress.}
+			The axial stress is the internal pressure force distributed over the weld 
+			area\cite[eq.~1-6]{ref_Hibbeler}:
 
-		The failure due to bending is more complex to evaluate and is best described by computational modeling. The resulting stresses can be found in Figure~\ref{fig:FEAdisp2}.
+			\begin{equation}
+				\sigma_\text{axial} = \frac{P\, A_\text{wetted}}{A_\text{weld}}
+				= \frac{(68.95 \times 10^{6})(3.5504 \times 10^{-4})}{1.3508 \times 10^{-3}}
+				\approx \SI{18.08}{\mega\pascal}
+				\label{eq:stress_axial}
+			\end{equation}
 
-		\item \textbf{Discussion.}
-		The axial factor of safety of $15.27$ confirms that the weld cross-section carries 
-		the pressure-induced axial load with substantial margin, and that axial tension is 
-		not a limiting failure mode for this joint. The large safety factor is consistent 
-		with the design intent: the weld thickness $t = \SI{7.0}{\milli\meter}$ was sized 
-		to match the housing wall rather than to minimize material, so the full weld area 
-		is available to resist the relatively modest net axial force.
+			\textit{Bending Stress.}
+			For a beam of width $b$ and thickness $t$ fixed at both ends under a uniformly 
+			distributed pressure load, the maximum bending moment occurs at the fixed ends and 
+			at midspan and applying $c = t/2$ and $I = \tfrac{1}{12}bt^3$:
 
-		Bending stress is the more complex and potentially more critical load case. 
-		Equation~\ref{eq:stress_bending} confirms that bending is controlled by the 
-		geometric ratio $L^2/t^2$; keeping spans short and walls thick is therefore the 
-		primary mitigation strategy already embedded in the design. However, the beam model 
-		assumes a simplified planar geometry that cannot capture the three-dimensional 
-		stress distribution at the curved housing interfaces. COMSOL Multiphysics modeling 
-		of the full weld joint geometry verifies that the design maintains an adequate factor of safety against bending failure.
-		
-	\end{enumerate}
+			\begin{equation}
+				M_\text{max} = \frac{W L^2}{24} = \frac{(Pb)\,L^2}{24}
+				\label{eq:moment_bending}
+			\end{equation}
 
+			\begin{equation}
+				\sigma_\text{bending}
+				= \frac{M_\text{max}\,c}{I}
+				= \frac{M_\text{max}\,(t/2)}{\tfrac{1}{12}b t^3}
+				= \frac{6\,M_\text{max}}{b t^2}
+				= \frac{P L^2}{4 t^2}
+				\label{eq:stress_bending}
+			\end{equation}
 
-\vspace{1\baselineskip}	\begin{figure}[h]
-                \centering
-                \includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
-                \caption{Static FEA Results on simplified Single Body Model}
-                \label{fig:FEAdisp}
-            \end{figure}
+			Equation~\ref{eq:stress_bending} shows that bending stress is minimized by reducing 
+			the unsupported span $L$ and/or increasing the weld thickness $t$, providing clear 
+			geometric design guidance independent of weld width $b$.
 
+			The axial factor of safety is:
+			\begin{equation}
+				FS_\text{axial} = \frac{S_y}{\sigma_\text{axial}} 
+				= \frac{276}{18.08} \approx 15.27
+				\label{eq:sf_axial}
+			\end{equation}
 
+			The failure due to bending is more complex to evaluate and is best described by computational modeling. The resulting stresses can be found in Figure~\ref{fig:FEAdisp2}.
+
+			The axial factor of safety of $15.27$ confirms that the weld cross-section carries 
+			the pressure-induced axial load with substantial margin, and that axial tension is 
+			not a limiting failure mode for this joint. The large safety factor is consistent 
+			with the design intent: the weld thickness $t = \SI{7.0}{\milli\meter}$ was sized 
+			to match the housing wall rather than to minimize material, so the full weld area 
+			is available to resist the relatively modest net axial force.
+
+			Bending stress is the more complex and potentially more critical load case. 
+			Equation~\ref{eq:stress_bending} confirms that bending is controlled by the 
+			geometric ratio $L^2/t^2$; keeping spans short and walls thick is therefore the 
+			primary mitigation strategy already embedded in the design. However, the beam model 
+			assumes a simplified planar geometry that cannot capture the three-dimensional 
+			stress distribution at the curved housing interfaces. COMSOL Multiphysics modeling 
+			of the full weld joint geometry verifies that the design maintains an adequate factor of safety against bending failure.
+				
+			\vspace{1\baselineskip}	\begin{figure}[h]
+				\centering
+				\includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
+				\caption{Static FEA Results on simplified Single Body Model}
+				\label{fig:FEAdisp}
+			\end{figure}
+
+% SAM CONTINUE HERE
 
 
 	
-\textbf{Actuator-Housing Weldment}
+\subsection{Actuator-Housing Weldment}
 \begin{enumerate}[label=\roman*.]
 
 	\item In addition to stresses applied by the internal pressure, there is also stress on the 
@@ -1893,7 +2159,7 @@
   	reliable solution.
 \end{enumerate}
 
-\textbf{Housing Outlet Wall}
+\subsection{Housing Outlet Wall}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
@@ -1937,7 +2203,7 @@
 
 \end{enumerate}
 
-\textbf{Orifice Channel Opening}
+\subsection{Orifice Channel Opening}
 \begin{enumerate}[label=\roman*.]
 	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the orifice channel opening maintains structural integrity under the pressure exerted on it by the internal 
@@ -2587,6 +2853,12 @@ of 0 C.
 	\bibitem{ref_beam}
 	A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}. [Accessed: May 29, 2026].
 
+	\bibitem{ref_sf}
+	U.S.\ Department of Defense,
+	\textit{MIL-STD-1522A: Standard General Requirements for Safe Design and
+	Operation of Pressurized Missile and Space Systems},
+	Department of Defense, Washington, DC, 1984, Table~III.
+
 	\bibitem{ref_COMSOL} % COMSOL Multiphysics simulation software
 	COMSOL~AB, \textit{COMSOL Multiphysics\textregistered{} Reference Manual},
 	v.~5.3a, COMSOL~AB, Stockholm, Sweden, 2017.
@@ -2621,12 +2893,6 @@ of 0 C.
 	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
 	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
 	[Accessed: May 8, 2026].
-
-	\bibitem{ref_sf}
-	U.S.\ Department of Defense,
-	\textit{MIL-STD-1522A: Standard General Requirements for Safe Design and
-	Operation of Pressurized Missile and Space Systems},
-	Department of Defense, Washington, DC, 1984, Table~III.
 
 \end{thebibliography}
 
@@ -2712,59 +2978,6 @@ of 0 C.
 
 		Observe that the error boundary is thinnest about $T_{ref}$; thus, performance is best served if the \device\ is manufactured, assembled, and calibrated near this temperature.
 		See Appendix~\ref{app:mfg} for more details.
-
-	\section{Final Design Specifications}
-	\label{app:calcs:specs}
-
-		Table~\ref{tab:specs} compiles the full set of design specifications developed in Section~\ref{sec:intro:specs}.
-
-		\begin{table}[H]
-			\centering
-			\caption{System Requirements and Subsystem Specification Rolldown}
-			\renewcommand{\arraystretch}{1.3}
-			\begin{tabularx}{\textwidth}{
-					>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
-					>{\raggedright\arraybackslash}X                  % Requirement
-					>{\raggedright\arraybackslash}p{0.06\textwidth}  % V ID
-					>{\raggedright\arraybackslash}X                  % Valve spec
-					>{\raggedright\arraybackslash}p{0.06\textwidth}  % A ID
-					>{\raggedright\arraybackslash}X                  % Actuator spec
-			}
-			\toprule
-			\textbf{} & \textbf{System Requirements} &
-			\textbf{} & \textbf{Valve Specifications} &
-			\textbf{} & \textbf{Actuator Specifications} \\
-			\midrule
-
-			% Row 1
-			\multirow{3}{=}{\vspace{10em}R.1} & \multirow{3}{=}{\ReqA} &
-			V.1.1 & \SpecVAA &
-			A.1.1 & \SpecAAA \\
-
-			& & V.1.2 & \SpecVAB \SpecVABapp & A.1.2 & \SpecAAB \\
-
-			\midrule
-
-			% Row 2
-			R.2 & \ReqB &
-			V.2.1 & \SpecVB &
-			A.2.1 & \SpecAB \\
-			
-			\midrule
-
-			% Row 3
-			\multirow{3}{=}{\vspace{10em}R.3} & \multirow{3}{=}{\ReqC} &
-			V.3.1 & \SpecVCA &
-			\multirow{3}{=}{\vspace{10em}A.3.1} & \multirow{3}{=}{\SpecACA} \\
-
-			& & V.3.2 & \SpecVCB & & \\
-
-			& & V.3.3 & \SpecVCC & & \\
-
-			\bottomrule
-			\end{tabularx}
-			\label{tab:specs}
-		\end{table}
 
 	\section{Orifice Geometry}
 	\label{app:calcs:orifice_geometry}
@@ -2988,7 +3201,7 @@ of 0 C.
 			Figure~\ref{fig:app_SNL} illustrates this division of responsibility and shows how the \device\ impacts its ultimate customer, National Security in the United States of America (USA).
 
 			\vspace{1em}
-			\begin{figure}[H]
+			\begin{figure}[h]
 				\centering
 				\includegraphics[width=.75\textwidth]{SNL_role.png}
 				\caption{Downstream Customer Diagram}
@@ -3004,270 +3217,49 @@ of 0 C.
 			The \device\ provides this necessary control without dependence on power or computation, improving the reliability of these experiments, the precision of the flow control components and assemblies, the reliability of Sandia's projects,
 			the capabilities of their research and technology, and, ultimately, the resilience of American National Security against ever-more-sophisticated foreign and domestic threats.
 
+		\subsection{Additional Testing Data}
+		\label{app:calcs:sup:test}
 
+			The table below is a direct result from the steady-state test. It shows a 0.2\% agreement with the analytical results compared to the FEA results.
 
-		\subsection{The \device\ in full assembly}
-		\label{app:calcs:sup:assem}
+			\begin{table}[H]
+			\centering
+			\caption{Actuator stroke across the operating range from the isolated thermal
+			model ($\delta = 1.115\,\Delta T$). Boldface rows are the converged FEA anchor
+			points that establish the slope; all rows lie on the linear law confirmed by the
+			full converged sweep.}
+			\label{tab:stroke_full}
+			\begin{tabular}{rrr}
+			\toprule
+			$T_{env}$ (\si{\celsius}) & $\Delta T$ (\si{\kelvin}) & Stroke (\si{\micro\meter}) \\
+			\midrule
+			$-60$ & $-85$ & $94.78$ \\
+			$-50$ & $-75$ & $83.62$ \\
+			$-40$ & $-65$ & $72.47$ \\
+			$-30$ & $-55$ & $61.33$ \\
+			$-20$ & $-45$ & $50.17$ \\
+			$-10$ & $-35$ & $39.02$ \\
+			$0$   & $-25$ & $27.88$ \\
+			$10$  & $-15$ & $16.73$ \\
+			$20$  & $-5$  & $5.58$  \\
+			$25$  & $0$   & $0.00$  \\
+			\textbf{30} & \textbf{5}  & \textbf{5.58}  \\
+			\textbf{35} & \textbf{10} & \textbf{11.14} \\
+			$40$ & $15$ & $16.73$ \\
+			$50$ & $25$ & $27.88$ \\
+			$60$ & $35$ & $39.02$ \\
+			$70$ & $45$ & $50.17$ \\
+			$80$ & $55$ & $61.33$ \\
+			\bottomrule
+			\end{tabular}
+			\end{table}
 
-			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}'' \times 11''$ paper.
-			Figure~\ref{fig:app_reveal} shows a useful cutaway view of the entire assembly.
-
-			\begin{minipage}{1.5748in}
-				\begin{figure}[H]
+			\begin{figure}[h]
 				\centering
-				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
-				\caption{\device\\Actual Size}
-				\label{fig:act_size}
-				\end{figure}
-			\end{minipage}
-			\hfill
-			\begin{minipage}{6in}
-				\begin{figure}[H]
-					\centering
-					% \includegraphics[width=\textwidth]{reveal.png}
-					\includegraphics[width=.75\textwidth]{reveal_qual.png}
-					\caption{\device\ Full Assembly}
-					\label{fig:app_reveal}
-				\end{figure}
-			\end{minipage}
-
-		\subsection{Noncritical dimensions and features}
-		\label{subsec:design:just:gen_dim}
-
-			To design as precise and compact a device as possible, our team deliberated and optimized every dimension and feature. The critical dimensions have been discussed elsewhere.
-			Here, other important elements are justified as motivated by our design specifications.
-
-			\subsubsection{Actuator Diameter}
-			\label{subsubsec:design:just:gen_dim:act_diam}
-
-				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
-				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
-				Increasing this area minimizes deflection, a source of error.
-				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
-				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
-				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
-				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
-				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
-				\vspace{1\baselineskip}
-				\begin{figure}[H]
-					\centering
-					\begin{tikzpicture}
-						\begin{axis}[
-								ybar,
-								bar width=5pt,
-								width=\textwidth,
-								height=0.45\textwidth,
-								xlabel={Mount OD (mm)},
-								ylabel={Actuation Error (\%)},
-								xtick=data,
-								xticklabels={12.70, 15.88, 19.05, 22.22, 25.40, 28.57, 31.75, 34.92, 38.10},
-								x tick label style={rotate=45, anchor=east, font=\small},
-								legend style={at={(0.98,0.98)}, anchor=north east, font=\small},
-								legend cell align={left},
-								ymajorgrids=true,
-								grid style={dashed, gray!40},
-								ymin=0,
-								ymax=0.45,
-								ytick={0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45},
-								yticklabel={\pgfmathprintnumber[fixed, precision=2]{\tick}},
-								enlarge x limits=0.08,
-								nodes near coords,
-								nodes near coords style={font=\tiny, rotate=90, anchor=west},
-								every node near coord/.append style={/pgf/number format/fixed, 
-																										/pgf/number format/precision=3},
-						]
-
-						%% Hot excursion bars (Design 1) — plotted first
-						\addplot[fill={rgb,255:red,230;green,89;blue,46}, draw=none] coordinates {
-								(1, 0.3837)
-								(2, 0.1628)
-								(3, 0.0972)
-								(4, 0.0677)
-								(5, 0.0515)
-								(6, 0.0413)
-								(7, 0.0344)
-								(8, 0.0294)
-								(9, 0.0257)
-						};
-
-						%% Cold excursion bars (Design 1) — plotted second
-						\addplot[fill={rgb,255:red,51;green,153;blue,219}, draw=none] coordinates {
-								(1, 0.3464)
-								(2, 0.1470)
-								(3, 0.0877)
-								(4, 0.0611)
-								(5, 0.0465)
-								(6, 0.0373)
-								(7, 0.0310)
-								(8, 0.0266)
-								(9, 0.0232)
-						};
-
-						\legend{Cold excursion ($T_\text{low}=\SI{-60}{\degreeCelsius}$),
-										Hot excursion ($T_\text{high}=\SI{80}{\degreeCelsius}$)}
-
-						\end{axis}
-					\end{tikzpicture}
-					\caption{Actuator subsystem diameter optimization}
-					\label{fig:mount_OD_opt}
-				\end{figure}
-
-				\begin{figure}[H]
-					\centering
-					\pgfplotstableread[col sep=comma]{csv/elastic_deformation.csv}\elasticdata
-					\begin{tikzpicture}
-						\begin{axis}[
-								width=\textwidth,
-								height=0.5\textwidth,
-								xlabel={Wall thickness (mm)},
-								ylabel={Total deflection ($\upmu$m)},
-								xmin=0, xmax=12,
-								ymin=0, ymax=1.0,
-								ytick={0, 0.2, 0.4, 0.6, 0.8, 1.0},
-								restrict y to domain=0:1.0,
-								xtick={0,1,...,12},
-								ymajorgrids=true,
-								grid style={dashed, gray!40},
-								legend style={
-										at={(0.98,0.98)},
-										anchor=north east,
-										font=\small,
-										cells={anchor=west}
-								},
-								clip=true,
-						]
-
-						%% Allvar tube (mount)
-						\addplot[
-								color={rgb,255:red,46;green,115;blue,178},
-								mark=*,
-								mark size=2.5pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
-						\addlegendentry{Allvar tube (mount)}
-
-						%% Al rod (actuator)
-						\addplot[
-								color={rgb,255:red,217;green,84;blue,26},
-								mark=square*,
-								mark size=2.5pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_al_max_um] {\elasticdata};
-						\addlegendentry{Al rod (actuator)}
-
-						%% Combined series
-						\addplot[
-								color={rgb,255:red,33;green,140;blue,33},
-								mark=diamond*,
-								mark size=3pt,
-								line width=1.5pt,
-						] table[x=t_wall_mm, y=d_ser_max_um] {\elasticdata};
-						\addlegendentry{Combined series}
-
-						%% Optimal wall thickness vertical line at 3.5 mm
-						\draw[dashed, black, line width=1.2pt] (axis cs:3.5, 0) -- (axis cs:3.5, 1.0);
-
-						%% Minimum point marker at (3.5, 0.1401)
-						\addplot[
-								only marks,
-								mark=*,
-								mark size=4pt,
-								color=black,
-						] coordinates {(3.5, 0.140052)};
-						\addlegendentry{Series min @ $t_{\text{wall}} = \SI{3.5}{\milli\meter}$}
-
-						\end{axis}
-					\end{tikzpicture}
-					\caption{Mount wall thickness optimization}
-					\label{fig:mount_thick_opt}
-				\end{figure}
-
-			\subsubsection{Threaded Interface}
-			\label{subsubsec:design:just:gen_dim:thread}
-
-				As detailed by Sandia, gas will be supplied by a stainless steel pipe between \SI{1.524}{\milli\meter} and \SI{25.4}{\milli\meter} in diameter.
-				This design features a \SI{19.05}{\milli\meter} (\nicefrac{3}{4}'') threaded interface, which diameter can be adjusted in further design iterations as needed for particular experiments.
-
-				The housing inlet and outlet provide \SI{15}{\milli\meter} and \SI{20}{\milli\meter} threaded length, respectively, for an airtight seal.
-				Adding the space needed for the tapered drill-bit cut and the walls that support the valve orifice, the valve subsystem's longitudinal mechanical envelope totals \SI{72}{\milli\meter}, well within its design specification.
-
-				\subsubsection{Assemblability Considerations}
-			\label{subsubsec:design:just:gen_dim:assem}
-
-				Manufacture and assembly of the \device\ motivated several features. The full assembly process is detailed in Appendix~\ref{app:mfg}.
-				Every weld operation requires an orthogonal beam at all times.
-				The housing center is broken into two pieces, allowing the bellows to be welded to the valve orifice and the housing centers separately with a full 360$^\circ$ line of sight.
-				The subassembly can then be inserted into the housing inlet and welded in place from above, then fit to the housing outlet and welded from the outside.
-				The actuator expansion rod is attached to the valve stem with a 360$^\circ$ weld.
-				This is screwed to the mount, which is then welded to the housing.
-				This modular approach allows for full line-of-sight welding and simple assembly and drove many of the structural features of the \device.
-
-			\subsubsection{Valve Orifice Contact Friction}
-			\label{subsubsec:design:just:gen_dim:friction}
-
-			The interface between vertical faces of the valve orifice and the housing inlet are subject to frictional forces that could cause wear and galling (i.e. degradation of materials as their surfaces slide against one another), which could damage the system performance over time.
-			To mitigate this, the contact surfaces are coated with a thin layer of Titanium Carbonitride (TiCN), a hard ceramic coating that provides excellent wear resistance and low friction properties.
-			Compared to uncoated Invar, the TiCN coating provides a $5.6\!\times\!$ increase in hardness and a 63\% reduction in the wear rate under similar conditions\cite{ref_TiCN_Coating}.
-			The coating is applied using Physical Vapor Deposition (PVD), a process that deposits a thin film $(\approx 2-4 \si{\micro\meter})$ of material onto the surface of the substrate.
-			The coated surface are depicted in the Drawing Package in Appendix~\ref{app:drawings}.
-
-			\subsubsection{Mechanical Envelope Specifications}
-			\label{subsubsec:design:just:gen_dim:ME}
-
-				As stated in various sections above, each subsystem met its mechanical envelope specifications, with one exception: the valve subsystem violates its vertical mechanical envelope, pushing the total system height to $(\SI{45.55}{\milli\meter} + \SI{70.72}{\milli\meter}) = \SI{116.27}{\milli\meter}$, a 16\% violation of the required mechanical envelope.
-				This was necessary to allow a direct interface between the actuator and valve subsystems, dramatically increasing the system precision compared to the complex mechanism required to make it more compact.
-				As described in detail in Appendix~\ref{app:PM}, Sandia confirmed the precedence of the Required Relationship over the Mechanical Envelope,
-				which is consistent with the system requirement obligation keywords emphasized in Section~\ref{sec:intro:req}.
-
-				A few design changes, discussed in Section~\ref{chap:concl}, may allow the \device\ to fit within the Mechanical Envelope.
-				These would slightly sacrifice precision. The impact of these changes could not be reliably evaluated during the initial design process,
-			but the tools since developed and presented in Appendix~\ref{app:sat:TF} readily allow for a more informed trade-off analysis.
-
-
-
-	\section{Additional Testing Data}
-	\label{app:calcs:test}
-
-		The table below is a direct result from the steady-state test. It shows a 0.2\% agreement with the analytical results compared to the FEA results.
-
-		\begin{table}[H]
-		\centering
-		\caption{Actuator stroke across the operating range from the isolated thermal
-		model ($\delta = 1.115\,\Delta T$). Boldface rows are the converged FEA anchor
-		points that establish the slope; all rows lie on the linear law confirmed by the
-		full converged sweep.}
-		\label{tab:stroke_full}
-		\begin{tabular}{rrr}
-		\toprule
-		$T_{env}$ (\si{\celsius}) & $\Delta T$ (\si{\kelvin}) & Stroke (\si{\micro\meter}) \\
-		\midrule
-		$-60$ & $-85$ & $94.78$ \\
-		$-50$ & $-75$ & $83.62$ \\
-		$-40$ & $-65$ & $72.47$ \\
-		$-30$ & $-55$ & $61.33$ \\
-		$-20$ & $-45$ & $50.17$ \\
-		$-10$ & $-35$ & $39.02$ \\
-		$0$   & $-25$ & $27.88$ \\
-		$10$  & $-15$ & $16.73$ \\
-		$20$  & $-5$  & $5.58$  \\
-		$25$  & $0$   & $0.00$  \\
-		\textbf{30} & \textbf{5}  & \textbf{5.58}  \\
-		\textbf{35} & \textbf{10} & \textbf{11.14} \\
-		$40$ & $15$ & $16.73$ \\
-		$50$ & $25$ & $27.88$ \\
-		$60$ & $35$ & $39.02$ \\
-		$70$ & $45$ & $50.17$ \\
-		$80$ & $55$ & $61.33$ \\
-		\bottomrule
-		\end{tabular}
-		\end{table}
-
-	\begin{figure}[htbp]
-                \centering
-                \includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
-                \caption{Table of Von Mises stresses extracted from the single body FEA of the orifice channel opening.}
-                \label{fig:FEAdisp2}
-            \end{figure}
+				\includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
+				\caption{Table of Von Mises stresses extracted from the single body FEA of the orifice channel opening.}
+				\label{fig:FEAdisp2}
+			\end{figure}
 
 
 \chapter{Required Relationship Failure Analysis}
@@ -3440,7 +3432,7 @@ of 0 C.
 			Thus, the thermal-expansion transfer functions are defined as follows:
 
 			\begin{align}
-					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{\mathrm{ALLV}} ( T_{{eff}_M} - T_{ref} ) ) &
+					\hat{G}_M &= \ell_{M_0} (1 + \alpha_{ALLV} ( T_{{eff}_M} - T_{ref} ) ) &
 					\hat{G}_B &= \ell_{B_0} (1 + \alpha_{Inc} ( T_{{eff}_B} - T_{ref} ) ) \label{eq:G_therm_1}\\
 					\hat{G}_A &= \ell_{A_0} (1 + \alpha_{Al} ( T_{{eff}_A} - T_{ref} ) ) &
 					\hat{G}_V &= \ell_{V_0} (1 + \alpha_{Inv} ( T_{{eff}_V} - T_{ref} ) ) \\
@@ -4267,32 +4259,31 @@ of 0 C.
 			Second, it provides a ready tool for further iteration. Appendix~\ref{app:iter:customize} provides guidance to use this Transfer Function and its associated software to more quickly evaluate the impact of design changes and improvements.
 
 \chapter{Further Failure Analysis and Design Recommendations}
+\label{app:iter}
 
-\section{Comprehensive Failure Analysis}
+	\section{Comprehensive Failure Analysis}
+	\label{app:iter:DFMEA}
 
-	Failure modes identified are displayed in the below table, both those defined as critical and other possible modes. 
-	Note that of the non-critical modes, some of them require further analysis as development continues.
-	Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
-	due to time and resource constraints. These modes were not considered priorities for the manufacturing 
-	of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
-	done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
-	deformation under pressure load were considered noncritical as other more fragile sections were analyzed
-	instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
-	stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
-	housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
-	Below is the comprehensive table of design failure modes with priority modes highlighted.
+		Failure modes identified are displayed in the below table, both those defined as critical and other possible modes. 
+		Note that of the non-critical modes, some of them require further analysis as development continues.
+		Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
+		due to time and resource constraints. These modes were not considered priorities for the manufacturing 
+		of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
+		done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
+		deformation under pressure load were considered noncritical as other more fragile sections were analyzed
+		instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
+		stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
+		housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
+		Below is the comprehensive table of design failure modes with priority modes highlighted.
 
-\newpage
-	\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
-
+		\newpage
+		\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
 
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
 
 		To aid in further iteration of the \device\ design, below is an exhaustive list of the weaknesses, unaddressed assumptions, and open questions
 		identified by the authors and certain corresponding design changes they would implement given more time, excluding those identified in Chapter~\ref{chap:concl}.
-
-		
 
 		\begin{itemize}
 			\item The Valve Orifice and Housing Outlet, which each contain one component of the diamond orifice, are pressed flush against one another by a precision fit.
@@ -4395,7 +4386,7 @@ of 0 C.
 
 	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{sec:DFMEA:FMEA} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{sec:DFMEA:intro} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
@@ -5201,7 +5192,7 @@ of 0 C.
 		\label{fig:ug_overview}
 	\end{figure}
 
-	\vspace{3em}
+	% \vspace{3em}
 
 	\begin{figure}[h]
 		\centering
