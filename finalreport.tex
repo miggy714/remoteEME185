@@ -425,6 +425,7 @@
 		FS      & Factor of Safety \\
 		GTS			& Gas Transfer Systems (department at SNL) \\
 		HEE			& Hydrogen Environmental Embrittlement \\
+		HT			& Heat Transfer \\
 		ID			& Inner Diameter \\
 		i.e.		& id est (that is) \\
 		Inc     & Inconel 718 \\
@@ -516,7 +517,7 @@
 			\label{subsec:intro:motive:objectives}
 
 				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
-				to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device) that precisely controls a submillimeter orifice in response to a wide ambient temperature range
+				to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that precisely controls a submillimeter orifice in response to a wide ambient temperature range
 				while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
 				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
@@ -635,7 +636,7 @@
 		In this case, the Mechanical Envelope, the total volume that the device is allowed to occupy at all times, may (and will) be violated within reason for the sake of satisfaction of the Required Relationship.
 		The Operational Conditions, denoted with the keyword ``will'', simply define the environmental parameters that must be designed for.
 
-		The Required Relationship in equation~\eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extreme precision.
+		The Required Relationship in Equation~\eqref{eq:required_relationship} is the key objective of the PTCD. It requires that a small orifice diameter be controlled with extreme precision.
 		As derived in Appendix~\ref{app:calcs:errorProp}, the effective orifice diameter ($D_{eff}$, the diameter of a circle of equivalent area)
 		must linearly follow the ambient external air temperature ($T_{amb}$) and intersect the following points at each temperature boundary and at $T_{ref}$:
 
@@ -834,7 +835,7 @@
 			If the assembly is stacked vertically as shown, each subsystem must share the space along the Y axis and can use the full \SI{10}{\centi\meter} along the other axes.
 			As with the sub-transfer functions, the division of the vertical mechanical envelope is partially informed by the final design architecture.
 			These specifications are given in lateral (X), vertical (Y), and longitudinal (Z) dimensions, respectively.
-			\color{white}Easter egg text, included to avoid a wrapfigure error below. ``How good and pleasant it is when brothers live as one, in unity!''\color{black}
+			\color{white}------------------------------------------------------------------------------------------------------------------------------\color{black}
 
 			\newpage
 			% \vspace{1em}
@@ -946,8 +947,9 @@
 		The \device\ contains and seals high-pressure hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
 		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
 		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
-		The full assembly is pictured in Figures \ref{fig:reveal}, \ref{fig:mainExploded}, and \ref{fig:SubAssemblyID}.
+		The full assembly is pictured in Figures~\ref{fig:reveal}, \ref{fig:mainIsometric}, and \ref{fig:mainExploded}.
 
+		\vspace{1em}
 		\begin{figure}[H]
 			\centering
 			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
@@ -1021,7 +1023,7 @@
 				\label{fig:valve_full}
 			\end{wrapfigure}
 
-			The valve subsystem (Figures \ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, only allowing gas to exit through its small internal orifice.
+			The valve subsystem (Figures~\ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, only allowing gas to exit through its small internal orifice.
 			Its housing is coupled to stainless steel pipes by a test engineer and provides the structural support necessary to hold the internal pressure.
 			The leading-orifice component nests between four walls and slides vertically within the assembly.
 			Attached is the valve stem, welded to and driven by the actuator.
@@ -1114,7 +1116,7 @@
 		\subsection{Actuator Subsystem}
 		\label{subsec:design:overview:act}
 
-			The actuator subsystem (Figures \ref{fig:act_full}, \ref{fig:act_exploded}, \ref{fig:act_ID}) sits atop the valve housing, where it maintains equilibrium with the surrounding ambient air temperature.
+			The actuator subsystem (Figures~\ref{fig:act_full}, \ref{fig:act_exploded}, \ref{fig:act_ID}) sits atop the valve housing, where it maintains equilibrium with the surrounding ambient air temperature.
 			It comprises an internal expansion rod to drive the valve stem, an external mount to suspend it from above, a screw and washer to secure them together, and a belleville washer to enable precise calibration.
 
 			\begin{figure}[H]
@@ -1150,23 +1152,21 @@
 			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
 			This connection is shown in Figure~\ref{fig:Act_cut}.
 
-			\begin{minipage}{1.5748in}
-				\begin{figure}[H]
-				\centering
-				\includegraphics[width=1.5748in]{act_size.png} % IMPORTANT: Do not change the size of this image. It is printed to-scale.
-				\caption{\device\\Actual Size}
-				\label{fig:act_size}
-				\end{figure}
-			\end{minipage}
-			\hfill
-			\begin{minipage}{6in}
-				\begin{figure}[H]
-					\centering
-					\includegraphics[width=.75\textwidth]{Act_cut_qual.png}
-					\caption{\device\ Full Assembly}
-					\label{fig:Act_cut}
-				\end{figure}
-			\end{minipage}
+			\begin{figure}[h]
+					\begin{minipage}[b]{1.5748in}
+							\centering
+							\includegraphics[width=1.5748in]{act_size.png}	% DO NOT CHANGE WIDTH; USED FOR ACTUAL SIZE
+							\captionof{figure}{\device\ Actual Size}
+							\label{fig:act_size}
+					\end{minipage}
+					\hfill
+					\begin{minipage}[b]{0.72\textwidth}
+							\centering
+							\includegraphics[width=\textwidth]{Act_cut_qual.png}
+							\captionof{figure}{\device\ Full Assembly}
+							\label{fig:Act_cut}
+					\end{minipage}
+			\end{figure}
 
 			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}'' \times 11''$ paper.
 
@@ -1191,8 +1191,7 @@
 			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
 			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders are tuned.
 
-			The complete Bill of Materials and Engineering Drawings for the \device\ can be found in Appendix \ref{app:BOM} and \ref{app:drawings}, respectively.
-			Appendix~\ref{app:calcs:sup:assem} shows some additional useful images of the complete assembly.
+			The complete Bill of Materials and Engineering Drawings for the \device\ can be found in Appendix~\ref{app:BOM} and \ref{app:drawings}, respectively.
 			Table~\ref{tab:part_num} summarizes the part numbers for each component of the \device, which will be used for reference in the following sections.
 
 			\begin{table}[H]
@@ -1339,9 +1338,9 @@
 
 			Assuming the base of the mount, welded to the housing, to be fixed,
 			and assuming for now that the CTE of ALLVAR is positive,
-			the expansion rod (aka the ``actuator'') will expand downwards as it is lifted upwards when heated. This action yields the actuation-temperature relationship in equation~\eqref{eq:actuation}.
-			Because Allvar's CTE is negative, the mount will shrink as the actuator expands, aiding its action. Thus, $L_{mount} \alpha_{mount}$ increases the actuation distance $\Delta L$ by a double-negative.
-			Adding the dimensions in Figure~\ref{fig:act_dim} yields the geometric relations in equation~\eqref{eq:act_dim}, giving us the following system of two equations:
+			the expansion rod (aka the ``actuator'') will expand downwards as it is lifted upwards when heated. This action yields the actuation-temperature relationship in Equation~\eqref{eq:actuation}.
+			Because ALLVAR's CTE is negative, the mount will shrink as the actuator expands, aiding its action. Thus, $L_{mount} \alpha_{mount}$ increases the actuation distance $\Delta L$ by a double-negative.
+			Adding the dimensions in Figure~\ref{fig:act_dim} yields the geometric relations in Equation~\eqref{eq:act_dim}, giving us the following system of two equations:
 			
 			\begin{align}
 				\Delta L = \left( L_{act} \alpha_{act} - L_{mount} \alpha_{mount} \right) \Delta T \label{eq:actuation}\\
@@ -1557,7 +1556,7 @@
 		Flexible metal bellows bypass this concern with a hermetic seal that is directly fused between the valve stem and the housing structure.
 		The flexible tube comprises convolutions that stretch and compress with little resistance when driven axially but can withstand substantial radial pressure loads.
 		The I718-159-72-430, pictured in Figure~\ref{fig:bellows}, can hold a seal at pressures up to \specBellowsBurst.
-		At the maximum deflection (c.f. eq.~\eqref{eq:act_def_hot}), both bellows exert a maximum force\cite{ref_Young_Freedman, ref_miniflex_catalog} of
+		At the maximum deflection (c.f. Equation~\eqref{eq:act_def_hot}), both bellows exert a maximum force\cite{ref_Young_Freedman, ref_miniflex_catalog} of
 
 		\begin{equation}
 			F = 2 k \Delta L = (2) \left(\specBellowsK \right) \left(\specActDefHot \right) = \SI{24}{\newton}
@@ -1595,13 +1594,13 @@
 			\subsubsection{Actuator Diameter}
 			\label{subsubsec:design:just:gen_dim:act_diam}
 
-				Under the bellows spring reaction force calculated in equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
+				Under the bellows spring reaction force calculated in Equation~\eqref{eq:bellow_F}, the actuator and mount are stretched or compressed slightly.
 				Like all metals, they act as very stiff springs whose spring constant is proportional to its cross-sectional area.
 				Increasing this area minimizes deflection, a source of error.
 				The deflection decrease reaches a point of diminishing return near a total outer diameter (OD) of \SI{25}{\milli\meter} (Figure~\ref{fig:mount_OD_opt}).
 				This fits well within the actuator's longitudinal and lateral mechanical envelope and reduces the spring deflection to a negligible amount.
 				The total deflection is minimized at a mount wall thickness of \SI{3.5}{\milli\meter} (Figure~\ref{fig:mount_thick_opt}).
-				It should be no surprise that, as calculated in Sections \ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
+				It should be no surprise that, as calculated in Sections~\ref{app:sat:TF:force_balance:M} and \ref{app:sat:TF:force_balance:A}, their cross-sectional areas are nearly equal at the optimal distribution.
 				The decrease of one to increase the other would lead to a net loss in the subsystem spring constant.
 
 				\begin{figure}[H]
@@ -1692,14 +1691,14 @@
 								clip=true,
 						]
 
-						%% Allvar tube (mount)
+						%% ALLVAR tube (mount)
 						\addplot[
 								color={rgb,255:red,46;green,115;blue,178},
 								mark=*,
 								mark size=2.5pt,
 								line width=1.5pt,
 						] table[x=t_wall_mm, y=d_alv_max_um] {\elasticdata};
-						\addlegendentry{Allvar tube (mount)}
+						\addlegendentry{ALLVAR tube (mount)}
 
 						%% Al rod (actuator)
 						\addplot[
@@ -1768,7 +1767,7 @@
 			
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=.75\textwidth]{coated_surfaces.png}
+				\includegraphics[width=.85\textwidth]{coated_surfaces.png}
 				\caption{Target internal valve geometries selected for TiCN coating}
 				\label{fig:coated_surfaces}
 			\end{figure}
@@ -1798,7 +1797,7 @@
 			\vspace{1\baselineskip}
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=.5\textwidth]{cal.png}
+				\includegraphics[width=.75\textwidth]{cal.png}
 				\caption{System Calibration with a belleville washer}
 				\label{fig:cal}
 			\end{figure}
@@ -1896,7 +1895,7 @@
 				as a strong, expansive, consistent metal. It has a CTE of \specActuatorCTE\ at $T_{ref}$ that varies a maximum of \SI{1}{\micro\meter\per\meter\per\celsius} as $\SI{-60}{\celsius} \leq T_{amb} \leq \SI{80}{\celsius}$.
 
 			\newpage
-			\subsubsection{Allvar mount}
+			\subsubsection{ALLVAR mount}
 			\label{subsubsec:design:just:mat:ALLV}
 
 				\begin{wrapfigure}{l}{.45\textwidth}
@@ -1953,7 +1952,7 @@
 					\item \textbf{Weldability.} Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for electron-beam welds, drove the alloy's industry dominance.
 				\end{itemize}
 
-				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report. Additional design justifications are provided in Appendix~\ref{subsec:design:just:gen_dim}.
+				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report.
 
 \chapter{Model Verification}
 \label{chap:DFMEA}
@@ -1967,28 +1966,30 @@
 		from those that could not be addressed in the time available. Analytical calculations are addressed in the below sections, while
 		Chapter~\ref{chap:test} expounds the more involved computational methods used to test certain failure modes.
 
+		\vspace{1em}
 		\begin{table}[h]
-			\centering
-			\caption{Prioritized Failure Modes with RPN $>$ 120}
-			\label{tab:RPN_priority}
-			\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.5cm} p{3cm} p{2.5cm} p{2.5cm} p{3cm} p{3cm}}
-				\toprule
-				\textbf{Component \#} & \textbf{Subsystem / Component Description} & \textbf{Component Function} & \textbf{Potential Failure Mode} & \textbf{Potential Effect of Failure} & \textbf{Potential Cause of Failure} \\
-				\midrule
-				2b & Housing Outlet Thin Wall & Supports valve orifice & Deformation & Loss of function, inaccurate test results & Pressure differential forces orifice into wall \\[6pt]
-				2c & Housing Outlet Channel & Restricted diam channel from orifice & Deformation & Decreased function, small damage & Large pressure differential \\[6pt]
-				2d & Housing Center Weld & Holds valve assembly & Stress failure & Damage to internals, loss of function & Stress concentrations \\[6pt]
-				4  & Actuator Radial Weld & Fixes and seals actuator & Stress failure & Decreased function, inaccurate test, small damage & Thermal cycling, induced stress at weld toe \\[6pt]
-				10 & PTCD System & Entire Device Assembly & Outside of error tolerance & Inadequate accuracy & Accumulated inaccuracy \\
-				\bottomrule
-			\end{tabularx}
+				\centering
+				\caption{Prioritized Failure Modes with RPN $>$ 100}
+				\label{tab:RPN_priority}
+				\footnotesize
+				\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} X X X X X}
+						\toprule
+						\textbf{Comp.\ \#} & \textbf{Subsystem / Component Description} & \textbf{Component Function} & \textbf{Potential Failure Mode} & \textbf{Potential Effect of Failure} & \textbf{Potential Cause of Failure} \\
+						\midrule
+						2b & Housing Outlet Thin Wall & Supports valve orifice & Deformation & Loss of function, inaccurate test results & Pressure differential forces orifice into wall \\[4pt]
+						2c & Housing Outlet Channel & Restricted diam channel from orifice & Deformation & Decreased function, small damage & Large pressure differential \\[4pt]
+						2d & Housing Center Weld & Holds valve assembly & Stress failure & Damage to internals, loss of function & Stress concentrations \\[4pt]
+						4  & Actuator Radial Weld & Fixes and seals actuator & Stress failure & Decreased function, inaccurate test, small damage & Thermal cycling, induced stress at weld toe \\[4pt]
+						10 & PTCD System & Entire Device Assembly & Outside of error tolerance & Inadequate accuracy & Accumulated inaccuracy \\
+						\bottomrule
+				\end{tabularx}
 		\end{table}
 
 		Failure is defined as the inability of the device to meet its specifications.
 		For the \device, this includes plastic\footnote{i.e. Irrevocable.} deformation, fracture, rupture, or simply exceedance of the system output tolerance.
 		Each failure mode identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design
 		or to inform design modifications. All failure modes identified are listed and identified in Appendix~\ref{app:iter:DFMEA};
-		those whose RPN exceeded the threshold value of 100 are listed in Figure~\ref{tab:RPN_priority}.
+		those whose RPN exceeded the threshold value of 100 are listed in Table~\ref{tab:RPN_priority}.
 
 		Each of the below analyses documents the failure mode, the assumptions, principles, and methods applied, the calculations performed, and the results of the analysis.
 
@@ -2011,12 +2012,12 @@
 			\begin{enumerate}[label=\alph*.]
 				\item \textbf{Axial stress}: The net axial force from internal pressure acting 
 					on the wetted area is distributed uniformly across the weld cross-sectional 
-					area\cite[eq.~1-6]{ref_Hibbeler}.
+					area\cite[Eq.~1-6]{ref_Hibbeler}.
 				\item \textbf{Bending stress}: The weld is modeled as a beam fixed at both 
 					ends, loaded by a uniformly distributed pressure load. While the true 
 					geometry is more complex, this conservative beam approximation bounds the 
 					bending stress and identifies the key geometric drivers\cite{ref_beam}. 
-					Additional validation using COMSOL Multiphysics is ongoing to account for 
+					Additional validation using COMSOL Multiphysics\cite{ref_COMSOL} is ongoing to account for 
 					the complex three-dimensional weld geometry.
 			\end{enumerate}
 
@@ -2043,7 +2044,7 @@
 
 			\textit{Axial Stress.}
 			The axial stress is the internal pressure force distributed over the weld 
-			area\cite[eq.~1-6]{ref_Hibbeler}:
+			area\cite[Eq.~1-6]{ref_Hibbeler}:
 
 			\begin{equation}
 				\sigma_\text{axial} = \frac{P\, A_\text{wetted}}{A_\text{weld}}
@@ -2071,7 +2072,7 @@
 				\label{eq:stress_bending}
 			\end{equation}
 
-			Equation~\ref{eq:stress_bending} shows that bending stress is minimized by reducing 
+			Equation~\eqref{eq:stress_bending} shows that bending stress is minimized by reducing 
 			the unsupported span $L$ and/or increasing the weld thickness $t$, providing clear 
 			geometric design guidance independent of weld width $b$.
 
@@ -2092,7 +2093,7 @@
 			is available to resist the relatively modest net axial force.
 
 			Bending stress is the more complex and potentially more critical load case. 
-			Equation~\ref{eq:stress_bending} confirms that bending is controlled by the 
+			Equation~\eqref{eq:stress_bending} confirms that bending is controlled by the 
 			geometric ratio $L^2/t^2$; keeping spans short and walls thick is therefore the 
 			primary mitigation strategy already embedded in the design. However, the beam model 
 			assumes a simplified planar geometry that cannot capture the three-dimensional 
@@ -2106,7 +2107,7 @@
 				\label{fig:FEAdisp}
 			\end{figure}
 
-% SAM CONTINUE HERE
+% CONTINUE EDITS HERE
 
 
 	
@@ -2114,9 +2115,9 @@
 \begin{enumerate}[label=\roman*.]
 
 	\item In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+		actuator mount and its radial weld due to thermal expansion and contraction. This was
 		identified as a potential failure mode for this weld specifically as the other welds 
-		are invar-invar and have predictable mechanical properties and a relatively low expansion
+		are Invar-Invar and have predictable mechanical properties and a relatively low expansion
 		rate constant across all members in the weldment.
   \item \textbf{Purpose.}
     The purpose of this analysis is to verify that welding is a viable method for joining 
@@ -2128,29 +2129,30 @@
 		for the housing weld analysis hold for the material properties and radiographic inspection 
 		of the actuator mount to housing weld.
   \item \textbf{Calculations.}
- 		The mount being made of Allvar has an anisotropic quality. It has a positive axial coefficient
+ 		The mount being made of ALLVAR has an anisotropic quality. It has a positive axial coefficient
   	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
   	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
   	temperature gradient with
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{alv}}\right)\right) \Delta T_{\text{cold}}=0.0254mm$
-		This is a basic confined thermal expansion problem and the maximum stress on the Allvar and 
+		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{ALLV}}\right)\right) \Delta T_{\text{cold}}=0.0254mm$
+		\todo{Isaiah, talk to Sam about this equation --- I think it's wrong}
+		This is a basic confined thermal expansion problem and the maximum stress on the ALLVAR and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
-		deform the Allvar mount by that amount:
+		deform the ALLVAR mount by that amount:
 		\begin{equation}
-			\sigma_{\text{alv}} = \frac{E_{\text{allvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
+			\sigma_{\text{ALLV}} = \frac{E_{\text{allvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
 		\end{equation}
   \item \textbf{Results.}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
- 		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar 
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of ALLVAR 
  		and of the weld metal we find a sufficient safety factor:
 		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}=3.68$$
   \item \textbf{Discussion.}
 		While this FS is acceptable, this is assuming the weld has the same material properties as
- 		the invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
+ 		the Invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
  		detrimental changes in material properties around the weld area which could cause a variety
-  	of failures. Because Allvar 30 is a experimental alloy with a proprietary composition we 
-  	cannot verify the feasibility of this weld. Representatives from the Allvar team advised against 
-  	welding Allvar to invar or other iron alloys as the titanium from the Allvar will combine with
+  	of failures. Because ALLVAR 30 is an experimental alloy with a proprietary composition we 
+  	cannot verify the feasibility of this weld. Representatives from the ALLVAR team advised against 
+  	welding ALLVAR to Invar or other iron alloys as the titanium from the ALLVAR will combine with
    	the iron to create brittle intermetallic compounds making the weld brittle. 
 		Methods to counter this include using a ductile interface layer that can aid in mitigating 
 		creation of brittle compounds, but this could be highly involved and experimental. A recommended
@@ -2192,14 +2194,14 @@
 	\item \textbf{Results.}
 	    \begin{equation}
         \text{FS} = \frac{S_{y,\,\text{Invar}}}{\sigma_{\max}}
-                   = \frac{240~\text{MPa}}{158.4~\text{MPa}}
-                   = 1.51
+                   = \frac{276~\text{MPa}}{158.4~\text{MPa}}
+                   = 1.74
     \end{equation}
 
 	\item \textbf{Discussion.}
 	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
 	is not enough to significantly affect the effective diameter or anything else that would cause the device to fail. This shows that this failure mode will
-	not a be major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
+	not be a major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
 
 \end{enumerate}
 
@@ -2210,25 +2212,25 @@
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
 	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar.
 	\item \textbf{Assumptions, Principles, and Methods.}
-	The assumpptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
+	The assumptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
 	Reference the following chapter, Testing, for the complete principles and methods used for testing and FEA.
 	\item \textbf{Calculations.}
 	Using the data from the FEA testing, the factor of safety at the corner can be found. 
 
-	See \ref{fig:FEAdisp2} in Apendix Afor data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
+	See Figure~\ref{fig:FEAdisp2} for data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
 	
 
 
-	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (240 MPA), 
+	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPA), 
 	the FS can be calculated for both the maximum and average stress values.
 	\item \textbf{Results.}
 	
 	Using the maximum von Mises stress:
-	$FS = \frac{240 \text{MPa}}{300 \text{MPa}} = 0.8$
+	$FS = \frac{276 \text{MPa}}{300 \text{MPa}} = 0.92$
 
 	Using the average von Mises stress:
-	$FS = \frac{240 \text{MPa}}{178 \text{MPa}} = 1.35$
+	$FS = \frac{276 \text{MPa}}{178 \text{MPa}} = 1.55$
 
 	The FS less than 1 at the maximum stress is an issue and something that needs to be addressed, however because the average stress is greater than 1, it is likely that the corner will not fail under most operating conditions.
 	\item \textbf{Discussion.}
@@ -2242,31 +2244,21 @@
 	\section{Tolerance Failure Analysis}
 	\label{subsec:DFMEA::tol}
 
-		The final failure mode --- namely, failure to meet the Required Relationship in equation~\eqref{eq:required_relationship} --- encapsulates several sources off error that affect the input-output relationship of the \device.
+		The final failure mode --- namely, failure to meet the Required Relationship in Equation~\eqref{eq:required_relationship} --- encapsulates several sources of error that affect the input-output relationship of the \device.
 		Nominal satisfaction of the Required Relationship was demonstrated in Section~\ref{sec:design:just}, but system precision must be evaluated holistically and numerically.
+		The open-loop passive system transfer function in Figure~\ref{fig:TF_RR} must be revised to account for six sources of error:
+		heat transfer from the hot internal gas, dimensional errors, variations in the actuator's thermal expansion, thermal expansion of the valve subcomponents, the spring reaction force of the bellows, and the orifice fillet radius produced by the wire EDM cut.
 
-		\textbf{System Output Fidelity}
-		\begin{enumerate}[label=\roman*.]
-			\item \textbf{Purpose.}
-				To quantitatively evaluate the effect of various errors on the system performance, the open-loop passive system transfer function in Figure~\ref{fig:TF_RR} must be revised to account for the impact of these errors.
-				This provides a comprehensive estimation of the system's ability to meet the Required Relationship for all temperatures.
-			\item \textbf{Assumptions, Principles, and Methods.}
-				The Transfer Function analysis accounts for four sources of error: heat transfer from the hot internal gas, dimensional errors, variations in the actuator's thermal expansion, thermal expansion of the valve subcomponents, the spring reaction force of the bellows, and the orifice fillet radius produced by the wire EDM cut.
-				Other unquantifiable errors will be present that cannot be properly quantified; these will be addressed in Chapter~\ref{chap:concl}.
-			\item \textbf{Calculations.}
-				Derivation and calculation of the full System Output Transfer Function is presented in Appendix~\ref{app:sat}. The derived values were encoded with a script to enable efficient parameter variation.
-				The function evaluates heat transfer, varies the machined length of all critical dimensions according to a normalized tolerance distribution, computes the thermal expansion of each part,
-				resolves the resulting spring force balance driven by the bellows, sums the resulting part lengths to obtain the position of each orifice square, and converts their difference to the final output diameter. 
-			\item \textbf{Results.}
-				The results are plotted and interpreted in detail in Appendix~\ref{app:sat:TF:results}. To account for variable sources of error, the Transfer Function takes a large number of samples and
-				produces a normalized distribution. It estimates that 90.6\% of all devices machined will produce an output within tolerance for all temperatures.
-				It calculates the effect of calibration, which will only be needed for the remaining 9.4\%, and confirms that these will also meet their requirement if the calibration precision
-				specified in Appendix~\ref{app:calcs:cal:sat} (a \SI{14.3}{\degree} rotation of the calibration screw) are met or exceeded.
-			\item \textbf{Discussion.}
-				The \device, despite several significant sources of error, meets and exceeds a strict passive output requirement across a wide temperature range. This estimation is optimistic and cannot account for
-				some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
-				evaluated as the design is further iterated.
-		\end{enumerate}
+		Derivation and calculation of the full System Output Transfer Function is presented in Appendix~\ref{app:sat}. The derived values were encoded in a script to enable efficient parameter variation.
+		The function evaluates heat transfer, varies the machined length of all critical dimensions according to a normalized tolerance distribution, computes the thermal expansion of each part,
+		resolves the resulting spring force balance driven by the bellows, sums the resulting part lengths to obtain the position of each orifice square, and converts their difference to the final output diameter. 
+		The results are plotted and interpreted in detail in Appendix~\ref{app:sat:TF:results}. To account for variable sources of error, the Transfer Function takes a large number of samples and
+		produces a normalized distribution. It estimates that 90.6\% of all devices machined will produce an output within tolerance for all temperatures.
+		It calculates the effect of calibration, which will only be needed for the remaining 9.4\%, and confirms that these will also meet their requirement if the calibration precision
+		specified in Appendix~\ref{app:calcs:cal:sat} (a \SI{14.3}{\degree} rotation of the calibration screw) are met or exceeded.
+		The \device, despite several significant sources of error, meets and exceeds a strict passive output requirement across a wide temperature range. This estimation is optimistic and cannot account for
+		some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
+		evaluated as the design is further iterated.
  
 \chapter{Testing}
 \label{chap:test}
@@ -2281,42 +2273,47 @@ subjected to the following simulations: Heat Transfer (HT), Computational Fluid
 Dynamics (CFD), and Multibody Dynamics (MBD).
 
 \section{Test Design}
-To make the simulations computationally less expensive, the following
-strategies have been employed
+To make the simulations less computationally expensive, the following
+strategies have been employed:
+
 \begin{enumerate}
-    \item The PTCD is cut in half about its vertical symmetry plane, creating
-    new surfaces which will be referred to as ``symmetry surfaces'' shown in \ref{fig:symmetryplane}. By setting
-    the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
-    the simulation software, the amount of meshes can be cut in half, reducing
-    the computation time. 
-    \begin{figure}[H]
-                \centering
-                \includegraphics[width=.25\textwidth]{figures3/testingch_symmetry.png}
-                \caption{This figure highlights the symmetry plane}
-                \label{fig:symmetryplane}
-    \end{figure}
-    \item The physics is ``decoupled''. The CFD is run on a rigid negative
-    domain (seen in \ref{fig:fluidvolume})of the channel with a turbulent simulation where a ``pressure map''
-    of the wetted surface is recovered. This same pressure map is used to apply
-    a load on the wetted surfaces of the PTCD assembly geometry to apply a load
-    that is representative of the fluid flow during operation. The heat transfer
-    simulation is then executed on the loaded assembly by setting all exposed
-    surfaces to the ambient temperature, and all the wetted surfaces to the
-    fluid temperature.
-    \begin{figure}[H]
-                \centering
-                \includegraphics[width=.25\textwidth]{figures3/testingch_negative.png}
-                \caption{This domain represents the fluid, it conforms to the volume of the cavity}
-                \label{fig:fluidvolume}
-    \end{figure}
-    \item As additional verification, a solid mechanics simulation was conducted
-    on single bodies like the orifice and the inlet/outlet parts, isolated from
-    the assembly. This form of isolated simulation was also conducted for HT.
-    \item A physics driven mesh is selected as a blanket parameter for the
-    entire assembly with an effective diameter smaller than the radius of the
-    smallest fillet in our geometry. On top of the blanket parameter, specific
-    parts in the assembly have modified mesh parameters; Namely the orifice,
-    mount, and the actuator have twice the mesh resolution.
+	\item The PTCD is cut in half about its vertical-longitudinal symmetry plane, creating
+	new surfaces which will be referred to as ``symmetry surfaces'' shown in Figure~\ref{fig:symmetryplane}. By setting
+	the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
+	the simulation software, the amount of meshes can be cut in half, reducing
+	the computation time. 
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.25\textwidth]{figures3/testingch_symmetry.png}
+		\caption{This figure highlights the symmetry plane}
+		\label{fig:symmetryplane}
+	\end{figure}
+
+	\item The physics is ``decoupled''. The CFD is run on a rigid negative
+	domain (seen in Figure~\ref{fig:fluidvolume}) of the channel with a turbulent simulation where a ``pressure map''
+	of the wetted surface is recovered. This same pressure map is used to apply
+	a load on the wetted surfaces of the PTCD assembly geometry to apply a load
+	that is representative of the fluid flow during operation. The heat transfer
+	simulation is then executed on the loaded assembly by setting all exposed
+	surfaces to the ambient temperature, and all the wetted surfaces to the
+	fluid temperature.
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.25\textwidth]{figures3/testingch_negative.png}
+		\caption{This domain represents the fluid; it conforms to the volume of the cavity}
+		\label{fig:fluidvolume}
+	\end{figure}
+	
+	\item As additional verification, a solid mechanics simulation was conducted
+	on single bodies like the orifice and the inlet/outlet parts, isolated from
+	the assembly. This form of isolated simulation was also conducted for HT.
+	\item A physics-driven mesh is selected as a blanket parameter for the
+	entire assembly with an effective diameter smaller than the radius of the
+	smallest fillet in our geometry. On top of the blanket parameter, specific
+	parts in the assembly have modified mesh parameters; Namely the orifice,
+	mount, and the actuator have twice the mesh resolution.
 \end{enumerate}
 
 \section{Developing the computational prototype}
@@ -2340,7 +2337,7 @@ the multi-body simulation.
 
 \subsubsection{Data Collection}
 The pressure map on the fluid-solid interface is recovered and mapped onto the
-wetted surface of the multi-body simulation. The pressure map is shown to be created by the fluid dynamics as shown in \ref{fig:pressuremap}.
+wetted surface of the multi-body simulation. The pressure map is shown to be created by the fluid dynamics as shown in Figure~\ref{fig:pressuremap}.
 \begin{figure}[H]
                 \centering
                 \includegraphics[width=.75\textwidth]{figures3/testingch_pressuremap.png}
@@ -2355,7 +2352,7 @@ the fluid in the volume.
 \subsection{Heat Transfer Simulation}
 To validate the analytical calculations on the PTCD's dimensional stability
 under operating temperature conditions, a heat transfer simulation is conducted
-by a steady state(fig \ref{fig:tempgrad}) and transient study.
+by a steady state(Figure~\ref{fig:tempgrad}) and transient study.
 \begin{figure}[H]
                 \centering
                 \includegraphics[width=.45\textwidth]{figures3/testingch_tempgrad.png}
@@ -2405,7 +2402,7 @@ convergence behavior across the entire temperature range.
 The time dependent heat transfer test data was gathered from a single
 time-dependent solve for the \SI{20}{\kelvin} ambient step. the point
 temperature and corresponding displacement at fixed output intervals over a
-two-hour simulated window (\texttt{range(0, 60, 7200)}). This window was chosen
+two-hour simulated window (\texttt{range(0, 7200, 60)}). This window was chosen
 to extend well past the expected settling time so the full approach to the new
 equilibrium was captured.
 
@@ -2493,7 +2490,7 @@ collision.
         phasing through each other, welded surfaces to decouple, and so on.
         \item Verification for the correctness of contact constraints are made
         by setting a rigid translation of the orifice in space and observing how
-        the meshes behave. This is shown on fig \ref{fig:displacement} below.
+        the meshes behave. This is shown on Figure~\ref{fig:displacement} below.
 		\begin{figure}[H]
                 \centering
                 \includegraphics[width=.90\textwidth]{figures3/AbrAkAdAbrA_teST.png}
@@ -2531,7 +2528,7 @@ DFMEA. These data can be recovered at any point in the PTCD as shown in Figure~\
 Several simplifications were introduced to the multi-body simulation to prioritize numerical convergence and reduce overall geometric complexity. 
 Contact friction between interacting surfaces was omitted from the model entirely. 
 To bypass the heavy computational cost of meshing, the Inconel bellows were represented using an equivalent material model rather than their true physical geometry. 
-Similarly, the screw and washer were modeled as a continuous union rather than discrete interactive components. The Allvar component was approximated with an isotropic coefficient of thermal expansion based on nominal textbook values, which inherently neglects the alloy's true anisotropic thermal behavior.
+Similarly, the screw and washer were modeled as a continuous union rather than discrete interactive components. The ALLVAR component was approximated with an isotropic coefficient of thermal expansion based on nominal textbook values, which inherently neglects the alloy's true anisotropic thermal behavior.
 
 
 \section{Results}
@@ -2613,7 +2610,7 @@ of 0 C.
 			An ALLVAR screw may be harder to procure if the actuator materials are reversed.
 	\end{enumerate}
 
-	Many of these design changes would degrade system performance, risking failure to meet the Required Relationship in equation~\ref{eq:required_relationship}.
+	Many of these design changes would degrade system performance, risking failure to meet the Required Relationship in Equation~\eqref{eq:required_relationship}.
 	Many other priorities, such as size and cost considerations, were sacrificed to maximize the \device's ability to reach this narrow tolerance window.
 	However, using the computational tools presented in Chapter~\ref{chap:test}, a more informed trade-off analysis can determine the real impact of these changes, as is further detailed in Appendix~\ref{app:iter:customize}.
 
@@ -2734,7 +2731,7 @@ of 0 C.
 
 	\bibitem{ref_TiCN_Coating} % TiCN coating properties
 	T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
-		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
+		``Microstructure and wear behavior of Invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
 		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
 
 	\bibitem{ref_steen2010laser} % Laser weld guide
@@ -3005,7 +3002,7 @@ of 0 C.
 			\label{eq:d_eff}
 		\end{equation}
 
-		Thus, the height of the orifice X as defined in Figures \ref{fig:orifice_rep} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
+		Thus, the height of the orifice X as defined in Figures~\ref{fig:orifice_rep} and \ref{fig:orifice_detailed}, which is directly driven by the actuator movement, 
 		can be related to the effective diameter as follows:
 
 		\begin{align}
@@ -3089,7 +3086,7 @@ of 0 C.
 			
 			yielding an expected torque of \SI{6.6e-2}{\newton\meter} at the \SI{50}{\micro\meter} compression, a very reasonable value for an M2 screw.
 
-			Figures \ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
+			Figures~\ref{fig:belle_force} and \ref{fig:belle_torque} show the calculated load and required torque across the whole compression range.
 
 			\begin{figure}[H]
 				\centering
@@ -3253,7 +3250,7 @@ of 0 C.
 			\bottomrule
 			\end{tabular}
 			\end{table}
-
+			\vspace{1em}
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=.75\textwidth]{figures3/Orifice Channel FEA.png}
@@ -3265,7 +3262,7 @@ of 0 C.
 \chapter{Required Relationship Failure Analysis}
 \label{app:sat}
 
-	Section~\ref{subsec:DFMEA::tol} introduces the most important failure consideration: satisfaction of the Required Relationship to the required tolerance as stipulated by equation~\eqref{eq:required_relationship}:
+	Section~\ref{subsec:DFMEA::tol} introduces the most important failure consideration: satisfaction of the Required Relationship to the required tolerance as stipulated by Equation~\eqref{eq:required_relationship}:
 
 	\begin{equation}
 		\requiredRelationship
@@ -3283,7 +3280,7 @@ of 0 C.
 			However, this value changes slightly as temperature changes, variation which must be accounted for where possible.
 			NASA studied the behavior of aluminum across a wide temperature range and found its CTE as a function of temperature, presented in Figure~\ref{fig:al_alpha} \cite{ref_NASA_specs_Al}.
 		
-			\begin{figure}[h]
+			\begin{figure}[H]
 				\centering
 				\fbox{\includegraphics[width=0.8\textwidth]{Al_alpha_values}}
 				\caption{Coefficient of thermal expansion of aluminum as a function of temperature}
@@ -3298,10 +3295,6 @@ of 0 C.
 		\subsection{Machine Tolerances}
 		\label{app:sat:error:mach}
 
-			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
-			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
-			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{ref_haas}.
-
 			\begin{wrapfigure}{l}{.4\textwidth}
 				\centering
 				\includegraphics[width=.39\textwidth]{orif_error.png}
@@ -3309,7 +3302,11 @@ of 0 C.
 				\label{fig:orif_error}
 			\end{wrapfigure}
 
-			The two square holes that make the orifice will be machined with Sinker EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
+			General machine dimension tolerances depend on the capabilities of the manufacturing devices available.
+			It is reasonable to assume that Sandia's tolerance capabilities meet or exceed those of standard Computer-Numerical Control (CNC) mills.
+			The values represented in the engineering drawings (Appendix~\ref{app:drawings}) are taken from HAAS VF-2 series specifications \cite{ref_haas}.
+
+			The two square holes that make the orifice will be machined with Wire EDM. Two critical tolerances significantly influence the effective diameter of the orifice:
 			the horizontal position of each hole and the fillet radii at the top and bottom vertices. The side vertices are made by the intersection of two straight cuts and can be assumed to be sharp.
 			Figure~\ref{fig:orif_error} depicts these two error modes. Milco Wire EDM, Inc quoted the operation (attached in Appendix~\ref{app:datasheets}).
 			They can achieve a minimum fillet radius $R_f = \SI{76.2}{\micro\meter}$ and horizontally position each orifice to a tolerance of \SI{12.7}{\micro\meter}.
@@ -3448,7 +3445,7 @@ of 0 C.
 
 			\begin{itemize}
 				\item Aluminum (Al): \specActuatorCTE\cite[Table~9-22]{ref_NASA_specs_Al}
-				\item Allvar (ALLV): \specMountCTE\cite{ref_AllvarAlloys}
+				\item ALLVAR (ALLV): \specMountCTE\cite{ref_AllvarAlloys}
 				\item Invar 36 (Inv): \specInvarCTE\cite{ref_Carpenter_Inv}
 				\item Inconel 718 (Inc): \specInconelCTE\cite{ref_SpecialMetals_Inc}
 			\end{itemize}
@@ -3559,7 +3556,7 @@ of 0 C.
 				F_V &= F_T - F_W
 			\end{align*}
 
-			These equations are linearly dependent and therefore redundant; one can easily rearrange one to equal the other. Thus, we will strike equation~$y_U$, leaving us six equations and eight unknowns.
+			These equations are linearly dependent and therefore redundant; one can easily rearrange one to equal the other. Thus, we will strike Equation~$y_U$, leaving us six equations and eight unknowns.
 
 			By Hooke's Law\cite{ref_Young_Freedman}, $F = k \Delta X$, we can substitute their forces for known spring constants, known undeformed lengths (as output by the thermal transfer functions), and unknown final lengths.
 			The final two equations are supplied by two parallel length equalities: between $y_M$ and $y_U$ and between $y_T$ and $y_B$.
@@ -3682,7 +3679,7 @@ of 0 C.
 
 				$A_W = A_H = \SI{2880}{\milli\meter\squared}$
 
-			These spring constants are input into equation~\eqref{eq:app_matrix} to solve for the deformed length of each part.
+			These spring constants are input into Equation~\eqref{eq:app_matrix} to solve for the deformed length of each part.
 
 		\subsection{Position calculations}
 		\label{app:sat:TF:pos}
@@ -4302,6 +4299,10 @@ of 0 C.
 				improve flow behavior without degrading the performance of the orifice.
 			\item The achievable precision of machined dimensions on Invar should be evaluated to ensure the required tolerances are achievable despite the material's work-hardening property while being machined.
 				Extra measures may be required to anneal the part between cuts.
+			\item As detailed in Section~\ref{subsec:design:just:mat}, materials were carefully selected to maximize thermal stability, strength, and consistency.
+				While ALLVAR, Invar, and Inconel can be confidently relied upon as the best choice for their application, aluminum may be better replaced with an alloy with a higher thermal expansion rate.
+				Many magnesium and zinc alloys bear exceptional CTE properties, but those found exhibited unacceptable variation across the wide temperature range. In the time provided, however, not all
+				alloy variations could be explored, so an option may exist with a stable CTE higher than that of aluminum, allowing for a more compact actuator.
 		\end{itemize}
 
 	\section{Iteration Tools}
@@ -4371,7 +4372,7 @@ of 0 C.
 			\label{app:iter:customize:RR:intercept}
 
 				The intercept of the system output, set to the constant $A_0$ in this design, is defined by the distance between the upper and lower vertices of the orifice as machined (at $T_{ref}$)
-				as shown in equation~\eqref{eq:Dref}. The fixed orifice is centered relative to the housing for ease of machining, but the leading orifice can be tuned to obtain a desired reference diameter
+				as shown in Equation~\eqref{eq:Dref}. The fixed orifice is centered relative to the housing for ease of machining, but the leading orifice can be tuned to obtain a desired reference diameter
 				according to the relation
 
 				\begin{equation}
@@ -4384,9 +4385,9 @@ of 0 C.
 \chapter{Complete Bill of Materials}
 \label{app:BOM}
 
-	Figures \ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
+	Figures~\ref{fig:valve_ID_app} and \ref{fig:act_ID_app} show again the parts needed to manufacture the \device.
 	The full Bill of Materials and accompanying vendor quotes are provided on the following pages, with corresponding part numbers, materials, sizes, prices, distributor's links.
-	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Section~\ref{sec:DFMEA:intro} were taken from this quote.
+	A quote for the Wire Electrical-Discharge Machining (EDM) operation required to cut each square hole is also included from Milco Wire EDM, Inc; achievable tolerance values given in Appendix~\ref{app:sat:error:mach} were taken from this quote.
 	A secondary Wire EDM option is provided from Xometry, whose best-achievable fillet radius is \SI{125}{\micro\meter} and whose positional tolerance is as specified in the shop drawings in Appendix~\ref{app:drawings}.
 
 	Data sheets for purchased parts can be found in Appendix~\ref{app:datasheets}.
@@ -4557,7 +4558,7 @@ of 0 C.
 	% ──────────────────────────────────────────────────────────────
 	\section{Part Identification}
 
-	Before beginning, familiarize yourself with every part using Figures \ref{fig:mfg_valve_ID} and \ref{fig:mfg_act_ID}.
+	Before beginning, familiarize yourself with every part using Figures~\ref{fig:mfg_valve_ID} and \ref{fig:mfg_act_ID}.
 
 	\begin{figure}[H]
 		\centering
@@ -5115,8 +5116,8 @@ of 0 C.
 						A = \frac{\pi}{4} D_{\text{effective}}^2 \\
 						Q = C_d A \sqrt{\frac{2 \Delta P}{\rho (1 - \beta^4)}} \label{eq:white}
 					\end{align}
-					Refer to White's Fluid Mechanics\cite[eq.~6-102]{ref_white} for interpretation of
-					equation~\eqref{eq:white}.
+					Refer to White's Fluid Mechanics\cite[Eq.~6-102]{ref_white} for interpretation of
+					Equation~\eqref{eq:white}.
 		\item \textbf{Adjust the orifice.} Using a T6 Torx driver, turn the calibration
 					screw in small increments. Turn it clockwise to increase the effective
 					diameter and decrease the pressure differential.
@@ -5173,7 +5174,12 @@ of 0 C.
 
 	\subsection{Background}
 
-	The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting. The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences, and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi). It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock. The PTCD maintains its specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated at room temperature (\SI{25}{\degreeCelsius}) with the option for field adjustment. It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
+	The PTCD is designed for use in high-pressure gas experiments in a controlled laboratory setting.
+	The device is intended to regulate flow of noble gases and hydrogen using passive thermal expansion given ambient temperature differences,
+	and is rated for pressures up to \SI{68.95}{\mega\pascal} (\num{10000}~psi).
+	It is not intended for use with liquids, corrosive gases, or in environments with significant vibration or shock.
+	The PTCD maintains its specified orifice diameter across a temperature range of \SI{-60}{\degreeCelsius} to \SI{+80}{\degreeCelsius}, and is calibrated once at room temperature (\SI{25}{\degreeCelsius}).
+	It connects to standard gas plumbing with threaded ports and once installed requires no user input or power to operate.
 
 	\subsection{Intended Users}
 
@@ -5183,7 +5189,7 @@ of 0 C.
 	\section{System Description}
 	%-------------------------------------------------------------------
 
-	The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurized body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminum on the inside and Allvar on the outside. Because aluminum expands and Allvar contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurized gas inside the valve.
+	The PTCD has two sub-assemblies. The Valve Sub-assembly is the pressurized body: an Invar 36 housing with threaded pipe ports, an internal sliding Invar~36 orifice plate, and a welded metal bellows that seals the stem while allowing it to move. The Actuator Sub-assembly sits on top. It is a bimetallic cylinder with aluminum on the inside and ALLVAR on the outside. Because aluminum expands and ALLVAR contracts when heated, the two materials work together to amplify the net downward displacement transmitted to the valve stem. The actuator is fully isolated from the hot pressurized gas inside the valve.
 
 	\begin{figure}[h]
 		\centering
@@ -5200,12 +5206,12 @@ of 0 C.
 		\caption{PTCD cross-section schematic.}
 		\label{fig:ug_crosssection}
 	\end{figure}
-
+.
 
 	\textbf{How it works:} Rising ambient temperature causes the actuator to push the valve stem downward, reducing the orifice overlap and restricting flow. Falling temperature pulls the stem back up, opening the orifice. The device requires no power and makes no adjustments on its own --- it simply follows temperature.
 	Refer to Figure~\ref{fig:ug_overview} and \ref{fig:ug_crosssection}.
 
-
+	\newpage
 	%-------------------------------------------------------------------
 	\section{Before You Begin}
 	%-------------------------------------------------------------------
@@ -5367,7 +5373,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\section{Calibration}
 	%-------------------------------------------------------------------
 
-	The PTCD is calibrated at final assembly. Field recalibration is only needed if the device has been damaged, if the measured orifice diameter at $T_\mathrm{ref}$ falls outside tolerance, or if the device is being set up for a different target relationship. \textbf{The PTCD is not designed for disassembly.} Any attempt at disassembly may damage components resulting in unsafe operating conditions. Any modifications are to be done at the user's own risk.
+	The PTCD is calibrated at final assembly. \textbf{The PTCD is not designed for disassembly.} Any attempt at disassembly may damage components resulting in unsafe operating conditions. Any modifications are to be done at the user's own risk.
 
 
 
@@ -5422,7 +5428,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 			{(1) Install \& leak-test};
 
 		\node[process, below=of install] (equil)
-			{(2) Equilibrate temperature\\{\footnotesize(30 min)}};
+			{(2) Equilibrate temperature\\{\footnotesize(60 min)}};
 
 		\node[process, below=of equil] (press)
 			{(3) Pressurize};
@@ -5668,9 +5674,9 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 				Heeding his advice, after confirming with our sponsor that the Mechanical Envelope requirement could be stretched, we replaced the geared interface with a direct connection, supporting the actuator vertically with a solid-state mount (Figure~\ref{fig:trap_mount}).
 		\item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, had been hastily designed during the previous revision.        
 				It was unnecessarily complex, difficult to machine, and long enough that its thermal expansion would counteract the thermal actuation.
-				We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, Allvar, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
+				We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, ALLVAR, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
 				This yielded the final mount architecture, seen in Figure~\ref{fig:app_PTCD}.
-		\item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the Allvar mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and weld methods,        
+		\item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the ALLVAR mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and weld methods,        
 				we consulted with our sponsor, who confirmed that a physical prototype was no longer worth testing after deviating so far from the final design.
 				Thus, we pivoted to a fully computational model for our prototype testing.
 				While it may seem the physical model was a wasted effort, we produced a better design for having prepared to manufacture it ourselves.
@@ -5707,7 +5713,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		\centering
 		% \includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
 		\includegraphics[width=\textwidth]{PTCD.png}
-		\captionof{figure}{Cylindrical Allvar Mount}
+		\captionof{figure}{Cylindrical ALLVAR Mount}
 		\label{fig:app_PTCD}
 	\end{minipage}    
 \end{figure}    
