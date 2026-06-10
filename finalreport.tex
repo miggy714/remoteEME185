@@ -1972,7 +1972,7 @@
 		Each of the below analyses documents the failure mode, the assumptions, principles, and methods applied, the calculations performed, and the results of the analysis.
 
 	\section{Weld Failure Analysis}
-	\label{sec:DFMEA:weld}
+	The welds on the device include the housing welds, actuator, and bellows welds. Note that the housing weld and bellows welds are necessary for sealing and the actuator weld joins the actuator and housing assemblies.
 
 		\subsection{Housing Center Weld}
 		\label{subsec:DFMEA:weld:main}
@@ -2090,66 +2090,54 @@
 
 	
 \subsection{Actuator-Housing Weldment}
-\begin{enumerate}[label=\roman*.]
-
-	\item In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its radial weld due to thermal expansion and contraction. This was
+		In addition to stresses applied by the internal pressure, there is also stress on the 
+		actuator mount and its' radial weld due to thermal expansion and contraction. This was
 		identified as a potential failure mode for this weld specifically as the other welds 
 		are Invar-Invar and have predictable mechanical properties and a relatively low expansion
 		rate constant across all members in the weldment.
-  \item \textbf{Purpose.}
-    The purpose of this analysis is to verify that welding is a viable method for joining 
-		the actuator subsystem to the housing. Thermal contraction of the actuator mount combined 
-		with potential weld embrittlement could cause failure. Further analysis is needed to inform
-		weld reliability or alternate suggestions 
-  \item \textbf{Assumptions, Principles, and Methods.}
-    The weld joints are treated as full penetration fillet welds, and the same assumptions made 
+
+
+    The weld joints are treated as full penetration fillet welds in this analysis, and the same assumptions made 
 		for the housing weld analysis hold for the material properties and radiographic inspection 
-		of the actuator mount to housing weld.
-  \item \textbf{Calculations.}
- 		The mount being made of ALLVAR has an anisotropic quality. It has a positive axial coefficient
-  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of the negative axial 
-  	expansion amounting to 32 $\mu$m/m. The greatest change in radius $\Delta R$ occurs across the cold side of the 
-  	temperature gradient with
-		$\Delta R = R_0 \left(1 - \left(-\alpha_{\text{ALLV}}\right)\right) \Delta T_{\text{cold}}=0.0254mm$
-		\todo{Isaiah, talk to Sam about this equation --- I think it's wrong}
+		of the actuator-housing weld. The mount being made of ALLVAR has an anisotropic quality. It has a positive radial coefficient
+  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of its negative axial, 
+  	expansion amounting to $\alpha_{\text{ALLV-radial}}=32 \mu$m/m. The greatest change in radius to the mount $\Delta R$ occurs across the cold side of the 
+  	temperature gradient using the maximum machined outer radius $R_0 = 9.0215 mm$. It is found that
+		$\Delta R = R_0 \left(\alpha_{\text{ALLV-radial}}\right) \Delta T_{\text{cold}}=0.0254mm$
+		\todo{Note from Isaiah, yes it was absolutely wrong, my gosh what the heck was that. result was correct though}
 		This is a basic confined thermal expansion problem and the maximum stress on the ALLVAR and 
 		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
 		deform the ALLVAR mount by that amount:
 		\begin{equation}
-			\sigma_{\text{ALLV}} = \frac{E_{\text{allvar}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
+			\sigma_{\text{ALLV}} = \frac{E_{\text{ALLV}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
 		\end{equation}
-  \item \textbf{Results.}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
- 		stresses are the same. Given that this stress is much smaller than the yield stress of ALLVAR 
- 		and of the weld metal we find a sufficient safety factor:
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar and Invar,
+		 295 MPA and 276 MPA respectively, we find a sufficient FS. Using the more conservative yield stress of Invar the FS is calculated to be:
 		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}=3.68$$
-  \item \textbf{Discussion.}
-		While this FS is acceptable, this is assuming the weld has the same material properties as
- 		the Invar housing. In reality, the material mismatch in the mount-housing weld may lead to 
+		This FS is acceptable, but in reality, the material mismatch in the mount-housing weld may lead to 
  		detrimental changes in material properties around the weld area which could cause a variety
   	of failures. Because ALLVAR 30 is an experimental alloy with a proprietary composition we 
   	cannot verify the feasibility of this weld. Representatives from the ALLVAR team advised against 
   	welding ALLVAR to Invar or other iron alloys as the titanium from the ALLVAR will combine with
-   	the iron to create brittle intermetallic compounds making the weld brittle. 
+   	the iron to create brittle intermetallic compounds. This in turn makes the weld brittle and more susceptible to cracking and stress failures. 
 		Methods to counter this include using a ductile interface layer that can aid in mitigating 
 		creation of brittle compounds, but this could be highly involved and experimental. A recommended
- 		path would be to use fasteners with a slight mount redesign that allows for bolting into the
-  	housing. This would require some additional research into sealing but is the simplest and most 
-  	reliable solution.
-\end{enumerate}
+ 		path is to use fasteners with a slight mount redesign that allows for bolting into the
+  	housing. Note that this weld does not make contact with the fluid and thus does not need 
+	to seal, and worries regarding hydrogen compatability can also be relaxed.
 
+\section{Component Analysis}
+The following are issues identified as critical for components of the PTCD. These components were deemed critical
+because they facilitate the decreasing flow cross section and thus are exposed to large pressure differentials, 
+or else contain geometry that can concentrate stresses. 
 \subsection{Housing Outlet Wall}
-\begin{enumerate}[label=\roman*.]
-	\item \textbf{Purpose.}
 	The purpose of this analysis is to verify that the housing outlet wall maintains structural integrity under the pressure exerted on it 
 	by the internal gas flow. This wall could be a problem due to how thin it is and how much pressure will be exerted on it. Using the pressure
-	hand calculations, the Factor of Safety (FS) can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
+	hand calculations, the FS can be calculated to determine if the wall is thick enough to withstand the pressure exerted on it.
 
-	\item \textbf{Assumptions, Principles, and Methods.}
 	The wall is treated as a circular plate with fixed edges under uniform distributed pressure of \specPressure. The maximum stress is calculated using the formula for
 	a flat plate with fixed edges under uniform distributed loading. The parameters used in this analysis are diameter of the plate is 3.5 mm and the thickness is 1 mm.
-	\item \textbf{Calculations.}
 	The total force acting on the outlet wall is first found from the applied pressure and plate area:
 	 \begin{equation}
         F = P \cdot A = P \cdot \pi r^2
@@ -2169,33 +2157,24 @@
     \end{equation}
 	where P is the pressure, r is the radius of the plate, and t is the thickness of the plate.
 
-	\item \textbf{Results.}
 	    \begin{equation}
         \text{FS} = \frac{S_{y,\,\text{Invar}}}{\sigma_{\max}}
                    = \frac{276~\text{MPa}}{158.4~\text{MPa}}
                    = 1.74
     \end{equation}
 
-	\item \textbf{Discussion.}
 	Because the factor of safety for the housing outlet wall is greater than 1, the wall will not fail under the pressure exerted on it. The wall may deform slightly, but it 
 	is not enough to significantly affect the effective diameter or anything else that would cause the device to fail. This shows that this failure mode will
 	not be a major concern for the design and the wall is thick enough so that the pressure will not cause it to fail. 
 
-\end{enumerate}
 
 \subsection{Orifice Channel Opening}
-\begin{enumerate}[label=\roman*.]
-	\item \textbf{Purpose.}
+
 	The purpose of this analysis is to verify that the orifice channel opening maintains structural integrity under the pressure exerted on it by the internal 
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
-	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar.
-	\item \textbf{Assumptions, Principles, and Methods.}
-	The assumptions for the Orifice Channel Opening are using the FEA results to find the maximum and average von Mises stress at the corner of the outlet opening.
-	Reference the following chapter, Testing, for the complete principles and methods used for testing and FEA.
-	\item \textbf{Calculations.}
-	Using the data from the FEA testing, the factor of safety at the corner can be found. 
+	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar. Note that testing design and assumptions are detailed in \ref{chap:test}
 
-	See Figure~\ref{fig:FEAdisp2} for data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
+	See Figure~\ref{fig:FEAdisp2} for tabulated data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
 	\begin{table}[h]
 		\centering
@@ -2228,7 +2207,6 @@
 
 	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPA), 
 	the FS can be calculated for both the maximum and average stress values.
-	\item \textbf{Results.}
 	
 	Using the maximum von Mises stress:
 	$FS = \frac{276 \text{MPa}}{300 \text{MPa}} = 0.92$
@@ -2236,14 +2214,11 @@
 	Using the average von Mises stress:
 	$FS = \frac{276 \text{MPa}}{178 \text{MPa}} = 1.55$
 
-	The FS less than 1 at the maximum stress is an issue and something that needs to be addressed, however because the average stress is greater than 1, it is likely that the corner will not fail under most operating conditions.
-	\item \textbf{Discussion.}
-	The FS calculated using the maximum von Mises stress is less than 1, which indicates that the corner of the outlet opening could fail if the pressure is at its maximum. However, 
-	the FS at average von Mises stress is greater than 1, which indicates that at most operating conditions, this corner will not be a problem. In order to make the corner more robust, 
-	the corner could be rounded to reduce the stress concentration. This would increase the FS because it would lower the stress that is put on that point. Another way to increase the FS
+	The FS less than 1 at the maximum stress is an issue and requires further analysis. It is, however the maximum of a small concentration that is much higher than the stresses across the rest of the surface.
+	This is confirmed by the FS for the average stress being acceptable. Further analysis will show whether the change in geometry creates an actual stress concentration, or if results are skewed by the FEA due to computational errors at this point.
+	Intuition from these results suggests that if the corner is rounded to reduce the stress concentration it would increase the FS. Another way to increase the FS
 	would be to increase the thickness of the wall at that point, which would also lower the stress. Ultimately, rounding the corner is probably the best solution because it is a simple and 
 	easy way to reduce the stress concentration without adding more material. 
-\end{enumerate}
 
 	\section{Tolerance Failure Analysis}
 	\label{subsec:DFMEA::tol}
