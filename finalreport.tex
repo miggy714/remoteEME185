@@ -75,20 +75,22 @@
 % ---------- Appendix Support ----------
 \usepackage[title,titletoc,page]{appendix} % Adds "Appendices" header and includes appendices in the Table of Contents. [title, titletoc] ensures they are labeled A, B, C
 %----------- Title/Chapter formatting -----------------
+\usepackage{array}      % for >{\raggedright\arraybackslash}
 \usepackage{titlesec}
 % Format \chapter to look simple (no giant text, no separate page)
 \usepackage{pdfpages}
 % Allows you to insert entire PDF Pages (e.g., for Gantt charts, concept screening matrices) with \includepdf.
-\usepackage{geometry}
-%allows you to set margins and page size. 
 \usepackage{mdframed}     % warning/note boxes, important equations
 	\mdfsetup{linewidth=1pt}
 \usepackage{enumitem}     % list formatting
 \usepackage{booktabs}     % tables
 \usepackage{xcolor}       % color support
 \usepackage{upgreek}
+\usepackage{afterpage}
+\usepackage{colortbl}
+\usepackage{ragged2e}
 
-
+\definecolor{highlight}{RGB}{255,255,0}
 \definecolor{warnred}{RGB}{180,30,30}
 \definecolor{warnbg}{RGB}{255,235,235}
 \definecolor{notebg}{RGB}{235,245,255}
@@ -96,6 +98,7 @@
 \definecolor{ucdgold}{RGB}{207, 184, 124}
 \definecolor{ucdblue}{RGB}{0, 40, 85}
 \definecolor{sandiablue}{RGB}{0,  174, 214}
+\definecolor{offblue}{RGB}{90, 142, 180}
 
 
 
@@ -147,13 +150,13 @@
     \pgfmathparse{1/(#3*sqrt(2*pi))*exp(-(#1-#2)^2/(2*#3^2))}%
 	}
 \usepackage{multirow}
-\usepackage{array}      % for >{\raggedright\arraybackslash}
 \usepackage{makecell}   % for \makecell
 \usepackage{calc}
 \usepackage{multicol}
 \usepackage{wrapfig}
 \usepackage{nicefrac}
 \usepackage[bottom]{footmisc}
+\newcolumntype{W}[1]{>{\centering\arraybackslash}m{#1}}
 
 % In your preamble
 \newcounter{mycounter}           % creates a counter, initialized to 0
@@ -434,6 +437,7 @@
 		PI			& Pressure Indicator \\
 		PPE			& Personal Protective Equipment \\
 		PTCD    & Passive Temperature Compensation Device \\
+		PTFE		& Polytetrafluoroethylene \\ 
 		PVD			& Physical Vapor Deposition \\
 		RPN			& Risk Priority Number \\
 		RR      & Required Relationship \\
@@ -1935,15 +1939,16 @@
 \chapter{Model Verification}
 \label{chap:DFMEA}
 
-	\section{Introduction to Design Failure Mode Effect Analysis}
+	\section{Design Failure Mode Effects Analysis}
 	\label{sec:DFMEA:intro}
-		The high performance requirements and extreme operating conditions of this device require in-depth risk assessment via Design Failure Mode Effect Analysis (DFMEA). Possible failure modes are identified
-		and ranked  by Risk Priority Number (RPN) according to their effect on precision and function of the PTCD as a whole. RPNs are calculated for each failure mode
-		by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection. A critical RPN
-		of 100 was chosen to be the threshold for in-depth analysis and potential redesign because, after calculation for each failure mode, it readily separated those that warranted further investigation
-		from those that could not be addressed in the time available. Analytical calculations are addressed in the below sections, while
-		Chapter~\ref{chap:test} expounds the more involved computational methods used to test certain failure modes.
 
+		The high performance requirements and extreme operating conditions of the \device\ require in-depth risk assessment via Design Failure Mode Effects Analysis (DFMEA). Possible failure modes are identified
+		and ranked by Risk Priority Number (RPN) according to their impact on the \device's satisfaction of its functional and performance specifications. RPNs are calculated for each failure mode
+		by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection.
+		Not all failure modes could be identified in the time available, so those deemed most critical (having an RPN $> 100$) will be analyzed here;
+		they are listed in Table~\ref{tab:RPN_priority}.
+		The rest are given in Appendix~\ref{app:iter:DFMEA} for reference during further iteration.
+		
 		\vspace{1em}
 		\begin{table}[h]
 				\centering
@@ -1964,21 +1969,19 @@
 		\end{table}
 
 		Failure is defined as the inability of the device to meet its specifications.
-		For the \device, this includes plastic\footnote{i.e. Irrevocable.} deformation, fracture, rupture, or simply exceedance of the system output tolerance.
+		For the \device, this includes plastic\footnote{i.e. Irreparable.} deformation, fracture, rupture, or simple exceedance of the system output tolerance.
 		Each failure mode identified must undergo analytical and computational testing to confirm reliability and performance of the current PTCD design
-		or to inform design modifications. All failure modes identified are listed and identified in Appendix~\ref{app:iter:DFMEA};
-		those whose RPN exceeded the threshold value of 100 are listed in Table~\ref{tab:RPN_priority}.
+		or to inform design modifications.
 
 		Each of the below analyses documents the failure mode, the assumptions, principles, and methods applied, the calculations performed, and the results of the analysis.
 
 	\section{Weld Failure Analysis}
-	The welds on the device include the housing welds, actuator, and bellows welds. Note that the housing weld and bellows welds are necessary for sealing and the actuator weld joins the actuator and housing assemblies.
 
 		\subsection{Housing Center Weld}
 		\label{subsec:DFMEA:weld:main}
 
 			The pressure capacity of the housing is verified in Section~\ref{subsec:design:just:P}. The circumferential weld between the Housing Inlet and Outlet can be reliably assumed to
-			fuse the housing material together without sacrificing yield strength, but this assumption must be further evaluated to ensure the weld can withstand the significant axial internal pressure forces applied.
+			fuse the housing material together without sacrificing yield strength, but this assumption must be further evaluated to ensure the weld can withstand the significant axial forces applied by the internal pressure.
 
 			The weld joints are treated as square butt joints with full penetration, such that 
 			the weld cross-section has the same material properties as the base metal 
@@ -1995,8 +1998,6 @@
 					ends, loaded by a uniformly distributed pressure load. While the true 
 					geometry is more complex, this conservative beam approximation bounds the 
 					bending stress and identifies the key geometric drivers\cite{ref_beam}. 
-					Additional validation using COMSOL Multiphysics\cite{ref_COMSOL} is ongoing to account for 
-					the complex three-dimensional weld geometry.
 			\end{enumerate}
 
 			The parameters used in this analysis are summarized in Table~\ref{tab:weld_parameters}.
@@ -2061,7 +2062,8 @@
 				\label{eq:sf_axial}
 			\end{equation}
 
-			The failure due to bending is more complex to evaluate and is best described by computational modeling. The resulting stresses can be found in Figure~\ref{fig:FEAdisp2}.
+			To better model the bending failure of the housing wall, the housing structure was simulated using a finite-element mesh.
+			The resulting stresses can be found in Table~\ref{tab:FEAdisp2}, presented later.
 
 			The axial factor of safety of $15.27$ confirms that the weld cross-section carries 
 			the pressure-induced axial load with substantial margin, and that axial tension is 
@@ -2080,22 +2082,18 @@
 				
 			\vspace{1\baselineskip}	\begin{figure}[h]
 				\centering
-				\includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
+				\includegraphics[width=.6\textwidth]{Static_FEA_StressMagnitude1.png}
 				\caption{Static FEA Results on simplified Single Body Model}
 				\label{fig:FEAdisp}
 			\end{figure}
-
-% CONTINUE EDITS HERE
-
-
 	
 \subsection{Actuator-Housing Weldment}
+
 		In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+		actuator mount and its radial weld due to thermal expansion and contraction. This was
 		identified as a potential failure mode for this weld specifically as the other welds 
 		are Invar-Invar and have predictable mechanical properties and a relatively low expansion
 		rate constant across all members in the weldment.
-
 
     The weld joints are treated as full penetration fillet welds in this analysis, and the same assumptions made 
 		for the housing weld analysis hold for the material properties and radiographic inspection 
@@ -2104,16 +2102,15 @@
   	expansion amounting to $\alpha_{\text{ALLV-radial}}=32 \mu$m/m. The greatest change in radius to the mount $\Delta R$ occurs across the cold side of the 
   	temperature gradient using the maximum machined outer radius $R_0 = 9.0215 mm$. It is found that
 		$\Delta R = R_0 \left(\alpha_{\text{ALLV-radial}}\right) \Delta T_{\text{cold}}=0.0254mm$
-		\todo{Note from Isaiah, yes it was absolutely wrong, my gosh what the heck was that. result was correct though}
 		This is a basic confined thermal expansion problem and the maximum stress on the ALLVAR and 
-		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
+		the weld due to the thermal expansion can be calculated by finding the stress necessary to
 		deform the ALLVAR mount by that amount:
 		\begin{equation}
 			\sigma_{\text{ALLV}} = \frac{E_{\text{ALLV}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
 		\end{equation}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
- 		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar and Invar,
-		 295 MPA and 276 MPA respectively, we find a sufficient FS. Using the more conservative yield stress of Invar the FS is calculated to be:
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of ALLVAR and Invar,
+		 295 MPa and 276 MPa respectively, we find a sufficient FS. Using the more conservative yield stress of Invar the FS is calculated to be:
 		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}=3.68$$
 		This FS is acceptable, but in reality, the material mismatch in the mount-housing weld may lead to 
  		detrimental changes in material properties around the weld area which could cause a variety
@@ -2125,7 +2122,7 @@
 		creation of brittle compounds, but this could be highly involved and experimental. A recommended
  		path is to use fasteners with a slight mount redesign that allows for bolting into the
   	housing. Note that this weld does not make contact with the fluid and thus does not need 
-	to seal, and worries regarding hydrogen compatability can also be relaxed.
+		to seal, and concerns regarding hydrogen compatibility can also be relaxed.
 
 \section{Component Analysis}
 The following are issues identified as critical for components of the PTCD. These components were deemed critical
@@ -2174,38 +2171,53 @@ or else contain geometry that can concentrate stresses.
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
 	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar. Note that testing design and assumptions are detailed in \ref{chap:test}
 
-	See Figure~\ref{fig:FEAdisp2} for tabulated data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
+	See Table~\ref{tab:FEAdisp2} for tabulated data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
+	\vspace{1em}
 	\begin{table}[h]
 		\centering
-		\caption{Table of von Mises stresses extracted from the single body FEA of the orifice channel opening}
-		\label{tab:fea_results}
-		\begin{tabular}{lSScc}
-		\toprule
-		{Analysis Method} & {VM (\si{N/m^2})} & {$S_y$ Invar (\si{N/m^2})} & {Comparison} & {FOS} \\
-		\midrule
-		SurfMax Outlet Hole     & 2.66E+08 &          & $V_m < S_y$ & 1.04E+00 \\
-		SurfAv Outlet Hole      & 7.52E+07 &          & $V_m < S_y$ & 3.67E+00 \\
-		SurfMax Outlet Cone     & 3.03E+08 &          & $V_m > S_y$ & 9.12E-01 \\
-		SurfAv Orifice Channel  & 1.78E+08 &          & $V_m < S_y$ & 1.55E+00 \\
-		SurfMax Orifice Channel & 3.00E+08 &          & $V_m > S_y$ & 9.21E-01 \\
-		SurfAv Outlet Cone      & 1.51E+08 &          & $V_m < S_y$ & 1.83E+00 \\
-		SurfMax Center Back     & 3.43E+08 & 2.76E+08 & $V_m > S_y$ & 8.06E-01 \\
-		SurfAv Center Back      & 1.34E+08 &          & $V_m < S_y$ & 2.05E+00 \\
-		SurfMax Center Side     & 2.91E+08 &          & $V_m > S_y$ & 9.49E-01 \\
-		SurfAv Center Side      & 5.98E+07 &          & $V_m < S_y$ & 4.62E+00 \\
-		SurfMax Center Top      & 1.37E+08 &          & $V_m < S_y$ & 2.01E+00 \\
-		SurfAv Center Top       & 7.52E+07 &          & $V_m < S_y$ & 3.67E+00 \\
-		SolidMax                & 4.91E+08 &          & $V_m > S_y$ & 5.62E-01 \\
-		SolidAv                 & 6.03E+07 &          & $V_m < S_y$ & 4.58E+00 \\
-		\bottomrule
+    \caption{von Mises Stresses Compared Against Invar Yield Strength
+    ($S_y = \SI{276}{\mega\newton\per\meter\squared}$)}
+		\label{tab:FEAdisp2}
+		\begin{tabular}{l S[table-format=1.2e+2] c r}
+			\toprule
+			{Analysis Method} & {VM (\si{N/m^2})} & {Comparison} & {FOS} \\
+			\midrule
+			\rowcolor{offblue!40}
+			Max Outlet Hole     & 2.66E+08 & $V_m < S_y$ & 1.04 \\
+			\rowcolor{ucdgold!50}
+			Avg Outlet Hole      & 7.52E+07 & $V_m < S_y$ & 3.67 \\
+			\rowcolor{offblue!40}
+			Max Outlet Cone     & 3.03E+08 & $V_m > S_y$ & 0.91 \\
+			\rowcolor{ucdgold!50}
+			Avg Orifice Channel  & 1.78E+08 & $V_m < S_y$ & 1.55 \\
+			\rowcolor{offblue!40}
+			Max Orifice Channel & 3.00E+08 & $V_m > S_y$ & 0.92 \\
+			\rowcolor{ucdgold!50}
+			Avg Outlet Cone      & 1.51E+08 & $V_m < S_y$ & 1.83 \\
+			\rowcolor{offblue!40}
+			Max Center Back     & 3.43E+08 & $V_m > S_y$ & 0.81 \\
+			\rowcolor{ucdgold!50}
+			Avg Center Back      & 1.34E+08 & $V_m < S_y$ & 2.05 \\
+			\rowcolor{offblue!40}
+			Max Center Side     & 2.91E+08 & $V_m > S_y$ & 0.95 \\
+			\rowcolor{ucdgold!50}
+			Avg Center Side      & 5.98E+07 & $V_m < S_y$ & 4.62 \\
+			\rowcolor{offblue!40}
+			Max Center Top      & 1.37E+08 & $V_m < S_y$ & 2.01 \\
+			\rowcolor{ucdgold!50}
+			Avg Center Top       & 7.52E+07 & $V_m < S_y$ & 3.67 \\
+			\rowcolor{offblue!40}
+			Total Maximum                & 4.91E+08 & $V_m > S_y$ & 0.56 \\
+			\rowcolor{ucdgold!50}
+			Total Average                 & 6.03E+07 & $V_m < S_y$ & 4.58 \\
+			\bottomrule
 		\end{tabular}
 	\end{table}
-
 	
 
 
-	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPA), 
+	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPa), 
 	the FS can be calculated for both the maximum and average stress values.
 	
 	Using the maximum von Mises stress:
@@ -2239,316 +2251,332 @@ or else contain geometry that can concentrate stresses.
 		some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
 		evaluated as the design is further iterated.
  
-\chapter{Testing}
+\chapter{Computational Prototype}
 \label{chap:test}
 
-\section{Objective}
-In the absence of a physical manufactured model, verification of the DFMEA is
-done through two methods: (1) Analytical methods and (2) Finite element
-simulations. This section discusses the testing process and strategy of using
-finite element simulations to validate the analytical results and explore
-failure modes determined by DFMEA. This computational prototype will be
-subjected to the following simulations: Heat Transfer (HT), Computational Fluid
-Dynamics (CFD), and Multi-Body Dynamics (MBD).
+	\section{Objective}
 
-\section{Test Design}
-To make the simulations less computationally expensive, the following
-strategies have been employed:
+		In the absence of a physical manufactured model, verification of the DFMEA is
+		done through two methods: (1) Analytical methods and (2) Finite element
+		simulations. This section discusses the testing process and strategy of using
+		finite element simulations to validate the analytical results and explore
+		failure modes determined by DFMEA. This computational prototype will be
+		subjected to the following simulations: Heat Transfer (HT), Computational Fluid
+		Dynamics (CFD), and Multi-Body Dynamics (MBD).
+		Analysis and simulation were performed using COMSOL Multiphysics\cite{ref_COMSOL}.
 
-\begin{enumerate}
-	\item The PTCD is cut in half about its vertical-longitudinal symmetry plane, creating
-	new surfaces which will be referred to as ``symmetry surfaces'' shown in Figure~\ref{fig:symmetryplane}. By setting
-	the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
-	the simulation software, the amount of meshes can be cut in half, reducing
-	the computation time. 
+	\section{Test Design}
 
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=.25\textwidth]{testingch_symmetry.png}
-		\caption{This figure highlights the symmetry plane}
-		\label{fig:symmetryplane}
-	\end{figure}
+		To make the simulations less computationally expensive, the following
+		strategies have been employed:
 
-	\item The physics is ``decoupled''. The CFD is run on a rigid negative
-	domain (seen in Figure~\ref{fig:fluidvolume}) of the channel with a turbulent simulation where a ``pressure map''
-	of the wetted surface is recovered. This same pressure map is used to apply
-	a load on the wetted surfaces of the PTCD assembly geometry to apply a load
-	that is representative of the fluid flow during operation. The heat transfer
-	simulation is then executed on the loaded assembly by setting all exposed
-	surfaces to the ambient temperature, and all the wetted surfaces to the
-	fluid temperature.
+		\begin{enumerate}
+			\item The PTCD is cut in half about its vertical-longitudinal symmetry plane, creating
+				new surfaces which will be referred to as ``symmetry surfaces'' shown in Figure~\ref{fig:symmetryplane}. By setting
+				the exposed symmetry surfaces to its appropriate ``symmetrical nodes'' in
+				the simulation software, the amount of meshes can be cut in half, reducing
+				the computation time. 
 
-	\begin{figure}[H]
-		\centering
-		\includegraphics[width=.25\textwidth]{testingch_negative.png}
-		\caption{This domain represents the fluid; it conforms to the volume of the cavity}
-		\label{fig:fluidvolume}
-	\end{figure}
-	
-	\item As additional verification, a solid mechanics simulation was conducted
-	on single bodies like the orifice and the inlet/outlet parts, isolated from
-	the assembly. This form of isolated simulation was also conducted for HT.
-	\item A physics-driven mesh is selected as a blanket parameter for the
-	entire assembly with an effective diameter smaller than the radius of the
-	smallest fillet in our geometry. On top of the blanket parameter, specific
-	parts in the assembly have modified mesh parameters; Namely the orifice,
-	mount, and the actuator have twice the mesh resolution.
-\end{enumerate}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.25\textwidth]{testingch_symmetry.png}
+				\caption{Symmetry plane}
+				\label{fig:symmetryplane}
+			\end{figure}
 
-\section{Developing the computational prototype}
-\label{sec:comp_proto}
-\subsection{Fluid Dynamics Simulation}
-Fluid dynamics simulation is conducted to recover a pressure map on the
-fluid-solid interface. This pressure map will be used as the boundary load for
-the multi-body simulation.
+			\item The physics is ``decoupled''. The CFD is run on a rigid negative
+				domain (seen in Figure~\ref{fig:fluidvolume}) of the channel with a turbulent simulation where a ``pressure map''
+				of the wetted surface is recovered. This same pressure map is used to apply
+				a load on the wetted surfaces of the PTCD assembly geometry to apply a load
+				that is representative of the fluid flow during operation. The heat transfer
+				simulation is then executed on the loaded assembly by setting all exposed
+				surfaces to the ambient temperature, and all the wetted surfaces to the
+				fluid temperature.
 
-\subsubsection{Boundary Condition Decisions}
-\begin{enumerate}
-    \item The inlet and outlet are assumed to be in fully developed flow
-    \begin{enumerate}
-        \item Inlet pressure is swept across the design space with parameters
-        from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi. This
-        decision to have an exponential sweep was made because of the range
-        \item Outlet pressure is set as 0 psi
-    \end{enumerate}
-    \item The boundary condition is set as no slip.
-\end{enumerate}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.25\textwidth]{testingch_negative.png}
+				\caption{This domain represents the fluid; it conforms to the volume of the cavity}
+				\label{fig:fluidvolume}
+			\end{figure}
+			
+			\item As additional verification, a solid mechanics simulation was conducted
+				on single bodies like the orifice and the inlet/outlet parts, isolated from
+				the assembly. This form of isolated simulation was also conducted for HT.
+			\item A physics-driven mesh is selected as a blanket parameter for the
+				entire assembly with an effective diameter smaller than the radius of the
+				smallest fillet in our geometry. On top of the blanket parameter, specific
+				parts in the assembly have modified mesh parameters; Namely the orifice,
+				mount, and the actuator have twice the mesh resolution.
+		\end{enumerate}
 
-\subsubsection{Data Collection}
-The pressure map on the fluid-solid interface is recovered and mapped onto the
-wetted surface of the multi-body simulation. The pressure map is shown to be created by the fluid dynamics as shown in Figure~\ref{fig:pressuremap}.
-\begin{figure}[H]
-                \centering
-                \includegraphics[width=.75\textwidth]{testingch_pressuremap.png}
-                \caption{A close up of the orifice showing a massive pressure drop with isobaric surfaces}
-                \label{fig:pressuremap}
-\end{figure}
-\subsubsection{Limitations}
-The computational model used is k-epsilon with the fluid set as incompressible.
-This is a very simplistic model that does not accurately compute the state of
-the fluid in the volume.
+	\section{Developing the computational prototype}
+	\label{sec:comp_proto}
 
-\subsection{Heat Transfer Simulation}
-To validate the analytical calculations on the PTCD's dimensional stability
-under operating temperature conditions, a heat transfer simulation is conducted
-by a steady state(Figure~\ref{fig:tempgrad}) and transient study.
-\begin{figure}[H]
-                \centering
-                \includegraphics[width=.45\textwidth]{testingch_tempgrad.png}
-                \caption{temperature gradient at the maximum temperature setting of the design space.}
-                \label{fig:tempgrad}
-\end{figure}
+		\subsection{Fluid Dynamics Simulation}
 
-\subsubsection{Boundary Condition Decisions}
-The isolated heat transfer tests used two different boundary-condition setups.
-Each study type still shared common mechanical constraints. However, the
-distinctions in boundary-conditions enabled the different end results of each
-respective study.
+			Fluid dynamics simulation is conducted to recover a pressure map on the
+			fluid-solid interface. This pressure map will be used as the boundary load for
+			the multi-body simulation.
 
-For the steady state heat transfer test, the operating temperature range
-was parametrically swept to the environmental temperatures. Since the sweep
-evaluates only equilibrium states, the path of how heat reaches the body is
-irrelevant. The final uniform temperature is physically correct for the steady
-state and numerically efficient across the entire boundary. This boundary
-condition produced the stroke versus temperature data that was validated
-against the analytical model.
+		\subsubsection{Boundary Condition Decisions}
 
-The time-dependent study required different thermal boundary conditions. Since
-a prescribed surface temperature forced the exterior to jump quasi-statically,
-there was no need for the temperature boundary condition to be considered as it
-was in the steady state heat transfer test. Instead, there was a heat flux
-condition on the exterior boundaries characterized by a convective coefficient
-$h$ and an external ambient temperature $T_{ext}$. The ambient temperature was
-driven by the following step function:
-\[
-    T_{ext}(t) = T_{ref} + \SI{20}{\degreeCelsius}\times \mathrm{tstep}(t),
-\]
-The initial condition sets the entire assembly to $T_{ref}$ which is in
-equilibrium with the original ambient temperature. This setup reproduces the
-physical scenario where the body convects toward a stepped ambient temperature
-and yields a first-order thermal response used to extract the time constant.
+			\begin{enumerate}
+				\item The inlet and outlet are assumed to be in fully developed flow
+					\begin{enumerate}
+						\item Inlet pressure is swept across the design space with parameters
+							from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi.
+						\item Outlet pressure is set as 0 psi
+					\end{enumerate}
+				\item The boundary condition is set as no slip.
+			\end{enumerate}
 
-\subsubsection{Data Collection}
-The steady-state heat transfer data were gathered by sweeping $T_{env}$ across
-the operating range and recording the converged actuator stroke at each point.
-The primary output was the axial displacement of the orifice evaluated as a
-point quantity and taken as the device stroke. Each solve returns a single
-equilibrium displacement, and the collection of these points forms the
-stroke-versus-temperature curve compared against the analytical prediction in
-the Results section. The sweep was run in \SI{5}{\degreeCelsius} increments with
-convergence behavior across the entire temperature range.
+		\subsubsection{Data Collection}
 
-The time dependent heat transfer test data was gathered from a single
-time-dependent solve for the \SI{20}{\degreeCelsius} ambient step. The point
-temperature and corresponding displacement were tested at fixed output intervals over a
-two-hour simulated window (\texttt{range(0, 7200, 60)}). This window was chosen
-to extend well past the expected settling time so the full approach to the new
-equilibrium was captured.
-
-\subsubsection{Limitations}
-The primary limitation for both heat transfer tests was the model. The model
-used was a reduced-order representation of the device's core instead of the
-entire PTCD assembly. This model included the actuator, the housing, cylindrical
-equivalents for the bellows, and the center housing pieces. While smaller
-components such as the fasteners were included, the outer housing and bellows
-geometry were omitted. This was a deliberate simplification that enabled the
-stationary sweep to converge cleanly across the entire temperature range and
-for the transient study to resolve to a first-order time constant response.
-However, this simplification characterizes the orifice, actuator, and mount
-expansion mechanism in isolation rather than the entire device. The retained
-components capture the actual path that set the stroke which is why the results
-of the steady state study agree with the analytical model within
-\SI{0.2}{\percent}. This simplification, while a limitation, also preserves the
-physics that matter most for the actuation of the PTCD.
-
-Other limitations include the replacement of the bellows. Their cylindrical
-equivalent reproduces the correct axial spring stiffness but not the detailed
-geometry, thermal behavior, or local stiffening of the actual part. Thermal
-contact resistance at the bonded interfaces was also omitted. This assumes the
-boundaries of each mate have perfectly conducting and slow heat propagation.
-This potentially lengthens the acclimation time making the reported time
-constant smaller than that of the entire assembly.
-
-By and large the simplifications in the model are at best valid characterizations
-of the differential-expansion stroke mechanism and its approximate transient
-behavior.
-
-\subsection{Multi-body Simulation}
-To gain a beginning intuition on the PTCD housing's reaction to applied pressure
-and inform higher fidelity models a simplified single body model was made. The
-single body model joins the housing components as a single solid avoiding use of
-complicated mates and relations. While this assumption does reduce accuracy to
-real performance, it allows for quick computation and as an initial method it
-avoids errors and non-convergence that can come from more complex models. The
-max pressure of \specPressure\ was applied to all wetted surfaces. This provides
-a general worst case stress result as in reality pressure will vary with fluid
-flow dynamics. Results were compared with hand calculations for simpler parts of
-the housing and verified that the simulation delivers expected results, and can
-be expected to do so for non-trivial surfaces. The results of this test are
-utilized in the DFMEA.
-
-To validate the analytical calculations on the PTCD's dimensional stability
-under load from the fluid pressure, a multi-body simulation is conducted by
-using the pressure map recovered from the fluid dynamics simulation and setting
-it as a boundary load in the wetted surface.
-The multi-body simulation takes into account the interaction between the
-components of the PTCD with appropriate surface relationships. Welded surfaces
-are set as identity pairs that keep the surface meshes together while other
-surfaces which are expected to collide are set as Contact pairs to simulate
-collision.
-
-\subsubsection{Boundary Condition Decisions}
-\begin{enumerate}
-    \item Surface pairs and contact constraints.
-    \begin{enumerate}
-        \item In multi-body simulation, the consideration for surface pairs
-        where the multiple bodies contact is pivotal for accuracy of results.
-        For all simulations, the welded surfaces are set as \textbf{identity
-        pair} while surfaces that are unwelded and expected to collide are set
-        as \textbf{contact pairs} as shown in Figure~\ref{fig:both_label}.
-		\vspace{1\baselineskip}
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{testingch_contact_pair.png}
-        \caption{Demonstration of how surfaces set as contact pair react.}
-        \label{fig:contactpair}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{testingch_identity_pair.png}
-        \caption{demonstration of how identity pairs simulate a weld.}
-        \label{fig:identitypair}
-    \end{subfigure}
-    \caption{Surface pair comparison}
-    \label{fig:both_label}
-\end{figure}
-        % [PHOTO] Contact mesh (mesh skewness) at the orifice / housing interface.
-        \item Failure to set up these surface constraints will result in bodies
-        phasing through each other, welded surfaces to decouple, and so on.
-        \item Verification for the correctness of contact constraints is made
-        by setting a rigid translation of the orifice in space and observing how
-        the meshes behave. This is shown on Figure~\ref{fig:displacement} below.
+		The pressure map on the fluid-solid interface is recovered and mapped onto the
+		wetted surface of the multi-body simulation. The pressure map is shown to be created by the fluid dynamics as shown in Figure~\ref{fig:pressuremap}.
 		\begin{figure}[H]
-                \centering
-                \includegraphics[width=.90\textwidth]{AbrAkAdAbrA_teST.png}
-                \caption{Displacement.}
-                \label{fig:displacement}
-\end{figure}
-    \end{enumerate}
-    \item Fluid-solid boundaries (incorporating union nodes where a single
-    continuous boundary is required for Fluid-Structure Interaction).
-    \item Accurate boundary representations for complex orifice shapes, ensuring
-    internal flow geometries are not oversimplified as standard cylinders.
-\end{enumerate}
+			\centering
+			\includegraphics[width=.75\textwidth]{testingch_pressuremap.png}
+			\caption{A close-up of the orifice showing the pressure drop with isobaric surfaces}
+			\label{fig:pressuremap}
+		\end{figure}
+		\subsubsection{Limitations}
 
-\subsubsection{Data Collection}
-Surface data will be collected on weld joints and failure points identified by
-DFMEA. These data can be recovered at any point in the PTCD as shown in Figure~\ref{fig:stressnstrain}.
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{testing_ch_volstrain.png}
-        \caption{Volumetric strain}
-        \label{fig:straindata}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.45\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{testing_ch_volstress.png}
-        \caption{von-Mises Stress}
-        \label{fig:stressdata}
-    \end{subfigure}
-    \caption{Stress and strain map}
-    \label{fig:stressnstrain}
-\end{figure}
-\subsubsection{Limitations}
-Several simplifications were introduced to the multi-body simulation to prioritize numerical convergence and reduce overall geometric complexity. 
-Contact friction between interacting surfaces was omitted from the model entirely. 
-To bypass the heavy computational cost of meshing, the Inconel bellows were represented using an equivalent material model rather than their true physical geometry. 
-Similarly, the screw and washer were modeled as a continuous union rather than discrete interactive components. The ALLVAR component was approximated with an isotropic coefficient of thermal expansion based on nominal textbook values, which inherently neglects the alloy's true anisotropic thermal behavior.
+			The computational model used is k-epsilon with the fluid set as incompressible.
+			This is a very simplistic model that does not accurately compute the state of
+			the fluid in the volume.
+
+		\subsection{Heat Transfer Simulation}
+
+			To validate the analytical calculations on the PTCD's dimensional stability
+			under operating temperature conditions, a heat transfer simulation is conducted
+			by a steady state(Figure~\ref{fig:tempgrad}) and transient study.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.45\textwidth]{testingch_tempgrad.png}
+				\caption{temperature gradient at the maximum temperature setting of the design space.}
+				\label{fig:tempgrad}
+			\end{figure}
+
+		\subsubsection{Boundary Condition Decisions}
+
+			The isolated heat transfer tests used two different boundary-condition setups.
+			Each study type still shared common mechanical constraints. However, the
+			distinctions in boundary-conditions enabled the different end results of each
+			respective study.
+
+			For the steady state heat transfer test, the operating temperature range
+			was parametrically swept to the environmental temperatures. Since the sweep
+			evaluates only equilibrium states, the path of how heat reaches the body is
+			irrelevant. The final uniform temperature is physically correct for the steady
+			state and numerically efficient across the entire boundary. This boundary
+			condition produced the stroke versus temperature data that was validated
+			against the analytical model.
+
+			The time-dependent study required different thermal boundary conditions. Since
+			a prescribed surface temperature forced the exterior to jump quasi-statically,
+			there was no need for the temperature boundary condition to be considered as it
+			was in the steady state heat transfer test. Instead, there was a heat flux
+			condition on the exterior boundaries characterized by a convective coefficient
+			$h$ and an external ambient temperature $T_{amb}$. The ambient temperature was
+			driven by the following step function:
+			\begin{equation}
+					T_{amb}(t) = T_{ref} + \SI{20}{\degreeCelsius}\times \mathrm{tstep}(t),
+			\end{equation}
+			The initial condition sets the entire assembly to $T_{ref}$ which is in
+			equilibrium with the original ambient temperature. This setup reproduces the
+			physical scenario where the body convects toward a stepped ambient temperature
+			and yields a first-order thermal response used to extract the time constant.
+
+		\subsubsection{Data Collection}
+
+			The steady-state heat transfer data were gathered by sweeping $T_{env}$ across
+			the operating range and recording the converged actuator stroke at each point.
+			The primary output was the axial displacement of the orifice evaluated as a
+			point quantity and taken as the device stroke. Each solve returns a single
+			equilibrium displacement, and the collection of these points forms the
+			stroke-versus-temperature curve compared against the analytical prediction in
+			the Results section. The sweep was run in \SI{5}{\degreeCelsius} increments with
+			convergence behavior across the entire temperature range.
+
+			The time dependent heat transfer test data was gathered from a single
+			time-dependent solve for the \SI{20}{\degreeCelsius} ambient step. The point
+			temperature and corresponding displacement were tested at fixed output intervals over a
+			two-hour simulated window $t \in [0, 7200] \si{\second}$ at \SI{60}{\second} intervals. This window was chosen
+			to extend well past the expected settling time so the full approach to the new
+			equilibrium was captured.
+
+		\subsubsection{Limitations}
+
+			The primary limitation for both heat transfer tests was the model. The model
+			used was a reduced-order representation of the device's core instead of the
+			entire PTCD assembly. This model included the actuator, the housing, cylindrical
+			equivalents for the bellows, and the center housing pieces. While smaller
+			components such as the fasteners were included, the outer housing and bellows
+			geometry were omitted. This was a deliberate simplification that enabled the
+			stationary sweep to converge cleanly across the entire temperature range and
+			for the transient study to resolve to a first-order time constant response.
+			However, this simplification characterizes the orifice, actuator, and mount
+			expansion mechanism in isolation rather than the entire device. The retained
+			components capture the actual path that set the stroke which is why the results
+			of the steady state study agree with the analytical model within
+			\SI{0.2}{\percent}. This simplification, while a limitation, also preserves the
+			physics that matter most for the actuation of the PTCD.
+
+			Other limitations include the replacement of the bellows. Their cylindrical
+			equivalent reproduces the correct axial spring stiffness but not the detailed
+			geometry, thermal behavior, or local stiffening of the actual part. Thermal
+			contact resistance at the bonded interfaces was also omitted. This assumes the
+			boundaries of each mate have perfectly conducting and slow heat propagation.
+			This potentially lengthens the acclimation time making the reported time
+			constant smaller than that of the entire assembly.
+
+			By and large the simplifications in the model are at best valid characterizations
+			of the differential-expansion stroke mechanism and its approximate transient
+			behavior.
+
+		\subsection{Multi-body Simulation}
+
+			To establish an intuition on the PTCD housing's reaction to applied pressure
+			and inform higher fidelity models, a simplified single body model was made. The
+			single body model joins the housing components as a single solid avoiding use of
+			complicated mates and relations. While this assumption does reduce accuracy to
+			real performance, it allows for quick computation and as an initial method it
+			avoids errors and non-convergence that can come from more complex models. The
+			max pressure of \specPressure\ was applied to all wetted surfaces. This provides
+			a general worst case stress result as in reality pressure will vary with fluid
+			flow dynamics. Results were compared with hand calculations for simpler parts of
+			the housing and verified that the simulation delivers expected results, and can
+			be expected to do so for non-trivial surfaces. The results of this test are
+			utilized in the DFMEA.
+
+			To validate the analytical calculations on the PTCD's dimensional stability
+			under load from the fluid pressure, a multi-body simulation is conducted by
+			using the pressure map recovered from the fluid dynamics simulation and setting
+			it as a boundary load in the wetted surface.
+			The multi-body simulation takes into account the interaction between the
+			components of the PTCD with appropriate surface relationships. Welded surfaces
+			are set as identity pairs that keep the surface meshes together while other
+			surfaces which are expected to collide are set as Contact pairs to simulate
+			collision.
+
+		\subsubsection{Boundary Condition Decisions}
+
+			\begin{enumerate}
+				\item Surface pairs and contact constraints.
+
+					\begin{enumerate}
+						\item In multi-body simulation, the consideration for surface pairs
+							where the multiple bodies contact is pivotal for accuracy of results.
+							For all simulations, the welded surfaces are set as \textbf{identity
+							pair} while surfaces that are unwelded and expected to collide are set
+							as \textbf{contact pairs} as shown in Figure~\ref{fig:both_label}.
+						\vspace{1\baselineskip}
+							\begin{figure}[H]
+								\centering
+								\begin{subfigure}[t]{0.45\textwidth}
+									\centering
+									\includegraphics[width=\textwidth]{testingch_contact_pair.png}
+									\caption{Demonstration of how surfaces set as contact pair react.}
+									\label{fig:contactpair}
+								\end{subfigure}
+								\begin{subfigure}[t]{0.45\textwidth}
+									\centering
+									\includegraphics[width=\textwidth]{testingch_identity_pair.png}
+									\caption{demonstration of how identity pairs simulate a weld.}
+									\label{fig:identitypair}
+								\end{subfigure}
+							\caption{Surface pair comparison}
+							\label{fig:both_label}
+						\end{figure}
+						\item Failure to set up these surface constraints will result in bodies
+							phasing through each other, welded surfaces to decouple, and so on.
+						\item Verification for the correctness of contact constraints is made
+							by setting a rigid translation of the orifice in space and observing how
+							the meshes behave. This is shown on Figure~\ref{fig:displacement} below.
+							\begin{figure}[H]
+								\centering
+								\includegraphics[width=.90\textwidth]{AbrAkAdAbrA_teST.png}
+								\caption{Dispacement simulation}
+								\label{fig:displacement}
+							\end{figure}
+					\end{enumerate}
+
+				\item Fluid-solid boundaries (incorporating union nodes where a single
+					continuous boundary is required for Fluid-Structure Interaction).
+				\item Accurate boundary representations for complex orifice shapes, ensuring
+					internal flow geometries are not oversimplified as standard cylinders.
+			\end{enumerate}
+
+		\subsubsection{Data Collection}
+
+			Surface data will be collected on weld joints and failure points identified by
+			DFMEA. These data can be recovered at any point in the PTCD as shown in Figure~\ref{fig:stressnstrain}.
+
+			\begin{figure}[H]
+				\centering
+				\begin{subfigure}[t]{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{testing_ch_volstrain.png}
+					\caption{Volumetric strain}
+					\label{fig:straindata}
+				\end{subfigure}
+				\begin{subfigure}[t]{0.45\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{testing_ch_volstress.png}
+					\caption{von-Mises Stress}
+					\label{fig:stressdata}
+				\end{subfigure}
+				\caption{Stress and strain map}
+				\label{fig:stressnstrain}
+			\end{figure}
+
+		\subsubsection{Limitations}
+
+			Several simplifications were introduced to the multi-body simulation to prioritize numerical convergence and reduce overall geometric complexity. 
+			Contact friction between interacting surfaces was omitted from the model entirely. 
+			To bypass the heavy computational cost of meshing, the Inconel bellows were represented using an equivalent material model rather than their true physical geometry. 
+			Similarly, the screw and washer were modeled as a continuous union rather than discrete interactive components. The ALLVAR component was approximated with an isotropic coefficient of thermal expansion based on nominal textbook values, which inherently neglects the alloy's true anisotropic thermal behavior.
 
 
-\section{Results}
+	\section{Other relevant results/Discussion}
 
+		\subsection{Heat Transfer}
 
-\subsection{Other relevant results/Discussion}
+			The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
+			\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
+			The two FEA anchor points at $\Delta T = \SI{5}{\degreeCelsius}$ and
+			$\Delta T = \SI{10}{\degreeCelsius}$ returned actuator displacements of
+			\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
+			\SI{1.115}{\micro\meter\per\degreeCelsius} and matching the analytical prediction
+			within \SI{0.2}{\percent}.
 
-\subsubsection{Heat Transfer}
-The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
-\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
-The two FEA anchor points at $\Delta T = \SI{5}{\degreeCelsius}$ and
-$\Delta T = \SI{10}{\degreeCelsius}$ returned actuator displacements of
-\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
-\SI{1.115}{\micro\meter\per\degreeCelsius} and matching the analytical prediction
-within \SI{0.2}{\percent}.
+			The time-dependent study, run for a representative \SI{20}{\degreeCelsius} ambient
+			step, produced a clean first-order exponential response at the monitored
+			actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
+			approximately \SI{44.8}{\celsius}. The thermal time
+			constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
+			the time to reach \SI{63}{\percent} of the final rise. The actuator reached
+			\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
+			was effectively settled by approximately \SI{50}{\minute}. The single-exponential
+			character confirms the device behaves as one dominant thermal mass over this
+			step, with no oscillatory or multi-rate dynamics in the relevant range.
 
-The time-dependent study, run for a representative \SI{20}{\degreeCelsius} ambient
-step, produced a clean first-order exponential response at the monitored
-actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
-approximately \SI{44.8}{\celsius}. The thermal time
-constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
-the time to reach \SI{63}{\percent} of the final rise. The actuator reached
-\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
-was effectively settled by approximately \SI{50}{\minute}. The single-exponential
-character confirms the device behaves as one dominant thermal mass over this
-step, with no oscillatory or multi-rate dynamics in the relevant range.
+		\subsection{Design space}
 
-\subsection{Design space}
-\begin{figure}[H]
-                \centering
-                \includegraphics[width=.90\textwidth]{testingch_designspace.png}
-                \caption{Example of a plot that encompasses the entire design space}
-                \label{fig:designspace}
-\end{figure}
-The design space explored by the computational prototype can be summarized by
-recovering data from the simulation software to generate a similar figure to the
-one above. The four lines in the figure are part of a family of lines in the
-design space. The vertical axis is the orifice diameter normalized with the
-orifice diameter at the maximum pressure of  \specPressure at an ambient temperature
-of \SI{0}{\degreeCelsius}.
-
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.90\textwidth]{testingch_designspace.png}
+				\caption{Example of a plot that encompasses the entire design space}
+				\label{fig:designspace}
+			\end{figure}
+			The design space explored by the computational prototype can be summarized by
+			recovering data from the simulation software to generate a similar figure to the
+			one above. The four lines in the figure are part of a family of lines in the
+			design space. The vertical axis is the orifice diameter normalized with the
+			orifice diameter at the maximum pressure of  \specPressure at an ambient temperature
+			of \SI{0}{\degreeCelsius}.
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -2569,8 +2597,8 @@ of \SI{0}{\degreeCelsius}.
 	Appendix~\ref{app:iter:weak} provides an exhaustive list of identified weaknesses, unaddressed assumptions, and revisions the authors would implement in the second design iteration.
 	In summary, not all error modes could be accounted for in Chapter~\ref{chap:DFMEA},
 	leading to an optimistic estimation of the device's performance. Full verification will not be complete until Sandia revises this design, builds a physical prototype, and tests it.
-	Appendix~\ref{app:iter:customize} provides them with guidance on how to use the computational tools presented in Chapters~\ref{chap:DFMEA} and \ref{chap:testing} for the revision before a physical prototype is built,
-	affording a more informed trade-off analyses between satisfaction of the Required Relationship and smaller priorities such as size, cost, and longevity.
+	Appendix~\ref{app:iter:customize} provides them with guidance on how to use the computational tools presented in Chapters~\ref{chap:DFMEA} and \ref{chap:test} for the revision before a physical prototype is built,
+	affording a more informed trade-off analysis between satisfaction of the Required Relationship and smaller priorities such as size, cost, and longevity.
 
 	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation,
 	streamlining experimental control and improving the accuracy and repeatability of their research.
@@ -2581,154 +2609,193 @@ of \SI{0}{\degreeCelsius}.
 
 \begin{thebibliography}{99}
 
-	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+	\bibitem{ref_ASHRAE_thermostatic}
 	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
-	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
-	Sec.~1.2.
+	American Society of Heating, Refrigerating and Air-Conditioning Engineers,
+	Atlanta, GA, 2009, Sec.~1.2.
 
-	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+	\bibitem{ref_Vernet_1938}
 	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
 	Available: \url{https://patents.google.com/patent/US2115501}
 	[Accessed: May 11, 2026].
 
-	\bibitem{ref_Bugby_2021} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Bugby_2021}
 	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
 	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
 	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
 
-	\bibitem{ref_Ralphs_2024} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Ralphs_2024}
 	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
-	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
-	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for
+	Redundant Cryocooler Systems,''
+	\textit{Cryocoolers 23}, R.\ G.\ Ross, Jr. and J.\ R.\ Raab, Eds.,
+	International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
 
-	\bibitem{ref_Ralphs_2026} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Ralphs_2026}
 	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
 	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
-	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026,
+	doi: 10.2514/6.2026-1086.
 
-	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
-	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619.
+	\bibitem{ref_NIH}
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter,
+	``The Structure of People's Hair,''
+	\textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619.
 
-	\bibitem{ref_sandiaprompt} % SNL Project Prompt
+	\bibitem{ref_sandiaprompt}
 	B.\ Bon,
 	``Passive Temperature Compensation Device --- Project Prompt,''
 	Sandia National Laboratories, SAND2025-15446O, 2025. [Unpublished].
 
-	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
-	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+	\bibitem{ref_NASA_specs_guide}
+	National Aeronautics and Space Administration,
+	\textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
 
-	\bibitem{ref_Nise} % Controls and Transfer Functions
-	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+	\bibitem{ref_Nise}
+	N.\ S.\ Nise, \textit{Control Systems Engineering},
+	8th~ed., Hoboken, NJ: Wiley, 2019.
 
-	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
-	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
+	\bibitem{ref_Invar_1897}
+	C.-\'{E}.\ Guillaume,
+	``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures
+	\'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,''
+	\textit{Comptes Rendus de l'Acad\'{e}mie des Sciences},
+	vol.~125, pp.~235--238, 1897.
 
-	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
-	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+	\bibitem{ref_Invar_1920}
+	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture,
+	Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
 	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
-	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-	8th~ed., McGraw-Hill, New York, 2006.
+	\bibitem{ref_shigley}
+	J.\ E.\ Shigley, C.\ R.\ Mischke, and R.\ G.\ Budynas,
+	\textit{Mechanical Engineering Design},
+	8th~ed., New York, NY: McGraw-Hill, 2006.
 
-	\bibitem{ref_wilton_hermetic}	% Hermetic Seal secondary source
+	\bibitem{ref_wilton_hermetic}
 	D.\ Wilton, ``Hermetic seal,'' \textit{Wordorigins.org}, Dec.\ 29, 2020.
-	[Online]. 
-	Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
+	[Online]. Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
 	[Accessed: Jun.\ 2, 2026].
 
-	\bibitem{ref_gesner_1559}	% Hermetic Seal primary source
+	\bibitem{ref_gesner_1559}
 	K.\ Gesner, \textit{The Treasure of Euonymus Conteyninge the Wonderfull Hid
 	Secretes of Nature}, P.\ Morwyng, trans., London: John Daie, 1559, p.~66.
 
-	\bibitem{ref_Young_Freedman} % Hooke's Law
-	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+	\bibitem{ref_Young_Freedman}
+	H.\ D.\ Young and R.\ A.\ Freedman,
+	\textit{University Physics with Modern Physics},
+	15th~ed., Hoboken, NJ: Pearson, 2019, Eq.~6-8.
 
-	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
-	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
-	[Accessed: Feb. 23, 2026]
+	\bibitem{ref_miniflex_catalog}
+	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog},
+	Mini-Flex Corporation, Watervliet, NY. [Online].
+	Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+	[Accessed: Feb.\ 23, 2026].
 
-	\bibitem{ref_miniflex_design} % Bellows catalog design guide
-	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Feb. 23, 2026].
+	\bibitem{ref_miniflex_design}
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide},
+	Mini-Flex Corporation, Watervliet, NY. [Online].
+	Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb.\ 23, 2026].
 
-	\bibitem{ref_TiCN_Coating} % TiCN coating properties
-	T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
-		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
-		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
+	\bibitem{ref_TiCN_Coating}
+	T.\ Lv, T.\ Luo, T.\ Cheng, X.\ Hu, Z.\ Zhang, Z.\ Tang, B.\ Lin, and H.\ Xiao,
+	``Microstructure and wear behavior of Invar alloy surface strengthened by
+	{TiAl} laser alloying and {TiCN} ceramics,''
+	\textit{Surface and Coatings Technology}, vol.~520, p.~132977, 2026.
+	doi: 10.1016/j.surfcoat.2025.132977.
 
-	\bibitem{ref_steen2010laser} % Laser weld guide
-	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-	Springer, London, UK, 2010.
+	\bibitem{ref_steen2010laser}
+	W.\ M.\ Steen and J.\ Mazumder, \textit{Laser Material Processing},
+	4th~ed., London, UK: Springer, 2010.
 
 	\bibitem{ref_asme_b313}
-	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+	American Society of Mechanical Engineers,
+	\textit{ASME B31.3: Process Piping},
 	ASME, New York, NY, 2022.
 
-	\bibitem{ref_ashby} % E vs CTE plot
-	M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
-	5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+	\bibitem{ref_ashby}
+	M.\ F.\ Ashby, \textit{Materials Selection in Mechanical Design},
+	5th~ed., Oxford, UK: Pergamon Press, 1992, Fig.~3.13.
 
-	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
-		% CTE at room temp = 23.85 ppm/C
-		% E = 68.95 MPa
-	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
+	\bibitem{ref_NASA_specs_Al}
+	R.\ F.\ Muraca and J.\ S.\ Whittick,
+	\textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd~ed.,
+	Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 
-	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
-		% CTE = -30 ppm/C
-		% E = 55 GPa
-	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+	\bibitem{ref_AllvarAlloys}
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?},
+	ALLVAR Alloys, 2026. [Online].
+	Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
-	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+	\bibitem{ref_AllvarAlloys_gen}
+	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.}\
+	ALLVAR Alloys, 2026. [Online].
+	Available: \url{https://www.allvaralloys.com/}
 	[Accessed: May 9, 2026].
 
-	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
-		% CTE = 1.3 ppm/C
-		% E = 141 GPa
-	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	\bibitem{ref_Carpenter_Inv}
+	Carpenter Technology Corporation, \textit{Invar 36 Datasheet},
+	Carpenter Technology Corporation, 2025. [Online].
+	Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
-	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	\bibitem{ref_Carpenter_gen}
+	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys},
+	Carpenter Technology Corporation, 2026. [Online].
+	Available: \url{https://www.carpentertechnology.com/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_ASM_Steel} % Used for CTE comparison
-		% CTE = 11.7 ppm/C
-		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002, Table~2.2.
+	\bibitem{ref_ASM_Steel}
+	F.\ Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals},
+	ASM International, Materials Park, OH, 2002, Table~2.2.
 
-	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
-		% CTE = 13.2 ppm/C
-		% E = 200 GPa
-	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-	[Accessed: Apr. 17, 2026].
+	\bibitem{ref_SpecialMetals_Inc}
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718},
+	Publication No.\ SMC-045, Special Metals Corporation, 2007. [Online].
+	Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+	[Accessed: Apr.\ 17, 2026].
 
-	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
-	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	\bibitem{ref_SpecialMetals_gen}
+	Special Metals Corporation, \textit{High-Performance Alloy Products},
+	Special Metals Corporation, 2026. [Online].
+	Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
-	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
-	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+	\bibitem{ref_Inconel_1965}
+	H.\ L.\ Eiselstein,
+	``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,''
+	in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+	ASTM Special Technical Publication 369,
+	American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
 
-	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
-	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
-	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+	\bibitem{ref_Inconel_1991}
+	H.\ L.\ Eiselstein and D.\ J.\ Tillack,
+	``The Invention and Definition of Alloy 625,''
+	in \textit{Superalloys 718, 625 and Various Derivatives},
+	E.\ A.\ Loria, Ed., The Minerals, Metals \& Materials Society,
+	Warrendale, PA, 1991, pp.~1--14.
 
-	\bibitem{ref_NASA_Inc} % Inconel advantages
-	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+	\bibitem{ref_NASA_Inc}
+	J.\ A.\ Lee, \textit{Hydrogen Embrittlement},
+	NASA Technical Memorandum NASA/TM-2016-218602,
 	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
-	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
-	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+	\bibitem{ref_Hibbeler}
+	R.\ C.\ Hibbeler, \textit{Mechanics of Materials},
+	9th~ed., Saddle River, NJ: Pearson, 2014.
 
 	\bibitem{ref_beam}
-	A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}. [Accessed: May 29, 2026].
+	A.\ Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,''
+	Phoenix Analysis \& Design Technologies (PADT), Inc.,
+	Tempe, AZ, USA, White Paper, Jun.\ 30, 2024. [Online].
+	Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}
+	[Accessed: May 29, 2026].
 
-	\bibitem{ref_COMSOL} % COMSOL Multiphysics simulation software
+	\bibitem{ref_COMSOL}
 	COMSOL~AB, \textit{COMSOL Multiphysics\textregistered{} Reference Manual},
 	v.~5.3a, COMSOL~AB, Stockholm, Sweden, 2017.
 
@@ -2738,82 +2805,100 @@ of \SI{0}{\degreeCelsius}.
 	Operation of Pressurized Missile and Space Systems},
 	Department of Defense, Washington, DC, 1984, Table~III.
 
-	\bibitem{ref_McMaster_belle} % belleville washer part specificaitons
-	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	\bibitem{ref_McMaster_belle}
+	McMaster-Carr, \textit{316 Stainless Steel Spring Lock Washer,
+	Part No.\ 93237A101}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_din6796} % Standard for belleville washer
-	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+	\bibitem{ref_din6796}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN 6796: Conical Spring Washers for Bolted Connections},
+	DIN, Berlin, 2009.
 
-	\bibitem{ref_dinen16983} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16983}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
 
-	\bibitem{ref_dinen16984} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16984}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions},
+	DIN, Berlin, 2017.
 
-	\bibitem{ref_almen1936} % Referenced by DIN 16983
-	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
-	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+	\bibitem{ref_almen1936}
+	J.\ O.\ Almen and A.\ Laszlo,
+	``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers},
+	vol.~58, no.~4, pp.~305--314, 1936.
 
-	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
-		% 18-8 304 SS:
-			% E = 210.1 GPa
-			% ν = 0.279
-		% 316 SS:
-			% E = 207.8 GPa
-			% E = 0.282
-	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+	\bibitem{ref_Ledbetter_Stainless}
+	H.\ M.\ Ledbetter,
+	``Stainless-Steel Elastic Constants at Low Temperatures,''
+	\textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
 	\bibitem{ref_jones1992}
-	L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
+	L.\ A.\ Jones, I.\ W.\ Hunter, and R.\ J.\ Irwin,
 	``Differential thresholds for limb movement measured using adaptive techniques,''
 	\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
 
 	\bibitem{ref_Cappello2015}
-	P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
+	L.\ Cappello, N.\ Elangovan, S.\ Contu, S.\ Khosravani, J.\ Konczak,
+	and L.\ Masia,
 	``Robot-aided assessment of wrist proprioception,''
-	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
+	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, Apr.\ 2015.
+	doi: 10.3389/fnhum.2015.00198.
 
-	\bibitem{ref_SNL} % Sandia About Page
-	Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https://www.sandia.gov/about/}
+	\bibitem{ref_SNL}
+	Sandia National Laboratories, \textit{About Sandia},
+	Sandia National Laboratories, 2026. [Online].
+	Available: \url{https://www.sandia.gov/about/}
 	[Accessed: May 30, 2026].
 
-	\bibitem{ref_haas} % HAAS tolerance for drawings
-	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
+	\bibitem{ref_haas}
+	Haas Automation, Inc.,
+	``VF-2: 40-Taper Standard Vertical Mill Specifications,''
+	\textit{Haas Automation}. [Online].
+	Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}
 	[Accessed: May 16, 2026].
 
-	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
-	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
-	[Unpublished]
+	\bibitem{ref_Jensen}
+	N.\ Grønbech-Jensen,
+	\textit{Introduction to Numerical Methods and Analysis}.
+	[Unpublished].
 
-	\bibitem{ref_Stewart} % Calculus and Taylor Series
-	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+	\bibitem{ref_Stewart}
+	J.\ Stewart, \textit{Single Variable Calculus: Early Transcendentals},
+	6th~ed., Belmont, CA: Thomson Brooks/Cole, 2008, p.~736; see also p.~674.
 
-	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
-	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-	Hoboken, NJ: Wiley, 2019, p. 228.
+	\bibitem{ref_Anton}
+	H.\ Anton and A.\ Kaul, \textit{Elementary Linear Algebra},
+	12th~ed., Hoboken, NJ: Wiley, 2019, p.~228.
 
 	\bibitem{ref_AIAG2005}
 	Automotive Industry Action Group (AIAG),
 	\textit{Statistical Process Control (SPC) Reference Manual},
-	2nd~ed., AIAG, Southfield, MI, 2005, p.~104,132.
+	2nd~ed., AIAG, Southfield, MI, 2005, pp.~104, 132.
 
 	\bibitem{ref_figliola}
 	R.\ S.\ Figliola and D.\ E.\ Beasley,
 	\textit{Theory and Design for Mechanical Measurements},
-	5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.
+	5th~ed., Hoboken, NJ: Wiley, 2011, Sec.~4.9.
 
 	\bibitem{ref_white}
-		F.\ M.\ White and H.\ Xue,
-		\textit{Fluid Mechanics}, 9th~ed.,
-		McGraw-Hill Education, New York, NY, 2021.
+	F.\ M.\ White and H.\ Xue,
+	\textit{Fluid Mechanics}, 9th~ed.,
+	New York, NY: McGraw-Hill Education, 2021.
 
-	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+	\bibitem{ref_McMaster_screw}
+	McMaster-Carr, \textit{18-8 Stainless Steel Pan Head Torx Screws,
+	Part No.\ 90362A141}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/90362A141/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+	\bibitem{ref_McMaster_std}
+	McMaster-Carr, \textit{18-8 Stainless Steel General Purpose Washer,
+	Part No.\ 93475A195}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/93475A195/}
 	[Accessed: May 8, 2026].
 
 \end{thebibliography}
@@ -4183,16 +4268,11 @@ of \SI{0}{\degreeCelsius}.
 		Note that of the non-critical modes, some of them require further analysis as development continues.
 		Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
 		due to time and resource constraints. These modes were not considered priorities for the manufacturing 
-		of low-fidelity prototypes. As the device reaches later phases of testing and life cycle analysis must be
-		done these fatigue studies will become necessary. Other failure modes such as the housing center wall 
-		deformation under pressure load were considered noncritical as other more fragile sections were analyzed
-		instead. In the case of the housing center walls, the housing center welds were analyzed, and given the
-		stress concentrates on these corners it was deemed more critical to study. This reasoning is true for the
-		housing inlet cone, which is not as likely to fail and has less effect on the internal flow than the orifice channel.
+		of low-fidelity prototypes, whose lifetime is unimportant. As the device reaches later phases of testing, life cycle analysis will become necessary.
 		Below is the comprehensive table of design failure modes with priority modes highlighted.
 
 		\newpage
-		\includepdf[pages=1-2, fitpaper=true, landscape=true]{pdf/DFMEA_table_all.pdf}
+		\includepdf[pages=1, landscape=true, fitpaper=true]{DFMEA.pdf}
 
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
@@ -5170,7 +5250,7 @@ of \SI{0}{\degreeCelsius}.
 	\begin{warningbox}
 	\textbf{\textcolor{warnred}{WARNING --- Sealing Requirements}}
 
-	Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
+	Standard polytetrafluoroethylene (PTFE) tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
 	\end{warningbox}
 
 	\subsection{Mounting}
