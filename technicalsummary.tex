@@ -137,9 +137,9 @@
 
 % ---------- PDF Metadata ----------
 \hypersetup{
-    pdftitle={Technical Summary -- Passive Temperature Compensation Device},
+    pdftitle={Final Design Report -- Passive Temperature Compensation Device},
     pdfauthor={Team 16: Noble Aggie Labs},
-    pdfsubject={EME-185 Senior Design, UC Davis}
+    pdfsubject={EME-185A/B Senior Design, UC Davis}
 }
 %-----------For landscape pages----------
 \usepackage{pdflscape}
@@ -326,7 +326,7 @@
 
 	% --- Report Type ---
 	\begin{center}
-		{\large\bfseries TECHNICAL SUMMARY}
+		{\large\bfseries FINAL DESIGN REPORT}
 	\end{center}
 
 	\vspace{0.4in}
@@ -354,7 +354,7 @@
 \begin{center}
 
 	{\large\bfseries Passive Temperature Compensation Device}\\[6pt]
-	{\large Technical Summary}\\[24pt]
+	{\large Final Design Report}\\[24pt]
 
 	\textcopyright\ 2026 by\\[6pt]
 	Miguel Cuaycong, Jon Pizarro, Nicholas Metta,\\
@@ -415,7 +415,7 @@
 		CNC			& Computer-Numerical Control \\
 		COMSOL	& Computer Solution (numerical computing software) \\
 		CTE     & Coefficient of Thermal Expansion \\
-		DFMEA   & Design Failure Mode Effects Analysis \\
+		DFMEA   & Design Failure Modes and Effects Analysis \\
 		DIN			& Deutsches Institut für Normung (German Standardization Institute) \\
 		DOF     & Degree of Freedom \\
 		EBW     & Electron Beam Welding \\
@@ -437,6 +437,7 @@
 		PI			& Pressure Indicator \\
 		PPE			& Personal Protective Equipment \\
 		PTCD    & Passive Temperature Compensation Device \\
+		PTFE		& Polytetrafluoroethylene \\ 
 		PVD			& Physical Vapor Deposition \\
 		RPN			& Risk Priority Number \\
 		RR      & Required Relationship \\
@@ -463,11 +464,11 @@
 	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
 	that thermomechanically adjusts gas flow according to the ambient air temperature.
 	Engineered to contain and restrict hydrogen or a noble gas up to 700 times atmospheric pressure,
-	the PTCD maintains a pin-size orifice with microscopic precision. 
+	the PTCD maintains a pin-sized orifice with microscopic precision. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
-	This report details the design objectives, the final selected architecture, the analytical and numerical verification of system requirement satisfaction.
-	Full design justification, verification, and tools for further iteration are provided in the Final Design Report by the same authors\cite{ref_finalDesignReport}.
+	This report details the design objectives, the final selected architecture, the analytical and numerical verification of system requirement satisfaction,
+	and a full design package required for further iteration.
 
 \end{abstract}
 
@@ -484,13 +485,13 @@
 
 			National security presents ceaseless challenges.
 			Engineers must deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
-			Sandia National Laboratories, a United States security and energy research facility in Livermore, CA, executes this mission.
+			Sandia National Laboratories, a United States security and energy research facility in Albuquerque, NM, executes this mission.
 			Their development of cutting-edge defense technology and scientific research protects American citizens and sojourners alike against sophisticated threats
 			and pioneers advancements in energy efficiency and sustainability.
 			Resolving the nation's most challenging security issues, Sandia must employ every means to maintain a competitive edge in the international theater.
 			Even a small improvement in the capacity or reliability of a larger integrated system can deliver a key advantage.
 
-			Sandia's Gas Transfer Systems team develops specialized gas flow control components and assemblies that help design, certify, and calibrate any of myriad projects undertaken at the Lab.
+			Sandia's Gas Transfer Systems team, based in Livermore, CA, develops specialized gas flow control components and assemblies that help design, certify, and calibrate any of the myriad projects undertaken at the Lab.
 			Many of their developmental experiments require precision flow control of high-pressure $\text{H}_{\text{2}}$ gas.
 			Downstream conditions are sensitive to environmental temperature fluctuations and must either be tightly controlled or extensively post-processed.
 			Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
@@ -500,7 +501,7 @@
 			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
 			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
-			and are designed for low-pressure, light-tolerance applications.
+			and are designed for low-pressure, loose-tolerance applications.
 			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satellite equipment at the size and precision Sandia requires
 			but switch on and off to compensate for the binary thermal extremes of space rather than delivering a continuous output.
 			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to its conditions would prove a novel and challenging exercise.
@@ -508,7 +509,7 @@
 			\subsection{Objectives}
 			\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California in Davis and the authors of this paper,
+				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
 				to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that precisely controls a submillimeter orifice in response to a wide ambient temperature range
 				while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
 				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
@@ -632,7 +633,7 @@
 		\end{align}
 
 		These are equivalent to the surface temperature of Antarctica in winter, room temperature, and the temperature of a running engine, respectively.
-		This small valve must thermomechanically control a sub-millimeter orifice to a micron-scale tolerance, maintaining a linear output across a wide temperature range under extreme pressures.
+		This small valve must thermomechanically control a submillimeter orifice to a micron-scale tolerance, maintaining a linear output across a wide temperature range under extreme pressures.
 		
 
 	\section{Subsystem Specifications}
@@ -642,7 +643,7 @@
 
 		\begin{itemize}
 			\item A valve to restrict the flow
-			\item An actuator to drive the valve's movement as driven by temperature
+			\item An actuator to respond to temperature changes and drive the valve's movement
 		\end{itemize}
 
 		The valve assembly must contain and restrict the gas flow.
@@ -871,7 +872,7 @@
 
 			\begin{table}[h]
 				\centering
-				\caption{System Requirements and Subsystem Specification Rolldown}
+				\caption{System requirements and subsystem specification rolldown}
 				\renewcommand{\arraystretch}{1.3}
 				\begin{tabularx}{\textwidth}{
 						>{\raggedright\arraybackslash}p{0.04\textwidth}  % R ID
@@ -935,7 +936,7 @@
 			\centering
 			% \includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{Complete_Assembly_Render.png}
 			\includegraphics[height=\dimexpr\textheight-\pagetotal-3\baselineskip\relax, width=\textwidth, keepaspectratio]{reveal_qual.png}
-			\caption{Complete assembly}
+			\caption{The Passive Temperature Compensation Device}
 			\label{fig:reveal}
 		\end{figure}
 		\newpage
@@ -944,14 +945,14 @@
 				\centering
 				% \includegraphics[width=.85\textwidth]{CompleteAssemblyExploded.png}
 				\includegraphics[width=.75\textwidth]{PTCD.png}
-				\caption{Complete assembly exploded view}
+				\caption{Complete assembly isometric view}
 				\label{fig:mainIsometric}
 			\end{minipage}
 			\hfill
 			\begin{minipage}{.49\textwidth}
 				\centering
 				\includegraphics[width=.75\textwidth]{exp_qual.png}
-				\caption{Sub-assembly identification}
+				\caption{Complete assembly exploded view}
 				\label{fig:mainExploded}
 			\end{minipage}
 		\end{figure}
@@ -1080,14 +1081,14 @@
 							\centering
 							% \includegraphics[width=\textwidth]{cut_zoom.png}
 							\includegraphics[width=\textwidth]{cut_zoom_qual.png}
-							\caption{Valve Subsystem, Section View}
+							\caption{Valve subsystem, section view}
 							\label{fig:cut_zoom}
 					\end{subfigure}
 					\hfill
 					\begin{subfigure}{0.39\textwidth}
 							\centering
 							\includegraphics[width=\textwidth]{cut_zoom_zoom_crop.png}
-							\caption{Valve, Section View (detail)}
+							\caption{Valve, section view (detail)}
 							\label{fig:cut_zoom_zoom_crop}
 					\end{subfigure}
 					\caption{Section views}
@@ -1137,14 +1138,14 @@
 					\begin{minipage}[b]{1.5748in}
 							\centering
 							\includegraphics[width=1.5748in]{act_size.png}	% DO NOT CHANGE WIDTH; USED FOR ACTUAL SIZE
-							\captionof{figure}{\device\ Actual Size}
+							\captionof{figure}{\device\ actual size}
 							\label{fig:act_size}
 					\end{minipage}
 					\hfill
 					\begin{minipage}[b]{0.72\textwidth}
 							\centering
 							\includegraphics[width=\textwidth]{Act_cut_qual.png}
-							\captionof{figure}{\device\ Full Assembly}
+							\captionof{figure}{\device\ full assembly}
 							\label{fig:Act_cut}
 					\end{minipage}
 			\end{figure}
@@ -1177,7 +1178,7 @@
 
 			\begin{table}[H]
 				\centering
-				\caption{Component Part Numbers}
+				\caption{Component part numbers}
 				\label{tab:part_num}
 				\renewcommand{\arraystretch}{1.3}
 				\begin{tabular}{
@@ -1439,7 +1440,7 @@
 
 			\begin{table}[H]
 				\centering
-				\caption{Valve Housing Parameter Values}
+				\caption{Valve housing parameter values}
 				\label{tab:housing_parameters}
 				\begin{tabularx}{\textwidth}{l X l}
 					\toprule
@@ -1524,7 +1525,7 @@
 		\begin{wrapfigure}{l}{0.45\textwidth}
 				\centering
 				\includegraphics[width=0.35\textwidth]{bellows.png}
-				\caption{CAD model of the I718-159-72-430 bellows}
+				\caption{I718-159-72-430 bellows}
 				\label{fig:bellows}
 		\end{wrapfigure}
 
@@ -1779,7 +1780,7 @@
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.75\textwidth]{cal.png}
-				\caption{System Calibration with a belleville washer}
+				\caption{System calibration with a belleville washer}
 				\label{fig:cal}
 			\end{figure}
 
@@ -1859,7 +1860,7 @@
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=.75\textwidth]{ashby.png}
-				\caption{The Ashby Chart for Metals, Polymers, and Ceramics}
+				\caption{The Ashby Chart for metals, polymers, and ceramics}
 				\label{fig:ashby}
 			\end{figure}
 			
@@ -1938,10 +1939,10 @@
 \chapter{Model Verification}
 \label{chap:DFMEA}
 
-	\section{Design Failure Mode Effect Analysis}
+	\section{Design Failure Modes and Effects Analysis}
 	\label{sec:DFMEA:intro}
 
-		The high performance requirements and extreme operating conditions of the \device\ require in-depth risk assessment via Design Failure Mode Effect Analysis (DFMEA). Possible failure modes are identified
+		The high performance requirements and extreme operating conditions of the \device\ require in-depth risk assessment via Design Failure Modes and Effects Analysis (DFMEA). Possible failure modes are identified
 		and ranked by Risk Priority Number (RPN) according to their impact on the \device's satisfaction of its functional and performance specifications. RPNs are calculated for each failure mode
 		by taking the product of the qualitative ranking of individual factors of failure severity, probability of occurrence, and ease of detection.
 		Not all failure modes could be identified in the time available, so those deemed most critical (having an RPN $> 100$) will be analyzed here;
@@ -1951,7 +1952,7 @@
 		\vspace{1em}
 		\begin{table}[h]
 				\centering
-				\caption{Prioritized Failure Modes with RPN $>$ 100}
+				\caption{Prioritized failure modes with RPN $>$ 100}
 				\label{tab:RPN_priority}
 				\footnotesize
 				\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} X X X X X}
@@ -1966,6 +1967,7 @@
 						\bottomrule
 				\end{tabularx}
 		\end{table}
+		\todo{Clean this up a little}
 
 		Failure is defined as the inability of the device to meet its specifications.
 		For the \device, this includes plastic\footnote{i.e. Irreparable.} deformation, fracture, rupture, or simple exceedance of the system output tolerance.
@@ -1975,7 +1977,7 @@
 		Each of the below analyses documents the failure mode, the assumptions, principles, and methods applied, the calculations performed, and the results of the analysis.
 
 	\section{Weld Failure Analysis}
-
+	\label{sec:DFMEA:weld}
 		\subsection{Housing Center Weld}
 		\label{subsec:DFMEA:weld:main}
 
@@ -2003,7 +2005,7 @@
 			\vspace{1\baselineskip}
 			\begin{table}[H]
 				\centering
-				\caption{Weld Analysis Parameter Values}
+				\caption{Weld analysis parameter values}
 				\label{tab:weld_parameters}
 				\begin{tabularx}{\textwidth}{l X l}
 					\toprule
@@ -2081,15 +2083,15 @@
 				
 			\vspace{1\baselineskip}	\begin{figure}[h]
 				\centering
-				\includegraphics[width=.6\textwidth]{ Static_FEA_StressMagnitude1.png}
-				\caption{Static FEA Results on simplified Single Body Model}
+				\includegraphics[width=.6\textwidth]{Static_FEA_StressMagnitude1.png}
+				\caption{Static FEA results on simplified single-body model}
 				\label{fig:FEAdisp}
 			\end{figure}
 	
-\subsection{Actuator-Housing Weldment}
+		\subsection{Actuator-Housing Weldment}
 
 		In addition to stresses applied by the internal pressure, there is also stress on the 
-		actuator mount and its' radial weld due to thermal expansion and contraction. This was
+		actuator mount and its radial weld due to thermal expansion and contraction. This was
 		identified as a potential failure mode for this weld specifically as the other welds 
 		are Invar-Invar and have predictable mechanical properties and a relatively low expansion
 		rate constant across all members in the weldment.
@@ -2102,14 +2104,14 @@
   	temperature gradient using the maximum machined outer radius $R_0 = 9.0215 mm$. It is found that
 		$\Delta R = R_0 \left(\alpha_{\text{ALLV-radial}}\right) \Delta T_{\text{cold}}=0.0254mm$
 		This is a basic confined thermal expansion problem and the maximum stress on the ALLVAR and 
-		the weld due to the thermal expansion can be  calculated by finding the stress necessary to
+		the weld due to the thermal expansion can be calculated by finding the stress necessary to
 		deform the ALLVAR mount by that amount:
 		\begin{equation}
 			\sigma_{\text{ALLV}} = \frac{E_{\text{ALLV}} \cdot \Delta R}{R_0} = \frac{55\times10^{9} \cdot 0.0254 \text{ mm}}{18 \text{ mm}} = 74.86 \text{ MPa}
 		\end{equation}
 		The area of the weld and the area of the mount in contact with it are the same, and thus the
- 		stresses are the same. Given that this stress is much smaller than the yield stress of Allvar and Invar,
-		 295 MPA and 276 MPA respectively, we find a sufficient FS. Using the more conservative yield stress of Invar the FS is calculated to be:
+ 		stresses are the same. Given that this stress is much smaller than the yield stress of ALLVAR and Invar,
+		 295 MPa and 276 MPa respectively, we find a sufficient FS. Using the more conservative yield stress of Invar the FS is calculated to be:
 		$$\text{FS} = \frac{S_{y,\text{weld}}}{\sigma_{\text{weld}}}=3.68$$
 		This FS is acceptable, but in reality, the material mismatch in the mount-housing weld may lead to 
  		detrimental changes in material properties around the weld area which could cause a variety
@@ -2121,7 +2123,7 @@
 		creation of brittle compounds, but this could be highly involved and experimental. A recommended
  		path is to use fasteners with a slight mount redesign that allows for bolting into the
   	housing. Note that this weld does not make contact with the fluid and thus does not need 
-	to seal, and worries regarding hydrogen compatability can also be relaxed.
+		to seal, and concerns regarding hydrogen compatibility can also be relaxed.
 
 \section{Component Analysis}
 The following are issues identified as critical for components of the PTCD. These components were deemed critical
@@ -2168,19 +2170,19 @@ or else contain geometry that can concentrate stresses.
 
 	The purpose of this analysis is to verify that the orifice channel opening maintains structural integrity under the pressure exerted on it by the internal 
 	gas flow. The opening creates a stress concentration at the corner where the fluid flow exits the orifice. Using Finite Element Analysis (FEA) testing to see
-	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar. Note that testing design and assumptions are detailed in \ref{chap:test}
+	the stress exerted on that corner, the Factor of Safety (FS) can then be calculated using the yield strength of Invar. Note that testing design and assumptions are detailed in Chapter~\ref{chap:test}
 
 	See Table~\ref{tab:FEAdisp2} for tabulated data from the FEA testing that will be used to calculate the FS at the corner of the outlet opening.
 
 	\vspace{1em}
 	\begin{table}[h]
 		\centering
-    \caption{von Mises Stresses Compared Against Invar Yield Strength
+    \caption{von Mises stresses compared against Invar yield strength
     ($S_y = \SI{276}{\mega\newton\per\meter\squared}$)}
 		\label{tab:FEAdisp2}
 		\begin{tabular}{l S[table-format=1.2e+2] c r}
 			\toprule
-			{Analysis Method} & {VM (\si{N/m^2})} & {Comparison} & {FOS} \\
+			{Analysis Method} & {VM (\si{N/m^2})} & {Comparison} & {FS} \\
 			\midrule
 			\rowcolor{offblue!40}
 			Max Outlet Hole     & 2.66E+08 & $V_m < S_y$ & 1.04 \\
@@ -2216,7 +2218,7 @@ or else contain geometry that can concentrate stresses.
 	
 
 
-	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPA), 
+	The maximum von Mises stress at the corner of the outlet opening is 300 MPa and the average von Mises stress is 178 MPa. Using the yield strength of annealed Invar (276 MPa), 
 	the FS can be calculated for both the maximum and average stress values.
 	
 	Using the maximum von Mises stress:
@@ -2225,7 +2227,7 @@ or else contain geometry that can concentrate stresses.
 	Using the average von Mises stress:
 	$FS = \frac{276 \text{MPa}}{178 \text{MPa}} = 1.55$
 
-	The FS less than 1 at the maximum stress is an issue and requires further analysis. It is, however the maximum of a small concentration that is much higher than the stresses across the rest of the surface.
+	The FS less than 1 at the maximum stress is an issue and requires further analysis. It is, however, the maximum of a small concentration that is much higher than the stresses across the rest of the surface.
 	This is confirmed by the FS for the average stress being acceptable. Further analysis will show whether the change in geometry creates an actual stress concentration, or if results are skewed by the FEA due to computational errors at this point.
 	Intuition from these results suggests that if the corner is rounded to reduce the stress concentration it would increase the FS. Another way to increase the FS
 	would be to increase the thickness of the wall at that point, which would also lower the stress. Ultimately, rounding the corner is probably the best solution because it is a simple and 
@@ -2279,7 +2281,7 @@ or else contain geometry that can concentrate stresses.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.25\textwidth]{testingch_symmetry.png}
-				\caption{This figure highlights the symmetry plane}
+				\caption{Symmetry plane}
 				\label{fig:symmetryplane}
 			\end{figure}
 
@@ -2295,7 +2297,7 @@ or else contain geometry that can concentrate stresses.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.25\textwidth]{testingch_negative.png}
-				\caption{This domain represents the fluid; it conforms to the volume of the cavity}
+				\caption{Fluid domain, conformed to cavity volume}
 				\label{fig:fluidvolume}
 			\end{figure}
 			
@@ -2305,7 +2307,7 @@ or else contain geometry that can concentrate stresses.
 			\item A physics-driven mesh is selected as a blanket parameter for the
 				entire assembly with an effective diameter smaller than the radius of the
 				smallest fillet in our geometry. On top of the blanket parameter, specific
-				parts in the assembly have modified mesh parameters; Namely the orifice,
+				parts in the assembly have modified mesh parameters; namely the orifice,
 				mount, and the actuator have twice the mesh resolution.
 		\end{enumerate}
 
@@ -2324,8 +2326,7 @@ or else contain geometry that can concentrate stresses.
 				\item The inlet and outlet are assumed to be in fully developed flow
 					\begin{enumerate}
 						\item Inlet pressure is swept across the design space with parameters
-							from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi. This
-							decision to have an exponential sweep was made because of the range
+							from $10^{2}$ psi to $10^{4}$ psi in increments of $10^{0.5}$ psi.
 						\item Outlet pressure is set as 0 psi
 					\end{enumerate}
 				\item The boundary condition is set as no slip.
@@ -2338,7 +2339,7 @@ or else contain geometry that can concentrate stresses.
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width=.75\textwidth]{testingch_pressuremap.png}
-			\caption{A close up of the orifice showing a massive pressure drop with isobaric surfaces}
+			\caption{Orifice pressure drop with isobaric surfaces}
 			\label{fig:pressuremap}
 		\end{figure}
 		\subsubsection{Limitations}
@@ -2355,7 +2356,7 @@ or else contain geometry that can concentrate stresses.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.45\textwidth]{testingch_tempgrad.png}
-				\caption{temperature gradient at the maximum temperature setting of the design space.}
+				\caption{Maximum temperature gradient}
 				\label{fig:tempgrad}
 			\end{figure}
 
@@ -2438,8 +2439,8 @@ or else contain geometry that can concentrate stresses.
 
 		\subsection{Multi-body Simulation}
 
-			To gain a beginning intuition on the PTCD housing's reaction to applied pressure
-			and inform higher fidelity models a simplified single body model was made. The
+			To establish an intuition on the PTCD housing's reaction to applied pressure
+			and inform higher fidelity models, a simplified single body model was made. The
 			single body model joins the housing components as a single solid avoiding use of
 			complicated mates and relations. While this assumption does reduce accuracy to
 			real performance, it allows for quick computation and as an initial method it
@@ -2478,13 +2479,13 @@ or else contain geometry that can concentrate stresses.
 								\begin{subfigure}[t]{0.45\textwidth}
 									\centering
 									\includegraphics[width=\textwidth]{testingch_contact_pair.png}
-									\caption{Demonstration of how surfaces set as contact pair react.}
+									\caption{Demonstration of how surfaces set as contact pair react}
 									\label{fig:contactpair}
 								\end{subfigure}
 								\begin{subfigure}[t]{0.45\textwidth}
 									\centering
 									\includegraphics[width=\textwidth]{testingch_identity_pair.png}
-									\caption{demonstration of how identity pairs simulate a weld.}
+									\caption{Demonstration of how identity pairs simulate a weld}
 									\label{fig:identitypair}
 								\end{subfigure}
 							\caption{Surface pair comparison}
@@ -2498,7 +2499,7 @@ or else contain geometry that can concentrate stresses.
 							\begin{figure}[H]
 								\centering
 								\includegraphics[width=.90\textwidth]{AbrAkAdAbrA_teST.png}
-								\caption{Displacement.}
+								\caption{Displacement simulation}
 								\label{fig:displacement}
 							\end{figure}
 					\end{enumerate}
@@ -2525,10 +2526,10 @@ or else contain geometry that can concentrate stresses.
 				\begin{subfigure}[t]{0.45\textwidth}
 					\centering
 					\includegraphics[width=\textwidth]{testing_ch_volstress.png}
-					\caption{von-Mises Stress}
+					\caption{von-Mises stress}
 					\label{fig:stressdata}
 				\end{subfigure}
-				\caption{Stress and strain map}
+				\caption{Stress-strain map}
 				\label{fig:stressnstrain}
 			\end{figure}
 
@@ -2575,7 +2576,7 @@ or else contain geometry that can concentrate stresses.
 			recovering data from the simulation software to generate a similar figure to the
 			one above. The four lines in the figure are part of a family of lines in the
 			design space. The vertical axis is the orifice diameter normalized with the
-			orifice diameter at the maximum pressure of  \specPressure at an ambient temperature
+			orifice diameter at the maximum pressure of \specPressure at an ambient temperature
 			of \SI{0}{\degreeCelsius}.
 
 \chapter{Conclusion}
@@ -2598,7 +2599,7 @@ or else contain geometry that can concentrate stresses.
 	In summary, not all error modes could be accounted for in Chapter~\ref{chap:DFMEA},
 	leading to an optimistic estimation of the device's performance. Full verification will not be complete until Sandia revises this design, builds a physical prototype, and tests it.
 	Appendix~\ref{app:iter:customize} provides them with guidance on how to use the computational tools presented in Chapters~\ref{chap:DFMEA} and \ref{chap:test} for the revision before a physical prototype is built,
-	affording a more informed trade-off analyses between satisfaction of the Required Relationship and smaller priorities such as size, cost, and longevity.
+	affording a more informed trade-off analysis between satisfaction of the Required Relationship and smaller priorities such as size, cost, and longevity.
 
 	This first-iteration design of the \device\ demonstrates feasibility as a high-precision thermomechanical valve. Once revised, prototyped, and tested by Sandia, it can provide reliable, passive experimental flow regulation without depending on external power or computation,
 	streamlining experimental control and improving the accuracy and repeatability of their research.
@@ -2609,159 +2610,193 @@ or else contain geometry that can concentrate stresses.
 
 \begin{thebibliography}{99}
 
-	\bibitem{ref_finalDesignReport} % Report 3
-	S.\ van der Veen, M.\ Cuaycong, N.\ Metta, J.\ Pizarro, I.\ Mathew, and J.\ Bodine,
-	``Passive Temperature Compensation Device --- Final Design Report,''
-	Noble Aggie Labs, University of California, Davis, CA, Jun.\ 6, 2026 [Unpublished].
-
-	\bibitem{ref_ASHRAE_thermostatic} % Bimetallic thermostatic damper actuators
+	\bibitem{ref_ASHRAE_thermostatic}
 	R.\ McDowall, \textit{Fundamentals of HVAC Control Systems}, I-P ed.,
-	American Society of Heating, Refrigerating and Air-Conditioning Engineers, Atlanta, GA, 2009,
-	Sec.~1.2.
+	American Society of Heating, Refrigerating and Air-Conditioning Engineers,
+	Atlanta, GA, 2009, Sec.~1.2.
 
-	\bibitem{ref_Vernet_1938} % Wax thermostatic actuator (original patent)
+	\bibitem{ref_Vernet_1938}
 	S.\ Vernet, ``Thermostat,'' U.S. Patent 2\,115\,501, Apr.\ 26, 1938.
 	Available: \url{https://patents.google.com/patent/US2115501}
 	[Accessed: May 11, 2026].
 
-	\bibitem{ref_Bugby_2021} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Bugby_2021}
 	D.\ C.\ Bugby, J.\ G.\ Rivera, S.\ L.\ Mauro, and J.\ T.\ Farmer,
 	``Extended Stroke and Miniaturized Reverse-Operation DTE Thermal Switches,''
 	\textit{50th Int.\ Conf.\ on Environmental Systems}, ICES-2021-412, Jul.\ 2021.
 
-	\bibitem{ref_Ralphs_2024} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Ralphs_2024}
 	M.\ Ralphs, M.\ Sinfield, M.\ Jensen, and M.\ Felt,
-	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for Redundant Cryocooler Systems,''
-	\textit{Cryocoolers 23}, R.~G. Ross, Jr. and J.~R. Raab, Eds., International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
+	``Passive Cryogenic Thermal Switch with Tunable Close Temperature for
+	Redundant Cryocooler Systems,''
+	\textit{Cryocoolers 23}, R.\ G.\ Ross, Jr. and J.\ R.\ Raab, Eds.,
+	International Cryocooler Conference, Inc., Boulder, CO, 2024, pp.~389--394.
 
-	\bibitem{ref_Ralphs_2026} % ALLVAR-aluminum thermal switch
+	\bibitem{ref_Ralphs_2026}
 	M.\ I.\ Ralphs, M.\ Jensen, A.\ Eames, and M.\ Sinfield,
 	``A Suite of Thermal Switches for Surviving Extreme Thermal Environments in Space,''
-	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026, doi: 10.2514/6.2026-1086.
+	\textit{AIAA SciTech 2026 Forum}, Orlando, FL, Jan.\ 2026,
+	doi: 10.2514/6.2026-1086.
 
-	\bibitem{ref_NIH} % Thickness of human hair; compared to tolerance window
-	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter, ``The Structure of People's Hair,'' \textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619.
+	\bibitem{ref_NIH}
+	F.-C.\ Yang, Y.\ Zhang, and M.\ C.\ Rheinstädter,
+	``The Structure of People's Hair,''
+	\textit{PeerJ}, vol.~2, p.~e619, Oct.\ 2014. doi: 10.7717/peerj.619.
 
-	\bibitem{ref_sandiaprompt} % SNL Project Prompt
+	\bibitem{ref_sandiaprompt}
 	B.\ Bon,
 	``Passive Temperature Compensation Device --- Project Prompt,''
 	Sandia National Laboratories, SAND2025-15446O, 2025. [Unpublished].
 
-	\bibitem{ref_NASA_specs_guide} % Systems Engineering Requirement and Specification Strategies
-	National Aeronautics and Space Administration, \textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
+	\bibitem{ref_NASA_specs_guide}
+	National Aeronautics and Space Administration,
+	\textit{NASA Systems Engineering Handbook}, NASA/SP-2016-6105 Rev2,
 	Washington, DC: NASA, 2016, Sec.~4.2.
 
-	\bibitem{ref_Nise} % Controls and Transfer Functions
-	N. S. Nise, Control Systems Engineering, 8th ed. Hoboken, NJ: Wiley, 2019.
+	\bibitem{ref_Nise}
+	N.\ S.\ Nise, \textit{Control Systems Engineering},
+	8th~ed., Hoboken, NJ: Wiley, 2019.
 
-	\bibitem{ref_Invar_1897} % Discovery of Invar 36 by Charles Édouard Guillaume, in French
-	C.-\'{E}.\ Guillaume, ``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures \'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,'' \textit{Comptes Rendus de l'Acad\'{e}mie des Sciences}, vol.~125, pp.~235--238, 1897.
+	\bibitem{ref_Invar_1897}
+	C.-\'{E}.\ Guillaume,
+	``Recherches sur les aciers au nickel. Dilatations aux temp\'{e}ratures
+	\'{e}lev\'{e}es; r\'{e}sistance \'{e}lectrique,''
+	\textit{Comptes Rendus de l'Acad\'{e}mie des Sciences},
+	vol.~125, pp.~235--238, 1897.
 
-	\bibitem{ref_Invar_1920} % Guillaume's Nobel Prize speech, in English
-	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture, Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
+	\bibitem{ref_Invar_1920}
+	C.-\'{E}.\ Guillaume, ``Invar and Elinvar,'' Nobel Lecture,
+	Nobel Prize in Physics, Stockholm, Sweden, Dec.\ 11, 1920.
 	Available: \url{https://www.nobelprize.org/prizes/physics/1920/guillaume/lecture/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_shigley} % Mechanical Design and torque required to compress belleville
-	J.~E. Shigley, C.~R. Mischke, and R.~G. Budynas, \textit{Mechanical Engineering Design},
-	8th~ed., McGraw-Hill, New York, 2006.
+	\bibitem{ref_shigley}
+	J.\ E.\ Shigley, C.\ R.\ Mischke, and R.\ G.\ Budynas,
+	\textit{Mechanical Engineering Design},
+	8th~ed., New York, NY: McGraw-Hill, 2006.
 
-	\bibitem{ref_wilton_hermetic}	% Hermetic Seal secondary source
+	\bibitem{ref_wilton_hermetic}
 	D.\ Wilton, ``Hermetic seal,'' \textit{Wordorigins.org}, Dec.\ 29, 2020.
-	[Online]. 
-	Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
+	[Online]. Available: \url{https://www.wordorigins.org/big-list-entries/hermetic-seal}
 	[Accessed: Jun.\ 2, 2026].
 
-	\bibitem{ref_gesner_1559}	% Hermetic Seal primary source
+	\bibitem{ref_gesner_1559}
 	K.\ Gesner, \textit{The Treasure of Euonymus Conteyninge the Wonderfull Hid
 	Secretes of Nature}, P.\ Morwyng, trans., London: John Daie, 1559, p.~66.
 
-	\bibitem{ref_Young_Freedman} % Hooke's Law
-	H. D. Young and R. A. Freedman, \textit{University Physics with Modern Physics}, 15th ed. Hoboken, NJ: Pearson, 2019, Eq. 6-8.
+	\bibitem{ref_Young_Freedman}
+	H.\ D.\ Young and R.\ A.\ Freedman,
+	\textit{University Physics with Modern Physics},
+	15th~ed., Hoboken, NJ: Pearson, 2019, Eq.~6-8.
 
-	\bibitem{ref_miniflex_catalog} % Bellows 2026 catalog
-	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-catalog/}
-	[Accessed: Feb. 23, 2026]
+	\bibitem{ref_miniflex_catalog}
+	Mini-Flex Corporation, \textit{2026 Metal Bellows Catalog},
+	Mini-Flex Corporation, Watervliet, NY. [Online].
+	Available: \url{https://mini-flex.com/metal-bellows-catalog/}
+	[Accessed: Feb.\ 23, 2026].
 
-	\bibitem{ref_miniflex_design} % Bellows catalog design guide
-	Mini-Flex Corporation, \textit{Metal Bellows Design Guide}, Mini-Flex Corporation, Watervliet, NY. [Online]. Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
-	[Accessed: Feb. 23, 2026].
+	\bibitem{ref_miniflex_design}
+	Mini-Flex Corporation, \textit{Metal Bellows Design Guide},
+	Mini-Flex Corporation, Watervliet, NY. [Online].
+	Available: \url{https://mini-flex.com/metal-bellows-design-guide/}
+	[Accessed: Feb.\ 23, 2026].
 
-	\bibitem{ref_TiCN_Coating} % TiCN coating properties
-	T.~Lv, T.~Luo, T.~Cheng, X.~Hu, Z.~Zhang, Z.~Tang, B.~Lin, and H.~Xiao, 
-		``Microstructure and wear behavior of invar alloy surface strengthened by {TiAl} laser alloying and {TiCN} ceramics,'' 
-		\emph{Surface and Coatings Technology}, vol. 520, p. 132977, 2026. doi: 10.1016/j.surfcoat.2025.132977.
+	\bibitem{ref_TiCN_Coating}
+	T.\ Lv, T.\ Luo, T.\ Cheng, X.\ Hu, Z.\ Zhang, Z.\ Tang, B.\ Lin, and H.\ Xiao,
+	``Microstructure and wear behavior of Invar alloy surface strengthened by
+	{TiAl} laser alloying and {TiCN} ceramics,''
+	\textit{Surface and Coatings Technology}, vol.~520, p.~132977, 2026.
+	doi: 10.1016/j.surfcoat.2025.132977.
 
-	\bibitem{ref_steen2010laser} % Laser weld guide
-	W. M. Steen and J. Mazumder, \textit{Laser Material Processing}, 4th ed., 
-	Springer, London, UK, 2010.
+	\bibitem{ref_steen2010laser}
+	W.\ M.\ Steen and J.\ Mazumder, \textit{Laser Material Processing},
+	4th~ed., London, UK: Springer, 2010.
 
 	\bibitem{ref_asme_b313}
-	American Society of Mechanical Engineers, \textit{ASME B31.3: Process Piping}, 
+	American Society of Mechanical Engineers,
+	\textit{ASME B31.3: Process Piping},
 	ASME, New York, NY, 2022.
 
-	\bibitem{ref_ashby} % E vs CTE plot
-	M.F.\ Ashby, \textit{Materials Selection in Mechanical Design},
-	5th ed., Pergamon Press, Oxford, UK, 1992, Fig~3.13.
+	\bibitem{ref_ashby}
+	M.\ F.\ Ashby, \textit{Materials Selection in Mechanical Design},
+	5th~ed., Oxford, UK: Pergamon Press, 1992, Fig.~3.13.
 
-	\bibitem{ref_NASA_specs_Al} % Al CTE as a funciton of temp, E
-		% CTE at room temp = 23.85 ppm/C
-		% E = 68.95 MPa
-	R.\ F.\ Muraca and J.\ S.\ Whittick, \textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd ed., Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
+	\bibitem{ref_NASA_specs_Al}
+	R.\ F.\ Muraca and J.\ S.\ Whittick,
+	\textit{Materials Data Handbook: Aluminum Alloy 6061}, 2nd~ed.,
+	Western Applied Research \& Development, Inc., NASA CR-123772, May 1972.
 
-	\bibitem{ref_AllvarAlloys} % ALLVAR CTE, E
-		% CTE = -30 ppm/C
-		% E = 55 GPa
-	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?}, ALLVAR Alloys, 2026. [Online]. Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
+	\bibitem{ref_AllvarAlloys}
+	ALLVAR Alloys, \textit{What is Negative Thermal Expansion?},
+	ALLVAR Alloys, 2026. [Online].
+	Available: \url{https://allvaralloys.com/negative-coefficient-of-thermal-expansion-products-applications/round-bar-and-tube/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_AllvarAlloys_gen} % ALLVAR Alloys homepage
-	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.} ALLVAR Alloys, 2026. [Online]. Available: \url{https://www.allvaralloys.com/}
+	\bibitem{ref_AllvarAlloys_gen}
+	ALLVAR Alloys, \textit{Negative Thermal Expansion. Positive Results.}\
+	ALLVAR Alloys, 2026. [Online].
+	Available: \url{https://www.allvaralloys.com/}
 	[Accessed: May 9, 2026].
 
-	\bibitem{ref_Carpenter_Inv} % Invar 36 CTE, E
-		% CTE = 1.3 ppm/C
-		% E = 141 GPa
-	Carpenter Technology Corporation, \textit{Invar 36 Datasheet}, Carpenter Technology Corporation, 2025. [Online]. Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
+	\bibitem{ref_Carpenter_Inv}
+	Carpenter Technology Corporation, \textit{Invar 36 Datasheet},
+	Carpenter Technology Corporation, 2025. [Online].
+	Available: \url{https://www.carpentertechnology.com/hubfs/7407324/Material%20Saftey%20Data%20Sheets/Invar%2036.pdf}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Carpenter_gen} % Holds the registered trademark for the name Invar 36; this is their homepage
-	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys}, Carpenter Technology Corporation, 2026. [Online]. Available: \url{https://www.carpentertechnology.com/}
+	\bibitem{ref_Carpenter_gen}
+	Carpenter Technology Corporation, \textit{Global Leader in Specialty Alloys},
+	Carpenter Technology Corporation, 2026. [Online].
+	Available: \url{https://www.carpentertechnology.com/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_ASM_Steel} % Used for CTE comparison
-		% CTE = 11.7 ppm/C
-		F. Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals}, ASM International, Materials Park, OH, 2002, Table~2.2.
+	\bibitem{ref_ASM_Steel}
+	F.\ Cverna, Ed., \textit{ASM Ready Reference: Thermal Properties of Metals},
+	ASM International, Materials Park, OH, 2002, Table~2.2.
 
-	\bibitem{ref_SpecialMetals_Inc} % Inconel CTE, E
-		% CTE = 13.2 ppm/C
-		% E = 200 GPa
-	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718}, Publication No. SMC-045, Special Metals Corporation, 2007. [Online]. Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
-	[Accessed: Apr. 17, 2026].
+	\bibitem{ref_SpecialMetals_Inc}
+	Special Metals Corporation, \textit{INCONEL\textregistered{} Alloy 718},
+	Publication No.\ SMC-045, Special Metals Corporation, 2007. [Online].
+	Available: \url{https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf}
+	[Accessed: Apr.\ 17, 2026].
 
-	\bibitem{ref_SpecialMetals_gen} % Holds the registered trademark for the name INCONEL 718; this is their homepage
-	Special Metals Corporation, \textit{High-Performance Alloy Products}, Special Metals Corporation, 2026. [Online]. Available: \url{https://www.specialmetals.com/}
+	\bibitem{ref_SpecialMetals_gen}
+	Special Metals Corporation, \textit{High-Performance Alloy Products},
+	Special Metals Corporation, 2026. [Online].
+	Available: \url{https://www.specialmetals.com/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_Inconel_1965} % Discovery of Inconel 718 by Herbert Louis Eiselstein 
-	H.~L. Eiselstein, ``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,'' in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
-	ASTM Special Technical Publication 369, American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
+	\bibitem{ref_Inconel_1965}
+	H.\ L.\ Eiselstein,
+	``Metallurgy of a Columbium-Hardened Nickel-Chromium-Iron Alloy,''
+	in \textit{Advances in the Technology of Stainless Steel and Related Alloys},
+	ASTM Special Technical Publication 369,
+	American Society for Testing and Materials, Philadelphia, 1965, pp.~62--79.
 
-	\bibitem{ref_Inconel_1991} % Eiselstein's reflection on the discovery of Inconel 718 at a conference
-	H.~L. Eiselstein and D.~J. Tillack,``The Invention and Definition of Alloy 625,'' in \textit{Superalloys 718, 625 and Various Derivatives},
-	E.~A. Loria, Ed., The Minerals, Metals \& Materials Society, Warrendale, PA, 1991, pp.~1--14.
+	\bibitem{ref_Inconel_1991}
+	H.\ L.\ Eiselstein and D.\ J.\ Tillack,
+	``The Invention and Definition of Alloy 625,''
+	in \textit{Superalloys 718, 625 and Various Derivatives},
+	E.\ A.\ Loria, Ed., The Minerals, Metals \& Materials Society,
+	Warrendale, PA, 1991, pp.~1--14.
 
-	\bibitem{ref_NASA_Inc} % Inconel advantages
-	J.~A. Lee, \textit{Hydrogen Embrittlement}, NASA Technical Memorandum NASA/TM-2016-218602,
+	\bibitem{ref_NASA_Inc}
+	J.\ A.\ Lee, \textit{Hydrogen Embrittlement},
+	NASA Technical Memorandum NASA/TM-2016-218602,
 	NASA Marshall Space Flight Center, Huntsville, AL, 2016.
 
-	\bibitem{ref_Hibbeler} % Mechanics of Materials: thermal expansion, material spring constant
-	R. C. Hibbeler, Mechanics of Materials, 9th ed. Saddle River, NJ: Pearson, 2014.
+	\bibitem{ref_Hibbeler}
+	R.\ C.\ Hibbeler, \textit{Mechanics of Materials},
+	9th~ed., Saddle River, NJ: Pearson, 2014.
 
 	\bibitem{ref_beam}
-	A. Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,'' Phoenix Analysis \& Design Technologies (PADT), Inc., Tempe, AZ, USA, White Paper, Jun. 30, 2024. Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}. [Accessed: May 29, 2026].
+	A.\ Grishin, ``Thin-Wall Rectangular Pressure Vessels Simulation,''
+	Phoenix Analysis \& Design Technologies (PADT), Inc.,
+	Tempe, AZ, USA, White Paper, Jun.\ 30, 2024. [Online].
+	Available: \url{https://www.padtinc.com/wp-content/uploads/2024/06/thinwall_rectangular_pressure_vessels.pdf}
+	[Accessed: May 29, 2026].
 
-	\bibitem{ref_COMSOL} % COMSOL Multiphysics simulation software
+	\bibitem{ref_COMSOL}
 	COMSOL~AB, \textit{COMSOL Multiphysics\textregistered{} Reference Manual},
 	v.~5.3a, COMSOL~AB, Stockholm, Sweden, 2017.
 
@@ -2771,82 +2806,100 @@ or else contain geometry that can concentrate stresses.
 	Operation of Pressurized Missile and Space Systems},
 	Department of Defense, Washington, DC, 1984, Table~III.
 
-	\bibitem{ref_McMaster_belle} % belleville washer part specificaitons
-	McMaster-Carr, \textit{[316 Stainless Steel Spring Lock Washer], Part No. 93237A101}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93237A101/}
+	\bibitem{ref_McMaster_belle}
+	McMaster-Carr, \textit{316 Stainless Steel Spring Lock Washer,
+	Part No.\ 93237A101}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/93237A101/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_din6796} % Standard for belleville washer
-	Deutsches Institut f\"{u}r Normung, \textit{DIN 6796: Conical Spring Washers for Bolted Connections}, DIN, Berlin, 2009.
+	\bibitem{ref_din6796}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN 6796: Conical Spring Washers for Bolted Connections},
+	DIN, Berlin, 2009.
 
-	\bibitem{ref_dinen16983} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16983}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN EN 16983: Disc Springs---Calculation}, DIN, Berlin, 2017.
 
-	\bibitem{ref_dinen16984} % Referenced by DIN 6796
-	Deutsches Institut f\"{u}r Normung, \textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions}, DIN, Berlin, 2017.
+	\bibitem{ref_dinen16984}
+	Deutsches Institut f\"{u}r Normung,
+	\textit{DIN EN 16984: Disc Springs---Quality Specifications---Dimensions},
+	DIN, Berlin, 2017.
 
-	\bibitem{ref_almen1936} % Referenced by DIN 16983
-	Almen, J.~O. and Laszlo, A., ``The Uniform-Section Disk Spring,''
-	\textit{Transactions of the American Society of Mechanical Engineers}, vol.~58, no.~4, pp.~305--314, 1936.
+	\bibitem{ref_almen1936}
+	J.\ O.\ Almen and A.\ Laszlo,
+	``The Uniform-Section Disk Spring,''
+	\textit{Transactions of the American Society of Mechanical Engineers},
+	vol.~58, no.~4, pp.~305--314, 1936.
 
-	\bibitem{ref_Ledbetter_Stainless} % 304 and 316 Stainless Steel E, poisson at 20C
-		% 18-8 304 SS:
-			% E = 210.1 GPa
-			% ν = 0.279
-		% 316 SS:
-			% E = 207.8 GPa
-			% E = 0.282
-	Ledbetter, H.~M., ``Stainless-Steel Elastic Constants at Low Temperatures,'' \textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
+	\bibitem{ref_Ledbetter_Stainless}
+	H.\ M.\ Ledbetter,
+	``Stainless-Steel Elastic Constants at Low Temperatures,''
+	\textit{Journal of Applied Physics}, vol.~52, no.~3, pp.~1587--1589, 1981.
 
 	\bibitem{ref_jones1992}
-	L.A.\ Jones, I.W.\ Hunter, R.J.\ Irwin,
+	L.\ A.\ Jones, I.\ W.\ Hunter, and R.\ J.\ Irwin,
 	``Differential thresholds for limb movement measured using adaptive techniques,''
 	\textit{Perception \& Psychophysics}, vol.~52, no.~5, pp.~529--535, 1992.
 
 	\bibitem{ref_Cappello2015}
-	P.\ Marini, L.\ Masia, G.\ Morasso, et~al.,
+	L.\ Cappello, N.\ Elangovan, S.\ Contu, S.\ Khosravani, J.\ Konczak,
+	and L.\ Masia,
 	``Robot-aided assessment of wrist proprioception,''
-	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, 2015.
+	\textit{Frontiers in Human Neuroscience}, vol.~9, article~198, Apr.\ 2015.
+	doi: 10.3389/fnhum.2015.00198.
 
-	\bibitem{ref_SNL} % Sandia About Page
-	Sandia National Laboratories, \textit{About Sandia}, Sandia National Laboratories, 2026. [Online]. Available: \url{https://www.sandia.gov/about/}
+	\bibitem{ref_SNL}
+	Sandia National Laboratories, \textit{About Sandia},
+	Sandia National Laboratories, 2026. [Online].
+	Available: \url{https://www.sandia.gov/about/}
 	[Accessed: May 30, 2026].
 
-	\bibitem{ref_haas} % HAAS tolerance for drawings
-	Haas Automation, Inc., ``VF-2: 40-Taper Standard Vertical Mill Specifications,'' \textit{Haas Automation}. [Online]. Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}.
+	\bibitem{ref_haas}
+	Haas Automation, Inc.,
+	``VF-2: 40-Taper Standard Vertical Mill Specifications,''
+	\textit{Haas Automation}. [Online].
+	Available: \url{https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html}
 	[Accessed: May 16, 2026].
 
-	\bibitem{ref_Jensen} % Numerical Methods and Taylor Series
-	N. Grønbech-Jensen, Introduction to Numerical Methods and Analysis.
-	[Unpublished]
+	\bibitem{ref_Jensen}
+	N.\ Grønbech-Jensen,
+	\textit{Introduction to Numerical Methods and Analysis}.
+	[Unpublished].
 
-	\bibitem{ref_Stewart} % Calculus and Taylor Series
-	J. Stewart, Single Variable Calculus: Early Transcendentals, 6th ed. Belmont, CA: Thomson Brooks/Cole, 2008, p. 736; see also p. 674
+	\bibitem{ref_Stewart}
+	J.\ Stewart, \textit{Single Variable Calculus: Early Transcendentals},
+	6th~ed., Belmont, CA: Thomson Brooks/Cole, 2008, p.~736; see also p.~674.
 
-	\bibitem{ref_Anton} % Linear Algebra and Linear Dependency
-	H. Anton and A. Kaul, \textit{Elementary Linear Algebra}, 12th ed.
-	Hoboken, NJ: Wiley, 2019, p. 228.
+	\bibitem{ref_Anton}
+	H.\ Anton and A.\ Kaul, \textit{Elementary Linear Algebra},
+	12th~ed., Hoboken, NJ: Wiley, 2019, p.~228.
 
 	\bibitem{ref_AIAG2005}
 	Automotive Industry Action Group (AIAG),
 	\textit{Statistical Process Control (SPC) Reference Manual},
-	2nd~ed., AIAG, Southfield, MI, 2005, p.~104,132.
+	2nd~ed., AIAG, Southfield, MI, 2005, pp.~104, 132.
 
 	\bibitem{ref_figliola}
 	R.\ S.\ Figliola and D.\ E.\ Beasley,
 	\textit{Theory and Design for Mechanical Measurements},
-	5th~ed., Wiley, Hoboken, NJ, 2011, Sec.~4.9.
+	5th~ed., Hoboken, NJ: Wiley, 2011, Sec.~4.9.
 
 	\bibitem{ref_white}
-		F.\ M.\ White and H.\ Xue,
-		\textit{Fluid Mechanics}, 9th~ed.,
-		McGraw-Hill Education, New York, NY, 2021.
+	F.\ M.\ White and H.\ Xue,
+	\textit{Fluid Mechanics}, 9th~ed.,
+	New York, NY: McGraw-Hill Education, 2021.
 
-	\bibitem{ref_McMaster_screw} % M2 screw part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel Pan Head Torx Screws], Part No. 90362A141}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/90362A141/}
+	\bibitem{ref_McMaster_screw}
+	McMaster-Carr, \textit{18-8 Stainless Steel Pan Head Torx Screws,
+	Part No.\ 90362A141}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/90362A141/}
 	[Accessed: May 8, 2026].
 
-	\bibitem{ref_McMaster_std} % Standard washer part specificaitons
-	McMaster-Carr, \textit{[18-8 Stainless Steel General Purpose Washer], Part No. 93475A195}, McMaster-Carr Supply Company, 2026. [Online]. Available: \url{https://www.mcmaster.com/93475A195/}
+	\bibitem{ref_McMaster_std}
+	McMaster-Carr, \textit{18-8 Stainless Steel General Purpose Washer,
+	Part No.\ 93475A195}, McMaster-Carr Supply Company, 2026. [Online].
+	Available: \url{https://www.mcmaster.com/93475A195/}
 	[Accessed: May 8, 2026].
 
 \end{thebibliography}
@@ -2893,11 +2946,11 @@ or else contain geometry that can concentrate stresses.
 			\end{equation}
 
 		Because $A_1 < 0$ and the sign of $T - T_{ref}$ changes at $T = T_{ref}$, the $A_1$ error term must be reversed for higher temperatures.
-		Combining equations \eqref{eq:error_gen} and \eqref{eq:error_particular}, we find the range allowed by the Required Relationship across the whole temperature spectrum, represented in Table~\ref{tab:RR} and Figure~\ref{fig:RR}.
+		Combining Equations \eqref{eq:error_gen} and \eqref{eq:error_particular}, we find the range allowed by the Required Relationship across the whole temperature spectrum, represented in Table~\ref{tab:RR} and Figure~\ref{fig:RR}.
 
 		\begin{table}[H]
 			\centering
-			\caption{Required Relationship $D = A_1 (T - T_{ref}) + A_0$ for $\SI{-60}{\degreeCelsius} \leq T \leq \SI{80}{\degreeCelsius}$}
+			\caption{Required Relationship nominal and tolerance values across the design space}
 			\label{tab:RR}
 			\begin{tabular}{ccc}
 				\toprule
@@ -2997,7 +3050,7 @@ or else contain geometry that can concentrate stresses.
 			\vspace{1em}
 			\begin{table}[H]
 				\centering
-				\caption{Belleville Washer (part 93237A101) Specifications\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}}
+				\caption{Belleville washer (part 93237A101) specifications\cite{ref_McMaster_belle, ref_Ledbetter_Stainless}}
 				\label{tab:belle}
 				\begin{tabular}{lll}
 					\toprule
@@ -3135,7 +3188,7 @@ or else contain geometry that can concentrate stresses.
 
 			therefore a \SI{12.7}{\micro\meter} change in $D_{eff}$ translates to a \SI{15.9}{\micro\meter} vertical movement.
 			Calibration is performed with the M2 screw 90362A141 from McMaster (specification drawing given in Appendix~\ref{app:datasheets:McMaster}),
-			whose thread pitch equals \SI{0.4}{\frac{\milli\meter}{threads}}. Thus, a \SI{360}{\degree} turn of the screw corresponds to a \SI{0.4}{\milli\meter} change in the orifice height, meaning
+			whose thread pitch equals \SI{0.4}{\frac{\milli\meter}{thread}}. Thus, a \SI{360}{\degree} turn of the screw corresponds to a \SI{0.4}{\milli\meter} change in the orifice height, meaning
 
 			\begin{equation}
 				\left( \SI{12.7}{\micro\meter} \right) \sqrt{\frac{\pi}{2}} \frac{\SI{360}{\degree}}{\SI{400}{\micro\meter}} = \SI{14.3}{\degree}
@@ -3159,7 +3212,7 @@ or else contain geometry that can concentrate stresses.
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=.75\textwidth]{SNL_role.png}
-				\caption{Downstream Customer Diagram}
+				\caption{Downstream customer diagram}
 				\label{fig:app_SNL}
 			\end{figure}
 
@@ -3485,7 +3538,7 @@ or else contain geometry that can concentrate stresses.
 			One might observe that this system remains indeterminate without one additional equation\footnote{It is well-established in the field of Linear Algebra that a system of linear equations with more equations than unknowns is linearly dependent (one or more equations is redundant) or self-contradictory, while that with more unknowns than equations is incomplete. A determinate system of equations requires exactly as many linearly independent equations as unknowns\cite{ref_Anton}.}.
 			In fact, this system is linearly dependent and, when rearranged, contains a pair of redundant equations.
 
-			From equations $y_M$, $y_S$, and $y_0$:
+			From Equations $y_M$, $y_S$, and $y_0$:
 
 			\begin{align*}
 				F_M &= F_W \\
@@ -3493,14 +3546,14 @@ or else contain geometry that can concentrate stresses.
 				F_S &= F_A = -F_W
 			\end{align*}
 
-			From equations $y_L$ and $y_B$:
+			From Equations $y_L$ and $y_B$:
 
 			\begin{align*}
 				F_B &= F_V \\
 				F_H &= -F_B = -F_V
 			\end{align*}
 
-			Substituting these into equations $y_T$ and $y_U$:
+			Substituting these into Equations $y_T$ and $y_U$:
 
 			\begin{align*}
 				F_W &= -F_V + F_T \\
@@ -3681,7 +3734,7 @@ or else contain geometry that can concentrate stresses.
 
 			Note that the machined-length values are exact values as the position of the EDM cut is independent of any dimensional error in the valve orifice or housing outlet.
 
-			Using these constants in equations \eqref{eq:yF} and \eqref{eq:yR}, we find the height of the orifice $X$ by taking the difference between the position of the upper and lower corners of the orifice:
+			Using these constants in Equations~\eqref{eq:yF} and \eqref{eq:yR}, we find the height of the orifice $X$ by taking the difference between the position of the upper and lower corners of the orifice:
 
 				\begin{equation}
 					X = y_F - y_R
@@ -3724,7 +3777,7 @@ or else contain geometry that can concentrate stresses.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=.3\textwidth]{Rf.png}
-					\caption{Fillet Radius Dimensions}
+					\caption{Fillet radius dimensions}
 					\label{fig:Rf}
 				\end{figure}
 
@@ -3738,7 +3791,7 @@ or else contain geometry that can concentrate stresses.
 				\begin{figure}[H]
 					\centering
 					\includegraphics[width=.3\textwidth]{dl_h.png}
-					\caption{Horizontal Offset Dimensions}
+					\caption{Horizontal offset dimensions}
 					\label{fig:dl_h}
 				\end{figure}
 
@@ -3920,7 +3973,7 @@ or else contain geometry that can concentrate stresses.
 
 				\end{axis}
 				\end{tikzpicture}%
-				\caption{Transfer Function Output}
+				\caption{Transfer Function output range}
 				\label{fig:TF_res}
 			\end{figure}
 
@@ -4048,7 +4101,7 @@ or else contain geometry that can concentrate stresses.
 
 					\end{axis}
 					\end{tikzpicture}
-					\caption{Stochastic Error Distribution}
+					\caption{Stochastic error distribution}
 					\label{fig:error_dist}
 			\end{figure}
 
@@ -4197,7 +4250,7 @@ or else contain geometry that can concentrate stresses.
 
 					\end{axis}
 					\end{tikzpicture}%
-					\caption{Transfer Function Output After Calibration}
+					\caption{Transfer Function output range after calibration}
 					\label{fig:TF_cal}
 			\end{figure}
 
@@ -4217,7 +4270,6 @@ or else contain geometry that can concentrate stresses.
 		Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
 		due to time and resource constraints. These modes were not considered priorities for the manufacturing 
 		of low-fidelity prototypes, whose lifetime is unimportant. As the device reaches later phases of testing, life cycle analysis will become necessary.
-		Below is the comprehensive table of design failure modes with priority modes highlighted.
 
 		\newpage
 		\includepdf[pages=1, landscape=true, fitpaper=true]{DFMEA.pdf}
@@ -4318,7 +4370,7 @@ or else contain geometry that can concentrate stresses.
 
 				The slope of system output, set to the constant $A_1$ in this design, is defined by the critical actuator dimensions as derived in Section~\ref{subsubsec:design:just:TF:act}.
 				Assuming a given gap between the base of the actuator and the upper surface of the housing and a given belleville washer compression
-				(\SI{5}{\milli\meter} and \SI{50}{\micro\meter} in this design, respectively), the necessary lengths of the Actuator and Mount can be calculated as in equations~\eqref{eq:L_act} and \eqref{eq:L_mount},
+				(\SI{5}{\milli\meter} and \SI{50}{\micro\meter} in this design, respectively), the necessary lengths of the Actuator and Mount can be calculated as in Equations~\eqref{eq:L_act} and \eqref{eq:L_mount},
 				where $\frac{\Delta L}{\Delta T}$ (\SI{1.91}{\micro\meter\per\degreeCelsius} in this report) is set as desired:
 
 				\begin{align*}
@@ -4357,14 +4409,14 @@ or else contain geometry that can concentrate stresses.
 	\begin{figure}[H]
 		\centering
 		\includegraphics[height = .4\textheight]{valve_ID.png}
-		\caption{Valve Part IDs}
+		\caption{Valve subsystem part IDs}
 		\label{fig:valve_ID_app}
 	\end{figure}
 	
 	\begin{figure}[H]
 		\centering
 		\includegraphics[height = .4\textheight]{Act_ID.png}
-		\caption{Actuator Part IDs}
+		\caption{Actuator subsystem part IDs}
 		\label{fig:act_ID_app}
 	\end{figure}
 
@@ -4539,7 +4591,7 @@ or else contain geometry that can concentrate stresses.
 
 	\begin{table}[H]
 		\centering
-		\caption{PTCD Bill of Materials Summary}
+		\caption{PTCD Bill of Materials summary}
 		\label{tab:mfg_parts}
 		\small
 		\begin{tabularx}{\textwidth}{llllX}
@@ -5041,7 +5093,7 @@ or else contain geometry that can concentrate stresses.
 					standard flat washer (93475A195) and mount.
 					Slide the belleville washer (93237A101) onto the screw,
 					conical side facing toward the mount top when righted.
-		\item Invert the housing-actuator assembly. Carefully insert the actuator into the
+		\item Invert the housing-actuator assembly. Carefully insert the actuator into
 					the mount until it hits the screw. Thread the screw into the actuator until the mount
 					can sit flush against the housing and the belleville washer is slightly compressed.
 		\item Right the assembly and EBW the mount to the housing.
@@ -5164,10 +5216,9 @@ or else contain geometry that can concentrate stresses.
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=.75\textwidth]{user_cut.png}
-		\caption{PTCD cross-section schematic.}
+		\caption{PTCD cross-section schematic}
 		\label{fig:ug_crosssection}
 	\end{figure}
-.
 
 	\textbf{How it works:} Rising ambient temperature causes the actuator to push the valve stem downward, reducing the orifice overlap and restricting flow. Falling temperature pulls the stem back up, opening the orifice. The device requires no power and makes no adjustments on its own --- it simply follows temperature.
 	Refer to Figure~\ref{fig:ug_overview} and \ref{fig:ug_crosssection}.
@@ -5198,14 +5249,14 @@ or else contain geometry that can concentrate stresses.
 	\begin{warningbox}
 	\textbf{\textcolor{warnred}{WARNING --- Sealing Requirements}}
 
-	Standard PTFE tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
+	Standard polytetrafluoroethylene (PTFE) tape is \emph{not} rated for hydrogen service at pressures above approximately \SI{20}{\mega\pascal}. \textbf{Select a sealing method rated for the full operating pressure and verified compatible with your gas.} Consult ASME~B31.3 and your facility's safety officer before making connections.
 	\end{warningbox}
 
 	\subsection{Mounting}
 	\label{sec:mounting}
 	\textbf{NOTE:} The actuator responds to the temperature of the air surrounding it. Anything that heats or cools the actuator other than the ambient air will introduce error in the orifice diameter.
 
-Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilting the device introduces an unintended gravitational load on the valve stem. Do not mount on a surface that is independently heated or cooled. Keep at least \SI{15}{\centi\meter} of free air clearance around the actuator on all sides, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurized.
+	Mount the PTCD on a rigid, level surface. Do not mount on a surface that is independently heated or cooled. Keep at least \SI{15}{\centi\meter} of free air clearance around the actuator on all sides, and make sure no cables, clamps, or insulation contact it. Secure the device firmly enough that it will not move under pipe reaction loads once the system is pressurized.
 
 	\subsection{Ambient Air Conditions}
 
@@ -5341,7 +5392,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=.75\textwidth]{cal.png}
-		\caption{System Calibration with a belleville washer, repeated}
+		\caption{System calibration with a belleville washer}
 		\label{fig:ug_calib}
 	\end{figure}
 
@@ -5419,7 +5470,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 			|- (loop-target);
 
 		\end{tikzpicture}
-		\caption{PTCD concept of operations.}
+		\caption{PTCD concept of operations}
 		\label{fig:ug_conops}
 	\end{figure}
 
@@ -5519,7 +5570,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		
 		\begin{table}[H]
 			\centering
-			\caption{Material Properties}
+			\caption{Material properties}
 			\renewcommand{\arraystretch}{1.3}
 			\begin{tabularx}{\textwidth}{
 				>{\raggedright\arraybackslash}p{0.22\textwidth}
@@ -5581,7 +5632,7 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 		\vspace{1em}
 		\begin{table}[H]
 			\centering
-			\caption{Aluminum CTE as a Function of Temperature\cite{ref_NASA_specs_Al}}
+			\caption{Aluminum CTE as a function of temperature\cite{ref_NASA_specs_Al}}
 			\label{tab:CTE_Al}
 			\begin{tabular}{cc|cc}
 				\toprule
@@ -5612,70 +5663,76 @@ Mount the PTCD on a rigid, level surface. The actuator must be vertical and tilt
 
 	\includepdf[pages=1, fitpaper=true, landscape=true]{FinalGanttChart.pdf}
 
-	Development of the \device\ was no small feat. Faced with a genuinely difficult engineering challenge, we accomplished in six months what most professionals would likely spend a year to develop.
-	We developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust.
-	Through it all, our team learned more about engineering design and project management than we ever dreamed of. This design program equipped us for industry work far better than we could have asked or imagined.
+	Development of the \device\ was no small feat. This design, a genuinely difficult engineering challenge that professionals would likely spend a year to developed, was completed in six months.
+	The team developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust,
+	and learning more about engineering design and project management than was thought possible.
 
-	Our sponsor provided us with clear, unchanging system requirements and threw us very few curveballs. We are grateful for this. However, owing to the need for iterative design improvements, our project prognosis underwent the following radical pivots throughout the design process:
+	Sandia's design requirements never changed, which prevented unnecessary waste and afforded a streamlined engineering cycle. However, owing to the need for iterative improvements, the project underwent the following major pivots:
 
 	\begin{enumerate}
-		\item Our initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure~\ref{fig:hexagon}).
-				As we further developed the model in preparation for the Preliminary Machine Architecture Report, our team determined that this complex mechanism carried too many moving parts and sources of friction and error to achieve the microscopic diameter and extreme tolerance required in our objectives.
-				We held an emergency meeting to consider our alternatives and settled on a new architecture we had not thought of before, the diamond-overlap orifice described throughout this report.
-		\item On March 11, nine days before the due date of our Preliminary Machine Architecture Report, we received approval from management at Sandia Labs for prototype funds amounting to \$2,000.        
-				With the sudden responsibility of determining whether we could manufacture the device ourselves, we quickly drew up a machining and assembly plan to ensure our model would be ready for purchase by the time we submitted the report.
-				We met with our machine shop manager the next day to ask for his input and inadvertently won a full-hour design review. Beyond valuable insight into strategies and off-campus resources for performing the more difficult machining operations
-				(i.e. the EDM cuts and electron-beam-welded assembly), he gave his input on the reliability of our current actuator-valve interface. Our current model used a double rack-and-pinion (Figure~\ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device's longest dimension.
-				Heeding his advice, after confirming with our sponsor that the Mechanical Envelope requirement could be stretched, we replaced the geared interface with a direct connection, supporting the actuator vertically with a solid-state mount (Figure~\ref{fig:trap_mount}).
-		\item Promptly after submitting the Preliminary Machine Architecture Report, our team reevaluated the mount geometry. Our initial design, an A-frame structure bolted through flanges on the housing, had been hastily designed during the previous revision.        
-				It was unnecessarily complex, difficult to machine, and long enough that its thermal expansion would counteract the thermal actuation.
-				We replaced the bolted connection with a simple cylindrical mount that would be welded to the top of the housing. We also introduced its new material, ALLVAR, which we discovered in our research while finishing the Preliminary Machine Architecture Report.
-				This yielded the final mount architecture, seen in Figure~\ref{fig:app_PTCD}.
-		\item As our team prepared to build the \device\ prototype, we found its components to far exceed our budget. After a series of compromises to reduce the cost, including substituting the ALLVAR mount for Invar 36, replacing the bellows with an inferior hermetic seal, and employing cheaper EDM and weld methods,        
-				we consulted with our sponsor, who confirmed that a physical prototype was no longer worth testing after deviating so far from the final design.
-				Thus, we pivoted to a fully computational model for our prototype testing.
-				While it may seem the physical model was a wasted effort, we produced a better design for having prepared to manufacture it ourselves.
-				The knowledge that we had to build the \device\ ourselves gave us a real sense of responsibility for the performance of our design.
-				Without it, we would likely have never changed the rack-and-pinion interface or resolved countless manufacturing and assembly issues that we later identified. 
-	\end{enumerate}            
+		\item The initial design architecture, presented in the Preliminary Design Report on February 13, involved a hexagonal orifice composed of six interlocking components, all driven by a single piston (Figure~\ref{fig:hexagon}).
+			This mechanism was quickly determined to have too many moving parts, sources of friction, and sources of error to achieve the microscopic diameter and extreme tolerance required.
+			An emergency redesign meeting was held on February 23, at which the diamond-overlap orifice was conceived and quickly decided upon as the superior architecture.
+			This fundamental shift set the team back several weeks, but it represented the team's realization that this design could not be evaluated on a human scale and that the designs thus far considered
+			could not approach the required system output tolerance, no matter how well-designed.
+		\item On March 11, nine days before the final design was to be presented in the Preliminary Machine Architecture Report, Sandia management approved disbursement of \$2,000 for the manufacture and testing of a physical prototype.        
+			The team quickly drew up a machining and assembly plan to ensure the model would be ready for purchase by the submission deadline.
+			They consulted the campus machine shop manager the following day regarding strategies for the manufacture of such small, precise parts. He provided such valuable insight into strategies and off-campus resources for performing the more difficult machining operations
+			(i.e. the Electric-Discharge Machining cuts and Electron-Beam-Welded assembly).
+			He provided further input on the reliability of the current design. The current model used a double rack-and-pinion (Figure~\ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device's longest dimension and enabling full satisfaction of Requirement~\specref{R.2}.
+			He expressed concerns that the complex mechanical interface would allow no greater precision than the hexagonal orifice, even if manufactured with precision watchmaking components.
+			The team judged that a trade-off must be made between Requirements~\specref{R.1} and \specref{R.2}.
+			After confirmation of this priority shift with Sandia, the requirement obligation keywords (Section~\ref{sec:intro:req}) were adjusted in compliance with NASA's Systems Engineering Handbook\cite[p.~54]{ref_NASA_specs_guide}, which states that
+			``[T]he team must not rely solely on the requirements received to design and build the system. Communication and iteration with the relevant stakeholders are essential to ensure a mutual understanding of each requirement.''
+			The geared interface was replaced with a direct connection, supporting the actuator vertically with a rigid mount (Figure~\ref{fig:trap_mount}).
+		\item The rigid mount was hastily designed and had to be revised promptly after submission of Preliminary Machine Architecture Report before the \device\ could be manufactured.
+			Its initial design, an A-frame structure bolted through flanges on the housing, was unnecessarily complex, difficult to machine, and thermally unstable.
+			A simple cylindrical mount (Figure~\ref{fig:app_PTCD}) was devised and its material was replaced with ALLVAR, which had only been recently discovered in the team's research.
+		\item As preparations were made to manufacture the prototype, its cost quickly exceeded the provided budget.
+			After a series of compromises to reduce the cost, substituting the expensive ALLVAR mount, Invar housing, and bellows with different materials and architectures,        
+			Sandia confirmed that the reduced prototype was no longer worth testing.
+			The team pivoted to a fully computational model for verification and risk analysis.
+			While it may seem this double reversal would have set the project back even further, it motivated necessary changes as the team thought through prototype development from different angles
+			and obtained valuable insight from the machine shop manager. 
+	\end{enumerate}
+	
+	Despite its difficulties, development of the \device\ was successful, educational, and invaluable training for every member of the team.
+	The project provided its members with their first exposure to real engineering design and equipped them for professional engineering practice better than any individual course could have.
+	It will be regarded as the high point in their academic careers.
 
-\begin{figure}[H]
-	\centering
-	\begin{minipage}[t]{0.45\textwidth}
+	\begin{figure}[H]
 		\centering
-		\includegraphics[width=\textwidth]{Hexagon.png}
-		\captionof{figure}{Hexagonal Diaphragm}
-		\label{fig:hexagon}
-	\end{minipage}    
-	\hfill
-	\begin{minipage}[t]{0.45\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Gears.png}
-		\captionof{figure}{Rack-and-Pinion Interface}
-		\label{fig:gears}
-	\end{minipage}    
+		\begin{minipage}[t]{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Hexagon.png}
+			\captionof{figure}{Hexagonal diaphragm}
+			\label{fig:hexagon}
+		\end{minipage}    
+		\hfill
+		\begin{minipage}[t]{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Gears.png}
+			\captionof{figure}{Rack-and-pinion interface}
+			\label{fig:gears}
+		\end{minipage}    
 
-	\vspace{1em}
+		\vspace{1em}
 
-	\begin{minipage}[t]{0.45\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Mount_trapz.png}
-		\captionof{figure}{Direct Mount, first iteration}
-		\label{fig:trap_mount}
-	\end{minipage}    
-	\hfill
-	\begin{minipage}[t]{0.45\textwidth}
-		\centering
-		% \includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
-		\includegraphics[width=\textwidth]{PTCD.png}
-		\captionof{figure}{Cylindrical ALLVAR Mount}
-		\label{fig:app_PTCD}
-	\end{minipage}    
-\end{figure}    
-
-	\newpage
-	Despite the difficulties in developing a reliable solution for this complex technical challenge, our Senior Design Project was well worth the endeavor.
-	Our first exposure to real engineering design, this project will be remembered as the high point in our academic journey.
+		\begin{minipage}[t]{0.45\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{Mount_trapz.png}
+			\captionof{figure}{Direct mount, first iteration}
+			\label{fig:trap_mount}
+		\end{minipage}    
+		\hfill
+		\begin{minipage}[t]{0.45\textwidth}
+			\centering
+			% \includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
+			\includegraphics[width=\textwidth]{PTCD.png}
+			\captionof{figure}{Final \device\ architecture}
+			\label{fig:app_PTCD}
+		\end{minipage}    
+	\end{figure}    
 
 	\newpage
 
