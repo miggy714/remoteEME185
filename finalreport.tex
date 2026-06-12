@@ -463,7 +463,7 @@
 	
 	Sandia commissioned the Noble Aggie Labs from the University of California, Davis to design and prototype a proof-of-concept Passive Temperature Compensation Device (PTCD)
 	that thermomechanically adjusts gas flow according to the ambient air temperature.
-	Engineered to contain and restrict hydrogen or a noble gas up to 700 times atmospheric pressure,
+	Engineered to contain and restrict hydrogen or a noble gas at up to 700 times atmospheric pressure,
 	the PTCD maintains a pin-sized orifice with microscopic precision. 
 	It does so with a novel square-orifice valve architecture that is driven by an external, bimetallic actuator.
 
@@ -484,7 +484,7 @@
 		\label{subsec:intro:motive:background}
 
 			National security presents ceaseless challenges.
-			Engineers must deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
+			Engineers must continually deliver advanced solutions to meet the ever-increasing demand for high-performance technology.
 			Sandia National Laboratories, a United States security and energy research facility in Albuquerque, NM, executes this mission.
 			Their development of cutting-edge defense technology and scientific research protects American citizens and sojourners alike against sophisticated threats
 			and pioneers advancements in energy efficiency and sustainability.
@@ -497,29 +497,29 @@
 			Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
 			Electrically-powered valves accomplish this well.
 			However, lab technicians often cannot actively control flow in these experiments due to power, personnel, or space constraints.
-			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with surgical precision.
-			Passive temperature-compensating devices exist on the current market, but none approach the size or performance characteristics needed.
+			They would require a fully passive thermomechanical valve, one that could control the flow of high-pressure gas across a wide temperature range with high precision.
+			Passive temperature-compensating devices exist on the market, but none approach the size or performance characteristics needed.
 			Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 			These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
 			and are designed for low-pressure, loose-tolerance applications.
 			Thermal louvers and thermostatic bypass valves\cite{ref_Bugby_2021, ref_Ralphs_2024, ref_Ralphs_2026} passively regulate delicate satellite equipment at the size and precision Sandia requires
 			but switch on and off to compensate for the binary thermal extremes of space rather than delivering a continuous output.
-			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to its conditions would prove a novel and challenging exercise.
+			Therefore, despite this design foundation, a passive, precise valve that continuously manipulates fluid flow without responding to the fluid's conditions would prove a novel and challenging exercise.
 
-			\subsection{Objectives}
-			\label{subsec:intro:motive:objectives}
+		\subsection{Objectives}
+		\label{subsec:intro:motive:objectives}
 
-				Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
-				to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that precisely controls a submillimeter orifice in response to a wide ambient temperature range
-				while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
-				Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
-				which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
+			Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
+			to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that precisely controls a submillimeter orifice in response to a wide ambient temperature range
+			while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
+			Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
+			which presents a fully-functional computational prototype of the PTCD that accomplishes the following objectives:
 
-				\begin{itemize}
-					\item Restrict the provided flow of gas, at a pressure of up to \SI{69}{\mega\pascal} (690 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
-					\item Adjust the orifice size in response to the ambient external temperature without external power, input, or regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}.}.
-					\item Do so without depending on external power, using active control, or exceeding a volume of $(\SI{10}{\centi\meter})^3$.
-				\end{itemize}
+			\begin{itemize}
+				\item Restrict the provided flow of gas, at a pressure of up to \SI{69}{\mega\pascal} (690 atmospheres), with an orifice smaller than the tip of a ballpoint pen.
+				\item Adjust the orifice size in response to the ambient external temperature, without regard to internal flow conditions, with an effective-diameter tolerance of up to \SI{20}{\micro\meter}\footnote{No more than the width of a human hair\cite{ref_NIH}.}.
+				\item Do so without depending on external power, using active control, or exceeding a volume of $(\SI{10}{\centi\meter})^3$.
+			\end{itemize}
 			
 		\subsection{Potential stakeholders}
 		\label{subsec:intro:motive:stakeholders}
