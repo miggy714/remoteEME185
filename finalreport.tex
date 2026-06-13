@@ -509,7 +509,7 @@
 		\subsection{Objectives}
 		\label{subsec:intro:motive:objectives}
 
-			Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') employed the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
+			Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') commissioned the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
 			to develop a high-pressure, hydrogen-compatible, Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that precisely controls a submillimeter orifice in response to a wide ambient temperature range
 			while remaining agnostic to its internal flow conditions and that can be easily integrated into existing experiments.
 			Engineers at SNL quantified exact system requirements according to their needs and will further iterative development upon receipt of the design package outlined in this report,
@@ -1951,23 +1951,29 @@
 		
 		\vspace{1em}
 		\begin{table}[h]
-				\centering
-				\caption{Prioritized failure modes with RPN $>$ 100}
-				\label{tab:RPN_priority}
-				\footnotesize
-				\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{1.0cm} X X X X X}
-						\toprule
-						\textbf{Comp.\ \#} & \textbf{Subsystem / Component Description} & \textbf{Component Function} & \textbf{Potential Failure Mode} & \textbf{Potential Effect of Failure} & \textbf{Potential Cause of Failure} \\
-						\midrule
-						2b & Housing Outlet Thin Wall & Supports valve orifice & Deformation & Loss of function, inaccurate test results & Pressure differential forces orifice into wall \\[4pt]
-						2c & Housing Outlet Channel & Restricted diam channel from orifice & Deformation & Decreased function, small damage & Large pressure differential \\[4pt]
-						2d & Housing Center Weld & Holds valve assembly & Stress failure & Damage to internals, loss of function & Stress concentrations \\[4pt]
-						4  & Actuator Radial Weld & Fixes and seals actuator & Stress failure & Decreased function, inaccurate test, small damage & Thermal cycling, induced stress at weld toe \\[4pt]
-						10 & PTCD System & Entire Device Assembly & Outside of error tolerance & Inadequate accuracy & Accumulated inaccuracy \\
-						\bottomrule
-				\end{tabularx}
+			\centering
+			\caption{Prioritized failure modes with RPN $>$ 100}
+			\label{tab:RPN_priority}
+			\footnotesize
+			\renewcommand{\arraystretch}{1.3}
+			\begin{tabularx}{\textwidth}{
+				>{\centering\arraybackslash}p{1.0cm}
+				>{\raggedright\arraybackslash}p{2.4cm}
+				>{\raggedright\arraybackslash}p{2.2cm}
+				>{\raggedright\arraybackslash}p{2.0cm}
+				>{\raggedright\arraybackslash}p{3.5cm}
+				>{\raggedright\arraybackslash}X}
+				\toprule
+				\textbf{Comp.\ \#} & \textbf{Subsystem / Component Description} & \textbf{Component Function} & \textbf{Potential Failure Mode} & \textbf{Potential Effect of Failure} & \textbf{Potential Cause of Failure} \\
+				\midrule
+				2b & Housing Outlet Thin Wall & Supports valve orifice & Deformation & Loss of function, inaccurate test results & Pressure differential forces orifice into wall \\[4pt]
+				2c & Housing Outlet Channel & Restricted diam channel from orifice & Deformation & Decreased function, small damage & Large pressure differential \\[4pt]
+				2d & Housing Center Weld & Holds valve assembly & Stress failure & Damage to internals, loss of function & Stress concentrations \\[4pt]
+				4  & Actuator Radial Weld & Fixes and seals actuator & Stress failure & Decreased function, inaccurate test, small damage & Thermal cycling, induced stress at weld toe \\[4pt]
+				10 & PTCD System & Entire Device Assembly & Outside of error tolerance & Inadequate accuracy & Accumulated inaccuracy \\
+				\bottomrule
+			\end{tabularx}
 		\end{table}
-		\todo{Clean this up a little}
 
 		Failure is defined as the inability of the device to meet its specifications.
 		For the \device, this includes plastic\footnote{i.e. Irreparable.} deformation, fracture, rupture, or simple exceedance of the system output tolerance.
