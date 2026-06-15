@@ -618,18 +618,25 @@
 
 
 		\subsection{Design space}
-
-			\begin{figure}[H]
-				\centering
-				\includegraphics[width=.90\textwidth]{testingch_designspace2.png}
-				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$. Where $T_{\text{fluid}}=T_{\text{ambient}} + 20$}
-				\label{fig:designspace}
-			\end{figure}
 			The effective diameter of the orifice is ultimately a function of both temperature and pressure: $D_{\text{eff}}(T,p)$. 
 			Fig \ref{fig:designspace} summarizes the reaction of $D_{\text{eff}}(T,p)$ as its parameters are swept across selected pressure, and temperature values simulated on the computational prototype.
 			Five pressure values ranging from 100 psi to 10 ksi with exponential increments of 0.5 produces up the family of curves. 
 			The vertical axis is the orifice diameter normalized at its dimensions at the maximum pressure of \specPressure\ at an ambient temperature of \SI{0}{\degreeCelsius}.
-			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; $\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
+			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; 
+			$\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
+
+
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.90\textwidth]{testingch_designspace2.png}
+				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$. Where $T_{\text{fluid}}=T_{\text{ambient}} + 20$. 
+				\textbf{NOTE: These results are heavily influenced by an incorrect union at the orifice making $D_{\text{eff}}(T,p)$ more resistant to changes in T and p; The incorrect union could not be fixed on time for the submission of this report.}}
+				\label{fig:designspace}
+			\end{figure}
+
+
+			
+
 
 \chapter{Conclusion}
 \label{chap:concl}
