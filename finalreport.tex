@@ -4281,12 +4281,12 @@ or else contain geometry that can concentrate stresses.
 %		\includepdf[pages=1, landscape=true, fitpaper=true]{DFMEA_table_all.pdf}
 
 
-\begin{figure}[]
-				\centering
-				\includegraphics[width=1\textwidth]{DFMEA_table_all_modes.png}
-				\caption{Comprehensive list of failure modes}
-				\label{fig:CompFail}
-			\end{figure}
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1\textwidth]{DFMEA_table_all_modes.png}
+			\caption{Comprehensive list of failure modes}
+			\label{fig:CompFail}
+		\end{figure}
 
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
@@ -4330,6 +4330,12 @@ or else contain geometry that can concentrate stresses.
 			\item Certain dimensions were chosen arbitrarily and over-engineered, leading to excessive safety factors in some places. These values can now be amended to minimize the device's structural margin
 				to an industry-standard value, typically 1.5\cite{ref_sf}. These include the thickness of the Mount's upper surface, the height of the Valve Orifice, the contact length of each housing thread,
 				the size and thickness of each orifice square, and wall thicknesses around the housing.
+			\item When modeling the Computational Prototype in Chapter~\ref{chap:test}, the bellows and their surrounding housing surfaces were not modeled as wetted. For simplicity, wetted surfaces
+				were limited to hose in the Housing Inlet and Outlet and the interior of the Valve Orifice as depicted in Figure~\ref{fig:fluidvolume}. To allow this, the Valve Orifice was modeled
+				as being fused to the housing, which will change the deformation values given in Figure~\ref{fig:designspace}. This should be modeled with all wetted surfaces, including the rectangular
+				housing cavity, as truly wetted, allowing the Valve Orifce to slide freely.
+			\item Similarly, the heat-transfer analysis presented in Figures~\ref{fig:}--\ref{fig:}\todo{fill in HT figures} assumes all wetted surfaces, this time including the rectangular cavity,
+				are exactly \SI{20}{\degreeCelsius} hotter than the ambient temperature, and all 
 		\end{itemize}
 
 	\section{Iteration Tools}
