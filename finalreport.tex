@@ -1918,7 +1918,7 @@
 			\subsubsection{Inconel bellows}
 			\label{subsubsec:design:just:mat:Inc}
 
-				INCONEL\textsuperscript{{\textregistered{}}}\cite{ref_SpecialMetals_Inc} Alloy 718, a Nickel superalloy used by Mini-Flex for their high-pressure bellows, outperforms any other metal on several key metrics as a hermetic seal and is ubiquitous in the aerospace industry\cite[p.~1]{ref_SpecialMetals_Inc}.
+				INCONEL\textsuperscript{{\textregistered{}}}\cite{ref_SpecialMetals_Inc} Alloy 718, a nickel superalloy used by Mini-Flex for their high-pressure bellows, outperforms any other metal on several key metrics as a hermetic seal and is ubiquitous in the aerospace industry\cite[p.~1]{ref_SpecialMetals_Inc}.
 				Special Metals Corporation\cite{ref_SpecialMetals_gen} now holds the registered trademark\footnote{
 					Inconel, like Invar, was discovered by mistake, this time by American metallurgist Herbert Louis Eiselstein for INCO in 1965\cite{ref_Inconel_1965}.
 					Curious readers will find his account of the discovery (given at a metallurgy conference in 1991) compelling\cite{ref_Inconel_1991}.}.
@@ -1931,7 +1931,7 @@
 					\item \textbf{Fatigue resistance.} Metals wear under repeated cyclic loads typical of a bellows. Inconel outlasts most metals under such conditions, reported to have ``Good tensile, fatigue, creep, and rupture strength'' by its manufacturer\cite[p.~1]{ref_SpecialMetals_Inc}.
 					\item \textbf{Hydrogen compatibility.} All gases diffuse (penetrate) through all metals imperceptibly. Hydrogen does this particularly aggressively, leading to embrittlement, the loss of a metal's ductility as its material reacts with the seeping gas.
 						Inconel, though an imperfect barrier, is especially immune to this phenomenon. Jonathan Lee, writing for NASA in 2016\cite[Table~4]{ref_NASA_Inc}, rated Inconel 718 as ``Extreme'' on the Hydrogen Environmental Embrittlement (HEE) scale at conditions up to \SI{68.9}{\mega\pascal}.
-					\item \textbf{Weldability.} Prior to the development of Inconel 718, the leading precipitation-hardened Nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for Electron Beam welds, drove the alloy's industry dominance.
+					\item \textbf{Weldability.} Prior to the development of Inconel 718, the leading precipitation-hardened nickel superalloys used in the industry all suffered from heat embrittlement, causing them to crack. Inconel, found to be particularly suitable for Electron Beam welds, drove the alloy's industry dominance.
 				\end{itemize}
 
 				See Appendix~\ref{app:datasheets:mat} for relevant material data used throughout this report.
@@ -2105,7 +2105,7 @@
     The weld joints are treated as full penetration fillet welds in this analysis, and the same assumptions made 
 		for the housing weld analysis hold for the material properties and radiographic inspection 
 		of the actuator-housing weld. The mount being made of ALLVAR has an anisotropic quality. It has a positive radial coefficient
-  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of its negative axial, 
+  	of thermal expansion that is 2 $\mu$m/m greater than the magnitude of its negative axial 
   	expansion amounting to $\alpha_{\text{ALLV-radial}}=32 \mu$m/m. The greatest change in radius to the mount $\Delta R$ occurs across the cold side of the 
   	temperature gradient using the maximum machined outer radius $R_0 = 9.0215 mm$. It is found that
 		$\Delta R = R_0 \left(\alpha_{\text{ALLV-radial}}\right) \Delta T_{\text{cold}}=0.0254mm$
@@ -2568,26 +2568,31 @@ or else contain geometry that can concentrate stresses.
 
 			This data can be used in the System Transfer Function, introduced in Section~\ref{subsec:DFMEA::tol} and detailed in Appendix~\ref{app:sat}, which evaluates the effect of the temperature of every part.
 			The average temperature from the data shown in Figure~\ref{fig:actuatortemp}, the worst-case steady-state temperature of the Mount and Actuator parts, are \SI{25.14}{\degreeCelsius} and \SI{25.27}{\degreeCelsius}, respectively.
+			This satisfies Specification~\specref{A.3.1} which, although it was informed by these results, prohibits heat transfer significant enough to violate Requirement~\specref{R.1}.
+			As is demonstrated by the System Transfer Function in Appendix~\ref{app:sat}, this new temperature does not significantly influence the final system output.
 
-			Finally, the time required to acclamate to the ambient temperature (given a maximum \SI{20}{\degreeCelsius} temperature change)
+			Finally, the time required to acclimate to the ambient temperature (given a maximum \SI{20}{\degreeCelsius} temperature change)
 			was simulated. The thermal time constant $\tau$ was approximately \SI{500}{\second} (about \SI{8}{\minute}). The actuator reached
 			\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
 			was effectively settled by approximately \SI{50}{\minute}, motivating the \SI{60}{\minute}
-			acclamation requirement provided in Appensix~\ref{app:op}.
+			acclimation requirement provided in Appendix~\ref{app:op}.
 
 		\subsection{Design space}
+			The effective diameter of the orifice is ultimately a function of both temperature and pressure: $D_{\text{eff}}(T,p)$. 
+			Figure~\ref{fig:designspace} summarizes the reaction of $D_{\text{eff}}(T,p)$ as its parameters are swept across selected pressure and temperature values simulated on the computational prototype.
+			Five pressure values ranging from 100 psi to 10 ksi with exponential increments of 0.5 produces the family of curves. 
+			The vertical axis is the orifice diameter normalized at its dimensions at the maximum pressure of \specPressure\ at an ambient temperature of \SI{0}{\degreeCelsius}.
+			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; 
+			$\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
+
 
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.90\textwidth]{testingch_designspace2.png}
-				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$. Where $T_{\text{fluid}}=T_{\text{ambient}} + 20$}
+				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$, where $T_{\text{fluid}}=T_{\text{ambient}} + 20$. 
+				\textbf{NOTE: These results are heavily influenced by an incorrect union at the orifice making $D_{\text{eff}}(T,p)$ more resistant to changes in T and p; the incorrect union could not be fixed in time for the submission of this report.}}
 				\label{fig:designspace}
 			\end{figure}
-			The effective diameter of the orifice is ultimately a function of both temperature and pressure: $D_{\text{eff}}(T,p)$. 
-			Fig \ref{fig:designspace} summarizes the reaction of $D_{\text{eff}}(T,p)$ as its parameters are swept across selected pressure, and temperature values simulated on the computational prototype.
-			Five pressure values ranging from 100 psi to 10 ksi with exponential increments of 0.5 produces up the family of curves. 
-			The vertical axis is the orifice diameter normalized at its dimensions at the maximum pressure of \specPressure\ at an ambient temperature of \SI{0}{\degreeCelsius}.
-			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; $\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -4246,9 +4251,7 @@ or else contain geometry that can concentrate stresses.
 		Specifically, the modes relating to cyclic thermal and mechanical loading were not analyzed 
 		due to time and resource constraints. These modes were not considered priorities for the manufacturing 
 		of low-fidelity prototypes, whose lifetime is unimportant. As the device reaches later phases of testing, life cycle analysis will become necessary.
-
-		\newpage
-%		\includepdf[pages=1, landscape=true, fitpaper=true]{DFMEA_table_all.pdf}
+		The following sheet details a comprehensive list of DFMEA topics that have been explored or require further computation and analysis.
 
 
 		\begin{figure}[H]
@@ -4257,6 +4260,11 @@ or else contain geometry that can concentrate stresses.
 			\caption{Comprehensive list of failure modes}
 			\label{fig:CompFail}
 		\end{figure}
+\newpage
+	 \includepdf[pages=1, fitpaper=true]{pdf/DFMEA_table_all.pdf}
+	 \todo{choose one}
+
+\newpage
 
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
@@ -4301,11 +4309,11 @@ or else contain geometry that can concentrate stresses.
 				to an industry-standard value, typically 1.5\cite{ref_sf}. These include the thickness of the Mount's upper surface, the height of the Valve Orifice, the contact length of each housing thread,
 				the size and thickness of each orifice square, and wall thicknesses around the housing.
 			\item When modeling the Computational Prototype in Chapter~\ref{chap:test}, the bellows and their surrounding housing surfaces were not modeled as wetted. For simplicity, wetted surfaces
-				were limited to hose in the Housing Inlet and Outlet and the interior of the Valve Orifice as depicted in Figure~\ref{fig:fluidvolume}. To allow this, the Valve Orifice was modeled
+				were limited to those in the Housing Inlet and Outlet and the interior of the Valve Orifice as depicted in Figure~\ref{fig:fluidvolume}. To allow this, the Valve Orifice was modeled
 				as being fused to the housing, which will change the deformation values given in Figure~\ref{fig:designspace}. This should be modeled with all wetted surfaces, including the rectangular
-				housing cavity, as truly wetted, allowing the Valve Orifce to slide freely.
+				housing cavity, as truly wetted, allowing the Valve Orifice to slide freely.
 			\item Similarly, the heat-transfer analysis presented in Figure~\ref{fig:actuatortemp} assumes all wetted surfaces, this time including the rectangular cavity,
-				are exactly \SI{20}{\degreeCelsius} hotter than the ambient temperature, and all part boundaries points exhibit no thermal contact resistance.
+				are exactly \SI{20}{\degreeCelsius} hotter than the ambient temperature, and all part boundary points exhibit no thermal contact resistance.
 				In reality, the outlet gas will be much colder and less dense due to compressible gas expansion, resulting in very little convection on that side. Additionally, contact resistance will
 				limit the heat transfer. Thus, the presented steady-state temperature of the actuator is likely worse than the true value, meaning the actuator will follow $T_{amb}$ better than predicted.
 				Nevertheless, higher-fidelity predictions can be conducted by modifying the temperature-boundary and contact-resistance parameters. 
@@ -5658,7 +5666,7 @@ or else contain geometry that can concentrate stresses.
 
 	\includepdf[pages=1, fitpaper=true, landscape=true]{FinalGanttChart.pdf}
 
-	Development of the \device\ was no small feat. This design, a genuinely difficult engineering challenge that professionals would likely spend a year to developed, was completed in six months.
+	Development of the \device\ was no small feat. This design, a genuinely difficult engineering challenge that professionals would likely spend a year to develop, was completed in six months.
 	The team developed four distinct iterated designs, each time addressing an unavoidable source of error, resolving a manufacturing conflict, or taking advantage of an unforeseen opportunity to make the device simpler and more robust,
 	and learning more about engineering design and project management than was thought possible.
 
@@ -5672,8 +5680,8 @@ or else contain geometry that can concentrate stresses.
 			could not approach the required system output tolerance, no matter how well-designed.
 		\item On March 11, nine days before the final design was to be presented in the Preliminary Machine Architecture Report, Sandia management approved disbursement of \$2,000 for the manufacture and testing of a physical prototype.        
 			The team quickly drew up a machining and assembly plan to ensure the model would be ready for purchase by the submission deadline.
-			They consulted the campus machine shop manager the following day regarding strategies for the manufacture of such small, precise parts. He provided such valuable insight into strategies and off-campus resources for performing the more difficult machining operations
-			(i.e. the Electric-Discharge Machining cuts and Electron-Beam-Welded assembly).
+			They consulted the campus machine shop manager the following day regarding strategies for the manufacture of such small, precise parts. He provided such valuable insight into off-campus resources to perform the more difficult machining operations
+			(i.e. the Electrical-Discharge Machining cuts and Electron-Beam-Welded assembly).
 			He provided further input on the reliability of the current design. The current model used a double rack-and-pinion (Figure~\ref{fig:gears}) to allow the actuator to sit on its side, saving space along the \device's longest dimension and enabling full satisfaction of Requirement~\specref{R.2}.
 			He expressed concerns that the complex mechanical interface would allow no greater precision than the hexagonal orifice, even if manufactured with precision watchmaking components.
 			The team judged that a trade-off must be made between Requirements~\specref{R.1} and \specref{R.2}.
@@ -5685,7 +5693,7 @@ or else contain geometry that can concentrate stresses.
 			A simple cylindrical mount (Figure~\ref{fig:app_PTCD}) was devised and its material was replaced with ALLVAR, which had only been recently discovered in the team's research.
 		\item As preparations were made to manufacture the prototype, its cost quickly exceeded the provided budget.
 			After a series of compromises to reduce the cost, substituting the expensive ALLVAR mount, Invar housing, and bellows with different materials and architectures,        
-			Sandia confirmed that the reduced prototype was no longer worth testing.
+			the team was advised by Sandia that the reduced prototype was no longer worth testing.
 			The team pivoted to a fully computational model for verification and risk analysis.
 			While it may seem this double reversal would have set the project back even further, it motivated necessary changes as the team thought through prototype development from different angles
 			and obtained valuable insight from the machine shop manager. 
