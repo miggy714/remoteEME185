@@ -259,7 +259,7 @@
 \newcommand{\SpecAAA}{The actuator subsystem shall passively drive the valve subsystem in response to ambient temperature at a rate of $\frac{dL}{dT} = \GA$}
 \newcommand{\SpecAAB}{The actuator subsystem shall facilitate user calibration of the device}
 \newcommand{\SpecAB}{The actuator subsystem shall not exceed a \SI{10}{\centi\meter} $\times$ \SI{5}{\centi\meter} $\times$ \SI{10}{\centi\meter} mechanical envelope}
-\newcommand{\SpecACA}{The actuator shall minimize heat transfer within the test window}
+\newcommand{\SpecACA}{The actuator shall not permit more than \SI{1}{\degreeCelsius} heat transfer during steady-state operation}
 
 % --- Figure insertion helper ---
 % This command simplifies inserting a figure with a caption and label.
@@ -2251,8 +2251,8 @@ or else contain geometry that can concentrate stresses.
 		The function evaluates heat transfer, varies the machined length of all critical dimensions according to a normalized tolerance distribution, computes the thermal expansion of each part,
 		resolves the resulting spring force balance driven by the bellows, sums the resulting part lengths to obtain the position of each orifice square, and converts their difference to the final output diameter. 
 		The results are plotted and interpreted in detail in Appendix~\ref{app:sat:TF:results}. To account for variable sources of error, the Transfer Function takes a large number of samples and
-		produces a normalized distribution. It estimates that 90.6\% of all devices machined will produce an output within tolerance for all temperatures.
-		It calculates the effect of calibration, which will only be needed for the remaining 9.4\%, and confirms that these will also meet their requirement if the calibration precision
+		produces a normalized distribution. It estimates that 83.2\% of all devices machined will produce an output within tolerance for all temperatures.
+		It calculates the effect of calibration, which will only be needed for the remaining 16.8\%, and confirms that these will also meet their requirement if the calibration precision
 		specified in Appendix~\ref{app:calcs:cal:sat} (a \SI{14.3}{\degree} rotation of the calibration screw) is met or exceeded.
 		The \device, despite several significant sources of error, meets and exceeds a strict passive output requirement across a wide temperature range. This estimation is optimistic and cannot account for
 		some sources of error, such as binding friction, weld precision, and the effect of the calibration stack on thermal expansion. As laid out in Chapter~\ref{chap:concl}, these should be more carefully
@@ -2550,40 +2550,44 @@ or else contain geometry that can concentrate stresses.
 	\section{Other relevant results/Discussion}
 
 		\subsection{Heat Transfer}
+		\label{subsec:test:other:HT}
 
-			The stationary parametric sweep converged across the full \SI{-60}{\celsius} to
-			\SI{80}{\celsius} operating range and reproduced the analytical stroke model.
-			The two FEA anchor points at $\Delta T = \SI{5}{\degreeCelsius}$ and
-			$\Delta T = \SI{10}{\degreeCelsius}$ returned actuator displacements of
-			\SI{5.58}{\micro\meter} and \SI{11.14}{\micro\meter}, establishing a slope of
-			\SI{1.115}{\micro\meter\per\degreeCelsius} and matching the analytical prediction
-			within \SI{0.2}{\percent}.
+			Specification~\specref{A.3.1} stipulates that heat transfer be minimized between the internal gas, which can be up to \SI{20}{\degreeCelsius} hotter than $T_{amb}$, and the actuator subsystem,
+			which must follow the ambient temperature as close as possible.
+			Heat transfer analysis was simulated by setting all internal wetted surfaces to a constant temperature of \SI{45}{\degreeCelsius} and all external wetted surfaces to a constant \SI{25}{\degreeCelsius}.
+			The resulting steady-state temperature was evaluated using appropriate convection coefficients for internal forced convection and external free convection,
+			yielding the position-depending temperature for the Mount and the Actuator shown in Figure~\ref{fig:actuatortemp}. While three-dimensional data could not be readily extracted,
+			the following data points representing the expected steady-state temperature as a function of vertical position can be easily averaged to find the effective temperature of the actuator subsystem.
 
-			The time-dependent study, run for a representative \SI{20}{\degreeCelsius} ambient
-			step, produced a clean first-order exponential response at the monitored
-			actuator point, rising from \SI{25}{\celsius} toward a steady-state plateau of
-			approximately \SI{44.8}{\celsius}. The thermal time
-			constant was $\tau \approx \SI{500}{\second}$ (about \SI{8}{\minute}), read as
-			the time to reach \SI{63}{\percent} of the final rise. The actuator reached
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=.90\textwidth]{testingch_tempactuator.png}
+				\caption{Average temperature of the actuator subsystem as a function of vertical position where $T_{\text{ambient}}$ is \SI{25}{\degreeCelsius} and $T_{\text{fluid}}$ at \SI{45}{\degreeCelsius}}
+				\label{fig:actuatortemp}
+			\end{figure}
+
+			This data can be used in the System Transfer Function, introduced in Section~\ref{subsec:DFMEA::tol} and detailed in Appendix~\ref{app:sat}, which evaluates the effect of the temperature of every part.
+			The average temperature from the data shown in Figure~\ref{fig:actuatortemp}, the worst-case steady-state temperature of the Mount and Actuator parts, are \SI{25.14}{\degreeCelsius} and \SI{25.27}{\degreeCelsius}, respectively.
+
+			Finally, the time required to acclamate to the ambient temperature (given a maximum \SI{20}{\degreeCelsius} temperature change)
+			was simulated. The thermal time constant $\tau$ was approximately \SI{500}{\second} (about \SI{8}{\minute}). The actuator reached
 			\SI{95}{\percent} of its final temperature in approximately \SI{25}{\minute} and
-			was effectively settled by approximately \SI{50}{\minute}. The single-exponential
-			character confirms the device behaves as one dominant thermal mass over this
-			step, with no oscillatory or multi-rate dynamics in the relevant range.
+			was effectively settled by approximately \SI{50}{\minute}, motivating the \SI{60}{\minute}
+			acclamation requirement provided in Appensix~\ref{app:op}.
 
 		\subsection{Design space}
 
 			\begin{figure}[H]
 				\centering
-				\includegraphics[width=.90\textwidth]{testingch_designspace.png}
-				\caption{Example of a plot that encompasses the entire design space}
+				\includegraphics[width=.90\textwidth]{testingch_designspace2.png}
+				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$. Where $T_{\text{fluid}}=T_{\text{ambient}} + 20$}
 				\label{fig:designspace}
 			\end{figure}
-			The design space explored by the computational prototype can be summarized by
-			recovering data from the simulation software to generate a similar figure to the
-			one above. The four lines in the figure are part of a family of lines in the
-			design space. The vertical axis is the orifice diameter normalized with the
-			orifice diameter at the maximum pressure of \specPressure at an ambient temperature
-			of \SI{0}{\degreeCelsius}.
+			The effective diameter of the orifice is ultimately a function of both temperature and pressure: $D_{\text{eff}}(T,p)$. 
+			Fig \ref{fig:designspace} summarizes the reaction of $D_{\text{eff}}(T,p)$ as its parameters are swept across selected pressure, and temperature values simulated on the computational prototype.
+			Five pressure values ranging from 100 psi to 10 ksi with exponential increments of 0.5 produces up the family of curves. 
+			The vertical axis is the orifice diameter normalized at its dimensions at the maximum pressure of \specPressure\ at an ambient temperature of \SI{0}{\degreeCelsius}.
+			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; $\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -3154,7 +3158,7 @@ or else contain geometry that can concentrate stresses.
 		\label{app:calcs:cal:sat}
 
 			As discussed in Section~\ref{app:sat:TF:results}, this calibration stack will occasionally be necessary to correct static machine dimension errors,
-			whose expected range falls a maximum of \SI{30.7}{\micro\meter} above and \SI{44.6}{\micro\meter} below the nominal value.
+			whose expected range falls a maximum of \SI{30.4}{\micro\meter} above and \SI{44.9}{\micro\meter} below the nominal value.
 			The belleville washer's maximum deflection is equal to its free cone height
 
 			\begin{equation}
@@ -3234,39 +3238,6 @@ or else contain geometry that can concentrate stresses.
 		\subsection{Additional Testing Data}
 		\label{app:calcs:sup:test}
 
-			The table below is a direct result from the steady-state test. It shows a 0.2\% agreement with the analytical results compared to the FEA results.
-
-			\begin{table}[H]
-			\centering
-			\caption{Actuator stroke across the operating range from the isolated thermal
-			model ($\delta = 1.115\,\Delta T$). Boldface rows are the converged FEA anchor
-			points that establish the slope; all rows lie on the linear law confirmed by the
-			full converged sweep.}
-			\label{tab:stroke_full}
-			\begin{tabular}{rrr}
-			\toprule
-			$T_{env}$ (\si{\celsius}) & $\Delta T$ (\si{\degreeCelsius}) & Stroke (\si{\micro\meter}) \\
-			\midrule
-			$-60$ & $-85$ & $94.78$ \\
-			$-50$ & $-75$ & $83.62$ \\
-			$-40$ & $-65$ & $72.47$ \\
-			$-30$ & $-55$ & $61.33$ \\
-			$-20$ & $-45$ & $50.17$ \\
-			$-10$ & $-35$ & $39.02$ \\
-			$0$   & $-25$ & $27.88$ \\
-			$10$  & $-15$ & $16.73$ \\
-			$20$  & $-5$  & $5.58$  \\
-			$25$  & $0$   & $0.00$  \\
-			\textbf{30} & \textbf{5}  & \textbf{5.58}  \\
-			\textbf{35} & \textbf{10} & \textbf{11.14} \\
-			$40$ & $15$ & $16.73$ \\
-			$50$ & $25$ & $27.88$ \\
-			$60$ & $35$ & $39.02$ \\
-			$70$ & $45$ & $50.17$ \\
-			$80$ & $55$ & $61.33$ \\
-			\bottomrule
-			\end{tabular}
-			\end{table}
 
 
 \chapter{Required Relationship Failure Analysis}
@@ -3419,9 +3390,8 @@ or else contain geometry that can concentrate stresses.
 		\label{app:sat:TF:dT}
 
 			The very top row evaluates the final effective temperature of each part assuming a worst-case thermal gradient driven by a \SI{20}{\degreeCelsius} temperature difference between the internal gas
-			and the ambient temperature. The temperature of every wetted part is set to the gas temperature. The actuator and mount temperatures are assumed to follow $T_{amb}$ exactly, but the tools for a more complex
-			heat transfer analysis between the subsystems were developed in Chapter~\ref{chap:test}, providing a starting ground to determine the final steady-state temperature of the actuator.
-			The results presented in this Appendix, however, do not properly reflect this heat transfer and simply show the output of the \device\ for gas that follows the ambient temperature.
+			and the ambient temperature. The temperature of every wetted part is set to the gas temperature. The steady-state temperature of each part in the valve subsystem is assumed to match the gas temperature
+			$(T_{amb} + \SI{20}{\degreeCelsius})$; those of the mount and actuator are simulated and presented in Section~\ref{subsec:test:other:HT} and found to be \SI{0.14}{\degreeCelsius} and \SI{0.27}{\degreeCelsius} higher than $T_{amb}$, respectively.
 		
 		\subsection{Thermal Expansion}
 		\label{app:sat:TF:G_therm}
@@ -3847,10 +3817,10 @@ or else contain geometry that can concentrate stresses.
 			Each stochastic machining error follows a normal distribution, where its tolerable range holds approximately six standard deviations $(6 \sigma)$ for a typical Computer-Numerical Control (CNC) machine\cite{ref_AIAG2005}.
 			Producing a normalized distribution expectation plot via Monte Carlo analysis\cite{ref_figliola},
 			which evaluates $10^6$ samples, each with a different random combination of stochastic inputs and finds the resulting error distribution,
-			the function demonstrated that 90.6\% of devices are expected to achieve the Required Relationship without needing calibration.
-			It output the normalized distribution in Figure~\ref{fig:error_dist}, with a mean of -45.2\% and a standard deviation of 41.5\%, measured as a percentage of the tolerance window at $T_{ref}$ (where the tolerance is narrowest).
+			the function demonstrated that 83.2\% of devices are expected to achieve the Required Relationship without needing calibration.
+			It output the normalized distribution in Figure~\ref{fig:error_dist}, with a mean of -52.6\% and a standard deviation of 49.1\%, measured as a percentage of the tolerance window at $T_{ref}$ (where the tolerance is narrowest).
 			On average, a freshly-assembled device will produce an orifice that is smaller than nominal by half its tolerance window.
-			Those that fall outside of tolerance do not exceed their boundary by more than \SI{44.6}{\micro\meter}.
+			Those that fall outside of tolerance do not exceed their boundary by more than \SI{44.9}{\micro\meter}.
 			These can be remedied using the calibration stack, whose range is sufficient to correct the maximum errors anticipated by the Transfer Function.
 
 			\begin{figure}[h]
@@ -4100,7 +4070,7 @@ or else contain geometry that can concentrate stresses.
 					%% --- Percentage compliance ----------------------------
 					\node[font=\small, align=center]
 							at (axis cs: -45.1746, 0.003)
-							{\textit{90.6\%}};
+							{\textit{83.2\%}};
 					\node[font=\small, align=center]
 							at (axis cs: -45.1746, 0.0023)
 							{\textit{compliance}};
@@ -4112,7 +4082,7 @@ or else contain geometry that can concentrate stresses.
 			\end{figure}
 
 			As detailed in Appendix~\ref{app:mfg}, calibration will be performed at approximately $T_{ref}$.
-			The maximum expected error at this temperature, as calculated by the Transfer Function, is \SI{30.7}{\micro\meter} and \SI{44.6}{\micro\meter} above and below the nominal reference diameter of
+			The maximum expected error at this temperature, as calculated by the Transfer Function, is \SI{30.4}{\micro\meter} and \SI{44.9}{\micro\meter} above and below the nominal reference diameter of
 
 			\begin{equation}
 				\Dref
@@ -4260,7 +4230,7 @@ or else contain geometry that can concentrate stresses.
 					\label{fig:TF_cal}
 			\end{figure}
 
-			The Transfer Function accomplishes two objectives. First, it demonstrates the viability of the \device\ despite its strict output requirement. 90\% of manufactured devices are expected to meet their
+			The Transfer Function accomplishes two objectives. First, it demonstrates the viability of the \device\ despite its strict output requirement. 83\% of manufactured devices are expected to meet their
 			tolerance window; those that do not can be readily calibrated. As is addressed in Section~\ref{subsec:DFMEA::tol} and Chapter~\ref{chap:concl}, this computation does not account for all sources of error and therefore presents an optimistic
 			expectation value for the system performance. However, it verifies that the major anticipated errors have been mitigated to a tolerable amount by the design strategies illustrated in Section~\ref{sec:design:just}.
 			Second, it provides a ready tool for further iteration. Appendix~\ref{app:iter:customize} provides guidance to use this Transfer Function and its associated software to more quickly evaluate the impact of design changes and improvements.
@@ -4334,8 +4304,11 @@ or else contain geometry that can concentrate stresses.
 				were limited to hose in the Housing Inlet and Outlet and the interior of the Valve Orifice as depicted in Figure~\ref{fig:fluidvolume}. To allow this, the Valve Orifice was modeled
 				as being fused to the housing, which will change the deformation values given in Figure~\ref{fig:designspace}. This should be modeled with all wetted surfaces, including the rectangular
 				housing cavity, as truly wetted, allowing the Valve Orifce to slide freely.
-			\item Similarly, the heat-transfer analysis presented in Figures~\ref{fig:}--\ref{fig:}\todo{fill in HT figures} assumes all wetted surfaces, this time including the rectangular cavity,
-				are exactly \SI{20}{\degreeCelsius} hotter than the ambient temperature, and all 
+			\item Similarly, the heat-transfer analysis presented in Figure~\ref{fig:actuatortemp} assumes all wetted surfaces, this time including the rectangular cavity,
+				are exactly \SI{20}{\degreeCelsius} hotter than the ambient temperature, and all part boundaries points exhibit no thermal contact resistance.
+				In reality, the outlet gas will be much colder and less dense due to compressible gas expansion, resulting in very little convection on that side. Additionally, contact resistance will
+				limit the heat transfer. Thus, the presented steady-state temperature of the actuator is likely worse than the true value, meaning the actuator will follow $T_{amb}$ better than predicted.
+				Nevertheless, higher-fidelity predictions can be conducted by modifying the temperature-boundary and contact-resistance parameters. 
 		\end{itemize}
 
 	\section{Iteration Tools}
@@ -4347,7 +4320,7 @@ or else contain geometry that can concentrate stresses.
 		\subsection{COMSOL simulations}
 		\label{app:iter:customize:COMSOL}
 
-			The full computational prototype lives in a single file titled ``Prototype.mph''. Each of the below simulations can be found as denominated within this file.
+			The full computational prototype lives in a single file titled ``computational\_prototype.mph''. Each of the below simulations can be found as denominated within this file.
 
 			\begin{itemize}
 				\item \textbf{Pressure Capacity.} To iterate dimensions for optimal internal pressure capacity, use the finite-element stress analysis titled ``MBD Study''.
@@ -4362,6 +4335,8 @@ or else contain geometry that can concentrate stresses.
 				\item Insert into the simulation and set appropriate surface pairs (i.e. identity or contact pairs) to represent physical relations between parts.
 				\item Set boundary conditions, such as surface temperatures, pressure parameters, or initial flow conditions. These can be identical to those used for this report or varied as desired.
 			\end{itemize}
+
+			Additional useful tests were simulated in ``ThermalSS.mph'' and ``ThermalTransient.mph'',
 
 		\subsection{Transfer Function}
 		\label{app:iter:customize:TF}
