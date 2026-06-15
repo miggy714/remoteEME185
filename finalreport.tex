@@ -1437,6 +1437,7 @@
 			The thickness $t$ of the housing is defined as the shortest distance from the inner wall to the outer wall.
 			The following equations are used to verify structural integrity under the specified conditions.
 			Since internal pressure constitutes the only significant structural load, external forces on the housing are neglected.
+			Table~\ref{tab:housing_parameters} shows the values used for this calculation.
 
 			\begin{table}[H]
 				\centering
@@ -2086,6 +2087,7 @@
 			assumes a simplified planar geometry that cannot capture the three-dimensional 
 			stress distribution at the curved housing interfaces. COMSOL Multiphysics modeling 
 			of the full weld joint geometry verifies that the design maintains an adequate factor of safety against bending failure.
+			The model is shown in Figure~\ref{fig:FEAdisp}.
 				
 			\vspace{1\baselineskip}	\begin{figure}[h]
 				\centering
@@ -2556,7 +2558,7 @@ or else contain geometry that can concentrate stresses.
 			which must follow the ambient temperature as close as possible.
 			Heat transfer analysis was simulated by setting all internal wetted surfaces to a constant temperature of \SI{45}{\degreeCelsius} and all external wetted surfaces to a constant \SI{25}{\degreeCelsius}.
 			The resulting steady-state temperature was evaluated using appropriate convection coefficients for internal forced convection and external free convection,
-			yielding the position-depending temperature for the Mount and the Actuator shown in Figure~\ref{fig:actuatortemp}. While three-dimensional data could not be readily extracted,
+			yielding the position-dependent temperature for the Mount and the Actuator shown in Figure~\ref{fig:actuatortemp}. While three-dimensional data could not be readily extracted,
 			the following data points representing the expected steady-state temperature as a function of vertical position can be easily averaged to find the effective temperature of the actuator subsystem.
 
 			\begin{figure}[H]
@@ -2585,14 +2587,15 @@ or else contain geometry that can concentrate stresses.
 			The horizontal axis is $T_{\text{ambient}}$ ranging from \SI{-60}{\degreeCelsius} to \SI{80}{\degreeCelsius} with increments of \SI{5}{\degreeCelsius}; 
 			$\Delta T$ is kept constant at \SI{20}{\degreeCelsius} where $T_{\text{fluid}}$ is always \SI{20}{\degreeCelsius} higher than $T_{\text{ambient}}$.
 
-
+			\newpage
 			\begin{figure}[H]
 				\centering
 				\includegraphics[width=.90\textwidth]{testingch_designspace2.png}
-				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$, where $T_{\text{fluid}}=T_{\text{ambient}} + 20$. 
-				\textbf{NOTE: These results are heavily influenced by an incorrect union at the orifice making $D_{\text{eff}}(T,p)$ more resistant to changes in T and p; the incorrect union could not be fixed in time for the submission of this report.}}
+				\caption{$D_{\text{eff}}$ normalized at \SI{0}{\degreeCelsius}, 10 ksi with a $\Delta T$ of \SI{20}{\degreeCelsius} relative to $T_{\text{fluid}}$, where $T_{\text{fluid}}=T_{\text{ambient}} + 20$.}
 				\label{fig:designspace}
 			\end{figure}
+
+			Note that these results are influenced by an incorrect union at the orifice, making $D_{\text{eff}}(T,p)$ more resistant to changes in T and p; as addressed in Appendix~\ref{app:iter:weak}, this should be modified.
 
 \chapter{Conclusion}
 \label{chap:concl}
@@ -3060,7 +3063,7 @@ or else contain geometry that can concentrate stresses.
 			which cites DIN EN 16983\cite{ref_dinen16983} and 16984\cite{ref_dinen16984} for their spring properties. DIN EN\footnote{i.e. European Norm} 16984 in turn cites a 1936 paper by Almen and Laszlo\cite{ref_almen1936}, which provides the below calculation for the washer's reaction force per deflection.
 			This design report assumes a deflection of \SI{50}{\micro\meter} and, if all parts are machined and assembled as specified within tolerance, the applied deflection will be near this value.
 			However, the washer can deflect up to \SI{200}{\micro\meter} if necessary.
-			The following force is required to apply a deflection within this range during calibration:
+			The following force in Table~\ref{tab:belle} is required to apply a deflection within this range during calibration:
 
 			\vspace{1em}
 			\begin{table}[H]
@@ -3239,11 +3242,6 @@ or else contain geometry that can concentrate stresses.
 			This regulation includes temperature compensation; the \device\ fills this niche. As discussed elsewhere, the effects of temperature fluctuations on the test article must either be mitigated by flow control or dealt with in post-processing by the research engineer.
 			The \device\ provides this necessary control without dependence on power or computation, improving the reliability of these experiments, the precision of the flow control components and assemblies, the reliability of Sandia's projects,
 			the capabilities of their research and technology, and, ultimately, the resilience of American National Security against ever-more-sophisticated foreign and domestic threats.
-
-		\subsection{Additional Testing Data}
-		\label{app:calcs:sup:test}
-
-
 
 \chapter{Required Relationship Failure Analysis}
 \label{app:sat}
@@ -4254,17 +4252,9 @@ or else contain geometry that can concentrate stresses.
 		The following sheet details a comprehensive list of DFMEA topics that have been explored or require further computation and analysis.
 
 
-		\begin{figure}[H]
-			\centering
-			\includegraphics[width=1\textwidth]{DFMEA_table_all_modes.png}
-			\caption{Comprehensive list of failure modes}
-			\label{fig:CompFail}
-		\end{figure}
-\newpage
-	 \includepdf[pages=1, fitpaper=true]{pdf/DFMEA_table_all.pdf}
-	 \todo{choose one}
+	 	\includepdf[pages=1, fitpaper=true]{pdf/DFMEA_table_all.pdf}
 
-\newpage
+		\newpage
 
 	\section{Design Weaknesses and Recommendations}
 	\label{app:iter:weak}
@@ -5073,6 +5063,8 @@ or else contain geometry that can concentrate stresses.
 		\label{fig:mfg_act_exploded}
 	\end{figure}
 
+	Refer to Figures~\ref{fig:mfg_act_exploded} and \ref{fig:mfg_act_ID}.
+
 	\subsubsection{Step 1 --- EBW Actuator (A1) to upper valve stem}
 
 	\begin{enumerate}[itemsep=4pt]
@@ -5562,7 +5554,7 @@ or else contain geometry that can concentrate stresses.
 	\section{Material Properties}
 	\label{app:datasheets:mat}
 
-    Below are the material properties used throughout this report:
+    Below are the material properties used throughout this report, shown in Table~\ref{tab:mat_props}:
     Aluminum 6061\cite{ref_NASA_specs_Al},
     ALLVAR\cite{ref_AllvarAlloys},
     Invar 36\cite{ref_Carpenter_Inv},
