@@ -431,7 +431,7 @@
 		PPE			& Personal Protective Equipment \\
 		PTCD    & Passive Temperature Compensation Device \\
 		PTFE		& Polytetrafluoroethylene \\ 
-		PVD			& Physical Vapor Deposition \\
+		PVD			& Physical Vapor Deposition \\ 
 		RPN			& Risk Priority Number \\
 		RR      & Required Relationship \\
 		SNL     & Sandia National Laboratories \\
@@ -487,7 +487,7 @@
 		Gas flow provided to the test article must be restricted by an orifice, no more than a few hundred micrometers across, that closes as the ambient air temperature rises.
 		Electrically-powered valves accomplish this well.
 		However, lab technicians often cannot actively control flow in these experiments due to power, personnel, or space constraints.
-		They would require a fully passive valve, one that could control the flow of high-pressure gas across a wide temperature range with extreme precision.
+		They would require a fully passive valve, one that could thermomechanically control the flow of high-pressure gas across a wide temperature range with extreme precision.
 		Passive temperature-compensating devices exist on the market, but none approach the size or performance characteristics needed.
 		Thermostatic actuators\cite{ref_ASHRAE_thermostatic, ref_Vernet_1938} control air-conditioning dampers or regulate the temperature of engine coolant, being especially common in the mid-20th century.
 		These respond to and regulate their internal fluid temperature, rather than adjusting the internal flow in response to the ambient external conditions,
@@ -499,9 +499,10 @@
 	\section{Objectives}
 	\label{sec:intro:objectives}
 
-		Thus it is that Sandia National Labs (SNL, aka the ``sponsor'') commissioned the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
-		to design a Passive Temperature Compensation Device (\device, Figure~\ref{fig:conceptual})\cite{ref_sandiaprompt} that precisely controls experimental conditions by passively responding to temperature changes.
-		Being allotted six months to develop a full design package and test a virtual prototype, the Noble Aggie Labs provided Sandia with 
+		Thus it is that Sandia National Laboratories commissioned the Noble Aggie Labs, a mechanical design team at the University of California, Davis and the authors of this paper,
+		to design a Passive Temperature Compensation Device (\device)\cite{ref_sandiaprompt} that fulfills these design requirements.
+		As shown in Figure~\ref{fig:conceptual}, the \device\ must precisely regulate the flow of gas used in high-precision experiments
+		to compensate for temperature fluctuations without the aid of external power or controls.
 
 		\begin{figure}[h]
 			\centering
@@ -510,28 +511,11 @@
 			\label{fig:conceptual}
 		\end{figure}
 
-		\vspace{1em}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=.75\textwidth]{SNL_role.png}
-			\caption{Downstream customer diagram}
-			\label{fig:app_SNL}
-		\end{figure}
-
-		Figure~\ref{fig:app_SNL} illustrates the \device's niche role. Sandia National Labs develops ``science and technology to resolve the nation's most challenging security issues''\cite{ref_SNL}.
-		Sandia's Gas Transfer Systems (GTS) team, whose scope is pictured in the lower nested rectangle, develops flow control components and assemblies
-		that Sandia then uses for the concept development, design qualification, certification, and calibration of some of their projects.
-		GTS develops and validates these components through a series of tightly controlled experiments; the \device\ will serve as part of the experimental setup
-		to compensate for temperature fluctuations, eliminating the need for powered flow-control components or data correction
-		and ultimately improving the reliability of the science and technology Sandia produces.
-
-	\section{System Requirements}
-	\label{sec:intro:req}
-
-		As stipulated by Sandia, the \device\ must passively restrict the flow of hydrogen or a noble gas at any temperature
-		and up to \SI{69}{\mega\pascal} (690 atmospheres) internal pressure
-		such that its effective orifice diameter (the diameter of a circular orifice of equivalent area) is directly proportional to the external air temperature,
-		shrinks as the temperature increases, and meets the following setpoints:
+		According to the system design requirements provided by Sandia, the team was allotted six months to fully
+		design, justify, and validate a proof-of-concept computational prototype.
+		Responding to temperature changes between \SIrange{-60}{80}{\degreeCelsius}, the \device\ must maintain a pressure differential of up to \SI{69}{\mega\pascal} (690 atmospheres)
+		by linearly adjusting its effective orifice diameter 
+		(the diameter of a circular orifice of equivalent area) to meet the following setpoints:
 
 		\begin{align}
 			\Dcold \label{eq:coldBoundary} \\
@@ -539,11 +523,18 @@
 			\Dhot \label{eq:hotBoundary}
 		\end{align}
 
-		This results in the Required Relationship shown in Figure~\ref{fig:RR}. The device must also be smaller than $(\SI{10}{\centi\meter})^3$ on all sides
-		(small enough to fit in one's hand). It must be strong enough withstand the extreme internal pressure and must prevent the diffusion of hydrogen, which permeates through many flexible materials.
-		The \device\ must maintain an orifice smaller than the tip of a ballpoint pen to within 10--20 \si{\micro\meter} (no more than the width of a human hair\cite{ref_NIH}) from its setpoint
+		This results in the Required Relationship shown in Figure~\ref{fig:RR}.
+		Sandia further required that the devce be compact (less than \SI{10}{\centi\meter} on all sides, just small enough to fit in one's hand)
+		while being strong enough to withstand an enormous internal pressure, and that it be compatible with hydrogen or any noble gas.
+		
+		In summary, the \device\ must maintain an orifice smaller than the tip of a ballpoint pen to within 10--20 \si{\micro\meter} (no more than the width of a human hair\cite{ref_NIH}) from its setpoint
 		between the thermal extremes of the surface temperature of Antarctica on a winter's day and a running engine block.
-		This small valve must thermomechanically control a submillimeter orifice to a micron-scale tolerance, maintaining a linear output across a wide temperature range under extreme pressures.
+		No device on today's market can approach such precise, thermomechanical flow control under these extreme conditions.
+		after six months, the Noble Aggie Labs developed a novel design that shows promise as a viable solution to this mission.
+		They delivered a complete design package\cite{ref_finalDesignReport} to Sandia's engineers,
+		who will continue to revise the design until it is fit to be manufactured and tested.
+		The summary presented on the following pages expounds the fundamental mechanism involved and provides a brief overview of the results of the design validation conducted.
+		For a rigorous dissertation on the \device's satisfaction of its design requirements, refer to the aforementioned design package\cite{ref_finalDesignReport}.
 
 		\begin{figure}[h]
 			\centering
@@ -555,21 +546,15 @@
 \chapter{Final Design of the \device}
 \label{chap:design}
 
-	After six months of development, the Noble Aggie Labs delivered a complete design package\cite{ref_finalDesignReport} to Sandia's engineers,
-	who will continue to revise the design until it is fit to be manufactured and tested.
-
-\chapter{Final Design of the \device}
-
 	\section{System Architecture Overview}
 	\label{sec:design:overview}
 
-		The \device\, pictured in Figure~\ref{fig:reveal}, uses two independent subsystems, combining proven technology with novel innovations to accomplish a formerly impossible mission.
-		combines proven, aerospace-grade designs and materials with a novel valve architecture to convert temperature fluctuations into precise thermomechanical displacement
-		then convert that motion into flow restriction.
-
-		The \device\ contains and seals high-pressure hydrogen gas and delivers precise thermomechanical actuation with proven, aerospace-grade technology.
-		It also introduces a novel variable-diamond orifice that overcomes several weaknesses of existing valve architectures.
-		The device comprises a valve assembly, with a threaded housing, orifice components, and associated hermetic seals; and an actuator assembly, with a bimetallic architecture and calibration system.
+		The \device, pictured in Figure~\ref{fig:reveal}, comprises two independent subsystems, combining several well-established techniques with one novel architecture to approach this problem in a unique way.
+		The \textit{Actuator} subsystem converts temperature fluctuations into precise thermomechanical displacement.
+		This mounts to and drives the \textit{Valve} subsystem, which converts that displacement into flow restriction.
+		The actuator, a simple bimetallic rod, exploits and compounds the \textit{thermal expansion} of each material.
+		Replicating its motion, the valve expands and restricts a small orifice through which that gas must pass.
+		It creates this opening by overlapping two diamond-shaped holes, creating a type of Venn diagram.
 		The full assembly is pictured in Figures~\ref{fig:reveal}, \ref{fig:mainIsometric}, and \ref{fig:mainExploded}.
 
 		\vspace{1em}
@@ -605,11 +590,25 @@
 			\label{fig:orifice}
 		\end{wrapfigure}
 
-		The valve orifice at the heart of the PTCD comprises two plates with identical square holes cut at 45$^\circ$ angles.
-		One plate is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
+		Let us strip away everything except the valve orifice at the very center. This is the heart of the \device\ and is what actually restricts the gas flow.
+		A conventional valve would force all the gas through a small throat, constricting the pipe's diameter to almost nothing before expanding again.
+		Because of Bernoulli's Principle of Fluid Mechanics\cite{ref_white}, the upstream gas would build up significant pressure,
+		then eject into a near vacuum as it passes through the orifice, like bottlenecked traffic breaking free of the scene of an accident (Figure~\ref{fig:basic_nozzle}).
+
+		\begin{figure}[h]
+			\centering
+		  \includegraphics[width=.75\textwidth]{Cars.png}
+			\caption{Pressure release through a nozzle}
+			\label{fig:basic_nozzle}
+		\end{figure}
+
+		
+
+		The valve orifice at the heart of the PTCD comprises two surfaces with identical square holes cut at 45$^\circ$ angles.
+		One surface is fixed to the valve housing; the other is free to move vertically as driven by the valve stem.\footnote{This report will refer to the hole in the mobile Valve Orifice part and the hole in the fixed Housing as the leading and trailing orifice, respectively.}
 		The two square holes lie flush against one another and are vertically offset such that only a small square opening appears between the valve inlet and its outlet. 
 		If the two holes were circles, they would resemble a Venn diagram; thus, as pictured in Figure~\ref{fig:orifice}, the diamond-shaped overlap between these squares constitutes the valve orifice. 
-		The lower (blue) square is cut into the central moving plate such that as the valve stem drives the plate downwards, the orifice (the gray overlap region) constricts.
+		The lower (blue) square is cut into the central moving component such that as the valve stem drives it downwards, the orifice (the gray overlap region) constricts.
 		
 		A bimetallic actuator is fixed above the housing and welded to the valve stem; it drives the central orifice as it responds to temperature changes.
 		The outer material, ALLVAR, shrinks when heated, while the inner material, aluminum, expands.
@@ -646,11 +645,15 @@
 				\label{fig:valve_full}
 			\end{wrapfigure}
 
-			The valve subsystem (Figures~\ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) contains the high-pressure gas and restricts its flow, only allowing gas to exit through its small internal orifice.
-			Its housing is coupled to stainless steel pipes by a test engineer and provides the structural support necessary to hold the internal pressure.
-			The leading-orifice component nests between four walls and slides vertically within the assembly.
-			Attached is the valve stem, welded to and driven by the actuator.
-			This housing penetration is hermetically sealed by a bellows. A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
+			The valve subsystem (Figures~\ref{fig:valve_full}, \ref{fig:valve_exploded}, \ref{fig:valve_ID}) plays the role of containing the high-pressure gas and restricting its flow,
+			only allowing gas to exit through its small internal orifice.
+			Its housing provides the structural support necessary to hold the internal pressure and threaded connections for ready insertion into the experimental aparatus it serves.
+			One component nests between four walls in the very center and slides vertically within the assembly; this piece contains the leading half of the orifice.
+			The fixed half is cut into the rear part of the housing.
+			Attached to the mobile component is the valve stem, which is welded to and driven by the actuator.
+			One flexible metal bellows hermietically seals the valve stem penetration.
+			A corresponding valve stem-bellows pair extends through the bottom of the housing to balance the resultant pressure forces.
+
 
 			\begin{figure}[H]
 				\begin{minipage}{.49\textwidth}
@@ -677,43 +680,11 @@
 				\label{fig:orif_assem}
 			\end{wrapfigure}
 
-			The Valve Orifice (4) comprises the leading orifice hole near its center.
-			The actuator drives its motion via the upper valve stem so that it moves freely up and down while the other parts remain fixed.
-			It lies flush against the Housing Outlet (3), which comprises the trailing orifice hole and directs low-pressure gas out of the assembly through a pipe threaded into its rear.
-			Together, these comprise the \device's orifice, shown in Figure~\ref{fig:orif_assem}.
-
-			Lateral and longitudinal movement of the Valve Orifice are constrained by the Housing Inlet (1), which presses it against the face of the Outlet and restricts all motion to the vertical degree of freedom.
-			The inlet and outlet butt together, leaving enough space in its central channel for the Valve Orifice to fit snugly between four walls.
-
-			Two Housing Center pieces (2) plug the remaining gaps.
-			They contain holes for the valve stems to slide through, guiding their motion.
-			To hermetically seal these holes, a bellows (5) is welded between the Valve Orifice and each Housing Center.
-			As the centerpiece moves up and down, the flexible bellows extend and contract, allowing for flexible, sealed penetration of the housing.
-			The housing center and bellows are inserted as in Figure~\ref{fig:V1_bellows}.
-
 			\newpage
 
-			\begin{figure}[H]
-				\begin{minipage}{4.5in}
-			Figure~\ref{fig:cut_zooms} shows the orifice in full assembly.
-			The leading orifice on the moving piece is positioned below the trailing orifice as prescribed in Figure~\ref{fig:orifice}.
-
-					\medskip
-					All components of the valve assembly are joined by Electron Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
-
-					\medskip
-					All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
-					ensuring high thermal stability under the expected temperature fluctuations.
-				\end{minipage}
-			\hfill
-				\begin{minipage}{1.9in}
-				\centering
-				% \includegraphics[height=4in]{V1_bellows.png}
-				\includegraphics[height=3in]{V1_bellows_qual.png}
-				\caption{Housing Center and bellows}
-				\label{fig:V1_bellows}
-				\end{minipage}
-			\end{figure}
+				All components of the valve assembly are joined by Electron Beam Weld (EBW), a precise method to attach flush faces against one another and nearly perfectly fuse them together.
+				All machined parts are made of Invar 36\cite{ref_Invar_1897, ref_Invar_1920}, a Ni-Fe alloy renowned for its exceptionally low thermal expansion,
+				ensuring high thermal stability under the expected temperature fluctuations.
 
 			\vspace{-1em}
 			\begin{figure}[H]
@@ -766,13 +737,9 @@
 				\end{minipage}
 			\end{figure}
 
-
-			The central aluminum expansion rod (6, aka the ``actuator''\footnote{
-				Note that the actuator (A1 in the drawings in Appendix~\ref{app:drawings}) would best be named distinctly from its corresponding subsystem.
-				This is a legacy convention from earlier stages in the design process when the mount was a distinct subsystem.
-			}) nests inside an ALLVAR mount (7), suspended by the screw-washer assembly (8, 9, 10).
-			The base of the mount is electron beam welded to the top of the valve housing.
-			The assembly is centered about the valve stem, which protrudes through the housing and is welded to the base of the expansion rod.
+			Two expansion rods sit atop the housing, one nested inside the other. The outer, hollow rod, made of ALLVAR, is electron-beam welded to the top of the housing.
+			The inner, solid rod, made of aluminum, hangs suspended from the ALLVAR mount by a screw-washer assembly and likewise suspends and drives the valve stem,
+			which is welded to its undersurface. 
 			This connection is shown in Figure~\ref{fig:Act_cut}.
 
 			\begin{figure}[h]
@@ -793,8 +760,8 @@
 
 			Figure~\ref{fig:act_size} shows the actual size of the \device\ when printed on $8 \nicefrac{1}{2}'' \times 11''$ paper.
 
-			The actuator drives the valve stem motion.
-			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, causing the expansion rod to expand relative to the rest of the assembly when heated.
+			Aluminum's coefficient of thermal expansion (CTE) is significantly higher than that of Invar 36, which constitutes most of the valve subsystem's material,
+			causing the expansion rod to expand relative to the rest of the assembly when heated.
 			ALLVAR, a proprietary alloy manufactured by ALLVAR Alloys, shrinks when heated even faster than the aluminum expands.
 			Because the actuator is mounted from the top, this bimetallic actuator produces more compound displacement than either metal would on its own.
 			As the ambient temperature rises, the ALLVAR mount shrinks, lowering the expansion rod from above;
@@ -802,53 +769,19 @@
 			As the temperature decreases, the components reverse direction:
 			the mount expands, lifting the expansion rod, which shrinks and lifts the valve stem to open the orifice.
 
-			The expansion rod is thermally separated from the internal gas by a \SI{5}{\milli\meter} gap. Heat transfer must be minimized from this gas, which will be up to \SI{20}{\degreeCelsius} hotter than the outside air.
+			The expansion rod is thermally separated from the internal gas by a \SI{5}{\milli\meter} gap. Heat transfer must be minimized from this gas, which will be up to \SI{20}{\degreeCelsius} hotter than the outside air
+			according to Sandia's design conditions.
 			Some heat will still transfer, altering the perceived ambient temperature and introducing error into the system,
 			but the thick housing wall, minimal contact between subsystems, and continual free convection with the atmosphere will minimize this error.
 
-			Small machining and assembly errors may introduce a constant offset. For instance, if the valve stem is over-dimensioned by \SI{10}{\micro\meter},
-			the orifice height will be \SI{10}{\micro\meter} too high at all times, adding a constant \SI{8}{\micro\meter} to the effective diameter\footnote{as calculated in Appendix~\ref{app:calcs:orifice_geometry}}.
-			Even this deviation is significant relative to its \SIrange{10}{20}{\micro\meter} tolerance window,
-			illustrating the necessity to minimize independent components.
+			Small machining and assembly errors may introduce a constant offset. For instance, if the valve stem's length is \SI{10}{\micro\meter} too long
+			(a reasonable error to expect from modern manufacturing equipment),
+			the orifice height will be \SI{10}{\micro\meter} too high at all times, adding a constant \SI{8}{\micro\meter} to the effective diameter.
+			Even this slight deviation is significant relative to its \SIrange{10}{20}{\micro\meter} tolerance window.
 			To counter this potential constant error, the actuator subsystem includes a calibration stack.
-			As the assemblers tighten the screw, fastening the expansion rod inside the mount,
+			As the assemblers tighten the screw at the top of the assembly, fastening the expansion rod inside the mount,
 			the belleville washer between them compresses. This maintains consistent tension in the screw as the relative positions of the two cylinders are tuned.
-
-			The complete Bill of Materials and Engineering Drawings for the \device\ can be found in Appendix~\ref{app:BOM} and \ref{app:drawings}, respectively.
-			Table~\ref{tab:part_num} summarizes the part numbers for each component of the \device, which will be used for reference in the following sections.
-
-			\begin{table}[H]
-				\centering
-				\caption{Component part numbers}
-				\label{tab:part_num}
-				\renewcommand{\arraystretch}{1.3}
-				\begin{tabular}{
-					>{\centering\arraybackslash}p{0.08\textwidth}
-					>{\raggedright\arraybackslash}p{0.22\textwidth}
-					>{\centering\arraybackslash}p{0.18\textwidth}
-					>{\raggedright\arraybackslash}p{0.22\textwidth}
-				}
-				\toprule
-				\textbf{Item} & \textbf{Part Name} & \textbf{Part Number} & \textbf{Material} \\
-				\midrule
-				\multicolumn{4}{l}{\textit{Valve Sub-Assembly (V0)}} \\
-				\midrule
-				1 & Housing Inlet  & V2              & Invar 36     \\
-				2 & Housing Center & V1              & Invar 36     \\
-				3 & Housing Outlet & V3              & Invar 36     \\
-				4 & Valve Orifice  & V4              & Invar 36     \\
-				5 & Bellows        & I718-159-72-430 & Inconel 718  \\
-				\midrule
-				\multicolumn{4}{l}{\textit{Actuator Sub-Assembly (A0)}} \\
-				\midrule
-				6  & Actuator          & A1        & 6061 Aluminum        \\
-				7  & Mount             & A2        & ALLVAR 30            \\
-				8  & Belleville Washer & 93237A101 & Stainless Steel 316L \\
-				9  & Standard Washer   & 93475A195 & 18-8 Stainless Steel \\
-				10 & Screw             & 90362A141 & 18-8 Stainless Steel \\
-				\bottomrule
-				\end{tabular}
-			\end{table}
+			The screw is set with glue so that it holds its position forever after calibration.
 
 	\section{Design Justification}
 	\label{sec:design:just}
@@ -1891,7 +1824,7 @@
 	\bibitem{ref_white}
 	F.\ M.\ White and H.\ Xue,
 	\textit{Fluid Mechanics}, 9th~ed.,
-	New York, NY: McGraw-Hill Education, 2021.
+	New York, NY: McGraw-Hill Education, 2021, Eq.~3.54.
 
 	\bibitem{ref_McMaster_screw}
 	McMaster-Carr, \textit{18-8 Stainless Steel Pan Head Torx Screws,
@@ -3027,46 +2960,7 @@
 			The Transfer Function accomplishes two objectives. First, it demonstrates the viability of the \device\ despite its strict output requirement. 90\% of manufactured devices are expected to meet their
 			tolerance window; those that do not can be readily calibrated. As is addressed in Section~\ref{subsec:DFMEA::tol} and Chapter~\ref{chap:concl}, this computation does not account for all sources of error and therefore presents an optimistic
 			expectation value for the system performance. However, it verifies that the major anticipated errors have been mitigated to a tolerable amount by the design strategies illustrated in Section~\ref{sec:design:just}.
-			Second, it provides a ready tool for further iteration. Appendix~\ref{app:iter:customize} provides guidance to use this Transfer Function and its associated software to more quickly evaluate the impact of design changes and improvements.
-
-
-\chapter{Project Management}
-\label{app:PM}
-
-
-	\begin{figure}[H]
-		\centering
-		\begin{minipage}[t]{0.45\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{Hexagon.png}
-			\captionof{figure}{Hexagonal diaphragm}
-			\label{fig:hexagon}
-		\end{minipage}    
-		\hfill
-		\begin{minipage}[t]{0.45\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{Gears.png}
-			\captionof{figure}{Rack-and-pinion interface}
-			\label{fig:gears}
-		\end{minipage}    
-
-		\vspace{1em}
-
-		\begin{minipage}[t]{0.45\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{Mount_trapz.png}
-			\captionof{figure}{Direct mount, first iteration}
-			\label{fig:trap_mount}
-		\end{minipage}    
-		\hfill
-		\begin{minipage}[t]{0.45\textwidth}
-			\centering
-			% \includegraphics[width=\textwidth]{Complete_Assembly_Render.png}
-			\includegraphics[width=\textwidth]{PTCD.png}
-			\captionof{figure}{Final \device\ architecture}
-			\label{fig:app_PTCD}
-		\end{minipage}    
-	\end{figure}    
+			Second, it provides a ready tool for further iteration. Appendix~\ref{app:iter:customize} provides guidance to use this Transfer Function and its associated software to more quickly evaluate the impact of design changes and improvements.  
 
 	\newpage
 
@@ -3078,7 +2972,10 @@
 		Dr. Bradley Bon,\\
 		distinguished member of the Gas Transfer Systems team\\
 		at Sandia National Laboratories in Livermore, CA\\
-		for his invaluable assistance in the development of this design\\
+		for his invaluable assistance in the development of this design\\[6pt]
+		and to Professor Jonathon Schofield and Teaching Assistant Xiangpu Wang\\
+		of UC Davis
+		for their training and guidance.
 
 		\vspace*{.05\textheight}
 
